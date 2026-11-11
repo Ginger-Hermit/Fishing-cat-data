@@ -2,9 +2,21 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Any game naming
+
+12 Nov 2026 (23:58 UTC) · Changed
+
+The page no longer says Roblox. Files are named after the game and clan, and the notes say any game.
+
+**What you'll see:** Make a clan sheet: the file is named like Gym League - Loki.xlsx, with no Roblox in front.
+
+- Clan files are named game - clan, without the word Roblox
+- On-screen text and the AI's instructions say any game
+- Footer and Stay safe say not an official product of any game
+
 ## Easier to read
 
-12 Nov 2026 (22:52 UTC) · Changed
+12 Nov 2026 (22:52 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/65f8ab5)
 
 The live steps and the log are bigger and clearer.
 
