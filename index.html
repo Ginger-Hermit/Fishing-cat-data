@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The Updates tab is gone. The update history now lives on GitHub only. -->
+<!-- Patch note: While a sheet is being made, the page shows each step and a timer. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -32,6 +32,7 @@ input,select{color:var(--text);width:100%;box-sizing:border-box;padding:10px;bor
 button{width:100%;margin-top:14px;padding:14px;background:var(--accent);color:var(--onAccent);border:0;border-radius:8px;font-size:17px;font-weight:500;cursor:pointer}
 button:disabled{opacity:.5}
 .note{background:var(--noteBg);color:var(--noteText);border-radius:6px;padding:10px 12px;font-size:13px;margin-top:12px}
+.prog{white-space:pre-line;font-size:14px;color:var(--muted);margin-top:6px}
 .msg{margin-top:12px;font-size:14px;min-height:20px}
 .err{color:var(--err)}
 .tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
@@ -82,6 +83,7 @@ button:disabled{opacity:.5}
 <button id="go" disabled>Make my sheet</button>
 <button id="testgo" type="button" class="tab" disabled style="margin-top:8px;width:100%">Test first (small read, no file)</button>
 <div class="msg" id="msg" role="status" aria-live="polite"></div>
+<div class="prog" id="prog" aria-live="polite"></div>
 <button id="copyerr" type="button" class="tab" style="display:none;margin-top:8px;width:100%;padding:12px;font-size:16px;border-color:var(--err);color:var(--err)">Copy error to send</button>
 <details id="logbox" style="margin-top:12px"><summary style="cursor:pointer;font-size:14px">Log: what the page did</summary>
 <pre id="console" style="background:var(--field);border:1px solid var(--line);border-radius:6px;padding:10px;font-size:12px;white-space:pre-wrap;min-height:60px;margin:6px 0 0;color:var(--text)"></pre>
@@ -99,6 +101,7 @@ button:disabled{opacity:.5}
 <div id="billlist"></div>
 <button id="billgo" disabled>Make my sheet</button>
 <div class="msg" id="billmsg" role="status" aria-live="polite"></div>
+<div class="prog" id="billprog" aria-live="polite"></div>
 </div>
 <div id="helptab" class="page" style="display:none">
 <div class="hc"><b>GitHub</b>
@@ -279,7 +282,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-g";
+const BUILD = "2026-11-12-h";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -319,6 +322,17 @@ const MAX_FILES = 30;
 const $ = (id) => document.getElementById(id);
 // A fault inside the page itself: plain words on screen, the real error goes in the Log.
 const plain = (err) => (err instanceof TypeError || err instanceof SyntaxError || err instanceof RangeError || err instanceof ReferenceError) ? "Something went wrong on this page. Tap Copy error to send, and send it to the author." : err.message;
+// Live steps under the button while a sheet is being made (nothing is sent anywhere)
+const prog = {
+  start(id, steps) { this.el = $(id); this.steps = steps; this.i = 0; this.t0 = Date.now(); clearInterval(this.timer); this.timer = setInterval(() => this.draw(), 1000); this.draw(); },
+  next() { this.i++; this.draw(); },
+  stop(ok) { clearInterval(this.timer); if (ok) this.i = this.steps.length; this.draw(ok ? 1 : 2); },
+  draw(end) {
+    if (!this.el) return;
+    const sec = Math.round((Date.now() - this.t0) / 1000);
+    this.el.textContent = this.steps.map((n, k) => (k < this.i ? "\u2713 " : k === this.i ? (end === 2 ? "\u2717 " : "\u2026 ") : "   ") + n + (k === this.i && end !== 2 ? "  " + sec + "s" : "")).join("\n") + (end === 1 ? "\nDone in " + sec + "s" : "");
+  }
+};
 const setMsg = (text, bad) => { $("msg").textContent = text; $("msg").className = "msg" + (bad ? " err" : ""); $("copyerr").style.display = bad ? "block" : "none"; if (bad) $("logbox").open = true; };
 
 function showCount(id, n, clear) {
@@ -865,11 +879,15 @@ $("go").onclick = async () => {
   running = true; refresh();
   clog("Run started with " + images.length + " file(s).");
   setMsg("Reading " + images.length + " screenshot(s)... this can take about 20-30 seconds.");
+  prog.start("prog", ["Checking pictures", "Working out the game", "Waiting for the AI to read the list", "Building your sheet"]);
   try {
     await collectPictures(images); // checks every file opens and the total is not too big, before any AI request
+    prog.next();
     const p = await pickProfile(key);
+    prog.next();
     PROMPT = buildPrompt(p);
     const text = await readScreenshots(key, images);
+    prog.next();
     clog("AI replied (" + text.length + " characters).");
     const rows = parseRows(text);
     if (p.ranks === false) rows.forEach((r, i) => { r.rank = i + 1; });
@@ -894,9 +912,11 @@ $("go").onclick = async () => {
     const countOff = shown && Number(shown) !== rows.length;
     if (countOff) clog("Count check: screen says " + shown + ", read " + rows.length + ".");
     if (rows.cut) clog("The AI reply was cut off or untidy; kept the complete rows.");
+    prog.stop(true);
     setMsg("Done: " + rows.length + " rows. Your sheet was downloaded." + (rows.cut ? " The AI's reply was cut short, so some members may be missing. Try fewer pictures." : "") + (countOff ? " The screen says " + shown + " members, so some may be missing. Scroll slower and try again." : "") + (bad ? " Check " + bad + " row(s) marked ?." : "") + (order ? " Some ranks look out of order, so check the list." : ""));
   } catch (err) {
     clog("Stopped: " + err.message);
+    prog.stop(false);
     setMsg(plain(err), true);
   } finally {
     running = false;
@@ -1060,21 +1080,26 @@ $("billgo").onclick = async () => {
   running = true; refresh();
   clog("Bill run started with " + billPics.length + " photo(s), using " + PROVIDERS[id].name + " (" + modelFor(id) + ").");
   billSay("Reading " + billPics.length + " photo(s)... this can take about 30 seconds.");
+  prog.start("billprog", ["Checking photos", "Waiting for the AI to read the bills", "Building your sheet"]);
   try {
     checkKey(key);
     const pics = await collectPictures(billPics);
     await loadExcel();
+    prog.next();
     if (!window.ExcelJS) throw new Error("The spreadsheet part did not load. Refresh the page.");
     PROMPT = BILL_PROMPT;
     const text = await ASKERS[id](key, modelFor(id), pics);
+    prog.next();
     clog("AI replied (" + text.length + " characters).");
     const bills = parseBills(text), lines = bills.reduce((t, b) => t + b.lines.length, 0), checks = bills.reduce((t, b) => t + b.lines.filter(l => l.check).length, 0);
     const wb = buildBillBook(window.ExcelJS, bills, todayText());
     saveBlob(new Blob([await wb.xlsx.writeBuffer()], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), "Bills - " + (bills.length === 1 ? clean(bills[0].supplier, 40) || "bill" : bills.length + " bills") + ".xlsx");
     clog("Bills: " + bills.length + ", charges: " + lines + ", rows to check: " + checks + ".");
+    prog.stop(true);
     billSay("Done: " + bills.length + " bill(s), " + lines + " charge(s). Your sheet was downloaded." + (checks ? " Check " + checks + " row(s) marked check." : "") + " Compare the numbers with the bill before relying on them.");
   } catch (err) {
     clog("Bill run stopped: " + err.message);
+    prog.stop(false);
     billSay(plain(err), true);
   } finally {
     running = false; refresh();

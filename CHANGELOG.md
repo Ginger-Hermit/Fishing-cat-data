@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Live steps
+
+12 Nov 2026 (22:48 UTC) · New
+
+While a sheet is being made, the page shows each step and a timer.
+
+**What you'll see:** Tap Make my sheet: ticks appear under the button as each step finishes, with seconds counting.
+
+- Live steps and a timer under the button on Clan sheet and Bills
+
 ## Updates moved to GitHub
 
-12 Nov 2026 (22:37 UTC) · Changed
+12 Nov 2026 (22:37 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0402d7c)
 
 The Updates tab is gone. The update history now lives on GitHub only.
 
