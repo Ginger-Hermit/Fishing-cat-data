@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Removed Add a game; new Any clan profile where the AI reads game, clan and columns from your first picture. Add a game is now Upload photo or video; the AI fills in clan, game, ranks and extra column, and the manual boxes sit under Edit by hand. Test read button (1 picture, no download). Add a game can read one screenshot and fill in the columns by itself. Add a game keeps the ranks and extra column boxes always reachable under "Change details". Profiles and files are named Roblox - Game - Clan. Add a game form simplified to clan name plus a game picker. Add a game wording made plainer, Saved notice, ready-made Anime Fighting Simulator button. Help and Stay safe pages brought up to date (Add a game, Remember my key, updates, bug report). Visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
+<!-- Patch note: Copy error to send button under red messages. Removed Add a game; new Any clan profile where the AI reads game, clan and columns from your first picture. Add a game is now Upload photo or video; the AI fills in clan, game, ranks and extra column, and the manual boxes sit under Edit by hand. Test read button (1 picture, no download). Add a game can read one screenshot and fill in the columns by itself. Add a game keeps the ranks and extra column boxes always reachable under "Change details". Profiles and files are named Roblox - Game - Clan. Add a game form simplified to clan name plus a game picker. Add a game wording made plainer, Saved notice, ready-made Anime Fighting Simulator button. Help and Stay safe pages brought up to date (Add a game, Remember my key, updates, bug report). Visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -67,6 +67,7 @@ button:disabled{opacity:.5}
 <button id="go" disabled>Make my sheet</button>
 <button id="testgo" type="button" class="tab" disabled style="margin-top:8px;width:100%">Test first (reads 1 picture only, no file)</button>
 <div class="msg" id="msg" role="status" aria-live="polite"></div>
+<button id="copyerr" type="button" class="tab" style="display:none;margin-top:6px">Copy error to send</button>
 <div class="hc" style="margin-top:14px">
 <b>Your key is safe here</b>
 <ul>
@@ -125,7 +126,7 @@ button:disabled{opacity:.5}
 <li>A banner appears at the top when there is a new version. Tap Refresh now.</li>
 <li>Settings has a switch to refresh by itself. It waits until no files are picked.</li>
 <li>The Updates tab lists what changed.</li>
-<li>Found a bug? Open Developer view, tap Copy bug report and send it. Keys are removed from it.</li>
+<li>Found a bug? Tap Copy error to send under the red message (or Copy bug report in Developer view) and send it. Keys are removed from it.</li>
 </ul></details>
 <details class="hc"><summary>Other AI companies</summary>
 <ul>
@@ -286,6 +287,13 @@ Answer with ONLY a JSON array, no other text:
 }
 // Newest first. Add one entry per change, then re-upload index.html.
 const UPDATE_LOG = [
+  {
+    date: "11 Nov 2026",
+    title: "Copy error button",
+    meaning: "When something goes wrong, one tap copies the error so you can send it.",
+    see: "A Copy error to send button appears under any red message.",
+    changes: ["Keys are removed from the copy", "Same report as Developer view"]
+  },
   {
     date: "11 Nov 2026",
     title: "No more Add a game",
@@ -538,7 +546,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; saveSetting("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-11-m";
+const BUILD = "2026-11-11-n";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -585,7 +593,7 @@ let images = [];
 const MAX_FILES = 20;
 
 const $ = (id) => document.getElementById(id);
-const setMsg = (text, bad) => { $("msg").textContent = text; $("msg").className = "msg" + (bad ? " err" : ""); };
+const setMsg = (text, bad) => { $("msg").textContent = text; $("msg").className = "msg" + (bad ? " err" : ""); $("copyerr").style.display = bad ? "block" : "none"; };
 
 function refresh() {
   const box = $("list");
@@ -668,16 +676,18 @@ function keepKey() {
   try { if (on && $("key").value.trim()) localStorage.setItem("fcd_key_" + id, $("key").value.trim()); else localStorage.removeItem("fcd_key_" + id); } catch (e) {}
 }
 $("remember").onchange = keepKey;
-$("copybug").onclick = async () => {
+const bugCopy = async (btn, label) => {
   let t = $("console").textContent || "(log is empty)";
   const k = $("key").value.trim();
   if (k) t = t.split(k).join("[key removed]");
   t = t.replace(/sk-[\w-]{8,}|AIza[\w-]{8,}/g, "[key removed]");
-  const rep = "Fishing Cat Data bug report\n" + new Date().toString() + "\nBrowser: " + navigator.userAgent + "\nCompany: " + provider() + "\n\n" + t;
-  const btn = $("copybug"); let done = "Copied! Paste it to Claude";
+  const rep = "Fishing Cat Data bug report\n" + new Date().toString() + "\nError shown: " + ($("msg").className.includes("err") ? $("msg").textContent : "none") + "\nBrowser: " + navigator.userAgent + "\nCompany: " + provider() + "\n\n" + t;
+  let done = "Copied! Paste it to Claude";
   try { await navigator.clipboard.writeText(rep); } catch (e) { done = "Couldn't copy: select the log and copy by hand"; }
-  btn.textContent = done; setTimeout(() => { btn.textContent = "Copy bug report"; }, 3000);
+  btn.textContent = done; setTimeout(() => { btn.textContent = label; }, 3000);
 };
+$("copybug").onclick = () => bugCopy($("copybug"), "Copy bug report");
+$("copyerr").onclick = () => bugCopy($("copyerr"), "Copy error to send");
 const savedProvider = lsGet("fcd_provider");
 if (savedProvider && PROVIDERS[savedProvider]) $("provider").value = savedProvider;
 $("provider").onchange = () => applyProvider(true);
