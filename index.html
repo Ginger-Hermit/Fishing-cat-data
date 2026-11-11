@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Record screen removed. Upload screenshots or a video instead. -->
+<!-- Patch note: A Home tab now opens first and explains the page for new people. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -45,7 +45,18 @@ button:disabled{opacity:.5}
 <h1>Fishing Cat Data</h1>
 <div id="fake" style="display:none;border:2px solid var(--err);color:var(--err);background:var(--field);border-radius:8px;padding:12px 14px;margin-bottom:14px;font-weight:500">Warning: this is not the real Fishing Cat Data page. Do not paste your key here. The real page is fishing-cat-data.pages.dev</div>
 <div id="newver" role="status" style="display:none;background:var(--field);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:14px">New version ready. <a href="#" id="reloadnow">Refresh now</a></div>
-<div class="tabs"><button id="t1" class="tab on">Games</button><button id="t3" class="tab">Bills</button><button id="t2" class="tab">Updates</button><button id="t4" class="tab">GitHub</button><button id="t5" class="tab">Settings</button></div>
+<div class="tabs"><button id="t0" class="tab on">Home</button><button id="t1" class="tab">Clan sheet</button><button id="t3" class="tab">Energy bills</button><button id="t2" class="tab">Updates</button><button id="t4" class="tab">GitHub</button><button id="t5" class="tab">Settings</button></div>
+<div id="hometab">
+<h2 style="margin:6px 0">Pictures in, Excel out</h2>
+<p>Turn clan screenshots or a video from any game into a sheet. It also reads energy bills.</p>
+<button data-go="sheet">Make a clan sheet</button>
+<button data-go="bill" class="tab" style="width:100%;margin-top:8px;padding:12px">Read energy bills</button>
+<h3 style="margin:18px 0 6px">How it works</h3>
+<ol style="margin:0;padding-left:20px;line-height:1.6"><li>Add screenshots, a video, or bill photos</li><li>The AI reads them</li><li>Download your Excel sheet</li></ol>
+<h3 style="margin:18px 0 6px">What you need</h3>
+<p style="margin:0">A free code from Google. It takes about a minute. <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Get my free code</a></p>
+<p style="font-size:13px;color:var(--muted);margin-top:18px">Your code stays on your device. Only the AI company you pick sees your pictures. <a href="#" data-go="safety">Stay safe</a></p>
+</div>
 <div id="keybox">
 <label for="provider">AI company</label>
 <select id="provider"><option value="gemini">Google Gemini</option><option value="anthropic">Anthropic (Claude)</option><option value="openai">OpenAI (untested)</option></select>
@@ -56,7 +67,7 @@ button:disabled{opacity:.5}
 <label class="rem" style="display:flex;gap:8px;align-items:center;margin-top:6px;font-weight:normal"><input type="checkbox" id="remember" style="width:auto;margin:0"> Remember my key on this device</label>
 <div id="remnote" style="display:none;font-size:.85em;opacity:.75">Saved only in this browser, never sent anywhere else. Don't tick this on a shared or public computer. Untick to delete it.</div>
 </div>
-<div id="sheet">
+<div id="sheet" style="display:none">
 <div style="font-size:13px;color:var(--muted);margin-top:10px">Turns Roblox clan screenshots or a video into a member sheet.</div>
 <label for="clanbox">Clan name (optional)</label>
 <input id="clanbox" maxlength="40" autocomplete="off" placeholder="e.g. Loki. Used in the file name">
@@ -230,9 +241,19 @@ Answer with ONLY a JSON array, no other text:
 const UPDATE_LOG = [
   {
     date: "12 Nov 2026",
+    title: "Home page",
+    tag: "New",
+    at: "2026-11-11T22:29:48Z",
+    meaning: "A Home tab now opens first and explains the page for new people.",
+    see: "Open the page: Home shows first, with buttons to Clan sheet and Energy bills.",
+    changes: ["New Home tab with what it does, how it works and what you need", "Tabs renamed: Games is now Clan sheet, Bills is now Energy bills"]
+  },
+  {
+    date: "12 Nov 2026",
     title: "Record screen removed",
     tag: "Changed",
     at: "2026-11-11T22:14:55Z",
+    commit: "27bbc77",
     meaning: "The Record screen button is gone. It only worked in some PC browsers and was never tested in a real run. Record with your own device and upload the video instead.",
     see: "No Record screen button on the Games tab.",
     changes: ["Record screen button and its pop-up window removed", "Screenshots and video upload work as before", "About 60 lines of code gone"]
@@ -266,16 +287,6 @@ const UPDATE_LOG = [
     meaning: "A second round of attacks: 30 big screenshots at once, 5 videos at once, an AI that never answers, switching company mid-run, 50 runs in a row. The weak spots were fixed.",
     see: "Big batches of screenshots work. A stuck run ends with a message instead of waiting forever.",
     changes: ["Screenshots are saved smaller before sending (JPEG, 2000 px at most), so 30 phone screenshots fit", "A picture that can't be opened is named before anything is sent", "Limits checked first: 100 pictures and about 18 MB per run", "A stuck AI request stops after 3 minutes with a message", "The AI company can't be changed in the middle of a run", "Keys are hidden in the Log; the Log no longer grows forever", "CSV backup: names starting with = + - @ can't act as formulas"]
-  },
-  {
-    date: "11 Nov 2026",
-    title: "Harder to break",
-    tag: "Changed",
-    at: "2026-11-11T10:49:31Z",
-    commit: "ee5c215",
-    meaning: "The page was attacked with about 50 kinds of bad input: broken AI replies, odd keys, junk files, tampered saved settings. Everything that gave a wrong sheet or a confusing message was fixed.",
-    see: "Fewer failed runs, and plainer red messages when something does fail.",
-    changes: ["Odd AI replies (extra text, nested or wrapped lists) are still read", "Names, roles and points are cleaned: no hidden characters, no huge values", "Points like 1.2.3K are flagged, not guessed; T (trillion) is understood", "If the layout step fails, the usual layout is used and the run carries on", "Plain messages for a bad key, pictures that are too big, and unreadable replies or files", "Empty files are skipped"]
   }
 ];
 function renderLog() {
@@ -314,8 +325,8 @@ function renderLog() {
 }
 renderLog();
 function showTab(which) {
-  const shown = { sheet: "sheet", bill: "billtab", log: "logtab", help: "helptab", settings: "settingstab", privacy: "privacytab", safety: "safetytab", legal: "legaltab" };
-  const btn = { sheet: "t1", bill: "t3", log: "t2", help: "t4", settings: "t5" };
+  const shown = { home: "hometab", sheet: "sheet", bill: "billtab", log: "logtab", help: "helptab", settings: "settingstab", privacy: "privacytab", safety: "safetytab", legal: "legaltab" };
+  const btn = { home: "t0", sheet: "t1", bill: "t3", log: "t2", help: "t4", settings: "t5" };
   for (const k in shown) {
     document.getElementById(shown[k]).style.display = k === which ? "" : "none";
     const b = btn[k] && document.getElementById(btn[k]);
@@ -324,14 +335,16 @@ function showTab(which) {
   document.getElementById("keybox").style.display = which === "sheet" || which === "bill" ? "" : "none";
 }
 document.querySelector(".tabs").setAttribute("role", "tablist");
-["t1", "t2", "t3", "t4", "t5"].forEach(id => document.getElementById(id).setAttribute("role", "tab"));
-document.getElementById("t1").setAttribute("aria-selected", "true");
+["t0", "t1", "t2", "t3", "t4", "t5"].forEach(id => document.getElementById(id).setAttribute("role", "tab"));
+document.getElementById("t0").setAttribute("aria-selected", "true");
+document.getElementById("t0").onclick = () => showTab("home");
 document.getElementById("t1").onclick = () => showTab("sheet");
 document.getElementById("t2").onclick = () => showTab("log");
 document.getElementById("t3").onclick = () => showTab("bill");
 document.getElementById("t4").onclick = () => showTab("help");
 document.getElementById("t5").onclick = () => showTab("settings");
 document.querySelectorAll("[data-go]").forEach(a => { a.onclick = (e) => { e.preventDefault(); showTab(a.dataset.go); window.scrollTo(0, 0); }; });
+showTab("home");
 
 // Settings: theme and text size, remembered on this device only (never the key).
 const THEMES = [["auto", "Auto"], ["light", "Light"], ["dark", "Dark"], ["ocean", "Ocean"], ["forest", "Forest"], ["berry", "Berry"]];
@@ -354,7 +367,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-c";
+const BUILD = "2026-11-12-d";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };

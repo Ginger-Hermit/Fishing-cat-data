@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Home page
+
+12 Nov 2026 (22:29 UTC) · New
+
+A Home tab now opens first and explains the page for new people.
+
+**What you'll see:** Open the page: Home shows first, with buttons to Clan sheet and Energy bills.
+
+- New Home tab with what it does, how it works and what you need
+- Tabs renamed: Games is now Clan sheet, Bills is now Energy bills
+
 ## Record screen removed
 
-12 Nov 2026 (22:14 UTC) · Changed
+12 Nov 2026 (22:14 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/27bbc77)
 
 The Record screen button is gone. It only worked in some PC browsers and was never tested in a real run. Record with your own device and upload the video instead.
 
