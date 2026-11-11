@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: A Home tab now opens first and explains the page for new people. -->
+<!-- Patch note: The Bills tab now reads any household bill, not just power and gas. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -45,12 +45,12 @@ button:disabled{opacity:.5}
 <h1>Fishing Cat Data</h1>
 <div id="fake" style="display:none;border:2px solid var(--err);color:var(--err);background:var(--field);border-radius:8px;padding:12px 14px;margin-bottom:14px;font-weight:500">Warning: this is not the real Fishing Cat Data page. Do not paste your key here. The real page is fishing-cat-data.pages.dev</div>
 <div id="newver" role="status" style="display:none;background:var(--field);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:14px">New version ready. <a href="#" id="reloadnow">Refresh now</a></div>
-<div class="tabs"><button id="t0" class="tab on">Home</button><button id="t1" class="tab">Clan sheet</button><button id="t3" class="tab">Energy bills</button><button id="t2" class="tab">Updates</button><button id="t4" class="tab">GitHub</button><button id="t5" class="tab">Settings</button></div>
+<div class="tabs"><button id="t0" class="tab on">Home</button><button id="t1" class="tab">Clan sheet</button><button id="t3" class="tab">Bills</button><button id="t2" class="tab">Updates</button><button id="t4" class="tab">GitHub</button><button id="t5" class="tab">Settings</button></div>
 <div id="hometab">
 <h2 style="margin:6px 0">Pictures in, Excel out</h2>
-<p>Turn clan screenshots or a video from any game into a sheet. It also reads energy bills.</p>
+<p>Turn clan screenshots or a video from any game into a sheet. It also reads household bills: power, gas, water, internet, phone and more.</p>
 <button data-go="sheet">Make a clan sheet</button>
-<button data-go="bill" class="tab" style="width:100%;margin-top:8px;padding:12px">Read energy bills</button>
+<button data-go="bill" class="tab" style="width:100%;margin-top:8px;padding:12px">Read bills</button>
 <h3 style="margin:18px 0 6px">How it works</h3>
 <ol style="margin:0;padding-left:20px;line-height:1.6"><li>Add screenshots, a video, or bill photos</li><li>The AI reads them</li><li>Download your Excel sheet</li></ol>
 <h3 style="margin:18px 0 6px">What you need</h3>
@@ -91,10 +91,10 @@ button:disabled{opacity:.5}
 <div class="hc" style="margin-top:14px;font-size:13px"><b>Your key is safe here.</b> It stays on this device and goes only to the AI company you pick. Treat it like a password. <a href="#" data-go="safety">More</a></div>
 </div>
 <div id="billtab" style="display:none">
-<div style="font-size:13px;color:var(--muted);margin-top:10px">Turns photos of power or gas bills into a sheet, one row per charge, with a summary.</div>
+<div style="font-size:13px;color:var(--muted);margin-top:10px">Turns photos of household bills into a sheet, one row per charge, with a summary.</div>
 <div class="warnbox" style="border-color:var(--err)"><b style="color:var(--err)">Bills are private.</b> Your name, address and account number are in the photo, and the whole photo is sent to the AI company you pick. Only upload your own bills.</div>
 <label>Bill photos</label>
-<div class="drop" id="billdrop">Tap to add photos of power or gas bills</div>
+<div class="drop" id="billdrop">Tap to add photos of bills</div>
 <input id="billfiles" type="file" accept="image/png,image/jpeg,image/webp" multiple hidden>
 <div id="billlist"></div>
 <button id="billgo" disabled>Make my sheet</button>
@@ -180,7 +180,7 @@ button:disabled{opacity:.5}
 <li>What that company does with what you send is covered by its own policies. Free plans can have different rules, so check them.</li>
 <li>Saved on your device only: theme, text size, and the last sheet you chose (names and points). Tap Remove on the first tab to forget the sheet.</li>
 <li>No accounts and no tracking added by this page. The page is hosted on Cloudflare Pages, which may keep normal visit records like any website host.</li>
-<li>Energy bills: the whole photo goes to the AI company, including your name, address and account number. The page asks the AI not to copy those, and the sheet has no place for them.</li>
+<li>Bills: the whole photo goes to the AI company, including your name, address and account number. The page asks the AI not to copy those, and the sheet has no place for them.</li>
 <li>The names in your pictures belong to real people. Share the sheet only with people who should see it.</li>
 </ul></div>
 </div>
@@ -241,9 +241,19 @@ Answer with ONLY a JSON array, no other text:
 const UPDATE_LOG = [
   {
     date: "12 Nov 2026",
+    title: "All household bills",
+    tag: "Changed",
+    at: "2026-11-11T22:35:39Z",
+    meaning: "The Bills tab now reads any household bill, not just power and gas.",
+    see: "Bills tab: add a water, phone or internet bill photo. Its rows show Water, Phone and so on, with no kWh.",
+    changes: ["Bills tab and Home button now say Bills and cover water, internet, phone, rates and insurance", "Non-energy charges get their own type and are never turned into kWh", "Sheet tab renamed from Energy bills to Bills"]
+  },
+  {
+    date: "12 Nov 2026",
     title: "Home page",
     tag: "New",
     at: "2026-11-11T22:29:48Z",
+    commit: "3909a1a",
     meaning: "A Home tab now opens first and explains the page for new people.",
     see: "Open the page: Home shows first, with buttons to Clan sheet and Energy bills.",
     changes: ["New Home tab with what it does, how it works and what you need", "Tabs renamed: Games is now Clan sheet, Bills is now Energy bills"]
@@ -277,16 +287,6 @@ const UPDATE_LOG = [
     meaning: "A second tool on the page. Add photos of power or gas bills and get a sheet of every charge, with usage turned into kWh so bills from different countries can be compared.",
     see: "A new Energy bills tab next to Clan sheet.",
     changes: ["New Energy bills tab: one row per charge, with supplier, dates, usage, unit, amount and currency", "Usage is turned into kWh by the sheet: MJ, GJ, therms, and gas in m3 or CCF using the factors printed on the bill", "Summary tab: one column per bill, numbers by formula, plus a few plain lines written by the AI", "Bills in other number styles (98,60) and other currencies are read as printed; money is never converted", "The first tab is now called Clan sheet; the key box is shared by both tabs", "Every start button stays locked while any run is going, even if you type in the key box", "Fuzz test added: 675,000 scrambled replies, 3 bugs found and fixed"]
-  },
-  {
-    date: "11 Nov 2026",
-    title: "Stress test fixes",
-    tag: "Changed",
-    at: "2026-11-11T10:55:56Z",
-    commit: "cf2af59",
-    meaning: "A second round of attacks: 30 big screenshots at once, 5 videos at once, an AI that never answers, switching company mid-run, 50 runs in a row. The weak spots were fixed.",
-    see: "Big batches of screenshots work. A stuck run ends with a message instead of waiting forever.",
-    changes: ["Screenshots are saved smaller before sending (JPEG, 2000 px at most), so 30 phone screenshots fit", "A picture that can't be opened is named before anything is sent", "Limits checked first: 100 pictures and about 18 MB per run", "A stuck AI request stops after 3 minutes with a message", "The AI company can't be changed in the middle of a run", "Keys are hidden in the Log; the Log no longer grows forever", "CSV backup: names starting with = + - @ can't act as formulas"]
   }
 ];
 function renderLog() {
@@ -367,7 +367,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-d";
+const BUILD = "2026-11-12-e";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -992,7 +992,7 @@ $("go").onclick = async () => {
   }
 };
 // ---- Energy bills: the AI copies what is printed, the sheet does the sums ----
-const BILL_PROMPT = `These photos show one or more electricity or gas bills. One bill may cover several photos.
+const BILL_PROMPT = `These photos show one or more household bills (electricity, gas, water, internet, phone, rates, insurance or similar). One bill may cover several photos.
 Copy what is printed. Do not do any sums or conversions yourself. Never guess; use "" if something is not shown or not readable.
 Do NOT copy the customer's name, address, account or customer numbers, or bank details.
 Answer with ONLY one JSON object, no other text:
@@ -1006,7 +1006,7 @@ Answer with ONLY one JSON object, no other text:
 "period_days": "number of days the bill covers, only if printed",
 "estimated": true or false (does the bill say a reading is estimated?),
 "total_due": "the total amount due, as printed",
-"lines": [{"energy": "electricity" or "gas" or "other", "charge": "name of the charge as printed", "used": "quantity as printed, number only", "unit": "unit as printed, e.g. kWh, MJ, m3, therms, CCF, days", "kwh_printed": "the kWh figure for this line, if the bill prints one and the unit is not already kWh", "calorific_value": "if printed", "correction_factor": "if printed", "therm_factor": "the BTU or therm factor, if printed", "amount": "money amount for this line as printed, with a minus sign if it is a credit or discount"}],
+"lines": [{"energy": "electricity" or "gas" or "other", "kind": "only for a bill that is not electricity or gas: one word such as water, internet, phone, rates, insurance, waste or other; otherwise empty", "charge": "name of the charge as printed", "used": "quantity as printed, number only", "unit": "unit as printed, e.g. kWh, MJ, m3, therms, CCF, days", "kwh_printed": "the kWh figure for this line, if the bill prints one and the unit is not already kWh", "calorific_value": "if printed", "correction_factor": "if printed", "therm_factor": "the BTU or therm factor, if printed", "amount": "money amount for this line as printed, with a minus sign if it is a credit or discount"}],
 "notes": ["up to 4 short plain sentences about what this bill shows: what kind of bill it is, which charge is the biggest, any discount and its deadline, any estimated reading. No advice. No sums of your own."]
 }]}
 List every charge line, including daily or fixed charges, discounts, taxes and levies. Do not list payments, opening balances or the total as lines.`;
@@ -1046,7 +1046,8 @@ function parseBills(text) {
     const counted = new Set(); // several charges can be priced on the same usage (a levy per kWh): count that usage once
     const lines = b.lines.filter(l => l && typeof l === "object" && (tidy(l.charge, 60) || tidy(l.amount, 30))).slice(0, 60).map(l => {
       const energy = /^elec/i.test(tidy(l.energy, 20)) ? "electricity" : /^gas/i.test(tidy(l.energy, 20)) ? "gas" : "other";
-      let k = kwhFor({ unit: l.unit, energy, kwh_printed: l.kwh_printed, calorific_value: l.calorific_value, correction_factor: l.correction_factor, therm_factor: l.therm_factor }, mark);
+      const kind = energy === "other" ? tidy(l.kind, 20).toLowerCase() : "";
+      let k = kind ? { how: "" } : kwhFor({ unit: l.unit, energy, kwh_printed: l.kwh_printed, calorific_value: l.calorific_value, correction_factor: l.correction_factor, therm_factor: l.therm_factor }, mark);
       const amount = parseNum(l.amount, mark), used = parseNum(l.used, mark);
       if (k.add !== undefined || k.value !== undefined) {
         const same = energy + "|" + (k.value !== undefined ? "kwh" + k.value : used + tidy(l.unit, 14).toLowerCase());
@@ -1054,7 +1055,7 @@ function parseBills(text) {
         counted.add(same);
       }
       const bad = amount === null ? "check: amount not read" : (k.add !== undefined && used === null ? "check: amount used not read" : "");
-      return { type: energy === "electricity" ? "Electricity" : energy === "gas" ? "Gas" : "Other", charge: tidy(l.charge, 60), usedShown: tidy(l.used, 30), unit: tidy(l.unit, 14), used, k, how: [k.how, bad].filter(Boolean).join("; "), amountShown: tidy(l.amount, 30), amount, check: !!(k.check || bad) };
+      return { type: energy === "electricity" ? "Electricity" : energy === "gas" ? "Gas" : kind ? kind[0].toUpperCase() + kind.slice(1) : "Other", charge: tidy(l.charge, 60), usedShown: tidy(l.used, 30), unit: tidy(l.unit, 14), used, k, how: [k.how, bad].filter(Boolean).join("; "), amountShown: tidy(l.amount, 30), amount, check: !!(k.check || bad) };
     });
     return { supplier: tidy(b.supplier, 50) || "Not read", country: tidy(b.country, 30), currency: tidy(b.currency, 6).toUpperCase(), billDate: tidy(b.bill_date, 30), dueDate: tidy(b.due_date, 30), days: parseNum(b.period_days, mark), estimated: b.estimated === true ? "Yes" : b.estimated === false ? "No" : "", totalShown: tidy(b.total_due, 30), total: parseNum(b.total_due, mark), lines, notes: (Array.isArray(b.notes) ? b.notes : []).map(n => tidy(n, 220)).filter(Boolean).slice(0, 4) };
   }).filter(b => b.lines.length);
@@ -1068,10 +1069,10 @@ function buildBillBook(EJ, bills, when) {
   const fill = (c) => ({ type: "pattern", pattern: "solid", fgColor: { argb: c } });
   const headCell = (c, t) => { c.value = t; c.font = { bold: true, color: { argb: "FFFFFFFF" } }; c.fill = fill(NAVY); c.border = box; c.alignment = { vertical: "middle", wrapText: true }; };
   const title = (ws, t, sub) => { ws.getCell("A1").value = t; ws.getCell("A1").font = { bold: true, size: 16, color: { argb: NAVY } }; ws.getCell("A2").value = sub; ws.getCell("A2").font = { color: { argb: GREY } }; };
-  const ws = wb.addWorksheet("Energy bills", { views: [{ state: "frozen", ySplit: 3 }] });
+  const ws = wb.addWorksheet("Bills", { views: [{ state: "frozen", ySplit: 3 }] });
   [7, 24, 14, 16, 16, 12, 30, 14, 9, 13, 14, 40, 16, 15, 10].forEach((w, i) => { ws.getColumn(i + 1).width = w; });
   const count = bills.reduce((t, b) => t + b.lines.length, 0);
-  title(ws, "Energy bills", bills.length + " bill(s), " + count + " charge(s) read   ·   Recorded " + when + "   ·   Check every number against the bill");
+  title(ws, "Bills", bills.length + " bill(s), " + count + " charge(s) read   ·   Recorded " + when + "   ·   Check every number against the bill");
   ["Bill", "Supplier", "Country", "Bill date", "Due date", "Type", "Charge", "Used (as shown)", "Unit", "Used (number)", "Used in kWh", "How kWh was worked out", "Amount (as shown)", "Amount (number)", "Currency"].forEach((h, i) => headCell(ws.getCell(3, i + 1), h));
   ws.getRow(3).height = 32;
   let n = 3;
@@ -1096,7 +1097,7 @@ function buildBillBook(EJ, bills, when) {
   sm.getColumn(1).width = 38;
   title(sm, "Summary", "The numbers are worked out by the sheet from the first tab. The plain words are written by the AI: check them.");
   headCell(sm.getCell(4, 1), "");
-  const S = "'Energy bills'!", rows = ["Supplier", "Country", "Bill date", "Due date", "Currency", "Days covered", "Electricity used (kWh)", "Gas used (kWh)", "Energy used per day (kWh)", "Electricity cost per kWh (usage charges)", "Charges listed (added up)", "Total on the bill (as printed)", "Reading estimated?"];
+  const S = "'Bills'!", rows = ["Supplier", "Country", "Bill date", "Due date", "Currency", "Days covered", "Electricity used (kWh)", "Gas used (kWh)", "Energy used per day (kWh)", "Electricity cost per kWh (usage charges)", "Charges listed (added up)", "Total on the bill (as printed)", "Reading estimated?"];
   rows.forEach((t, r) => { const c = sm.getCell(5 + r, 1); c.value = t; c.font = { bold: true }; c.fill = fill("FFF5F7FA"); c.border = box; });
   headCell(sm.getCell(19, 1), "In plain words (written by the AI, check it)");
   bills.forEach((b, i) => {
@@ -1150,7 +1151,7 @@ $("billgo").onclick = async () => {
     clog("AI replied (" + text.length + " characters).");
     const bills = parseBills(text), lines = bills.reduce((t, b) => t + b.lines.length, 0), checks = bills.reduce((t, b) => t + b.lines.filter(l => l.check).length, 0);
     const wb = buildBillBook(window.ExcelJS, bills, todayText());
-    saveBlob(new Blob([await wb.xlsx.writeBuffer()], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), "Energy bills - " + (bills.length === 1 ? clean(bills[0].supplier, 40) || "bill" : bills.length + " bills") + ".xlsx");
+    saveBlob(new Blob([await wb.xlsx.writeBuffer()], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), "Bills - " + (bills.length === 1 ? clean(bills[0].supplier, 40) || "bill" : bills.length + " bills") + ".xlsx");
     clog("Bills: " + bills.length + ", charges: " + lines + ", rows to check: " + checks + ".");
     billSay("Done: " + bills.length + " bill(s), " + lines + " charge(s). Your sheet was downloaded." + (checks ? " Check " + checks + " row(s) marked check." : "") + " Compare the numbers with the bill before relying on them.");
   } catch (err) {

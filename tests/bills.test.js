@@ -22,4 +22,10 @@ A.equal(b[0].lines[3].amount,-10);A.equal(b[0].days,31);A.equal(b[0].total,123.4
 b=parseBills('```json\n{"supplier":"One","lines":[{"charge":"Gas","energy":"gas","used":"12","unit":"furlongs","amount":"?"}]}\n```');
 A.equal(b[0].lines[0].check,true);A.equal(b[0].lines[0].amount,null);
 for(const bad of ["","sorry","[]","{}",'{"bills":[]}','{"bills":[{"lines":[]}]}','{"bills":[null,5,{"lines":"x"}]}','{"bills":{"a":1}}']) A.throws(()=>parseBills(bad),/did not find any bill/);
+// non-energy bills: no kWh, no false "check" flags
+b=parseBills(JSON.stringify({bills:[{supplier:"Aqua Co",decimal_mark:".",lines:[{energy:"other",kind:"water",charge:"Water use",used:"38",unit:"m3",amount:"61.20"},{energy:"other",kind:"phone",charge:"Plan",used:"1",unit:"month",amount:"45"}]}]}));
+A.equal(b[0].lines[0].type,"Water");A.ok(!b[0].lines[0].check);A.equal(b[0].lines[0].k.add,undefined);A.equal(b[0].lines[0].amount,61.2);A.equal(b[0].lines[1].type,"Phone");
+// phone-bill line types (plan, pro-rata, discount, usage, instalment, fee) read without flags
+b=parseBills(JSON.stringify({bills:[{supplier:"Example Mobile",currency:"NZD",decimal_mark:".",total_due:"$96.40",lines:[{energy:"other",kind:"phone",charge:"Plan",amount:"$79.00"},{energy:"other",kind:"phone",charge:"Pro-rata plan",amount:"$12.40"},{energy:"other",kind:"phone",charge:"Discount",amount:"-$10.00"},{energy:"other",kind:"phone",charge:"Extra data",used:"2",unit:"GB",amount:"$10.00"},{energy:"other",kind:"phone",charge:"Phone instalment",amount:"$15.00"},{energy:"other",kind:"phone",charge:"Late fee",amount:"$0.00"}]}]}));
+A.equal(b[0].lines.length,6);A.equal(b[0].lines[2].amount,-10);A.ok(b[0].lines.every(l=>!l.check));
 console.log("bill tests ok");

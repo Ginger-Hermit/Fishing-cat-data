@@ -64,7 +64,7 @@ async function runCase(page, flow, kind) {
       if (wantErr) check(tag + ": no file on error", !r.file);
     }
     // the Excel file has the right numbers and formulas
-    const cells = await page.evaluate(async (BILL) => { const wb = buildBillBook(window.ExcelJS, parseBills(BILL), "today"); const b2 = new ExcelJS.Workbook(); await b2.xlsx.load(await wb.xlsx.writeBuffer()); const s = b2.getWorksheet("Energy bills"); return [s.getCell("J4").value, s.getCell("K5").value.formula, s.getCell("N4").value, b2.getWorksheet("Summary").getCell("B11").value.formula.includes("SUMIFS")].join("|"); }, BILL);
+    const cells = await page.evaluate(async (BILL) => { const wb = buildBillBook(window.ExcelJS, parseBills(BILL), "today"); const b2 = new ExcelJS.Workbook(); await b2.xlsx.load(await wb.xlsx.writeBuffer()); const s = b2.getWorksheet("Bills"); return [s.getCell("J4").value, s.getCell("K5").value.formula, s.getCell("N4").value, b2.getWorksheet("Summary").getCell("B11").value.formula.includes("SUMIFS")].join("|"); }, BILL);
     check("bill sheet numbers", cells === '425|IF(J5="","",J5/3.6)|94.99|true', cells);
     check("no page errors", pageErrors.length === 0, pageErrors.slice(0, 2).join(" ; "));
     await browser.close();

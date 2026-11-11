@@ -2,9 +2,21 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## All household bills
+
+12 Nov 2026 (22:35 UTC) · Changed
+
+The Bills tab now reads any household bill, not just power and gas.
+
+**What you'll see:** Bills tab: add a water, phone or internet bill photo. Its rows show Water, Phone and so on, with no kWh.
+
+- Bills tab and Home button now say Bills and cover water, internet, phone, rates and insurance
+- Non-energy charges get their own type and are never turned into kWh
+- Sheet tab renamed from Energy bills to Bills
+
 ## Home page
 
-12 Nov 2026 (22:29 UTC) · New
+12 Nov 2026 (22:29 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/3909a1a)
 
 A Home tab now opens first and explains the page for new people.
 
