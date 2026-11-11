@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: added a detailed Stay safe page, linked from the footer. -->
+<!-- Patch note: safety locks: connections limited to Anthropic, wrong-address warning, Clear button and 20 file limit. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -41,10 +41,11 @@ button:disabled{opacity:.5}
 <body>
 <div class="card">
 <h1>Fishing Cat Data</h1>
+<div id="fake" style="display:none;border:2px solid var(--err);color:var(--err);background:var(--field);border-radius:8px;padding:12px 14px;margin-bottom:14px;font-weight:500">Warning: this is not the real Fishing Cat Data page. Do not paste your key here. The real page is fishing-cat-data.pages.dev</div>
 <div class="tabs"><button id="t1" class="tab on">Make my sheet</button><button id="t2" class="tab">Updates</button><button id="t4" class="tab">Help</button><button id="t5" class="tab">Settings</button><button id="t3" class="tab">Console</button></div>
 <div id="sheet">
 <label for="key">Your AI key (Anthropic)</label>
-<input id="key" type="password" placeholder="Paste key here" autocomplete="off">
+<input id="key" type="password" placeholder="Paste key here" autocomplete="off" spellcheck="false" autocapitalize="off" data-lpignore="true" data-1p-ignore="true">
 <label for="profile">Profile</label>
 <select id="profile"><option value="loki">Loki, Gym League</option></select>
 <label>Screenshots</label>
@@ -124,6 +125,7 @@ button:disabled{opacity:.5}
 <ul>
 <li>Anyone can copy a web page and change it to steal keys. Only paste your key on the real link: fishing-cat-data.pages.dev</li>
 <li>Check the address bar before you paste. Bookmark the real link.</li>
+<li>If the page is opened from a different address, it shows a red warning and locks the key box. Copies can remove that warning, so still check the address yourself.</li>
 <li>Be careful with links sent by strangers, even if the page looks the same.</li>
 <li>This page will never ask for your password, your email or anything except the AI key.</li>
 </ul></details>
@@ -157,6 +159,7 @@ button:disabled{opacity:.5}
 <div class="hc"><b>Privacy</b>
 <ul>
 <li>Your AI key stays in this page. It is never saved.</li>
+<li>The page is locked down by the browser so it can only talk to Anthropic.</li>
 <li>Your pictures (and the stills pulled from a video) go only to Anthropic, straight from your browser, to be read. This page has no server of its own, so we never see them.</li>
 <li>What Anthropic does with what you send is covered by Anthropic's own policies.</li>
 <li>Saved on your device only: theme, text size, and the last sheet you chose (names and points). Tap Remove on the first tab to forget the sheet.</li>
@@ -204,6 +207,13 @@ Answer with ONLY a JSON array, no other text:
 const PROFILES = { loki: { clan: "Loki", game: "Gym League" } };
 // Newest first. Add one entry per change, then re-upload index.html.
 const UPDATE_LOG = [
+  {
+    date: "11 Nov 2026",
+    title: "Extra safety locks",
+    meaning: "The browser is now told this page may only talk to Anthropic. A red warning shows if the page is opened from a wrong address. You can clear picked files, and up to 20 files at a time are allowed.",
+    see: "A Clear button in the green files box. A red warning only if the address is wrong.",
+    changes: ["Locks connections to Anthropic only (headers file).", "Red warning and locked key box on a wrong address.", "Clear button for picked files and a 20 file limit.", "Key box asks password managers not to save it."],
+  },
   {
     date: "11 Nov 2026",
     title: "Stay safe guide",
@@ -402,19 +412,29 @@ function clog(text) {
   box.textContent += (box.textContent ? "\n" : "") + t + "  " + text;
 }
 let images = [];
+const MAX_FILES = 20;
 
 const $ = (id) => document.getElementById(id);
 const setMsg = (text, bad) => { $("msg").textContent = text; $("msg").className = "msg" + (bad ? " err" : ""); };
 
 function refresh() {
-  $("list").className = images.length ? "ok" : "";
-  $("list").textContent = images.length ? "\u2713 " + images.length + " file(s) ready" : "";
+  const box = $("list");
+  if (images.length) {
+    box.className = "ok";
+    const span = document.createElement("span");
+    span.textContent = "\u2713 " + images.length + " file(s) ready";
+    const b = document.createElement("button");
+    b.className = "tab"; b.textContent = "Clear";
+    b.onclick = () => { images = []; $("files").value = ""; refresh(); };
+    box.replaceChildren(span, b);
+  } else { box.className = ""; box.replaceChildren(); }
   $("go").disabled = !($("key").value.trim() && images.length);
 }
 
 function addFiles(fileList) {
   for (const f of fileList) {
     if (!f.type.startsWith("image/") && !f.type.startsWith("video/")) continue;
+    if (images.length >= MAX_FILES) { setMsg("Up to " + MAX_FILES + " files at a time. Tap Clear to start again.", true); break; }
     images.push(f);
   }
   refresh();
@@ -456,6 +476,17 @@ $("files").onchange = (e) => addFiles(e.target.files);
 $("drop").ondragover = (e) => e.preventDefault();
 $("drop").ondrop = (e) => { e.preventDefault(); addFiles(e.dataTransfer.files); };
 $("key").oninput = refresh;
+
+// Warn if this page is opened from anywhere but the real address (a copy could steal keys).
+const REAL_HOST = "fishing-cat-data.pages.dev";
+{
+  const h = location.hostname;
+  if (!(location.protocol === "file:" || h === "localhost" || h === REAL_HOST || h.endsWith("." + REAL_HOST))) {
+    $("fake").style.display = "block";
+    $("key").disabled = true;
+    $("key").placeholder = "Don't paste your key here";
+  }
+}
 
 function toBase64(file) {
   return new Promise((resolve, reject) => {
