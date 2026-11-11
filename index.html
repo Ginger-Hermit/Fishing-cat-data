@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
+<!-- Patch note: Help and Stay safe pages brought up to date (Add a game, Remember my key, updates, bug report). Visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -94,7 +94,7 @@ button:disabled{opacity:.5}
 <div class="hc"><b>How to use it</b>
 <ol class="steps">
 <li><span>Pick your AI company and paste its key. For Anthropic, make one at console.anthropic.com.</span></li>
-<li><span>Pick your profile.</span></li>
+<li><span>Pick your profile, or tap + Add a game for a different clan.</span></li>
 <li><span>Drop in screenshots of the member list, or a screen recording of you scrolling it.</span></li>
 <li><span>Optional: add last time's sheet to compare.</span></li>
 <li><span>Tap Make my sheet. After about 20 seconds an Excel file downloads.</span></li>
@@ -119,6 +119,28 @@ button:disabled{opacity:.5}
 <li><b>Video could not be opened:</b> try an MP4.</li>
 <li><b>A "?" in the sheet:</b> unreadable. Fix it by hand.</li>
 <li><b>Still stuck:</b> tap Developer view on the first tab and send a screenshot of the Console.</li>
+</ul></details>
+<details class="hc"><summary>Adding another game</summary>
+<ul>
+<li>Tap <b>+ Add a game</b> under Profile.</li>
+<li>Open the clan member list in your game and answer 4 things: clan name, game name, whether rank numbers are shown, and an optional extra column.</li>
+<li>The preview shows what your sheet will look like. Tap Save.</li>
+<li>Profiles are saved on this device only. Tap Remove this profile to delete one.</li>
+<li>Other games are not tested yet. Check the first sheet carefully.</li>
+<li>If the page says fewer members were read than the screen shows, scroll slower and try again.</li>
+</ul></details>
+<details class="hc"><summary>Remember my key</summary>
+<ul>
+<li>Tick the box under the key to skip pasting it every time.</li>
+<li>It is saved only in this browser. Untick to delete it.</li>
+<li>Don't use it on a shared or public computer.</li>
+</ul></details>
+<details class="hc"><summary>Updates and bugs</summary>
+<ul>
+<li>A banner appears at the top when there is a new version. Tap Refresh now.</li>
+<li>Settings has a switch to refresh by itself. It waits until no files are picked.</li>
+<li>The Updates tab lists what changed.</li>
+<li>Found a bug? Open Developer view, tap Copy bug report and send it. Keys are removed from it.</li>
 </ul></details>
 <details class="hc"><summary>Other AI companies</summary>
 <ul>
@@ -150,7 +172,8 @@ button:disabled{opacity:.5}
 <li>Think of it like a credit card number: if someone uses your key, you get charged.</li>
 <li>Never put it in a chat, email, post, screenshot or file you send. Anyone with it can use your credit.</li>
 <li>Make a key just for this page and give it a clear name. Then you can delete it without breaking anything else.</li>
-<li>This page never saves your key. Refreshing or closing the tab clears it.</li>
+<li>This page only saves your key if you tick Remember my key. If you don't, refreshing or closing the tab clears it.</li>
+<li>Ticked it? Untick the box to delete the saved key, and never do it on a shared computer.</li>
 <li>If your browser or password manager offers to save it, choose "Never" unless you really want that.</li>
 <li>Use your own device. Avoid shared or public computers, and close the tab when you're done.</li>
 <li>Only install browser add-ons you trust. Add-ons can read what's on a page.</li>
@@ -516,7 +539,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; saveSetting("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-11-d";
+const BUILD = "2026-11-11-e";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
