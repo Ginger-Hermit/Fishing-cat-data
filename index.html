@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fishing Cat Data</title>
+<style>
+body{margin:0;background:#F0F2F5;color:#1B1B1B;font-family:"Segoe UI",system-ui,sans-serif;font-size:16px}
+.card{max-width:520px;margin:24px auto;background:#F0F2F5;border:1px solid #898C90;border-radius:10px;padding:18px}
+h1{font-size:20px;font-weight:500;color:#1F3864;margin:0 0 14px}
+label{display:block;font-size:13px;color:#707377;margin:12px 0 4px}
+input,select{width:100%;box-sizing:border-box;padding:10px;border:1px solid #898C90;border-radius:6px;font-size:15px;background:#fff}
+.drop{background:#fff;border:2px dashed #898C90;border-radius:8px;padding:18px;text-align:center;color:#707377;margin-top:4px;cursor:pointer}
+button{width:100%;margin-top:14px;padding:14px;background:#1F3864;color:#fff;border:0;border-radius:8px;font-size:17px;font-weight:500;cursor:pointer}
+button:disabled{opacity:.5}
+.note{background:#E3F4E8;color:#14632D;border-radius:6px;padding:10px 12px;font-size:13px;margin-top:12px}
+.msg{margin-top:12px;font-size:14px;min-height:20px}
+.err{color:#A31616}
+.tabs{display:flex;gap:6px;margin:0 0 14px}
+.tab{width:auto;margin:0;padding:8px 12px;font-size:14px;background:#fff;color:#1F3864;border:1px solid #1F3864;border-radius:6px}
+.tab.on{background:#1F3864;color:#fff}
+</style>
+</head>
+<body>
+<div class="card">
+<h1>Fishing Cat Data</h1>
+<div class="tabs"><button id="t1" class="tab on">Make my sheet</button><button id="t2" class="tab">Updates</button><button id="t3" class="tab">Console</button></div>
+<div id="sheet">
+<label for="key">Your AI key (Anthropic)</label>
+<input id="key" type="password" placeholder="Paste key here" autocomplete="off">
+<label for="profile">Profile</label>
+<select id="profile"><option value="loki">Loki, Gym League</option></select>
+<label>Screenshots</label>
+<div class="drop" id="drop">Drop screenshots here, or tap to choose</div>
+<input id="files" type="file" accept="image/png,image/jpeg,image/webp,video/mp4,video/quicktime,video/webm" multiple hidden>
+<div id="list" style="font-size:13px;color:#707377;margin-top:6px"></div>
+<button id="go" disabled>Make my sheet</button>
+<div class="msg" id="msg"></div>
+<div class="note">Your key stays in this page only and is never saved. Screenshots go only to Anthropic.</div>
+<div style="text-align:center;margin-top:10px"><a href="#" id="devOn" style="font-size:12px;color:#707377">Developer view</a></div>
+</div>
+<div id="logtab" style="display:none"></div>
+<div id="consoletab" style="display:none">
+<div style="font-size:13px;color:#707377;margin-bottom:6px">Code changed, by update</div>
+<div id="codelist" style="font-size:13px;color:#1B1B1B;margin-bottom:14px"></div>
+<div style="font-size:13px;color:#707377;margin-bottom:6px">Console: what the page did on the last run, newest at the bottom</div>
+<pre id="console" style="background:#fff;border:1px solid #898C90;border-radius:6px;padding:10px;font-size:12px;white-space:pre-wrap;min-height:60px;margin:0;color:#1B1B1B"></pre>
+</div>
+</div>
+<script>
+const MODEL = "claude-haiku-5-5";
+const PROMPT = `These images show the member list of the Roblox game clan screen.
+Each row shows a rank like "#12", a username, a role under the name and a points number on the right (like 52.51K, 1K or 507).
+Read EVERY row that is fully visible. Skip rows cut off at the top or bottom edge.
+Copy usernames exactly. Points: copy exactly as shown (e.g. "52.51K"). Never guess; use "?" if unreadable.
+Answer with ONLY a JSON array, no other text:
+[{"rank": 12, "name": "example_name", "role": "Member", "points": "16.6K"}, ...]`;
+const PROFILES = { loki: { clan: "Loki", game: "Gym League" } };
+// Newest first. Add one entry per change, then re-upload index.html.
+const UPDATE_LOG = [
+  {
+    date: "11 Nov 2026",
+    title: "Video support",
+    meaning: "You can now drop a screen recording instead of taking screenshots. The page picks about 12 still pictures from it and reads those.",
+    see: "Drop a video onto the box, or pick one. The Make my sheet button lights up as soon as it's loaded.",
+    changes: ["Accepts MP4, MOV and WEBM video.", "Picks up to 12 frames, spread evenly through the video."],
+  },
+  {
+    date: "11 Nov 2026",
+    title: "Matches the desktop app",
+    meaning: "Results now look the same as the desktop app. The sheet also has a Role column, and a member who shows up in more than one picture is listed once.",
+    see: "The downloaded CSV has four columns: Rank, Name, Role, Points. Points show as plain numbers, so 52.51K becomes 52510.",
+    changes: ["Same instructions to the AI as the desktop app.", "CSV has a Role column.", "Repeated names removed."],
+  },
+  {
+    date: "9-10 Nov 2026",
+    title: "Old app: Owner code (binned)",
+    meaning: "A secret-key system to prove updates were really from the author. It got lost and was thrown out in the same night.",
+    see: "Nothing now. The old owner-code screens were removed.",
+    changes: ["Owner code and password system removed."],
+  },
+  {
+    date: "9 Nov 2026",
+    title: "Old app: Back up first",
+    meaning: "An edit scrambled the code. It was only recovered because a saved copy existed, so every change now starts with a backup.",
+    see: "Nothing visible. The new app saves a backup before any update.",
+    changes: ["Backup made before each update."],
+  },
+  {
+    date: "9-10 Nov 2026",
+    title: "Old app: Twenty tiny updates",
+    meaning: "The update log filled with the same line over and over. Small changes were grouped into one entry.",
+    see: "The update log shows one entry per batch.",
+    changes: ["Updates installed within 3 minutes grouped into one entry."],
+  },
+  {
+    date: "11 Nov 2026",
+    title: "First web version",
+    meaning: "The first version of the page. It only handles screenshots, only the Loki profile, and only Anthropic.",
+    changes: ["Screenshots, Loki profile, Anthropic only."],
+  },
+];
+function renderLog() {
+  const chip = (t, old) => `<span style="background:${old ? "#E4E8F0" : "#E3F4E8"};color:${old ? "#1F3864" : "#14632D"};padding:2px 8px;border-radius:4px;font-size:12px">${t}</span>`;
+  const rows = UPDATE_LOG.map((e, i) => {
+    const old = e.title.startsWith("Old app");
+    const n = e.changes.length;
+    return `<details id="upd${i}" style="border-bottom:1px solid #D5D8DD;padding:8px 0">
+      <summary style="cursor:pointer;display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px">
+        <span style="color:#707377">${e.date}</span> ${chip(old ? "Old app" : "Web page", old)}
+        <span style="color:#1F3864">${e.title.replace("Old app: ", "")}</span>
+        <span style="color:#707377">${n} change${n > 1 ? "s" : ""}</span></summary>
+      <div style="font-size:13px;color:#1B1B1B;margin:8px 0 0 18px">
+        <div><b>Other changes</b></div>
+        <ul style="margin:4px 0;padding-left:18px">${e.changes.map(c => "<li>" + c + "</li>").join("")}</ul>
+        <div style="color:#707377">${e.meaning}</div>
+        <div style="color:#707377;margin-top:4px"><b>What you'll see:</b> ${e.see || "No visible change."}</div>
+      </div></details>`;
+  }).join("");
+  const log = document.getElementById("logtab");
+  log.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <span style="font-size:13px;color:#707377">Newest first. Click an update to see what changed.</span>
+      <button class="tab" id="expAll">Expand all</button></div>` + rows;
+  let open = false;
+  document.getElementById("expAll").onclick = (ev) => {
+    open = !open;
+    log.querySelectorAll("details").forEach(d => d.open = open);
+    ev.target.textContent = open ? "Collapse all" : "Expand all";
+  };
+}
+renderLog();
+function showTab(which) {
+  const shown = { sheet: "sheet", log: "logtab", console: "consoletab" };
+  for (const k in shown) {
+    document.getElementById(shown[k]).style.display = k === which ? "" : "none";
+    document.getElementById("t" + (k === "sheet" ? 1 : k === "log" ? 2 : 3)).classList.toggle("on", k === which);
+  }
+}
+document.getElementById("t1").onclick = () => showTab("sheet");
+document.getElementById("t2").onclick = () => showTab("log");
+document.getElementById("t3").onclick = () => showTab("console");
+document.getElementById("t3").style.display = "none";
+document.getElementById("devOn").onclick = (e) => {
+  e.preventDefault();
+  document.getElementById("t3").style.display = "";
+  document.getElementById("t3").textContent = "Developer";
+  showTab("console");
+};
+document.getElementById("codelist").innerHTML = UPDATE_LOG.map(e =>
+  `<div style="margin-bottom:8px"><b>${e.date} - ${e.title}</b><ul style="margin:4px 0 0;padding-left:18px;color:#707377">${e.changes.map(c => "<li>" + c + "</li>").join("")}</ul></div>`).join("");
+
+// Console: a plain list of what the page did. Nothing here is sent anywhere.
+function clog(text) {
+  const t = new Date().toLocaleTimeString();
+  const box = document.getElementById("console");
+  box.textContent += (box.textContent ? "\n" : "") + t + "  " + text;
+}
+let images = [];
+
+const $ = (id) => document.getElementById(id);
+const setMsg = (text, bad) => { $("msg").textContent = text; $("msg").className = "msg" + (bad ? " err" : ""); };
+
+function refresh() {
+  $("list").textContent = images.length ? images.length + " screenshot(s) ready" : "";
+  $("go").disabled = !($("key").value.trim() && images.length);
+}
+
+function addFiles(fileList) {
+  for (const f of fileList) {
+    if (!f.type.startsWith("image/") && !f.type.startsWith("video/")) continue;
+    images.push(f);
+  }
+  refresh();
+}
+
+// Pull still frames from a video in the browser: up to 12 frames, spread evenly over the video.
+function videoFrames(file) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const v = document.createElement("video");
+    v.muted = true;
+    v.preload = "auto";
+    v.src = url;
+    v.onerror = () => reject(new Error("This video could not be opened. Try an MP4 recording."));
+    v.onloadedmetadata = async () => {
+      const d = v.duration;
+      const n = Math.min(12, Math.max(2, Math.ceil(d / 2)));
+      const scale = Math.min(1, 1280 / v.videoWidth);
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.round(v.videoWidth * scale);
+      canvas.height = Math.round(v.videoHeight * scale);
+      const ctx = canvas.getContext("2d");
+      const out = [];
+      for (let i = 0; i < n; i++) {
+        v.currentTime = ((i + 0.5) * d) / n;
+        await new Promise(r => (v.onseeked = r));
+        ctx.drawImage(v, 0, 0, canvas.width, canvas.height);
+        const jpg = canvas.toDataURL("image/jpeg", 0.85).split(",")[1];
+        out.push({ type: "image/jpeg", data: jpg });
+      }
+      URL.revokeObjectURL(url);
+      resolve(out);
+    };
+  });
+}
+
+$("drop").onclick = () => $("files").click();
+$("files").onchange = (e) => addFiles(e.target.files);
+$("drop").ondragover = (e) => e.preventDefault();
+$("drop").ondrop = (e) => { e.preventDefault(); addFiles(e.dataTransfer.files); };
+$("key").oninput = refresh;
+
+function toBase64(file) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result.split(",")[1]);
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
+}
+
+function parseRows(text) {
+  const m = text.match(/\[[\s\S]*\]/);
+  if (!m) throw new Error("The AI did not return a list of rows.");
+  const rows = JSON.parse(m[0]);
+  // Video frames overlap, so the same member can appear more than once. Keep the first one.
+  const seen = new Set();
+  return rows.filter(r => {
+    if (!r || !r.name || r.points === undefined) return false;
+    const k = String(r.name).trim().toLowerCase();
+    if (seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  });
+}
+
+function toCsv(rows) {
+  const esc = (v) => '"' + String(v ?? "").replace(/"/g, '""') + '"';
+  const lines = ["Rank,Name,Role,Points"];
+  rows.forEach(r => lines.push([r.rank, r.name, r.role, r.points].map(esc).join(",")));
+  return lines.join("\n");
+}
+
+async function readScreenshots(key, images) {
+  const content = [];
+  for (const f of images) {
+    if (f.type.startsWith("video/")) {
+      for (const frame of await videoFrames(f)) {
+        content.push({ type: "image", source: { type: "base64", media_type: frame.type, data: frame.data } });
+      }
+    } else {
+      content.push({ type: "image", source: { type: "base64", media_type: f.type, data: await toBase64(f) } });
+    }
+  }
+  content.push({ type: "text", text: PROMPT });
+  const res = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      "x-api-key": key,
+      "anthropic-version": "2023-06-01",
+      "anthropic-dangerous-direct-browser-access": "true"
+    },
+    body: JSON.stringify({ model: MODEL, max_tokens: 2000, messages: [{ role: "user", content }] })
+  });
+  if (!res.ok) throw new Error("The AI said no (" + res.status + "). Check the key.");
+  const data = await res.json();
+  return data.content.filter(b => b.type === "text").map(b => b.text).join("\n");
+}
+
+$("go").onclick = async () => {
+  const key = $("key").value.trim();
+  const p = PROFILES[$("profile").value];
+  $("go").disabled = true;
+  clog("Run started with " + images.length + " file(s).");
+  setMsg("Reading " + images.length + " screenshot(s)... this can take about 20 seconds.");
+  try {
+    const text = await readScreenshots(key, images);
+    clog("AI replied (" + text.length + " characters).");
+    const rows = parseRows(text);
+    clog("Found " + rows.length + " unique row(s).");
+    if (!rows.length) throw new Error("No member rows were found. Check the screenshots show the member list.");
+    const blob = new Blob([toCsv(rows)], { type: "text/csv" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = p.clan + " - " + p.game + ".csv";
+    a.click();
+    setMsg("Done: " + rows.length + " rows. Your sheet was downloaded.");
+  } catch (err) {
+    clog("Stopped: " + err.message);
+    setMsg(err.message, true);
+  } finally {
+    refresh();
+  }
+};
+</script>
+</body>
+</html>
