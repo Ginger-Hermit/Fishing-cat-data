@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Break-test fixes: odd AI replies, odd keys and unreadable files now give a sheet or a plain message instead of a broken one. -->
+<!-- Patch note: Stress-test fixes: pictures are shrunk before sending, a stuck AI times out, the company choice is locked during a run, CSV and Log are safer. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -219,9 +219,19 @@ Answer with ONLY a JSON array, no other text:
 const UPDATE_LOG = [
   {
     date: "11 Nov 2026",
+    title: "Stress test fixes",
+    tag: "Changed",
+    at: "2026-11-11T10:55:56Z",
+    meaning: "A second round of attacks: 30 big screenshots at once, 5 videos at once, an AI that never answers, switching company mid-run, 50 runs in a row. The weak spots were fixed.",
+    see: "Big batches of screenshots work. A stuck run ends with a message instead of waiting forever.",
+    changes: ["Screenshots are saved smaller before sending (JPEG, 2000 px at most), so 30 phone screenshots fit", "A picture that can't be opened is named before anything is sent", "Limits checked first: 100 pictures and about 18 MB per run", "A stuck AI request stops after 3 minutes with a message", "The AI company can't be changed in the middle of a run", "Keys are hidden in the Log; the Log no longer grows forever", "CSV backup: names starting with = + - @ can't act as formulas"]
+  },
+  {
+    date: "11 Nov 2026",
     title: "Harder to break",
     tag: "Changed",
     at: "2026-11-11T10:49:31Z",
+    commit: "ee5c215",
     meaning: "The page was attacked with about 50 kinds of bad input: broken AI replies, odd keys, junk files, tampered saved settings. Everything that gave a wrong sheet or a confusing message was fixed.",
     see: "Fewer failed runs, and plainer red messages when something does fail.",
     changes: ["Odd AI replies (extra text, nested or wrapped lists) are still read", "Names, roles and points are cleaned: no hidden characters, no huge values", "Points like 1.2.3K are flagged, not guessed; T (trillion) is understood", "If the layout step fails, the usual layout is used and the run carries on", "Plain messages for a bad key, pictures that are too big, and unreadable replies or files", "Empty files are skipped"]
@@ -255,16 +265,6 @@ const UPDATE_LOG = [
     meaning: "A full check of the code found five bugs. Long videos lost the end of the list, some videos made the page wait forever, a cut-off AI reply lost every row, and the sheet date could be a day out.",
     see: "Long videos give fuller sheets. Bad videos show a red message instead of hanging.",
     changes: ["Videos: pictures are taken from the whole video, not just the start", "Videos that can't be read show an error instead of hanging", "Cut-off AI replies keep the rows that arrived, with a warning", "More room for Anthropic replies (big clans)", "Unreadable names (?) are no longer merged into one row", "Date Recorded uses your local day"]
-  },
-  {
-    date: "11 Nov 2026",
-    title: "GitHub preview",
-    tag: "New",
-    at: "2026-11-11T10:36:32Z",
-    commit: "63e1260",
-    meaning: "The GitHub tab shows a small preview of the guide and what it covers.",
-    see: "The box on the GitHub tab.",
-    changes: ["Preview box listing the guide sections", "Full README guide restored and updated for Gemini first"]
   }
 ];
 function renderLog() {
@@ -341,7 +341,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-11-aj";
+const BUILD = "2026-11-11-ak";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -372,7 +372,8 @@ if (location.protocol.startsWith("http")) { checkUpdate(); setInterval(checkUpda
 function clog(text) {
   const t = new Date().toLocaleTimeString();
   const box = document.getElementById("console");
-  box.textContent += (box.textContent ? "\n" : "") + t + "  " + text;
+  box.textContent += (box.textContent ? "\n" : "") + t + "  " + String(text).replace(/sk-[\w-]{8,}|AIza[\w-]{8,}/g, "[key removed]");
+  if (box.textContent.length > 30000) box.textContent = box.textContent.slice(-20000);
 }
 let images = [];
 const recSay = (t, bad) => { const e = $("recstat"); e.textContent = t; e.style.display = t ? "block" : "none"; e.style.color = bad ? "var(--err)" : ""; };
@@ -526,7 +527,9 @@ $("copyerr").onclick = () => bugCopy($("copyerr"), "Copy error to send");
     c.getContext("2d").drawImage(v, 0, 0, c.width, c.height);
     const blob = await new Promise(res => c.toBlob(res, "image/jpeg", 0.85));
     if (!blob) return;
-    images.push(new File([blob], "rec" + (++n) + ".jpg", { type: "image/jpeg" }));
+    const rf = new File([blob], "rec" + (++n) + ".jpg", { type: "image/jpeg" });
+    rf.ready = true;
+    images.push(rf);
     refresh();
     recSay("Recording... " + n + " picture(s). Scroll the list slowly, then tap Stop.");
     if (pipTxt) pipTxt.textContent = n + " picture(s) taken. Scroll the list slowly.";
@@ -850,31 +853,45 @@ try {
 showPrev();
 
 function toCsv(rows) {
-  const esc = (v) => '"' + String(v ?? "").replace(/"/g, '""') + '"';
+  // A leading ' stops Excel treating a name like =SUM(...) as a formula.
+  const esc = (v) => '"' + String(v ?? "").replace(/^([=+\-@])/, "'$1").replace(/"/g, '""') + '"';
   const lines = ["Rank,Name,Role,Points"];
   rows.forEach(r => lines.push([r.rank, r.name, r.role, r.points].map(esc).join(",")));
   return lines.join("\n");
 }
 
-// Pictures taken from each video are kept, so a video is only read once.
-const frameCache = new WeakMap();
+// Make one picture ready to send: at most 2000 px on the long side, saved as JPEG (much smaller than a PNG screenshot).
+async function toPic(f) {
+  if (f.ready) return { type: f.type, data: await toBase64(f) };
+  try {
+    const bmp = await createImageBitmap(f);
+    const sc = Math.min(1, 2000 / Math.max(bmp.width, bmp.height)), c = document.createElement("canvas");
+    c.width = Math.round(bmp.width * sc); c.height = Math.round(bmp.height * sc);
+    const x = c.getContext("2d");
+    x.fillStyle = "#fff"; x.fillRect(0, 0, c.width, c.height);
+    x.drawImage(bmp, 0, 0, c.width, c.height);
+    bmp.close();
+    return { type: "image/jpeg", data: c.toDataURL("image/jpeg", 0.9).split(",")[1] };
+  } catch (e) { throw new Error('The picture "' + tidy(f.name, 40) + '" could not be opened. Tap Clear and add the others again.'); }
+}
+// Pictures made from each file are kept, so a file is only read once per run.
+const picCache = new WeakMap();
 async function collectPictures(images) {
   const pics = [];
   for (const f of images) {
-    if (f.type.startsWith("video/")) {
-      if (!frameCache.has(f)) frameCache.set(f, await videoFrames(f));
-      pics.push(...frameCache.get(f));
-    } else {
-      pics.push({ type: f.type, data: await toBase64(f) });
-    }
+    if (!picCache.has(f)) picCache.set(f, f.type.startsWith("video/") ? await videoFrames(f) : [await toPic(f)]);
+    pics.push(...picCache.get(f));
   }
+  if (pics.length > 100) throw new Error("Too many pictures (" + pics.length + "). The most is 100. Use one video, or fewer screenshots.");
+  if (pics.reduce((t, x) => t + x.data.length, 0) > 18e6) throw new Error("These pictures are too big to send in one go. Use fewer pictures or a shorter video.");
   return pics;
 }
 
+let aiWait = 180000;
 async function postJson(url, headers, body) {
   let res;
-  try { res = await fetch(url, { method: "POST", headers, body: JSON.stringify(body) }); }
-  catch (e) { throw new Error("Couldn't reach the AI. Check your internet and try again."); }
+  try { res = await fetch(url, { method: "POST", headers, body: JSON.stringify(body), signal: AbortSignal.timeout(aiWait) }); }
+  catch (e) { throw new Error(e && e.name === "TimeoutError" ? "The AI took too long to answer. Try again, or use fewer pictures." : "Couldn't reach the AI. Check your internet and try again."); }
   if (!res.ok) {
     let detail = "";
     try { detail = (await res.json()).error.message || ""; } catch (e) {}
@@ -952,7 +969,7 @@ async function pickProfile(key) {
 
 $("testgo").onclick = async () => {
   const key = $("key").value.trim();
-  $("testgo").disabled = true; $("go").disabled = true;
+  $("testgo").disabled = true; $("go").disabled = true; $("provider").disabled = true;
   setMsg("Test read: looking at 1 picture... about 20 seconds.");
   try {
     const p = await pickProfile(key);
@@ -965,15 +982,16 @@ $("testgo").onclick = async () => {
     const first = rows.slice(0, 3).map(r => r.name + " " + r.points + (p.extra ? " (" + r.role + ")" : "")).join(", ");
     setMsg("Test read OK: " + rows.length + " rows from 1 picture. First: " + first + "." + (bad ? " " + bad + " unreadable." : "") + " If that looks right, tap Make my sheet. Nothing was downloaded.");
   } catch (err) { clog("Test stopped: " + err.message); setMsg(plain(err), true); }
-  finally { refresh(); }
+  finally { $("provider").disabled = false; refresh(); }
 };
 
 $("go").onclick = async () => {
   const key = $("key").value.trim();
-  $("go").disabled = true;
+  $("go").disabled = true; $("testgo").disabled = true; $("provider").disabled = true;
   clog("Run started with " + images.length + " file(s).");
   setMsg("Reading " + images.length + " screenshot(s)... this can take about 20-30 seconds.");
   try {
+    await collectPictures(images); // checks every file opens and the total is not too big, before any AI request
     const p = await pickProfile(key);
     PROMPT = buildPrompt(p);
     const text = await readScreenshots(key, images);
@@ -1010,6 +1028,7 @@ $("go").onclick = async () => {
     clog("Stopped: " + err.message);
     setMsg(plain(err), true);
   } finally {
+    $("provider").disabled = false;
     refresh();
   }
 };

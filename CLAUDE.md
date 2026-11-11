@@ -32,6 +32,7 @@ The owner (Ginger) does not code. Short, blunt answers. Plain words on screen.
 | Auto game/clan/layout read | `async function pickProfile` |
 | Clan name box | `clanbox` |
 | Video stills | `function videoFrames`, `function samePic` |
+| Picture shrinking and limits | `async function toPic`, `async function collectPictures`, `aiWait` |
 | Record screen (PC) | `// Record screen` |
 | Rows from AI reply | `function parseRows`, `function parsePoints` |
 | Excel sheet | `function buildWorkbook` |

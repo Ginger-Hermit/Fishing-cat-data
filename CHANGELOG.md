@@ -2,9 +2,25 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Stress test fixes
+
+11 Nov 2026 (10:55 UTC) · Changed
+
+A second round of attacks: 30 big screenshots at once, 5 videos at once, an AI that never answers, switching company mid-run, 50 runs in a row. The weak spots were fixed.
+
+**What you'll see:** Big batches of screenshots work. A stuck run ends with a message instead of waiting forever.
+
+- Screenshots are saved smaller before sending (JPEG, 2000 px at most), so 30 phone screenshots fit
+- A picture that can't be opened is named before anything is sent
+- Limits checked first: 100 pictures and about 18 MB per run
+- A stuck AI request stops after 3 minutes with a message
+- The AI company can't be changed in the middle of a run
+- Keys are hidden in the Log; the Log no longer grows forever
+- CSV backup: names starting with = + - @ can't act as formulas
+
 ## Harder to break
 
-11 Nov 2026 (10:49 UTC) · Changed
+11 Nov 2026 (10:49 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/ee5c215)
 
 The page was attacked with about 50 kinds of bad input: broken AI replies, odd keys, junk files, tampered saved settings. Everything that gave a wrong sheet or a confusing message was fixed.
 
