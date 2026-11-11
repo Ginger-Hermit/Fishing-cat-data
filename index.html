@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Test read button (1 picture, no download). Add a game can read one screenshot and fill in the columns by itself. Add a game keeps the ranks and extra column boxes always reachable under "Change details". Profiles and files are named Roblox - Game - Clan. Add a game form simplified to clan name plus a game picker. Add a game wording made plainer, Saved notice, ready-made Anime Fighting Simulator button. Help and Stay safe pages brought up to date (Add a game, Remember my key, updates, bug report). Visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
+<!-- Patch note: Add a game is now Upload photo or video; the AI fills in clan, game, ranks and extra column, and the manual boxes sit under Edit by hand. Test read button (1 picture, no download). Add a game can read one screenshot and fill in the columns by itself. Add a game keeps the ranks and extra column boxes always reachable under "Change details". Profiles and files are named Roblox - Game - Clan. Add a game form simplified to clan name plus a game picker. Add a game wording made plainer, Saved notice, ready-made Anime Fighting Simulator button. Help and Stay safe pages brought up to date (Add a game, Remember my key, updates, bug report). Visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -58,9 +58,10 @@ button:disabled{opacity:.5}
 <select id="profile"><option value="loki">Roblox - Gym League - Loki</option></select>
 <div style="margin-top:6px;font-size:14px"><a href="#" id="addgamelink">+ Add a game</a></div>
 <div id="addgame" style="display:none;border:1px solid var(--line);border-radius:8px;padding:12px;margin-top:8px">
-<button type="button" class="tab on" id="gshotbtn">Set up from a screenshot</button><input type="file" id="gshot" accept="image/*" style="display:none">
-<div style="font-size:12px;color:var(--muted);margin:6px 0 4px">Upload one picture of your clan member list. The AI works out the columns for you. It uses a tiny bit of your AI credit and needs your key. Or fill it in by hand below.</div>
+<button type="button" class="tab on" id="gshotbtn">Upload photo or video</button><input type="file" id="gshot" accept="image/*,video/mp4,video/quicktime,video/webm" style="display:none">
+<div style="font-size:12px;color:var(--muted);margin:6px 0 4px">Upload your clan member list. The AI fills in everything. Uses a tiny bit of your AI credit and needs your key.</div>
 <div id="gsetupmsg" role="status" style="display:none;font-size:13px;margin:6px 0 10px;padding:8px 10px;border-radius:8px;border:1px solid var(--line)"></div>
+<details id="gmanual" style="margin-top:10px"><summary style="cursor:pointer;font-size:14px">Edit by hand</summary>
 <label for="gclan">Your clan name</label><input id="gclan" maxlength="40" autocomplete="off" placeholder="e.g. Loki">
 <label for="gsel">Game</label>
 <select id="gsel"><option value="afs">Anime Fighting Simulator</option><option value="other">Other game...</option></select>
@@ -69,6 +70,7 @@ button:disabled{opacity:.5}
 <label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin-top:10px"><input type="checkbox" id="grank" checked style="width:auto;margin:0"> Ranks (#1, #2) are shown</label>
 <label for="gextra">Extra column (optional)</label><input id="gextra" maxlength="30" autocomplete="off" placeholder="e.g. Total Powers">
 <div style="font-size:12px;color:var(--muted);margin:4px 0 0">Replaces the Role column. Copied as shown. Empty it to get the Role column back.</div>
+</details>
 </details>
 <div style="font-size:13px;color:var(--muted);margin:12px 0 4px">Your sheet will look like this</div>
 <div id="gprev" style="overflow-x:auto;margin-bottom:12px"></div>
@@ -554,7 +556,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; saveSetting("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-11-k";
+const BUILD = "2026-11-11-l";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1073,17 +1075,16 @@ updatePreview();
 const SETUP_PROMPT = `This image shows the member list of a Roblox game clan screen.
 Work out how the list is laid out. Do not copy the whole list.
 Answer with ONLY one JSON object, no other text:
-{"game_name": "name of the game if it is clearly visible, otherwise empty", "ranks_shown": true or false (is a rank number like #1 shown beside each member?), "extra_column": "the heading or label of any column besides rank, username, role and points, otherwise empty", "sample": [{"name": "username", "points": "as shown", "extra": "value of the extra column or empty"}]}
+{"clan_name": "name of the clan if it is clearly visible, otherwise empty", "game_name": "name of the game if it is clearly visible, otherwise empty", "ranks_shown": true or false (is a rank number like #1 shown beside each member?), "extra_column": "the heading or label of any column besides rank, username, role and points, otherwise empty", "sample": [{"name": "username", "points": "as shown", "extra": "value of the extra column or empty"}]}
 Give at most 3 sample rows. Never guess; use empty text if unsure.`;
 $("gshotbtn").onclick = () => $("gshot").click();
 $("gshot").onchange = async (e) => {
   const f = e.target.files[0]; e.target.value = "";
   const box = $("gsetupmsg"), say = (t, bad) => { box.textContent = t; box.style.display = "block"; box.style.color = bad ? "var(--err)" : ""; };
   if (!f) return;
-  if (!f.type.startsWith("image/")) { say("Please pick a picture (screenshot).", true); return; }
   const key = $("key").value.trim();
   if (!key) { say("Paste your AI key at the top of the page first, then try again.", true); return; }
-  say("Looking at your screenshot... about 10 seconds.");
+  say("Looking at your file... about 10-20 seconds.");
   PROMPT = SETUP_PROMPT;
   try {
     const text = await ASKERS[provider()](key, modelFor(provider()), await collectPictures([f]));
@@ -1091,12 +1092,13 @@ $("gshot").onchange = async (e) => {
     if (!m) throw new Error("The AI didn't answer in a way I can read. Try a clearer screenshot.");
     const r = JSON.parse(m[0]);
     $("gsel").value = "other"; applyGame();
-    $("ggame").value = clean(r.game_name, 40);
+    $("ggame").value = clean(r.game_name, 40); $("gclan").value = clean(r.clan_name, 40);
+    if (!$("gclan").value || !$("ggame").value) $("gmanual").open = true;
     $("grank").checked = r.ranks_shown !== false;
     $("gextra").value = clean(r.extra_column, 30);
-    $("gother").open = true; updatePreview();
+    updatePreview();
     const rows = (Array.isArray(r.sample) ? r.sample : []).slice(0, 3).map(x => clean(x && x.name, 30) + " - " + clean(x && x.points, 20)).join(", ");
-    say("Here's what I saw: ranks " + ($("grank").checked ? "shown" : "not shown") + (r.extra_column ? ", extra column \"" + clean(r.extra_column, 30) + "\"" : ", no extra column") + (rows ? ". First rows: " + rows : "") + ". Check the preview, type your clan and game name, then Save.");
+    say("Here's what I saw: ranks " + ($("grank").checked ? "shown" : "not shown") + (r.extra_column ? ", extra column \"" + clean(r.extra_column, 30) + "\"" : ", no extra column") + (rows ? ". First rows: " + rows : "") + ". Check the preview, then Save." + (!$("gclan").value || !$("ggame").value ? " I couldn't find the " + (!$("gclan").value ? "clan" : "game") + " name, so type it under Edit by hand." : ""));
   } catch (err) { say(err.message, true); }
 };
 function applyGame() {
