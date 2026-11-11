@@ -54,6 +54,8 @@ Turns Roblox clan screenshots or a screen recording into a ready-to-use Excel sh
 - Each change gets an entry in `UPDATE_LOG` in `index.html`.
 - `python3 tests/check.py` is the auto check. It also runs on GitHub after every push.
 - Hosted on Cloudflare Pages. Every push to `main` publishes automatically after about a minute.
+- [developer/STRESS_TEST_LOG.md](developer/STRESS_TEST_LOG.md): how the page was stress tested and broken on purpose, what was found, and lessons for future projects.
+- `node tests/rows.test.js` checks how AI replies are read. Full history of changes: [CHANGELOG.md](CHANGELOG.md).
 
 ## Disclaimer
 
