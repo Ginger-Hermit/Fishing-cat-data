@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: the download is now an Excel file (coloured, real-number points), and an earlier sheet can be chosen for Previous/Change/Trend. -->
+<!-- Patch note: Help tab cut down to 3 short sections. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -52,35 +52,29 @@ button:disabled{opacity:.5}
 <div style="font-size:12px;color:var(--muted);margin-top:10px;text-align:center">For personal use only. Not connected to Roblox or Anthropic. Provided as is, with no guarantees.</div>
 <div style="text-align:center;margin-top:10px"><a href="#" id="devOn" style="font-size:12px;color:var(--muted)">Developer view</a></div>
 </div>
-<div id="helptab" style="display:none;font-size:14px;line-height:1.5">
-<div><b>How to use it</b></div>
-<ol style="margin:6px 0 12px;padding-left:20px">
-<li>Paste your Anthropic AI key into the first box. Make one at console.anthropic.com.</li>
-<li>Pick your profile.</li>
-<li>Drop in screenshots of the clan member list, or a screen recording of you scrolling it.</li>
-<li>Optional: choose last time's sheet in the Last sheet box, so the new one shows who went up or down.</li>
-<li>Tap Make my sheet and wait about 20 seconds. An Excel file downloads.</li>
+<div id="helptab" style="display:none;font-size:15px;line-height:1.5">
+<details open style="border-bottom:1px solid var(--soft);padding:10px 0"><summary style="cursor:pointer;font-weight:500;color:var(--link)">4 steps</summary>
+<ol style="margin:10px 0 0;padding-left:22px;line-height:1.8">
+<li>Paste your AI key.</li>
+<li>Drop in screenshots or a video.</li>
+<li>Tap Make my sheet.</li>
+<li>Open the Excel file that downloads.</li>
 </ol>
-<div><b>What you get</b></div>
-<div style="color:var(--muted);margin:6px 0 12px">An Excel file named like "Loki - Gym League.xlsx". Points are in two columns: as the game showed them (52.51K) and as a real number (52510), so you can sort and add them. If you chose a Last sheet, you also get Previous Points, Change, % Change and a Trend arrow. Anyone who shows up in more than one picture is listed once. A second tab explains each column.</div>
-<div><b>Screenshots or video?</b></div>
-<ul style="margin:6px 0 12px;padding-left:20px">
-<li>Screenshots: the whole member list, with the rows overlapping a little so nobody is missed.</li>
-<li>Video (MP4, MOV or WEBM): the page picks about one picture every 2 seconds, up to 12. Scroll slowly. A very long video skips more of the list, so keep it short or use screenshots.</li>
-<li>Rows cut off at the top or bottom edge are skipped.</li>
-</ul>
-<div><b>If something goes wrong</b></div>
-<ul style="margin:6px 0 12px;padding-left:20px">
-<li><i>The AI said no:</i> the key is wrong, expired, or out of credit. Paste it again.</li>
-<li><i>No member rows were found:</i> the pictures don't show the member list. Try clearer ones.</li>
-<li><i>This video could not be opened:</i> try an MP4 recording.</li>
-<li>A "?" in the sheet means a name or number was unreadable. Fix it by hand.</li>
-<li>Still stuck: open Updates, tap Developer view at the bottom of the first tab, and send me a screenshot of the Console.</li>
-</ul>
-<div><b>Look of the page</b></div>
-<div style="color:var(--muted);margin:6px 0 12px">The Settings tab has themes (Light, Dark, Ocean, Forest, Berry) and Large text. It's remembered on this device only.</div>
-<div><b>Privacy</b></div>
-<div style="color:var(--muted);margin-top:6px">Your key stays in this page and is never saved. Pictures go only to Anthropic. For personal use only.</div>
+<div style="margin:8px 0 0;font-size:13px;color:var(--muted)">Make a key at console.anthropic.com. It takes about 20 seconds.</div></details>
+<details style="border-bottom:1px solid var(--soft);padding:10px 0"><summary style="cursor:pointer;font-weight:500;color:var(--link)">Tips</summary>
+<ul style="margin:10px 0 0;padding-left:22px;line-height:1.8">
+<li>Show the whole member list.</li>
+<li>Scroll slowly in a video.</li>
+<li>Pick last time's sheet to see who went up or down.</li>
+</ul></details>
+<details style="border-bottom:1px solid var(--soft);padding:10px 0"><summary style="cursor:pointer;font-weight:500;color:var(--link)">Not working?</summary>
+<ul style="margin:10px 0 0;padding-left:22px;line-height:1.8">
+<li>"The AI said no": check your key.</li>
+<li>"No member rows": show the member list.</li>
+<li>Video won't open: try an MP4.</li>
+<li>A "?" in the sheet: fix it by hand.</li>
+</ul></details>
+<div style="margin-top:12px;font-size:12px;color:var(--muted)">Your key is never saved. Pictures go only to Anthropic. Personal use only.</div>
 </div>
 <div id="settingstab" style="display:none">
 <div style="font-size:13px;color:var(--muted);margin-bottom:6px">Theme</div>
