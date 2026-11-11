@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The page no longer says Roblox. Files are named after the game and clan, and the notes say any game. -->
+<!-- Patch note: The small print is easier to read. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -194,7 +194,7 @@ button:disabled{opacity:.5}
 <div class="hc"><b>Legal</b>
 <ul>
 <li>For personal use only.</li>
-<li>Not an official product of any game, Anthropic, Google or OpenAI. Those are names of their owners.</li>
+<li>Not connected to any game company, Anthropic, Google or OpenAI. Those are names of their owners.</li>
 <li>Provided as is, with no guarantees. The AI can misread names and numbers, so check your sheet.</li>
 <li>Built entirely by Claude, an AI. The author gave the ideas and tested it.</li>
 <li>Using the AI costs credit on your own account, under your own terms with the company you pick.</li>
@@ -217,7 +217,7 @@ button:disabled{opacity:.5}
 </div>
 <div id="foot" style="text-align:center;margin-top:16px;font-size:12px;color:var(--muted)">
 <a href="#" data-go="safety">Stay safe</a> &middot; <a href="#" data-go="privacy">Privacy</a> &middot; <a href="#" data-go="legal">Legal</a> &middot; <a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">GitHub</a>
-<div style="margin-top:8px">Built by Claude, an AI &middot; Personal use only &middot; Not an official product of any game, Anthropic, Google or OpenAI &middot; No guarantees</div>
+<div style="margin-top:8px">Built by Claude, an AI &middot; Personal use only &middot; Not connected to any game company, Anthropic, Google or OpenAI &middot; No guarantees</div>
 </div>
 </div>
 <script>
@@ -286,7 +286,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-k";
+const BUILD = "2026-11-12-l";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };

@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Clearer disclaimer
+
+12 Nov 2026 (23:59 UTC) · Changed
+
+The small print is easier to read.
+
+**What you'll see:** Footer and Stay safe say: Not connected to any game company, Anthropic, Google or OpenAI.
+
+- Reworded the not-official line
+
 ## Any game naming
 
-12 Nov 2026 (23:58 UTC) · Changed
+12 Nov 2026 (23:58 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7ff2ada)
 
 The page no longer says Roblox. Files are named after the game and clan, and the notes say any game.
 

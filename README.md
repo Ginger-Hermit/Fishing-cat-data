@@ -61,7 +61,7 @@ Turns clan screenshots or a video, from any game, into a ready-to-use Excel shee
 
 ## Disclaimer
 
-For personal use only. Not an official product of any game, Anthropic, Google or OpenAI. Provided as is, with no guarantees.
+For personal use only. Not connected to any game company, Anthropic, Google or OpenAI. Provided as is, with no guarantees.
 
 ## Licence
 
