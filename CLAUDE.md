@@ -10,7 +10,7 @@ The owner (Ginger) does not code. Short, blunt answers. Plain words on screen.
 
 ## Every change to `index.html`
 1. Make the edit with small find-and-replace steps that each match exactly once. No whole-file rewrites. Keep a backup outside the repo.
-2. Run `python3 tools/release.py --title ... --tag New|Changed --meaning ... --see ... --change ... --change ...` once. It bumps the version, writes the Updates and CHANGELOG entries, the patch note and STATUS, and runs `tests/check.py`. Do not do any of that by hand.
+2. Run `python3 tools/release.py --title ... --tag New|Changed --meaning ... --see ... --change ... --change ...` once. It bumps the version, writes the CHANGELOG entry, the patch note and STATUS, and runs `tests/check.py`. Do not do any of that by hand.
 3. If you touched the reading code (`parseRows`, `parsePoints`, `parseBills`, `parseNum`, `kwhFor`), also run `node tests/rows.test.js && node tests/bills.test.js && node tests/fuzz.js 7 5000`.
 4. Commit and push. GitHub then runs every test in three browsers. A red cross means fix it before anything else.
 5. One bug per patch unless it has the same cause. Say what you couldn't test.
@@ -56,7 +56,6 @@ Lessons from the 11 to 12 Nov session, where most waste came from the same few h
 | Excel sheet | `function buildWorkbook` |
 | Messages / errors | `const setMsg`, `copyerr` |
 | Log box + bug report | `id="logbox"`, `const bugCopy`, `function clog` |
-| Updates tab | `const UPDATE_LOG`, `function renderLog` |
 | Release paperwork (version, logs, patch note) | `tools/release.py` |
 | Tabs | `function showTab` |
 | "New version" banner | `function checkUpdate` |

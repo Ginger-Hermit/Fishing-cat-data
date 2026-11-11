@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
-## Bills summary by type
+## Updates moved to GitHub
 
 12 Nov 2026 (22:37 UTC) · Changed
+
+The Updates tab is gone. The update history now lives on GitHub only.
+
+**What you'll see:** The tab bar has no Updates tab. The GitHub tab links to the CHANGELOG.
+
+- Removed the Updates tab and its list
+- GitHub tab links to the update history
+
+## Bills summary by type
+
+12 Nov 2026 (22:37 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2c17d4d)
 
 The Summary tab now shows the cost of each bill type, so water, phone and internet bills show up.
 

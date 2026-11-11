@@ -4,8 +4,7 @@
   python3 tools/release.py --title "Short title" --tag Changed --meaning "One plain sentence." \
       --see "Where to look." --change "First thing" --change "Second thing"
 
-It bumps the version (version.txt, BUILD, STATUS.md), adds the entry to UPDATE_LOG and CHANGELOG.md, keeps the newest 5
-on the page, replaces the patch note, fills in the code link of the previous entry, and runs tests/check.py.
+It bumps the version (version.txt, BUILD, STATUS.md), adds the entry to CHANGELOG.md, replaces the patch note, fills in the code link of the previous entry, and runs tests/check.py.
 """
 import argparse, datetime, json, re, subprocess, sys
 
@@ -30,16 +29,6 @@ def once(s, old_text, new_text, what):
 
 s = open("index.html", encoding="utf-8").read()
 s = once(s, 'const BUILD = "%s";' % old, 'const BUILD = "%s";' % new, "BUILD line")
-i = s.index("const UPDATE_LOG = ["); j = s.index("\n];", i)
-entries = s[i:j].split("\n  {\n")[1:]                      # each entry's text, newest first
-if entries and "commit:" not in entries[0] and head:        # the previous entry now has a commit to link to
-    entries[0] = re.sub(r'(\n    at: "[^"]*",)', r'\1\n    commit: "%s",' % head, entries[0], count=1)
-entry = '    date: %s,\n    title: %s,\n    tag: %s,\n    at: %s,\n    meaning: %s,\n    see: %s,\n    changes: [%s]\n  }' % (
-    q(shown), q(a.title), q(a.tag), q(now.strftime("%Y-%m-%dT%H:%M:%SZ")), q(a.meaning), q(a.see), ", ".join(q(c) for c in a.change))
-entries = [entry + ","] + entries
-entries = entries[:5]
-entries[-1] = entries[-1].rstrip().rstrip(",")
-s = s[:i] + "const UPDATE_LOG = [\n  {\n" + "\n  {\n".join(entries) + s[j:]
 lines = s.split("\n")
 if not lines[1].startswith("<!-- Patch note:"): sys.exit("release.py: patch note line not found")
 lines[1] = "<!-- Patch note: %s -->" % (a.note or a.meaning)

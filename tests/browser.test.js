@@ -51,9 +51,8 @@ async function runCase(page, flow, kind) {
     const check = (what, ok, detail) => { ran++; if (!ok) { failed++; console.log("FAIL " + name + ": " + what + (detail ? " -> " + detail : "")); } };
     // every tab opens, and nothing scrolls sideways at phone width
     await page.setViewportSize({ width: 360, height: 740 });
-    const tabs = await page.evaluate(async () => { const bad = []; for (const t of ["sheet", "bill", "log", "help", "settings", "safety", "privacy", "legal"]) { showTab(t); await new Promise(r => setTimeout(r, 10)); if (document.documentElement.scrollWidth > innerWidth + 1) bad.push(t); } showTab("sheet"); return bad; });
+    const tabs = await page.evaluate(async () => { const bad = []; for (const t of ["sheet", "bill", "help", "settings", "safety", "privacy", "legal"]) { showTab(t); await new Promise(r => setTimeout(r, 10)); if (document.documentElement.scrollWidth > innerWidth + 1) bad.push(t); } showTab("sheet"); return bad; });
     check("tabs fit a phone screen", tabs.length === 0, tabs.join(","));
-    check("updates list shows", await page.evaluate(() => (showTab("log"), document.querySelectorAll("#logtab details").length > 0)));
     for (const [flow, kind, wantErr] of CASES) {
       const r = await runCase(page, flow, kind), tag = flow + " / " + kind;
       check(tag + ": has a message", !!r.msg);

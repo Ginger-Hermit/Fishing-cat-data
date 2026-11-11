@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The Summary tab now shows the cost of each bill type, so water, phone and internet bills show up. -->
+<!-- Patch note: The Updates tab is gone. The update history now lives on GitHub only. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -45,7 +45,7 @@ button:disabled{opacity:.5}
 <h1>Fishing Cat Data</h1>
 <div id="fake" style="display:none;border:2px solid var(--err);color:var(--err);background:var(--field);border-radius:8px;padding:12px 14px;margin-bottom:14px;font-weight:500">Warning: this is not the real Fishing Cat Data page. Do not paste your key here. The real page is fishing-cat-data.pages.dev</div>
 <div id="newver" role="status" style="display:none;background:var(--field);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:14px">New version ready. <a href="#" id="reloadnow">Refresh now</a></div>
-<div class="tabs"><button id="t0" class="tab on">Home</button><button id="t1" class="tab">Clan sheet</button><button id="t3" class="tab">Bills</button><button id="t2" class="tab">Updates</button><button id="t4" class="tab">GitHub</button><button id="t5" class="tab">Settings</button></div>
+<div class="tabs"><button id="t0" class="tab on">Home</button><button id="t1" class="tab">Clan sheet</button><button id="t3" class="tab">Bills</button><button id="t4" class="tab">GitHub</button><button id="t5" class="tab">Settings</button></div>
 <div id="hometab">
 <h2 style="margin:6px 0">Pictures in, Excel out</h2>
 <p>Turn clan screenshots or a video from any game into a sheet. It also reads household bills: power, gas, water, internet, phone and more.</p>
@@ -102,7 +102,7 @@ button:disabled{opacity:.5}
 </div>
 <div id="helptab" class="page" style="display:none">
 <div class="hc"><b>GitHub</b>
-<p>The code, the updates and the guide (README) are on GitHub.</p>
+<p>The code, the update history (<a href="https://github.com/Ginger-Hermit/Fishing-cat-data/blob/main/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG</a>) and the guide (README) are on GitHub.</p>
 <div style="border:1px solid var(--soft);border-radius:8px;font-size:14px;margin:8px 0">
 <div style="padding:8px 12px;border-bottom:1px solid var(--soft);color:var(--muted)">Preview: README.md</div>
 <div style="padding:8px 12px"><b>Fishing Cat Data</b><br>Turns Roblox clan screenshots or a video into an Excel sheet.
@@ -209,7 +209,6 @@ button:disabled{opacity:.5}
 <div style="font-size:12px;color:var(--muted);margin:6px 0 10px">Leave empty to use the built-in one. Only change it if an error says the model is gone. It is kept for the company chosen on the first tab.</div>
 <div style="font-size:12px;color:var(--muted)">Saved on this device only.</div>
 </div>
-<div id="logtab" style="display:none"></div>
 <div id="foot" style="text-align:center;margin-top:16px;font-size:12px;color:var(--muted)">
 <a href="#" data-go="safety">Stay safe</a> &middot; <a href="#" data-go="privacy">Privacy</a> &middot; <a href="#" data-go="legal">Legal</a> &middot; <a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">GitHub</a>
 <div style="margin-top:8px">Built by Claude, an AI &middot; Personal use only &middot; Not an official Roblox, Anthropic, Google or OpenAI product &middot; No guarantees</div>
@@ -238,95 +237,9 @@ Answer with ONLY a JSON array, no other text:
 [{"rank": 12, "name": "example_name", "role": "${p.extra ? "value" : "Member"}", "points": "16.6K"}, ...]`;
 }
 // Newest 5 only. The full history is in CHANGELOG.md.
-const UPDATE_LOG = [
-  {
-    date: "12 Nov 2026",
-    title: "Bills summary by type",
-    tag: "Changed",
-    at: "2026-11-11T22:37:13Z",
-    meaning: "The Summary tab now shows the cost of each bill type, so water, phone and internet bills show up.",
-    see: "Bills tab, make a sheet, open Summary: a Cost by type block sits under the main rows.",
-    changes: ["Summary: new Cost by type block (Electricity, Gas, Water, Phone and so on) worked out by the sheet", "Bill type words are cleaned to letters only before they go in a formula"]
-  },
-  {
-    date: "12 Nov 2026",
-    title: "All household bills",
-    tag: "Changed",
-    at: "2026-11-11T22:35:39Z",
-    commit: "b9a47fe",
-    meaning: "The Bills tab now reads any household bill, not just power and gas.",
-    see: "Bills tab: add a water, phone or internet bill photo. Its rows show Water, Phone and so on, with no kWh.",
-    changes: ["Bills tab and Home button now say Bills and cover water, internet, phone, rates and insurance", "Non-energy charges get their own type and are never turned into kWh", "Sheet tab renamed from Energy bills to Bills"]
-  },
-  {
-    date: "12 Nov 2026",
-    title: "Home page",
-    tag: "New",
-    at: "2026-11-11T22:29:48Z",
-    commit: "3909a1a",
-    meaning: "A Home tab now opens first and explains the page for new people.",
-    see: "Open the page: Home shows first, with buttons to Clan sheet and Energy bills.",
-    changes: ["New Home tab with what it does, how it works and what you need", "Tabs renamed: Games is now Clan sheet, Bills is now Energy bills"]
-  },
-  {
-    date: "12 Nov 2026",
-    title: "Record screen removed",
-    tag: "Changed",
-    at: "2026-11-11T22:14:55Z",
-    commit: "27bbc77",
-    meaning: "The Record screen button is gone. It only worked in some PC browsers and was never tested in a real run. Record with your own device and upload the video instead.",
-    see: "No Record screen button on the Games tab.",
-    changes: ["Record screen button and its pop-up window removed", "Screenshots and video upload work as before", "About 60 lines of code gone"]
-  },
-  {
-    date: "12 Nov 2026",
-    title: "Clearer tab names",
-    tag: "Changed",
-    at: "2026-11-11T22:13:56Z",
-    commit: "c2138e8",
-    meaning: "The two tools are now called Games and Bills, which says what they are for.",
-    see: "The first two tabs, and a grey line under each.",
-    changes: ["Clan sheet tab is now Games", "Energy bills tab is now Bills", "One grey line at the top of each says what it does"]
-  }
-];
-function renderLog() {
-  const chip = (t, old) => `<span style="background:${old ? "var(--soft)" : "var(--noteBg)"};color:${old ? "var(--link)" : "var(--noteText)"};padding:2px 8px;border-radius:4px;font-size:12px">${t}</span>`;
-  const days = [];
-  UPDATE_LOG.forEach((e, i) => {
-    const dt = e.at ? new Date(e.at) : null;
-    const day = dt ? dt.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" }) : e.date;
-    const when = dt ? dt.toLocaleTimeString("en-GB", { hour: "numeric", minute: "2-digit", hour12: true }) : "";
-    const code = e.commit ? `<div style="margin-top:4px"><a href="https://github.com/Ginger-Hermit/Fishing-cat-data/commit/${e.commit}" target="_blank" rel="noopener">View code changes</a></div>` : "";
-    let g = days[days.length - 1];
-    if (!g || g.day !== day) { g = { day, items: [] }; days.push(g); }
-    g.items.push(`<details id="upd${i}" style="border-bottom:1px solid var(--soft);padding:8px 0">
-      <summary title="${when}" style="cursor:pointer;display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px">
-        ${chip(e.tag || "Changed")}
-        <span style="color:var(--link)">${e.title}</span></summary>
-      <div style="font-size:13px;color:var(--text);margin:8px 0 0 18px">
-        <ul style="margin:4px 0;padding-left:18px">${e.changes.map(c => "<li>" + c + "</li>").join("")}</ul>
-        <div style="color:var(--muted)">${e.meaning}</div>
-        <div style="color:var(--muted);margin-top:4px"><b>What you'll see:</b> ${e.see || "No visible change."}</div>
-        ${code}
-      </div></details>`);
-  });
-  const rows = days.map((g, k) => `<details class="dayg" ${k === 0 ? "open" : ""} style="margin-top:10px"><summary style="cursor:pointer;font-weight:500;color:var(--link)">${g.day} <span style="color:var(--muted);font-weight:normal;font-size:13px">${g.items.length} update${g.items.length > 1 ? "s" : ""}</span></summary>${g.items.join("")}</details>`).join("");
-  const log = document.getElementById("logtab");
-  log.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-      <span style="font-size:13px;color:var(--muted)">Newest first. Click an update to see what changed.</span>
-      <button class="tab" id="expAll">Expand all</button></div>` + rows + `<div style="margin-top:12px;font-size:13px"><a href="https://github.com/Ginger-Hermit/Fishing-cat-data/blob/main/CHANGELOG.md" target="_blank" rel="noopener">Older updates on GitHub</a></div>`;
-  let open = false;
-  document.getElementById("expAll").onclick = (ev) => {
-    open = !open;
-    log.querySelectorAll("details[id^=upd]").forEach(d => d.open = open);
-    if (open) log.querySelectorAll("details.dayg").forEach(d => d.open = true);
-    ev.target.textContent = open ? "Collapse all" : "Expand all";
-  };
-}
-renderLog();
 function showTab(which) {
-  const shown = { home: "hometab", sheet: "sheet", bill: "billtab", log: "logtab", help: "helptab", settings: "settingstab", privacy: "privacytab", safety: "safetytab", legal: "legaltab" };
-  const btn = { home: "t0", sheet: "t1", bill: "t3", log: "t2", help: "t4", settings: "t5" };
+  const shown = { home: "hometab", sheet: "sheet", bill: "billtab", help: "helptab", settings: "settingstab", privacy: "privacytab", safety: "safetytab", legal: "legaltab" };
+  const btn = { home: "t0", sheet: "t1", bill: "t3", help: "t4", settings: "t5" };
   for (const k in shown) {
     document.getElementById(shown[k]).style.display = k === which ? "" : "none";
     const b = btn[k] && document.getElementById(btn[k]);
@@ -335,11 +248,10 @@ function showTab(which) {
   document.getElementById("keybox").style.display = which === "sheet" || which === "bill" ? "" : "none";
 }
 document.querySelector(".tabs").setAttribute("role", "tablist");
-["t0", "t1", "t2", "t3", "t4", "t5"].forEach(id => document.getElementById(id).setAttribute("role", "tab"));
+["t0", "t1", "t3", "t4", "t5"].forEach(id => document.getElementById(id).setAttribute("role", "tab"));
 document.getElementById("t0").setAttribute("aria-selected", "true");
 document.getElementById("t0").onclick = () => showTab("home");
 document.getElementById("t1").onclick = () => showTab("sheet");
-document.getElementById("t2").onclick = () => showTab("log");
 document.getElementById("t3").onclick = () => showTab("bill");
 document.getElementById("t4").onclick = () => showTab("help");
 document.getElementById("t5").onclick = () => showTab("settings");
@@ -367,7 +279,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-f";
+const BUILD = "2026-11-12-g";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
