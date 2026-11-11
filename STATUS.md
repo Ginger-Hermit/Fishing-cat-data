@@ -1,6 +1,6 @@
 # Status (update on every push)
 
-Last updated: 11 Nov 2026. Page version 2026-11-11-ad. Live at fishing-cat-data.pages.dev.
+Last updated: 11 Nov 2026. Page version 2026-11-11-ae. Live at fishing-cat-data.pages.dev.
 
 ## How it works now
 Upload photos or a video (or tap Record screen on a PC). The AI reads the game, clan and layout from up to 3 of the pictures, then reads the member rows, and the page makes the Excel sheet. There is no profile list or Add a game any more. The optional Clan name box sets the file name. Gemini and Anthropic work.

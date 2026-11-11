@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Help tab tidied: the duplicate How to use steps are gone, the guide comes from README.md. Free key daily-limit line, and the Help tab loads the guide from README.md. Google Gemini is now the first choice, with a free key link. Removed two unused bits of old code (no visible change). Updates list tidied: 9 merged entries, New/Changed tags, no counts, time on hover. Updates days are collapsible; today open, older days closed. Updates grouped by day with times and View code changes links. Log moved to the main tab (opens on errors); Developer tab removed. Gemini marked as tested. Clan name box; video/record keep changed pictures only; layout read from 3 pictures; bigger Copy error button; shorter key box and footer; removed history and duplicate lists. Record screen hint says to pick Roblox or Entire Screen. Record screen shows a small always-on-top window (live preview, picture count, Stop) on Chrome/Edge/Opera. Phone tip for screen recording. Record screen button (PC): grabs a still every 2 seconds, no video saved. Profile list removed; always auto-detect. Copy error to send button under red messages. Removed Add a game; new Any clan profile where the AI reads game, clan and columns from your first picture. Add a game is now Upload photo or video; the AI fills in clan, game, ranks and extra column, and the manual boxes sit under Edit by hand. Test read button (1 picture, no download). Add a game can read one screenshot and fill in the columns by itself. Add a game keeps the ranks and extra column boxes always reachable under "Change details". Profiles and files are named Roblox - Game - Clan. Add a game form simplified to clan name plus a game picker. Add a game wording made plainer, Saved notice, ready-made Anime Fighting Simulator button. Help and Stay safe pages brought up to date (Add a game, Remember my key, updates, bug report). Visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
+<!-- Patch note: Help tab replaced by a GitHub tab (short summary, link, guide is the README). Help tab tidied: the duplicate How to use steps are gone, the guide comes from README.md. Free key daily-limit line, and the Help tab loads the guide from README.md. Google Gemini is now the first choice, with a free key link. Removed two unused bits of old code (no visible change). Updates list tidied: 9 merged entries, New/Changed tags, no counts, time on hover. Updates days are collapsible; today open, older days closed. Updates grouped by day with times and View code changes links. Log moved to the main tab (opens on errors); Developer tab removed. Gemini marked as tested. Clan name box; video/record keep changed pictures only; layout read from 3 pictures; bigger Copy error button; shorter key box and footer; removed history and duplicate lists. Record screen hint says to pick Roblox or Entire Screen. Record screen shows a small always-on-top window (live preview, picture count, Stop) on Chrome/Edge/Opera. Phone tip for screen recording. Record screen button (PC): grabs a still every 2 seconds, no video saved. Profile list removed; always auto-detect. Copy error to send button under red messages. Removed Add a game; new Any clan profile where the AI reads game, clan and columns from your first picture. Add a game is now Upload photo or video; the AI fills in clan, game, ranks and extra column, and the manual boxes sit under Edit by hand. Test read button (1 picture, no download). Add a game can read one screenshot and fill in the columns by itself. Add a game keeps the ranks and extra column boxes always reachable under "Change details". Profiles and files are named Roblox - Game - Clan. Add a game form simplified to clan name plus a game picker. Add a game wording made plainer, Saved notice, ready-made Anime Fighting Simulator button. Help and Stay safe pages brought up to date (Add a game, Remember my key, updates, bug report). Visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -45,7 +45,7 @@ button:disabled{opacity:.5}
 <h1>Fishing Cat Data</h1>
 <div id="fake" style="display:none;border:2px solid var(--err);color:var(--err);background:var(--field);border-radius:8px;padding:12px 14px;margin-bottom:14px;font-weight:500">Warning: this is not the real Fishing Cat Data page. Do not paste your key here. The real page is fishing-cat-data.pages.dev</div>
 <div id="newver" role="status" style="display:none;background:var(--field);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:14px">New version ready. <a href="#" id="reloadnow">Refresh now</a></div>
-<div class="tabs"><button id="t1" class="tab on">Make my sheet</button><button id="t2" class="tab">Updates</button><button id="t4" class="tab">Help</button><button id="t5" class="tab">Settings</button></div>
+<div class="tabs"><button id="t1" class="tab on">Make my sheet</button><button id="t2" class="tab">Updates</button><button id="t4" class="tab">GitHub</button><button id="t5" class="tab">Settings</button></div>
 <div id="sheet">
 <label for="provider">AI company</label>
 <select id="provider"><option value="gemini">Google Gemini</option><option value="anthropic">Anthropic (Claude)</option><option value="openai">OpenAI (untested)</option></select>
@@ -80,62 +80,10 @@ button:disabled{opacity:.5}
 <div class="hc" style="margin-top:14px;font-size:13px"><b>Your key is safe here.</b> It stays on this device and goes only to the AI company you pick. Treat it like a password. <a href="#" data-go="safety">More</a></div>
 </div>
 <div id="helptab" style="display:none;font-size:15px;line-height:1.5">
-<div id="readme"></div>
-<details class="hc"><summary>What you get</summary>
-<ul>
-<li>An Excel file like "Roblox - Gym League - Loki.xlsx".</li>
-<li>Points twice: as the game showed them (52.51K) and as a real number (52510).</li>
-<li>With a last sheet: Previous Points, Change, % Change and a Trend arrow.</li>
-<li>A second tab explains each column.</li>
-</ul></details>
-<details class="hc"><summary>Screenshots or video?</summary>
-<ul>
-<li><b>Screenshots:</b> show the whole list, overlapping a little so nobody is missed.</li>
-<li><b>Video</b> (MP4, MOV, WEBM): about one picture every 2 seconds, up to 12. Scroll slowly and keep it short.</li>
-<li>Rows cut off at the top or bottom edge are skipped.</li>
-</ul></details>
-<details class="hc"><summary>Not working?</summary>
-<ul>
-<li><b>A red message about your key, credit or too many requests:</b> fix the key or credit, or wait a minute.</li>
-<li><b>No member rows found:</b> the pictures don't show the member list.</li>
-<li><b>Video could not be opened:</b> try an MP4.</li>
-<li><b>A "?" in the sheet:</b> unreadable. Fix it by hand.</li>
-<li><b>Still stuck:</b> tap Copy error under the red message, or open Log on the first tab, and send it.</li>
-</ul></details>
-<details class="hc"><summary>Other games</summary>
-<ul>
-<li>Just upload as normal. The AI reads the game, clan and columns from your pictures.</li>
-<li>Other games are not tested yet. Check the first sheet carefully.</li>
-<li>If the page says fewer members were read than the screen shows, scroll slower and try again.</li>
-</ul></details>
-<details class="hc"><summary>Remember my key</summary>
-<ul>
-<li>Tick the box under the key to skip pasting it every time.</li>
-<li>It is saved only in this browser. Untick to delete it.</li>
-<li>Don't use it on a shared or public computer.</li>
-</ul></details>
-<details class="hc"><summary>Updates and bugs</summary>
-<ul>
-<li>A banner appears at the top when there is a new version. Tap Refresh now.</li>
-<li>Settings has a switch to refresh by itself. It waits until no files are picked.</li>
-<li>The Updates tab lists what changed.</li>
-<li>Found a bug? Tap Copy error to send under the red message (or Copy bug report under Log) and send it. Keys are removed from it.</li>
-</ul></details>
-<details class="hc"><summary>Other AI companies</summary>
-<ul>
-<li>Anthropic and Google Gemini are tested. OpenAI is <b>not tested yet</b> and may not work.</li>
-<li>Each company has its own key, its own costs and its own rules.</li>
-<li>If one fails, tap Copy error under the red message and send it.</li>
-</ul></details>
-<details class="hc"><summary>Privacy and looks</summary>
-<ul>
-<li>Your key is only saved if you tick Remember my key, and then only on this device. Untick to delete it.</li>
-<li>The last sheet you chose is remembered on this device (names and points only). Tap Remove to forget it.</li>
-<li>Pictures go only to the AI company you pick.</li>
-<li>For personal use only.</li>
-<li>Theme and text size are in Settings, remembered on this device only.</li>
-<li>Full safety guide: tap Stay safe at the bottom of the page.</li>
-</ul></details>
+<div class="hc"><b>GitHub</b>
+<p>The code, the updates and the guide (README) are on GitHub.</p>
+<a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener" class="tab" style="display:inline-block;text-decoration:none;margin-top:6px">Open GitHub</a>
+</div>
 </div>
 <div id="safetytab" style="display:none;font-size:15px;line-height:1.5">
 <div class="hc"><b>The 5 big ones</b>
@@ -271,6 +219,15 @@ Answer with ONLY a JSON array, no other text:
 }
 // Newest first. Add one entry per change, then re-upload index.html.
 const UPDATE_LOG = [
+  {
+    date: "11 Nov 2026",
+    title: "GitHub tab",
+    tag: "Changed",
+    at: "2026-11-11T13:00:00Z",
+    meaning: "The Help tab is now a GitHub tab. It has a short summary and a link. The guide is the README on GitHub.",
+    see: "The fourth tab, next to Settings.",
+    changes: ["Help tab replaced by GitHub tab", "Old help sections removed", "Link opens GitHub in a new tab"]
+  },
   {
     date: "11 Nov 2026",
     title: "Help tab tidied",
@@ -433,19 +390,6 @@ function renderLog() {
   };
 }
 renderLog();
-fetch("README.md").then(r => r.ok ? r.text() : Promise.reject()).then(t => {
-  const box = document.getElementById("readme");
-  box.textContent = "";
-  for (const line of t.split("\n")) {
-    if (!line.trim()) continue;
-    let el;
-    if (line.startsWith("# ")) { el = document.createElement("h3"); el.textContent = line.slice(2); }
-    else if (line.startsWith("## ")) { el = document.createElement("h4"); el.textContent = line.slice(3); }
-    else if (line.startsWith("- ")) { el = document.createElement("div"); el.textContent = "\u2022 " + line.slice(2); el.style.paddingLeft = "12px"; }
-    else { el = document.createElement("p"); el.textContent = line; }
-    box.appendChild(el);
-  }
-}).catch(() => {});
 function showTab(which) {
   const shown = { sheet: "sheet", log: "logtab", help: "helptab", settings: "settingstab", privacy: "privacytab", safety: "safetytab", legal: "legaltab" };
   const btn = { sheet: "t1", log: "t2", help: "t4", settings: "t5" };
@@ -486,7 +430,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; saveSetting("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-11-ad";
+const BUILD = "2026-11-11-ae";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
