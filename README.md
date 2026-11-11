@@ -8,15 +8,15 @@ Turns Roblox clan screenshots or a screen recording into a ready-to-use Excel sh
 
 ## How to use it
 
-1. Pick your AI company (Anthropic, or the untested Google Gemini and OpenAI) and paste your own key.
+1. Pick your AI company (Anthropic or Google Gemini; OpenAI is untested) and paste your own key.
 2. Nothing to pick. The AI works out the game and clan itself.
-3. Drop in screenshots of the member list, or a screen recording of you scrolling it.
+3. Drop in screenshots of the member list, a video, or tap **Record screen** on a PC and scroll the list.
 4. Optional: choose last time's sheet to compare.
 5. Tap **Make my sheet**. After about 20 seconds an Excel file downloads.
 
 ## What you get
 
-- An Excel file named like `Roblox - Gym League - Loki.xlsx`.
+- An Excel file named after the game and clan (or the Clan name you type), like `Roblox - Gym League - Loki.xlsx`.
 - **Clan Members** tab: coloured ranks and roles, plus Rank, Username, Role, Points (as shown, e.g. `52.51K`) and Points (number, e.g. `52510`). The number column is a real number, so you can sort and add it.
 - With a last sheet chosen: Previous Points, Change, % Change and a Trend arrow (new members show as "new"). These are formulas, so fixing a misread number updates them.
 - **About this sheet** tab: what each column means.
@@ -24,12 +24,13 @@ Turns Roblox clan screenshots or a screen recording into a ready-to-use Excel sh
 
 ## Features
 
-- Screenshots (PNG, JPEG, WebP) or video (MP4, MOV, WEBM). From a video the page picks about one picture every 2 seconds, up to 12, right in your browser.
+- Screenshots (PNG, JPEG, WebP) or video (MP4, MOV, WEBM). From a video or a screen recording the page keeps the pictures that changed (up to 24 from a video, 30 from a recording), right in your browser. Record screen works in Chrome, Edge and Opera on a PC only.
 - Remembers your last sheet on this device so you don't have to pick it again (names and points only). Tap **Remove** to forget it.
 - Themes (Auto, Light, Dark, Ocean, Forest, Berry) and Large text, in the Settings tab.
 - Help tab with steps, tips and fixes for common errors.
 - Updates tab with a plain-English log of every change.
-- Developer view (link at the bottom of the first tab) with a code-changed list and a console of what the page did on the last run.
+- A Log box on the first tab that opens by itself on errors, with a Copy bug report button. A red Copy error button shows under any error.
+- Optional Clan name box, optional Remember my key, and a banner when a new version is out.
 
 ## Privacy
 
@@ -39,8 +40,8 @@ Turns Roblox clan screenshots or a screen recording into a ready-to-use Excel sh
 
 ## Known limits
 
-- **Google Gemini and OpenAI are not tested yet** and may not work. Only Anthropic has been tested.
-- Only the Loki / Gym League profile exists so far.
+- **OpenAI is not tested yet** and may not work. Anthropic and Google Gemini have been tested.
+- Real runs of Record screen and the Clan name box are not tested yet. Phone layout was never checked.
 - A long video skips more of the list, so keep videos short or use screenshots. Rows cut off at the top or bottom edge are skipped.
 - The AI reads the names and points, so check any `?` or odd spelling by hand.
 - Rate limits and other AI errors show as a general "The AI said no" message.
@@ -49,8 +50,9 @@ Turns Roblox clan screenshots or a screen recording into a ready-to-use Excel sh
 ## For developers
 
 - Plain static site: `index.html` (all the page's code) and `exceljs.bare.min.js` ([ExcelJS](https://github.com/exceljs/exceljs) 4.4.0, used to make and read `.xlsx`). No build step.
-- The AI model is the `MODEL` constant near the top of the script. If that model is retired, change it there.
+- The AI models are listed in `PROVIDERS` near the top of the script (`MODEL` is the Anthropic default). If a model is retired, change it there.
 - Each change gets an entry in `UPDATE_LOG` in `index.html`.
+- `python3 tests/check.py` is the auto check. It also runs on GitHub after every push.
 - Hosted on Cloudflare Pages. Every push to `main` publishes automatically after about a minute.
 
 ## Disclaimer
