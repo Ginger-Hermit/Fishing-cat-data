@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Updates grouped by day with times and View code changes links. Log moved to the main tab (opens on errors); Developer tab removed. Gemini marked as tested. Clan name box; video/record keep changed pictures only; layout read from 3 pictures; bigger Copy error button; shorter key box and footer; removed history and duplicate lists. Record screen hint says to pick Roblox or Entire Screen. Record screen shows a small always-on-top window (live preview, picture count, Stop) on Chrome/Edge/Opera. Phone tip for screen recording. Record screen button (PC): grabs a still every 2 seconds, no video saved. Profile list removed; always auto-detect. Copy error to send button under red messages. Removed Add a game; new Any clan profile where the AI reads game, clan and columns from your first picture. Add a game is now Upload photo or video; the AI fills in clan, game, ranks and extra column, and the manual boxes sit under Edit by hand. Test read button (1 picture, no download). Add a game can read one screenshot and fill in the columns by itself. Add a game keeps the ranks and extra column boxes always reachable under "Change details". Profiles and files are named Roblox - Game - Clan. Add a game form simplified to clan name plus a game picker. Add a game wording made plainer, Saved notice, ready-made Anime Fighting Simulator button. Help and Stay safe pages brought up to date (Add a game, Remember my key, updates, bug report). Visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
+<!-- Patch note: Updates days are collapsible; today open, older days closed. Updates grouped by day with times and View code changes links. Log moved to the main tab (opens on errors); Developer tab removed. Gemini marked as tested. Clan name box; video/record keep changed pictures only; layout read from 3 pictures; bigger Copy error button; shorter key box and footer; removed history and duplicate lists. Record screen hint says to pick Roblox or Entire Screen. Record screen shows a small always-on-top window (live preview, picture count, Stop) on Chrome/Edge/Opera. Phone tip for screen recording. Record screen button (PC): grabs a still every 2 seconds, no video saved. Profile list removed; always auto-detect. Copy error to send button under red messages. Removed Add a game; new Any clan profile where the AI reads game, clan and columns from your first picture. Add a game is now Upload photo or video; the AI fills in clan, game, ranks and extra column, and the manual boxes sit under Edit by hand. Test read button (1 picture, no download). Add a game can read one screenshot and fill in the columns by itself. Add a game keeps the ranks and extra column boxes always reachable under "Change details". Profiles and files are named Roblox - Game - Clan. Add a game form simplified to clan name plus a game picker. Add a game wording made plainer, Saved notice, ready-made Anime Fighting Simulator button. Help and Stay safe pages brought up to date (Add a game, Remember my key, updates, bug report). Visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -503,17 +503,17 @@ const UPDATE_LOG = [
 ];
 function renderLog() {
   const chip = (t, old) => `<span style="background:${old ? "var(--soft)" : "var(--noteBg)"};color:${old ? "var(--link)" : "var(--noteText)"};padding:2px 8px;border-radius:4px;font-size:12px">${t}</span>`;
-  let lastDay = "";
-  const rows = UPDATE_LOG.map((e, i) => {
+  const days = [];
+  UPDATE_LOG.forEach((e, i) => {
     const old = e.title.startsWith("Old app");
     const n = e.changes.length;
     const dt = e.at ? new Date(e.at) : null;
     const day = dt ? dt.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" }) : e.date;
     const when = dt ? dt.toLocaleTimeString("en-GB", { hour: "numeric", minute: "2-digit", hour12: true }) : "";
-    const head = day !== lastDay ? `<div style="margin:14px 0 2px;font-weight:500;color:var(--link)">${day}</div>` : "";
-    lastDay = day;
     const code = e.commit ? `<div style="margin-top:4px"><a href="https://github.com/Ginger-Hermit/Fishing-cat-data/commit/${e.commit}" target="_blank" rel="noopener">View code changes</a></div>` : "";
-    return head + `<details id="upd${i}" style="border-bottom:1px solid var(--soft);padding:8px 0">
+    let g = days[days.length - 1];
+    if (!g || g.day !== day) { g = { day, items: [] }; days.push(g); }
+    g.items.push(`<details id="upd${i}" style="border-bottom:1px solid var(--soft);padding:8px 0">
       <summary style="cursor:pointer;display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px">
         <span style="color:var(--muted);min-width:62px">${when}</span> ${old ? chip("Old app", old) : ""}
         <span style="color:var(--link)">${e.title.replace("Old app: ", "")}</span>
@@ -523,8 +523,9 @@ function renderLog() {
         <div style="color:var(--muted)">${e.meaning}</div>
         <div style="color:var(--muted);margin-top:4px"><b>What you'll see:</b> ${e.see || "No visible change."}</div>
         ${code}
-      </div></details>`;
-  }).join("");
+      </div></details>`);
+  });
+  const rows = days.map((g, k) => `<details class="dayg" ${k === 0 ? "open" : ""} style="margin-top:10px"><summary style="cursor:pointer;font-weight:500;color:var(--link)">${g.day} <span style="color:var(--muted);font-weight:normal;font-size:13px">${g.items.length} update${g.items.length > 1 ? "s" : ""}</span></summary>${g.items.join("")}</details>`).join("");
   const log = document.getElementById("logtab");
   log.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
       <span style="font-size:13px;color:var(--muted)">Newest first. Click an update to see what changed.</span>
@@ -533,6 +534,7 @@ function renderLog() {
   document.getElementById("expAll").onclick = (ev) => {
     open = !open;
     log.querySelectorAll("details[id^=upd]").forEach(d => d.open = open);
+    if (open) log.querySelectorAll("details.dayg").forEach(d => d.open = true);
     ev.target.textContent = open ? "Collapse all" : "Expand all";
   };
 }
@@ -577,7 +579,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; saveSetting("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-11-x";
+const BUILD = "2026-11-11-y";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
