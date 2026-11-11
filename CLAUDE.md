@@ -12,7 +12,7 @@ The owner (Ginger) does not code. Short, blunt answers. Plain words on screen.
 1. Bump the version in BOTH `version.txt` and `const BUILD` in `index.html` (format `2026-11-11-x`).
 2. Add one entry at the top of `UPDATE_LOG` AND the same entry at the top of `CHANGELOG.md`. Keep only the newest 5 in `UPDATE_LOG` (delete the oldest; it stays in `CHANGELOG.md`). Entry format for `UPDATE_LOG` (plain words: title, meaning, see, changes). Include `at` (UTC time). Add `commit:` with the hash on the NEXT push, since the hash isn't known yet.
 3. Replace the one-line plain-English patch note at the top of `index.html` (newest only; history is in `CHANGELOG.md`).
-4. Run `python3 -I tests/check.py` once (syntax, no `eval(`/`exec(`, ids exist, no unused code). It also runs by itself on GitHub after every push. Then stop.
+4. Run `python3 -I tests/check.py` once (syntax, no `eval(`/`exec(`, ids exist, no unused code). GitHub then runs it again plus the row, bill, fuzz and three-browser tests after every push (`.github/workflows`). A red cross on GitHub means the push broke something: fix it before anything else.
 5. Small find-and-replace edits that match exactly once. No whole-file rewrites. Keep a backup outside the repo.
 6. One bug per patch unless it has the same cause. Say what you couldn't test.
 7. Update `STATUS.md` (version, next, not tested). It is loaded automatically by the line at the top.
@@ -49,6 +49,7 @@ The owner (Ginger) does not code. Short, blunt answers. Plain words on screen.
 | Bill reading test | `tests/bills.test.js` (run `node tests/bills.test.js`) |
 | Fuzz test | `tests/fuzz.js` (run `node tests/fuzz.js 7 20000`; run it after any change to the reading code) |
 | Stress test write-up and lessons | `developer/STRESS_TEST_LOG.md` (read section 7 before calling a feature done) |
+| Three-browser test | `tests/browser.test.js` (Chrome, Firefox, Safari engine with a pretend AI; runs on GitHub after every push, see the Actions tab) |
 | Excel maths test | `tests/excel-math.test.js` (needs `npm install exceljs@4.4.0`) |
 
 ## Tested / not tested

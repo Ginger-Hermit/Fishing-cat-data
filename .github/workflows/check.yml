@@ -6,3 +6,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: python3 -I tests/check.py
+      - run: node tests/rows.test.js
+      - run: node tests/bills.test.js
+      - run: node tests/fuzz.js 7 5000
+  browsers:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-save playwright@1.49.1
+      - run: npx playwright install --with-deps chromium firefox webkit
+      - run: node tests/browser.test.js

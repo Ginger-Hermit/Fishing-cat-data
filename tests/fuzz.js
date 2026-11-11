@@ -50,3 +50,4 @@ for(let i=0;i<N;i++){ // points: 52.51K style round trip
   try{const g=parseNum(j,pick([".",",",""]));if(!(g===null||Number.isFinite(g)))fail("numbers","junk gave "+g,JSON.stringify(j));}catch(e){fail("numbers","threw "+e,JSON.stringify(j));}
 }
 console.log(JSON.stringify(stats));fails.forEach(f=>console.log("  ! "+f));
+if(fails.length)process.exitCode=1; // a failure makes the GitHub check go red
