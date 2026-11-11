@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Add a game form simplified to clan name plus a game picker. Add a game wording made plainer, Saved notice, ready-made Anime Fighting Simulator button. Help and Stay safe pages brought up to date (Add a game, Remember my key, updates, bug report). Visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
+<!-- Patch note: profiles and files are named Roblox - Game - Clan. Add a game form simplified to clan name plus a game picker. Add a game wording made plainer, Saved notice, ready-made Anime Fighting Simulator button. Help and Stay safe pages brought up to date (Add a game, Remember my key, updates, bug report). Visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -55,7 +55,7 @@ button:disabled{opacity:.5}
 <label class="rem" style="display:flex;gap:8px;align-items:center;margin-top:6px;font-weight:normal"><input type="checkbox" id="remember" style="width:auto;margin:0"> Remember my key on this device</label>
 <div id="remnote" style="display:none;font-size:.85em;opacity:.75">Saved only in this browser, never sent anywhere else. Don't tick this on a shared or public computer. Untick to delete it.</div>
 <label for="profile">Profile</label>
-<select id="profile"><option value="loki">Loki, Gym League</option></select>
+<select id="profile"><option value="loki">Roblox - Gym League - Loki</option></select>
 <div style="margin-top:6px;font-size:14px"><a href="#" id="addgamelink">+ Add a game</a></div>
 <div id="addgame" style="display:none;border:1px solid var(--line);border-radius:8px;padding:12px;margin-top:8px">
 <label for="gclan">Your clan name</label><input id="gclan" maxlength="40" autocomplete="off" placeholder="e.g. Loki">
@@ -105,7 +105,7 @@ button:disabled{opacity:.5}
 </ol></div>
 <details class="hc"><summary>What you get</summary>
 <ul>
-<li>An Excel file like "Loki - Gym League.xlsx".</li>
+<li>An Excel file like "Roblox - Gym League - Loki.xlsx".</li>
 <li>Points twice: as the game showed them (52.51K) and as a real number (52510).</li>
 <li>With a last sheet: Previous Points, Change, % Change and a Trend arrow.</li>
 <li>A second tab explains each column.</li>
@@ -543,7 +543,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; saveSetting("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-11-g";
+const BUILD = "2026-11-11-h";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1027,14 +1027,15 @@ async function readScreenshots(key, images) {
 
 // Profiles: built-in Loki plus the ones you add (kept on this device only).
 function customProfiles() { try { const a = JSON.parse(lsGet("fcd_profiles") || "[]"); return Array.isArray(a) ? a.filter(x => x && x.id && x.clan && x.game) : []; } catch (e) { return []; } }
+const nameOf = (p) => "Roblox - " + p.game + " - " + p.clan;
 function getProfile(id) { return PROFILES[id] || customProfiles().find(x => x.id === id) || PROFILES.loki; }
 const clean = (t, n) => String(t || "").replace(/[\r\n"\\<>\/:*?|]/g, " ").replace(/\s+/g, " ").trim().slice(0, n);
 function renderProfiles(pick) {
   const sel = $("profile"), cur = pick || lsGet("fcd_profile") || "loki";
   const opt = (v, t) => { const o = document.createElement("option"); o.value = v; o.textContent = t; return o; };
   sel.innerHTML = "";
-  sel.appendChild(opt("loki", "Loki, Gym League"));
-  customProfiles().forEach(x => sel.appendChild(opt(x.id, x.clan + ", " + x.game)));
+  sel.appendChild(opt("loki", nameOf(PROFILES.loki)));
+  customProfiles().forEach(x => sel.appendChild(opt(x.id, nameOf(x))));
   sel.appendChild(opt("__add", "+ Add a game..."));
   sel.value = [...sel.options].some(o => o.value === cur) ? cur : "loki";
   $("rmgame").style.display = PROFILES[sel.value] ? "none" : "block";
@@ -1052,7 +1053,7 @@ function updatePreview() {
   add(cols, true); rows.forEach(r => add(r, false));
   const cap = document.createElement("div");
   cap.style.cssText = "font-size:12px;color:var(--muted);margin-top:4px";
-  cap.textContent = (clean($("gclan").value, 40) || "Your clan") + " - " + (clean($("ggame").value, 40) || "Your game") + ".xlsx   (plus Previous, Change and Trend if you pick a Last sheet)";
+  cap.textContent = "Roblox - " + (clean($("ggame").value, 40) || "Your game") + " - " + (clean($("gclan").value, 40) || "Your clan") + ".xlsx   (plus Previous, Change and Trend if you pick a Last sheet)";
   $("gprev").innerHTML = ""; $("gprev").append(t, cap);
 }
 ["gclan", "ggame", "grank", "gextra"].forEach(i => { $(i).oninput = updatePreview; $(i).onchange = updatePreview; });
@@ -1076,7 +1077,7 @@ $("gsave").onclick = () => {
   lsSet("fcd_profiles", JSON.stringify(list)); lsSet("fcd_profile", id);
   ["gclan", "ggame", "gextra"].forEach(i => { $(i).value = ""; });
   $("addgame").style.display = "none"; renderProfiles(id);
-  $("gsaved").textContent = "\u2713 Saved: " + clan + ", " + game + ". It is now picked in the Profile list. Saved on this device only."; $("gsaved").style.display = "block";
+  $("gsaved").textContent = "\u2713 Saved: Roblox - " + game + " - " + clan + ". It is now picked in the Profile list. Saved on this device only."; $("gsaved").style.display = "block";
 };
 $("rmgamelink").onclick = (e) => {
   e.preventDefault();
@@ -1112,7 +1113,7 @@ $("go").onclick = async () => {
     }
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = p.clan + " - " + p.game + ext;
+    a.download = nameOf(p) + ext;
     a.click();
     const bad = rows.filter(r => r.name === "?" || parsePoints(r.points) === null).length;
     let last = 0, order = false;

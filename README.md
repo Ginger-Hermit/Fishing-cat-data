@@ -16,7 +16,7 @@ Turns Roblox clan screenshots or a screen recording into a ready-to-use Excel sh
 
 ## What you get
 
-- An Excel file named like `Loki - Gym League.xlsx`.
+- An Excel file named like `Roblox - Gym League - Loki.xlsx`.
 - **Clan Members** tab: coloured ranks and roles, plus Rank, Username, Role, Points (as shown, e.g. `52.51K`) and Points (number, e.g. `52510`). The number column is a real number, so you can sort and add it.
 - With a last sheet chosen: Previous Points, Change, % Change and a Trend arrow (new members show as "new"). These are formulas, so fixing a misread number updates them.
 - **About this sheet** tab: what each column means.
