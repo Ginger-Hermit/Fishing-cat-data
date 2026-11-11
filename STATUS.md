@@ -1,6 +1,6 @@
 # Status (update on every push)
 
-Last updated: 11 Nov 2026. Page version 2026-11-11-ag. Live at fishing-cat-data.pages.dev.
+Last updated: 11 Nov 2026. Page version 2026-11-11-ah. Live at fishing-cat-data.pages.dev.
 
 ## How it works now
 Upload photos or a video (or tap Record screen on a PC). The AI reads the game, clan and layout from up to 3 of the pictures, then reads the member rows, and the page makes the Excel sheet. There is no profile list or Add a game any more. The optional Clan name box sets the file name. Gemini and Anthropic work.
@@ -14,13 +14,13 @@ Upload photos or a video (or tap Record screen on a PC). The AI reads the game, 
 - Not tested in a real run: Clan name box, skipping repeated pictures (video and Record screen), reading layout from 3 pictures, Log box opening on errors, collapsible days in Updates, new tags and hover time (checked for syntax only, not looked at on screen).
 - Record screen pop-up window works only in Chrome, Edge and Opera. Firefox just shows messages on the page. Phones can't record in the page at all (they use the phone's own recorder).
 - 11 Nov review (version ag): video reading was tested in headless Chrome with a made-up 40 second video (24 pictures kept, spread over the whole video; broken and sound-only videos show an error). Row reading has unit tests run by hand. Not tested with a real key or a real Roblox video.
-- Review found, not fixed: all pictures go to the AI in one request, so many big PNG screenshots can be too large (Anthropic allows about 5 MB per picture) and accuracy may drop with 20+ pictures; sending in small batches would fix both but uses more requests on the free Gemini key. Video files are read twice per run (once for layout, once for rows), which is slow but harmless. Updates entries from version ab to ag have no `commit:` yet.
+- Review found, not fixed: all pictures go to the AI in one request, so many big PNG screenshots can be too large (Anthropic allows about 5 MB per picture) and accuracy may drop with 20+ pictures; sending in small batches would fix both but uses more requests on the free Gemini key. Video files are read twice per run (once for layout, once for rows), which is slow but harmless.
 - OpenAI is untested.
 - Phone screen layout was never checked.
 - The live security header (CSP in `_headers`) was never checked on the real site.
 - "Remember my key" was seen ticked in a Firefox video but not otherwise checked.
 - The Help tab is now a GitHub tab; the guide is README.md. Stay safe is plain text and must be updated by hand.
-- Updates log is merged into 11 entries with New/Changed tags. Newest entry (Old code cleared out) has no `commit:` yet. Add it on the next push.
+- Updates: the page shows the newest 5 entries; the full history is in CHANGELOG.md. Newest entry (Lighter page) has no `commit:` yet. Add it on the next push.
 - Fingerprint: not recorded.
 
 ## Ideas Ginger has not approved

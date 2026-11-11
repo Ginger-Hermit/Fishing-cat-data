@@ -1,0 +1,226 @@
+# Fishing Cat Data: every update
+
+Newest first. The page itself shows only the newest 5.
+
+## Lighter page
+
+11 Nov 2026 (15:00 UTC) · Changed
+
+The page now shows the 5 newest updates. The full history moved to GitHub, with nothing removed.
+
+**What you'll see:** A link under the Updates list: Older updates on GitHub.
+
+- Full update history is in CHANGELOG.md on GitHub
+- Updates tab shows the newest 5
+- Old patch notes moved to GitHub too
+
+## Bug hunt fixes
+
+11 Nov 2026 (14:30 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/68cef60)
+
+A full check of the code found five bugs. Long videos lost the end of the list, some videos made the page wait forever, a cut-off AI reply lost every row, and the sheet date could be a day out.
+
+**What you'll see:** Long videos give fuller sheets. Bad videos show a red message instead of hanging.
+
+- Videos: pictures are taken from the whole video, not just the start
+- Videos that can't be read show an error instead of hanging
+- Cut-off AI replies keep the rows that arrived, with a warning
+- More room for Anthropic replies (big clans)
+- Unreadable names (?) are no longer merged into one row
+- Date Recorded uses your local day
+
+## GitHub preview
+
+11 Nov 2026 (13:30 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/63e1260)
+
+The GitHub tab shows a small preview of the guide and what it covers.
+
+**What you'll see:** The box on the GitHub tab.
+
+- Preview box listing the guide sections
+- Full README guide restored and updated for Gemini first
+
+## GitHub tab
+
+11 Nov 2026 (13:00 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/01d5eb4)
+
+The Help tab is now a GitHub tab. It has a short summary and a link. The guide is the README on GitHub.
+
+**What you'll see:** The fourth tab, next to Settings.
+
+- Help tab replaced by GitHub tab
+- Old help sections removed
+- Link opens GitHub in a new tab
+
+## Help tab tidied
+
+11 Nov 2026 (12:30 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/40dd524)
+
+The Help tab now shows one guide, from README.md, with no repeated steps.
+
+**What you'll see:** Top of the Help tab.
+
+- Duplicate How to use steps removed
+- Guide comes from README.md only
+
+## Free key limit note and guide from README
+
+11 Nov 2026 (12:00 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8029f61)
+
+A grey line says the free Gemini key has a daily limit. The Help tab now shows the guide from README.md.
+
+**What you'll see:** Under the key box, and the top of the Help tab.
+
+- Daily limit line under the key box
+- Help tab loads README.md
+- README.md added as the guide
+
+## Google Gemini first
+
+11 Nov 2026 (11:00 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/3fb71fd)
+
+Google Gemini is now the default company. A free key link sits under the key box.
+
+**What you'll see:** Company list starts with Google Gemini. Link appears when Gemini is picked.
+
+- Gemini moved to the top of the company list
+- Free key link (Google AI Studio) under the key box
+- Stay safe notes the link
+
+## Old code cleared out
+
+11 Nov 2026 (10:35 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/1fc1bbf)
+
+Two leftover bits of old code were deleted. Nothing changes on screen.
+
+**What you'll see:** No visible change.
+
+- Unused profile list removed
+- Unused 'Old app' label code removed
+
+## Tidier Updates
+
+11 Nov 2026 (10:20 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/61fb1ec)
+
+The Updates list is shorter: small steps are merged into bigger ones, each has a tag, and counts are gone.
+
+**What you'll see:** Fewer lines, a New / Changed / Fixed tag on each, time shows when you hover.
+
+- Old entries merged into 9 bigger ones
+- Tags: New, Changed, Fixed
+- Removed the change counts and time column
+
+## Log and Updates tab
+
+11 Nov 2026 (10:04 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2244702)
+
+The log is on the first tab, and Updates are grouped by day with code links.
+
+**What you'll see:** A Log line under the buttons that opens by itself on errors. Day headings and View code changes links in Updates.
+
+- Copy bug report is inside the Log
+- Developer tab removed
+- Each update links to its code on GitHub
+
+## Google Gemini and OpenAI
+
+11 Nov 2026 (10:03 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/027f37a)
+
+You can pick Google Gemini or OpenAI as well as Anthropic. Gemini is tested; OpenAI is not.
+
+**What you'll see:** An AI company box above the key box. Gemini shows no warning.
+
+- AI model (advanced) box in Settings
+- Browser lock allows Google and OpenAI
+- OpenAI is still untested
+
+## Record screen and fixes
+
+11 Nov 2026 (10:02 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/5942d14)
+
+On a PC you can record your screen in the page. A small pop-up window shows what's captured and has Stop. Not tested in a real run.
+
+**What you'll see:** A Record screen (PC) button, a Clan name box, a big red Copy error button, and record status under the button.
+
+- Pop-up works in Chrome, Edge and Opera only
+- Skips repeated pictures, up to 30
+- Videos keep up to 24 changed pictures
+- Layout is read from 3 pictures, not 1
+- Shorter key box and one-line footer
+
+## Any game, no setup
+
+11 Nov 2026 (09:47 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/d560e43)
+
+No profile list and no Add a game. The AI reads the game, clan and columns from your pictures.
+
+**What you'll see:** Just upload and tap Make my sheet. Works for any Roblox game with a clan.
+
+- Profile box removed
+- One small extra AI read before the sheet
+- Warns if fewer members were read than the screen shows
+
+## Help when things go wrong
+
+11 Nov 2026 (09:46 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/1057102)
+
+Errors say what is wrong, and one tap copies a report you can send.
+
+**What you'll see:** A red Copy error to send button under any red message. Specific messages for a bad key, no credit, or a busy AI.
+
+- Keys are removed from the copy
+- Warns about ? rows and ranks out of order
+- Keyboard and screen-reader labels
+
+## Banner and Remember my key
+
+11 Nov 2026 (09:25 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0846db5)
+
+The page says when there is a new version, and you can tick a box to keep your key.
+
+**What you'll see:** A small banner with Refresh, a Settings switch for auto refresh, and a Remember my key tick box (off by default).
+
+- Checks every 5 minutes
+- Key is saved only in this browser
+- Not for shared computers
+
+## Safety and info pages
+
+11 Nov 2026 (08:48 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/648cdb5)
+
+Safety locks, a Stay safe guide, Privacy and Legal pages, and a tidy footer. The page says plainly that Claude wrote it.
+
+**What you'll see:** A Your key is safe here card, a footer on every page, a Clear button for picked files, a red warning on a wrong address.
+
+- Browser only allowed to talk to the AI companies
+- 20 file limit
+- Key box asks password managers not to save it
+- Not an official Roblox or Anthropic product
+
+## Excel sheet
+
+11 Nov 2026 (08:56 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/76c0d3a)
+
+You get a nice Excel file, and an earlier sheet can be chosen to show who went up or down.
+
+**What you'll see:** Striped rows, filter, green and red Change cells, Season Info and Summary boxes. A green Last sheet box.
+
+- Points are real numbers (52.51K becomes 52510)
+- Previous Points, Change, % Change and Trend
+- Last sheet is remembered on this device
+
+## First web version
+
+11 Nov 2026 (07:51 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8331ea8)
+
+The first version of the page: screenshots, one game, Anthropic only. Video support was added the same day.
+
+**What you'll see:** Drop screenshots or a video and get a sheet.
+
+- Screenshots, Loki profile, Anthropic only
+- Video: MP4, MOV, WEBM, up to 12 frames
+- Same AI instructions as the desktop app, repeated names removed
+
+## Old patch notes (from the top of index.html)
+
+Review fixes: long videos are read to the end, broken videos no longer hang, cut-off AI replies keep their rows, date is your local day. GitHub tab shows a preview of what is on GitHub; full README guide restored. Help tab replaced by a GitHub tab (short summary, link, guide is the README). Help tab tidied: the duplicate How to use steps are gone, the guide comes from README.md. Free key daily-limit line, and the Help tab loads the guide from README.md. Google Gemini is now the first choice, with a free key link. Removed two unused bits of old code (no visible change). Updates list tidied: 9 merged entries, New/Changed tags, no counts, time on hover. Updates days are collapsible; today open, older days closed. Updates grouped by day with times and View code changes links. Log moved to the main tab (opens on errors); Developer tab removed. Gemini marked as tested. Clan name box; video/record keep changed pictures only; layout read from 3 pictures; bigger Copy error button; shorter key box and footer; removed history and duplicate lists. Record screen hint says to pick Roblox or Entire Screen. Record screen shows a small always-on-top window (live preview, picture count, Stop) on Chrome/Edge/Opera. Phone tip for screen recording. Record screen button (PC): grabs a still every 2 seconds, no video saved. Profile list removed; always auto-detect. Copy error to send button under red messages. Removed Add a game; new Any clan profile where the AI reads game, clan and columns from your first picture. Add a game is now Upload photo or video; the AI fills in clan, game, ranks and extra column, and the manual boxes sit under Edit by hand. Test read button (1 picture, no download). Add a game can read one screenshot and fill in the columns by itself. Add a game keeps the ranks and extra column boxes always reachable under "Change details". Profiles and files are named Roblox - Game - Clan. Add a game form simplified to clan name plus a game picker. Add a game wording made plainer, Saved notice, ready-made Anime Fighting Simulator button. Help and Stay safe pages brought up to date (Add a game, Remember my key, updates, bug report). Visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes).
