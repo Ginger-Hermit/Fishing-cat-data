@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: big green notices for loaded files, and the last sheet is remembered on this device. -->
+<!-- Patch note: clearer AI error messages, row checks after a run, and keyboard/screen-reader labels. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -55,7 +55,7 @@ button:disabled{opacity:.5}
 <input id="prevfile" type="file" accept=".xlsx" hidden>
 <div id="previnfo"></div>
 <button id="go" disabled>Make my sheet</button>
-<div class="msg" id="msg"></div>
+<div class="msg" id="msg" role="status" aria-live="polite"></div>
 <div class="note">Your key stays in this page only and is never saved. Screenshots go only to Anthropic.</div>
 <div style="font-size:12px;color:var(--muted);margin-top:10px;text-align:center">For personal use only. Not connected to Roblox or Anthropic. Provided as is, with no guarantees.</div>
 <div style="text-align:center;margin-top:10px"><a href="#" id="devOn" style="font-size:12px;color:var(--muted)">Developer view</a></div>
@@ -84,7 +84,7 @@ button:disabled{opacity:.5}
 </ul></details>
 <details class="hc"><summary>Not working?</summary>
 <ul>
-<li><b>The AI said no:</b> the key is wrong, expired or out of credit.</li>
+<li><b>A red message about your key, credit or too many requests:</b> fix the key or credit, or wait a minute.</li>
 <li><b>No member rows found:</b> the pictures don't show the member list.</li>
 <li><b>Video could not be opened:</b> try an MP4.</li>
 <li><b>A "?" in the sheet:</b> unreadable. Fix it by hand.</li>
@@ -125,6 +125,13 @@ Answer with ONLY a JSON array, no other text:
 const PROFILES = { loki: { clan: "Loki", game: "Gym League" } };
 // Newest first. Add one entry per change, then re-upload index.html.
 const UPDATE_LOG = [
+  {
+    date: "11 Nov 2026",
+    title: "Clearer errors and checks",
+    meaning: "If the AI says no, the page now tells you why (bad key, out of credit, too many requests, AI busy). After a run it also warns about unreadable rows or ranks out of order. Tabs and boxes work better with a keyboard.",
+    see: "A red message that names the problem. A longer Done message if something needs checking.",
+    changes: ["Specific error messages.", "Warns about ? rows and ranks out of order.", "Keyboard and screen-reader labels for tabs and drop boxes."],
+  },
   {
     date: "11 Nov 2026",
     title: "Remembers your last sheet",
@@ -195,8 +202,12 @@ function showTab(which) {
   for (const k in shown) {
     document.getElementById(shown[k]).style.display = k === which ? "" : "none";
     document.getElementById(btn[k]).classList.toggle("on", k === which);
+    document.getElementById(btn[k]).setAttribute("aria-selected", k === which);
   }
 }
+document.querySelector(".tabs").setAttribute("role", "tablist");
+["t1", "t2", "t3", "t4", "t5"].forEach(id => document.getElementById(id).setAttribute("role", "tab"));
+document.getElementById("t1").setAttribute("aria-selected", "true");
 document.getElementById("t1").onclick = () => showTab("sheet");
 document.getElementById("t2").onclick = () => showTab("log");
 document.getElementById("t3").onclick = () => showTab("console");
@@ -433,6 +444,11 @@ function showPrev() {
   $("prevdrop").textContent = "Tap to choose a different sheet";
 }
 $("prevdrop").onclick = () => $("prevfile").click();
+for (const id of ["drop", "prevdrop"]) {
+  const el = $(id);
+  el.setAttribute("role", "button"); el.tabIndex = 0;
+  el.onkeydown = (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); el.click(); } };
+}
 $("prevfile").onchange = async (e) => {
   const f = e.target.files[0];
   if (!f) return;
@@ -478,7 +494,8 @@ async function readScreenshots(key, images) {
     }
   }
   content.push({ type: "text", text: PROMPT });
-  const res = await fetch("https://api.anthropic.com/v1/messages", {
+  let res;
+  try { res = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
     headers: {
       "content-type": "application/json",
@@ -487,8 +504,18 @@ async function readScreenshots(key, images) {
       "anthropic-dangerous-direct-browser-access": "true"
     },
     body: JSON.stringify({ model: MODEL, max_tokens: 2000, messages: [{ role: "user", content }] })
-  });
-  if (!res.ok) throw new Error("The AI said no (" + res.status + "). Check the key.");
+  }); } catch (e) { throw new Error("Couldn't reach the AI. Check your internet and try again."); }
+  if (!res.ok) {
+    let detail = "";
+    try { detail = (await res.json()).error.message || ""; } catch (e) {}
+    clog("AI error " + res.status + ": " + detail);
+    if (/credit/i.test(detail)) throw new Error("Your Anthropic account is out of credit.");
+    if (res.status === 401 || res.status === 403) throw new Error("The AI doesn't accept that key. Check it and paste it again.");
+    if (res.status === 429) throw new Error("Too many requests right now. Wait a minute and try again.");
+    if (res.status === 404) throw new Error("The AI model this page uses is gone. The page needs a small update.");
+    if (res.status >= 500) throw new Error("The AI is busy or down. Try again in a few minutes.");
+    throw new Error("The AI said no (" + res.status + "). Check the key.");
+  }
   const data = await res.json();
   return data.content.filter(b => b.type === "text").map(b => b.text).join("\n");
 }
@@ -519,7 +546,11 @@ $("go").onclick = async () => {
     a.href = URL.createObjectURL(blob);
     a.download = p.clan + " - " + p.game + ext;
     a.click();
-    setMsg("Done: " + rows.length + " rows. Your sheet was downloaded.");
+    const bad = rows.filter(r => r.name === "?" || parsePoints(r.points) === null).length;
+    let last = 0, order = false;
+    for (const r of rows) { const n = Number(r.rank); if (!Number.isFinite(n) || n <= last) order = true; else last = n; }
+    clog("Checks: " + bad + " unreadable row(s), ranks " + (order ? "out of order" : "in order") + ".");
+    setMsg("Done: " + rows.length + " rows. Your sheet was downloaded." + (bad ? " Check " + bad + " row(s) marked ?." : "") + (order ? " Some ranks look out of order, so check the list." : ""));
   } catch (err) {
     clog("Stopped: " + err.message);
     setMsg(err.message, true);
