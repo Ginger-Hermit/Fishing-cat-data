@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Updates tab shows the newest 5; the full history is in CHANGELOG.md on GitHub. -->
+<!-- Patch note: Excel part loads only when needed, videos are read once, leftover code removed. No visible change. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -36,9 +36,9 @@ button:disabled{opacity:.5}
 .err{color:var(--err)}
 .tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
 .tab{width:auto;margin:0;padding:8px 12px;font-size:14px;background:var(--field);color:var(--link);border:1px solid var(--link);border-radius:6px}
+.page{font-size:15px;line-height:1.5}
 .tab.on{background:var(--accent);color:var(--onAccent)}
 </style>
-<script src="exceljs.bare.min.js" defer></script>
 </head>
 <body>
 <div class="card">
@@ -79,7 +79,7 @@ button:disabled{opacity:.5}
 </details>
 <div class="hc" style="margin-top:14px;font-size:13px"><b>Your key is safe here.</b> It stays on this device and goes only to the AI company you pick. Treat it like a password. <a href="#" data-go="safety">More</a></div>
 </div>
-<div id="helptab" style="display:none;font-size:15px;line-height:1.5">
+<div id="helptab" class="page" style="display:none">
 <div class="hc"><b>GitHub</b>
 <p>The code, the updates and the guide (README) are on GitHub.</p>
 <div style="border:1px solid var(--soft);border-radius:8px;font-size:14px;margin:8px 0">
@@ -90,7 +90,7 @@ button:disabled{opacity:.5}
 <a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener" class="tab" style="display:inline-block;text-decoration:none;margin-top:6px">Open GitHub</a>
 </div>
 </div>
-<div id="safetytab" style="display:none;font-size:15px;line-height:1.5">
+<div id="safetytab" class="page" style="display:none">
 <div class="hc"><b>The 5 big ones</b>
 <ul>
 <li>Your AI key is a password. Never send it to anyone or paste it anywhere but the first box.</li>
@@ -150,7 +150,7 @@ button:disabled{opacity:.5}
 <li>Tell the author what happened.</li>
 </ul></details>
 </div>
-<div id="privacytab" style="display:none;font-size:15px;line-height:1.5">
+<div id="privacytab" class="page" style="display:none">
 <div class="hc"><b>Privacy</b>
 <ul>
 <li>Your AI key stays in this browser. It is only kept if you tick Remember my key, and it is never sent anywhere except the AI company you pick.</li>
@@ -162,7 +162,7 @@ button:disabled{opacity:.5}
 <li>The names in your pictures belong to real people. Share the sheet only with people who should see it.</li>
 </ul></div>
 </div>
-<div id="legaltab" style="display:none;font-size:15px;line-height:1.5">
+<div id="legaltab" class="page" style="display:none">
 <div class="hc"><b>Legal</b>
 <ul>
 <li>For personal use only.</li>
@@ -203,15 +203,8 @@ const PROVIDERS = {
 };
 function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
 function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
-const PROMPT_LOKI = `These images show the member list of the Roblox game clan screen.
-Each row shows a rank like "#12", a username, a role under the name and a points number on the right (like 52.51K, 1K or 507).
-Read EVERY row that is fully visible. Skip rows cut off at the top or bottom edge.
-Copy usernames exactly. Points: copy exactly as shown (e.g. "52.51K"). Never guess; use "?" if unreadable.
-Answer with ONLY a JSON array, no other text:
-[{"rank": 12, "name": "example_name", "role": "Member", "points": "16.6K"}, ...]`;
-let PROMPT = PROMPT_LOKI;
+let PROMPT = "";
 function buildPrompt(p) {
-  if (!p.custom) return PROMPT_LOKI;
   const rankLine = p.ranks ? 'a rank like "#12"' : "no rank number (set rank to 0)";
   const roleLine = p.extra ? 'a column called "' + p.extra + '" (copy it exactly as shown; use "?" if unreadable or hidden)' : "a role under the name";
   return `These images show the member list of a Roblox game clan screen.
@@ -226,9 +219,19 @@ Answer with ONLY a JSON array, no other text:
 const UPDATE_LOG = [
   {
     date: "11 Nov 2026",
+    title: "Faster to open",
+    tag: "Changed",
+    at: "2026-11-11T10:45:53Z",
+    meaning: "The big Excel part now loads only when you add pictures, so the page opens much faster. Videos are read once per run. Leftover code was removed.",
+    see: "No visible change. The page opens quicker, most of all on phones.",
+    changes: ["Excel part (863 KB) loads when needed, not on every visit", "Videos are read once per run, not twice", "Old one-clan prompt removed", "One save-a-setting helper instead of three", "Repeated text and styles merged"]
+  },
+  {
+    date: "11 Nov 2026",
     title: "Lighter page",
     tag: "Changed",
-    at: "2026-11-11T15:00:00Z",
+    at: "2026-11-11T10:41:31Z",
+    commit: "ad78132",
     meaning: "The page now shows the 5 newest updates. The full history moved to GitHub, with nothing removed.",
     see: "A link under the Updates list: Older updates on GitHub.",
     changes: ["Full update history is in CHANGELOG.md on GitHub", "Updates tab shows the newest 5", "Old patch notes moved to GitHub too"]
@@ -237,7 +240,7 @@ const UPDATE_LOG = [
     date: "11 Nov 2026",
     title: "Bug hunt fixes",
     tag: "Changed",
-    at: "2026-11-11T14:30:00Z",
+    at: "2026-11-11T10:39:44Z",
     commit: "68cef60",
     meaning: "A full check of the code found five bugs. Long videos lost the end of the list, some videos made the page wait forever, a cut-off AI reply lost every row, and the sheet date could be a day out.",
     see: "Long videos give fuller sheets. Bad videos show a red message instead of hanging.",
@@ -247,7 +250,7 @@ const UPDATE_LOG = [
     date: "11 Nov 2026",
     title: "GitHub preview",
     tag: "New",
-    at: "2026-11-11T13:30:00Z",
+    at: "2026-11-11T10:36:32Z",
     commit: "63e1260",
     meaning: "The GitHub tab shows a small preview of the guide and what it covers.",
     see: "The box on the GitHub tab.",
@@ -257,21 +260,11 @@ const UPDATE_LOG = [
     date: "11 Nov 2026",
     title: "GitHub tab",
     tag: "Changed",
-    at: "2026-11-11T13:00:00Z",
+    at: "2026-11-11T10:35:20Z",
     commit: "01d5eb4",
     meaning: "The Help tab is now a GitHub tab. It has a short summary and a link. The guide is the README on GitHub.",
     see: "The fourth tab, next to Settings.",
     changes: ["Help tab replaced by GitHub tab", "Old help sections removed", "Link opens GitHub in a new tab"]
-  },
-  {
-    date: "11 Nov 2026",
-    title: "Help tab tidied",
-    tag: "Changed",
-    at: "2026-11-11T12:30:00Z",
-    commit: "40dd524",
-    meaning: "The Help tab now shows one guide, from README.md, with no repeated steps.",
-    see: "Top of the Help tab.",
-    changes: ["Duplicate How to use steps removed", "Guide comes from README.md only"]
   }
 ];
 function renderLog() {
@@ -331,10 +324,9 @@ document.querySelectorAll("[data-go]").forEach(a => { a.onclick = (e) => { e.pre
 const THEMES = [["auto", "Auto"], ["light", "Light"], ["dark", "Dark"], ["ocean", "Ocean"], ["forest", "Forest"], ["berry", "Berry"]];
 const SIZES = [["normal", "Normal"], ["large", "Large"]];
 function loadSetting(k, list, d) {
-  try { const v = localStorage.getItem(k); if (list.some(x => x[0] === v)) return v; } catch (e) {}
-  return d;
+  const v = lsGet(k);
+  return list.some(x => x[0] === v) ? v : d;
 }
-function saveSetting(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
 let theme = loadSetting("fcd_theme", THEMES, "auto");
 let size = loadSetting("fcd_size", SIZES, "normal");
 function applyLook() {
@@ -345,11 +337,11 @@ function applyLook() {
     document.getElementById(box).innerHTML = list.map(x => `<button class="tab${x[0] === cur ? " on" : ""}" data-v="${x[0]}">${x[1]}</button>`).join("");
   }
 }
-document.getElementById("themeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { theme = v; saveSetting("fcd_theme", v); applyLook(); } };
-document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; saveSetting("fcd_size", v); applyLook(); } };
+document.getElementById("themeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { theme = v; lsSet("fcd_theme", v); applyLook(); } };
+document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-11-ah";
+const BUILD = "2026-11-11-ai";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -404,7 +396,15 @@ function refresh() {
   $("testgo").disabled = $("go").disabled;
 }
 
+// The Excel part is big, so it loads only when it is needed.
+let excelWait = null;
+function loadExcel() {
+  if (!excelWait) excelWait = new Promise(ok => { const s = document.createElement("script"); s.src = "exceljs.bare.min.js"; s.onload = () => ok(); s.onerror = () => { excelWait = null; ok(); }; document.head.appendChild(s); });
+  return excelWait;
+}
+
 function addFiles(fileList) {
+  loadExcel();
   for (const f of fileList) {
     if (!f.type.startsWith("image/") && !f.type.startsWith("video/")) continue;
     if (images.length >= MAX_FILES) { setMsg("Up to " + MAX_FILES + " files at a time. Tap Clear to start again.", true); break; }
@@ -512,6 +512,7 @@ $("copyerr").onclick = () => bugCopy($("copyerr"), "Copy error to send");
     clog("Screen recording stopped, " + n + " picture(s) kept.");
     refresh();
   }
+  const gotPics = () => { stop(); recSay("Got " + n + " picture(s). Tap Make my sheet."); };
   async function grab() {
     if (!v || !v.videoWidth) return;
     if (Date.now() - t0 > 180000) { stop(); recSay("Stopped after 3 minutes. Tap Make my sheet.", false); return; }
@@ -530,7 +531,7 @@ $("copyerr").onclick = () => bugCopy($("copyerr"), "Copy error to send");
     if (n >= MAXF || images.length >= MAX_FILES) { stop(); recSay("Stopped at the limit (" + n + " pictures). Tap Make my sheet."); }
   }
   btn.onclick = async () => {
-    if (stream) { stop(); recSay("Got " + n + " picture(s). Tap Make my sheet."); return; }
+    if (stream) { gotPics(); return; }
     // Small always-on-top window (Chrome/Edge/Opera on PC) so you can see progress and Stop while the game is in front.
     if (window.documentPictureInPicture) {
       try {
@@ -539,9 +540,9 @@ $("copyerr").onclick = () => bugCopy($("copyerr"), "Copy error to send");
         const t = d.createElement("div"); t.textContent = "Pick Roblox or Entire Screen (not this page), then tap Allow."; t.style.marginBottom = "8px"; pipTxt = t;
         const pv = d.createElement("video"); pv.muted = true; pv.autoplay = true; pv.id = "pv"; pv.style.cssText = "width:100%;border-radius:6px;background:#000;max-height:120px";
         const sb = d.createElement("button"); sb.textContent = "Stop recording"; sb.style.cssText = "margin-top:8px;width:100%;padding:8px;font-size:15px;border-radius:6px;border:0;background:#c0392b;color:#fff";
-        sb.onclick = () => { if (stream) { stop(); recSay("Got " + n + " picture(s). Tap Make my sheet."); } };
+        sb.onclick = () => { if (stream) { gotPics(); } };
         d.body.append(t, pv, sb);
-        pip.addEventListener("pagehide", () => { pip = null; pipTxt = null; if (stream) { stop(); recSay("Got " + n + " picture(s). Tap Make my sheet."); } });
+        pip.addEventListener("pagehide", () => { pip = null; pipTxt = null; if (stream) { gotPics(); } });
       } catch (e) { pip = null; pipTxt = null; }
     }
     recSay("In the box that pops up, open the top dropdown and pick Roblox or Entire Screen, not this page.");
@@ -551,7 +552,7 @@ $("copyerr").onclick = () => bugCopy($("copyerr"), "Copy error to send");
     n = 0; lastTp = null; t0 = Date.now(); v = document.createElement("video"); v.muted = true; v.srcObject = stream;
     await v.play().catch(() => {});
     if (pip) { const pv = pip.document.getElementById("pv"); if (pv) pv.srcObject = stream; if (pipTxt) pipTxt.textContent = "Recording... scroll the list slowly."; }
-    stream.getVideoTracks()[0].onended = () => { if (stream) { stop(); recSay("Got " + n + " picture(s). Tap Make my sheet."); } };
+    stream.getVideoTracks()[0].onended = () => { if (stream) { gotPics(); } };
     btn.textContent = "Stop recording";
     clog("Screen recording started.");
     recSay("Recording... scroll the member list slowly. Still moments are skipped.");
@@ -816,6 +817,7 @@ $("prevfile").onchange = async (e) => {
   const f = e.target.files[0];
   if (!f) return;
   try {
+    await loadExcel();
     if (!window.ExcelJS) throw new Error("The spreadsheet part did not load. Refresh the page.");
     prevMap = await readPrevious(window.ExcelJS, await f.arrayBuffer());
     prevName = f.name;
@@ -845,11 +847,14 @@ function toCsv(rows) {
   return lines.join("\n");
 }
 
+// Pictures taken from each video are kept, so a video is only read once.
+const frameCache = new WeakMap();
 async function collectPictures(images) {
   const pics = [];
   for (const f of images) {
     if (f.type.startsWith("video/")) {
-      for (const frame of await videoFrames(f)) pics.push({ type: frame.type, data: frame.data });
+      if (!frameCache.has(f)) frameCache.set(f, await videoFrames(f));
+      pics.push(...frameCache.get(f));
     } else {
       pics.push({ type: f.type, data: await toBase64(f) });
     }
@@ -927,7 +932,7 @@ async function pickProfile(key) {
   const m = text.match(/\{[\s\S]*\}/);
   if (!m) throw new Error("The AI couldn't work out the layout. Try a clearer picture.");
   const r = JSON.parse(m[0]);
-  const p = { clan: clean($("clanbox").value, 40) || clean(r.clan_name, 40) || "Clan", game: clean(r.game_name, 40) || "Game", ranks: r.ranks_shown !== false, extra: clean(r.extra_column, 30), custom: true };
+  const p = { clan: clean($("clanbox").value, 40) || clean(r.clan_name, 40) || "Clan", game: clean(r.game_name, 40) || "Game", ranks: r.ranks_shown !== false, extra: clean(r.extra_column, 30) };
   clog("Auto layout: " + nameOf(p) + ", ranks " + (p.ranks ? "shown" : "not shown") + ", extra column " + (p.extra || "none") + ".");
   return p;
 }
@@ -966,6 +971,7 @@ $("go").onclick = async () => {
     clog("Found " + rows.length + " unique row(s).");
     if (!rows.length) throw new Error("No member rows were found. The pictures may not show the member list. If you used Record screen, pick the Roblox window or Entire Screen, not this page.");
     let blob, ext = ".xlsx";
+    await loadExcel();
     if (window.ExcelJS) {
       const when = new Date().toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric" }).replace(/,/g, "");
       const wb = buildWorkbook(window.ExcelJS, rows, prevMap, p, when);

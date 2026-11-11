@@ -2,9 +2,23 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Faster to open
+
+11 Nov 2026 (10:45 UTC) · Changed
+
+The big Excel part now loads only when you add pictures, so the page opens much faster. Videos are read once per run. Leftover code was removed.
+
+**What you'll see:** No visible change. The page opens quicker, most of all on phones.
+
+- Excel part (863 KB) loads when needed, not on every visit
+- Videos are read once per run, not twice
+- Old one-clan prompt removed
+- One save-a-setting helper instead of three
+- Repeated text and styles merged
+
 ## Lighter page
 
-11 Nov 2026 (15:00 UTC) · Changed
+11 Nov 2026 (10:41 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/ad78132)
 
 The page now shows the 5 newest updates. The full history moved to GitHub, with nothing removed.
 
@@ -16,7 +30,7 @@ The page now shows the 5 newest updates. The full history moved to GitHub, with 
 
 ## Bug hunt fixes
 
-11 Nov 2026 (14:30 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/68cef60)
+11 Nov 2026 (10:39 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/68cef60)
 
 A full check of the code found five bugs. Long videos lost the end of the list, some videos made the page wait forever, a cut-off AI reply lost every row, and the sheet date could be a day out.
 
@@ -31,7 +45,7 @@ A full check of the code found five bugs. Long videos lost the end of the list, 
 
 ## GitHub preview
 
-11 Nov 2026 (13:30 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/63e1260)
+11 Nov 2026 (10:36 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/63e1260)
 
 The GitHub tab shows a small preview of the guide and what it covers.
 
@@ -42,7 +56,7 @@ The GitHub tab shows a small preview of the guide and what it covers.
 
 ## GitHub tab
 
-11 Nov 2026 (13:00 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/01d5eb4)
+11 Nov 2026 (10:35 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/01d5eb4)
 
 The Help tab is now a GitHub tab. It has a short summary and a link. The guide is the README on GitHub.
 
@@ -54,7 +68,7 @@ The Help tab is now a GitHub tab. It has a short summary and a link. The guide i
 
 ## Help tab tidied
 
-11 Nov 2026 (12:30 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/40dd524)
+11 Nov 2026 (10:33 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/40dd524)
 
 The Help tab now shows one guide, from README.md, with no repeated steps.
 
@@ -65,7 +79,7 @@ The Help tab now shows one guide, from README.md, with no repeated steps.
 
 ## Free key limit note and guide from README
 
-11 Nov 2026 (12:00 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8029f61)
+11 Nov 2026 (10:30 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8029f61)
 
 A grey line says the free Gemini key has a daily limit. The Help tab now shows the guide from README.md.
 
@@ -77,7 +91,7 @@ A grey line says the free Gemini key has a daily limit. The Help tab now shows t
 
 ## Google Gemini first
 
-11 Nov 2026 (11:00 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/3fb71fd)
+11 Nov 2026 (10:28 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/3fb71fd)
 
 Google Gemini is now the default company. A free key link sits under the key box.
 
@@ -89,7 +103,7 @@ Google Gemini is now the default company. A free key link sits under the key box
 
 ## Old code cleared out
 
-11 Nov 2026 (10:35 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/1fc1bbf)
+11 Nov 2026 (10:16 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/1fc1bbf)
 
 Two leftover bits of old code were deleted. Nothing changes on screen.
 
@@ -100,7 +114,7 @@ Two leftover bits of old code were deleted. Nothing changes on screen.
 
 ## Tidier Updates
 
-11 Nov 2026 (10:20 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/61fb1ec)
+11 Nov 2026 (10:14 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/61fb1ec)
 
 The Updates list is shorter: small steps are merged into bigger ones, each has a tag, and counts are gone.
 

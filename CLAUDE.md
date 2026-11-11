@@ -22,13 +22,13 @@ The owner (Ginger) does not code. Short, blunt answers. Plain words on screen.
 - Keep the AI safety notice and the wrong-address warning.
 - Never ask for the key. If a key is pasted, tell Ginger to delete it now.
 - Nothing leaves the PC except to the AI company she picked.
-- No new packages. The page uses only `exceljs.bare.min.js`.
+- No new packages. The page uses only `exceljs.bare.min.js` (loaded on demand by `function loadExcel`).
 
 ## Where things are (search for these in `index.html`)
 | What | Search for |
 |---|---|
 | AI companies and models | `const PROVIDERS`, `const ASKERS` |
-| Prompts | `PROMPT_LOKI`, `function buildPrompt`, `SETUP_PROMPT` |
+| Prompts | `function buildPrompt`, `SETUP_PROMPT` |
 | Auto game/clan/layout read | `async function pickProfile` |
 | Clan name box | `clanbox` |
 | Video stills | `function videoFrames`, `function samePic` |
