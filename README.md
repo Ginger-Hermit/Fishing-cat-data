@@ -57,6 +57,13 @@ Turns Roblox clan screenshots or a screen recording into a ready-to-use Excel sh
 
 For personal use only. Not an official Roblox, Anthropic, Google or OpenAI product. Provided as is, with no guarantees.
 
-## Tests
+## Tests (for developers, optional)
 
-Excel maths check: `npm install exceljs@4.4.0`, then `node tests/excel-math.test.js` (needs LibreOffice for the formula checks).
+`tests/excel-math.test.js` checks the sheet maths: points like "1.2M" turn into numbers, and Change, % Change, Trend and the Clan Summary box add up correctly. The page doesn't need it to run.
+
+To run it from the repo folder:
+
+1. `npm install exceljs@4.4.0` (test tool only, the page doesn't use it)
+2. `node tests/excel-math.test.js`
+
+It prints an error if a check fails. If LibreOffice isn't installed, the formula checks are skipped and only the points parsing is tested.
