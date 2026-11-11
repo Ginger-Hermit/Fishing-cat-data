@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: profiles and files are named Roblox - Game - Clan. Add a game form simplified to clan name plus a game picker. Add a game wording made plainer, Saved notice, ready-made Anime Fighting Simulator button. Help and Stay safe pages brought up to date (Add a game, Remember my key, updates, bug report). Visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
+<!-- Patch note: Add a game keeps the ranks and extra column boxes always reachable under "Change details". Profiles and files are named Roblox - Game - Clan. Add a game form simplified to clan name plus a game picker. Add a game wording made plainer, Saved notice, ready-made Anime Fighting Simulator button. Help and Stay safe pages brought up to date (Add a game, Remember my key, updates, bug report). Visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -61,12 +61,12 @@ button:disabled{opacity:.5}
 <label for="gclan">Your clan name</label><input id="gclan" maxlength="40" autocomplete="off" placeholder="e.g. Loki">
 <label for="gsel">Game</label>
 <select id="gsel"><option value="afs">Anime Fighting Simulator</option><option value="other">Other game...</option></select>
-<div id="gother" style="display:none">
+<details id="gother" style="margin-top:10px"><summary style="cursor:pointer;font-size:14px">Change details (game name, ranks, extra column)</summary>
 <label for="ggame">Game name</label><input id="ggame" maxlength="40" autocomplete="off">
 <label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin-top:10px"><input type="checkbox" id="grank" checked style="width:auto;margin:0"> Ranks (#1, #2) are shown</label>
 <label for="gextra">Extra column (optional)</label><input id="gextra" maxlength="30" autocomplete="off" placeholder="e.g. Total Powers">
-<div style="font-size:12px;color:var(--muted);margin:4px 0 0">Replaces the Role column. Copied as shown.</div>
-</div>
+<div style="font-size:12px;color:var(--muted);margin:4px 0 0">Replaces the Role column. Copied as shown. Empty it to get the Role column back.</div>
+</details>
 <div style="font-size:13px;color:var(--muted);margin:12px 0 4px">Your sheet will look like this</div>
 <div id="gprev" style="overflow-x:auto;margin-bottom:12px"></div>
 <div class="tabs"><button type="button" class="tab on" id="gsave">Save</button><button type="button" class="tab" id="gcancel">Cancel</button></div>
@@ -543,7 +543,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; saveSetting("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-11-h";
+const BUILD = "2026-11-11-i";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1060,7 +1060,7 @@ function updatePreview() {
 updatePreview();
 function applyGame() {
   const afs = $("gsel").value === "afs";
-  $("gother").style.display = afs ? "none" : "block";
+  $("gother").open = !afs;
   if (afs) { $("ggame").value = "Anime Fighting Simulator"; $("grank").checked = false; $("gextra").value = "Total Powers"; }
   else { $("ggame").value = ""; $("grank").checked = true; $("gextra").value = ""; }
   updatePreview();
