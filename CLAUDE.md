@@ -56,3 +56,4 @@ Clean and calm. No big coloured blocks, no boxes in boxes. Short button names (1
 - If a request could mean two things, ask one short question. Bad or bloated idea: say so in one line and offer a cheaper way.
 - If something fails twice, stop and suggest a simpler version or dropping it.
 - Start new chats from the handoff, not by re-reading everything.
+- Spend tokens wisely but smart: spend on the real cause of a bug, checks that protect the live site and sheet accuracy, and one short question when a wrong guess would waste a patch. Save on re-reading, recaps, unseen tidying and extra options. Warn Ginger before anything big.
