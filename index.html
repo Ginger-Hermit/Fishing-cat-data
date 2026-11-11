@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Record screen shows a small always-on-top window (live preview, picture count, Stop) on Chrome/Edge/Opera. Phone tip for screen recording. Record screen button (PC): grabs a still every 2 seconds, no video saved. Profile list removed; always auto-detect. Copy error to send button under red messages. Removed Add a game; new Any clan profile where the AI reads game, clan and columns from your first picture. Add a game is now Upload photo or video; the AI fills in clan, game, ranks and extra column, and the manual boxes sit under Edit by hand. Test read button (1 picture, no download). Add a game can read one screenshot and fill in the columns by itself. Add a game keeps the ranks and extra column boxes always reachable under "Change details". Profiles and files are named Roblox - Game - Clan. Add a game form simplified to clan name plus a game picker. Add a game wording made plainer, Saved notice, ready-made Anime Fighting Simulator button. Help and Stay safe pages brought up to date (Add a game, Remember my key, updates, bug report). Visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
+<!-- Patch note: Record screen hint says to pick Roblox or Entire Screen. Record screen shows a small always-on-top window (live preview, picture count, Stop) on Chrome/Edge/Opera. Phone tip for screen recording. Record screen button (PC): grabs a still every 2 seconds, no video saved. Profile list removed; always auto-detect. Copy error to send button under red messages. Removed Add a game; new Any clan profile where the AI reads game, clan and columns from your first picture. Add a game is now Upload photo or video; the AI fills in clan, game, ranks and extra column, and the manual boxes sit under Edit by hand. Test read button (1 picture, no download). Add a game can read one screenshot and fill in the columns by itself. Add a game keeps the ranks and extra column boxes always reachable under "Change details". Profiles and files are named Roblox - Game - Clan. Add a game form simplified to clan name plus a game picker. Add a game wording made plainer, Saved notice, ready-made Anime Fighting Simulator button. Help and Stay safe pages brought up to date (Add a game, Remember my key, updates, bug report). Visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -567,7 +567,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; saveSetting("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-11-r";
+const BUILD = "2026-11-11-s";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -745,7 +745,7 @@ $("copyerr").onclick = () => bugCopy($("copyerr"), "Copy error to send");
       try {
         pip = await window.documentPictureInPicture.requestWindow({ width: 320, height: 230 });
         const d = pip.document; d.body.style.cssText = "margin:0;padding:10px;background:#0d1117;color:#e6edf3;font:14px system-ui,sans-serif";
-        const t = d.createElement("div"); t.textContent = "Pick the Roblox window, then tap Allow."; t.style.marginBottom = "8px"; pipTxt = t;
+        const t = d.createElement("div"); t.textContent = "Pick Roblox or Entire Screen (not this page), then tap Allow."; t.style.marginBottom = "8px"; pipTxt = t;
         const pv = d.createElement("video"); pv.muted = true; pv.autoplay = true; pv.id = "pv"; pv.style.cssText = "width:100%;border-radius:6px;background:#000;max-height:120px";
         const sb = d.createElement("button"); sb.textContent = "Stop recording"; sb.style.cssText = "margin-top:8px;width:100%;padding:8px;font-size:15px;border-radius:6px;border:0;background:#c0392b;color:#fff";
         sb.onclick = () => { if (stream) { stop(); setMsg("Got " + n + " picture(s). Tap Make my sheet."); } };
@@ -753,8 +753,9 @@ $("copyerr").onclick = () => bugCopy($("copyerr"), "Copy error to send");
         pip.addEventListener("pagehide", () => { pip = null; pipTxt = null; if (stream) { stop(); setMsg("Got " + n + " picture(s). Tap Make my sheet."); } });
       } catch (e) { pip = null; pipTxt = null; }
     }
+    setMsg("In the box that pops up, open the top dropdown and pick Roblox or Entire Screen, not this page.");
     try {
-      stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: false });
+      stream = await navigator.mediaDevices.getDisplayMedia({ video: { displaySurface: "monitor" }, audio: false });
     } catch (e) { if (pip) { try { pip.close(); } catch (x) {} pip = null; pipTxt = null; } setMsg("Recording was cancelled or blocked.", true); return; }
     n = 0; v = document.createElement("video"); v.muted = true; v.srcObject = stream;
     await v.play().catch(() => {});
