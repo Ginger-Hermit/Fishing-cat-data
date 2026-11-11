@@ -1,5 +1,9 @@
 # Rules for Claude: Fishing Cat Data
 
+Read this file and the status below at the start of every chat. Never ask Ginger for a handoff.
+
+@STATUS.md
+
 Web page that reads Roblox clan screenshots or video with an AI and makes an Excel sheet.
 Live: fishing-cat-data.pages.dev. Pushing to `main` deploys in about a minute.
 The owner (Ginger) does not code. Short, blunt answers. Plain words on screen.
@@ -11,7 +15,7 @@ The owner (Ginger) does not code. Short, blunt answers. Plain words on screen.
 4. Check once: syntax, no `eval(` / `exec(`, every `$("id")` exists in the HTML. Then stop.
 5. Small find-and-replace edits that match exactly once. No whole-file rewrites. Keep a backup outside the repo.
 6. One bug per patch unless it has the same cause. Say what you couldn't test.
-7. Update `STATUS.md` (version, next, not tested). Read it at the start of every chat instead of asking for a handoff.
+7. Update `STATUS.md` (version, next, not tested). It is loaded automatically by the line at the top.
 
 ## Safety rules (keep)
 - No `eval` / `exec`. No unknown websites. A new website needs an edit to `_headers` (CSP `connect-src`) and a mention in Stay safe.
