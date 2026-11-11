@@ -95,3 +95,34 @@ You don't need to code to follow it. Start here.
 - The first line of `index.html` is a plain-English note of the latest change.
 - The Updates tab on the live page says in plain words what changed and links to the exact code.
 - On a GitHub commit, green lines were added and red lines were removed.
+
+## How to understand a line of code
+
+Take a real line from `index.html`:
+
+```js
+const nameOf = (p) => "Roblox - " + p.game + " - " + p.clan;
+```
+
+Read it left to right:
+- `const nameOf` makes a named helper called `nameOf`.
+- `(p) =>` means "give me one thing, call it `p`" (here, the game and clan details).
+- Everything after `=>` is what it hands back: the words `Roblox - `, then the game, then ` - `, then the clan.
+- So `nameOf` of Loki's Gym League gives `Roblox - Gym League - Loki`. That's the Excel file name.
+
+**Words you'll see a lot**
+- `function` or `=>`: a small recipe that does one job.
+- `const` / `let`: a labelled box holding a value. `const` never changes, `let` can.
+- `if (...) { ... }`: do this only when the thing in brackets is true.
+- `await`: wait for the AI to answer before moving on.
+- `$("key")`: grab the page element with that name (`id="key"` in the page part).
+- `clog(...)`: write a line in the Log box.
+- `//`: a note for humans, ignored by the page.
+- `{ ... }` is a group of named things. `[ ... ]` is a list.
+
+**To follow any feature**
+1. Find its button or box in the page part (search for the words you see on screen).
+2. Note its `id`, then search for `$("thatid")` to find what happens when you use it.
+3. Follow the function names it calls, one at a time.
+
+If you get stuck, copy the lines into any AI chat and ask "what does this do, in plain words?".
