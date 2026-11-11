@@ -2,6 +2,8 @@
 
 Turns Roblox clan screenshots or a screen recording into a ready-to-use Excel sheet: Rank, Username, Role and Points, with optional week-to-week change.
 
+**Built entirely by Claude, an AI.** The author gave the ideas and tested it. The AI wrote all the code, this page and the notes.
+
 **Use it:** https://fishing-cat-data.pages.dev
 
 ## How to use it
@@ -52,4 +54,4 @@ Turns Roblox clan screenshots or a screen recording into a ready-to-use Excel sh
 
 ## Disclaimer
 
-For personal use only. Not connected to Roblox or Anthropic. Provided as is, with no guarantees.
+For personal use only. Not an official Roblox or Anthropic product. Provided as is, with no guarantees.

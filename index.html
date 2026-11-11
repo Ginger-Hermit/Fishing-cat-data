@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: added a History section (the first desktop project) at the bottom of the Updates tab. -->
+<!-- Patch note: says plainly that the whole project was built by Claude (AI). -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -57,7 +57,7 @@ button:disabled{opacity:.5}
 <button id="go" disabled>Make my sheet</button>
 <div class="msg" id="msg" role="status" aria-live="polite"></div>
 <div class="note">Your key stays in this page only and is never saved. Screenshots go only to Anthropic.</div>
-<div style="font-size:12px;color:var(--muted);margin-top:10px;text-align:center">For personal use only. Not connected to Roblox or Anthropic. Provided as is, with no guarantees.</div>
+<div style="font-size:12px;color:var(--muted);margin-top:10px;text-align:center">Built entirely by Claude, an AI. The author gave the ideas and tested it. The AI wrote all the code.<br>For personal use only. Not an official Roblox or Anthropic product. Provided as is, with no guarantees.</div>
 <div style="text-align:center;margin-top:10px"><a href="#" id="devOn" style="font-size:12px;color:var(--muted)">Developer view</a></div>
 </div>
 <div id="helptab" style="display:none;font-size:15px;line-height:1.5">
@@ -127,6 +127,13 @@ const PROFILES = { loki: { clan: "Loki", game: "Gym League" } };
 const UPDATE_LOG = [
   {
     date: "11 Nov 2026",
+    title: "Says it was built by Claude",
+    meaning: "The page now says plainly that Claude, an AI, wrote all of it.",
+    see: "A line under the Make my sheet button and in the History story.",
+    changes: ["Added a built-by-Claude line.", "Disclaimer now says not an official Roblox or Anthropic product."],
+  },
+  {
+    date: "11 Nov 2026",
     title: "History of the first project",
     meaning: "The story of the desktop version this page grew from now sits at the bottom of the Updates tab.",
     see: "Scroll to the bottom of Updates for the History cards: story, timeline, size, best and worst, lessons.",
@@ -179,6 +186,7 @@ const HISTORY_HTML = `
 <div style="font-size:13px;color:var(--muted);margin-bottom:10px">Before this web page there was a desktop program. This is its story, cut short.</div>
 <details class="hc"><summary>The story</summary>
 <ul>
+<li><b>Everything was done by Claude, an AI:</b> all the code, this page and these notes. The author gave the ideas and tested it.</li>
 <li>It started as Clan Sheet Generator, then became Fishing Cat Data.</li>
 <li>It turns a screen recording of a Roblox clan member list into a spreadsheet that shows who went up or down.</li>
 <li>It was built in a few days, 9 to 11 Nov 2026, entirely by AI, through lots of trial and error.</li>
