@@ -1,6 +1,6 @@
 # Fishing Cat Data
 
-Turns Roblox clan screenshots or a video into a ready-to-use Excel sheet: Rank, Username, Role and Points, with optional week-to-week change.
+Turns clan screenshots or a video, from any game, into a ready-to-use Excel sheet: Rank, Username, Role and Points, with optional week-to-week change. It also reads photos of household bills (power, gas, water, internet, phone and more) into a sheet.
 
 **Built entirely by Claude, an AI.** The author gave the ideas and tested it. The AI wrote all the code, this page and the notes.
 
@@ -28,9 +28,10 @@ Turns Roblox clan screenshots or a video into a ready-to-use Excel sheet: Rank, 
 - Remembers your last sheet on this device so you don't have to pick it again (names and points only). Tap **Remove** to forget it.
 - Themes (Auto, Light, Dark, Ocean, Forest, Berry) and Large text, in the Settings tab.
 - GitHub tab that links here, where this guide lives.
-- **Bills tab:** add photos of power or gas bills and get a sheet with one row per charge and a Summary tab. Usage is turned into kWh (from MJ, therms, or gas volume using the factors printed on the bill) so bills can be compared. Money is kept in the bill's own currency. Bills are private: the whole photo goes to the AI company you pick, so only upload your own.
-- Updates tab with a plain-English log of every change.
-- A Log box on the first tab that opens by itself on errors, with a Copy bug report button. A red Copy error button shows under any error.
+- **Home tab** that explains what the page does, then **Clan sheet** and **Bills** tabs for the two tools.
+- **Bills tab:** add photos of household bills (power, gas, water, internet, phone and more) and get a sheet with one row per charge and a Summary tab. Usage is turned into kWh (from MJ, therms, or gas volume using the factors printed on the bill) so bills can be compared. Money is kept in the bill's own currency. Bills are private: the whole photo goes to the AI company you pick, so only upload your own.
+- The update history is in [CHANGELOG.md](CHANGELOG.md), one plain-English entry per change.
+- Live steps with a timer under Make my sheet, and a Log box that opens by itself during a run on both tabs, with a Copy bug report button. A red Copy error button shows under any error.
 - Optional Clan name box, optional Remember my key, and a banner when a new version is out.
 
 ## Privacy

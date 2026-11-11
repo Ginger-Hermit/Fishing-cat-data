@@ -4,7 +4,7 @@ Read this file and the status below at the start of every chat. Never ask Ginger
 
 @STATUS.md
 
-Web page that reads Roblox clan screenshots or video with an AI and makes an Excel sheet. It also has an Energy bills tab that reads photos of power and gas bills.
+Web page that reads clan screenshots or video (any game) with an AI and makes an Excel sheet. It also has a Bills tab that reads photos of household bills (power, gas, water, phone and more).
 Live: fishing-cat-data.pages.dev. Pushing to `main` deploys in about a minute.
 The owner (Ginger) does not code. Short, blunt answers. Plain words on screen.
 
