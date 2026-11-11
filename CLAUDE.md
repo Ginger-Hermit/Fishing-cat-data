@@ -41,6 +41,7 @@ The owner (Ginger) does not code. Short, blunt answers. Plain words on screen.
 | Tabs | `function showTab` |
 | "New version" banner | `function checkUpdate` |
 | Security headers (CSP) | `_headers` |
+| Row reading test | `tests/rows.test.js` (run `node tests/rows.test.js`, no install needed) |
 | Excel maths test | `tests/excel-math.test.js` (needs `npm install exceljs@4.4.0`) |
 
 ## Tested / not tested

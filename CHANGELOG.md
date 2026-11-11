@@ -2,9 +2,24 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Harder to break
+
+11 Nov 2026 (10:49 UTC) · Changed
+
+The page was attacked with about 50 kinds of bad input: broken AI replies, odd keys, junk files, tampered saved settings. Everything that gave a wrong sheet or a confusing message was fixed.
+
+**What you'll see:** Fewer failed runs, and plainer red messages when something does fail.
+
+- Odd AI replies (extra text, nested or wrapped lists) are still read
+- Names, roles and points are cleaned: no hidden characters, no huge values
+- Points like 1.2.3K are flagged, not guessed; T (trillion) is understood
+- If the layout step fails, the usual layout is used and the run carries on
+- Plain messages for a bad key, pictures that are too big, and unreadable replies or files
+- Empty files are skipped
+
 ## Faster to open
 
-11 Nov 2026 (10:45 UTC) · Changed
+11 Nov 2026 (10:45 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7df947d)
 
 The big Excel part now loads only when you add pictures, so the page opens much faster. Videos are read once per run. Leftover code was removed.
 

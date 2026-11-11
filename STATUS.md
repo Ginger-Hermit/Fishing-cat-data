@@ -1,6 +1,6 @@
 # Status (update on every push)
 
-Last updated: 11 Nov 2026. Page version 2026-11-11-ai. Live at fishing-cat-data.pages.dev.
+Last updated: 11 Nov 2026. Page version 2026-11-11-aj. Live at fishing-cat-data.pages.dev.
 
 ## How it works now
 Upload photos or a video (or tap Record screen on a PC). The AI reads the game, clan and layout from up to 3 of the pictures, then reads the member rows, and the page makes the Excel sheet. There is no profile list or Add a game any more. The optional Clan name box sets the file name. Gemini and Anthropic work.
@@ -16,11 +16,12 @@ Upload photos or a video (or tap Record screen on a PC). The AI reads the game, 
 - 11 Nov review (version ag): video reading was tested in headless Chrome with a made-up 40 second video (24 pictures kept, spread over the whole video; broken and sound-only videos show an error). Row reading has unit tests run by hand. Not tested with a real key or a real Roblox video.
 - Review found, not fixed: all pictures go to the AI in one request, so many big PNG screenshots can be too large (Anthropic allows about 5 MB per picture) and accuracy may drop with 20+ pictures; sending in small batches would fix both but uses more requests on the free Gemini key.
 - OpenAI is untested.
-- Phone screen layout was never checked.
+- Phone layout: checked in headless Chrome at 360 and 320 px wide, all tabs, all themes, both text sizes: no sideways scrolling. Not looked at by eye on a real phone.
+- 11 Nov break test (version aj): about 50 bad-input cases run in headless Chrome with pretend AI replies (broken replies, hostile names, HTTP errors, junk files, tampered saved settings, all three reply shapes). No script injection found. Fixes are in `parseRows`, `tidy`, `postJson`, `pickProfile`, `plain`. Not covered: real AI calls, Record screen, Firefox, Safari. Label text contrast measured about 4.2 to 1 in Light and Ocean (target 4.5), not changed.
 - The live security header (CSP in `_headers`) was never checked on the real site.
 - "Remember my key" was seen ticked in a Firefox video but not otherwise checked.
 - The Help tab is now a GitHub tab; the guide is README.md. Stay safe is plain text and must be updated by hand.
-- Updates: the page shows the newest 5 entries; the full history is in CHANGELOG.md. Newest entry (Faster to open) has no `commit:` yet. The Excel part (exceljs) now loads on demand through `loadExcel`. Add it on the next push.
+- Updates: the page shows the newest 5 entries; the full history is in CHANGELOG.md. Newest entry (Harder to break) has no `commit:` yet. The Excel part (exceljs) now loads on demand through `loadExcel`. Add it on the next push.
 - Fingerprint: not recorded.
 
 ## Ideas Ginger has not approved

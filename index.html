@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Excel part loads only when needed, videos are read once, leftover code removed. No visible change. -->
+<!-- Patch note: Break-test fixes: odd AI replies, odd keys and unreadable files now give a sheet or a plain message instead of a broken one. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -219,9 +219,19 @@ Answer with ONLY a JSON array, no other text:
 const UPDATE_LOG = [
   {
     date: "11 Nov 2026",
+    title: "Harder to break",
+    tag: "Changed",
+    at: "2026-11-11T10:49:31Z",
+    meaning: "The page was attacked with about 50 kinds of bad input: broken AI replies, odd keys, junk files, tampered saved settings. Everything that gave a wrong sheet or a confusing message was fixed.",
+    see: "Fewer failed runs, and plainer red messages when something does fail.",
+    changes: ["Odd AI replies (extra text, nested or wrapped lists) are still read", "Names, roles and points are cleaned: no hidden characters, no huge values", "Points like 1.2.3K are flagged, not guessed; T (trillion) is understood", "If the layout step fails, the usual layout is used and the run carries on", "Plain messages for a bad key, pictures that are too big, and unreadable replies or files", "Empty files are skipped"]
+  },
+  {
+    date: "11 Nov 2026",
     title: "Faster to open",
     tag: "Changed",
     at: "2026-11-11T10:45:53Z",
+    commit: "7df947d",
     meaning: "The big Excel part now loads only when you add pictures, so the page opens much faster. Videos are read once per run. Leftover code was removed.",
     see: "No visible change. The page opens quicker, most of all on phones.",
     changes: ["Excel part (863 KB) loads when needed, not on every visit", "Videos are read once per run, not twice", "Old one-clan prompt removed", "One save-a-setting helper instead of three", "Repeated text and styles merged"]
@@ -255,16 +265,6 @@ const UPDATE_LOG = [
     meaning: "The GitHub tab shows a small preview of the guide and what it covers.",
     see: "The box on the GitHub tab.",
     changes: ["Preview box listing the guide sections", "Full README guide restored and updated for Gemini first"]
-  },
-  {
-    date: "11 Nov 2026",
-    title: "GitHub tab",
-    tag: "Changed",
-    at: "2026-11-11T10:35:20Z",
-    commit: "01d5eb4",
-    meaning: "The Help tab is now a GitHub tab. It has a short summary and a link. The guide is the README on GitHub.",
-    see: "The fourth tab, next to Settings.",
-    changes: ["Help tab replaced by GitHub tab", "Old help sections removed", "Link opens GitHub in a new tab"]
   }
 ];
 function renderLog() {
@@ -341,7 +341,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-11-ai";
+const BUILD = "2026-11-11-aj";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -379,6 +379,8 @@ const recSay = (t, bad) => { const e = $("recstat"); e.textContent = t; e.style.
 const MAX_FILES = 30;
 
 const $ = (id) => document.getElementById(id);
+// A fault inside the page itself: plain words on screen, the real error goes in the Log.
+const plain = (err) => (err instanceof TypeError || err instanceof SyntaxError || err instanceof RangeError || err instanceof ReferenceError) ? "Something went wrong on this page. Tap Copy error to send, and send it to the author." : err.message;
 const setMsg = (text, bad) => { $("msg").textContent = text; $("msg").className = "msg" + (bad ? " err" : ""); $("copyerr").style.display = bad ? "block" : "none"; if (bad) $("logbox").open = true; };
 
 function refresh() {
@@ -406,7 +408,7 @@ function loadExcel() {
 function addFiles(fileList) {
   loadExcel();
   for (const f of fileList) {
-    if (!f.type.startsWith("image/") && !f.type.startsWith("video/")) continue;
+    if (!f.size || (!f.type.startsWith("image/") && !f.type.startsWith("video/"))) continue;
     if (images.length >= MAX_FILES) { setMsg("Up to " + MAX_FILES + " files at a time. Tap Clear to start again.", true); break; }
     images.push(f);
   }
@@ -585,24 +587,31 @@ function toBase64(file) {
   });
 }
 
+// Tidy one value from the AI: text or number only, no hidden characters, not too long.
+const tidy = (v, n) => (typeof v === "string" || typeof v === "number") ? String(v).replace(/[\u0000-\u001f\u007f]/g, " ").trim().slice(0, n) : "";
 function parseRows(text) {
   let rows, cut = false;
-  try { rows = JSON.parse(text.match(/\[[\s\S]*\]/)[0]); }
+  try { rows = JSON.parse(text.match(/\[[\s\S]*\]/)[0]).flat(2); }
   catch (e) {
-    // Reply was cut off or untidy: keep every complete row.
-    rows = (text.match(/\{[^{}]*\}/g) || []).map(t => { try { return JSON.parse(t); } catch (x) { return null; } }).filter(Boolean);
-    cut = true;
+    // Reply was cut off or untidy: keep every complete row. It was cut off if no "]" follows the last row.
+    rows = []; let end = 0;
+    for (const m of text.matchAll(/\{[^{}]*\}/g)) { try { rows.push(JSON.parse(m[0])); end = m.index + m[0].length; } catch (x) {} }
+    cut = !text.slice(end).includes("]");
   }
-  if (!Array.isArray(rows) || (cut && !rows.length)) throw new Error("The AI did not return a list of rows. Try again.");
+  if (!rows.length && !/\[\s*\]/.test(text)) throw new Error("The AI did not return a list of rows. Try again.");
   // Pictures overlap, so the same member can appear more than once. Keep the first one.
   const seen = new Set();
   const out = rows.filter(r => {
-    if (!r || !r.name || r.points === undefined) return false;
-    const k = String(r.name).trim().toLowerCase();
+    if (!r || typeof r !== "object") return false;
+    r.name = tidy(r.name, 60);
+    if (!r.name || r.points === undefined) return false;
+    const k = r.name.toLowerCase();
     if (k !== "?" && seen.has(k)) return false;
     seen.add(k);
-    const n = parseInt(String(r.rank ?? "").replace(/\D/g, ""), 10);
-    r.rank = Number.isFinite(n) ? n : "";
+    r.role = tidy(r.role, 40);
+    r.points = tidy(r.points, 20) || "?";
+    const n = Number(String(r.rank ?? "").replace(/^#\s*/, ""));
+    r.rank = Number.isInteger(n) && n > 0 && n < 100000 ? n : "";
     return true;
   });
   out.cut = cut;
@@ -612,9 +621,9 @@ function parseRows(text) {
 
 // Excel: turn "52.51K" into 52510, read an earlier sheet, build the new one.
 function parsePoints(t) {
-  const m = String(t ?? "").trim().replace(/,/g, "").match(/^([\d.]+)\s*([KkMmBb]?)$/);
+  const m = String(t ?? "").trim().replace(/,/g, "").match(/^(\d+(?:\.\d+)?|\.\d+)\s*([KkMmBbTt]?)$/);
   if (!m) return null;
-  return Math.round(parseFloat(m[1]) * { "": 1, k: 1e3, m: 1e6, b: 1e9 }[m[2].toLowerCase()]);
+  return Math.round(parseFloat(m[1]) * { "": 1, k: 1e3, m: 1e6, b: 1e9, t: 1e12 }[m[2].toLowerCase()]);
 }
 
 async function readPrevious(EJ, buf) {
@@ -828,7 +837,7 @@ $("prevfile").onchange = async (e) => {
     prevMap = null;
     showPrev();
     clog("Last sheet failed: " + err.message);
-    setMsg(err.message, true);
+    setMsg(err instanceof Error && /made by this page|did not load/.test(err.message) ? err.message : "That file could not be read. Choose a sheet made by this page (.xlsx).", true);
   }
 };
 // Remember the last sheet on this device (names and points only), so it does not need picking again.
@@ -875,9 +884,13 @@ async function postJson(url, headers, body) {
     if (res.status === 429) throw new Error("Too many requests right now. Wait a minute and try again.");
     if (res.status === 404) throw new Error("The AI model is gone or not open to your key. Change it in Settings under AI model (advanced).");
     if (res.status >= 500) throw new Error("The AI is busy or down. Try again in a few minutes.");
+    if (res.status === 400 || res.status === 413) throw new Error("The AI turned the pictures down (" + res.status + "). They may be too big or too many. Try fewer pictures.");
     throw new Error("The AI said no (" + res.status + "). Check the key.");
   }
-  return res.json();
+  let d = null;
+  try { d = await res.json(); } catch (e) {}
+  if (!d || typeof d !== "object") throw new Error("The AI sent back something unreadable. Try again.");
+  return d;
 }
 
 const ASKERS = {
@@ -890,7 +903,7 @@ const ASKERS = {
       "anthropic-version": "2023-06-01",
       "anthropic-dangerous-direct-browser-access": "true"
     }, { model, max_tokens: 8000, messages: [{ role: "user", content }] });
-    return d.content.filter(b => b.type === "text").map(b => b.text).join("\n");
+    return (d.content || []).filter(b => b && b.type === "text").map(b => b.text).join("\n");
   },
   gemini: async (key, model, pics) => {
     const parts = pics.map(p => ({ inline_data: { mime_type: p.type, data: p.data } }));
@@ -918,21 +931,21 @@ async function readScreenshots(key, images) {
 
 // The AI reads the game, clan and layout from your first picture.
 const nameOf = (p) => "Roblox - " + p.game + " - " + p.clan;
-const clean = (t, n) => String(t || "").replace(/[\r\n"\\<>\/:*?|]/g, " ").replace(/\s+/g, " ").trim().slice(0, n);
+const clean = (t, n) => (typeof t === "string" ? t : "").replace(/[\r\n"\\<>\/:*?|]/g, " ").replace(/\s+/g, " ").trim().slice(0, n);
 const SETUP_PROMPT = `These images show the member list of a Roblox game clan screen.
 Work out how the list is laid out. Do not copy the whole list. If several images are given, use the one that shows the member list best.
 Answer with ONLY one JSON object, no other text:
 {"clan_name": "name of the clan if it is clearly visible, otherwise empty", "game_name": "name of the game if it is clearly visible, otherwise empty", "ranks_shown": true or false (is a rank number like #1 shown beside each member?), "extra_column": "the heading or label of any column besides rank, username, role and points, otherwise empty"}
 Never guess; use empty text if unsure.`;
 async function pickProfile(key) {
+  if (/[^\x21-\x7e]/.test(key)) throw new Error("That key has odd characters or spaces in it. Copy it again and paste it.");
   PROMPT = SETUP_PROMPT;
   const L = images.length, pick = [...new Set([images[0], images[L >> 1], images[L - 1]])];
   const all = await collectPictures(pick), pics = [...new Set([all[0], all[all.length >> 1], all[all.length - 1]])];
   const text = await ASKERS[provider()](key, modelFor(provider()), pics);
-  const m = text.match(/\{[\s\S]*\}/);
-  if (!m) throw new Error("The AI couldn't work out the layout. Try a clearer picture.");
-  const r = JSON.parse(m[0]);
-  const p = { clan: clean($("clanbox").value, 40) || clean(r.clan_name, 40) || "Clan", game: clean(r.game_name, 40) || "Game", ranks: r.ranks_shown !== false, extra: clean(r.extra_column, 30) };
+  let r = {};
+  try { r = JSON.parse(text.match(/\{[\s\S]*\}/)[0]) || {}; } catch (e) { clog("Layout not read; using the usual layout."); }
+  const p = { clan: clean($("clanbox").value, 40) || clean(r.clan_name, 40) || "Clan", game: clean(r.game_name, 40) || "Game", ranks: r.ranks_shown !== false && r.ranks_shown !== "false", extra: clean(r.extra_column, 30) };
   clog("Auto layout: " + nameOf(p) + ", ranks " + (p.ranks ? "shown" : "not shown") + ", extra column " + (p.extra || "none") + ".");
   return p;
 }
@@ -951,7 +964,7 @@ $("testgo").onclick = async () => {
     const bad = rows.filter(r => r.name === "?" || parsePoints(r.points) === null).length;
     const first = rows.slice(0, 3).map(r => r.name + " " + r.points + (p.extra ? " (" + r.role + ")" : "")).join(", ");
     setMsg("Test read OK: " + rows.length + " rows from 1 picture. First: " + first + "." + (bad ? " " + bad + " unreadable." : "") + " If that looks right, tap Make my sheet. Nothing was downloaded.");
-  } catch (err) { setMsg(err.message, true); }
+  } catch (err) { clog("Test stopped: " + err.message); setMsg(plain(err), true); }
   finally { refresh(); }
 };
 
@@ -995,7 +1008,7 @@ $("go").onclick = async () => {
     setMsg("Done: " + rows.length + " rows. Your sheet was downloaded." + (rows.cut ? " The AI's reply was cut short, so some members may be missing. Try fewer pictures." : "") + (countOff ? " The screen says " + shown + " members, so some may be missing. Scroll slower and try again." : "") + (bad ? " Check " + bad + " row(s) marked ?." : "") + (order ? " Some ranks look out of order, so check the list." : ""));
   } catch (err) {
     clog("Stopped: " + err.message);
-    setMsg(err.message, true);
+    setMsg(plain(err), true);
   } finally {
     refresh();
   }

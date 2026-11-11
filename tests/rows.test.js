@@ -1,0 +1,21 @@
+// Checks reading rows and points from AI replies. Run from the repo folder: node tests/rows.test.js
+const fs=require("fs");const h=fs.readFileSync("index.html","utf8");
+const grab=(a,b)=>h.slice(h.indexOf(a),h.indexOf(b));
+eval(grab("// Tidy one value","// Excel: turn")+grab("function parsePoints","async function readPrevious")+";globalThis.parseRows=parseRows;globalThis.parsePoints=parsePoints");
+const A=require("assert");
+let r=parseRows('Here: [{"rank":"#1","name":"a","role":"Owner","points":"1K"},{"rank":2,"name":"A","points":"5"},{"rank":3,"name":"?","points":"7"},{"rank":4,"name":"?","points":"8"},{"members_on_screen":49}]');
+A.deepEqual(r.map(x=>[x.rank,x.name]),[[1,"a"],[3,"?"],[4,"?"]]);A.equal(r.cut,false);
+r=parseRows('[{"rank":1,"name":"a","role":"m","points":"1K"},{"rank":2,"name":"b","role":"m","points":"2K"},{"rank":3,"na');
+A.equal(r.length,2);A.equal(r.cut,true);
+A.throws(()=>parseRows("sorry, no"));
+r=parseRows('[{"name":"x","points":"3"}]');A.equal(r[0].rank,"");
+A.equal(parsePoints("52.51K"),52510);A.equal(parsePoints("1.307M"),1307000);A.equal(parsePoints("?"),null);
+console.log("unit tests ok");
+r=parseRows('note [1]. [{"rank":1,"name":"a","points":"1"}]');A.equal(r.length,1);A.equal(r.cut,false);
+r=parseRows('[[{"rank":1,"name":"a","points":"1"}]]');A.equal(r.length,1);A.equal(r.cut,false);
+r=parseRows('{"rows":[{"rank":1,"name":"a","points":"1"}]}');A.equal(r.length,1);
+A.equal(parseRows("[]").length,0);
+r=parseRows(JSON.stringify([{rank:1e99,name:{a:1},points:"1"},{rank:-1,name:12345,role:[1],points:null},{rank:"#7",name:"x".repeat(900),points:507},true,null]));
+A.equal(r.length,2);A.equal(r[0].name,"12345");A.equal(r[0].rank,"");A.equal(r[0].points,"?");A.equal(r[0].role,"");A.equal(r[1].rank,7);A.equal(r[1].name.length,60);A.equal(r[1].points,"507");
+A.equal(parsePoints("1.2.3K"),null);A.equal(parsePoints("2T"),2e12);A.equal(parsePoints("1,234"),1234);A.equal(parsePoints("-5"),null);A.equal(parsePoints(""),null);
+console.log("round 2 unit tests ok");
