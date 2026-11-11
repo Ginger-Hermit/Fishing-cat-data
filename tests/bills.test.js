@@ -28,4 +28,5 @@ A.equal(b[0].lines[0].type,"Water");A.ok(!b[0].lines[0].check);A.equal(b[0].line
 // phone-bill line types (plan, pro-rata, discount, usage, instalment, fee) read without flags
 b=parseBills(JSON.stringify({bills:[{supplier:"Example Mobile",currency:"NZD",decimal_mark:".",total_due:"$96.40",lines:[{energy:"other",kind:"phone",charge:"Plan",amount:"$79.00"},{energy:"other",kind:"phone",charge:"Pro-rata plan",amount:"$12.40"},{energy:"other",kind:"phone",charge:"Discount",amount:"-$10.00"},{energy:"other",kind:"phone",charge:"Extra data",used:"2",unit:"GB",amount:"$10.00"},{energy:"other",kind:"phone",charge:"Phone instalment",amount:"$15.00"},{energy:"other",kind:"phone",charge:"Late fee",amount:"$0.00"}]}]}));
 A.equal(b[0].lines.length,6);A.equal(b[0].lines[2].amount,-10);A.ok(b[0].lines.every(l=>!l.check));
+b=parseBills(JSON.stringify({bills:[{lines:[{energy:"other",kind:"wa\"ter)",charge:"x",amount:"1"}]}]}));A.equal(b[0].lines[0].type,"Water");
 console.log("bill tests ok");

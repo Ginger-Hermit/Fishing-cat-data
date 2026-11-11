@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Bills summary by type
+
+12 Nov 2026 (22:37 UTC) · Changed
+
+The Summary tab now shows the cost of each bill type, so water, phone and internet bills show up.
+
+**What you'll see:** Bills tab, make a sheet, open Summary: a Cost by type block sits under the main rows.
+
+- Summary: new Cost by type block (Electricity, Gas, Water, Phone and so on) worked out by the sheet
+- Bill type words are cleaned to letters only before they go in a formula
+
 ## All household bills
 
-12 Nov 2026 (22:35 UTC) · Changed
+12 Nov 2026 (22:35 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/b9a47fe)
 
 The Bills tab now reads any household bill, not just power and gas.
 
