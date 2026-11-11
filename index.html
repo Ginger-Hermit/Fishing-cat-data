@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Excel sheet restyled to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
+<!-- Patch note: Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -618,7 +618,7 @@ function buildWorkbook(EJ, rows, prev, p, when) {
   const NAVY = "FF1F3864", INK = "FF1F2937", GREY = "FF7F7F7F";
   const fill = (c) => ({ type: "pattern", pattern: "solid", fgColor: { argb: c } });
   const ws = wb.addWorksheet("Clan Members", { views: [{ state: "frozen", ySplit: 3 }] });
-  [9, 26, 16, 21, 20, 16, 13, 14, 11, 3, 25, 22].forEach((w, i) => { ws.getColumn(i + 1).width = w; });
+  [9, 26, 16, 21, 20, 16, 13, 14, 11, 3, 29, 22].forEach((w, i) => { ws.getColumn(i + 1).width = w; });
   ws.mergeCells("A1:I1");
   ws.mergeCells("A2:I2");
   ws.getCell("A1").value = p.clan + " \u2013 Member Points";
@@ -732,13 +732,13 @@ function buildWorkbook(EJ, rows, prev, p, when) {
   line(19, "Members", { formula: `COUNTIF(${B},"<>(not read)")` }, "0");
   line(20, "Total Points", { formula: `SUM(${E})` }, "#,##0");
   line(21, "Average Points", { formula: `IFERROR(AVERAGE(${E}),"")` }, "#,##0");
-  line(22, "Total Change", { formula: `IF(COUNT(${G})=0,"",SUM(${G}))` }, "\\+#,##0;\\-#,##0;0");
-  line(23, "Total % Change", { formula: `IF(OR(COUNT(${G})=0,SUM(${F})=0),"",SUM(${G})/SUM(${F}))` }, "\\+0.0%;\\-0.0%;0.0%");
+  line(22, "Total Change (returning)", { formula: `IF(COUNT(${G})=0,"",SUM(${G}))` }, "\\+#,##0;\\-#,##0;0");
+  line(23, "Total % Change (returning)", { formula: `IF(OR(COUNT(${G})=0,SUM(${F})=0),"",SUM(${G})/SUM(${F}))` }, "\\+0.0%;\\-0.0%;0.0%");
   line(24, "Members Up", { formula: `IF(COUNT(${G})=0,"",COUNTIF(${G},">0"))` }, "0");
   line(25, "Members Down", { formula: `IF(COUNT(${G})=0,"",COUNTIF(${G},"<0"))` }, "0");
   line(26, "Top Gainer", { formula: `IF(COUNT(${G})=0,"",IF(MAX(${G})<=0,"",INDEX(${B},MATCH(MAX(${G}),${G},0))))` }, "@");
   line(27, "Biggest Drop", { formula: `IF(COUNT(${G})=0,"",IF(MIN(${G})>=0,"",INDEX(${B},MATCH(MIN(${G}),${G},0))))` }, "@");
-  ws.getCell("K28").value = "Change values appear from the second week on.";
+  ws.getCell("K28").value = "Change values appear from the second week on. New members are left out of the change totals.";
   ws.getCell("K28").font = { italic: true, size: 9, color: { argb: GREY } };
   ["L22", "L23", "L12"].forEach((a) => {
     const rr = a.slice(1);
