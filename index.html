@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: says plainly that the whole project was built by Claude (AI). -->
+<!-- Patch note: added footer links with short Privacy and Legal pages. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -12,6 +12,7 @@ html[data-theme=ocean]{--bg:#E6F3F7;--text:#10252E;--muted:#5A7580;--accent:#0B6
 html[data-theme=forest]{--bg:#EEF3EC;--text:#1A2A1C;--muted:#5F7260;--accent:#2F6B3A;--link:#2F6B3A;--line:#8FA58F;--soft:#D3E0D1;--noteBg:#DDEBD0;--noteText:#245A2E}
 html[data-theme=berry]{--bg:#F6EEF3;--text:#2A1B26;--muted:#7A6373;--accent:#8A2D63;--link:#8A2D63;--line:#B096A6;--soft:#E6D5DF;--noteBg:#F3DDE8;--noteText:#7A1F52}
 html[data-size=large] .card{zoom:1.25}
+#foot a{color:inherit}
 .ok{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--noteBg);color:var(--noteText);border-radius:8px;padding:12px 14px;margin-top:8px;font-size:15px;font-weight:500}
 .hc{background:var(--field);border:1px solid var(--soft);border-radius:10px;padding:12px 14px;margin-bottom:10px}
 .hc summary{cursor:pointer;font-weight:500;color:var(--link)}
@@ -99,6 +100,28 @@ button:disabled{opacity:.5}
 <li>Theme and text size are in Settings, remembered on this device only.</li>
 </ul></details>
 </div>
+<div id="privacytab" style="display:none;font-size:15px;line-height:1.5">
+<div class="hc"><b>Privacy</b>
+<ul>
+<li>Your AI key stays in this page. It is never saved.</li>
+<li>Your pictures (and the stills pulled from a video) go only to Anthropic, straight from your browser, to be read. This page has no server of its own, so we never see them.</li>
+<li>What Anthropic does with what you send is covered by Anthropic's own policies.</li>
+<li>Saved on your device only: theme, text size, and the last sheet you chose (names and points). Tap Remove on the first tab to forget the sheet.</li>
+<li>No accounts and no tracking added by this page. The page is hosted on Cloudflare Pages, which may keep normal visit records like any website host.</li>
+<li>The names in your pictures belong to real people. Share the sheet only with people who should see it.</li>
+</ul></div>
+</div>
+<div id="legaltab" style="display:none;font-size:15px;line-height:1.5">
+<div class="hc"><b>Legal</b>
+<ul>
+<li>For personal use only.</li>
+<li>Not an official Roblox or Anthropic product. Roblox and Anthropic are names of their owners.</li>
+<li>Provided as is, with no guarantees. The AI can misread names and numbers, so check your sheet.</li>
+<li>Built entirely by Claude, an AI. The author gave the ideas and tested it.</li>
+<li>Using the AI costs credit on your own Anthropic account, under your own terms with Anthropic.</li>
+<li>The spreadsheet part is ExcelJS, an open-source library.</li>
+</ul></div>
+</div>
 <div id="settingstab" style="display:none">
 <div style="font-size:13px;color:var(--muted);margin-bottom:6px">Theme</div>
 <div class="tabs" id="themeBtns"></div>
@@ -113,6 +136,9 @@ button:disabled{opacity:.5}
 <div style="font-size:13px;color:var(--muted);margin-bottom:6px">Console: what the page did on the last run, newest at the bottom</div>
 <pre id="console" style="background:var(--field);border:1px solid var(--line);border-radius:6px;padding:10px;font-size:12px;white-space:pre-wrap;min-height:60px;margin:0;color:var(--text)"></pre>
 </div>
+<div id="foot" style="text-align:center;margin-top:16px;font-size:12px;color:var(--muted)">
+<a href="#" data-go="help">Help</a> &middot; <a href="#" data-go="log">Updates</a> &middot; <a href="#" data-go="privacy">Privacy</a> &middot; <a href="#" data-go="legal">Legal</a> &middot; <a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">GitHub</a>
+</div>
 </div>
 <script>
 const MODEL = "claude-haiku-5-5";
@@ -125,6 +151,13 @@ Answer with ONLY a JSON array, no other text:
 const PROFILES = { loki: { clan: "Loki", game: "Gym League" } };
 // Newest first. Add one entry per change, then re-upload index.html.
 const UPDATE_LOG = [
+  {
+    date: "11 Nov 2026",
+    title: "Footer, Privacy and Legal",
+    meaning: "A small row of links at the bottom of every page, plus short Privacy and Legal pages.",
+    see: "Help, Updates, Privacy, Legal and GitHub links in grey at the bottom.",
+    changes: ["Footer links.", "Privacy page.", "Legal page."],
+  },
   {
     date: "11 Nov 2026",
     title: "Says it was built by Claude",
@@ -253,12 +286,12 @@ function renderLog() {
 }
 renderLog();
 function showTab(which) {
-  const shown = { sheet: "sheet", log: "logtab", help: "helptab", settings: "settingstab", console: "consoletab" };
+  const shown = { sheet: "sheet", log: "logtab", help: "helptab", settings: "settingstab", privacy: "privacytab", legal: "legaltab", console: "consoletab" };
   const btn = { sheet: "t1", log: "t2", help: "t4", settings: "t5", console: "t3" };
   for (const k in shown) {
     document.getElementById(shown[k]).style.display = k === which ? "" : "none";
-    document.getElementById(btn[k]).classList.toggle("on", k === which);
-    document.getElementById(btn[k]).setAttribute("aria-selected", k === which);
+    const b = btn[k] && document.getElementById(btn[k]);
+    if (b) { b.classList.toggle("on", k === which); b.setAttribute("aria-selected", k === which); }
   }
 }
 document.querySelector(".tabs").setAttribute("role", "tablist");
@@ -269,6 +302,7 @@ document.getElementById("t2").onclick = () => showTab("log");
 document.getElementById("t3").onclick = () => showTab("console");
 document.getElementById("t4").onclick = () => showTab("help");
 document.getElementById("t5").onclick = () => showTab("settings");
+document.querySelectorAll("#foot [data-go]").forEach(a => { a.style.color = "inherit"; a.onclick = (e) => { e.preventDefault(); showTab(a.dataset.go); window.scrollTo(0, 0); }; });
 
 // Settings: theme and text size, remembered on this device only (never the key).
 const THEMES = [["auto", "Auto"], ["light", "Light"], ["dark", "Dark"], ["ocean", "Ocean"], ["forest", "Forest"], ["berry", "Berry"]];
