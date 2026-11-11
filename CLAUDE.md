@@ -4,7 +4,7 @@ Read this file and the status below at the start of every chat. Never ask Ginger
 
 @STATUS.md
 
-Web page that reads Roblox clan screenshots or video with an AI and makes an Excel sheet.
+Web page that reads Roblox clan screenshots or video with an AI and makes an Excel sheet. It also has an Energy bills tab that reads photos of power and gas bills.
 Live: fishing-cat-data.pages.dev. Pushing to `main` deploys in about a minute.
 The owner (Ginger) does not code. Short, blunt answers. Plain words on screen.
 
@@ -20,6 +20,7 @@ The owner (Ginger) does not code. Short, blunt answers. Plain words on screen.
 ## Safety rules (keep)
 - No `eval` / `exec`. No unknown websites. A new website needs an edit to `_headers` (CSP `connect-src`) and a mention in Stay safe.
 - Keep the AI safety notice and the wrong-address warning.
+- Energy bills: the AI copies, the sheet calculates. Never let the AI do sums or conversions. Never add fields for the customer's name, address or account numbers.
 - Never ask for the key. If a key is pasted, tell Ginger to delete it now.
 - Nothing leaves the PC except to the AI company she picked.
 - No new packages. The page uses only `exceljs.bare.min.js` (loaded on demand by `function loadExcel`).
@@ -31,6 +32,8 @@ The owner (Ginger) does not code. Short, blunt answers. Plain words on screen.
 | Prompts | `function buildPrompt`, `SETUP_PROMPT` |
 | Auto game/clan/layout read | `async function pickProfile` |
 | Clan name box | `clanbox` |
+| Energy bills | `BILL_PROMPT`, `function parseBills`, `function parseNum`, `function kwhFor`, `KWH_RULES`, `function buildBillBook`, `billtab` |
+| Run lock and button states | `let running`, `function refresh` |
 | Video stills | `function videoFrames`, `function samePic` |
 | Picture shrinking and limits | `async function toPic`, `async function collectPictures`, `aiWait` |
 | Record screen (PC) | `// Record screen` |
@@ -43,6 +46,8 @@ The owner (Ginger) does not code. Short, blunt answers. Plain words on screen.
 | "New version" banner | `function checkUpdate` |
 | Security headers (CSP) | `_headers` |
 | Row reading test | `tests/rows.test.js` (run `node tests/rows.test.js`, no install needed) |
+| Bill reading test | `tests/bills.test.js` (run `node tests/bills.test.js`) |
+| Fuzz test | `tests/fuzz.js` (run `node tests/fuzz.js 7 20000`; run it after any change to the reading code) |
 | Stress test write-up and lessons | `developer/STRESS_TEST_LOG.md` (read section 7 before calling a feature done) |
 | Excel maths test | `tests/excel-math.test.js` (needs `npm install exceljs@4.4.0`) |
 

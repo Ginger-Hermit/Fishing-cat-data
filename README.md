@@ -28,6 +28,7 @@ Turns Roblox clan screenshots or a screen recording into a ready-to-use Excel sh
 - Remembers your last sheet on this device so you don't have to pick it again (names and points only). Tap **Remove** to forget it.
 - Themes (Auto, Light, Dark, Ocean, Forest, Berry) and Large text, in the Settings tab.
 - GitHub tab that links here, where this guide lives.
+- **Energy bills tab:** add photos of power or gas bills and get a sheet with one row per charge and a Summary tab. Usage is turned into kWh (from MJ, therms, or gas volume using the factors printed on the bill) so bills can be compared. Money is kept in the bill's own currency. Bills are private: the whole photo goes to the AI company you pick, so only upload your own.
 - Updates tab with a plain-English log of every change.
 - A Log box on the first tab that opens by itself on errors, with a Copy bug report button. A red Copy error button shows under any error.
 - Optional Clan name box, optional Remember my key, and a banner when a new version is out.
@@ -55,7 +56,7 @@ Turns Roblox clan screenshots or a screen recording into a ready-to-use Excel sh
 - `python3 tests/check.py` is the auto check. It also runs on GitHub after every push.
 - Hosted on Cloudflare Pages. Every push to `main` publishes automatically after about a minute.
 - [developer/STRESS_TEST_LOG.md](developer/STRESS_TEST_LOG.md): how the page was stress tested and broken on purpose, what was found, and lessons for future projects.
-- `node tests/rows.test.js` checks how AI replies are read. Full history of changes: [CHANGELOG.md](CHANGELOG.md).
+- `node tests/rows.test.js` and `node tests/bills.test.js` check how AI replies are read. `node tests/fuzz.js` throws thousands of scrambled replies at the same code. Full history of changes: [CHANGELOG.md](CHANGELOG.md).
 
 ## Disclaimer
 

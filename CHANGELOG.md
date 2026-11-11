@@ -2,9 +2,25 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Energy bills
+
+12 Nov 2026 (21:57 UTC) · New
+
+A second tool on the page. Add photos of power or gas bills and get a sheet of every charge, with usage turned into kWh so bills from different countries can be compared.
+
+**What you'll see:** A new Energy bills tab next to Clan sheet.
+
+- New Energy bills tab: one row per charge, with supplier, dates, usage, unit, amount and currency
+- Usage is turned into kWh by the sheet: MJ, GJ, therms, and gas in m3 or CCF using the factors printed on the bill
+- Summary tab: one column per bill, numbers by formula, plus a few plain lines written by the AI
+- Bills in other number styles (98,60) and other currencies are read as printed; money is never converted
+- The first tab is now called Clan sheet; the key box is shared by both tabs
+- Every start button stays locked while any run is going, even if you type in the key box
+- Fuzz test added: 675,000 scrambled replies, 3 bugs found and fixed
+
 ## Stress test fixes
 
-11 Nov 2026 (10:55 UTC) · Changed
+11 Nov 2026 (10:55 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/cf2af59)
 
 A second round of attacks: 30 big screenshots at once, 5 videos at once, an AI that never answers, switching company mid-run, 50 runs in a row. The weak spots were fixed.
 

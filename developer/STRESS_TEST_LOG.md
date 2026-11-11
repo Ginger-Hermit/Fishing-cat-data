@@ -229,3 +229,107 @@ Search `index.html` for these names:
 | Video stills | `function videoFrames` |
 | Key masking in the Log | `function clog` |
 | CSV safety | `function toCsv` |
+
+---
+
+## 9. Round 4 (12 November 2026): the Energy bills tab, tested the way a professional would
+
+Page version `2026-11-12-a`. This round used the lessons above from the start, and it measured everything.
+
+### 9.1 What was different this time
+
+| Earlier rounds | This round |
+|---|---|
+| About 50 hand-written bad cases | Hundreds of thousands of machine-made ones (fuzzing) |
+| "Does it look right?" | Rules that must always hold, checked by code |
+| One company, one button at a time | Every button x every AI company x every kind of reply |
+| Checked a few cells by eye | Every cell of 120 Excel files checked for formula errors |
+| Tests written after the feature | Cleaning functions and tests written with the feature |
+
+### 9.2 The numbers
+
+| Test | Size | First run | After fixes |
+|---|---|---|---|
+| Fuzz: clan row replies | 100,000 | 0 failures | 0 |
+| Fuzz: bill replies | 100,000 | 250 unsafe formulas (0.25%) | 0 |
+| Fuzz: numbers printed in 4 styles, read back | 100,000 | about 2,050 wrong (2.1%) | 0 |
+| Fuzz: same numbers with no decimal-mark hint | 75,066 | about 1,540 wrong (2.1%) | 0 |
+| Fuzz: points like 52.51K, read back | 100,000 | 0 failures | 0 |
+| Fuzz: junk values into the number readers | 200,000 | about 310 gave "infinity" (0.16%) | 0 |
+| **Fuzz total** | **675,066 checks** | **3 bugs** | **0 failures** |
+| Button x company x reply matrix | 135 runs | 135 passed | 135 |
+| Excel files built from scrambled data | 120 files, 240 tabs | 0 failed to build | 0 |
+| Cells checked for formula errors | 23,259 | 0 errors | 0 |
+| Phone-width views (2 widths, 5 themes, 2 text sizes, 8 tabs) | 160 | 0 scroll sideways | 0 |
+| Script injection attempts that ran | all hostile cases | 0 | 0 |
+| Uncaught page errors across all browser tests | | 0 | 0 |
+
+"First run" figures for the fuzz are from one seed of 20,000 cases, scaled to the five seeds that were run after fixing.
+
+Of the 135 matrix runs, 33 ended with a sheet and 102 ended with a plain error message. That split is the point: 102 different ways for the AI or the network to fail, and every one produced a true, plain message, left no file behind, and unlocked the buttons.
+
+Speed: 5,000 member rows are read in 8 ms and built into a 393 KB Excel file in about 0.6 seconds. The page is 84 KB; the Excel part is 863 KB and loads only when a file is added.
+
+### 9.3 What the fuzzer found
+
+Three bugs, none of which a person would have thought to test by hand.
+
+**1. A wrong factor could go straight into a formula.**
+The bill's own heat value and correction factor are put into the kWh formula. Nothing checked they were sensible, so a misread factor like `-1` or `102264` (a `1.02264` read with the wrong decimal mark) produced a formula giving a huge or negative kWh. The sheet would have shown it with no warning.
+Fix: factors must fall in a realistic range (heat value 30 to 50 or 8 to 14, correction factor 0.8 to 1.2, therm factor 0.8 to 1.3). Outside that, the row is flagged "check" and left blank.
+Bonus: writing the range showed that some countries print the heat value in kWh per cubic metre (about 11) instead of MJ (about 39). Both are now handled.
+
+**2. A minus sign after the currency was missed.**
+`27.65-` was read as a credit. `27.65 NZD-` and `98,60 €-` were read as charges. A discount would have been added instead of taken away.
+Fix: a minus at the very end counts, whatever comes before it. This was 2.1% of all generated numbers.
+
+**3. A 400-digit number became "infinity".**
+The points reader turned an absurdly long number into infinity, which Excel cannot store.
+Fix: anything above a thousand million million is treated as unreadable.
+
+### 9.4 What was found before any test ran
+
+Two design bugs were caught by reading official sample bills from five countries before writing code. Both would have given wrong totals on real bills.
+
+- **Usage counted twice.** Bills often price several charges on the same usage: a levy per kWh, a storage charge per therm. Adding up every line's kWh doubles it. Now a usage figure that repeats within one bill is counted once, and the row says so.
+- **"Days" in other languages.** A German daily charge is per "Tage". It was treated as an unknown energy unit and flagged. A short list of day and month words fixes it.
+
+This is lesson 6.1 paying off: look at real examples first.
+
+### 9.5 Rules the fuzzer checks on every case
+
+These are the "must always hold" rules. They are worth copying.
+
+- The reading code never throws a raw programming error. It returns data or one of two known plain messages.
+- Every text value is within its length cap and has no hidden control characters.
+- Every number is a real, finite number, or blank. Never infinity, never "not a number".
+- A rank is a whole number from 1 to 99,999, or blank.
+- No duplicate member names survive.
+- Anything put into an Excel formula is made only of digits, dots, `*` and `/`.
+- An amount that could not be read is always flagged for checking.
+- A number printed in any of four styles, with any of five ways of showing a credit, reads back as exactly the same number.
+
+### 9.6 Known limits after this round
+
+- **No real AI and no real photo was used.** Every reply was pretend. This is the biggest gap and only the owner can close it.
+- **A cut-off bill reply loses the whole run.** Clan rows can be rescued from a cut-off reply; a bill is one nested object and cannot yet. In the fuzz, 59% of scrambled bill replies ended in the plain error against 27% for clan rows.
+- **Gas in m3 or CCF with no factors printed** is flagged, not converted. This is deliberate.
+- **Photos only.** No PDFs.
+- **Chrome only.** Firefox and Safari were not run.
+- **The fuzzer only tests the reading code.** The browser matrix covers buttons and messages, but with 15 kinds of reply, not thousands.
+
+### 9.7 New lessons from this round
+
+**Let a machine write the bad inputs.** Fifty hand-written cases found the obvious problems. 675,000 generated ones found three that nobody would have guessed. The fuzzer is 60 lines and runs in ten seconds.
+
+**Write down what must always be true, then check it by code.** "Looks right" does not scale. "No number is ever infinity" does.
+
+**Print a known value, read it back.** The number reader was tested by making a number, printing it the way bills do, and checking it came back the same. This found the minus-sign bug in seconds.
+
+**Test the grid, not the path.** Three buttons, three companies and fifteen replies is 135 combinations. Testing one path through it proves little.
+
+**Count things.** "It seems solid" became "675,066 checks, 0 failures". Numbers make it possible to tell whether the next change made things better or worse.
+
+**Range-check anything that goes into a calculation.** Cleaning the type is not enough. A value can be a perfectly good number and still be nonsense.
+
+**Run the fuzzer after every change to the reading code:** `node tests/fuzz.js 7 20000`. Any line starting with `!` is a failure.

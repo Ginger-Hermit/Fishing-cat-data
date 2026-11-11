@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Stress-test fixes: pictures are shrunk before sending, a stuck AI times out, the company choice is locked during a run, CSV and Log are safer. -->
+<!-- Patch note: New Energy bills tab: photos of power or gas bills become a sheet with a Summary tab. The first tab is now called Clan sheet. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -45,8 +45,8 @@ button:disabled{opacity:.5}
 <h1>Fishing Cat Data</h1>
 <div id="fake" style="display:none;border:2px solid var(--err);color:var(--err);background:var(--field);border-radius:8px;padding:12px 14px;margin-bottom:14px;font-weight:500">Warning: this is not the real Fishing Cat Data page. Do not paste your key here. The real page is fishing-cat-data.pages.dev</div>
 <div id="newver" role="status" style="display:none;background:var(--field);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:14px">New version ready. <a href="#" id="reloadnow">Refresh now</a></div>
-<div class="tabs"><button id="t1" class="tab on">Make my sheet</button><button id="t2" class="tab">Updates</button><button id="t4" class="tab">GitHub</button><button id="t5" class="tab">Settings</button></div>
-<div id="sheet">
+<div class="tabs"><button id="t1" class="tab on">Clan sheet</button><button id="t3" class="tab">Energy bills</button><button id="t2" class="tab">Updates</button><button id="t4" class="tab">GitHub</button><button id="t5" class="tab">Settings</button></div>
+<div id="keybox">
 <label for="provider">AI company</label>
 <select id="provider"><option value="gemini">Google Gemini</option><option value="anthropic">Anthropic (Claude)</option><option value="openai">OpenAI (untested)</option></select>
 <div id="untested" class="warnbox" style="display:none">Heads up: this one has not been tested yet. It might not work. If it fails, tap the big Copy error button under the red message and send it to the author.</div>
@@ -55,6 +55,8 @@ button:disabled{opacity:.5}
 <input id="key" type="password" placeholder="Paste key here" autocomplete="off" spellcheck="false" autocapitalize="off" data-lpignore="true" data-1p-ignore="true">
 <label class="rem" style="display:flex;gap:8px;align-items:center;margin-top:6px;font-weight:normal"><input type="checkbox" id="remember" style="width:auto;margin:0"> Remember my key on this device</label>
 <div id="remnote" style="display:none;font-size:.85em;opacity:.75">Saved only in this browser, never sent anywhere else. Don't tick this on a shared or public computer. Untick to delete it.</div>
+</div>
+<div id="sheet">
 <label for="clanbox">Clan name (optional)</label>
 <input id="clanbox" maxlength="40" autocomplete="off" placeholder="e.g. Loki. Used in the file name">
 <label>Screenshots</label>
@@ -78,6 +80,16 @@ button:disabled{opacity:.5}
 <div style="font-size:12px;color:var(--muted);margin-top:6px">Copies the page log and your browser type. Keys are removed. Pictures are not included. Nothing is sent until you paste it somewhere.</div>
 </details>
 <div class="hc" style="margin-top:14px;font-size:13px"><b>Your key is safe here.</b> It stays on this device and goes only to the AI company you pick. Treat it like a password. <a href="#" data-go="safety">More</a></div>
+</div>
+<div id="billtab" style="display:none">
+<div class="warnbox" style="border-color:var(--err)"><b style="color:var(--err)">Bills are private.</b> Your name, address and account number are in the photo, and the whole photo is sent to the AI company you pick. Only upload your own bills.</div>
+<label>Bill photos</label>
+<div class="drop" id="billdrop">Tap to add photos of power or gas bills</div>
+<input id="billfiles" type="file" accept="image/png,image/jpeg,image/webp" multiple hidden>
+<div id="billlist"></div>
+<button id="billgo" disabled>Make my sheet</button>
+<div class="msg" id="billmsg" role="status" aria-live="polite"></div>
+<div style="font-size:13px;color:var(--muted);margin-top:10px">One row per charge, plus a Summary tab. Always check the numbers against the bill.</div>
 </div>
 <div id="helptab" class="page" style="display:none">
 <div class="hc"><b>GitHub</b>
@@ -159,6 +171,7 @@ button:disabled{opacity:.5}
 <li>What that company does with what you send is covered by its own policies. Free plans can have different rules, so check them.</li>
 <li>Saved on your device only: theme, text size, and the last sheet you chose (names and points). Tap Remove on the first tab to forget the sheet.</li>
 <li>No accounts and no tracking added by this page. The page is hosted on Cloudflare Pages, which may keep normal visit records like any website host.</li>
+<li>Energy bills: the whole photo goes to the AI company, including your name, address and account number. The page asks the AI not to copy those, and the sheet has no place for them.</li>
 <li>The names in your pictures belong to real people. Share the sheet only with people who should see it.</li>
 </ul></div>
 </div>
@@ -218,10 +231,20 @@ Answer with ONLY a JSON array, no other text:
 // Newest 5 only. The full history is in CHANGELOG.md.
 const UPDATE_LOG = [
   {
+    date: "12 Nov 2026",
+    title: "Energy bills",
+    tag: "New",
+    at: "2026-11-11T21:57:34Z",
+    meaning: "A second tool on the page. Add photos of power or gas bills and get a sheet of every charge, with usage turned into kWh so bills from different countries can be compared.",
+    see: "A new Energy bills tab next to Clan sheet.",
+    changes: ["New Energy bills tab: one row per charge, with supplier, dates, usage, unit, amount and currency", "Usage is turned into kWh by the sheet: MJ, GJ, therms, and gas in m3 or CCF using the factors printed on the bill", "Summary tab: one column per bill, numbers by formula, plus a few plain lines written by the AI", "Bills in other number styles (98,60) and other currencies are read as printed; money is never converted", "The first tab is now called Clan sheet; the key box is shared by both tabs", "Every start button stays locked while any run is going, even if you type in the key box", "Fuzz test added: 675,000 scrambled replies, 3 bugs found and fixed"]
+  },
+  {
     date: "11 Nov 2026",
     title: "Stress test fixes",
     tag: "Changed",
     at: "2026-11-11T10:55:56Z",
+    commit: "cf2af59",
     meaning: "A second round of attacks: 30 big screenshots at once, 5 videos at once, an AI that never answers, switching company mid-run, 50 runs in a row. The weak spots were fixed.",
     see: "Big batches of screenshots work. A stuck run ends with a message instead of waiting forever.",
     changes: ["Screenshots are saved smaller before sending (JPEG, 2000 px at most), so 30 phone screenshots fit", "A picture that can't be opened is named before anything is sent", "Limits checked first: 100 pictures and about 18 MB per run", "A stuck AI request stops after 3 minutes with a message", "The AI company can't be changed in the middle of a run", "Keys are hidden in the Log; the Log no longer grows forever", "CSV backup: names starting with = + - @ can't act as formulas"]
@@ -255,16 +278,6 @@ const UPDATE_LOG = [
     meaning: "The page now shows the 5 newest updates. The full history moved to GitHub, with nothing removed.",
     see: "A link under the Updates list: Older updates on GitHub.",
     changes: ["Full update history is in CHANGELOG.md on GitHub", "Updates tab shows the newest 5", "Old patch notes moved to GitHub too"]
-  },
-  {
-    date: "11 Nov 2026",
-    title: "Bug hunt fixes",
-    tag: "Changed",
-    at: "2026-11-11T10:39:44Z",
-    commit: "68cef60",
-    meaning: "A full check of the code found five bugs. Long videos lost the end of the list, some videos made the page wait forever, a cut-off AI reply lost every row, and the sheet date could be a day out.",
-    see: "Long videos give fuller sheets. Bad videos show a red message instead of hanging.",
-    changes: ["Videos: pictures are taken from the whole video, not just the start", "Videos that can't be read show an error instead of hanging", "Cut-off AI replies keep the rows that arrived, with a warning", "More room for Anthropic replies (big clans)", "Unreadable names (?) are no longer merged into one row", "Date Recorded uses your local day"]
   }
 ];
 function renderLog() {
@@ -303,19 +316,21 @@ function renderLog() {
 }
 renderLog();
 function showTab(which) {
-  const shown = { sheet: "sheet", log: "logtab", help: "helptab", settings: "settingstab", privacy: "privacytab", safety: "safetytab", legal: "legaltab" };
-  const btn = { sheet: "t1", log: "t2", help: "t4", settings: "t5" };
+  const shown = { sheet: "sheet", bill: "billtab", log: "logtab", help: "helptab", settings: "settingstab", privacy: "privacytab", safety: "safetytab", legal: "legaltab" };
+  const btn = { sheet: "t1", bill: "t3", log: "t2", help: "t4", settings: "t5" };
   for (const k in shown) {
     document.getElementById(shown[k]).style.display = k === which ? "" : "none";
     const b = btn[k] && document.getElementById(btn[k]);
     if (b) { b.classList.toggle("on", k === which); b.setAttribute("aria-selected", k === which); }
   }
+  document.getElementById("keybox").style.display = which === "sheet" || which === "bill" ? "" : "none";
 }
 document.querySelector(".tabs").setAttribute("role", "tablist");
-["t1", "t2", "t4", "t5"].forEach(id => document.getElementById(id).setAttribute("role", "tab"));
+["t1", "t2", "t3", "t4", "t5"].forEach(id => document.getElementById(id).setAttribute("role", "tab"));
 document.getElementById("t1").setAttribute("aria-selected", "true");
 document.getElementById("t1").onclick = () => showTab("sheet");
 document.getElementById("t2").onclick = () => showTab("log");
+document.getElementById("t3").onclick = () => showTab("bill");
 document.getElementById("t4").onclick = () => showTab("help");
 document.getElementById("t5").onclick = () => showTab("settings");
 document.querySelectorAll("[data-go]").forEach(a => { a.onclick = (e) => { e.preventDefault(); showTab(a.dataset.go); window.scrollTo(0, 0); }; });
@@ -341,7 +356,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-11-ak";
+const BUILD = "2026-11-12-a";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -384,19 +399,26 @@ const $ = (id) => document.getElementById(id);
 const plain = (err) => (err instanceof TypeError || err instanceof SyntaxError || err instanceof RangeError || err instanceof ReferenceError) ? "Something went wrong on this page. Tap Copy error to send, and send it to the author." : err.message;
 const setMsg = (text, bad) => { $("msg").textContent = text; $("msg").className = "msg" + (bad ? " err" : ""); $("copyerr").style.display = bad ? "block" : "none"; if (bad) $("logbox").open = true; };
 
+function showCount(id, n, clear) {
+  const box = $(id);
+  if (!n) { box.className = ""; box.replaceChildren(); return; }
+  box.className = "ok";
+  const span = document.createElement("span");
+  span.textContent = "\u2713 " + n + " file(s) ready";
+  const b = document.createElement("button");
+  b.className = "tab"; b.textContent = "Clear"; b.onclick = clear;
+  box.replaceChildren(span, b);
+}
+// running = an AI run is in progress: every start button and the company list stay locked until it ends.
+let running = false, billPics = [];
 function refresh() {
-  const box = $("list");
-  if (images.length) {
-    box.className = "ok";
-    const span = document.createElement("span");
-    span.textContent = "\u2713 " + images.length + " file(s) ready";
-    const b = document.createElement("button");
-    b.className = "tab"; b.textContent = "Clear";
-    b.onclick = () => { images = []; $("files").value = ""; refresh(); };
-    box.replaceChildren(span, b);
-  } else { box.className = ""; box.replaceChildren(); }
-  $("go").disabled = !($("key").value.trim() && images.length);
+  showCount("list", images.length, () => { images = []; $("files").value = ""; refresh(); });
+  showCount("billlist", billPics.length, () => { billPics = []; $("billfiles").value = ""; refresh(); });
+  const key = $("key").value.trim();
+  $("go").disabled = running || !(key && images.length);
   $("testgo").disabled = $("go").disabled;
+  $("billgo").disabled = running || !(key && billPics.length);
+  $("provider").disabled = running;
 }
 
 // The Excel part is big, so it loads only when it is needed.
@@ -626,7 +648,8 @@ function parseRows(text) {
 function parsePoints(t) {
   const m = String(t ?? "").trim().replace(/,/g, "").match(/^(\d+(?:\.\d+)?|\.\d+)\s*([KkMmBbTt]?)$/);
   if (!m) return null;
-  return Math.round(parseFloat(m[1]) * { "": 1, k: 1e3, m: 1e6, b: 1e9, t: 1e12 }[m[2].toLowerCase()]);
+  const n = Math.round(parseFloat(m[1]) * { "": 1, k: 1e3, m: 1e6, b: 1e9, t: 1e12 }[m[2].toLowerCase()]);
+  return n <= 1e15 ? n : null; // bigger than Excel can hold exactly: treat as unreadable
 }
 
 async function readPrevious(EJ, buf) {
@@ -820,7 +843,7 @@ function showPrev() {
   $("prevdrop").textContent = "Tap to choose a different sheet";
 }
 $("prevdrop").onclick = () => $("prevfile").click();
-for (const id of ["drop", "prevdrop"]) {
+for (const id of ["drop", "prevdrop", "billdrop"]) {
   const el = $(id);
   el.setAttribute("role", "button"); el.tabIndex = 0;
   el.onkeydown = (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); el.click(); } };
@@ -954,8 +977,11 @@ Work out how the list is laid out. Do not copy the whole list. If several images
 Answer with ONLY one JSON object, no other text:
 {"clan_name": "name of the clan if it is clearly visible, otherwise empty", "game_name": "name of the game if it is clearly visible, otherwise empty", "ranks_shown": true or false (is a rank number like #1 shown beside each member?), "extra_column": "the heading or label of any column besides rank, username, role and points, otherwise empty"}
 Never guess; use empty text if unsure.`;
+function checkKey(key) { if (/[^\x21-\x7e]/.test(key)) throw new Error("That key has odd characters or spaces in it. Copy it again and paste it."); }
+const todayText = () => new Date().toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric" }).replace(/,/g, "");
+function saveBlob(blob, name) { const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name; a.click(); }
 async function pickProfile(key) {
-  if (/[^\x21-\x7e]/.test(key)) throw new Error("That key has odd characters or spaces in it. Copy it again and paste it.");
+  checkKey(key);
   PROMPT = SETUP_PROMPT;
   const L = images.length, pick = [...new Set([images[0], images[L >> 1], images[L - 1]])];
   const all = await collectPictures(pick), pics = [...new Set([all[0], all[all.length >> 1], all[all.length - 1]])];
@@ -969,7 +995,7 @@ async function pickProfile(key) {
 
 $("testgo").onclick = async () => {
   const key = $("key").value.trim();
-  $("testgo").disabled = true; $("go").disabled = true; $("provider").disabled = true;
+  running = true; refresh();
   setMsg("Test read: looking at 1 picture... about 20 seconds.");
   try {
     const p = await pickProfile(key);
@@ -982,12 +1008,12 @@ $("testgo").onclick = async () => {
     const first = rows.slice(0, 3).map(r => r.name + " " + r.points + (p.extra ? " (" + r.role + ")" : "")).join(", ");
     setMsg("Test read OK: " + rows.length + " rows from 1 picture. First: " + first + "." + (bad ? " " + bad + " unreadable." : "") + " If that looks right, tap Make my sheet. Nothing was downloaded.");
   } catch (err) { clog("Test stopped: " + err.message); setMsg(plain(err), true); }
-  finally { $("provider").disabled = false; refresh(); }
+  finally { running = false; refresh(); }
 };
 
 $("go").onclick = async () => {
   const key = $("key").value.trim();
-  $("go").disabled = true; $("testgo").disabled = true; $("provider").disabled = true;
+  running = true; refresh();
   clog("Run started with " + images.length + " file(s).");
   setMsg("Reading " + images.length + " screenshot(s)... this can take about 20-30 seconds.");
   try {
@@ -1004,18 +1030,14 @@ $("go").onclick = async () => {
     let blob, ext = ".xlsx";
     await loadExcel();
     if (window.ExcelJS) {
-      const when = new Date().toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric" }).replace(/,/g, "");
-      const wb = buildWorkbook(window.ExcelJS, rows, prevMap, p, when);
+      const wb = buildWorkbook(window.ExcelJS, rows, prevMap, p, todayText());
       blob = new Blob([await wb.xlsx.writeBuffer()], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
     } else {
       ext = ".csv";
       blob = new Blob([toCsv(rows)], { type: "text/csv" });
       clog("The spreadsheet part did not load, so a CSV was made instead.");
     }
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = nameOf(p) + ext;
-    a.click();
+    saveBlob(blob, nameOf(p) + ext);
     const bad = rows.filter(r => r.name === "?" || parsePoints(r.points) === null).length;
     let last = 0, order = false;
     for (const r of rows) { const n = Number(r.rank); if (!Number.isFinite(n) || n <= last) order = true; else last = n; }
@@ -1028,8 +1050,177 @@ $("go").onclick = async () => {
     clog("Stopped: " + err.message);
     setMsg(plain(err), true);
   } finally {
-    $("provider").disabled = false;
+    running = false;
     refresh();
+  }
+};
+// ---- Energy bills: the AI copies what is printed, the sheet does the sums ----
+const BILL_PROMPT = `These photos show one or more electricity or gas bills. One bill may cover several photos.
+Copy what is printed. Do not do any sums or conversions yourself. Never guess; use "" if something is not shown or not readable.
+Do NOT copy the customer's name, address, account or customer numbers, or bank details.
+Answer with ONLY one JSON object, no other text:
+{"bills": [{
+"supplier": "company name",
+"country": "country the bill is from, if clear",
+"currency": "3-letter code such as NZD, AUD, GBP, USD, EUR, if clear",
+"decimal_mark": "." or "," (whichever this bill uses for decimals),
+"bill_date": "as printed",
+"due_date": "as printed",
+"period_days": "number of days the bill covers, only if printed",
+"estimated": true or false (does the bill say a reading is estimated?),
+"total_due": "the total amount due, as printed",
+"lines": [{"energy": "electricity" or "gas" or "other", "charge": "name of the charge as printed", "used": "quantity as printed, number only", "unit": "unit as printed, e.g. kWh, MJ, m3, therms, CCF, days", "kwh_printed": "the kWh figure for this line, if the bill prints one and the unit is not already kWh", "calorific_value": "if printed", "correction_factor": "if printed", "therm_factor": "the BTU or therm factor, if printed", "amount": "money amount for this line as printed, with a minus sign if it is a credit or discount"}],
+"notes": ["up to 4 short plain sentences about what this bill shows: what kind of bill it is, which charge is the biggest, any discount and its deadline, any estimated reading. No advice. No sums of your own."]
+}]}
+List every charge line, including daily or fixed charges, discounts, taxes and levies. Do not list payments, opening balances or the total as lines.`;
+// Read a number as printed. mark is the bill's decimal mark ("." or ","). Credits (cr, minus, brackets) are negative.
+function parseNum(v, mark) {
+  const s = tidy(v, 30), m = s.match(/\d[\d.,]*|[.,]\d+/);
+  if (!m) return null;
+  const neg = /^\(.*\)$/.test(s) || /(^|[^a-z])cr\b/i.test(s) || /[-−]/.test(s.replace(/[\d.,\s]+.*$/, "")) || /[-−]\s*$/.test(s);
+  let t = m[0].replace(/[.,]+$/, "");
+  if (mark !== "," && mark !== ".") mark = t.lastIndexOf(",") > t.lastIndexOf(".") && (t.includes(".") || /,\d{1,2}$/.test(t)) ? "," : ".";
+  t = mark === "," ? t.replace(/\./g, "").replace(",", ".") : t.replace(/,/g, "");
+  if (!/^(\d+(\.\d+)?|\.\d+)$/.test(t)) return null;
+  return (neg ? -1 : 1) * parseFloat(t);
+}
+// How each unit becomes kWh: [what to add to the Excel formula, plain words]. Fixed physics only; gas volume needs the bill's own factors.
+const KWH_RULES = { kwh: ["", "as shown"], wh: ["/1000", "Wh ÷ 1000"], mwh: ["*1000", "MWh × 1000"], mj: ["/3.6", "MJ ÷ 3.6"], gj: ["*1000/3.6", "GJ × 1000 ÷ 3.6"], therms: ["*29.3071", "therms × 29.3071"], therm: ["*29.3071", "therms × 29.3071"] };
+const NOT_ENERGY = ["", "day", "days", "month", "months", "each", "kw", "kva", "tag", "tage", "monat", "jour", "jours", "mois", "dia", "dias", "d\u00edas", "mes", "giorni", "dag", "dagen"];
+function kwhFor(line, mark) {
+  const u = tidy(line.unit, 14).toLowerCase().replace(/[\s.]/g, "").replace("³", "3");
+  const printed = parseNum(line.kwh_printed, mark), cv = parseNum(line.calorific_value, mark), cf = parseNum(line.correction_factor, mark), tf = parseNum(line.therm_factor, mark);
+  if (KWH_RULES[u]) return { add: KWH_RULES[u][0], how: KWH_RULES[u][1] };
+  if ((u === "units" || u === "unit") && line.energy === "electricity") return { add: "", how: "units = kWh" };
+  if (printed !== null && printed >= 0) return { value: printed, how: "kWh printed on the bill" };
+  // Factors must look like real ones, or the row is flagged instead. Heat value: 30-50 means MJ per m3, 8-14 means kWh per m3.
+  const fine = (x, lo, hi) => x !== null && x >= lo && x <= hi, cfOk = cf === null || fine(cf, 0.8, 1.2);
+  if (["m3", "cubicmetres", "cubicmeters"].includes(u) && cfOk && (fine(cv, 30, 50) || fine(cv, 8, 14))) { const mj = cv >= 30; return { add: "*" + (cf || 1) + "*" + cv + (mj ? "/3.6" : ""), how: "m\u00b3 \u00d7 " + (cf ? cf + " \u00d7 " : "") + cv + (mj ? " \u00f7 3.6" : "") + " (factors from the bill)" }; }
+  if ((u === "ccf" || u === "mcf") && fine(tf, 0.8, 1.3)) return { add: (u === "mcf" ? "*10" : "") + "*" + tf + "*29.3071", how: u.toUpperCase() + " \u00d7 " + (u === "mcf" ? "10 \u00d7 " : "") + tf + " \u00d7 29.3071 (factor from the bill)" };
+  if (NOT_ENERGY.includes(u)) return { how: "" };
+  return { how: "check: can't turn " + (tidy(line.unit, 14) || "this unit") + " into kWh", check: true };
+}
+function parseBills(text) {
+  let d = null;
+  try { d = JSON.parse(text.match(/\{[\s\S]*\}/)[0]); } catch (e) {}
+  const list = d && (Array.isArray(d.bills) ? d.bills : [d]);
+  const bills = (list || []).filter(b => b && typeof b === "object" && Array.isArray(b.lines)).slice(0, 12).map(b => {
+    const mark = b.decimal_mark === "," || b.decimal_mark === "." ? b.decimal_mark : "";
+    const counted = new Set(); // several charges can be priced on the same usage (a levy per kWh): count that usage once
+    const lines = b.lines.filter(l => l && typeof l === "object" && (tidy(l.charge, 60) || tidy(l.amount, 30))).slice(0, 60).map(l => {
+      const energy = /^elec/i.test(tidy(l.energy, 20)) ? "electricity" : /^gas/i.test(tidy(l.energy, 20)) ? "gas" : "other";
+      let k = kwhFor({ unit: l.unit, energy, kwh_printed: l.kwh_printed, calorific_value: l.calorific_value, correction_factor: l.correction_factor, therm_factor: l.therm_factor }, mark);
+      const amount = parseNum(l.amount, mark), used = parseNum(l.used, mark);
+      if (k.add !== undefined || k.value !== undefined) {
+        const same = energy + "|" + (k.value !== undefined ? "kwh" + k.value : used + tidy(l.unit, 14).toLowerCase());
+        if (counted.has(same)) k = { how: "same usage as an earlier row: not counted twice" };
+        counted.add(same);
+      }
+      const bad = amount === null ? "check: amount not read" : (k.add !== undefined && used === null ? "check: amount used not read" : "");
+      return { type: energy === "electricity" ? "Electricity" : energy === "gas" ? "Gas" : "Other", charge: tidy(l.charge, 60), usedShown: tidy(l.used, 30), unit: tidy(l.unit, 14), used, k, how: [k.how, bad].filter(Boolean).join("; "), amountShown: tidy(l.amount, 30), amount, check: !!(k.check || bad) };
+    });
+    return { supplier: tidy(b.supplier, 50) || "Not read", country: tidy(b.country, 30), currency: tidy(b.currency, 6).toUpperCase(), billDate: tidy(b.bill_date, 30), dueDate: tidy(b.due_date, 30), days: parseNum(b.period_days, mark), estimated: b.estimated === true ? "Yes" : b.estimated === false ? "No" : "", totalShown: tidy(b.total_due, 30), total: parseNum(b.total_due, mark), lines, notes: (Array.isArray(b.notes) ? b.notes : []).map(n => tidy(n, 220)).filter(Boolean).slice(0, 4) };
+  }).filter(b => b.lines.length);
+  if (!bills.length) throw new Error("The AI did not find any bill charges. Try a clearer, straight-on photo of the whole bill.");
+  return bills;
+}
+function buildBillBook(EJ, bills, when) {
+  const wb = new EJ.Workbook();
+  wb.calcProperties.fullCalcOnLoad = true;
+  const NAVY = "FF1F3864", GREY = "FF7F7F7F", LINE = { style: "thin", color: { argb: "FFD0D5DD" } }, box = { left: LINE, right: LINE, top: LINE, bottom: LINE };
+  const fill = (c) => ({ type: "pattern", pattern: "solid", fgColor: { argb: c } });
+  const headCell = (c, t) => { c.value = t; c.font = { bold: true, color: { argb: "FFFFFFFF" } }; c.fill = fill(NAVY); c.border = box; c.alignment = { vertical: "middle", wrapText: true }; };
+  const title = (ws, t, sub) => { ws.getCell("A1").value = t; ws.getCell("A1").font = { bold: true, size: 16, color: { argb: NAVY } }; ws.getCell("A2").value = sub; ws.getCell("A2").font = { color: { argb: GREY } }; };
+  const ws = wb.addWorksheet("Energy bills", { views: [{ state: "frozen", ySplit: 3 }] });
+  [7, 24, 14, 16, 16, 12, 30, 14, 9, 13, 14, 40, 16, 15, 10].forEach((w, i) => { ws.getColumn(i + 1).width = w; });
+  const count = bills.reduce((t, b) => t + b.lines.length, 0);
+  title(ws, "Energy bills", bills.length + " bill(s), " + count + " charge(s) read   ·   Recorded " + when + "   ·   Check every number against the bill");
+  ["Bill", "Supplier", "Country", "Bill date", "Due date", "Type", "Charge", "Used (as shown)", "Unit", "Used (number)", "Used in kWh", "How kWh was worked out", "Amount (as shown)", "Amount (number)", "Currency"].forEach((h, i) => headCell(ws.getCell(3, i + 1), h));
+  ws.getRow(3).height = 32;
+  let n = 3;
+  bills.forEach((b, i) => b.lines.forEach((l) => {
+    n++;
+    [i + 1, b.supplier, b.country, b.billDate, b.dueDate, l.type, l.charge, l.usedShown, l.unit, l.used, null, l.how, l.amountShown, l.amount, b.currency].forEach((v, c) => {
+      const cell = ws.getCell(n, c + 1);
+      if (v !== null && v !== "") cell.value = v;
+      cell.border = box;
+      if (c === 7 || c === 12) cell.font = { color: { argb: GREY } };
+    });
+    const k = ws.getCell(n, 11);
+    if (l.k.value !== undefined) k.value = l.k.value;
+    else if (l.k.add !== undefined) k.value = { formula: `IF(J${n}="","",J${n}${l.k.add})` };
+    k.fill = fill("FFEAF4EC");
+    ws.getCell(n, 10).numFmt = "#,##0.##"; k.numFmt = "#,##0.0"; ws.getCell(n, 14).numFmt = "#,##0.00";
+    if (l.check) ws.getCell(n, 12).font = { bold: true, color: { argb: "FF9C0006" } };
+  }));
+  ws.autoFilter = `A3:O${n}`;
+  // Summary: one column per bill. Numbers are formulas; the plain words come from the AI.
+  const sm = wb.addWorksheet("Summary");
+  sm.getColumn(1).width = 38;
+  title(sm, "Summary", "The numbers are worked out by the sheet from the first tab. The plain words are written by the AI: check them.");
+  headCell(sm.getCell(4, 1), "");
+  const S = "'Energy bills'!", rows = ["Supplier", "Country", "Bill date", "Due date", "Currency", "Days covered", "Electricity used (kWh)", "Gas used (kWh)", "Energy used per day (kWh)", "Electricity cost per kWh (usage charges)", "Charges listed (added up)", "Total on the bill (as printed)", "Reading estimated?"];
+  rows.forEach((t, r) => { const c = sm.getCell(5 + r, 1); c.value = t; c.font = { bold: true }; c.fill = fill("FFF5F7FA"); c.border = box; });
+  headCell(sm.getCell(19, 1), "In plain words (written by the AI, check it)");
+  bills.forEach((b, i) => {
+    const L = String.fromCharCode(66 + i), id = i + 1;
+    sm.getColumn(i + 2).width = 30;
+    headCell(sm.getCell(4, i + 2), "Bill " + id);
+    headCell(sm.getCell(19, i + 2), "Bill " + id);
+    const kwh = (type) => ({ formula: `SUMIFS(${S}K:K,${S}A:A,${id},${S}F:F,"${type}")` });
+    [b.supplier, b.country, b.billDate, b.dueDate, b.currency, b.days, kwh("Electricity"), kwh("Gas"),
+      { formula: `IF(OR(${L}10="",${L}10=0),"",(${L}11+${L}12)/${L}10)` },
+      { formula: `IF(${L}11=0,"",SUMIFS(${S}N:N,${S}A:A,${id},${S}F:F,"Electricity",${S}K:K,">0")/${L}11)` },
+      { formula: `SUMIFS(${S}N:N,${S}A:A,${id})` }, b.total !== null ? b.total : b.totalShown, b.estimated].forEach((v, r) => {
+      const c = sm.getCell(5 + r, i + 2);
+      if (v !== null && v !== "") c.value = v;
+      c.border = box; c.alignment = { horizontal: "right" };
+      if (v && v.formula) c.fill = fill("FFEAF4EC");
+      c.numFmt = r === 9 ? "0.0000" : (r === 10 || r === 11) ? "#,##0.00" : (r >= 5 && r <= 8) ? "#,##0.0" : "@";
+    });
+    b.notes.forEach((t, r) => { const c = sm.getCell(20 + r, i + 2); c.value = t; c.alignment = { wrapText: true, vertical: "top" }; c.border = box; });
+  });
+  sm.getCell("A25").value = "Green cells are formulas: fix a number on the first tab and they update. The AI's words do not update. Money is never converted between currencies.";
+  sm.getCell("A25").font = { italic: true, size: 9, color: { argb: GREY } };
+  return wb;
+}
+const billSay = (text, bad) => { $("billmsg").textContent = text; $("billmsg").className = "msg" + (bad ? " err" : ""); };
+$("billdrop").onclick = () => $("billfiles").click();
+$("billdrop").ondragover = (e) => e.preventDefault();
+function addBills(fileList) {
+  for (const f of fileList) {
+    if (!f.size || !f.type.startsWith("image/")) continue;
+    if (billPics.length >= 12) { billSay("Up to 12 photos at a time. Tap Clear to start again.", true); break; }
+    billPics.push(f);
+  }
+  loadExcel();
+  refresh();
+}
+$("billdrop").ondrop = (e) => { e.preventDefault(); addBills(e.dataTransfer.files); };
+$("billfiles").onchange = (e) => addBills(e.target.files);
+$("billgo").onclick = async () => {
+  const key = $("key").value.trim(), id = provider();
+  running = true; refresh();
+  clog("Bill run started with " + billPics.length + " photo(s), using " + PROVIDERS[id].name + " (" + modelFor(id) + ").");
+  billSay("Reading " + billPics.length + " photo(s)... this can take about 30 seconds.");
+  try {
+    checkKey(key);
+    const pics = await collectPictures(billPics);
+    await loadExcel();
+    if (!window.ExcelJS) throw new Error("The spreadsheet part did not load. Refresh the page.");
+    PROMPT = BILL_PROMPT;
+    const text = await ASKERS[id](key, modelFor(id), pics);
+    clog("AI replied (" + text.length + " characters).");
+    const bills = parseBills(text), lines = bills.reduce((t, b) => t + b.lines.length, 0), checks = bills.reduce((t, b) => t + b.lines.filter(l => l.check).length, 0);
+    const wb = buildBillBook(window.ExcelJS, bills, todayText());
+    saveBlob(new Blob([await wb.xlsx.writeBuffer()], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), "Energy bills - " + (bills.length === 1 ? clean(bills[0].supplier, 40) || "bill" : bills.length + " bills") + ".xlsx");
+    clog("Bills: " + bills.length + ", charges: " + lines + ", rows to check: " + checks + ".");
+    billSay("Done: " + bills.length + " bill(s), " + lines + " charge(s). Your sheet was downloaded." + (checks ? " Check " + checks + " row(s) marked check." : "") + " Compare the numbers with the bill before relying on them.");
+  } catch (err) {
+    clog("Bill run stopped: " + err.message);
+    billSay(plain(err), true);
+  } finally {
+    running = false; refresh();
   }
 };
 </script>
