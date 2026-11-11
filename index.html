@@ -480,6 +480,7 @@ const UPDATE_LOG = [
   {
     date: "11 Nov 2026",
     title: "Video support",
+    at: "2026-11-11T07:51:00Z",
     meaning: "You can now drop a screen recording instead of taking screenshots. The page picks about 12 still pictures from it and reads those.",
     see: "Drop a video onto the box, or pick one. The Make my sheet button lights up as soon as it's loaded.",
     changes: ["Accepts MP4, MOV and WEBM video.", "Picks up to 12 frames, spread evenly through the video."],
@@ -487,6 +488,7 @@ const UPDATE_LOG = [
   {
     date: "11 Nov 2026",
     title: "Matches the desktop app",
+    at: "2026-11-11T07:51:00Z",
     meaning: "Results now look the same as the desktop app. The sheet also has a Role column, and a member who shows up in more than one picture is listed once.",
     see: "The downloaded CSV has four columns: Rank, Name, Role, Points. Points show as plain numbers, so 52.51K becomes 52510.",
     changes: ["Same instructions to the AI as the desktop app.", "CSV has a Role column.", "Repeated names removed."],
@@ -575,7 +577,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; saveSetting("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-11-w";
+const BUILD = "2026-11-11-x";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
