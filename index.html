@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The log opens by itself when you tap Make my sheet and shows each step as it happens, on both tabs. -->
+<!-- Patch note: The live steps and the log are bigger and clearer. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -32,7 +32,10 @@ input,select{color:var(--text);width:100%;box-sizing:border-box;padding:10px;bor
 button{width:100%;margin-top:14px;padding:14px;background:var(--accent);color:var(--onAccent);border:0;border-radius:8px;font-size:17px;font-weight:500;cursor:pointer}
 button:disabled{opacity:.5}
 .note{background:var(--noteBg);color:var(--noteText);border-radius:6px;padding:10px 12px;font-size:13px;margin-top:12px}
-.prog{white-space:pre-line;font-size:14px;color:var(--muted);margin-top:6px}
+.prog{font-size:15px;line-height:1.7;margin-top:10px}
+.prog div{color:var(--muted)}
+.prog .dn{color:var(--text)}
+.prog .now{color:var(--text);font-weight:500}
 .msg{margin-top:12px;font-size:14px;min-height:20px}
 .err{color:var(--err)}
 .tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
@@ -86,7 +89,7 @@ button:disabled{opacity:.5}
 <div class="prog" id="prog" aria-live="polite"></div>
 <button id="copyerr" type="button" class="tab" style="display:none;margin-top:8px;width:100%;padding:12px;font-size:16px;border-color:var(--err);color:var(--err)">Copy error to send</button>
 <details id="logbox" style="margin-top:12px"><summary style="cursor:pointer;font-size:14px">Log: what the page did</summary>
-<pre id="console" style="background:var(--field);border:1px solid var(--line);border-radius:6px;padding:10px;font-size:12px;white-space:pre-wrap;min-height:60px;margin:6px 0 0;color:var(--text)"></pre>
+<pre id="console" style="background:var(--field);border:1px solid var(--line);border-radius:6px;padding:10px;font-size:14px;font-family:inherit;line-height:1.6;white-space:pre-wrap;min-height:60px;margin:6px 0 0;color:var(--text)"></pre>
 <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button id="copybug" type="button">Copy bug report</button><a href="https://github.com/Ginger-Hermit/Fishing-cat-data/issues/new" target="_blank" rel="noopener">Report a bug on GitHub</a></div>
 <div style="font-size:12px;color:var(--muted);margin-top:6px">Copies the page log and your browser type. Keys are removed. Pictures are not included. Nothing is sent until you paste it somewhere.</div>
 </details>
@@ -283,7 +286,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-i";
+const BUILD = "2026-11-12-j";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -312,9 +315,10 @@ async function checkUpdate() {
 if (location.protocol.startsWith("http")) { checkUpdate(); setInterval(checkUpdate, 5 * 60 * 1000); }
 // Console: a plain list of what the page did. Nothing here is sent anywhere.
 function clog(text) {
-  const t = new Date().toLocaleTimeString();
+  let t = new Date().toLocaleTimeString();
+  try { if (prog.t0) t = Math.round((Date.now() - prog.t0) / 1000) + "s"; } catch (e) {}
   const box = document.getElementById("console");
-  box.textContent += (box.textContent ? "\n" : "") + t + "  " + String(text).replace(/sk-[\w-]{8,}|AIza[\w-]{8,}/g, "[key removed]");
+  box.textContent += (box.textContent ? "\n" : "") + t.padStart(4) + "   " + String(text).replace(/sk-[\w-]{8,}|AIza[\w-]{8,}/g, "[key removed]");
   if (box.textContent.length > 30000) box.textContent = box.textContent.slice(-20000);
 }
 let images = [];
@@ -327,11 +331,18 @@ const plain = (err) => (err instanceof TypeError || err instanceof SyntaxError |
 const prog = {
   start(id, steps) { this.el = $(id); this.steps = steps; this.i = 0; this.t0 = Date.now(); clearInterval(this.timer); this.timer = setInterval(() => this.draw(), 1000); this.draw(); $("logbox").open = true; clog("Step: " + steps[0]); },
   next() { this.i++; this.draw(); if (this.steps[this.i]) clog("Step: " + this.steps[this.i]); },
-  stop(ok) { clearInterval(this.timer); if (ok) this.i = this.steps.length; this.draw(ok ? 1 : 2); },
+  stop(ok) { clearInterval(this.timer); if (ok) this.i = this.steps.length; this.draw(ok ? 1 : 2); this.t0 = 0; },
   draw(end) {
     if (!this.el) return;
     const sec = Math.round((Date.now() - this.t0) / 1000);
-    this.el.textContent = this.steps.map((n, k) => (k < this.i ? "\u2713 " : k === this.i ? (end === 2 ? "\u2717 " : "\u2026 ") : "   ") + n + (k === this.i && end !== 2 ? "  " + sec + "s" : "")).join("\n") + (end === 1 ? "\nDone in " + sec + "s" : "");
+    this.el.textContent = "";
+    this.steps.forEach((n, k) => {
+      const d = document.createElement("div"), now = k === this.i && end !== 1;
+      d.className = k < this.i ? "dn" : now ? "now" : "";
+      d.textContent = (k < this.i ? "\u2713 " : now ? (end === 2 ? "\u2717 " : "\u25B6 ") : "\u2022 ") + n + (now && end !== 2 ? " (" + sec + "s)" : "");
+      this.el.appendChild(d);
+    });
+    if (end === 1) { const d = document.createElement("div"); d.className = "now"; d.textContent = "Done in " + sec + "s"; this.el.appendChild(d); }
   }
 };
 const setMsg = (text, bad) => { $("msg").textContent = text; $("msg").className = "msg" + (bad ? " err" : ""); $("copyerr").style.display = bad ? "block" : "none"; if (bad) $("logbox").open = true; };

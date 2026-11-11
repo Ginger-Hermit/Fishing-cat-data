@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Easier to read
+
+12 Nov 2026 (22:52 UTC) · Changed
+
+The live steps and the log are bigger and clearer.
+
+**What you'll see:** Tap Make my sheet: the current step is bold, finished steps have a tick, and the log shows seconds since you started.
+
+- Steps: bigger text, current step bold, ticks for finished steps
+- Log: normal readable font, and seconds since the run started instead of the clock time
+
 ## Log shows live
 
-12 Nov 2026 (22:51 UTC) · Changed
+12 Nov 2026 (22:51 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6082274)
 
 The log opens by itself when you tap Make my sheet and shows each step as it happens, on both tabs.
 
