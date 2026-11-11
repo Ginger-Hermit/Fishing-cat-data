@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Help tab redone as calm cards with numbered steps, all info kept. -->
+<!-- Patch note: big green notices for loaded files, and the last sheet is remembered on this device. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -12,6 +12,7 @@ html[data-theme=ocean]{--bg:#E6F3F7;--text:#10252E;--muted:#5A7580;--accent:#0B6
 html[data-theme=forest]{--bg:#EEF3EC;--text:#1A2A1C;--muted:#5F7260;--accent:#2F6B3A;--link:#2F6B3A;--line:#8FA58F;--soft:#D3E0D1;--noteBg:#DDEBD0;--noteText:#245A2E}
 html[data-theme=berry]{--bg:#F6EEF3;--text:#2A1B26;--muted:#7A6373;--accent:#8A2D63;--link:#8A2D63;--line:#B096A6;--soft:#E6D5DF;--noteBg:#F3DDE8;--noteText:#7A1F52}
 html[data-size=large] .card{zoom:1.25}
+.ok{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--noteBg);color:var(--noteText);border-radius:8px;padding:12px 14px;margin-top:8px;font-size:15px;font-weight:500}
 .hc{background:var(--field);border:1px solid var(--soft);border-radius:10px;padding:12px 14px;margin-bottom:10px}
 .hc summary{cursor:pointer;font-weight:500;color:var(--link)}
 .hc ul{margin:8px 0 0;padding-left:20px;line-height:1.7}
@@ -48,11 +49,11 @@ button:disabled{opacity:.5}
 <label>Screenshots</label>
 <div class="drop" id="drop">Drop screenshots here, or tap to choose</div>
 <input id="files" type="file" accept="image/png,image/jpeg,image/webp,video/mp4,video/quicktime,video/webm" multiple hidden>
-<div id="list" style="font-size:13px;color:var(--muted);margin-top:6px"></div>
+<div id="list"></div>
 <label>Last sheet (optional)</label>
 <div class="drop" id="prevdrop">Tap to choose an earlier sheet (.xlsx) to compare</div>
 <input id="prevfile" type="file" accept=".xlsx" hidden>
-<div id="previnfo" style="font-size:13px;color:var(--muted);margin-top:6px"></div>
+<div id="previnfo"></div>
 <button id="go" disabled>Make my sheet</button>
 <div class="msg" id="msg"></div>
 <div class="note">Your key stays in this page only and is never saved. Screenshots go only to Anthropic.</div>
@@ -92,6 +93,7 @@ button:disabled{opacity:.5}
 <details class="hc"><summary>Privacy and looks</summary>
 <ul>
 <li>Your key stays in this page and is never saved.</li>
+<li>The last sheet you chose is remembered on this device (names and points only). Tap Remove to forget it.</li>
 <li>Pictures go only to Anthropic.</li>
 <li>For personal use only.</li>
 <li>Theme and text size are in Settings, remembered on this device only.</li>
@@ -123,6 +125,13 @@ Answer with ONLY a JSON array, no other text:
 const PROFILES = { loki: { clan: "Loki", game: "Gym League" } };
 // Newest first. Add one entry per change, then re-upload index.html.
 const UPDATE_LOG = [
+  {
+    date: "11 Nov 2026",
+    title: "Remembers your last sheet",
+    meaning: "The last sheet you chose stays ready next time you open the page, and a clear green box shows it is loaded.",
+    see: "A green box under the Last sheet button with a Remove button. Files you add also show in a green box.",
+    changes: ["Last sheet is remembered on this device.", "Bigger green notices for files and the last sheet."],
+  },
   {
     date: "11 Nov 2026",
     title: "Excel sheet and last sheet",
@@ -237,7 +246,8 @@ const $ = (id) => document.getElementById(id);
 const setMsg = (text, bad) => { $("msg").textContent = text; $("msg").className = "msg" + (bad ? " err" : ""); };
 
 function refresh() {
-  $("list").textContent = images.length ? images.length + " screenshot(s) ready" : "";
+  $("list").className = images.length ? "ok" : "";
+  $("list").textContent = images.length ? "\u2713 " + images.length + " file(s) ready" : "";
   $("go").disabled = !($("key").value.trim() && images.length);
 }
 
@@ -409,7 +419,19 @@ function buildWorkbook(EJ, rows, prev, p, when) {
   return wb;
 }
 
-let prevMap = null;
+let prevMap = null, prevName = "";
+function showPrev() {
+  const box = $("previnfo");
+  if (!prevMap) { box.className = ""; box.replaceChildren(); $("prevdrop").textContent = "Tap to choose an earlier sheet (.xlsx) to compare"; return; }
+  box.className = "ok";
+  const span = document.createElement("span");
+  span.textContent = "\u2713 Last sheet ready: " + prevName + " \u00b7 " + prevMap.size + " members";
+  const b = document.createElement("button");
+  b.className = "tab"; b.textContent = "Remove";
+  b.onclick = () => { prevMap = null; prevName = ""; try { localStorage.removeItem("fcd_prev"); } catch (e) {} showPrev(); };
+  box.replaceChildren(span, b);
+  $("prevdrop").textContent = "Tap to choose a different sheet";
+}
 $("prevdrop").onclick = () => $("prevfile").click();
 $("prevfile").onchange = async (e) => {
   const f = e.target.files[0];
@@ -417,15 +439,25 @@ $("prevfile").onchange = async (e) => {
   try {
     if (!window.ExcelJS) throw new Error("The spreadsheet part did not load. Refresh the page.");
     prevMap = await readPrevious(window.ExcelJS, await f.arrayBuffer());
-    $("previnfo").textContent = "Last sheet: " + f.name + " (" + prevMap.size + " members)";
+    prevName = f.name;
+    try { localStorage.setItem("fcd_prev", JSON.stringify({ name: prevName, entries: [...prevMap] })); } catch (e) {}
+    showPrev();
     clog("Last sheet read: " + prevMap.size + " members.");
   } catch (err) {
     prevMap = null;
-    $("previnfo").textContent = "";
+    showPrev();
     clog("Last sheet failed: " + err.message);
     setMsg(err.message, true);
   }
 };
+// Remember the last sheet on this device (names and points only), so it does not need picking again.
+try {
+  const d = JSON.parse(localStorage.getItem("fcd_prev"));
+  if (d && Array.isArray(d.entries) && d.entries.every(e => typeof e[0] === "string" && typeof e[1] === "number")) {
+    prevMap = new Map(d.entries); prevName = String(d.name || "last sheet");
+  }
+} catch (e) {}
+showPrev();
 
 function toCsv(rows) {
   const esc = (v) => '"' + String(v ?? "").replace(/"/g, '""') + '"';
