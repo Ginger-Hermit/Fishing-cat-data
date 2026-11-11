@@ -12,7 +12,7 @@ The owner (Ginger) does not code. Short, blunt answers. Plain words on screen.
 1. Bump the version in BOTH `version.txt` and `const BUILD` in `index.html` (format `2026-11-11-x`).
 2. Add one entry at the top of `UPDATE_LOG` (plain words: title, meaning, see, changes). Include `at` (UTC time). Add `commit:` with the hash on the NEXT push, since the hash isn't known yet.
 3. Add a one-line plain-English patch note at the top of `index.html`.
-4. Check once: syntax, no `eval(` / `exec(`, every `$("id")` exists in the HTML. Then stop.
+4. Run `python3 -I tests/check.py` once (syntax, no `eval(`/`exec(`, ids exist, no unused code). It also runs by itself on GitHub after every push. Then stop.
 5. Small find-and-replace edits that match exactly once. No whole-file rewrites. Keep a backup outside the repo.
 6. One bug per patch unless it has the same cause. Say what you couldn't test.
 7. Update `STATUS.md` (version, next, not tested). It is loaded automatically by the line at the top.

@@ -6,6 +6,7 @@ Last updated: 11 Nov 2026. Page version 2026-11-11-aa. Live at fishing-cat-data.
 Upload photos or a video (or tap Record screen on a PC). The AI reads the game, clan and layout from up to 3 of the pictures, then reads the member rows, and the page makes the Excel sheet. There is no profile list or Add a game any more. The optional Clan name box sets the file name. Gemini and Anthropic work.
 
 ## Next
+- Check on GitHub (Actions tab) that the auto check ran green after the first push.
 - Ginger tests a real run: Record screen, pick the Roblox window or Entire Screen, scroll the list, tap Make my sheet, then send a screenshot.
 - Optional: auto-save the new sheet as the next Last sheet.
 
