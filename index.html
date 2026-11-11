@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Copy error to send button under red messages. Removed Add a game; new Any clan profile where the AI reads game, clan and columns from your first picture. Add a game is now Upload photo or video; the AI fills in clan, game, ranks and extra column, and the manual boxes sit under Edit by hand. Test read button (1 picture, no download). Add a game can read one screenshot and fill in the columns by itself. Add a game keeps the ranks and extra column boxes always reachable under "Change details". Profiles and files are named Roblox - Game - Clan. Add a game form simplified to clan name plus a game picker. Add a game wording made plainer, Saved notice, ready-made Anime Fighting Simulator button. Help and Stay safe pages brought up to date (Add a game, Remember my key, updates, bug report). Visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
+<!-- Patch note: Profile list removed; always auto-detect. Copy error to send button under red messages. Removed Add a game; new Any clan profile where the AI reads game, clan and columns from your first picture. Add a game is now Upload photo or video; the AI fills in clan, game, ranks and extra column, and the manual boxes sit under Edit by hand. Test read button (1 picture, no download). Add a game can read one screenshot and fill in the columns by itself. Add a game keeps the ranks and extra column boxes always reachable under "Change details". Profiles and files are named Roblox - Game - Clan. Add a game form simplified to clan name plus a game picker. Add a game wording made plainer, Saved notice, ready-made Anime Fighting Simulator button. Help and Stay safe pages brought up to date (Add a game, Remember my key, updates, bug report). Visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -54,8 +54,6 @@ button:disabled{opacity:.5}
 <input id="key" type="password" placeholder="Paste key here" autocomplete="off" spellcheck="false" autocapitalize="off" data-lpignore="true" data-1p-ignore="true">
 <label class="rem" style="display:flex;gap:8px;align-items:center;margin-top:6px;font-weight:normal"><input type="checkbox" id="remember" style="width:auto;margin:0"> Remember my key on this device</label>
 <div id="remnote" style="display:none;font-size:.85em;opacity:.75">Saved only in this browser, never sent anywhere else. Don't tick this on a shared or public computer. Untick to delete it.</div>
-<label for="profile">Profile</label>
-<select id="profile"><option value="auto">Any clan (AI works it out)</option><option value="loki">Roblox - Gym League - Loki</option></select>
 <label>Screenshots</label>
 <div class="drop" id="drop">Drop screenshots here, or tap to choose</div>
 <input id="files" type="file" accept="image/png,image/jpeg,image/webp,video/mp4,video/quicktime,video/webm" multiple hidden>
@@ -83,7 +81,7 @@ button:disabled{opacity:.5}
 <div class="hc"><b>How to use it</b>
 <ol class="steps">
 <li><span>Pick your AI company and paste its key. For Anthropic, make one at console.anthropic.com.</span></li>
-<li><span>Leave Profile on "Any clan", and the AI works out the game and clan itself.</span></li>
+<li><span>Works for any Roblox game with a clan. The AI works out the game and clan itself.</span></li>
 <li><span>Drop in screenshots of the member list, or a screen recording of you scrolling it.</span></li>
 <li><span>Optional: add last time's sheet to compare.</span></li>
 <li><span>Tap Make my sheet. After about 20 seconds an Excel file downloads.</span></li>
@@ -287,6 +285,13 @@ Answer with ONLY a JSON array, no other text:
 }
 // Newest first. Add one entry per change, then re-upload index.html.
 const UPDATE_LOG = [
+  {
+    date: "11 Nov 2026",
+    title: "Profile list removed",
+    meaning: "No picking at all. Works for any Roblox game with a clan.",
+    see: "The Profile box is gone. Just upload and tap Make my sheet.",
+    changes: ["The AI always reads game, clan and columns itself"]
+  },
   {
     date: "11 Nov 2026",
     title: "Copy error button",
@@ -546,7 +551,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; saveSetting("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-11-n";
+const BUILD = "2026-11-11-o";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1031,7 +1036,7 @@ async function readScreenshots(key, images) {
   return ASKERS[id](key, model, await collectPictures(images));
 }
 
-// Profiles: Loki, or "Any clan" where the AI reads the layout from your first picture.
+// The AI reads the game, clan and layout from your first picture.
 const nameOf = (p) => "Roblox - " + p.game + " - " + p.clan;
 const clean = (t, n) => String(t || "").replace(/[\r\n"\\<>\/:*?|]/g, " ").replace(/\s+/g, " ").trim().slice(0, n);
 const SETUP_PROMPT = `This image shows the member list of a Roblox game clan screen.
@@ -1040,8 +1045,6 @@ Answer with ONLY one JSON object, no other text:
 {"clan_name": "name of the clan if it is clearly visible, otherwise empty", "game_name": "name of the game if it is clearly visible, otherwise empty", "ranks_shown": true or false (is a rank number like #1 shown beside each member?), "extra_column": "the heading or label of any column besides rank, username, role and points, otherwise empty"}
 Never guess; use empty text if unsure.`;
 async function pickProfile(key) {
-  const id = $("profile").value;
-  if (id !== "auto") return PROFILES[id] || PROFILES.loki;
   PROMPT = SETUP_PROMPT;
   const pics = (await collectPictures([images[0]])).slice(0, 2);
   const text = await ASKERS[provider()](key, modelFor(provider()), pics);
@@ -1052,8 +1055,6 @@ async function pickProfile(key) {
   clog("Auto layout: " + nameOf(p) + ", ranks " + (p.ranks ? "shown" : "not shown") + ", extra column " + (p.extra || "none") + ".");
   return p;
 }
-$("profile").value = lsGet("fcd_profile") === "loki" ? "loki" : "auto";
-$("profile").onchange = () => lsSet("fcd_profile", $("profile").value);
 
 $("testgo").onclick = async () => {
   const key = $("key").value.trim();
