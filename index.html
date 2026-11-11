@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Record screen hint says to pick Roblox or Entire Screen. Record screen shows a small always-on-top window (live preview, picture count, Stop) on Chrome/Edge/Opera. Phone tip for screen recording. Record screen button (PC): grabs a still every 2 seconds, no video saved. Profile list removed; always auto-detect. Copy error to send button under red messages. Removed Add a game; new Any clan profile where the AI reads game, clan and columns from your first picture. Add a game is now Upload photo or video; the AI fills in clan, game, ranks and extra column, and the manual boxes sit under Edit by hand. Test read button (1 picture, no download). Add a game can read one screenshot and fill in the columns by itself. Add a game keeps the ranks and extra column boxes always reachable under "Change details". Profiles and files are named Roblox - Game - Clan. Add a game form simplified to clan name plus a game picker. Add a game wording made plainer, Saved notice, ready-made Anime Fighting Simulator button. Help and Stay safe pages brought up to date (Add a game, Remember my key, updates, bug report). Visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
+<!-- Patch note: Clan name box; video/record keep changed pictures only; layout read from 3 pictures; bigger Copy error button; shorter key box and footer; removed history and duplicate lists. Record screen hint says to pick Roblox or Entire Screen. Record screen shows a small always-on-top window (live preview, picture count, Stop) on Chrome/Edge/Opera. Phone tip for screen recording. Record screen button (PC): grabs a still every 2 seconds, no video saved. Profile list removed; always auto-detect. Copy error to send button under red messages. Removed Add a game; new Any clan profile where the AI reads game, clan and columns from your first picture. Add a game is now Upload photo or video; the AI fills in clan, game, ranks and extra column, and the manual boxes sit under Edit by hand. Test read button (1 picture, no download). Add a game can read one screenshot and fill in the columns by itself. Add a game keeps the ranks and extra column boxes always reachable under "Change details". Profiles and files are named Roblox - Game - Clan. Add a game form simplified to clan name plus a game picker. Add a game wording made plainer, Saved notice, ready-made Anime Fighting Simulator button. Help and Stay safe pages brought up to date (Add a game, Remember my key, updates, bug report). Visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -49,15 +49,18 @@ button:disabled{opacity:.5}
 <div id="sheet">
 <label for="provider">AI company</label>
 <select id="provider"><option value="anthropic">Anthropic (Claude)</option><option value="gemini">Google Gemini (untested)</option><option value="openai">OpenAI (untested)</option></select>
-<div id="untested" class="warnbox" style="display:none">Heads up: this one has not been tested yet. It might not work. If it fails, open Developer view (bottom of this tab), then send the author the error.</div>
+<div id="untested" class="warnbox" style="display:none">Heads up: this one has not been tested yet. It might not work. If it fails, tap the big Copy error button under the red message and send it to the author.</div>
 <label for="key" id="keylabel">Your AI key (Anthropic)</label>
 <input id="key" type="password" placeholder="Paste key here" autocomplete="off" spellcheck="false" autocapitalize="off" data-lpignore="true" data-1p-ignore="true">
 <label class="rem" style="display:flex;gap:8px;align-items:center;margin-top:6px;font-weight:normal"><input type="checkbox" id="remember" style="width:auto;margin:0"> Remember my key on this device</label>
 <div id="remnote" style="display:none;font-size:.85em;opacity:.75">Saved only in this browser, never sent anywhere else. Don't tick this on a shared or public computer. Untick to delete it.</div>
+<label for="clanbox">Clan name (optional)</label>
+<input id="clanbox" maxlength="40" autocomplete="off" placeholder="e.g. Loki. Used in the file name">
 <label>Screenshots</label>
 <div class="drop" id="drop">Drop screenshots here, or tap to choose</div>
 <input id="files" type="file" accept="image/png,image/jpeg,image/webp,video/mp4,video/quicktime,video/webm" multiple hidden>
 <button id="recbtn" type="button" class="tab" style="display:none;margin-top:6px">Record screen (PC)</button>
+<div id="recstat" role="status" style="display:none;font-size:13px;margin-top:6px"></div>
 <div id="rectip" style="display:none;font-size:12px;color:var(--muted);margin-top:6px">On a phone: use your phone's own screen recorder, scroll the list, then upload the video above.</div>
 <div id="list"></div>
 <label>Last sheet (optional)</label>
@@ -65,18 +68,10 @@ button:disabled{opacity:.5}
 <input id="prevfile" type="file" accept=".xlsx" hidden>
 <div id="previnfo"></div>
 <button id="go" disabled>Make my sheet</button>
-<button id="testgo" type="button" class="tab" disabled style="margin-top:8px;width:100%">Test first (reads 1 picture only, no file)</button>
+<button id="testgo" type="button" class="tab" disabled style="margin-top:8px;width:100%">Test first (small read, no file)</button>
 <div class="msg" id="msg" role="status" aria-live="polite"></div>
-<button id="copyerr" type="button" class="tab" style="display:none;margin-top:6px">Copy error to send</button>
-<div class="hc" style="margin-top:14px">
-<b>Your key is safe here</b>
-<ul>
-<li>It is not saved unless you tick Remember my key. If you do, it stays on this device only. Untick to delete it.</li>
-<li>It goes only to the AI company you pick.</li>
-<li>Treat it like a password. Anyone who gets it can use your credit.</li>
-</ul>
-<div style="margin-top:8px;font-size:14px"><a href="https://support.claude.com/en/articles/9767949-api-key-best-practices-keeping-your-keys-safe-and-secure" target="_blank" rel="noopener noreferrer">Anthropic's key safety guide</a> &middot; <a href="#" data-go="safety">Stay safe page</a></div>
-</div>
+<button id="copyerr" type="button" class="tab" style="display:none;margin-top:8px;width:100%;padding:12px;font-size:16px;border-color:var(--err);color:var(--err)">Copy error to send</button>
+<div class="hc" style="margin-top:14px;font-size:13px"><b>Your key is safe here.</b> It stays on this device and goes only to the AI company you pick. Treat it like a password. <a href="#" data-go="safety">More</a></div>
 <div style="text-align:center;margin-top:10px"><a href="#" id="devOn" style="font-size:12px;color:var(--muted)">Developer view</a></div>
 </div>
 <div id="helptab" style="display:none;font-size:15px;line-height:1.5">
@@ -242,17 +237,14 @@ button:disabled{opacity:.5}
 </div>
 <div id="logtab" style="display:none"></div>
 <div id="consoletab" style="display:none">
-<div style="font-size:13px;color:var(--muted);margin-bottom:6px">Code changed, by update</div>
-<div id="codelist" style="font-size:13px;color:var(--text);margin-bottom:14px"></div>
 <div style="font-size:13px;color:var(--muted);margin-bottom:6px">Console: what the page did on the last run, newest at the bottom</div>
 <pre id="console" style="background:var(--field);border:1px solid var(--line);border-radius:6px;padding:10px;font-size:12px;white-space:pre-wrap;min-height:60px;margin:0;color:var(--text)"></pre>
 <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button id="copybug" type="button">Copy bug report</button><a href="https://github.com/Ginger-Hermit/Fishing-cat-data/issues/new" target="_blank" rel="noopener">Report a bug on GitHub</a></div>
 <div style="font-size:12px;color:var(--muted);margin-top:6px">Copies the page log and your browser type. Keys are removed. Pictures are not included. Nothing is sent until you paste it somewhere.</div>
 </div>
 <div id="foot" style="text-align:center;margin-top:16px;font-size:12px;color:var(--muted)">
-<a href="#" data-go="help">Help</a> &middot; <a href="#" data-go="log">Updates</a> &middot; <a href="#" data-go="safety">Stay safe</a> &middot; <a href="#" data-go="privacy">Privacy</a> &middot; <a href="#" data-go="legal">Legal</a> &middot; <a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">GitHub</a>
-<div style="margin-top:8px">Built entirely by Claude, an AI &middot; For personal use only</div>
-<div style="margin-top:2px">Not an official Roblox, Anthropic, Google or OpenAI product &middot; Provided as is, with no guarantees</div>
+<a href="#" data-go="safety">Stay safe</a> &middot; <a href="#" data-go="privacy">Privacy</a> &middot; <a href="#" data-go="legal">Legal</a> &middot; <a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">GitHub</a>
+<div style="margin-top:8px">Built by Claude, an AI &middot; Personal use only &middot; Not an official Roblox, Anthropic, Google or OpenAI product &middot; No guarantees</div>
 </div>
 </div>
 <script>
@@ -287,6 +279,13 @@ Answer with ONLY a JSON array, no other text:
 }
 // Newest first. Add one entry per change, then re-upload index.html.
 const UPDATE_LOG = [
+  {
+    date: "11 Nov 2026",
+    title: "Fixes and tidy-up",
+    meaning: "Better video coverage, a clan name box, a bigger Copy error button and a tidier page.",
+    see: "A Clan name box above Screenshots. A big red Copy error button under errors. Record status shows under its button.",
+    changes: ["Videos keep up to 24 changed pictures, not 12", "Record screen skips repeated pictures, up to 30", "Layout is read from 3 pictures, not 1", "Shorter key box, one-line footer", "History story removed from Updates"]
+  },
   {
     date: "11 Nov 2026",
     title: "Recording pop-up",
@@ -455,48 +454,6 @@ const UPDATE_LOG = [
     changes: ["Screenshots, Loki profile, Anthropic only."],
   },
 ];
-const HISTORY_HTML = `
-<div style="margin:22px 0 4px;font-weight:500;color:var(--link)">History: the first project</div>
-<div style="font-size:13px;color:var(--muted);margin-bottom:10px">Before this web page there was a desktop program. This is its story, cut short.</div>
-<details class="hc"><summary>The story</summary>
-<ul>
-<li><b>Everything was done by Claude, an AI:</b> all the code, this page and these notes. The author gave the ideas and tested it.</li>
-<li>It started as Clan Sheet Generator, then became Fishing Cat Data.</li>
-<li>It turns a screen recording of a Roblox clan member list into a spreadsheet that shows who went up or down.</li>
-<li>It was built in a few days, 9 to 11 Nov 2026, entirely by AI, through lots of trial and error.</li>
-<li>The notes list over 40 things that went wrong and what fixed them.</li>
-</ul></details>
-<details class="hc"><summary>Timeline</summary>
-<ul>
-<li><b>Before 9 Nov:</b> a spreadsheet maker with a Clan Summary, filter buttons and role tags, plus a desktop launcher.</li>
-<li><b>9 Nov:</b> tamper warning, a new profile window, signed updates (removed again that night), free AI added, Settings redesigned.</li>
-<li><b>10 Nov:</b> renamed Fishing Cat Data. Updates finish by themselves. The speed test stopped flashing. Profiles were taken out to start over, and about half the Developer tools were flagged as bloat.</li>
-<li><b>11 Nov:</b> this web version.</li>
-</ul></details>
-<details class="hc"><summary>How big it got</summary>
-<ul>
-<li>9 Nov: the launcher was about 7,900 lines of code.</li>
-<li>10 Nov: the launcher was 14,591 lines. The spreadsheet maker was 2,255 and the Safety Check 934.</li>
-<li>Most of the growth was features that were later hidden or binned.</li>
-</ul></details>
-<details class="hc"><summary>Best and worst</summary>
-<ul>
-<li><b>Best:</b> the one-button download for a friend working, and the program getting a real name.</li>
-<li><b>Worst:</b> the owner code (all of it), profiles built, hated, binned and rebuilt, and the speed test flashing the screen.</li>
-</ul></details>
-<details class="hc"><summary>Lessons learnt</summary>
-<ul>
-<li>Start tiny: one job, done well.</li>
-<li>Ask for a mockup before any code.</li>
-<li>Back up before every change.</li>
-<li>Test each change and take a screenshot.</li>
-<li>API keys are passwords. Never share them.</li>
-<li>Say plainly what's wrong ("ugly", "annoying"). It works.</li>
-<li>Skip clever security you can't keep track of.</li>
-<li>Every so often ask: is this bloat?</li>
-<li>Pick a name on day one.</li>
-</ul></details>
-`;
 function renderLog() {
   const chip = (t, old) => `<span style="background:${old ? "var(--soft)" : "var(--noteBg)"};color:${old ? "var(--link)" : "var(--noteText)"};padding:2px 8px;border-radius:4px;font-size:12px">${t}</span>`;
   const rows = UPDATE_LOG.map((e, i) => {
@@ -504,11 +461,10 @@ function renderLog() {
     const n = e.changes.length;
     return `<details id="upd${i}" style="border-bottom:1px solid var(--soft);padding:8px 0">
       <summary style="cursor:pointer;display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px">
-        <span style="color:var(--muted)">${e.date}</span> ${chip(old ? "Old app" : "Web page", old)}
+        <span style="color:var(--muted)">${e.date}</span> ${old ? chip("Old app", old) : ""}
         <span style="color:var(--link)">${e.title.replace("Old app: ", "")}</span>
         <span style="color:var(--muted)">${n} change${n > 1 ? "s" : ""}</span></summary>
       <div style="font-size:13px;color:var(--text);margin:8px 0 0 18px">
-        <div><b>Other changes</b></div>
         <ul style="margin:4px 0;padding-left:18px">${e.changes.map(c => "<li>" + c + "</li>").join("")}</ul>
         <div style="color:var(--muted)">${e.meaning}</div>
         <div style="color:var(--muted);margin-top:4px"><b>What you'll see:</b> ${e.see || "No visible change."}</div>
@@ -517,7 +473,7 @@ function renderLog() {
   const log = document.getElementById("logtab");
   log.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
       <span style="font-size:13px;color:var(--muted)">Newest first. Click an update to see what changed.</span>
-      <button class="tab" id="expAll">Expand all</button></div>` + rows + HISTORY_HTML;
+      <button class="tab" id="expAll">Expand all</button></div>` + rows;
   let open = false;
   document.getElementById("expAll").onclick = (ev) => {
     open = !open;
@@ -567,7 +523,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; saveSetting("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-11-s";
+const BUILD = "2026-11-11-t";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -601,9 +557,6 @@ document.getElementById("devOn").onclick = (e) => {
   document.getElementById("t3").textContent = "Developer";
   showTab("console");
 };
-document.getElementById("codelist").innerHTML = UPDATE_LOG.map(e =>
-  `<div style="margin-bottom:8px"><b>${e.date} - ${e.title}</b><ul style="margin:4px 0 0;padding-left:18px;color:var(--muted)">${e.changes.map(c => "<li>" + c + "</li>").join("")}</ul></div>`).join("");
-
 // Console: a plain list of what the page did. Nothing here is sent anywhere.
 function clog(text) {
   const t = new Date().toLocaleTimeString();
@@ -611,7 +564,8 @@ function clog(text) {
   box.textContent += (box.textContent ? "\n" : "") + t + "  " + text;
 }
 let images = [];
-const MAX_FILES = 20;
+const recSay = (t, bad) => { const e = $("recstat"); e.textContent = t; e.style.display = t ? "block" : "none"; e.style.color = bad ? "var(--err)" : ""; };
+const MAX_FILES = 30;
 
 const $ = (id) => document.getElementById(id);
 const setMsg = (text, bad) => { $("msg").textContent = text; $("msg").className = "msg" + (bad ? " err" : ""); $("copyerr").style.display = bad ? "block" : "none"; };
@@ -640,7 +594,11 @@ function addFiles(fileList) {
   refresh();
 }
 
-// Pull still frames from a video in the browser: up to 12 frames, spread evenly over the video.
+// Tiny 24x24 copy of a picture, used to tell if two pictures are nearly the same.
+function tinyPix(src) { const c = document.createElement("canvas"); c.width = c.height = 24; const x = c.getContext("2d"); x.drawImage(src, 0, 0, 24, 24); return x.getImageData(0, 0, 24, 24).data; }
+function samePic(a, b) { if (!a || !b) return false; let t = 0; for (let i = 0; i < a.length; i += 4) t += Math.abs(a[i] - b[i]) + Math.abs(a[i + 1] - b[i + 1]) + Math.abs(a[i + 2] - b[i + 2]); return t / (a.length / 4 * 3) < 2.5; }
+
+// Pull still frames from a video in the browser: looks about every second, keeps up to 24 that differ from the last kept one.
 function videoFrames(file) {
   return new Promise((resolve, reject) => {
     const url = URL.createObjectURL(file);
@@ -651,17 +609,20 @@ function videoFrames(file) {
     v.onerror = () => reject(new Error("This video could not be opened. Try an MP4 recording."));
     v.onloadedmetadata = async () => {
       const d = v.duration;
-      const n = Math.min(12, Math.max(2, Math.ceil(d / 2)));
+      const n = Math.min(60, Math.max(2, Math.ceil(d)));
       const scale = Math.min(1, 1280 / v.videoWidth);
       const canvas = document.createElement("canvas");
       canvas.width = Math.round(v.videoWidth * scale);
       canvas.height = Math.round(v.videoHeight * scale);
       const ctx = canvas.getContext("2d");
-      const out = [];
-      for (let i = 0; i < n; i++) {
+      const out = []; let last = null;
+      for (let i = 0; i < n && out.length < 24; i++) {
         v.currentTime = ((i + 0.5) * d) / n;
         await new Promise(r => (v.onseeked = r));
         ctx.drawImage(v, 0, 0, canvas.width, canvas.height);
+        const tp = tinyPix(canvas);
+        if (samePic(last, tp)) continue;
+        last = tp;
         const jpg = canvas.toDataURL("image/jpeg", 0.85).split(",")[1];
         out.push({ type: "image/jpeg", data: jpg });
       }
@@ -675,6 +636,8 @@ $("drop").onclick = () => $("files").click();
 $("files").onchange = (e) => addFiles(e.target.files);
 $("drop").ondragover = (e) => e.preventDefault();
 $("drop").ondrop = (e) => { e.preventDefault(); addFiles(e.dataTransfer.files); };
+$("clanbox").value = lsGet("fcd_clan") || "";
+$("clanbox").oninput = () => lsSet("fcd_clan", clean($("clanbox").value, 40));
 $("key").oninput = () => { refresh(); if ($("remember").checked) keepKey(); };
 
 function provider() { return $("provider").value; }
@@ -710,13 +673,13 @@ const bugCopy = async (btn, label) => {
 $("copybug").onclick = () => bugCopy($("copybug"), "Copy bug report");
 $("copyerr").onclick = () => bugCopy($("copyerr"), "Copy error to send");
 
-// Record screen (PC browsers): grabs a still every 2 seconds while you scroll the list. No video is saved.
+// Record screen (PC browsers): checks every 2 seconds and keeps a still when the screen changed (up to 30, 3 minutes). No video is saved.
 (function () {
   const btn = $("recbtn");
   if (!(navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia)) { $("rectip").style.display = "block"; return; }
   btn.style.display = "block";
-  let stream = null, timer = null, v = null, n = 0, pip = null, pipTxt = null;
-  const MAXF = 15;
+  let stream = null, timer = null, v = null, n = 0, pip = null, pipTxt = null, lastTp = null, t0 = 0;
+  const MAXF = 30;
   function stop() {
     clearInterval(timer); timer = null;
     if (stream) stream.getTracks().forEach(t => t.stop());
@@ -727,6 +690,10 @@ $("copyerr").onclick = () => bugCopy($("copyerr"), "Copy error to send");
   }
   async function grab() {
     if (!v || !v.videoWidth) return;
+    if (Date.now() - t0 > 180000) { stop(); recSay("Stopped after 3 minutes. Tap Make my sheet.", false); return; }
+    const tp = tinyPix(v);
+    if (samePic(lastTp, tp)) return;
+    lastTp = tp;
     const sc = Math.min(1, 1280 / v.videoWidth), c = document.createElement("canvas");
     c.width = Math.round(v.videoWidth * sc); c.height = Math.round(v.videoHeight * sc);
     c.getContext("2d").drawImage(v, 0, 0, c.width, c.height);
@@ -734,12 +701,12 @@ $("copyerr").onclick = () => bugCopy($("copyerr"), "Copy error to send");
     if (!blob) return;
     images.push(new File([blob], "rec" + (++n) + ".jpg", { type: "image/jpeg" }));
     refresh();
-    setMsg("Recording... " + n + " picture(s). Scroll the list slowly, then tap Stop.");
+    recSay("Recording... " + n + " picture(s). Scroll the list slowly, then tap Stop.");
     if (pipTxt) pipTxt.textContent = n + " picture(s) taken. Scroll the list slowly.";
-    if (n >= MAXF || images.length >= MAX_FILES) { stop(); setMsg("Stopped at " + n + " pictures. Tap Make my sheet."); }
+    if (n >= MAXF || images.length >= MAX_FILES) { stop(); recSay("Stopped at the limit (" + n + " pictures). Tap Make my sheet."); }
   }
   btn.onclick = async () => {
-    if (stream) { stop(); setMsg("Got " + n + " picture(s). Tap Make my sheet."); return; }
+    if (stream) { stop(); recSay("Got " + n + " picture(s). Tap Make my sheet."); return; }
     // Small always-on-top window (Chrome/Edge/Opera on PC) so you can see progress and Stop while the game is in front.
     if (window.documentPictureInPicture) {
       try {
@@ -748,22 +715,22 @@ $("copyerr").onclick = () => bugCopy($("copyerr"), "Copy error to send");
         const t = d.createElement("div"); t.textContent = "Pick Roblox or Entire Screen (not this page), then tap Allow."; t.style.marginBottom = "8px"; pipTxt = t;
         const pv = d.createElement("video"); pv.muted = true; pv.autoplay = true; pv.id = "pv"; pv.style.cssText = "width:100%;border-radius:6px;background:#000;max-height:120px";
         const sb = d.createElement("button"); sb.textContent = "Stop recording"; sb.style.cssText = "margin-top:8px;width:100%;padding:8px;font-size:15px;border-radius:6px;border:0;background:#c0392b;color:#fff";
-        sb.onclick = () => { if (stream) { stop(); setMsg("Got " + n + " picture(s). Tap Make my sheet."); } };
+        sb.onclick = () => { if (stream) { stop(); recSay("Got " + n + " picture(s). Tap Make my sheet."); } };
         d.body.append(t, pv, sb);
-        pip.addEventListener("pagehide", () => { pip = null; pipTxt = null; if (stream) { stop(); setMsg("Got " + n + " picture(s). Tap Make my sheet."); } });
+        pip.addEventListener("pagehide", () => { pip = null; pipTxt = null; if (stream) { stop(); recSay("Got " + n + " picture(s). Tap Make my sheet."); } });
       } catch (e) { pip = null; pipTxt = null; }
     }
-    setMsg("In the box that pops up, open the top dropdown and pick Roblox or Entire Screen, not this page.");
+    recSay("In the box that pops up, open the top dropdown and pick Roblox or Entire Screen, not this page.");
     try {
       stream = await navigator.mediaDevices.getDisplayMedia({ video: { displaySurface: "monitor" }, audio: false });
-    } catch (e) { if (pip) { try { pip.close(); } catch (x) {} pip = null; pipTxt = null; } setMsg("Recording was cancelled or blocked.", true); return; }
-    n = 0; v = document.createElement("video"); v.muted = true; v.srcObject = stream;
+    } catch (e) { if (pip) { try { pip.close(); } catch (x) {} pip = null; pipTxt = null; } recSay("Recording was cancelled or blocked.", true); return; }
+    n = 0; lastTp = null; t0 = Date.now(); v = document.createElement("video"); v.muted = true; v.srcObject = stream;
     await v.play().catch(() => {});
     if (pip) { const pv = pip.document.getElementById("pv"); if (pv) pv.srcObject = stream; if (pipTxt) pipTxt.textContent = "Recording... scroll the list slowly."; }
-    stream.getVideoTracks()[0].onended = () => { if (stream) { stop(); setMsg("Got " + n + " picture(s). Tap Make my sheet."); } };
+    stream.getVideoTracks()[0].onended = () => { if (stream) { stop(); recSay("Got " + n + " picture(s). Tap Make my sheet."); } };
     btn.textContent = "Stop recording";
     clog("Screen recording started.");
-    setMsg("Recording... pick the Roblox window, then scroll the member list slowly.");
+    recSay("Recording... scroll the member list slowly. Still moments are skipped.");
     timer = setInterval(grab, 2000);
   };
 })();
@@ -1113,19 +1080,20 @@ async function readScreenshots(key, images) {
 // The AI reads the game, clan and layout from your first picture.
 const nameOf = (p) => "Roblox - " + p.game + " - " + p.clan;
 const clean = (t, n) => String(t || "").replace(/[\r\n"\\<>\/:*?|]/g, " ").replace(/\s+/g, " ").trim().slice(0, n);
-const SETUP_PROMPT = `This image shows the member list of a Roblox game clan screen.
-Work out how the list is laid out. Do not copy the whole list.
+const SETUP_PROMPT = `These images show the member list of a Roblox game clan screen.
+Work out how the list is laid out. Do not copy the whole list. If several images are given, use the one that shows the member list best.
 Answer with ONLY one JSON object, no other text:
 {"clan_name": "name of the clan if it is clearly visible, otherwise empty", "game_name": "name of the game if it is clearly visible, otherwise empty", "ranks_shown": true or false (is a rank number like #1 shown beside each member?), "extra_column": "the heading or label of any column besides rank, username, role and points, otherwise empty"}
 Never guess; use empty text if unsure.`;
 async function pickProfile(key) {
   PROMPT = SETUP_PROMPT;
-  const pics = (await collectPictures([images[0]])).slice(0, 2);
+  const L = images.length, pick = [...new Set([images[0], images[L >> 1], images[L - 1]])];
+  const all = await collectPictures(pick), pics = [...new Set([all[0], all[all.length >> 1], all[all.length - 1]])];
   const text = await ASKERS[provider()](key, modelFor(provider()), pics);
   const m = text.match(/\{[\s\S]*\}/);
   if (!m) throw new Error("The AI couldn't work out the layout. Try a clearer picture.");
   const r = JSON.parse(m[0]);
-  const p = { clan: clean(r.clan_name, 40) || "Clan", game: clean(r.game_name, 40) || "Game", ranks: r.ranks_shown !== false, extra: clean(r.extra_column, 30), custom: true };
+  const p = { clan: clean($("clanbox").value, 40) || clean(r.clan_name, 40) || "Clan", game: clean(r.game_name, 40) || "Game", ranks: r.ranks_shown !== false, extra: clean(r.extra_column, 30), custom: true };
   clog("Auto layout: " + nameOf(p) + ", ranks " + (p.ranks ? "shown" : "not shown") + ", extra column " + (p.extra || "none") + ".");
   return p;
 }
@@ -1140,7 +1108,7 @@ $("testgo").onclick = async () => {
     const pics = (await collectPictures([images[0]])).slice(0, 1);
     const text = await ASKERS[provider()](key, modelFor(provider()), pics);
     const rows = parseRows(text);
-    if (!rows.length) throw new Error("Test read: no member rows found. Check the picture shows the member list.");
+    if (!rows.length) throw new Error("Test read: no member rows found. The picture may not show the member list. If you used Record screen, pick the Roblox window or Entire Screen, not this page.");
     const bad = rows.filter(r => r.name === "?" || parsePoints(r.points) === null).length;
     const first = rows.slice(0, 3).map(r => r.name + " " + r.points + (p.extra ? " (" + r.role + ")" : "")).join(", ");
     setMsg("Test read OK: " + rows.length + " rows from 1 picture. First: " + first + "." + (bad ? " " + bad + " unreadable." : "") + " If that looks right, tap Make my sheet. Nothing was downloaded.");
@@ -1162,7 +1130,7 @@ $("go").onclick = async () => {
     if (p.ranks === false) rows.forEach((r, i) => { r.rank = i + 1; });
     const shown = (text.match(/"members_on_screen"\s*:\s*(\d+)/) || [])[1];
     clog("Found " + rows.length + " unique row(s).");
-    if (!rows.length) throw new Error("No member rows were found. Check the screenshots show the member list.");
+    if (!rows.length) throw new Error("No member rows were found. The pictures may not show the member list. If you used Record screen, pick the Roblox window or Entire Screen, not this page.");
     let blob, ext = ".xlsx";
     if (window.ExcelJS) {
       const when = new Date().toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric" }).replace(/,/g, "");
