@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: AI company drop-down (Anthropic, plus untested Google Gemini and OpenAI) and a model box in Settings. -->
+<!-- Patch note: Excel sheet restyled to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -244,6 +244,13 @@ Answer with ONLY a JSON array, no other text:
 const PROFILES = { loki: { clan: "Loki", game: "Gym League" } };
 // Newest first. Add one entry per change, then re-upload index.html.
 const UPDATE_LOG = [
+  {
+    date: "11 Nov 2026",
+    title: "Nicer Excel sheet",
+    meaning: "The Excel file now looks like the desktop version.",
+    see: "Striped rows, borders, a filter on the header, green and red Change cells, and Clan Season Info and Clan Summary boxes on the right.",
+    changes: ["Colour shading on Points", "Season Info is blank to type in", "Summary boxes work out totals for you"]
+  },
   {
     date: "11 Nov 2026",
     title: "Google Gemini and OpenAI (untested)",
@@ -611,7 +618,7 @@ function buildWorkbook(EJ, rows, prev, p, when) {
   const NAVY = "FF1F3864", INK = "FF1F2937", GREY = "FF7F7F7F";
   const fill = (c) => ({ type: "pattern", pattern: "solid", fgColor: { argb: c } });
   const ws = wb.addWorksheet("Clan Members", { views: [{ state: "frozen", ySplit: 3 }] });
-  [9, 26, 16, 21, 20, 16, 13, 14, 11].forEach((w, i) => { ws.getColumn(i + 1).width = w; });
+  [9, 26, 16, 21, 20, 16, 13, 14, 11, 3, 25, 22].forEach((w, i) => { ws.getColumn(i + 1).width = w; });
   ws.mergeCells("A1:I1");
   ws.mergeCells("A2:I2");
   ws.getCell("A1").value = p.clan + " \u2013 Member Points";
@@ -653,10 +660,93 @@ function buildWorkbook(EJ, rows, prev, p, when) {
     ws.getCell(n, 9).value = { formula: prev ? `IF(G${n}="",IF(AND(E${n}<>"",F${n}=""),"new",""),${arrows})` : `IF(G${n}="","",${arrows})` };
   });
   const last = rows.length + 3;
+  const LINE = { style: "thin", color: { argb: "FFD0D5DD" } };
+  const box = { left: LINE, right: LINE, top: LINE, bottom: LINE };
+  ws.getRow(1).height = 30; ws.getRow(2).height = 18; ws.getRow(3).height = 24;
+  ws.getCell("A1").alignment = { vertical: "middle" };
+  ws.getCell("A2").alignment = { vertical: "middle" };
+  for (let c = 1; c <= 9; c++) {
+    const h = ws.getCell(3, c);
+    h.alignment = { horizontal: "center", vertical: "middle", wrapText: true };
+    h.border = { left: LINE, right: LINE, top: LINE, bottom: { style: "medium", color: { argb: NAVY } } };
+  }
+  const aligns = ["center", "left", "left", "right", "right", "right", "center", "center", "center"];
+  for (let n = 4; n <= last; n++) {
+    ws.getRow(n).height = 19.5;
+    for (let c = 1; c <= 9; c++) {
+      const cell = ws.getCell(n, c);
+      cell.border = box;
+      cell.alignment = { horizontal: aligns[c - 1], vertical: "middle", indent: (c === 2 || c === 3) ? 1 : 0 };
+      if (!cell.font || !cell.font.color) cell.font = Object.assign({}, cell.font, { color: { argb: INK } });
+    }
+  }
+  ws.autoFilter = `A3:I${last}`;
+  const up = { font: { color: { argb: "FF006100" } }, fill: { type: "pattern", pattern: "solid", bgColor: { argb: "FFC6EFCE" } } };
+  const down = { font: { color: { argb: "FF9C0006" } }, fill: { type: "pattern", pattern: "solid", bgColor: { argb: "FFFFC7CE" } } };
   ws.addConditionalFormatting({ ref: `G4:I${last}`, rules: [
-    { type: "expression", priority: 1, formulae: ["AND(ISNUMBER($G4),$G4>0)"], style: { font: { color: { argb: "FF14632D" } } } },
-    { type: "expression", priority: 2, formulae: ["AND(ISNUMBER($G4),$G4<0)"], style: { font: { color: { argb: "FFA31616" } } } }
+    { type: "expression", priority: 1, formulae: ["AND(ISNUMBER($G4),$G4>0)"], style: up },
+    { type: "expression", priority: 2, formulae: ["AND(ISNUMBER($G4),$G4<0)"], style: down }
   ] });
+  ws.addConditionalFormatting({ ref: `E4:E${last}`, rules: [
+    { type: "colorScale", priority: 3, cfvo: [{ type: "min" }, { type: "max" }], color: [{ argb: "FFFFFFFF" }, { argb: "FFB7E1CD" }] }
+  ] });
+  ws.addConditionalFormatting({ ref: `B4:B${last} D4:I${last}`, rules: [
+    { type: "expression", priority: 4, formulae: ["MOD(ROW(),2)=0"], style: { fill: { type: "pattern", pattern: "solid", bgColor: { argb: "FFF5F7FA" } } } }
+  ] });
+  // Clan Season Info + Clan Summary boxes (same spots as the desktop version)
+  const B = `B4:B${last}`, E = `E4:E${last}`, F = `F4:F${last}`, G = `G4:G${last}`;
+  const head = (addr, text) => {
+    const a = addr.split(":")[0];
+    ws.mergeCells(addr);
+    const c = ws.getCell(a);
+    c.value = text; c.font = { bold: true, color: { argb: "FFFFFFFF" } }; c.fill = fill(NAVY);
+    c.alignment = { horizontal: "center", vertical: "middle" };
+    const row = Number(a.slice(1));
+    ws.getRow(row).height = 24;
+    ["K", "L"].forEach((col) => { ws.getCell(col + row).border = { left: LINE, right: LINE, top: LINE, bottom: { style: "medium", color: { argb: NAVY } } }; });
+  };
+  const line = (row, label, value, fmt) => {
+    const k = ws.getCell("K" + row), l = ws.getCell("L" + row);
+    k.value = label; k.font = { bold: true, size: 10, color: { argb: INK } }; k.fill = fill("FFF5F7FA");
+    k.alignment = { horizontal: "left", vertical: "middle", indent: 1 };
+    if (value !== undefined && value !== null) l.value = value;
+    if (fmt) l.numFmt = fmt;
+    l.font = { color: { argb: INK } }; l.alignment = { horizontal: "right", vertical: "middle" };
+    k.border = box; l.border = box;
+    ws.getRow(row).height = 19.5;
+  };
+  head("K3:L3", "Clan Season Info");
+  line(4, "Season Points", null, "#,##0");
+  line(5, "League Rank", null, "\\#0");
+  line(6, "League Ends In", null, "@");
+  line(7, "Start Date", null, "ddd\\ d\\ mmm\\ yyyy");
+  line(8, "Date Recorded", new Date(), "ddd\\ d\\ mmm\\ yyyy");
+  line(9, "Day of Period", { formula: 'IF(OR(L8="",L7=""),"",L8-L7+1)' }, "0");
+  line(10, "Previous Recorded", null, "ddd\\ d\\ mmm\\ yyyy");
+  line(11, "Previous Season Points", null, "#,##0");
+  line(12, "Season Points Change", { formula: 'IF(OR(L4="",L11=""),"",L4-L11)' }, "\\+#,##0;\\-#,##0;0");
+  line(13, "Previous League Rank", null, "\\#0");
+  ws.getCell("K16").value = "Season info is not read from the video - type it in if you want it.";
+  ws.getCell("K16").font = { italic: true, size: 9, color: { argb: GREY } };
+  head("K18:L18", "Clan Summary");
+  line(19, "Members", { formula: `COUNTIF(${B},"<>(not read)")` }, "0");
+  line(20, "Total Points", { formula: `SUM(${E})` }, "#,##0");
+  line(21, "Average Points", { formula: `IFERROR(AVERAGE(${E}),"")` }, "#,##0");
+  line(22, "Total Change", { formula: `IF(COUNT(${G})=0,"",SUM(${G}))` }, "\\+#,##0;\\-#,##0;0");
+  line(23, "Total % Change", { formula: `IF(OR(COUNT(${G})=0,SUM(${F})=0),"",SUM(${G})/SUM(${F}))` }, "\\+0.0%;\\-0.0%;0.0%");
+  line(24, "Members Up", { formula: `IF(COUNT(${G})=0,"",COUNTIF(${G},">0"))` }, "0");
+  line(25, "Members Down", { formula: `IF(COUNT(${G})=0,"",COUNTIF(${G},"<0"))` }, "0");
+  line(26, "Top Gainer", { formula: `IF(COUNT(${G})=0,"",IF(MAX(${G})<=0,"",INDEX(${B},MATCH(MAX(${G}),${G},0))))` }, "@");
+  line(27, "Biggest Drop", { formula: `IF(COUNT(${G})=0,"",IF(MIN(${G})>=0,"",INDEX(${B},MATCH(MIN(${G}),${G},0))))` }, "@");
+  ws.getCell("K28").value = "Change values appear from the second week on.";
+  ws.getCell("K28").font = { italic: true, size: 9, color: { argb: GREY } };
+  ["L22", "L23", "L12"].forEach((a) => {
+    const rr = a.slice(1);
+    ws.addConditionalFormatting({ ref: a, rules: [
+      { type: "expression", priority: 5, formulae: [`AND(ISNUMBER($L$${rr}),$L$${rr}>0)`], style: up },
+      { type: "expression", priority: 6, formulae: [`AND(ISNUMBER($L$${rr}),$L$${rr}<0)`], style: down }
+    ] });
+  });
   const ab = wb.addWorksheet("About this sheet");
   ab.getColumn(1).width = 26; ab.getColumn(2).width = 92;
   ab.getCell("A1").value = "About this sheet"; ab.getCell("A1").font = { bold: true, size: 16, color: { argb: NAVY } };
