@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
+<!-- Patch note: "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -44,6 +44,7 @@ button:disabled{opacity:.5}
 <div class="card">
 <h1>Fishing Cat Data</h1>
 <div id="fake" style="display:none;border:2px solid var(--err);color:var(--err);background:var(--field);border-radius:8px;padding:12px 14px;margin-bottom:14px;font-weight:500">Warning: this is not the real Fishing Cat Data page. Do not paste your key here. The real page is fishing-cat-data.pages.dev</div>
+<div id="newver" role="status" style="display:none;background:var(--field);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:14px">New version ready. <a href="#" id="reloadnow">Refresh now</a></div>
 <div class="tabs"><button id="t1" class="tab on">Make my sheet</button><button id="t2" class="tab">Updates</button><button id="t4" class="tab">Help</button><button id="t5" class="tab">Settings</button><button id="t3" class="tab">Console</button></div>
 <div id="sheet">
 <label for="provider">AI company</label>
@@ -209,6 +210,9 @@ button:disabled{opacity:.5}
 <div class="tabs" id="themeBtns"></div>
 <div style="font-size:13px;color:var(--muted);margin-bottom:6px">Text size</div>
 <div class="tabs" id="sizeBtns"></div>
+<div style="font-size:13px;color:var(--muted);margin:14px 0 6px">Updates</div>
+<label style="display:flex;gap:8px;align-items:center;font-weight:normal"><input type="checkbox" id="autoref" style="width:auto;margin:0"> Refresh automatically when there is an update</label>
+<div style="font-size:12px;color:var(--muted);margin:4px 0 0">Only refreshes when no files are picked. Off: you get a banner instead.</div>
 <div style="font-size:13px;color:var(--muted);margin:14px 0 6px">AI model (advanced)</div>
 <input id="modelbox" autocomplete="off" spellcheck="false">
 <div style="font-size:12px;color:var(--muted);margin:6px 0 10px">Leave empty to use the built-in one. Only change it if an error says the model is gone. It is kept for the company chosen on the first tab.</div>
@@ -248,6 +252,13 @@ Answer with ONLY a JSON array, no other text:
 const PROFILES = { loki: { clan: "Loki", game: "Gym League" } };
 // Newest first. Add one entry per change, then re-upload index.html.
 const UPDATE_LOG = [
+  {
+    date: "11 Nov 2026",
+    title: "Update banner",
+    meaning: "The page tells you when there is a new version.",
+    see: "A small banner with a Refresh link, and a Settings switch to refresh by itself.",
+    changes: ["Checks every 5 minutes", "Auto refresh waits until no files are picked", "Off by default"]
+  },
   {
     date: "11 Nov 2026",
     title: "Bug report button",
@@ -471,6 +482,23 @@ function applyLook() {
 document.getElementById("themeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { theme = v; saveSetting("fcd_theme", v); applyLook(); } };
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; saveSetting("fcd_size", v); applyLook(); } };
 applyLook();
+// Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
+const BUILD = "2026-11-11-a";
+document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
+document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
+document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
+async function checkUpdate() {
+  try {
+    const r = await fetch("version.txt?t=" + Date.now(), { cache: "no-store" });
+    if (!r.ok) return;
+    const v = (await r.text()).trim();
+    if (!/^[\w.-]{1,40}$/.test(v) || v === BUILD) return;
+    const busy = typeof images !== "undefined" && images.length > 0;
+    if (document.getElementById("autoref").checked && !busy) { location.reload(); return; }
+    document.getElementById("newver").style.display = "block";
+  } catch (e) {}
+}
+if (location.protocol.startsWith("http")) { checkUpdate(); setInterval(checkUpdate, 5 * 60 * 1000); }
 document.getElementById("t3").style.display = "none";
 document.getElementById("devOn").onclick = (e) => {
   e.preventDefault();
