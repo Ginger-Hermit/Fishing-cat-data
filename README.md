@@ -33,7 +33,7 @@ Turns Roblox clan screenshots or a screen recording into a ready-to-use Excel sh
 
 ## Privacy
 
-- Your key stays in the page and is never saved.
+- Your key is only saved if you tick "Remember my key", and then only in your own browser. Untick to delete it.
 - Pictures go only to the AI company you pick, straight from your browser. There is no server of our own and no tracking.
 - Theme, text size and the last sheet are stored on your device only.
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
+<!-- Patch note: optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -51,6 +51,8 @@ button:disabled{opacity:.5}
 <div id="untested" class="warnbox" style="display:none">Heads up: this one has not been tested yet. It might not work. If it fails, open Developer view (bottom of this tab), then send the author the error.</div>
 <label for="key" id="keylabel">Your AI key (Anthropic)</label>
 <input id="key" type="password" placeholder="Paste key here" autocomplete="off" spellcheck="false" autocapitalize="off" data-lpignore="true" data-1p-ignore="true">
+<label class="rem" style="display:flex;gap:8px;align-items:center;margin-top:6px;font-weight:normal"><input type="checkbox" id="remember" style="width:auto;margin:0"> Remember my key on this device</label>
+<div id="remnote" style="display:none;font-size:.85em;opacity:.75">Saved only in this browser, never sent anywhere else. Don't tick this on a shared or public computer. Untick to delete it.</div>
 <label for="profile">Profile</label>
 <select id="profile"><option value="loki">Loki, Gym League</option></select>
 <label>Screenshots</label>
@@ -66,7 +68,7 @@ button:disabled{opacity:.5}
 <div class="hc" style="margin-top:14px">
 <b>Your key is safe here</b>
 <ul>
-<li>It is never saved. It's gone when you close the tab.</li>
+<li>It is not saved unless you tick Remember my key. If you do, it stays on this device only. Untick to delete it.</li>
 <li>It goes only to the AI company you pick.</li>
 <li>Treat it like a password. Anyone who gets it can use your credit.</li>
 </ul>
@@ -112,7 +114,7 @@ button:disabled{opacity:.5}
 </ul></details>
 <details class="hc"><summary>Privacy and looks</summary>
 <ul>
-<li>Your key stays in this page and is never saved.</li>
+<li>Your key is only saved if you tick Remember my key, and then only on this device. Untick to delete it.</li>
 <li>The last sheet you chose is remembered on this device (names and points only). Tap Remove to forget it.</li>
 <li>Pictures go only to the AI company you pick.</li>
 <li>For personal use only.</li>
@@ -181,7 +183,7 @@ button:disabled{opacity:.5}
 <div id="privacytab" style="display:none;font-size:15px;line-height:1.5">
 <div class="hc"><b>Privacy</b>
 <ul>
-<li>Your AI key stays in this page. It is never saved.</li>
+<li>Your AI key stays in this browser. It is only kept if you tick Remember my key, and it is never sent anywhere except the AI company you pick.</li>
 <li>The page is locked down by the browser so it can only talk to Anthropic, Google and OpenAI. It only sends to the one you pick.</li>
 <li>Your pictures (and the stills pulled from a video) go only to the AI company you pick, straight from your browser, to be read. This page has no server of its own, so we never see them.</li>
 <li>What that company does with what you send is covered by its own policies. Free plans can have different rules, so check them.</li>
@@ -244,6 +246,13 @@ Answer with ONLY a JSON array, no other text:
 const PROFILES = { loki: { clan: "Loki", game: "Gym League" } };
 // Newest first. Add one entry per change, then re-upload index.html.
 const UPDATE_LOG = [
+  {
+    date: "11 Nov 2026",
+    title: "Remember my key (optional)",
+    meaning: "You can tick a box so you don't paste your key every time.",
+    see: "A tick box under the key box. It is off unless you tick it.",
+    changes: ["Saved only in this browser", "Untick to delete it", "Not for shared computers"]
+  },
   {
     date: "11 Nov 2026",
     title: "Nicer Excel sheet",
@@ -533,7 +542,7 @@ $("drop").onclick = () => $("files").click();
 $("files").onchange = (e) => addFiles(e.target.files);
 $("drop").ondragover = (e) => e.preventDefault();
 $("drop").ondrop = (e) => { e.preventDefault(); addFiles(e.dataTransfer.files); };
-$("key").oninput = refresh;
+$("key").oninput = () => { refresh(); if ($("remember").checked) keepKey(); };
 
 function provider() { return $("provider").value; }
 function modelFor(id) { return (lsGet("fcd_model_" + id) || "").trim() || PROVIDERS[id].model; }
@@ -544,8 +553,17 @@ function applyProvider(clearKey) {
   $("modelbox").placeholder = p.model;
   $("modelbox").value = lsGet("fcd_model_" + id) || "";
   lsSet("fcd_provider", id);
-  if (clearKey) { $("key").value = ""; refresh(); }
+  const kept = lsGet("fcd_key_" + id);
+  $("remember").checked = !!kept;
+  $("remnote").style.display = kept ? "block" : "none";
+  if (clearKey || kept) { $("key").value = kept || ""; refresh(); }
 }
+function keepKey() {
+  const id = provider(), on = $("remember").checked;
+  $("remnote").style.display = on ? "block" : "none";
+  try { if (on && $("key").value.trim()) localStorage.setItem("fcd_key_" + id, $("key").value.trim()); else localStorage.removeItem("fcd_key_" + id); } catch (e) {}
+}
+$("remember").onchange = keepKey;
 const savedProvider = lsGet("fcd_provider");
 if (savedProvider && PROVIDERS[savedProvider]) $("provider").value = savedProvider;
 $("provider").onchange = () => applyProvider(true);
