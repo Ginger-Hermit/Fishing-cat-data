@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
+<!-- Patch note: Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -56,6 +56,18 @@ button:disabled{opacity:.5}
 <div id="remnote" style="display:none;font-size:.85em;opacity:.75">Saved only in this browser, never sent anywhere else. Don't tick this on a shared or public computer. Untick to delete it.</div>
 <label for="profile">Profile</label>
 <select id="profile"><option value="loki">Loki, Gym League</option></select>
+<div id="addgame" style="display:none;border:1px solid var(--line);border-radius:8px;padding:12px;margin-top:8px">
+<div style="font-size:13px;color:var(--muted);margin-bottom:8px">Open the clan member list in your game. Answer these 4 things about what you see there. The preview below updates as you type.</div>
+<label for="gclan">Clan name</label><input id="gclan" maxlength="40" autocomplete="off">
+<label for="ggame">Game or league</label><input id="ggame" maxlength="40" autocomplete="off" placeholder="e.g. Anime Fighting Simulator">
+<label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin-top:10px"><input type="checkbox" id="grank" checked style="width:auto;margin:0"> The screen shows rank numbers</label>
+<label for="gextra">Extra column name (optional)</label><input id="gextra" maxlength="30" autocomplete="off" placeholder="e.g. Total Powers">
+<div style="font-size:12px;color:var(--muted);margin:4px 0 10px">An extra column replaces the Role column and is copied as shown, not added up. Saved on this device only.</div>
+<div style="font-size:13px;color:var(--muted);margin-bottom:4px">What your sheet will look like</div>
+<div id="gprev" style="overflow-x:auto;margin-bottom:12px"></div>
+<div class="tabs"><button type="button" class="tab on" id="gsave">Save</button><button type="button" class="tab" id="gcancel">Cancel</button></div>
+</div>
+<div id="rmgame" style="display:none;margin-top:6px;font-size:13px"><a href="#" id="rmgamelink">Remove this profile</a></div>
 <label>Screenshots</label>
 <div class="drop" id="drop">Drop screenshots here, or tap to choose</div>
 <input id="files" type="file" accept="image/png,image/jpeg,image/webp,video/mp4,video/quicktime,video/webm" multiple hidden>
@@ -243,15 +255,35 @@ const PROVIDERS = {
 };
 function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
 function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
-const PROMPT = `These images show the member list of the Roblox game clan screen.
+const PROMPT_LOKI = `These images show the member list of the Roblox game clan screen.
 Each row shows a rank like "#12", a username, a role under the name and a points number on the right (like 52.51K, 1K or 507).
 Read EVERY row that is fully visible. Skip rows cut off at the top or bottom edge.
 Copy usernames exactly. Points: copy exactly as shown (e.g. "52.51K"). Never guess; use "?" if unreadable.
 Answer with ONLY a JSON array, no other text:
 [{"rank": 12, "name": "example_name", "role": "Member", "points": "16.6K"}, ...]`;
-const PROFILES = { loki: { clan: "Loki", game: "Gym League" } };
+let PROMPT = PROMPT_LOKI;
+const PROFILES = { loki: { clan: "Loki", game: "Gym League", ranks: true, extra: "" } };
+function buildPrompt(p) {
+  if (!p.custom) return PROMPT_LOKI;
+  const rankLine = p.ranks ? 'a rank like "#12"' : "no rank number (set rank to 0)";
+  const roleLine = p.extra ? 'a column called "' + p.extra + '" (copy it exactly as shown; use "?" if unreadable or hidden)' : "a role under the name";
+  return `These images show the member list of a Roblox game clan screen.
+Each row shows ${rankLine}, a username, ${roleLine} and a points number (like 52.51K, 1.307M or 507).
+Read EVERY row that is fully visible. Skip rows cut off at the top or bottom edge. Keep rows in the order shown, top first.
+Copy usernames exactly. Points: copy exactly as shown. Never guess; use "?" if unreadable.
+If a member count is shown on screen (like "Members 49"), add one last object {"members_on_screen": 49}.
+Answer with ONLY a JSON array, no other text:
+[{"rank": 12, "name": "example_name", "role": "${p.extra ? "value" : "Member"}", "points": "16.6K"}, ...]`;
+}
 // Newest first. Add one entry per change, then re-upload index.html.
 const UPDATE_LOG = [
+  {
+    date: "11 Nov 2026",
+    title: "Add a game",
+    meaning: "You can add other Roblox clan games, not just Loki's Gym League.",
+    see: "Pick + Add a game in the Profile list. Name the clan and game, say if the screen shows ranks, and add an extra column if you want one.",
+    changes: ["Profiles saved on this device only", "Warns if fewer members were read than the screen shows", "Not tested on other games yet"]
+  },
   {
     date: "11 Nov 2026",
     title: "Update banner",
@@ -690,7 +722,7 @@ function buildWorkbook(EJ, rows, prev, p, when) {
   ws.getCell("A1").font = { bold: true, size: 16, color: { argb: NAVY } };
   ws.getCell("A2").value = p.game + "   \u00b7   Recorded " + when + "   \u00b7   " + rows.length + " members read";
   ws.getCell("A2").font = { color: { argb: GREY } };
-  ["Rank", "Username", "Role", "Points (as shown)", "Points (number)", "Previous Points", "Change", "% Change", "Trend"].forEach((h, i) => {
+  ["Rank", "Username", p.extra || "Role", "Points (as shown)", "Points (number)", "Previous Points", "Change", "% Change", "Trend"].forEach((h, i) => {
     const c = ws.getCell(3, i + 1);
     c.value = h; c.font = { bold: true, color: { argb: "FFFFFFFF" } }; c.fill = fill(NAVY);
   });
@@ -705,7 +737,8 @@ function buildWorkbook(EJ, rows, prev, p, when) {
     ws.getCell(n, 2).value = r.name;
     const role = ws.getCell(n, 3);
     role.value = r.role || "";
-    if (/owner/i.test(role.value)) { role.font = { bold: true, color: { argb: "FF7F6000" } }; role.fill = fill("FFFFE699"); }
+    if (p.extra) { /* extra column: plain text */ }
+    else if (/owner/i.test(role.value)) { role.font = { bold: true, color: { argb: "FF7F6000" } }; role.fill = fill("FFFFE699"); }
     else if (/coach/i.test(role.value)) { role.font = { bold: true, color: { argb: "FF843C0C" } }; role.fill = fill("FFFCE4D6"); }
     ws.getCell(n, 4).value = String(r.points);
     ws.getCell(n, 4).font = { color: { argb: GREY } };
@@ -953,9 +986,60 @@ async function readScreenshots(key, images) {
   return ASKERS[id](key, model, await collectPictures(images));
 }
 
+// Profiles: built-in Loki plus the ones you add (kept on this device only).
+function customProfiles() { try { const a = JSON.parse(lsGet("fcd_profiles") || "[]"); return Array.isArray(a) ? a.filter(x => x && x.id && x.clan && x.game) : []; } catch (e) { return []; } }
+function getProfile(id) { return PROFILES[id] || customProfiles().find(x => x.id === id) || PROFILES.loki; }
+const clean = (t, n) => String(t || "").replace(/[\r\n"\\<>\/:*?|]/g, " ").replace(/\s+/g, " ").trim().slice(0, n);
+function renderProfiles(pick) {
+  const sel = $("profile"), cur = pick || lsGet("fcd_profile") || "loki";
+  const opt = (v, t) => { const o = document.createElement("option"); o.value = v; o.textContent = t; return o; };
+  sel.innerHTML = "";
+  sel.appendChild(opt("loki", "Loki, Gym League"));
+  customProfiles().forEach(x => sel.appendChild(opt(x.id, x.clan + ", " + x.game)));
+  sel.appendChild(opt("__add", "+ Add a game..."));
+  sel.value = [...sel.options].some(o => o.value === cur) ? cur : "loki";
+  $("rmgame").style.display = PROFILES[sel.value] ? "none" : "block";
+}
+$("profile").onchange = () => {
+  if ($("profile").value === "__add") { $("addgame").style.display = "block"; $("gclan").focus(); renderProfiles(lsGet("fcd_profile")); return; }
+  lsSet("fcd_profile", $("profile").value); renderProfiles(); $("addgame").style.display = "none";
+};
+function updatePreview() {
+  const cols = ["Rank" + ($("grank").checked ? "" : " (numbered for you)"), "Username", clean($("gextra").value, 30) || "Role", "Points"];
+  const rows = [["1", "ExampleName", $("gextra").value.trim() ? "1.2De" : "Member", "1.307M"], ["2", "AnotherName", $("gextra").value.trim() ? "352.05N" : "Member", "1.161M"]];
+  const t = document.createElement("table");
+  t.style.cssText = "border-collapse:collapse;font-size:12px;width:100%";
+  const add = (cells, head) => { const tr = t.insertRow(); cells.forEach(c => { const td = tr.insertCell(); td.textContent = c; td.style.cssText = "border:1px solid var(--line);padding:4px 6px;" + (head ? "background:#1F3864;color:#fff;font-weight:bold" : ""); }); };
+  add(cols, true); rows.forEach(r => add(r, false));
+  const cap = document.createElement("div");
+  cap.style.cssText = "font-size:12px;color:var(--muted);margin-top:4px";
+  cap.textContent = (clean($("gclan").value, 40) || "Your clan") + " - " + (clean($("ggame").value, 40) || "Your game") + ".xlsx   (plus Previous, Change and Trend if you pick a Last sheet)";
+  $("gprev").innerHTML = ""; $("gprev").append(t, cap);
+}
+["gclan", "ggame", "grank", "gextra"].forEach(i => { $(i).oninput = updatePreview; $(i).onchange = updatePreview; });
+updatePreview();
+$("gcancel").onclick = () => { $("addgame").style.display = "none"; };
+$("gsave").onclick = () => {
+  const clan = clean($("gclan").value, 40), game = clean($("ggame").value, 40);
+  if (!clan || !game) { setMsg("Type a clan name and a game name first.", true); return; }
+  const list = customProfiles().slice(0, 29);
+  const id = "c" + Date.now();
+  list.push({ id, clan, game, ranks: $("grank").checked, extra: clean($("gextra").value, 30), custom: true });
+  lsSet("fcd_profiles", JSON.stringify(list)); lsSet("fcd_profile", id);
+  ["gclan", "ggame", "gextra"].forEach(i => { $(i).value = ""; });
+  $("addgame").style.display = "none"; renderProfiles(id); setMsg("Profile saved: " + clan + ", " + game + ".", false);
+};
+$("rmgamelink").onclick = (e) => {
+  e.preventDefault();
+  const id = $("profile").value;
+  lsSet("fcd_profiles", JSON.stringify(customProfiles().filter(x => x.id !== id))); lsSet("fcd_profile", "loki"); renderProfiles("loki");
+};
+renderProfiles();
+
 $("go").onclick = async () => {
   const key = $("key").value.trim();
-  const p = PROFILES[$("profile").value];
+  const p = getProfile($("profile").value);
+  PROMPT = buildPrompt(p);
   $("go").disabled = true;
   clog("Run started with " + images.length + " file(s).");
   setMsg("Reading " + images.length + " screenshot(s)... this can take about 20 seconds.");
@@ -963,6 +1047,8 @@ $("go").onclick = async () => {
     const text = await readScreenshots(key, images);
     clog("AI replied (" + text.length + " characters).");
     const rows = parseRows(text);
+    if (p.ranks === false) rows.forEach((r, i) => { r.rank = i + 1; });
+    const shown = (text.match(/"members_on_screen"\s*:\s*(\d+)/) || [])[1];
     clog("Found " + rows.length + " unique row(s).");
     if (!rows.length) throw new Error("No member rows were found. Check the screenshots show the member list.");
     let blob, ext = ".xlsx";
@@ -983,7 +1069,9 @@ $("go").onclick = async () => {
     let last = 0, order = false;
     for (const r of rows) { const n = Number(r.rank); if (!Number.isFinite(n) || n <= last) order = true; else last = n; }
     clog("Checks: " + bad + " unreadable row(s), ranks " + (order ? "out of order" : "in order") + ".");
-    setMsg("Done: " + rows.length + " rows. Your sheet was downloaded." + (bad ? " Check " + bad + " row(s) marked ?." : "") + (order ? " Some ranks look out of order, so check the list." : ""));
+    const countOff = shown && Number(shown) !== rows.length;
+    if (countOff) clog("Count check: screen says " + shown + ", read " + rows.length + ".");
+    setMsg("Done: " + rows.length + " rows. Your sheet was downloaded." + (countOff ? " The screen says " + shown + " members, so some may be missing. Scroll slower and try again." : "") + (bad ? " Check " + bad + " row(s) marked ?." : "") + (order ? " Some ranks look out of order, so check the list." : ""));
   } catch (err) {
     clog("Stopped: " + err.message);
     setMsg(err.message, true);
