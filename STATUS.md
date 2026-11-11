@@ -1,6 +1,6 @@
 # Status (update on every push)
 
-Last updated: 11 Nov 2026. Page version 2026-11-11-z. Live at fishing-cat-data.pages.dev.
+Last updated: 11 Nov 2026. Page version 2026-11-11-aa. Live at fishing-cat-data.pages.dev.
 
 ## How it works now
 Upload photos or a video (or tap Record screen on a PC). The AI reads the game, clan and layout from up to 3 of the pictures, then reads the member rows, and the page makes the Excel sheet. There is no profile list or Add a game any more. The optional Clan name box sets the file name. Gemini and Anthropic work.
@@ -17,7 +17,7 @@ Upload photos or a video (or tap Record screen on a PC). The AI reads the game, 
 - The live security header (CSP in `_headers`) was never checked on the real site.
 - "Remember my key" was seen ticked in a Firefox video but not otherwise checked.
 - Help and Stay safe are plain text and must be updated by hand when features change.
-- Updates log is merged into 10 entries with New/Changed tags. Newest entry (Tidier Updates) has no `commit:` yet. Add it on the next push.
+- Updates log is merged into 11 entries with New/Changed tags. Newest entry (Old code cleared out) has no `commit:` yet. Add it on the next push.
 - Fingerprint: not recorded.
 
 ## Ideas Ginger has not approved
