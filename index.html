@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Profile list removed; always auto-detect. Copy error to send button under red messages. Removed Add a game; new Any clan profile where the AI reads game, clan and columns from your first picture. Add a game is now Upload photo or video; the AI fills in clan, game, ranks and extra column, and the manual boxes sit under Edit by hand. Test read button (1 picture, no download). Add a game can read one screenshot and fill in the columns by itself. Add a game keeps the ranks and extra column boxes always reachable under "Change details". Profiles and files are named Roblox - Game - Clan. Add a game form simplified to clan name plus a game picker. Add a game wording made plainer, Saved notice, ready-made Anime Fighting Simulator button. Help and Stay safe pages brought up to date (Add a game, Remember my key, updates, bug report). Visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
+<!-- Patch note: Record screen button (PC): grabs a still every 2 seconds, no video saved. Profile list removed; always auto-detect. Copy error to send button under red messages. Removed Add a game; new Any clan profile where the AI reads game, clan and columns from your first picture. Add a game is now Upload photo or video; the AI fills in clan, game, ranks and extra column, and the manual boxes sit under Edit by hand. Test read button (1 picture, no download). Add a game can read one screenshot and fill in the columns by itself. Add a game keeps the ranks and extra column boxes always reachable under "Change details". Profiles and files are named Roblox - Game - Clan. Add a game form simplified to clan name plus a game picker. Add a game wording made plainer, Saved notice, ready-made Anime Fighting Simulator button. Help and Stay safe pages brought up to date (Add a game, Remember my key, updates, bug report). Visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -57,6 +57,7 @@ button:disabled{opacity:.5}
 <label>Screenshots</label>
 <div class="drop" id="drop">Drop screenshots here, or tap to choose</div>
 <input id="files" type="file" accept="image/png,image/jpeg,image/webp,video/mp4,video/quicktime,video/webm" multiple hidden>
+<button id="recbtn" type="button" class="tab" style="display:none;margin-top:6px">Record screen (PC)</button>
 <div id="list"></div>
 <label>Last sheet (optional)</label>
 <div class="drop" id="prevdrop">Tap to choose an earlier sheet (.xlsx) to compare</div>
@@ -285,6 +286,13 @@ Answer with ONLY a JSON array, no other text:
 }
 // Newest first. Add one entry per change, then re-upload index.html.
 const UPDATE_LOG = [
+  {
+    date: "11 Nov 2026",
+    title: "Record screen",
+    meaning: "On a PC you can record your screen right in the page. No OBS needed.",
+    see: "A Record screen (PC) button under the drop box. Tap it, pick the Roblox window, scroll the list slowly, tap Stop.",
+    changes: ["Takes a picture every 2 seconds, up to 15", "No video is saved", "Not shown on phones", "Not tested yet"]
+  },
   {
     date: "11 Nov 2026",
     title: "Profile list removed",
@@ -551,7 +559,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; saveSetting("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-11-o";
+const BUILD = "2026-11-11-p";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -693,6 +701,47 @@ const bugCopy = async (btn, label) => {
 };
 $("copybug").onclick = () => bugCopy($("copybug"), "Copy bug report");
 $("copyerr").onclick = () => bugCopy($("copyerr"), "Copy error to send");
+
+// Record screen (PC browsers): grabs a still every 2 seconds while you scroll the list. No video is saved.
+(function () {
+  const btn = $("recbtn");
+  if (!(navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia)) return;
+  btn.style.display = "block";
+  let stream = null, timer = null, v = null, n = 0;
+  const MAXF = 15;
+  function stop() {
+    clearInterval(timer); timer = null;
+    if (stream) stream.getTracks().forEach(t => t.stop());
+    stream = null; v = null; btn.textContent = "Record screen (PC)";
+    clog("Screen recording stopped, " + n + " picture(s) kept.");
+    refresh();
+  }
+  async function grab() {
+    if (!v || !v.videoWidth) return;
+    const sc = Math.min(1, 1280 / v.videoWidth), c = document.createElement("canvas");
+    c.width = Math.round(v.videoWidth * sc); c.height = Math.round(v.videoHeight * sc);
+    c.getContext("2d").drawImage(v, 0, 0, c.width, c.height);
+    const blob = await new Promise(res => c.toBlob(res, "image/jpeg", 0.85));
+    if (!blob) return;
+    images.push(new File([blob], "rec" + (++n) + ".jpg", { type: "image/jpeg" }));
+    refresh();
+    setMsg("Recording... " + n + " picture(s). Scroll the list slowly, then tap Stop.");
+    if (n >= MAXF || images.length >= MAX_FILES) { stop(); setMsg("Stopped at " + n + " pictures. Tap Make my sheet."); }
+  }
+  btn.onclick = async () => {
+    if (stream) { stop(); setMsg("Got " + n + " picture(s). Tap Make my sheet."); return; }
+    try {
+      stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: false });
+    } catch (e) { setMsg("Recording was cancelled or blocked.", true); return; }
+    n = 0; v = document.createElement("video"); v.muted = true; v.srcObject = stream;
+    await v.play().catch(() => {});
+    stream.getVideoTracks()[0].onended = () => { if (stream) { stop(); setMsg("Got " + n + " picture(s). Tap Make my sheet."); } };
+    btn.textContent = "Stop recording";
+    clog("Screen recording started.");
+    setMsg("Recording... pick the Roblox window, then scroll the member list slowly.");
+    timer = setInterval(grab, 2000);
+  };
+})();
 const savedProvider = lsGet("fcd_provider");
 if (savedProvider && PROVIDERS[savedProvider]) $("provider").value = savedProvider;
 $("provider").onchange = () => applyProvider(true);
