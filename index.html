@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
+<!-- Patch note: Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -220,6 +220,8 @@ button:disabled{opacity:.5}
 <div id="codelist" style="font-size:13px;color:var(--text);margin-bottom:14px"></div>
 <div style="font-size:13px;color:var(--muted);margin-bottom:6px">Console: what the page did on the last run, newest at the bottom</div>
 <pre id="console" style="background:var(--field);border:1px solid var(--line);border-radius:6px;padding:10px;font-size:12px;white-space:pre-wrap;min-height:60px;margin:0;color:var(--text)"></pre>
+<div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button id="copybug" type="button">Copy bug report</button><a href="https://github.com/Ginger-Hermit/Fishing-cat-data/issues/new" target="_blank" rel="noopener">Report a bug on GitHub</a></div>
+<div style="font-size:12px;color:var(--muted);margin-top:6px">Copies the page log and your browser type. Keys are removed. Pictures are not included. Nothing is sent until you paste it somewhere.</div>
 </div>
 <div id="foot" style="text-align:center;margin-top:16px;font-size:12px;color:var(--muted)">
 <a href="#" data-go="help">Help</a> &middot; <a href="#" data-go="log">Updates</a> &middot; <a href="#" data-go="safety">Stay safe</a> &middot; <a href="#" data-go="privacy">Privacy</a> &middot; <a href="#" data-go="legal">Legal</a> &middot; <a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">GitHub</a>
@@ -246,6 +248,13 @@ Answer with ONLY a JSON array, no other text:
 const PROFILES = { loki: { clan: "Loki", game: "Gym League" } };
 // Newest first. Add one entry per change, then re-upload index.html.
 const UPDATE_LOG = [
+  {
+    date: "11 Nov 2026",
+    title: "Bug report button",
+    meaning: "If something breaks, you can copy a report in one tap.",
+    see: "Copy bug report and a Report a bug link in Developer view.",
+    changes: ["Keys are removed from the copy", "No pictures included", "Nothing is sent automatically"]
+  },
   {
     date: "11 Nov 2026",
     title: "Remember my key (optional)",
@@ -564,6 +573,16 @@ function keepKey() {
   try { if (on && $("key").value.trim()) localStorage.setItem("fcd_key_" + id, $("key").value.trim()); else localStorage.removeItem("fcd_key_" + id); } catch (e) {}
 }
 $("remember").onchange = keepKey;
+$("copybug").onclick = async () => {
+  let t = $("console").textContent || "(log is empty)";
+  const k = $("key").value.trim();
+  if (k) t = t.split(k).join("[key removed]");
+  t = t.replace(/sk-[\w-]{8,}|AIza[\w-]{8,}/g, "[key removed]");
+  const rep = "Fishing Cat Data bug report\n" + new Date().toString() + "\nBrowser: " + navigator.userAgent + "\nCompany: " + provider() + "\n\n" + t;
+  const btn = $("copybug"); let done = "Copied! Paste it to Claude";
+  try { await navigator.clipboard.writeText(rep); } catch (e) { done = "Couldn't copy: select the log and copy by hand"; }
+  btn.textContent = done; setTimeout(() => { btn.textContent = "Copy bug report"; }, 3000);
+};
 const savedProvider = lsGet("fcd_provider");
 if (savedProvider && PROVIDERS[savedProvider]) $("provider").value = savedProvider;
 $("provider").onchange = () => applyProvider(true);
