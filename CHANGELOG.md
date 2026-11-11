@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Log shows live
+
+12 Nov 2026 (22:51 UTC) · Changed
+
+The log opens by itself when you tap Make my sheet and shows each step as it happens, on both tabs.
+
+**What you'll see:** Tap Make my sheet on Clan sheet or Bills: the Log box opens under the button and fills line by line.
+
+- Log box now appears on Bills too, and opens automatically during a run
+- Each step is written to the log as it starts
+
 ## Live steps
 
-12 Nov 2026 (22:48 UTC) · New
+12 Nov 2026 (22:48 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/d36a289)
 
 While a sheet is being made, the page shows each step and a timer.
 

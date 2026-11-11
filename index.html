@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: While a sheet is being made, the page shows each step and a timer. -->
+<!-- Patch note: The log opens by itself when you tap Make my sheet and shows each step as it happens, on both tabs. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -248,6 +248,7 @@ function showTab(which) {
     const b = btn[k] && document.getElementById(btn[k]);
     if (b) { b.classList.toggle("on", k === which); b.setAttribute("aria-selected", k === which); }
   }
+  if (which === "sheet" || which === "bill") document.getElementById(which === "bill" ? "billtab" : "sheet").appendChild(document.getElementById("logbox"));
   document.getElementById("keybox").style.display = which === "sheet" || which === "bill" ? "" : "none";
 }
 document.querySelector(".tabs").setAttribute("role", "tablist");
@@ -282,7 +283,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-h";
+const BUILD = "2026-11-12-i";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -324,8 +325,8 @@ const $ = (id) => document.getElementById(id);
 const plain = (err) => (err instanceof TypeError || err instanceof SyntaxError || err instanceof RangeError || err instanceof ReferenceError) ? "Something went wrong on this page. Tap Copy error to send, and send it to the author." : err.message;
 // Live steps under the button while a sheet is being made (nothing is sent anywhere)
 const prog = {
-  start(id, steps) { this.el = $(id); this.steps = steps; this.i = 0; this.t0 = Date.now(); clearInterval(this.timer); this.timer = setInterval(() => this.draw(), 1000); this.draw(); },
-  next() { this.i++; this.draw(); },
+  start(id, steps) { this.el = $(id); this.steps = steps; this.i = 0; this.t0 = Date.now(); clearInterval(this.timer); this.timer = setInterval(() => this.draw(), 1000); this.draw(); $("logbox").open = true; clog("Step: " + steps[0]); },
+  next() { this.i++; this.draw(); if (this.steps[this.i]) clog("Step: " + this.steps[this.i]); },
   stop(ok) { clearInterval(this.timer); if (ok) this.i = this.steps.length; this.draw(ok ? 1 : 2); },
   draw(end) {
     if (!this.el) return;
