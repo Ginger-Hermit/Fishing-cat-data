@@ -1,0 +1,53 @@
+# Rules for Claude: Fishing Cat Data
+
+Web page that reads Roblox clan screenshots or video with an AI and makes an Excel sheet.
+Live: fishing-cat-data.pages.dev. Pushing to `main` deploys in about a minute.
+The owner (Ginger) does not code. Short, blunt answers. Plain words on screen.
+
+## Every push
+1. Bump the version in BOTH `version.txt` and `const BUILD` in `index.html` (format `2026-11-11-x`).
+2. Add one entry at the top of `UPDATE_LOG` (plain words: title, meaning, see, changes). Include `at` (UTC time). Add `commit:` with the hash on the NEXT push, since the hash isn't known yet.
+3. Add a one-line plain-English patch note at the top of `index.html`.
+4. Check once: syntax, no `eval(` / `exec(`, every `$("id")` exists in the HTML. Then stop.
+5. Small find-and-replace edits that match exactly once. No whole-file rewrites. Keep a backup outside the repo.
+6. One bug per patch unless it has the same cause. Say what you couldn't test.
+
+## Safety rules (keep)
+- No `eval` / `exec`. No unknown websites. A new website needs an edit to `_headers` (CSP `connect-src`) and a mention in Stay safe.
+- Keep the AI safety notice and the wrong-address warning.
+- Never ask for the key. If a key is pasted, tell Ginger to delete it now.
+- Nothing leaves the PC except to the AI company she picked.
+- No new packages. The page uses only `exceljs.bare.min.js`.
+
+## Where things are (search for these in `index.html`)
+| What | Search for |
+|---|---|
+| AI companies and models | `const PROVIDERS`, `const ASKERS` |
+| Prompts | `PROMPT_LOKI`, `function buildPrompt`, `SETUP_PROMPT` |
+| Auto game/clan/layout read | `async function pickProfile` |
+| Clan name box | `clanbox` |
+| Video stills | `function videoFrames`, `function samePic` |
+| Record screen (PC) | `// Record screen` |
+| Rows from AI reply | `function parseRows`, `function parsePoints` |
+| Excel sheet | `function buildWorkbook` |
+| Messages / errors | `const setMsg`, `copyerr` |
+| Log box + bug report | `id="logbox"`, `const bugCopy`, `function clog` |
+| Updates tab | `const UPDATE_LOG`, `function renderLog` |
+| Tabs | `function showTab` |
+| "New version" banner | `function checkUpdate` |
+| Security headers (CSP) | `_headers` |
+| Excel maths test | `tests/excel-math.test.js` (needs `npm install exceljs@4.4.0`) |
+
+## Tested / not tested
+- Tested: Anthropic, Google Gemini.
+- Not tested: OpenAI, Firefox pop-up window (Chrome/Edge/Opera only), phones.
+
+## Style on screen
+Clean and calm. No big coloured blocks, no boxes in boxes. Short button names (1 to 3 words), one grey help line at most. No jargon. Check light, dark and big-text themes.
+
+## Working with Ginger
+- Plan first, then do it in as few steps as possible. Batch all requested changes in one patch.
+- Grep for the exact spot and read only those lines. Don't re-read the whole file.
+- If a request could mean two things, ask one short question. Bad or bloated idea: say so in one line and offer a cheaper way.
+- If something fails twice, stop and suggest a simpler version or dropping it.
+- Start new chats from the handoff, not by re-reading everything.
