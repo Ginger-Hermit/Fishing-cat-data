@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Add a game keeps the ranks and extra column boxes always reachable under "Change details". Profiles and files are named Roblox - Game - Clan. Add a game form simplified to clan name plus a game picker. Add a game wording made plainer, Saved notice, ready-made Anime Fighting Simulator button. Help and Stay safe pages brought up to date (Add a game, Remember my key, updates, bug report). Visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
+<!-- Patch note: Test read button (1 picture, no download). Add a game can read one screenshot and fill in the columns by itself. Add a game keeps the ranks and extra column boxes always reachable under "Change details". Profiles and files are named Roblox - Game - Clan. Add a game form simplified to clan name plus a game picker. Add a game wording made plainer, Saved notice, ready-made Anime Fighting Simulator button. Help and Stay safe pages brought up to date (Add a game, Remember my key, updates, bug report). Visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -58,6 +58,9 @@ button:disabled{opacity:.5}
 <select id="profile"><option value="loki">Roblox - Gym League - Loki</option></select>
 <div style="margin-top:6px;font-size:14px"><a href="#" id="addgamelink">+ Add a game</a></div>
 <div id="addgame" style="display:none;border:1px solid var(--line);border-radius:8px;padding:12px;margin-top:8px">
+<button type="button" class="tab on" id="gshotbtn">Set up from a screenshot</button><input type="file" id="gshot" accept="image/*" style="display:none">
+<div style="font-size:12px;color:var(--muted);margin:6px 0 4px">Upload one picture of your clan member list. The AI works out the columns for you. It uses a tiny bit of your AI credit and needs your key. Or fill it in by hand below.</div>
+<div id="gsetupmsg" role="status" style="display:none;font-size:13px;margin:6px 0 10px;padding:8px 10px;border-radius:8px;border:1px solid var(--line)"></div>
 <label for="gclan">Your clan name</label><input id="gclan" maxlength="40" autocomplete="off" placeholder="e.g. Loki">
 <label for="gsel">Game</label>
 <select id="gsel"><option value="afs">Anime Fighting Simulator</option><option value="other">Other game...</option></select>
@@ -82,6 +85,7 @@ button:disabled{opacity:.5}
 <input id="prevfile" type="file" accept=".xlsx" hidden>
 <div id="previnfo"></div>
 <button id="go" disabled>Make my sheet</button>
+<button id="testgo" type="button" class="tab" disabled style="margin-top:8px;width:100%">Test first (reads 1 picture only, no file)</button>
 <div class="msg" id="msg" role="status" aria-live="polite"></div>
 <div class="hc" style="margin-top:14px">
 <b>Your key is safe here</b>
@@ -305,6 +309,13 @@ Answer with ONLY a JSON array, no other text:
 }
 // Newest first. Add one entry per change, then re-upload index.html.
 const UPDATE_LOG = [
+  {
+    date: "11 Nov 2026",
+    title: "Set up a game from a screenshot",
+    meaning: "Upload one picture of your clan list and the AI fills in the columns for you.",
+    see: "A Set up from a screenshot button at the top of Add a game. You check the preview and Save.",
+    changes: ["Uses one small AI read", "Nothing saves until you tap Save", "Fill-in-by-hand form still there", "Test first button: reads 1 picture, downloads nothing"]
+  },
   {
     date: "11 Nov 2026",
     title: "Add a game",
@@ -543,7 +554,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; saveSetting("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-11-i";
+const BUILD = "2026-11-11-k";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -604,6 +615,7 @@ function refresh() {
     box.replaceChildren(span, b);
   } else { box.className = ""; box.replaceChildren(); }
   $("go").disabled = !($("key").value.trim() && images.length);
+  $("testgo").disabled = $("go").disabled;
 }
 
 function addFiles(fileList) {
@@ -1058,6 +1070,35 @@ function updatePreview() {
 }
 ["gclan", "ggame", "grank", "gextra"].forEach(i => { $(i).oninput = updatePreview; $(i).onchange = updatePreview; });
 updatePreview();
+const SETUP_PROMPT = `This image shows the member list of a Roblox game clan screen.
+Work out how the list is laid out. Do not copy the whole list.
+Answer with ONLY one JSON object, no other text:
+{"game_name": "name of the game if it is clearly visible, otherwise empty", "ranks_shown": true or false (is a rank number like #1 shown beside each member?), "extra_column": "the heading or label of any column besides rank, username, role and points, otherwise empty", "sample": [{"name": "username", "points": "as shown", "extra": "value of the extra column or empty"}]}
+Give at most 3 sample rows. Never guess; use empty text if unsure.`;
+$("gshotbtn").onclick = () => $("gshot").click();
+$("gshot").onchange = async (e) => {
+  const f = e.target.files[0]; e.target.value = "";
+  const box = $("gsetupmsg"), say = (t, bad) => { box.textContent = t; box.style.display = "block"; box.style.color = bad ? "var(--err)" : ""; };
+  if (!f) return;
+  if (!f.type.startsWith("image/")) { say("Please pick a picture (screenshot).", true); return; }
+  const key = $("key").value.trim();
+  if (!key) { say("Paste your AI key at the top of the page first, then try again.", true); return; }
+  say("Looking at your screenshot... about 10 seconds.");
+  PROMPT = SETUP_PROMPT;
+  try {
+    const text = await ASKERS[provider()](key, modelFor(provider()), await collectPictures([f]));
+    const m = text.match(/\{[\s\S]*\}/);
+    if (!m) throw new Error("The AI didn't answer in a way I can read. Try a clearer screenshot.");
+    const r = JSON.parse(m[0]);
+    $("gsel").value = "other"; applyGame();
+    $("ggame").value = clean(r.game_name, 40);
+    $("grank").checked = r.ranks_shown !== false;
+    $("gextra").value = clean(r.extra_column, 30);
+    $("gother").open = true; updatePreview();
+    const rows = (Array.isArray(r.sample) ? r.sample : []).slice(0, 3).map(x => clean(x && x.name, 30) + " - " + clean(x && x.points, 20)).join(", ");
+    say("Here's what I saw: ranks " + ($("grank").checked ? "shown" : "not shown") + (r.extra_column ? ", extra column \"" + clean(r.extra_column, 30) + "\"" : ", no extra column") + (rows ? ". First rows: " + rows : "") + ". Check the preview, type your clan and game name, then Save.");
+  } catch (err) { say(err.message, true); }
+};
 function applyGame() {
   const afs = $("gsel").value === "afs";
   $("gother").open = !afs;
@@ -1085,6 +1126,23 @@ $("rmgamelink").onclick = (e) => {
   lsSet("fcd_profiles", JSON.stringify(customProfiles().filter(x => x.id !== id))); lsSet("fcd_profile", "loki"); renderProfiles("loki");
 };
 renderProfiles();
+
+$("testgo").onclick = async () => {
+  const key = $("key").value.trim(), p = getProfile($("profile").value);
+  $("testgo").disabled = true; $("go").disabled = true;
+  setMsg("Test read: looking at 1 picture... about 10 seconds.");
+  PROMPT = buildPrompt(p);
+  try {
+    const pics = (await collectPictures([images[0]])).slice(0, 1);
+    const text = await ASKERS[provider()](key, modelFor(provider()), pics);
+    const rows = parseRows(text);
+    if (!rows.length) throw new Error("Test read: no member rows found. Check the picture shows the member list.");
+    const bad = rows.filter(r => r.name === "?" || parsePoints(r.points) === null).length;
+    const first = rows.slice(0, 3).map(r => r.name + " " + r.points + (p.extra ? " (" + r.role + ")" : "")).join(", ");
+    setMsg("Test read OK: " + rows.length + " rows from 1 picture. First: " + first + "." + (bad ? " " + bad + " unreadable." : "") + " If that looks right, tap Make my sheet. Nothing was downloaded.");
+  } catch (err) { setMsg(err.message, true); }
+  finally { refresh(); }
+};
 
 $("go").onclick = async () => {
   const key = $("key").value.trim();
