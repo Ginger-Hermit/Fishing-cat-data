@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: clearer AI error messages, row checks after a run, and keyboard/screen-reader labels. -->
+<!-- Patch note: added a History section (the first desktop project) at the bottom of the Updates tab. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -127,6 +127,13 @@ const PROFILES = { loki: { clan: "Loki", game: "Gym League" } };
 const UPDATE_LOG = [
   {
     date: "11 Nov 2026",
+    title: "History of the first project",
+    meaning: "The story of the desktop version this page grew from now sits at the bottom of the Updates tab.",
+    see: "Scroll to the bottom of Updates for the History cards: story, timeline, size, best and worst, lessons.",
+    changes: ["Added a short History section."],
+  },
+  {
+    date: "11 Nov 2026",
     title: "Clearer errors and checks",
     meaning: "If the AI says no, the page now tells you why (bad key, out of credit, too many requests, AI busy). After a run it also warns about unreadable rows or ranks out of order. Tabs and boxes work better with a keyboard.",
     see: "A red message that names the problem. A longer Done message if something needs checking.",
@@ -167,6 +174,47 @@ const UPDATE_LOG = [
     changes: ["Screenshots, Loki profile, Anthropic only."],
   },
 ];
+const HISTORY_HTML = `
+<div style="margin:22px 0 4px;font-weight:500;color:var(--link)">History: the first project</div>
+<div style="font-size:13px;color:var(--muted);margin-bottom:10px">Before this web page there was a desktop program. This is its story, cut short.</div>
+<details class="hc"><summary>The story</summary>
+<ul>
+<li>It started as Clan Sheet Generator, then became Fishing Cat Data.</li>
+<li>It turns a screen recording of a Roblox clan member list into a spreadsheet that shows who went up or down.</li>
+<li>It was built in a few days, 9 to 11 Nov 2026, entirely by AI, through lots of trial and error.</li>
+<li>The notes list over 40 things that went wrong and what fixed them.</li>
+</ul></details>
+<details class="hc"><summary>Timeline</summary>
+<ul>
+<li><b>Before 9 Nov:</b> a spreadsheet maker with a Clan Summary, filter buttons and role tags, plus a desktop launcher.</li>
+<li><b>9 Nov:</b> tamper warning, a new profile window, signed updates (removed again that night), free AI added, Settings redesigned.</li>
+<li><b>10 Nov:</b> renamed Fishing Cat Data. Updates finish by themselves. The speed test stopped flashing. Profiles were taken out to start over, and about half the Developer tools were flagged as bloat.</li>
+<li><b>11 Nov:</b> this web version.</li>
+</ul></details>
+<details class="hc"><summary>How big it got</summary>
+<ul>
+<li>9 Nov: the launcher was about 7,900 lines of code.</li>
+<li>10 Nov: the launcher was 14,591 lines. The spreadsheet maker was 2,255 and the Safety Check 934.</li>
+<li>Most of the growth was features that were later hidden or binned.</li>
+</ul></details>
+<details class="hc"><summary>Best and worst</summary>
+<ul>
+<li><b>Best:</b> the one-button download for a friend working, and the program getting a real name.</li>
+<li><b>Worst:</b> the owner code (all of it), profiles built, hated, binned and rebuilt, and the speed test flashing the screen.</li>
+</ul></details>
+<details class="hc"><summary>Lessons learnt</summary>
+<ul>
+<li>Start tiny: one job, done well.</li>
+<li>Ask for a mockup before any code.</li>
+<li>Back up before every change.</li>
+<li>Test each change and take a screenshot.</li>
+<li>API keys are passwords. Never share them.</li>
+<li>Say plainly what's wrong ("ugly", "annoying"). It works.</li>
+<li>Skip clever security you can't keep track of.</li>
+<li>Every so often ask: is this bloat?</li>
+<li>Pick a name on day one.</li>
+</ul></details>
+`;
 function renderLog() {
   const chip = (t, old) => `<span style="background:${old ? "var(--soft)" : "var(--noteBg)"};color:${old ? "var(--link)" : "var(--noteText)"};padding:2px 8px;border-radius:4px;font-size:12px">${t}</span>`;
   const rows = UPDATE_LOG.map((e, i) => {
@@ -187,11 +235,11 @@ function renderLog() {
   const log = document.getElementById("logtab");
   log.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
       <span style="font-size:13px;color:var(--muted)">Newest first. Click an update to see what changed.</span>
-      <button class="tab" id="expAll">Expand all</button></div>` + rows;
+      <button class="tab" id="expAll">Expand all</button></div>` + rows + HISTORY_HTML;
   let open = false;
   document.getElementById("expAll").onclick = (ev) => {
     open = !open;
-    log.querySelectorAll("details").forEach(d => d.open = open);
+    log.querySelectorAll("details[id^=upd]").forEach(d => d.open = open);
     ev.target.textContent = open ? "Collapse all" : "Expand all";
   };
 }
