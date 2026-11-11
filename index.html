@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: New Energy bills tab: photos of power or gas bills become a sheet with a Summary tab. The first tab is now called Clan sheet. -->
+<!-- Patch note: Tabs renamed to Games and Bills, with one grey line under each saying what it does. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -45,7 +45,7 @@ button:disabled{opacity:.5}
 <h1>Fishing Cat Data</h1>
 <div id="fake" style="display:none;border:2px solid var(--err);color:var(--err);background:var(--field);border-radius:8px;padding:12px 14px;margin-bottom:14px;font-weight:500">Warning: this is not the real Fishing Cat Data page. Do not paste your key here. The real page is fishing-cat-data.pages.dev</div>
 <div id="newver" role="status" style="display:none;background:var(--field);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:14px">New version ready. <a href="#" id="reloadnow">Refresh now</a></div>
-<div class="tabs"><button id="t1" class="tab on">Clan sheet</button><button id="t3" class="tab">Energy bills</button><button id="t2" class="tab">Updates</button><button id="t4" class="tab">GitHub</button><button id="t5" class="tab">Settings</button></div>
+<div class="tabs"><button id="t1" class="tab on">Games</button><button id="t3" class="tab">Bills</button><button id="t2" class="tab">Updates</button><button id="t4" class="tab">GitHub</button><button id="t5" class="tab">Settings</button></div>
 <div id="keybox">
 <label for="provider">AI company</label>
 <select id="provider"><option value="gemini">Google Gemini</option><option value="anthropic">Anthropic (Claude)</option><option value="openai">OpenAI (untested)</option></select>
@@ -57,6 +57,7 @@ button:disabled{opacity:.5}
 <div id="remnote" style="display:none;font-size:.85em;opacity:.75">Saved only in this browser, never sent anywhere else. Don't tick this on a shared or public computer. Untick to delete it.</div>
 </div>
 <div id="sheet">
+<div style="font-size:13px;color:var(--muted);margin-top:10px">Turns Roblox clan screenshots or a video into a member sheet.</div>
 <label for="clanbox">Clan name (optional)</label>
 <input id="clanbox" maxlength="40" autocomplete="off" placeholder="e.g. Loki. Used in the file name">
 <label>Screenshots</label>
@@ -82,6 +83,7 @@ button:disabled{opacity:.5}
 <div class="hc" style="margin-top:14px;font-size:13px"><b>Your key is safe here.</b> It stays on this device and goes only to the AI company you pick. Treat it like a password. <a href="#" data-go="safety">More</a></div>
 </div>
 <div id="billtab" style="display:none">
+<div style="font-size:13px;color:var(--muted);margin-top:10px">Turns photos of power or gas bills into a sheet, one row per charge, with a summary.</div>
 <div class="warnbox" style="border-color:var(--err)"><b style="color:var(--err)">Bills are private.</b> Your name, address and account number are in the photo, and the whole photo is sent to the AI company you pick. Only upload your own bills.</div>
 <label>Bill photos</label>
 <div class="drop" id="billdrop">Tap to add photos of power or gas bills</div>
@@ -89,7 +91,6 @@ button:disabled{opacity:.5}
 <div id="billlist"></div>
 <button id="billgo" disabled>Make my sheet</button>
 <div class="msg" id="billmsg" role="status" aria-live="polite"></div>
-<div style="font-size:13px;color:var(--muted);margin-top:10px">One row per charge, plus a Summary tab. Always check the numbers against the bill.</div>
 </div>
 <div id="helptab" class="page" style="display:none">
 <div class="hc"><b>GitHub</b>
@@ -232,9 +233,19 @@ Answer with ONLY a JSON array, no other text:
 const UPDATE_LOG = [
   {
     date: "12 Nov 2026",
+    title: "Clearer tab names",
+    tag: "Changed",
+    at: "2026-11-11T22:13:56Z",
+    meaning: "The two tools are now called Games and Bills, which says what they are for.",
+    see: "The first two tabs, and a grey line under each.",
+    changes: ["Clan sheet tab is now Games", "Energy bills tab is now Bills", "One grey line at the top of each says what it does"]
+  },
+  {
+    date: "12 Nov 2026",
     title: "Energy bills",
     tag: "New",
     at: "2026-11-11T21:57:34Z",
+    commit: "573e629",
     meaning: "A second tool on the page. Add photos of power or gas bills and get a sheet of every charge, with usage turned into kWh so bills from different countries can be compared.",
     see: "A new Energy bills tab next to Clan sheet.",
     changes: ["New Energy bills tab: one row per charge, with supplier, dates, usage, unit, amount and currency", "Usage is turned into kWh by the sheet: MJ, GJ, therms, and gas in m3 or CCF using the factors printed on the bill", "Summary tab: one column per bill, numbers by formula, plus a few plain lines written by the AI", "Bills in other number styles (98,60) and other currencies are read as printed; money is never converted", "The first tab is now called Clan sheet; the key box is shared by both tabs", "Every start button stays locked while any run is going, even if you type in the key box", "Fuzz test added: 675,000 scrambled replies, 3 bugs found and fixed"]
@@ -268,16 +279,6 @@ const UPDATE_LOG = [
     meaning: "The big Excel part now loads only when you add pictures, so the page opens much faster. Videos are read once per run. Leftover code was removed.",
     see: "No visible change. The page opens quicker, most of all on phones.",
     changes: ["Excel part (863 KB) loads when needed, not on every visit", "Videos are read once per run, not twice", "Old one-clan prompt removed", "One save-a-setting helper instead of three", "Repeated text and styles merged"]
-  },
-  {
-    date: "11 Nov 2026",
-    title: "Lighter page",
-    tag: "Changed",
-    at: "2026-11-11T10:41:31Z",
-    commit: "ad78132",
-    meaning: "The page now shows the 5 newest updates. The full history moved to GitHub, with nothing removed.",
-    see: "A link under the Updates list: Older updates on GitHub.",
-    changes: ["Full update history is in CHANGELOG.md on GitHub", "Updates tab shows the newest 5", "Old patch notes moved to GitHub too"]
   }
 ];
 function renderLog() {
@@ -356,7 +357,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-a";
+const BUILD = "2026-11-12-b";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };

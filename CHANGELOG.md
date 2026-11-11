@@ -2,9 +2,21 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Clearer tab names
+
+12 Nov 2026 (22:13 UTC) · Changed
+
+The two tools are now called Games and Bills, which says what they are for.
+
+**What you'll see:** The first two tabs, and a grey line under each.
+
+- Clan sheet tab is now Games
+- Energy bills tab is now Bills
+- One grey line at the top of each says what it does
+
 ## Energy bills
 
-12 Nov 2026 (21:57 UTC) · New
+12 Nov 2026 (21:57 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/573e629)
 
 A second tool on the page. Add photos of power or gas bills and get a sheet of every charge, with usage turned into kWh so bills from different countries can be compared.
 

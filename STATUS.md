@@ -1,6 +1,6 @@
 # Status (update on every push)
 
-Last updated: 12 Nov 2026. Page version 2026-11-12-a. Live at fishing-cat-data.pages.dev.
+Last updated: 12 Nov 2026. Page version 2026-11-12-b. Tabs are named Games (clan sheets) and Bills (energy bills). Live at fishing-cat-data.pages.dev.
 
 ## How it works now
 Upload photos or a video (or tap Record screen on a PC). The AI reads the game, clan and layout from up to 3 of the pictures, then reads the member rows, and the page makes the Excel sheet. There is no profile list or Add a game any more. The optional Clan name box sets the file name. Gemini and Anthropic work.
@@ -28,7 +28,7 @@ Second tool, Energy bills tab (new 12 Nov): photos of power or gas bills go to t
 - The live security header (CSP in `_headers`) was never checked on the real site.
 - "Remember my key" was seen ticked in a Firefox video but not otherwise checked.
 - The Help tab is now a GitHub tab; the guide is README.md. Stay safe is plain text and must be updated by hand.
-- Updates: the page shows the newest 5 entries; the full history is in CHANGELOG.md. Newest entry (Energy bills) has no `commit:` yet. The Excel part (exceljs) now loads on demand through `loadExcel`. Add it on the next push.
+- Updates: the page shows the newest 5 entries; the full history is in CHANGELOG.md. Newest entry (Clearer tab names) has no `commit:` yet. The Excel part (exceljs) now loads on demand through `loadExcel`. Add it on the next push.
 - Fingerprint: not recorded.
 
 ## Ideas Ginger has not approved
