@@ -135,3 +135,21 @@ Result: `Roblox - Gym League - Loki`. That's the Excel file name.
 Paste the lines into any AI chat and ask: "what does this do, in plain words?"
 
 Reading a commit on GitHub: **green = added, red = removed.**
+
+## Want to learn this yourself?
+
+Free places to start. Pick **one**, not all.
+
+| Place | Good for | Link |
+|---|---|---|
+| freeCodeCamp | Small step-by-step lessons you type along with | https://www.freecodecamp.org |
+| javascript.info | Plain-words reading, the language this page uses | https://javascript.info |
+| MDN Web Docs | Look up any word you don't know | https://developer.mozilla.org |
+| The Odin Project | A full free path, if you want to go far | https://www.theodinproject.com |
+| CS50 (Harvard) | Video course, starts from zero | https://cs50.harvard.edu/x |
+
+**Tips that help**
+- 15 minutes a day beats 3 hours once.
+- Change one small thing in a copy of `index.html` (a button's words) and see what happens. You can't break the live site from your own computer.
+- Stuck for more than 10 minutes? Ask an AI chat: "explain this like I'm new".
+- Keep your first goal tiny: "I can read this one function".
