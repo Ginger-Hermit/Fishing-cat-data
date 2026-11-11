@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<!-- Patch note: tidier bottom: key safety card with a link to Anthropic's guide, small print moved into the footer. -->
+<!-- Patch note: added an original cat logo (logo.svg) in the header and as the tab icon. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fishing Cat Data</title>
+<link rel="icon" type="image/svg+xml" href="logo.svg">
 <style>
 :root{--bg:#F0F2F5;--text:#1B1B1B;--muted:#707377;--accent:#1F3864;--link:#1F3864;--onAccent:#fff;--line:#898C90;--field:#fff;--soft:#D5D8DD;--noteBg:#E3F4E8;--noteText:#14632D;--err:#A31616}
 html[data-theme=dark]{color-scheme:dark;--bg:#14171C;--text:#E8EAED;--muted:#9AA0A6;--accent:#3F66B0;--link:#8FB0F0;--line:#4A5058;--field:#1F242B;--soft:#2E343C;--noteBg:#17301F;--noteText:#7FD69A;--err:#FF8A8A}
@@ -41,7 +42,7 @@ button:disabled{opacity:.5}
 </head>
 <body>
 <div class="card">
-<h1>Fishing Cat Data</h1>
+<h1 style="display:flex;align-items:center;gap:10px"><img src="logo.svg" alt="" width="32" height="32">Fishing Cat Data</h1>
 <div id="fake" style="display:none;border:2px solid var(--err);color:var(--err);background:var(--field);border-radius:8px;padding:12px 14px;margin-bottom:14px;font-weight:500">Warning: this is not the real Fishing Cat Data page. Do not paste your key here. The real page is fishing-cat-data.pages.dev</div>
 <div class="tabs"><button id="t1" class="tab on">Make my sheet</button><button id="t2" class="tab">Updates</button><button id="t4" class="tab">Help</button><button id="t5" class="tab">Settings</button><button id="t3" class="tab">Console</button></div>
 <div id="sheet">
@@ -188,6 +189,7 @@ button:disabled{opacity:.5}
 <li>Built entirely by Claude, an AI. The author gave the ideas and tested it.</li>
 <li>Using the AI costs credit on your own Anthropic account, under your own terms with Anthropic.</li>
 <li>The spreadsheet part is ExcelJS, an open-source library.</li>
+<li>The cat logo was drawn by Claude, from scratch.</li>
 </ul></div>
 </div>
 <div id="settingstab" style="display:none">
@@ -221,6 +223,13 @@ Answer with ONLY a JSON array, no other text:
 const PROFILES = { loki: { clan: "Loki", game: "Gym League" } };
 // Newest first. Add one entry per change, then re-upload index.html.
 const UPDATE_LOG = [
+  {
+    date: "11 Nov 2026",
+    title: "New cat logo",
+    meaning: "An original fishing cat drawn by Claude now sits next to the title and in the browser tab.",
+    see: "A small cat face beside Fishing Cat Data.",
+    changes: ["Added logo.svg.", "Logo in the header and as the tab icon."],
+  },
   {
     date: "11 Nov 2026",
     title: "Tidier bottom and key safety links",
