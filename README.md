@@ -56,3 +56,7 @@ Turns Roblox clan screenshots or a screen recording into a ready-to-use Excel sh
 ## Disclaimer
 
 For personal use only. Not an official Roblox, Anthropic, Google or OpenAI product. Provided as is, with no guarantees.
+
+## Tests
+
+Excel maths check: `npm install exceljs@4.4.0`, then `node tests/excel-math.test.js` (needs LibreOffice for the formula checks).
