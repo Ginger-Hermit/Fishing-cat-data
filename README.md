@@ -59,6 +59,10 @@ Turns Roblox clan screenshots or a screen recording into a ready-to-use Excel sh
 
 For personal use only. Not an official Roblox, Anthropic, Google or OpenAI product. Provided as is, with no guarantees.
 
+## Licence
+
+All rights reserved. You can use the site and read the code, but not copy, re-host, change or sell it. Full terms are in [LICENSE](LICENSE).
+
 ## Tests (for developers, optional)
 
 `tests/excel-math.test.js` checks the sheet maths: points like "1.2M" turn into numbers, and Change, % Change, Trend and the Clan Summary box add up correctly. The page doesn't need it to run.

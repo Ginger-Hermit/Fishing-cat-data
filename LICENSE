@@ -1,0 +1,102 @@
+Fishing Cat Data - Licence
+==========================
+
+Copyright (c) 2026 Ginger-Hermit (github.com/Ginger-Hermit). All rights reserved.
+
+This is NOT open source. The code is public so people can see how it works
+and check that it is safe. Being able to read it does not give you the right
+to reuse it.
+
+1. What you may do
+------------------
+- Use the official site (https://fishing-cat-data.pages.dev) for your own
+  personal, non-commercial use.
+- Read the code to learn from it or to check what it does.
+- Keep and share the Excel sheets you make with it. They are yours.
+- Link to the site or to this repository.
+- Report bugs and suggest changes through GitHub.
+
+2. What you may not do without written permission from the owner
+----------------------------------------------------------------
+- Copy, re-host, mirror or republish this project or any large part of it,
+  under this name or any other name.
+- Modify it and share or host the modified version.
+- Sell it, charge for access to it, put adverts on it, or use it in any
+  paid product or service.
+- Remove or change this licence, the copyright line, the safety notices or
+  the wrong-address warning in the page.
+- Present it, or a copy of it, as your own work.
+- Use the name "Fishing Cat Data" for another tool or site.
+- Feed this code to an AI system, or use any other tool, in order to
+  produce a copy or a near-copy of it to host, share or sell.
+
+GitHub's own terms let other GitHub users view and fork public repositories
+on GitHub itself. That is allowed as far as GitHub requires, and no further:
+a fork is still covered by this licence.
+
+3. Copies are not safe to use
+-----------------------------
+The only official address is https://fishing-cat-data.pages.dev. The owner
+has nothing to do with any other copy. A copy could be changed to steal AI
+keys. Never paste a key into a copy.
+
+4. Contributions
+----------------
+If you send a suggestion, fix or pull request, you agree that the owner may
+use it in this project, under this licence, without owing you anything.
+
+5. No warranty
+--------------
+The project is provided "as is", with no guarantee of any kind. It may
+misread names or points. Check your sheet before relying on it.
+
+To the fullest extent the law allows, the owner is not liable for any loss
+or damage that comes from using it, including wrong data, lost data,
+charges from an AI company, or a leaked AI key.
+
+Your AI key and your AI account are your responsibility. Pictures you
+upload are sent to the AI company you choose, under that company's terms.
+
+6. Ending
+---------
+If you break these terms, your permission to use the project ends at once.
+
+7. Other people's names and parts
+---------------------------------
+Not an official Roblox, Anthropic, Google or OpenAI product. Those names
+belong to their owners.
+
+The file exceljs.bare.min.js is ExcelJS, made by other people. It is not
+covered by the terms above. It is used under the MIT Licence:
+
+  The MIT License (MIT)
+
+  Copyright (c) 2014-2019 Guyon Roche
+
+  Permission is hereby granted, free of charge, to any person obtaining a
+  copy of this software and associated documentation files (the
+  "Software"), to deal in the Software without restriction, including
+  without limitation the rights to use, copy, modify, merge, publish,
+  distribute, sublicense, and/or sell copies of the Software, and to permit
+  persons to whom the Software is furnished to do so, subject to the
+  following conditions:
+
+  The above copyright notice and this permission notice shall be included
+  in all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+  OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+  NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+  DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+  OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+  USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+8. Good to know
+---------------
+This project was written with the help of an AI. How copyright applies to
+AI-written code differs between countries and is not fully settled. This
+licence states what the owner allows; it is not legal advice.
+
+Questions or permission requests: open an issue at
+https://github.com/Ginger-Hermit/Fishing-cat-data/issues
