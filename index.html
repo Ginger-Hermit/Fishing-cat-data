@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Add a game is now Upload photo or video; the AI fills in clan, game, ranks and extra column, and the manual boxes sit under Edit by hand. Test read button (1 picture, no download). Add a game can read one screenshot and fill in the columns by itself. Add a game keeps the ranks and extra column boxes always reachable under "Change details". Profiles and files are named Roblox - Game - Clan. Add a game form simplified to clan name plus a game picker. Add a game wording made plainer, Saved notice, ready-made Anime Fighting Simulator button. Help and Stay safe pages brought up to date (Add a game, Remember my key, updates, bug report). Visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
+<!-- Patch note: Removed Add a game; new Any clan profile where the AI reads game, clan and columns from your first picture. Add a game is now Upload photo or video; the AI fills in clan, game, ranks and extra column, and the manual boxes sit under Edit by hand. Test read button (1 picture, no download). Add a game can read one screenshot and fill in the columns by itself. Add a game keeps the ranks and extra column boxes always reachable under "Change details". Profiles and files are named Roblox - Game - Clan. Add a game form simplified to clan name plus a game picker. Add a game wording made plainer, Saved notice, ready-made Anime Fighting Simulator button. Help and Stay safe pages brought up to date (Add a game, Remember my key, updates, bug report). Visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -55,29 +55,7 @@ button:disabled{opacity:.5}
 <label class="rem" style="display:flex;gap:8px;align-items:center;margin-top:6px;font-weight:normal"><input type="checkbox" id="remember" style="width:auto;margin:0"> Remember my key on this device</label>
 <div id="remnote" style="display:none;font-size:.85em;opacity:.75">Saved only in this browser, never sent anywhere else. Don't tick this on a shared or public computer. Untick to delete it.</div>
 <label for="profile">Profile</label>
-<select id="profile"><option value="loki">Roblox - Gym League - Loki</option></select>
-<div style="margin-top:6px;font-size:14px"><a href="#" id="addgamelink">+ Add a game</a></div>
-<div id="addgame" style="display:none;border:1px solid var(--line);border-radius:8px;padding:12px;margin-top:8px">
-<button type="button" class="tab on" id="gshotbtn">Upload photo or video</button><input type="file" id="gshot" accept="image/*,video/mp4,video/quicktime,video/webm" style="display:none">
-<div style="font-size:12px;color:var(--muted);margin:6px 0 4px">Upload your clan member list. The AI fills in everything. Uses a tiny bit of your AI credit and needs your key.</div>
-<div id="gsetupmsg" role="status" style="display:none;font-size:13px;margin:6px 0 10px;padding:8px 10px;border-radius:8px;border:1px solid var(--line)"></div>
-<details id="gmanual" style="margin-top:10px"><summary style="cursor:pointer;font-size:14px">Edit by hand</summary>
-<label for="gclan">Your clan name</label><input id="gclan" maxlength="40" autocomplete="off" placeholder="e.g. Loki">
-<label for="gsel">Game</label>
-<select id="gsel"><option value="afs">Anime Fighting Simulator</option><option value="other">Other game...</option></select>
-<details id="gother" style="margin-top:10px"><summary style="cursor:pointer;font-size:14px">Change details (game name, ranks, extra column)</summary>
-<label for="ggame">Game name</label><input id="ggame" maxlength="40" autocomplete="off">
-<label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin-top:10px"><input type="checkbox" id="grank" checked style="width:auto;margin:0"> Ranks (#1, #2) are shown</label>
-<label for="gextra">Extra column (optional)</label><input id="gextra" maxlength="30" autocomplete="off" placeholder="e.g. Total Powers">
-<div style="font-size:12px;color:var(--muted);margin:4px 0 0">Replaces the Role column. Copied as shown. Empty it to get the Role column back.</div>
-</details>
-</details>
-<div style="font-size:13px;color:var(--muted);margin:12px 0 4px">Your sheet will look like this</div>
-<div id="gprev" style="overflow-x:auto;margin-bottom:12px"></div>
-<div class="tabs"><button type="button" class="tab on" id="gsave">Save</button><button type="button" class="tab" id="gcancel">Cancel</button></div>
-</div>
-<div id="gsaved" role="status" style="display:none;margin-top:8px;padding:10px 12px;border-radius:8px;background:var(--field);border:1px solid #2e7d32;color:#2e7d32;font-weight:500"></div>
-<div id="rmgame" style="display:none;margin-top:6px;font-size:13px"><a href="#" id="rmgamelink">Remove this profile</a></div>
+<select id="profile"><option value="auto">Any clan (AI works it out)</option><option value="loki">Roblox - Gym League - Loki</option></select>
 <label>Screenshots</label>
 <div class="drop" id="drop">Drop screenshots here, or tap to choose</div>
 <input id="files" type="file" accept="image/png,image/jpeg,image/webp,video/mp4,video/quicktime,video/webm" multiple hidden>
@@ -104,7 +82,7 @@ button:disabled{opacity:.5}
 <div class="hc"><b>How to use it</b>
 <ol class="steps">
 <li><span>Pick your AI company and paste its key. For Anthropic, make one at console.anthropic.com.</span></li>
-<li><span>Pick your profile, or tap + Add a game for a different clan.</span></li>
+<li><span>Leave Profile on "Any clan", and the AI works out the game and clan itself.</span></li>
 <li><span>Drop in screenshots of the member list, or a screen recording of you scrolling it.</span></li>
 <li><span>Optional: add last time's sheet to compare.</span></li>
 <li><span>Tap Make my sheet. After about 20 seconds an Excel file downloads.</span></li>
@@ -130,12 +108,9 @@ button:disabled{opacity:.5}
 <li><b>A "?" in the sheet:</b> unreadable. Fix it by hand.</li>
 <li><b>Still stuck:</b> tap Developer view on the first tab and send a screenshot of the Console.</li>
 </ul></details>
-<details class="hc"><summary>Adding another game</summary>
+<details class="hc"><summary>Other games</summary>
 <ul>
-<li>Tap <b>+ Add a game</b> under Profile.</li>
-<li>Open the clan member list in your game and answer 4 things: clan name, game name, whether rank numbers are shown, and an optional extra column.</li>
-<li>The preview shows what your sheet will look like. Tap Save.</li>
-<li>Profiles are saved on this device only. Tap Remove this profile to delete one.</li>
+<li>Just upload as normal. The AI reads the game, clan and columns from your pictures.</li>
 <li>Other games are not tested yet. Check the first sheet carefully.</li>
 <li>If the page says fewer members were read than the screen shows, scroll slower and try again.</li>
 </ul></details>
@@ -311,6 +286,13 @@ Answer with ONLY a JSON array, no other text:
 }
 // Newest first. Add one entry per change, then re-upload index.html.
 const UPDATE_LOG = [
+  {
+    date: "11 Nov 2026",
+    title: "No more Add a game",
+    meaning: "Just upload your photos or video. The AI works out the game, clan and columns itself.",
+    see: "Profile now says Any clan. The Add a game section is gone.",
+    changes: ["One extra small AI read before the sheet", "Loki profile still there", "Not tested with a real key yet"]
+  },
   {
     date: "11 Nov 2026",
     title: "Set up a game from a screenshot",
@@ -556,7 +538,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; saveSetting("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-11-l";
+const BUILD = "2026-11-11-m";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1039,102 +1021,37 @@ async function readScreenshots(key, images) {
   return ASKERS[id](key, model, await collectPictures(images));
 }
 
-// Profiles: built-in Loki plus the ones you add (kept on this device only).
-function customProfiles() { try { const a = JSON.parse(lsGet("fcd_profiles") || "[]"); return Array.isArray(a) ? a.filter(x => x && x.id && x.clan && x.game) : []; } catch (e) { return []; } }
+// Profiles: Loki, or "Any clan" where the AI reads the layout from your first picture.
 const nameOf = (p) => "Roblox - " + p.game + " - " + p.clan;
-function getProfile(id) { return PROFILES[id] || customProfiles().find(x => x.id === id) || PROFILES.loki; }
 const clean = (t, n) => String(t || "").replace(/[\r\n"\\<>\/:*?|]/g, " ").replace(/\s+/g, " ").trim().slice(0, n);
-function renderProfiles(pick) {
-  const sel = $("profile"), cur = pick || lsGet("fcd_profile") || "loki";
-  const opt = (v, t) => { const o = document.createElement("option"); o.value = v; o.textContent = t; return o; };
-  sel.innerHTML = "";
-  sel.appendChild(opt("loki", nameOf(PROFILES.loki)));
-  customProfiles().forEach(x => sel.appendChild(opt(x.id, nameOf(x))));
-  sel.appendChild(opt("__add", "+ Add a game..."));
-  sel.value = [...sel.options].some(o => o.value === cur) ? cur : "loki";
-  $("rmgame").style.display = PROFILES[sel.value] ? "none" : "block";
-}
-$("profile").onchange = () => {
-  if ($("profile").value === "__add") { $("addgame").style.display = "block"; $("gclan").focus(); renderProfiles(lsGet("fcd_profile")); return; }
-  lsSet("fcd_profile", $("profile").value); renderProfiles(); $("addgame").style.display = "none";
-};
-function updatePreview() {
-  const cols = ["Rank" + ($("grank").checked ? "" : " (numbered for you)"), "Username", clean($("gextra").value, 30) || "Role", "Points"];
-  const rows = [["1", "ExampleName", $("gextra").value.trim() ? "1.2De" : "Member", "1.307M"], ["2", "AnotherName", $("gextra").value.trim() ? "352.05N" : "Member", "1.161M"]];
-  const t = document.createElement("table");
-  t.style.cssText = "border-collapse:collapse;font-size:12px;width:100%";
-  const add = (cells, head) => { const tr = t.insertRow(); cells.forEach(c => { const td = tr.insertCell(); td.textContent = c; td.style.cssText = "border:1px solid var(--line);padding:4px 6px;" + (head ? "background:#1F3864;color:#fff;font-weight:bold" : ""); }); };
-  add(cols, true); rows.forEach(r => add(r, false));
-  const cap = document.createElement("div");
-  cap.style.cssText = "font-size:12px;color:var(--muted);margin-top:4px";
-  cap.textContent = "Roblox - " + (clean($("ggame").value, 40) || "Your game") + " - " + (clean($("gclan").value, 40) || "Your clan") + ".xlsx   (plus Previous, Change and Trend if you pick a Last sheet)";
-  $("gprev").innerHTML = ""; $("gprev").append(t, cap);
-}
-["gclan", "ggame", "grank", "gextra"].forEach(i => { $(i).oninput = updatePreview; $(i).onchange = updatePreview; });
-updatePreview();
 const SETUP_PROMPT = `This image shows the member list of a Roblox game clan screen.
 Work out how the list is laid out. Do not copy the whole list.
 Answer with ONLY one JSON object, no other text:
-{"clan_name": "name of the clan if it is clearly visible, otherwise empty", "game_name": "name of the game if it is clearly visible, otherwise empty", "ranks_shown": true or false (is a rank number like #1 shown beside each member?), "extra_column": "the heading or label of any column besides rank, username, role and points, otherwise empty", "sample": [{"name": "username", "points": "as shown", "extra": "value of the extra column or empty"}]}
-Give at most 3 sample rows. Never guess; use empty text if unsure.`;
-$("gshotbtn").onclick = () => $("gshot").click();
-$("gshot").onchange = async (e) => {
-  const f = e.target.files[0]; e.target.value = "";
-  const box = $("gsetupmsg"), say = (t, bad) => { box.textContent = t; box.style.display = "block"; box.style.color = bad ? "var(--err)" : ""; };
-  if (!f) return;
-  const key = $("key").value.trim();
-  if (!key) { say("Paste your AI key at the top of the page first, then try again.", true); return; }
-  say("Looking at your file... about 10-20 seconds.");
-  PROMPT = SETUP_PROMPT;
-  try {
-    const text = await ASKERS[provider()](key, modelFor(provider()), await collectPictures([f]));
-    const m = text.match(/\{[\s\S]*\}/);
-    if (!m) throw new Error("The AI didn't answer in a way I can read. Try a clearer screenshot.");
-    const r = JSON.parse(m[0]);
-    $("gsel").value = "other"; applyGame();
-    $("ggame").value = clean(r.game_name, 40); $("gclan").value = clean(r.clan_name, 40);
-    if (!$("gclan").value || !$("ggame").value) $("gmanual").open = true;
-    $("grank").checked = r.ranks_shown !== false;
-    $("gextra").value = clean(r.extra_column, 30);
-    updatePreview();
-    const rows = (Array.isArray(r.sample) ? r.sample : []).slice(0, 3).map(x => clean(x && x.name, 30) + " - " + clean(x && x.points, 20)).join(", ");
-    say("Here's what I saw: ranks " + ($("grank").checked ? "shown" : "not shown") + (r.extra_column ? ", extra column \"" + clean(r.extra_column, 30) + "\"" : ", no extra column") + (rows ? ". First rows: " + rows : "") + ". Check the preview, then Save." + (!$("gclan").value || !$("ggame").value ? " I couldn't find the " + (!$("gclan").value ? "clan" : "game") + " name, so type it under Edit by hand." : ""));
-  } catch (err) { say(err.message, true); }
-};
-function applyGame() {
-  const afs = $("gsel").value === "afs";
-  $("gother").open = !afs;
-  if (afs) { $("ggame").value = "Anime Fighting Simulator"; $("grank").checked = false; $("gextra").value = "Total Powers"; }
-  else { $("ggame").value = ""; $("grank").checked = true; $("gextra").value = ""; }
-  updatePreview();
-}
-$("gsel").onchange = applyGame;
-$("addgamelink").onclick = (e) => { e.preventDefault(); $("gsaved").style.display = "none"; applyGame(); $("addgame").style.display = "block"; $("gclan").focus(); };
-$("gcancel").onclick = () => { $("addgame").style.display = "none"; };
-$("gsave").onclick = () => {
-  const clan = clean($("gclan").value, 40), game = clean($("ggame").value, 40);
-  if (!clan || !game) { setMsg("Type a clan name and a game name first.", true); return; }
-  const list = customProfiles().slice(0, 29);
-  const id = "c" + Date.now();
-  list.push({ id, clan, game, ranks: $("grank").checked, extra: clean($("gextra").value, 30), custom: true });
-  lsSet("fcd_profiles", JSON.stringify(list)); lsSet("fcd_profile", id);
-  ["gclan", "ggame", "gextra"].forEach(i => { $(i).value = ""; });
-  $("addgame").style.display = "none"; renderProfiles(id);
-  $("gsaved").textContent = "\u2713 Saved: Roblox - " + game + " - " + clan + ". It is now picked in the Profile list. Saved on this device only."; $("gsaved").style.display = "block";
-};
-$("rmgamelink").onclick = (e) => {
-  e.preventDefault();
+{"clan_name": "name of the clan if it is clearly visible, otherwise empty", "game_name": "name of the game if it is clearly visible, otherwise empty", "ranks_shown": true or false (is a rank number like #1 shown beside each member?), "extra_column": "the heading or label of any column besides rank, username, role and points, otherwise empty"}
+Never guess; use empty text if unsure.`;
+async function pickProfile(key) {
   const id = $("profile").value;
-  lsSet("fcd_profiles", JSON.stringify(customProfiles().filter(x => x.id !== id))); lsSet("fcd_profile", "loki"); renderProfiles("loki");
-};
-renderProfiles();
+  if (id !== "auto") return PROFILES[id] || PROFILES.loki;
+  PROMPT = SETUP_PROMPT;
+  const pics = (await collectPictures([images[0]])).slice(0, 2);
+  const text = await ASKERS[provider()](key, modelFor(provider()), pics);
+  const m = text.match(/\{[\s\S]*\}/);
+  if (!m) throw new Error("The AI couldn't work out the layout. Try a clearer picture.");
+  const r = JSON.parse(m[0]);
+  const p = { clan: clean(r.clan_name, 40) || "Clan", game: clean(r.game_name, 40) || "Game", ranks: r.ranks_shown !== false, extra: clean(r.extra_column, 30), custom: true };
+  clog("Auto layout: " + nameOf(p) + ", ranks " + (p.ranks ? "shown" : "not shown") + ", extra column " + (p.extra || "none") + ".");
+  return p;
+}
+$("profile").value = lsGet("fcd_profile") === "loki" ? "loki" : "auto";
+$("profile").onchange = () => lsSet("fcd_profile", $("profile").value);
 
 $("testgo").onclick = async () => {
-  const key = $("key").value.trim(), p = getProfile($("profile").value);
+  const key = $("key").value.trim();
   $("testgo").disabled = true; $("go").disabled = true;
-  setMsg("Test read: looking at 1 picture... about 10 seconds.");
-  PROMPT = buildPrompt(p);
+  setMsg("Test read: looking at 1 picture... about 20 seconds.");
   try {
+    const p = await pickProfile(key);
+    PROMPT = buildPrompt(p);
     const pics = (await collectPictures([images[0]])).slice(0, 1);
     const text = await ASKERS[provider()](key, modelFor(provider()), pics);
     const rows = parseRows(text);
@@ -1148,12 +1065,12 @@ $("testgo").onclick = async () => {
 
 $("go").onclick = async () => {
   const key = $("key").value.trim();
-  const p = getProfile($("profile").value);
-  PROMPT = buildPrompt(p);
   $("go").disabled = true;
   clog("Run started with " + images.length + " file(s).");
-  setMsg("Reading " + images.length + " screenshot(s)... this can take about 20 seconds.");
+  setMsg("Reading " + images.length + " screenshot(s)... this can take about 20-30 seconds.");
   try {
+    const p = await pickProfile(key);
+    PROMPT = buildPrompt(p);
     const text = await readScreenshots(key, images);
     clog("AI replied (" + text.length + " characters).");
     const rows = parseRows(text);
