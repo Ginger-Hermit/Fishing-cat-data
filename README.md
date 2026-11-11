@@ -52,8 +52,6 @@ Turns Roblox clan screenshots or a screen recording into a ready-to-use Excel sh
 - Each change gets an entry in `UPDATE_LOG` in `index.html`.
 - Hosted on Cloudflare Pages. Every push to `main` publishes automatically after about a minute.
 
-The cat logo (`logo.svg`) was drawn by Claude from scratch.
-
 ## Disclaimer
 
 For personal use only. Not an official Roblox or Anthropic product. Provided as is, with no guarantees.
