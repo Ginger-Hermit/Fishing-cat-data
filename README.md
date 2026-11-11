@@ -8,7 +8,7 @@ Turns Roblox clan screenshots or a screen recording into a ready-to-use Excel sh
 
 ## How to use it
 
-1. Paste your own Anthropic AI key.
+1. Pick your AI company (Anthropic, or the untested Google Gemini and OpenAI) and paste your own key.
 2. Pick your profile.
 3. Drop in screenshots of the member list, or a screen recording of you scrolling it.
 4. Optional: choose last time's sheet to compare.
@@ -34,11 +34,12 @@ Turns Roblox clan screenshots or a screen recording into a ready-to-use Excel sh
 ## Privacy
 
 - Your key stays in the page and is never saved.
-- Pictures go only to Anthropic, straight from your browser. There is no server of our own and no tracking.
+- Pictures go only to the AI company you pick, straight from your browser. There is no server of our own and no tracking.
 - Theme, text size and the last sheet are stored on your device only.
 
 ## Known limits
 
+- **Google Gemini and OpenAI are not tested yet** and may not work. Only Anthropic has been tested.
 - Only the Loki / Gym League profile exists so far.
 - A long video skips more of the list, so keep videos short or use screenshots. Rows cut off at the top or bottom edge are skipped.
 - The AI reads the names and points, so check any `?` or odd spelling by hand.
@@ -54,4 +55,4 @@ Turns Roblox clan screenshots or a screen recording into a ready-to-use Excel sh
 
 ## Disclaimer
 
-For personal use only. Not an official Roblox or Anthropic product. Provided as is, with no guarantees.
+For personal use only. Not an official Roblox, Anthropic, Google or OpenAI product. Provided as is, with no guarantees.

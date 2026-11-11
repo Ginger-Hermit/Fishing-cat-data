@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: removed the cat logo. -->
+<!-- Patch note: AI company drop-down (Anthropic, plus untested Google Gemini and OpenAI) and a model box in Settings. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -12,6 +12,7 @@ html[data-theme=ocean]{--bg:#E6F3F7;--text:#10252E;--muted:#5A7580;--accent:#0B6
 html[data-theme=forest]{--bg:#EEF3EC;--text:#1A2A1C;--muted:#5F7260;--accent:#2F6B3A;--link:#2F6B3A;--line:#8FA58F;--soft:#D3E0D1;--noteBg:#DDEBD0;--noteText:#245A2E}
 html[data-theme=berry]{--bg:#F6EEF3;--text:#2A1B26;--muted:#7A6373;--accent:#8A2D63;--link:#8A2D63;--line:#B096A6;--soft:#E6D5DF;--noteBg:#F3DDE8;--noteText:#7A1F52}
 html[data-size=large] .card{zoom:1.25}
+.warnbox{border:1px solid var(--line);background:var(--field);border-radius:8px;padding:10px 12px;font-size:14px;margin-top:8px}
 #foot a{color:inherit}
 .hc a{color:var(--link)}
 .ok{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--noteBg);color:var(--noteText);border-radius:8px;padding:12px 14px;margin-top:8px;font-size:15px;font-weight:500}
@@ -45,7 +46,10 @@ button:disabled{opacity:.5}
 <div id="fake" style="display:none;border:2px solid var(--err);color:var(--err);background:var(--field);border-radius:8px;padding:12px 14px;margin-bottom:14px;font-weight:500">Warning: this is not the real Fishing Cat Data page. Do not paste your key here. The real page is fishing-cat-data.pages.dev</div>
 <div class="tabs"><button id="t1" class="tab on">Make my sheet</button><button id="t2" class="tab">Updates</button><button id="t4" class="tab">Help</button><button id="t5" class="tab">Settings</button><button id="t3" class="tab">Console</button></div>
 <div id="sheet">
-<label for="key">Your AI key (Anthropic)</label>
+<label for="provider">AI company</label>
+<select id="provider"><option value="anthropic">Anthropic (Claude)</option><option value="gemini">Google Gemini (untested)</option><option value="openai">OpenAI (untested)</option></select>
+<div id="untested" class="warnbox" style="display:none">Heads up: this one has not been tested yet. It might not work. If it fails, open Developer view (bottom of this tab), then send the author the error.</div>
+<label for="key" id="keylabel">Your AI key (Anthropic)</label>
 <input id="key" type="password" placeholder="Paste key here" autocomplete="off" spellcheck="false" autocapitalize="off" data-lpignore="true" data-1p-ignore="true">
 <label for="profile">Profile</label>
 <select id="profile"><option value="loki">Loki, Gym League</option></select>
@@ -63,7 +67,7 @@ button:disabled{opacity:.5}
 <b>Your key is safe here</b>
 <ul>
 <li>It is never saved. It's gone when you close the tab.</li>
-<li>It goes only to Anthropic.</li>
+<li>It goes only to the AI company you pick.</li>
 <li>Treat it like a password. Anyone who gets it can use your credit.</li>
 </ul>
 <div style="margin-top:8px;font-size:14px"><a href="https://support.claude.com/en/articles/9767949-api-key-best-practices-keeping-your-keys-safe-and-secure" target="_blank" rel="noopener noreferrer">Anthropic's key safety guide</a> &middot; <a href="#" data-go="safety">Stay safe page</a></div>
@@ -73,7 +77,7 @@ button:disabled{opacity:.5}
 <div id="helptab" style="display:none;font-size:15px;line-height:1.5">
 <div class="hc"><b>How to use it</b>
 <ol class="steps">
-<li><span>Paste your AI key. Make one at console.anthropic.com.</span></li>
+<li><span>Pick your AI company and paste its key. For Anthropic, make one at console.anthropic.com.</span></li>
 <li><span>Pick your profile.</span></li>
 <li><span>Drop in screenshots of the member list, or a screen recording of you scrolling it.</span></li>
 <li><span>Optional: add last time's sheet to compare.</span></li>
@@ -100,11 +104,17 @@ button:disabled{opacity:.5}
 <li><b>A "?" in the sheet:</b> unreadable. Fix it by hand.</li>
 <li><b>Still stuck:</b> tap Developer view on the first tab and send a screenshot of the Console.</li>
 </ul></details>
+<details class="hc"><summary>Other AI companies</summary>
+<ul>
+<li>Anthropic is tested. Google Gemini and OpenAI are <b>not tested yet</b> and may not work.</li>
+<li>Each company has its own key, its own costs and its own rules.</li>
+<li>If one fails, tap Developer view on the first tab and send the error.</li>
+</ul></details>
 <details class="hc"><summary>Privacy and looks</summary>
 <ul>
 <li>Your key stays in this page and is never saved.</li>
 <li>The last sheet you chose is remembered on this device (names and points only). Tap Remove to forget it.</li>
-<li>Pictures go only to Anthropic.</li>
+<li>Pictures go only to the AI company you pick.</li>
 <li>For personal use only.</li>
 <li>Theme and text size are in Settings, remembered on this device only.</li>
 <li>Full safety guide: tap Stay safe at the bottom of the page.</li>
@@ -115,7 +125,7 @@ button:disabled{opacity:.5}
 <ul>
 <li>Your AI key is a password. Never send it to anyone or paste it anywhere but the first box.</li>
 <li>Only use the real link: fishing-cat-data.pages.dev</li>
-<li>If a key leaks, delete it in your Anthropic account and make a new one.</li>
+<li>If a key leaks, delete it in your AI account and make a new one.</li>
 <li>Check the sheet before you act on it. The AI can misread.</li>
 <li>Share the sheet only with people who should see it.</li>
 </ul></div>
@@ -128,7 +138,8 @@ button:disabled{opacity:.5}
 <li>If your browser or password manager offers to save it, choose "Never" unless you really want that.</li>
 <li>Use your own device. Avoid shared or public computers, and close the tab when you're done.</li>
 <li>Only install browser add-ons you trust. Add-ons can read what's on a page.</li>
-<li>Think a key got out? Don't wait. Delete it: log in to your Anthropic account, open the API keys page from your profile, tap the three dots by the key and choose Delete API Key. Then make a new one and check your usage.</li>
+<li>Think a key got out? Don't wait. Delete it (Anthropic): log in to your Anthropic account, open the API keys page from your profile, tap the three dots by the key and choose Delete API Key. Then make a new one and check your usage.</li>
+<li>Another AI company? Use the keys page in your account with them.</li>
 <li>Swap your key for a new one now and then. Anthropic's guide suggests about every 90 days.</li>
 <li>If a key ends up in a public GitHub repo, GitHub tells Anthropic and the key is switched off automatically. Don't count on that.</li>
 <li>Read Anthropic's own guide: <a href="https://support.claude.com/en/articles/9767949-api-key-best-practices-keeping-your-keys-safe-and-secure" target="_blank" rel="noopener noreferrer">API key best practices</a>. It has the current steps.</li>
@@ -143,8 +154,8 @@ button:disabled{opacity:.5}
 </ul></details>
 <details class="hc"><summary>Costs</summary>
 <ul>
-<li>Every run uses credit on your own Anthropic account.</li>
-<li>Check your usage in your Anthropic account now and then. See whether it offers a way to limit spending.</li>
+<li>Every run uses credit on your own account with the AI company you pick.</li>
+<li>Check your usage in your AI account now and then. See whether it offers a way to limit spending.</li>
 <li>Short videos and fewer pictures cost less than long ones.</li>
 </ul></details>
 <details class="hc"><summary>Other people's names</summary>
@@ -162,7 +173,7 @@ button:disabled{opacity:.5}
 <details class="hc"><summary>If something goes wrong</summary>
 <ul>
 <li>Stop using the page.</li>
-<li>Delete the key in your Anthropic account.</li>
+<li>Delete the key in your AI account.</li>
 <li>Make a new key only when you're sure it's safe.</li>
 <li>Tell the author what happened.</li>
 </ul></details>
@@ -171,9 +182,9 @@ button:disabled{opacity:.5}
 <div class="hc"><b>Privacy</b>
 <ul>
 <li>Your AI key stays in this page. It is never saved.</li>
-<li>The page is locked down by the browser so it can only talk to Anthropic.</li>
-<li>Your pictures (and the stills pulled from a video) go only to Anthropic, straight from your browser, to be read. This page has no server of its own, so we never see them.</li>
-<li>What Anthropic does with what you send is covered by Anthropic's own policies.</li>
+<li>The page is locked down by the browser so it can only talk to Anthropic, Google and OpenAI. It only sends to the one you pick.</li>
+<li>Your pictures (and the stills pulled from a video) go only to the AI company you pick, straight from your browser, to be read. This page has no server of its own, so we never see them.</li>
+<li>What that company does with what you send is covered by its own policies. Free plans can have different rules, so check them.</li>
 <li>Saved on your device only: theme, text size, and the last sheet you chose (names and points). Tap Remove on the first tab to forget the sheet.</li>
 <li>No accounts and no tracking added by this page. The page is hosted on Cloudflare Pages, which may keep normal visit records like any website host.</li>
 <li>The names in your pictures belong to real people. Share the sheet only with people who should see it.</li>
@@ -183,10 +194,11 @@ button:disabled{opacity:.5}
 <div class="hc"><b>Legal</b>
 <ul>
 <li>For personal use only.</li>
-<li>Not an official Roblox or Anthropic product. Roblox and Anthropic are names of their owners.</li>
+<li>Not an official Roblox, Anthropic, Google or OpenAI product. Those are names of their owners.</li>
 <li>Provided as is, with no guarantees. The AI can misread names and numbers, so check your sheet.</li>
 <li>Built entirely by Claude, an AI. The author gave the ideas and tested it.</li>
-<li>Using the AI costs credit on your own Anthropic account, under your own terms with Anthropic.</li>
+<li>Using the AI costs credit on your own account, under your own terms with the company you pick.</li>
+<li>Google Gemini and OpenAI support is not tested yet and may not work.</li>
 <li>The spreadsheet part is ExcelJS, an open-source library.</li>
 </ul></div>
 </div>
@@ -195,6 +207,9 @@ button:disabled{opacity:.5}
 <div class="tabs" id="themeBtns"></div>
 <div style="font-size:13px;color:var(--muted);margin-bottom:6px">Text size</div>
 <div class="tabs" id="sizeBtns"></div>
+<div style="font-size:13px;color:var(--muted);margin:14px 0 6px">AI model (advanced)</div>
+<input id="modelbox" autocomplete="off" spellcheck="false">
+<div style="font-size:12px;color:var(--muted);margin:6px 0 10px">Leave empty to use the built-in one. Only change it if an error says the model is gone. It is kept for the company chosen on the first tab.</div>
 <div style="font-size:12px;color:var(--muted)">Saved on this device only.</div>
 </div>
 <div id="logtab" style="display:none"></div>
@@ -207,11 +222,19 @@ button:disabled{opacity:.5}
 <div id="foot" style="text-align:center;margin-top:16px;font-size:12px;color:var(--muted)">
 <a href="#" data-go="help">Help</a> &middot; <a href="#" data-go="log">Updates</a> &middot; <a href="#" data-go="safety">Stay safe</a> &middot; <a href="#" data-go="privacy">Privacy</a> &middot; <a href="#" data-go="legal">Legal</a> &middot; <a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">GitHub</a>
 <div style="margin-top:8px">Built entirely by Claude, an AI &middot; For personal use only</div>
-<div style="margin-top:2px">Not an official Roblox or Anthropic product &middot; Provided as is, with no guarantees</div>
+<div style="margin-top:2px">Not an official Roblox, Anthropic, Google or OpenAI product &middot; Provided as is, with no guarantees</div>
 </div>
 </div>
 <script>
 const MODEL = "claude-haiku-5-5";
+// Anthropic is tested. Gemini and OpenAI are not. Names can be changed under Settings.
+const PROVIDERS = {
+  anthropic: { name: "Anthropic", model: MODEL, tested: true },
+  gemini: { name: "Google Gemini", model: "gemini-3.8-flash", tested: false },
+  openai: { name: "OpenAI", model: "gpt-5.5", tested: false }
+};
+function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
 const PROMPT = `These images show the member list of the Roblox game clan screen.
 Each row shows a rank like "#12", a username, a role under the name and a points number on the right (like 52.51K, 1K or 507).
 Read EVERY row that is fully visible. Skip rows cut off at the top or bottom edge.
@@ -221,6 +244,13 @@ Answer with ONLY a JSON array, no other text:
 const PROFILES = { loki: { clan: "Loki", game: "Gym League" } };
 // Newest first. Add one entry per change, then re-upload index.html.
 const UPDATE_LOG = [
+  {
+    date: "11 Nov 2026",
+    title: "Google Gemini and OpenAI (untested)",
+    meaning: "You can now pick Google Gemini or OpenAI as well as Anthropic. Only Anthropic has been tested. The other two might not work yet.",
+    see: "An AI company drop-down above the key box, with a heads-up for the untested ones. The key box clears when you switch company.",
+    changes: ["AI company drop-down: Anthropic, Google Gemini, OpenAI.", "Gemini and OpenAI are NOT tested.", "AI model (advanced) box in Settings.", "The browser lock now allows Google and OpenAI as well as Anthropic."],
+  },
   {
     date: "11 Nov 2026",
     title: "Tidier bottom and key safety links",
@@ -498,6 +528,23 @@ $("drop").ondragover = (e) => e.preventDefault();
 $("drop").ondrop = (e) => { e.preventDefault(); addFiles(e.dataTransfer.files); };
 $("key").oninput = refresh;
 
+function provider() { return $("provider").value; }
+function modelFor(id) { return (lsGet("fcd_model_" + id) || "").trim() || PROVIDERS[id].model; }
+function applyProvider(clearKey) {
+  const id = provider(), p = PROVIDERS[id];
+  $("keylabel").textContent = "Your AI key (" + p.name + ")";
+  $("untested").style.display = p.tested ? "none" : "block";
+  $("modelbox").placeholder = p.model;
+  $("modelbox").value = lsGet("fcd_model_" + id) || "";
+  lsSet("fcd_provider", id);
+  if (clearKey) { $("key").value = ""; refresh(); }
+}
+const savedProvider = lsGet("fcd_provider");
+if (savedProvider && PROVIDERS[savedProvider]) $("provider").value = savedProvider;
+$("provider").onchange = () => applyProvider(true);
+$("modelbox").oninput = () => lsSet("fcd_model_" + provider(), $("modelbox").value);
+applyProvider(false);
+
 // Warn if this page is opened from anywhere but the real address (a copy could steal keys).
 const REAL_HOST = "fishing-cat-data.pages.dev";
 {
@@ -684,42 +731,70 @@ function toCsv(rows) {
   return lines.join("\n");
 }
 
-async function readScreenshots(key, images) {
-  const content = [];
+async function collectPictures(images) {
+  const pics = [];
   for (const f of images) {
     if (f.type.startsWith("video/")) {
-      for (const frame of await videoFrames(f)) {
-        content.push({ type: "image", source: { type: "base64", media_type: frame.type, data: frame.data } });
-      }
+      for (const frame of await videoFrames(f)) pics.push({ type: frame.type, data: frame.data });
     } else {
-      content.push({ type: "image", source: { type: "base64", media_type: f.type, data: await toBase64(f) } });
+      pics.push({ type: f.type, data: await toBase64(f) });
     }
   }
-  content.push({ type: "text", text: PROMPT });
+  return pics;
+}
+
+async function postJson(url, headers, body) {
   let res;
-  try { res = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      "x-api-key": key,
-      "anthropic-version": "2023-06-01",
-      "anthropic-dangerous-direct-browser-access": "true"
-    },
-    body: JSON.stringify({ model: MODEL, max_tokens: 2000, messages: [{ role: "user", content }] })
-  }); } catch (e) { throw new Error("Couldn't reach the AI. Check your internet and try again."); }
+  try { res = await fetch(url, { method: "POST", headers, body: JSON.stringify(body) }); }
+  catch (e) { throw new Error("Couldn't reach the AI. Check your internet and try again."); }
   if (!res.ok) {
     let detail = "";
     try { detail = (await res.json()).error.message || ""; } catch (e) {}
     clog("AI error " + res.status + ": " + detail);
-    if (/credit/i.test(detail)) throw new Error("Your Anthropic account is out of credit.");
-    if (res.status === 401 || res.status === 403) throw new Error("The AI doesn't accept that key. Check it and paste it again.");
+    if (/credit|quota|billing/i.test(detail)) throw new Error("Your AI account is out of credit or over its limit.");
+    if (res.status === 401 || res.status === 403 || /api key/i.test(detail)) throw new Error("The AI doesn't accept that key. Check it and paste it again.");
     if (res.status === 429) throw new Error("Too many requests right now. Wait a minute and try again.");
-    if (res.status === 404) throw new Error("The AI model this page uses is gone. The page needs a small update.");
+    if (res.status === 404) throw new Error("The AI model is gone or not open to your key. Change it in Settings under AI model (advanced).");
     if (res.status >= 500) throw new Error("The AI is busy or down. Try again in a few minutes.");
     throw new Error("The AI said no (" + res.status + "). Check the key.");
   }
-  const data = await res.json();
-  return data.content.filter(b => b.type === "text").map(b => b.text).join("\n");
+  return res.json();
+}
+
+const ASKERS = {
+  anthropic: async (key, model, pics) => {
+    const content = pics.map(p => ({ type: "image", source: { type: "base64", media_type: p.type, data: p.data } }));
+    content.push({ type: "text", text: PROMPT });
+    const d = await postJson("https://api.anthropic.com/v1/messages", {
+      "content-type": "application/json",
+      "x-api-key": key,
+      "anthropic-version": "2023-06-01",
+      "anthropic-dangerous-direct-browser-access": "true"
+    }, { model, max_tokens: 2000, messages: [{ role: "user", content }] });
+    return d.content.filter(b => b.type === "text").map(b => b.text).join("\n");
+  },
+  gemini: async (key, model, pics) => {
+    const parts = pics.map(p => ({ inline_data: { mime_type: p.type, data: p.data } }));
+    parts.push({ text: PROMPT });
+    const d = await postJson("https://generativelanguage.googleapis.com/v1beta/models/" + encodeURIComponent(model) + ":generateContent",
+      { "content-type": "application/json", "x-goog-api-key": key }, { contents: [{ parts }] });
+    const first = (d.candidates || [])[0];
+    return ((first && first.content && first.content.parts) || []).map(p => p.text || "").join("\n");
+  },
+  openai: async (key, model, pics) => {
+    const content = pics.map(p => ({ type: "image_url", image_url: { url: "data:" + p.type + ";base64," + p.data } }));
+    content.push({ type: "text", text: PROMPT });
+    const d = await postJson("https://api.openai.com/v1/chat/completions",
+      { "content-type": "application/json", authorization: "Bearer " + key }, { model, messages: [{ role: "user", content }] });
+    const c = d.choices && d.choices[0] && d.choices[0].message;
+    return (c && c.content) || "";
+  }
+};
+
+async function readScreenshots(key, images) {
+  const id = provider(), model = modelFor(id);
+  clog("Using " + PROVIDERS[id].name + " (" + model + ").");
+  return ASKERS[id](key, model, await collectPictures(images));
 }
 
 $("go").onclick = async () => {
