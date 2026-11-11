@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Help and Stay safe pages brought up to date (Add a game, Remember my key, updates, bug report). Visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
+<!-- Patch note: Add a game wording made plainer, Saved notice, ready-made Anime Fighting Simulator button. Help and Stay safe pages brought up to date (Add a game, Remember my key, updates, bug report). Visible "Add a game" link under Profile. Heads-up before and after an automatic refresh. Add-a-game profiles (any Roblox clan screen), member count check. "New version ready" banner and an auto-refresh setting (checks version.txt on this site). Copy bug report button (Developer view) and Report a bug link. Optional "Remember my key on this device" tick box. Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes). -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -58,16 +58,18 @@ button:disabled{opacity:.5}
 <select id="profile"><option value="loki">Loki, Gym League</option></select>
 <div style="margin-top:6px;font-size:14px"><a href="#" id="addgamelink">+ Add a game</a></div>
 <div id="addgame" style="display:none;border:1px solid var(--line);border-radius:8px;padding:12px;margin-top:8px">
-<div style="font-size:13px;color:var(--muted);margin-bottom:8px">Open the clan member list in your game. Answer these 4 things about what you see there. The preview below updates as you type.</div>
-<label for="gclan">Clan name</label><input id="gclan" maxlength="40" autocomplete="off">
-<label for="ggame">Game or league</label><input id="ggame" maxlength="40" autocomplete="off" placeholder="e.g. Anime Fighting Simulator">
-<label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin-top:10px"><input type="checkbox" id="grank" checked style="width:auto;margin:0"> The screen shows rank numbers</label>
-<label for="gextra">Extra column name (optional)</label><input id="gextra" maxlength="30" autocomplete="off" placeholder="e.g. Total Powers">
-<div style="font-size:12px;color:var(--muted);margin:4px 0 10px">An extra column replaces the Role column and is copied as shown, not added up. Saved on this device only.</div>
+<div style="font-size:13px;color:var(--muted);margin-bottom:8px">Look at the clan member list in your game and answer 4 quick things. The preview updates as you type.</div>
+<div style="font-size:13px;margin-bottom:8px">Quick start: <a href="#" id="gtpl">Anime Fighting Simulator</a></div>
+<label for="gclan">What is your clan called?</label><input id="gclan" maxlength="40" autocomplete="off" placeholder="e.g. Loki">
+<label for="ggame">Which game is it?</label><input id="ggame" maxlength="40" autocomplete="off" placeholder="e.g. Anime Fighting Simulator">
+<label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin-top:10px"><input type="checkbox" id="grank" checked style="width:auto;margin:0"> The list shows rank numbers (like #1, #2)</label>
+<label for="gextra">Is there another column you want, like Total Powers? Type its name. If not, leave this empty.</label><input id="gextra" maxlength="30" autocomplete="off" placeholder="e.g. Total Powers">
+<div style="font-size:12px;color:var(--muted);margin:4px 0 10px">If you type one, it takes the place of the Role column. It is copied exactly as shown, not added up.</div>
 <div style="font-size:13px;color:var(--muted);margin-bottom:4px">What your sheet will look like</div>
 <div id="gprev" style="overflow-x:auto;margin-bottom:12px"></div>
 <div class="tabs"><button type="button" class="tab on" id="gsave">Save</button><button type="button" class="tab" id="gcancel">Cancel</button></div>
 </div>
+<div id="gsaved" role="status" style="display:none;margin-top:8px;padding:10px 12px;border-radius:8px;background:var(--field);border:1px solid #2e7d32;color:#2e7d32;font-weight:500"></div>
 <div id="rmgame" style="display:none;margin-top:6px;font-size:13px"><a href="#" id="rmgamelink">Remove this profile</a></div>
 <label>Screenshots</label>
 <div class="drop" id="drop">Drop screenshots here, or tap to choose</div>
@@ -539,7 +541,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; saveSetting("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-11-e";
+const BUILD = "2026-11-11-f";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1053,7 +1055,8 @@ function updatePreview() {
 }
 ["gclan", "ggame", "grank", "gextra"].forEach(i => { $(i).oninput = updatePreview; $(i).onchange = updatePreview; });
 updatePreview();
-$("addgamelink").onclick = (e) => { e.preventDefault(); $("addgame").style.display = "block"; $("gclan").focus(); };
+$("gtpl").onclick = (e) => { e.preventDefault(); $("ggame").value = "Anime Fighting Simulator"; $("grank").checked = false; $("gextra").value = "Total Powers"; updatePreview(); $("gclan").focus(); };
+$("addgamelink").onclick = (e) => { e.preventDefault(); $("gsaved").style.display = "none"; $("addgame").style.display = "block"; $("gclan").focus(); };
 $("gcancel").onclick = () => { $("addgame").style.display = "none"; };
 $("gsave").onclick = () => {
   const clan = clean($("gclan").value, 40), game = clean($("ggame").value, 40);
@@ -1063,7 +1066,8 @@ $("gsave").onclick = () => {
   list.push({ id, clan, game, ranks: $("grank").checked, extra: clean($("gextra").value, 30), custom: true });
   lsSet("fcd_profiles", JSON.stringify(list)); lsSet("fcd_profile", id);
   ["gclan", "ggame", "gextra"].forEach(i => { $(i).value = ""; });
-  $("addgame").style.display = "none"; renderProfiles(id); setMsg("Profile saved: " + clan + ", " + game + ".", false);
+  $("addgame").style.display = "none"; renderProfiles(id);
+  $("gsaved").textContent = "\u2713 Saved: " + clan + ", " + game + ". It is now picked in the Profile list. Saved on this device only."; $("gsaved").style.display = "block";
 };
 $("rmgamelink").onclick = (e) => {
   e.preventDefault();
