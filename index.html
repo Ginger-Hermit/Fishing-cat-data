@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: safety locks: connections limited to Anthropic, wrong-address warning, Clear button and 20 file limit. -->
+<!-- Patch note: tidier bottom: key safety card with a link to Anthropic's guide, small print moved into the footer. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -13,6 +13,7 @@ html[data-theme=forest]{--bg:#EEF3EC;--text:#1A2A1C;--muted:#5F7260;--accent:#2F
 html[data-theme=berry]{--bg:#F6EEF3;--text:#2A1B26;--muted:#7A6373;--accent:#8A2D63;--link:#8A2D63;--line:#B096A6;--soft:#E6D5DF;--noteBg:#F3DDE8;--noteText:#7A1F52}
 html[data-size=large] .card{zoom:1.25}
 #foot a{color:inherit}
+.hc a{color:var(--link)}
 .ok{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--noteBg);color:var(--noteText);border-radius:8px;padding:12px 14px;margin-top:8px;font-size:15px;font-weight:500}
 .hc{background:var(--field);border:1px solid var(--soft);border-radius:10px;padding:12px 14px;margin-bottom:10px}
 .hc summary{cursor:pointer;font-weight:500;color:var(--link)}
@@ -58,8 +59,15 @@ button:disabled{opacity:.5}
 <div id="previnfo"></div>
 <button id="go" disabled>Make my sheet</button>
 <div class="msg" id="msg" role="status" aria-live="polite"></div>
-<div class="note">Your key stays in this page only and is never saved. Screenshots go only to Anthropic.</div>
-<div style="font-size:12px;color:var(--muted);margin-top:10px;text-align:center">Built entirely by Claude, an AI. The author gave the ideas and tested it. The AI wrote all the code.<br>For personal use only. Not an official Roblox or Anthropic product. Provided as is, with no guarantees.</div>
+<div class="hc" style="margin-top:14px">
+<b>Your key is safe here</b>
+<ul>
+<li>It is never saved. It's gone when you close the tab.</li>
+<li>It goes only to Anthropic.</li>
+<li>Treat it like a password. Anyone who gets it can use your credit.</li>
+</ul>
+<div style="margin-top:8px;font-size:14px"><a href="https://support.claude.com/en/articles/9767949-api-key-best-practices-keeping-your-keys-safe-and-secure" target="_blank" rel="noopener noreferrer">Anthropic's key safety guide</a> &middot; <a href="#" data-go="safety">Stay safe page</a></div>
+</div>
 <div style="text-align:center;margin-top:10px"><a href="#" id="devOn" style="font-size:12px;color:var(--muted)">Developer view</a></div>
 </div>
 <div id="helptab" style="display:none;font-size:15px;line-height:1.5">
@@ -113,13 +121,17 @@ button:disabled{opacity:.5}
 </ul></div>
 <details class="hc"><summary>Keeping your AI key safe</summary>
 <ul>
+<li>Think of it like a credit card number: if someone uses your key, you get charged.</li>
 <li>Never put it in a chat, email, post, screenshot or file you send. Anyone with it can use your credit.</li>
 <li>Make a key just for this page and give it a clear name. Then you can delete it without breaking anything else.</li>
 <li>This page never saves your key. Refreshing or closing the tab clears it.</li>
 <li>If your browser or password manager offers to save it, choose "Never" unless you really want that.</li>
 <li>Use your own device. Avoid shared or public computers, and close the tab when you're done.</li>
 <li>Only install browser add-ons you trust. Add-ons can read what's on a page.</li>
-<li>Think a key got out? Don't wait. Delete it in your Anthropic account, make a new one, and check your usage.</li>
+<li>Think a key got out? Don't wait. Delete it: log in to your Anthropic account, open the API keys page from your profile, tap the three dots by the key and choose Delete API Key. Then make a new one and check your usage.</li>
+<li>Swap your key for a new one now and then. Anthropic's guide suggests about every 90 days.</li>
+<li>If a key ends up in a public GitHub repo, GitHub tells Anthropic and the key is switched off automatically. Don't count on that.</li>
+<li>Read Anthropic's own guide: <a href="https://support.claude.com/en/articles/9767949-api-key-best-practices-keeping-your-keys-safe-and-secure" target="_blank" rel="noopener noreferrer">API key best practices</a>. It has the current steps.</li>
 </ul></details>
 <details class="hc"><summary>Real page or fake?</summary>
 <ul>
@@ -194,6 +206,8 @@ button:disabled{opacity:.5}
 </div>
 <div id="foot" style="text-align:center;margin-top:16px;font-size:12px;color:var(--muted)">
 <a href="#" data-go="help">Help</a> &middot; <a href="#" data-go="log">Updates</a> &middot; <a href="#" data-go="safety">Stay safe</a> &middot; <a href="#" data-go="privacy">Privacy</a> &middot; <a href="#" data-go="legal">Legal</a> &middot; <a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">GitHub</a>
+<div style="margin-top:8px">Built entirely by Claude, an AI &middot; For personal use only</div>
+<div style="margin-top:2px">Not an official Roblox or Anthropic product &middot; Provided as is, with no guarantees</div>
 </div>
 </div>
 <script>
@@ -207,6 +221,13 @@ Answer with ONLY a JSON array, no other text:
 const PROFILES = { loki: { clan: "Loki", game: "Gym League" } };
 // Newest first. Add one entry per change, then re-upload index.html.
 const UPDATE_LOG = [
+  {
+    date: "11 Nov 2026",
+    title: "Tidier bottom and key safety links",
+    meaning: "The bottom of the page is cleaner. One calm card explains key safety with a link to Anthropic's own guide, and the small print moved into one footer.",
+    see: "A Your key is safe here card under Make my sheet. A tidy footer on every page.",
+    changes: ["Key safety card with a link to Anthropic's guide.", "Built-by and disclaimer lines moved into the footer.", "More key safety steps on the Stay safe page."],
+  },
   {
     date: "11 Nov 2026",
     title: "Extra safety locks",
@@ -372,7 +393,7 @@ document.getElementById("t2").onclick = () => showTab("log");
 document.getElementById("t3").onclick = () => showTab("console");
 document.getElementById("t4").onclick = () => showTab("help");
 document.getElementById("t5").onclick = () => showTab("settings");
-document.querySelectorAll("#foot [data-go]").forEach(a => { a.style.color = "inherit"; a.onclick = (e) => { e.preventDefault(); showTab(a.dataset.go); window.scrollTo(0, 0); }; });
+document.querySelectorAll("[data-go]").forEach(a => { a.onclick = (e) => { e.preventDefault(); showTab(a.dataset.go); window.scrollTo(0, 0); }; });
 
 // Settings: theme and text size, remembered on this device only (never the key).
 const THEMES = [["auto", "Auto"], ["light", "Light"], ["dark", "Dark"], ["ocean", "Ocean"], ["forest", "Forest"], ["berry", "Berry"]];
