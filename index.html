@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Help tab now explains the CSV, video tips and common errors. -->
+<!-- Patch note: the download is now an Excel file (coloured, real-number points), and an earlier sheet can be chosen for Previous/Change/Trend. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -27,6 +27,7 @@ button:disabled{opacity:.5}
 .tab{width:auto;margin:0;padding:8px 12px;font-size:14px;background:var(--field);color:var(--link);border:1px solid var(--link);border-radius:6px}
 .tab.on{background:var(--accent);color:var(--onAccent)}
 </style>
+<script src="exceljs.bare.min.js" defer></script>
 </head>
 <body>
 <div class="card">
@@ -41,6 +42,10 @@ button:disabled{opacity:.5}
 <div class="drop" id="drop">Drop screenshots here, or tap to choose</div>
 <input id="files" type="file" accept="image/png,image/jpeg,image/webp,video/mp4,video/quicktime,video/webm" multiple hidden>
 <div id="list" style="font-size:13px;color:var(--muted);margin-top:6px"></div>
+<label>Last sheet (optional)</label>
+<div class="drop" id="prevdrop">Tap to choose an earlier sheet (.xlsx) to compare</div>
+<input id="prevfile" type="file" accept=".xlsx" hidden>
+<div id="previnfo" style="font-size:13px;color:var(--muted);margin-top:6px"></div>
 <button id="go" disabled>Make my sheet</button>
 <div class="msg" id="msg"></div>
 <div class="note">Your key stays in this page only and is never saved. Screenshots go only to Anthropic.</div>
@@ -53,10 +58,11 @@ button:disabled{opacity:.5}
 <li>Paste your Anthropic AI key into the first box. Make one at console.anthropic.com.</li>
 <li>Pick your profile.</li>
 <li>Drop in screenshots of the clan member list, or a screen recording of you scrolling it.</li>
-<li>Tap Make my sheet and wait about 20 seconds. A CSV file downloads.</li>
+<li>Optional: choose last time's sheet in the Last sheet box, so the new one shows who went up or down.</li>
+<li>Tap Make my sheet and wait about 20 seconds. An Excel file downloads.</li>
 </ol>
 <div><b>What you get</b></div>
-<div style="color:var(--muted);margin:6px 0 12px">A CSV file named like "Loki - Gym League.csv" with four columns: Rank, Name, Role, Points. It opens in Excel or Google Sheets. Points are written as the game showed them, like 52.51K. Anyone who shows up in more than one picture is listed once.</div>
+<div style="color:var(--muted);margin:6px 0 12px">An Excel file named like "Loki - Gym League.xlsx". Points are in two columns: as the game showed them (52.51K) and as a real number (52510), so you can sort and add them. If you chose a Last sheet, you also get Previous Points, Change, % Change and a Trend arrow. Anyone who shows up in more than one picture is listed once. A second tab explains each column.</div>
 <div><b>Screenshots or video?</b></div>
 <ul style="margin:6px 0 12px;padding-left:20px">
 <li>Screenshots: the whole member list, with the rows overlapping a little so nobody is missed.</li>
@@ -102,6 +108,13 @@ Answer with ONLY a JSON array, no other text:
 const PROFILES = { loki: { clan: "Loki", game: "Gym League" } };
 // Newest first. Add one entry per change, then re-upload index.html.
 const UPDATE_LOG = [
+  {
+    date: "11 Nov 2026",
+    title: "Excel sheet and last sheet",
+    meaning: "The download is now an Excel file with coloured ranks and roles. Points are real numbers, so the maths works. You can also choose an earlier sheet to see who went up or down.",
+    see: "A .xlsx file with a Clan Members tab and an About this sheet tab. Choose a Last sheet first to fill in Previous Points, Change, % Change and Trend.",
+    changes: ["Makes an Excel file instead of a CSV.", "Points (number) column, e.g. 52.51K becomes 52510.", "Reads an earlier sheet made by this page.", "Needs the new file exceljs.bare.min.js next to index.html."],
+  },
   {
     date: "11 Nov 2026",
     title: "Video support",
@@ -282,6 +295,123 @@ function parseRows(text) {
   });
 }
 
+
+// Excel: turn "52.51K" into 52510, read an earlier sheet, build the new one.
+function parsePoints(t) {
+  const m = String(t ?? "").trim().replace(/,/g, "").match(/^([\d.]+)\s*([KkMmBb]?)$/);
+  if (!m) return null;
+  return Math.round(parseFloat(m[1]) * { "": 1, k: 1e3, m: 1e6, b: 1e9 }[m[2].toLowerCase()]);
+}
+
+async function readPrevious(EJ, buf) {
+  const wb = new EJ.Workbook();
+  await wb.xlsx.load(buf);
+  const ws = wb.getWorksheet("Clan Members") || wb.worksheets[0];
+  let head = 0;
+  ws.eachRow((row, n) => { if (!head && String(row.getCell(2).value).trim() === "Username") head = n; });
+  if (!head) throw new Error("That file is not a sheet made by this page.");
+  const map = new Map();
+  for (let r = head + 1; r <= ws.rowCount; r++) {
+    const name = ws.getCell(r, 2).value;
+    let pts = ws.getCell(r, 5).value;
+    if (pts && typeof pts === "object" && "result" in pts) pts = pts.result;
+    if (name && typeof pts === "number") map.set(String(name).trim().toLowerCase(), pts);
+  }
+  return map;
+}
+
+function buildWorkbook(EJ, rows, prev, p, when) {
+  const wb = new EJ.Workbook();
+  wb.calcProperties.fullCalcOnLoad = true;
+  const NAVY = "FF1F3864", INK = "FF1F2937", GREY = "FF7F7F7F";
+  const fill = (c) => ({ type: "pattern", pattern: "solid", fgColor: { argb: c } });
+  const ws = wb.addWorksheet("Clan Members", { views: [{ state: "frozen", ySplit: 3 }] });
+  [9, 26, 16, 21, 20, 16, 13, 14, 11].forEach((w, i) => { ws.getColumn(i + 1).width = w; });
+  ws.mergeCells("A1:I1");
+  ws.mergeCells("A2:I2");
+  ws.getCell("A1").value = p.clan + " \u2013 Member Points";
+  ws.getCell("A1").font = { bold: true, size: 16, color: { argb: NAVY } };
+  ws.getCell("A2").value = p.game + "   \u00b7   Recorded " + when + "   \u00b7   " + rows.length + " members read";
+  ws.getCell("A2").font = { color: { argb: GREY } };
+  ["Rank", "Username", "Role", "Points (as shown)", "Points (number)", "Previous Points", "Change", "% Change", "Trend"].forEach((h, i) => {
+    const c = ws.getCell(3, i + 1);
+    c.value = h; c.font = { bold: true, color: { argb: "FFFFFFFF" } }; c.fill = fill(NAVY);
+  });
+  const rankLook = { 1: ["FFFFF2CC", "FF7F6000"], 2: ["FFEDEDED", "FF404040"], 3: ["FFFBE5D6", "FF843C0C"] };
+  rows.forEach((r, i) => {
+    const n = i + 4;
+    const rk = ws.getCell(n, 1);
+    rk.value = r.rank;
+    const look = rankLook[r.rank];
+    rk.font = { bold: true, color: { argb: look ? look[1] : GREY } };
+    if (look) rk.fill = fill(look[0]);
+    ws.getCell(n, 2).value = r.name;
+    const role = ws.getCell(n, 3);
+    role.value = r.role || "";
+    if (/owner/i.test(role.value)) { role.font = { bold: true, color: { argb: "FF7F6000" } }; role.fill = fill("FFFFE699"); }
+    else if (/coach/i.test(role.value)) { role.font = { bold: true, color: { argb: "FF843C0C" } }; role.fill = fill("FFFCE4D6"); }
+    ws.getCell(n, 4).value = String(r.points);
+    ws.getCell(n, 4).font = { color: { argb: GREY } };
+    const num = parsePoints(r.points);
+    const e = ws.getCell(n, 5);
+    if (num !== null) e.value = num;
+    e.numFmt = "#,##0"; e.font = { bold: true, color: { argb: INK } };
+    const f = ws.getCell(n, 6);
+    const before = prev && prev.get(String(r.name).trim().toLowerCase());
+    if (before !== undefined && before !== false) f.value = before;
+    f.numFmt = "#,##0"; f.font = { color: { argb: GREY } };
+    ws.getCell(n, 7).value = { formula: `IF(OR(F${n}="",E${n}=""),"",E${n}-F${n})` };
+    ws.getCell(n, 7).numFmt = "\\+#,##0;\\-#,##0;0";
+    ws.getCell(n, 8).value = { formula: `IF(OR(F${n}="",E${n}="",F${n}=0),"",E${n}/F${n}-1)` };
+    ws.getCell(n, 8).numFmt = "\\+0.0%;\\-0.0%;0.0%";
+    const arrows = `IF(G${n}>0,"\u25b2",IF(G${n}<0,"\u25bc","\u2013"))`;
+    ws.getCell(n, 9).value = { formula: prev ? `IF(G${n}="",IF(AND(E${n}<>"",F${n}=""),"new",""),${arrows})` : `IF(G${n}="","",${arrows})` };
+  });
+  const last = rows.length + 3;
+  ws.addConditionalFormatting({ ref: `G4:I${last}`, rules: [
+    { type: "expression", priority: 1, formulae: ["AND(ISNUMBER($G4),$G4>0)"], style: { font: { color: { argb: "FF14632D" } } } },
+    { type: "expression", priority: 2, formulae: ["AND(ISNUMBER($G4),$G4<0)"], style: { font: { color: { argb: "FFA31616" } } } }
+  ] });
+  const ab = wb.addWorksheet("About this sheet");
+  ab.getColumn(1).width = 26; ab.getColumn(2).width = 92;
+  ab.getCell("A1").value = "About this sheet"; ab.getCell("A1").font = { bold: true, size: 16, color: { argb: NAVY } };
+  ab.getCell("A2").value = "Made with Fishing Cat Data  \u00b7  what the columns in this spreadsheet mean."; ab.getCell("A2").font = { color: { argb: GREY } };
+  ["THE COLUMNS", ""].forEach((t, i) => { const c = ab.getCell(4, i + 1); c.value = t; c.font = { bold: true, color: { argb: "FFFFFFFF" } }; c.fill = fill(NAVY); });
+  [
+    ["Rank", "Position in the list, as read from the pictures (1 = top)."],
+    ["Username", "The member's name as the AI read it. Worth a quick look for odd spellings."],
+    ["Role", "The member's role in the clan."],
+    ["Points (as shown)", "Exactly what the game displayed, for example 16.6K. Kept as text so nothing is lost."],
+    ["Points (number)", "The same points as a real number. If a number was misread, fix it here and Change, % Change and Trend update."],
+    ["Previous Points", "Taken from the earlier sheet you chose. Blank if you didn't choose one, or for a new member."],
+    ["Change", "Points (number) minus Previous Points. Green = went up, red = went down."],
+    ["% Change", "Change as a percentage of Previous Points."],
+    ["Trend", "\u25b2 went up, \u25bc went down, \u2013 no change, new = was not in the earlier sheet."]
+  ].forEach((r, i) => {
+    ab.getCell(5 + i, 1).value = r[0]; ab.getCell(5 + i, 1).font = { bold: true, color: { argb: INK } };
+    ab.getCell(5 + i, 2).value = r[1]; ab.getCell(5 + i, 2).alignment = { wrapText: true, vertical: "top" };
+  });
+  return wb;
+}
+
+let prevMap = null;
+$("prevdrop").onclick = () => $("prevfile").click();
+$("prevfile").onchange = async (e) => {
+  const f = e.target.files[0];
+  if (!f) return;
+  try {
+    if (!window.ExcelJS) throw new Error("The spreadsheet part did not load. Refresh the page.");
+    prevMap = await readPrevious(window.ExcelJS, await f.arrayBuffer());
+    $("previnfo").textContent = "Last sheet: " + f.name + " (" + prevMap.size + " members)";
+    clog("Last sheet read: " + prevMap.size + " members.");
+  } catch (err) {
+    prevMap = null;
+    $("previnfo").textContent = "";
+    clog("Last sheet failed: " + err.message);
+    setMsg(err.message, true);
+  }
+};
+
 function toCsv(rows) {
   const esc = (v) => '"' + String(v ?? "").replace(/"/g, '""') + '"';
   const lines = ["Rank,Name,Role,Points"];
@@ -328,10 +458,19 @@ $("go").onclick = async () => {
     const rows = parseRows(text);
     clog("Found " + rows.length + " unique row(s).");
     if (!rows.length) throw new Error("No member rows were found. Check the screenshots show the member list.");
-    const blob = new Blob([toCsv(rows)], { type: "text/csv" });
+    let blob, ext = ".xlsx";
+    if (window.ExcelJS) {
+      const when = new Date().toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric" }).replace(/,/g, "");
+      const wb = buildWorkbook(window.ExcelJS, rows, prevMap, p, when);
+      blob = new Blob([await wb.xlsx.writeBuffer()], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+    } else {
+      ext = ".csv";
+      blob = new Blob([toCsv(rows)], { type: "text/csv" });
+      clog("The spreadsheet part did not load, so a CSV was made instead.");
+    }
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = p.clan + " - " + p.game + ".csv";
+    a.download = p.clan + " - " + p.game + ext;
     a.click();
     setMsg("Done: " + rows.length + " rows. Your sheet was downloaded.");
   } catch (err) {
