@@ -618,7 +618,7 @@ function buildWorkbook(EJ, rows, prev, p, when) {
   const NAVY = "FF1F3864", INK = "FF1F2937", GREY = "FF7F7F7F";
   const fill = (c) => ({ type: "pattern", pattern: "solid", fgColor: { argb: c } });
   const ws = wb.addWorksheet("Clan Members", { views: [{ state: "frozen", ySplit: 3 }] });
-  [9, 26, 16, 21, 20, 16, 13, 14, 11, 3, 29, 22].forEach((w, i) => { ws.getColumn(i + 1).width = w; });
+  [11, 26, 18, 24, 22, 19, 14, 15, 12, 3, 29, 22].forEach((w, i) => { ws.getColumn(i + 1).width = w; });
   ws.mergeCells("A1:I1");
   ws.mergeCells("A2:I2");
   ws.getCell("A1").value = p.clan + " \u2013 Member Points";
@@ -662,7 +662,7 @@ function buildWorkbook(EJ, rows, prev, p, when) {
   const last = rows.length + 3;
   const LINE = { style: "thin", color: { argb: "FFD0D5DD" } };
   const box = { left: LINE, right: LINE, top: LINE, bottom: LINE };
-  ws.getRow(1).height = 30; ws.getRow(2).height = 18; ws.getRow(3).height = 24;
+  ws.getRow(1).height = 30; ws.getRow(2).height = 18; ws.getRow(3).height = 30;
   ws.getCell("A1").alignment = { vertical: "middle" };
   ws.getCell("A2").alignment = { vertical: "middle" };
   for (let c = 1; c <= 9; c++) {
@@ -726,6 +726,7 @@ function buildWorkbook(EJ, rows, prev, p, when) {
   line(11, "Previous Season Points", null, "#,##0");
   line(12, "Season Points Change", { formula: 'IF(OR(L4="",L11=""),"",L4-L11)' }, "\\+#,##0;\\-#,##0;0");
   line(13, "Previous League Rank", null, "\\#0");
+  line(14, "Season Points % Change", { formula: 'IF(OR(L4="",L11="",L11=0),"",L4/L11-1)' }, "\\+0.0%;\\-0.0%;0.0%");
   ws.getCell("K16").value = "Season info is not read from the video - type it in if you want it.";
   ws.getCell("K16").font = { italic: true, size: 9, color: { argb: GREY } };
   head("K18:L18", "Clan Summary");
@@ -740,7 +741,7 @@ function buildWorkbook(EJ, rows, prev, p, when) {
   line(27, "Biggest Drop", { formula: `IF(COUNT(${G})=0,"",IF(MIN(${G})>=0,"",INDEX(${B},MATCH(MIN(${G}),${G},0))))` }, "@");
   ws.getCell("K28").value = "Change values appear from the second week on. New members are left out of the change totals.";
   ws.getCell("K28").font = { italic: true, size: 9, color: { argb: GREY } };
-  ["L22", "L23", "L12"].forEach((a) => {
+  ["L22", "L23", "L12", "L14"].forEach((a) => {
     const rr = a.slice(1);
     ws.addConditionalFormatting({ ref: a, rules: [
       { type: "expression", priority: 5, formulae: [`AND(ISNUMBER($L$${rr}),$L$${rr}>0)`], style: up },
