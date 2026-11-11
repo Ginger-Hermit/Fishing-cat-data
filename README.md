@@ -9,7 +9,7 @@ Turns Roblox clan screenshots or a screen recording into a ready-to-use Excel sh
 ## How to use it
 
 1. Pick your AI company (Anthropic, or the untested Google Gemini and OpenAI) and paste your own key.
-2. Pick your profile.
+2. Nothing to pick. The AI works out the game and clan itself.
 3. Drop in screenshots of the member list, or a screen recording of you scrolling it.
 4. Optional: choose last time's sheet to compare.
 5. Tap **Make my sheet**. After about 20 seconds an Excel file downloads.
@@ -67,3 +67,29 @@ To run it from the repo folder:
 2. `node tests/excel-math.test.js`
 
 It prints an error if a check fails. If LibreOffice isn't installed, the formula checks are skipped and only the points parsing is tested.
+
+## How to read the code
+
+You don't need to code to follow it. Start here.
+
+**The files**
+- `index.html`: the whole page. Looks, buttons and logic are all in this one file.
+- `exceljs.bare.min.js`: a ready-made tool that builds the Excel file. Don't open it, it's unreadable on purpose (shrunk).
+- `_headers`: the browser lock. Says the page may only talk to the AI companies.
+- `version.txt`: the version number. The page compares it with its own to show the "new version" banner.
+- `tests/check.py`: the auto check. It runs on every push and shouts if something is broken or unused.
+- `STATUS.md` and `CLAUDE.md`: notes and rules for the AI that works on this.
+
+**The steps, in order** (search `index.html` for these words)
+1. `collectPictures`: turns your photos or video into pictures.
+2. `pickProfile`: the AI reads the game, clan and layout.
+3. `buildPrompt`: writes the question sent to the AI.
+4. `ASKERS`: sends the pictures and question to the AI company you picked.
+5. `parseRows`: turns the AI's reply into a list of members.
+6. `buildWorkbook`: makes the Excel file.
+
+**Tips**
+- Lines starting with `//` are notes, not code.
+- The first line of `index.html` is a plain-English note of the latest change.
+- The Updates tab on the live page says in plain words what changed and links to the exact code.
+- On a GitHub commit, green lines were added and red lines were removed.
