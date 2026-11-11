@@ -17,6 +17,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: npm install --no-save playwright@1.49.1
-      - run: npx playwright install --with-deps chromium firefox webkit
+      - run: npm install --no-save playwright
+      - run: npx playwright install --with-deps chromium firefox webkit 2>&1 | tail -40
       - run: node tests/browser.test.js
