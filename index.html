@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: added footer links with short Privacy and Legal pages. -->
+<!-- Patch note: added a detailed Stay safe page, linked from the footer. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -98,6 +98,59 @@ button:disabled{opacity:.5}
 <li>Pictures go only to Anthropic.</li>
 <li>For personal use only.</li>
 <li>Theme and text size are in Settings, remembered on this device only.</li>
+<li>Full safety guide: tap Stay safe at the bottom of the page.</li>
+</ul></details>
+</div>
+<div id="safetytab" style="display:none;font-size:15px;line-height:1.5">
+<div class="hc"><b>The 5 big ones</b>
+<ul>
+<li>Your AI key is a password. Never send it to anyone or paste it anywhere but the first box.</li>
+<li>Only use the real link: fishing-cat-data.pages.dev</li>
+<li>If a key leaks, delete it in your Anthropic account and make a new one.</li>
+<li>Check the sheet before you act on it. The AI can misread.</li>
+<li>Share the sheet only with people who should see it.</li>
+</ul></div>
+<details class="hc"><summary>Keeping your AI key safe</summary>
+<ul>
+<li>Never put it in a chat, email, post, screenshot or file you send. Anyone with it can use your credit.</li>
+<li>Make a key just for this page and give it a clear name. Then you can delete it without breaking anything else.</li>
+<li>This page never saves your key. Refreshing or closing the tab clears it.</li>
+<li>If your browser or password manager offers to save it, choose "Never" unless you really want that.</li>
+<li>Use your own device. Avoid shared or public computers, and close the tab when you're done.</li>
+<li>Only install browser add-ons you trust. Add-ons can read what's on a page.</li>
+<li>Think a key got out? Don't wait. Delete it in your Anthropic account, make a new one, and check your usage.</li>
+</ul></details>
+<details class="hc"><summary>Real page or fake?</summary>
+<ul>
+<li>Anyone can copy a web page and change it to steal keys. Only paste your key on the real link: fishing-cat-data.pages.dev</li>
+<li>Check the address bar before you paste. Bookmark the real link.</li>
+<li>Be careful with links sent by strangers, even if the page looks the same.</li>
+<li>This page will never ask for your password, your email or anything except the AI key.</li>
+</ul></details>
+<details class="hc"><summary>Costs</summary>
+<ul>
+<li>Every run uses credit on your own Anthropic account.</li>
+<li>Check your usage in your Anthropic account now and then. See whether it offers a way to limit spending.</li>
+<li>Short videos and fewer pictures cost less than long ones.</li>
+</ul></details>
+<details class="hc"><summary>Other people's names</summary>
+<ul>
+<li>The usernames in your pictures belong to real people.</li>
+<li>Share the sheet only with people who should see it.</li>
+<li>Don't post screenshots or sheets with names in public places.</li>
+</ul></details>
+<details class="hc"><summary>Checking the sheet</summary>
+<ul>
+<li>The AI can misread names and numbers. Look for "?" and odd spellings.</li>
+<li>Check the ranks and points before you make decisions about members.</li>
+<li>The page warns you if rows are unreadable or ranks look out of order. Take that seriously.</li>
+</ul></details>
+<details class="hc"><summary>If something goes wrong</summary>
+<ul>
+<li>Stop using the page.</li>
+<li>Delete the key in your Anthropic account.</li>
+<li>Make a new key only when you're sure it's safe.</li>
+<li>Tell the author what happened.</li>
 </ul></details>
 </div>
 <div id="privacytab" style="display:none;font-size:15px;line-height:1.5">
@@ -137,7 +190,7 @@ button:disabled{opacity:.5}
 <pre id="console" style="background:var(--field);border:1px solid var(--line);border-radius:6px;padding:10px;font-size:12px;white-space:pre-wrap;min-height:60px;margin:0;color:var(--text)"></pre>
 </div>
 <div id="foot" style="text-align:center;margin-top:16px;font-size:12px;color:var(--muted)">
-<a href="#" data-go="help">Help</a> &middot; <a href="#" data-go="log">Updates</a> &middot; <a href="#" data-go="privacy">Privacy</a> &middot; <a href="#" data-go="legal">Legal</a> &middot; <a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">GitHub</a>
+<a href="#" data-go="help">Help</a> &middot; <a href="#" data-go="log">Updates</a> &middot; <a href="#" data-go="safety">Stay safe</a> &middot; <a href="#" data-go="privacy">Privacy</a> &middot; <a href="#" data-go="legal">Legal</a> &middot; <a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">GitHub</a>
 </div>
 </div>
 <script>
@@ -151,6 +204,13 @@ Answer with ONLY a JSON array, no other text:
 const PROFILES = { loki: { clan: "Loki", game: "Gym League" } };
 // Newest first. Add one entry per change, then re-upload index.html.
 const UPDATE_LOG = [
+  {
+    date: "11 Nov 2026",
+    title: "Stay safe guide",
+    meaning: "A detailed safety page: keeping your AI key safe, spotting a fake copy of the page, costs, other people's names, and what to do if something goes wrong.",
+    see: "A Stay safe link at the bottom of every page.",
+    changes: ["Added a Stay safe page."],
+  },
   {
     date: "11 Nov 2026",
     title: "Footer, Privacy and Legal",
@@ -286,7 +346,7 @@ function renderLog() {
 }
 renderLog();
 function showTab(which) {
-  const shown = { sheet: "sheet", log: "logtab", help: "helptab", settings: "settingstab", privacy: "privacytab", legal: "legaltab", console: "consoletab" };
+  const shown = { sheet: "sheet", log: "logtab", help: "helptab", settings: "settingstab", privacy: "privacytab", safety: "safetytab", legal: "legaltab", console: "consoletab" };
   const btn = { sheet: "t1", log: "t2", help: "t4", settings: "t5", console: "t3" };
   for (const k in shown) {
     document.getElementById(shown[k]).style.display = k === which ? "" : "none";
