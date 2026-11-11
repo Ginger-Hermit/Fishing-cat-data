@@ -29,4 +29,12 @@ A.equal(b[0].lines[0].type,"Water");A.ok(!b[0].lines[0].check);A.equal(b[0].line
 b=parseBills(JSON.stringify({bills:[{supplier:"Example Mobile",currency:"NZD",decimal_mark:".",total_due:"$96.40",lines:[{energy:"other",kind:"phone",charge:"Plan",amount:"$79.00"},{energy:"other",kind:"phone",charge:"Pro-rata plan",amount:"$12.40"},{energy:"other",kind:"phone",charge:"Discount",amount:"-$10.00"},{energy:"other",kind:"phone",charge:"Extra data",used:"2",unit:"GB",amount:"$10.00"},{energy:"other",kind:"phone",charge:"Phone instalment",amount:"$15.00"},{energy:"other",kind:"phone",charge:"Late fee",amount:"$0.00"}]}]}));
 A.equal(b[0].lines.length,6);A.equal(b[0].lines[2].amount,-10);A.ok(b[0].lines.every(l=>!l.check));
 b=parseBills(JSON.stringify({bills:[{lines:[{energy:"other",kind:"wa\"ter)",charge:"x",amount:"1"}]}]}));A.equal(b[0].lines[0].type,"Water");
+// Spark phone bill, 27 Oct 2026 (names, address, account and phone numbers left out): charges must add up to the printed total
+b=parseBills(JSON.stringify({bills:[{supplier:"Spark New Zealand Trading Ltd",country:"New Zealand",currency:"NZD",decimal_mark:".",bill_date:"27 October 2026",period_days:"30",estimated:false,total_due:"$139.69",lines:[
+{energy:"other",kind:"phone",charge:"150GB Endless Plan",amount:"$78.00"},{energy:"other",kind:"phone",charge:"$700 Device discount split over 36 months",amount:"-$19.45"},
+{energy:"other",kind:"phone",charge:"Spotify Premium",amount:"$20.99"},{energy:"other",kind:"phone",charge:"Spotify Premium Discount",amount:"-$7.00"},
+{energy:"other",kind:"phone",charge:"Instalment 33 of 36 - Galaxy S24 Ultra 5G",amount:"$65.28"},{energy:"other",kind:"phone",charge:"Multimedia Messaging",used:"3",unit:"messages",amount:"$1.47"},
+{energy:"other",kind:"phone",charge:"Text Service",used:"2",unit:"texts",amount:"$0.40"}]}]}));
+A.equal(b[0].lines.length,7);A.ok(b[0].lines.every(l=>!l.check&&l.type==="Phone"));A.equal(b[0].total,139.69);A.equal(b[0].days,30);
+A.equal(Math.round(b[0].lines.reduce((t,l)=>t+l.amount,0)*100)/100,139.69);
 console.log("bill tests ok");
