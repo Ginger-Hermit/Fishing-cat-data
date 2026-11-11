@@ -70,59 +70,68 @@ To run it from the repo folder:
 
 It prints an error if a check fails. If LibreOffice isn't installed, the formula checks are skipped and only the points parsing is tested.
 
-## How to read the code
+## Read the code (quick guide)
 
-You don't need to code to follow it. Start here.
+**TL;DR:** the whole page is one file, `index.html`. Search it for a word you see on screen. That's it.
 
-**The files**
-- `index.html`: the whole page. Looks, buttons and logic are all in this one file.
-- `exceljs.bare.min.js`: a ready-made tool that builds the Excel file. Don't open it, it's unreadable on purpose (shrunk).
-- `_headers`: the browser lock. Says the page may only talk to the AI companies.
-- `version.txt`: the version number. The page compares it with its own to show the "new version" banner.
-- `tests/check.py`: the auto check. It runs on every push and shouts if something is broken or unused.
-- `STATUS.md` and `CLAUDE.md`: notes and rules for the AI that works on this.
+### 1. What's in the repo (30 seconds)
 
-**The steps, in order** (search `index.html` for these words)
-1. `collectPictures`: turns your photos or video into pictures.
-2. `pickProfile`: the AI reads the game, clan and layout.
-3. `buildPrompt`: writes the question sent to the AI.
-4. `ASKERS`: sends the pictures and question to the AI company you picked.
-5. `parseRows`: turns the AI's reply into a list of members.
-6. `buildWorkbook`: makes the Excel file.
+| File | What it is | Open it? |
+|---|---|---|
+| `index.html` | The whole page | Yes |
+| `README.md` | This guide | You're here |
+| `STATUS.md` | What's done, what's next | Yes |
+| `tests/check.py` | Auto check, runs on every push | No |
+| `_headers` | Browser lock (who the page may talk to) | No |
+| `exceljs.bare.min.js` | Excel maker, unreadable on purpose | Never |
+| `CLAUDE.md`, `version.txt` | Rules for the AI, version number | No |
 
-**Tips**
-- Lines starting with `//` are notes, not code.
-- The first line of `index.html` is a plain-English note of the latest change.
-- The Updates tab on the live page says in plain words what changed and links to the exact code.
-- On a GitHub commit, green lines were added and red lines were removed.
+### 2. What the code does (6 steps)
 
-## How to understand a line of code
+1. `collectPictures`: gets your pictures
+2. `pickProfile`: AI reads the game and clan
+3. `buildPrompt`: writes the question
+4. `ASKERS`: sends it to the AI
+5. `parseRows`: turns the reply into a list
+6. `buildWorkbook`: makes the Excel file
 
-Take a real line from `index.html`:
+Search `index.html` for any of these names to jump straight there.
+
+### 3. Read one line (1 minute)
 
 ```js
 const nameOf = (p) => "Roblox - " + p.game + " - " + p.clan;
 ```
 
-Read it left to right:
-- `const nameOf` makes a named helper called `nameOf`.
-- `(p) =>` means "give me one thing, call it `p`" (here, the game and clan details).
-- Everything after `=>` is what it hands back: the words `Roblox - `, then the game, then ` - `, then the clan.
-- So `nameOf` of Loki's Gym League gives `Roblox - Gym League - Loki`. That's the Excel file name.
+| Piece | Means |
+|---|---|
+| `const nameOf` | a helper called nameOf |
+| `(p) =>` | give it one thing, call it p |
+| `"Roblox - " + p.game + " - " + p.clan` | stick the words together |
 
-**Words you'll see a lot**
-- `function` or `=>`: a small recipe that does one job.
-- `const` / `let`: a labelled box holding a value. `const` never changes, `let` can.
-- `if (...) { ... }`: do this only when the thing in brackets is true.
-- `await`: wait for the AI to answer before moving on.
-- `$("key")`: grab the page element with that name (`id="key"` in the page part).
-- `clog(...)`: write a line in the Log box.
-- `//`: a note for humans, ignored by the page.
-- `{ ... }` is a group of named things. `[ ... ]` is a list.
+Result: `Roblox - Gym League - Loki`. That's the Excel file name.
 
-**To follow any feature**
-1. Find its button or box in the page part (search for the words you see on screen).
-2. Note its `id`, then search for `$("thatid")` to find what happens when you use it.
-3. Follow the function names it calls, one at a time.
+### 4. Cheat sheet
 
-If you get stuck, copy the lines into any AI chat and ask "what does this do, in plain words?".
+| You see | Read it as |
+|---|---|
+| `function` or `=>` | a small job |
+| `const` / `let` | a labelled box |
+| `if (...) {...}` | only when true |
+| `await` | wait for the AI |
+| `$("key")` | grab the box with that name |
+| `clog(...)` | write in the Log box |
+| `//` | a note, ignored |
+| `{...}` / `[...]` | a group / a list |
+
+### 5. Follow any feature (3 steps)
+
+1. Search for the words on its button.
+2. Copy its `id`, search for `$("thatid")`.
+3. Follow the names it calls, one at a time.
+
+### Stuck?
+
+Paste the lines into any AI chat and ask: "what does this do, in plain words?"
+
+Reading a commit on GitHub: **green = added, red = removed.**
