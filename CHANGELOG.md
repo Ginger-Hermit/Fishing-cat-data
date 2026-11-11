@@ -2,9 +2,21 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Record screen removed
+
+12 Nov 2026 (22:14 UTC) · Changed
+
+The Record screen button is gone. It only worked in some PC browsers and was never tested in a real run. Record with your own device and upload the video instead.
+
+**What you'll see:** No Record screen button on the Games tab.
+
+- Record screen button and its pop-up window removed
+- Screenshots and video upload work as before
+- About 60 lines of code gone
+
 ## Clearer tab names
 
-12 Nov 2026 (22:13 UTC) · Changed
+12 Nov 2026 (22:13 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c2138e8)
 
 The two tools are now called Games and Bills, which says what they are for.
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Tabs renamed to Games and Bills, with one grey line under each saying what it does. -->
+<!-- Patch note: Record screen removed. Upload screenshots or a video instead. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -63,9 +63,6 @@ button:disabled{opacity:.5}
 <label>Screenshots</label>
 <div class="drop" id="drop">Drop screenshots here, or tap to choose</div>
 <input id="files" type="file" accept="image/png,image/jpeg,image/webp,video/mp4,video/quicktime,video/webm" multiple hidden>
-<button id="recbtn" type="button" class="tab" style="display:none;margin-top:6px">Record screen (PC)</button>
-<div id="recstat" role="status" style="display:none;font-size:13px;margin-top:6px"></div>
-<div id="rectip" style="display:none;font-size:12px;color:var(--muted);margin-top:6px">On a phone: use your phone's own screen recorder, scroll the list, then upload the video above.</div>
 <div id="list"></div>
 <label>Last sheet (optional)</label>
 <div class="drop" id="prevdrop">Tap to choose an earlier sheet (.xlsx) to compare</div>
@@ -97,7 +94,7 @@ button:disabled{opacity:.5}
 <p>The code, the updates and the guide (README) are on GitHub.</p>
 <div style="border:1px solid var(--soft);border-radius:8px;font-size:14px;margin:8px 0">
 <div style="padding:8px 12px;border-bottom:1px solid var(--soft);color:var(--muted)">Preview: README.md</div>
-<div style="padding:8px 12px"><b>Fishing Cat Data</b><br>Turns Roblox clan screenshots or a screen recording into an Excel sheet.
+<div style="padding:8px 12px"><b>Fishing Cat Data</b><br>Turns Roblox clan screenshots or a video into an Excel sheet.
 <ul style="margin:8px 0 0;padding-left:18px"><li>How to use it</li><li>What you get</li><li>Features</li><li>Privacy</li><li>Known limits</li><li>Read the code (quick guide)</li></ul></div>
 </div>
 <a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener" class="tab" style="display:inline-block;text-decoration:none;margin-top:6px">Open GitHub</a>
@@ -233,9 +230,19 @@ Answer with ONLY a JSON array, no other text:
 const UPDATE_LOG = [
   {
     date: "12 Nov 2026",
+    title: "Record screen removed",
+    tag: "Changed",
+    at: "2026-11-11T22:14:55Z",
+    meaning: "The Record screen button is gone. It only worked in some PC browsers and was never tested in a real run. Record with your own device and upload the video instead.",
+    see: "No Record screen button on the Games tab.",
+    changes: ["Record screen button and its pop-up window removed", "Screenshots and video upload work as before", "About 60 lines of code gone"]
+  },
+  {
+    date: "12 Nov 2026",
     title: "Clearer tab names",
     tag: "Changed",
     at: "2026-11-11T22:13:56Z",
+    commit: "c2138e8",
     meaning: "The two tools are now called Games and Bills, which says what they are for.",
     see: "The first two tabs, and a grey line under each.",
     changes: ["Clan sheet tab is now Games", "Energy bills tab is now Bills", "One grey line at the top of each says what it does"]
@@ -269,16 +276,6 @@ const UPDATE_LOG = [
     meaning: "The page was attacked with about 50 kinds of bad input: broken AI replies, odd keys, junk files, tampered saved settings. Everything that gave a wrong sheet or a confusing message was fixed.",
     see: "Fewer failed runs, and plainer red messages when something does fail.",
     changes: ["Odd AI replies (extra text, nested or wrapped lists) are still read", "Names, roles and points are cleaned: no hidden characters, no huge values", "Points like 1.2.3K are flagged, not guessed; T (trillion) is understood", "If the layout step fails, the usual layout is used and the run carries on", "Plain messages for a bad key, pictures that are too big, and unreadable replies or files", "Empty files are skipped"]
-  },
-  {
-    date: "11 Nov 2026",
-    title: "Faster to open",
-    tag: "Changed",
-    at: "2026-11-11T10:45:53Z",
-    commit: "7df947d",
-    meaning: "The big Excel part now loads only when you add pictures, so the page opens much faster. Videos are read once per run. Leftover code was removed.",
-    see: "No visible change. The page opens quicker, most of all on phones.",
-    changes: ["Excel part (863 KB) loads when needed, not on every visit", "Videos are read once per run, not twice", "Old one-clan prompt removed", "One save-a-setting helper instead of three", "Repeated text and styles merged"]
   }
 ];
 function renderLog() {
@@ -357,7 +354,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-b";
+const BUILD = "2026-11-12-c";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -392,7 +389,6 @@ function clog(text) {
   if (box.textContent.length > 30000) box.textContent = box.textContent.slice(-20000);
 }
 let images = [];
-const recSay = (t, bad) => { const e = $("recstat"); e.textContent = t; e.style.display = t ? "block" : "none"; e.style.color = bad ? "var(--err)" : ""; };
 const MAX_FILES = 30;
 
 const $ = (id) => document.getElementById(id);
@@ -523,70 +519,6 @@ const bugCopy = async (btn, label) => {
 $("copybug").onclick = () => bugCopy($("copybug"), "Copy bug report");
 $("copyerr").onclick = () => bugCopy($("copyerr"), "Copy error to send");
 
-// Record screen (PC browsers): checks every 2 seconds and keeps a still when the screen changed (up to 30, 3 minutes). No video is saved.
-(function () {
-  const btn = $("recbtn");
-  if (!(navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia)) { $("rectip").style.display = "block"; return; }
-  btn.style.display = "block";
-  let stream = null, timer = null, v = null, n = 0, pip = null, pipTxt = null, lastTp = null, t0 = 0;
-  const MAXF = 30;
-  function stop() {
-    clearInterval(timer); timer = null;
-    if (stream) stream.getTracks().forEach(t => t.stop());
-    stream = null; v = null; btn.textContent = "Record screen (PC)";
-    if (pip) { const w = pip; pip = null; pipTxt = null; try { w.close(); } catch (e) {} }
-    clog("Screen recording stopped, " + n + " picture(s) kept.");
-    refresh();
-  }
-  const gotPics = () => { stop(); recSay("Got " + n + " picture(s). Tap Make my sheet."); };
-  async function grab() {
-    if (!v || !v.videoWidth) return;
-    if (Date.now() - t0 > 180000) { stop(); recSay("Stopped after 3 minutes. Tap Make my sheet.", false); return; }
-    const tp = tinyPix(v);
-    if (samePic(lastTp, tp)) return;
-    lastTp = tp;
-    const sc = Math.min(1, 1280 / v.videoWidth), c = document.createElement("canvas");
-    c.width = Math.round(v.videoWidth * sc); c.height = Math.round(v.videoHeight * sc);
-    c.getContext("2d").drawImage(v, 0, 0, c.width, c.height);
-    const blob = await new Promise(res => c.toBlob(res, "image/jpeg", 0.85));
-    if (!blob) return;
-    const rf = new File([blob], "rec" + (++n) + ".jpg", { type: "image/jpeg" });
-    rf.ready = true;
-    images.push(rf);
-    refresh();
-    recSay("Recording... " + n + " picture(s). Scroll the list slowly, then tap Stop.");
-    if (pipTxt) pipTxt.textContent = n + " picture(s) taken. Scroll the list slowly.";
-    if (n >= MAXF || images.length >= MAX_FILES) { stop(); recSay("Stopped at the limit (" + n + " pictures). Tap Make my sheet."); }
-  }
-  btn.onclick = async () => {
-    if (stream) { gotPics(); return; }
-    // Small always-on-top window (Chrome/Edge/Opera on PC) so you can see progress and Stop while the game is in front.
-    if (window.documentPictureInPicture) {
-      try {
-        pip = await window.documentPictureInPicture.requestWindow({ width: 320, height: 230 });
-        const d = pip.document; d.body.style.cssText = "margin:0;padding:10px;background:#0d1117;color:#e6edf3;font:14px system-ui,sans-serif";
-        const t = d.createElement("div"); t.textContent = "Pick Roblox or Entire Screen (not this page), then tap Allow."; t.style.marginBottom = "8px"; pipTxt = t;
-        const pv = d.createElement("video"); pv.muted = true; pv.autoplay = true; pv.id = "pv"; pv.style.cssText = "width:100%;border-radius:6px;background:#000;max-height:120px";
-        const sb = d.createElement("button"); sb.textContent = "Stop recording"; sb.style.cssText = "margin-top:8px;width:100%;padding:8px;font-size:15px;border-radius:6px;border:0;background:#c0392b;color:#fff";
-        sb.onclick = () => { if (stream) { gotPics(); } };
-        d.body.append(t, pv, sb);
-        pip.addEventListener("pagehide", () => { pip = null; pipTxt = null; if (stream) { gotPics(); } });
-      } catch (e) { pip = null; pipTxt = null; }
-    }
-    recSay("In the box that pops up, open the top dropdown and pick Roblox or Entire Screen, not this page.");
-    try {
-      stream = await navigator.mediaDevices.getDisplayMedia({ video: { displaySurface: "monitor" }, audio: false });
-    } catch (e) { if (pip) { try { pip.close(); } catch (x) {} pip = null; pipTxt = null; } recSay("Recording was cancelled or blocked.", true); return; }
-    n = 0; lastTp = null; t0 = Date.now(); v = document.createElement("video"); v.muted = true; v.srcObject = stream;
-    await v.play().catch(() => {});
-    if (pip) { const pv = pip.document.getElementById("pv"); if (pv) pv.srcObject = stream; if (pipTxt) pipTxt.textContent = "Recording... scroll the list slowly."; }
-    stream.getVideoTracks()[0].onended = () => { if (stream) { gotPics(); } };
-    btn.textContent = "Stop recording";
-    clog("Screen recording started.");
-    recSay("Recording... scroll the member list slowly. Still moments are skipped.");
-    timer = setInterval(grab, 2000);
-  };
-})();
 const savedProvider = lsGet("fcd_provider");
 if (savedProvider && PROVIDERS[savedProvider]) $("provider").value = savedProvider;
 $("provider").onchange = () => applyProvider(true);
@@ -604,14 +536,6 @@ const REAL_HOST = "fishing-cat-data.pages.dev";
   }
 }
 
-function toBase64(file) {
-  return new Promise((resolve, reject) => {
-    const r = new FileReader();
-    r.onload = () => resolve(r.result.split(",")[1]);
-    r.onerror = reject;
-    r.readAsDataURL(file);
-  });
-}
 
 // Tidy one value from the AI: text or number only, no hidden characters, not too long.
 const tidy = (v, n) => (typeof v === "string" || typeof v === "number") ? String(v).replace(/[\u0000-\u001f\u007f]/g, " ").trim().slice(0, n) : "";
@@ -886,7 +810,6 @@ function toCsv(rows) {
 
 // Make one picture ready to send: at most 2000 px on the long side, saved as JPEG (much smaller than a PNG screenshot).
 async function toPic(f) {
-  if (f.ready) return { type: f.type, data: await toBase64(f) };
   try {
     const bmp = await createImageBitmap(f);
     const sc = Math.min(1, 2000 / Math.max(bmp.width, bmp.height)), c = document.createElement("canvas");
@@ -1004,7 +927,7 @@ $("testgo").onclick = async () => {
     const pics = (await collectPictures([images[0]])).slice(0, 1);
     const text = await ASKERS[provider()](key, modelFor(provider()), pics);
     const rows = parseRows(text);
-    if (!rows.length) throw new Error("Test read: no member rows found. The picture may not show the member list. If you used Record screen, pick the Roblox window or Entire Screen, not this page.");
+    if (!rows.length) throw new Error("Test read: no member rows found. The picture may not show the member list.");
     const bad = rows.filter(r => r.name === "?" || parsePoints(r.points) === null).length;
     const first = rows.slice(0, 3).map(r => r.name + " " + r.points + (p.extra ? " (" + r.role + ")" : "")).join(", ");
     setMsg("Test read OK: " + rows.length + " rows from 1 picture. First: " + first + "." + (bad ? " " + bad + " unreadable." : "") + " If that looks right, tap Make my sheet. Nothing was downloaded.");
@@ -1027,7 +950,7 @@ $("go").onclick = async () => {
     if (p.ranks === false) rows.forEach((r, i) => { r.rank = i + 1; });
     const shown = (text.match(/"members_on_screen"\s*:\s*(\d+)/) || [])[1];
     clog("Found " + rows.length + " unique row(s).");
-    if (!rows.length) throw new Error("No member rows were found. The pictures may not show the member list. If you used Record screen, pick the Roblox window or Entire Screen, not this page.");
+    if (!rows.length) throw new Error("No member rows were found. The pictures may not show the member list.");
     let blob, ext = ".xlsx";
     await loadExcel();
     if (window.ExcelJS) {

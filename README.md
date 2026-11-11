@@ -1,6 +1,6 @@
 # Fishing Cat Data
 
-Turns Roblox clan screenshots or a screen recording into a ready-to-use Excel sheet: Rank, Username, Role and Points, with optional week-to-week change.
+Turns Roblox clan screenshots or a video into a ready-to-use Excel sheet: Rank, Username, Role and Points, with optional week-to-week change.
 
 **Built entirely by Claude, an AI.** The author gave the ideas and tested it. The AI wrote all the code, this page and the notes.
 
@@ -10,7 +10,7 @@ Turns Roblox clan screenshots or a screen recording into a ready-to-use Excel sh
 
 1. Paste your own AI key. Google Gemini is picked first and has a free key: tap **How to get a free key**. The free key has a daily limit. Anthropic also works; OpenAI is untested.
 2. Nothing to pick. The AI works out the game and clan itself.
-3. Drop in screenshots of the member list, a video, or tap **Record screen** on a PC and scroll the list.
+3. Drop in screenshots of the member list, or a video of you scrolling it (use your device's own screen recorder).
 4. Optional: choose last time's sheet to compare.
 5. Tap **Make my sheet**. After about 20 seconds an Excel file downloads.
 
@@ -24,7 +24,7 @@ Turns Roblox clan screenshots or a screen recording into a ready-to-use Excel sh
 
 ## Features
 
-- Screenshots (PNG, JPEG, WebP) or video (MP4, MOV, WEBM). From a video or a screen recording the page keeps the pictures that changed (up to 24 from a video, 30 from a recording), right in your browser. Record screen works in Chrome, Edge and Opera on a PC only.
+- Screenshots (PNG, JPEG, WebP) or video (MP4, MOV, WEBM). From a video the page keeps the pictures that changed (up to 24), right in your browser.
 - Remembers your last sheet on this device so you don't have to pick it again (names and points only). Tap **Remove** to forget it.
 - Themes (Auto, Light, Dark, Ocean, Forest, Berry) and Large text, in the Settings tab.
 - GitHub tab that links here, where this guide lives.
@@ -42,7 +42,7 @@ Turns Roblox clan screenshots or a screen recording into a ready-to-use Excel sh
 ## Known limits
 
 - **OpenAI is not tested yet** and may not work. Anthropic and Google Gemini have been tested.
-- Real runs of Record screen and the Clan name box are not tested yet. Phone layout was never checked.
+- A real run of the Clan name box is not tested yet.
 - A long video skips more of the list, so keep videos short or use screenshots. Rows cut off at the top or bottom edge are skipped.
 - The AI reads the names and points, so check any `?` or odd spelling by hand.
 - Rate limits and other AI errors show as a general "The AI said no" message.

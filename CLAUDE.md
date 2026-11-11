@@ -36,7 +36,6 @@ The owner (Ginger) does not code. Short, blunt answers. Plain words on screen.
 | Run lock and button states | `let running`, `function refresh` |
 | Video stills | `function videoFrames`, `function samePic` |
 | Picture shrinking and limits | `async function toPic`, `async function collectPictures`, `aiWait` |
-| Record screen (PC) | `// Record screen` |
 | Rows from AI reply | `function parseRows`, `function parsePoints` |
 | Excel sheet | `function buildWorkbook` |
 | Messages / errors | `const setMsg`, `copyerr` |
@@ -54,7 +53,7 @@ The owner (Ginger) does not code. Short, blunt answers. Plain words on screen.
 
 ## Tested / not tested
 - Tested: Anthropic, Google Gemini.
-- Not tested: OpenAI, Firefox pop-up window (Chrome/Edge/Opera only), phones.
+- Not tested: OpenAI, real AI runs since 11 Nov, a real phone by eye.
 
 ## Style on screen
 Clean and calm. No big coloured blocks, no boxes in boxes. Short button names (1 to 3 words), one grey help line at most. No jargon. Check light, dark and big-text themes.

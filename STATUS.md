@@ -1,20 +1,19 @@
 # Status (update on every push)
 
-Last updated: 12 Nov 2026. Page version 2026-11-12-b. Tabs are named Games (clan sheets) and Bills (energy bills). Live at fishing-cat-data.pages.dev.
+Last updated: 12 Nov 2026. Page version 2026-11-12-c. Record screen was removed on 12 Nov (Ginger's call); ignore older notes below that mention it. Tabs are named Games (clan sheets) and Bills (energy bills). Live at fishing-cat-data.pages.dev.
 
 ## How it works now
-Upload photos or a video (or tap Record screen on a PC). The AI reads the game, clan and layout from up to 3 of the pictures, then reads the member rows, and the page makes the Excel sheet. There is no profile list or Add a game any more. The optional Clan name box sets the file name. Gemini and Anthropic work.
+Upload photos or a video. The AI reads the game, clan and layout from up to 3 of the pictures, then reads the member rows, and the page makes the Excel sheet. There is no profile list or Add a game any more. The optional Clan name box sets the file name. Gemini and Anthropic work.
 
 Second tool, Energy bills tab (new 12 Nov): photos of power or gas bills go to the AI in one request with `BILL_PROMPT`. The AI only copies what is printed; `parseBills`, `parseNum` and `kwhFor` clean it and the sheet does the sums. Output is `Energy bills - ....xlsx` with a first tab (one row per charge) and a Summary tab (one column per bill, formulas, plus AI notes). Photos only, 12 at most, no PDFs. The key box (`keybox`) is shared by both tabs. `running` locks every start button during any run.
 
 ## Next
 - Check on GitHub (Actions tab) that the auto check ran green after the first push.
-- Ginger tests a real run: Record screen, pick the Roblox window or Entire Screen, scroll the list, tap Make my sheet, then send a screenshot.
+- Ginger tests a real run on the live site: a real clan video in Games, and a real bill photo in Bills, then sends a screenshot.
 - Optional: auto-save the new sheet as the next Last sheet.
 
 ## Known problems / not tested
 - Not tested in a real run: Clan name box, skipping repeated pictures (video and Record screen), reading layout from 3 pictures, Log box opening on errors, collapsible days in Updates, new tags and hover time (checked for syntax only, not looked at on screen).
-- Record screen pop-up window works only in Chrome, Edge and Opera. Firefox just shows messages on the page. Phones can't record in the page at all (they use the phone's own recorder).
 - 11 Nov review (version ag): video reading was tested in headless Chrome with a made-up 40 second video (24 pictures kept, spread over the whole video; broken and sound-only videos show an error). Row reading has unit tests run by hand. Not tested with a real key or a real Roblox video.
 - 11 Nov stress test (version ak): 30 pretend phone screenshots, a 9000 px picture, a corrupt picture, 5 videos at once, an AI that never answers, switching company mid-run, 50 runs in a row, CSV fallback: all pass in headless Chrome. Uploaded pictures are now re-saved as JPEG, 2000 px at most (`toPic`); limits are 100 pictures and about 18 MB per run (`collectPictures`); AI requests time out after 3 minutes (`aiWait`). Record screen could NOT be tested here (screen capture is blocked in the test browser).
 - Still one request for all pictures: accuracy may drop with 20+ pictures. Small batches would help but use more requests on the free Gemini key. Whether re-saving as JPEG changes how well the AI reads real screenshots is not tested.
@@ -28,7 +27,7 @@ Second tool, Energy bills tab (new 12 Nov): photos of power or gas bills go to t
 - The live security header (CSP in `_headers`) was never checked on the real site.
 - "Remember my key" was seen ticked in a Firefox video but not otherwise checked.
 - The Help tab is now a GitHub tab; the guide is README.md. Stay safe is plain text and must be updated by hand.
-- Updates: the page shows the newest 5 entries; the full history is in CHANGELOG.md. Newest entry (Clearer tab names) has no `commit:` yet. The Excel part (exceljs) now loads on demand through `loadExcel`. Add it on the next push.
+- Updates: the page shows the newest 5 entries; the full history is in CHANGELOG.md. Newest entry (Record screen removed) has no `commit:` yet. The Excel part (exceljs) now loads on demand through `loadExcel`. Add it on the next push.
 - Fingerprint: not recorded.
 
 ## Ideas Ginger has not approved
