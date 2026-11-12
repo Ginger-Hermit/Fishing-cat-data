@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Safe names in Discord posts
+
+12 Nov 2026 (10:48 UTC) · Changed
+
+A player or bill name can no longer turn into a fake link or break the Discord message.
+
+> [!NOTE]
+> **What you'll see:** Post to Discord on either tab
+
+- Names, roles, clan, game and bill text are escaped before posting
+
 ## No ping everyone
 
 12 Nov 2026 (10:42 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/231ff87)

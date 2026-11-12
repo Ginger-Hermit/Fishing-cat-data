@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The Discord ping choice no longer has @here or @everyone, so the whole channel can't be pinged by mistake. Role pings stay. -->
+<!-- Patch note: A player or bill name can no longer turn into a fake link or break the Discord message. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -426,7 +426,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-zi";
+const BUILD = "2026-11-12-zj";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1471,14 +1471,17 @@ function xlTable(o) {
 // ---- Preview: check and fix the list before the sheet is made ----
 let pv = null;
 const pvBad = (r) => /\?/.test(String(r.name)) || !String(r.name).trim() || parsePoints(r.points) === null;
-const dcHead = (clan, game, date, n, tot) => "## " + clan + " \u00b7 " + game + "\n-# " + date + "\n**" + n + "** members \u00b7 **" + tot + "** points";
+// Player text goes to Discord as plain words: no fake links, no broken code blocks
+const dcMd = (v) => String(v ?? "").replace(/[\r\n]+/g, " ").replace(/`/g, "'").replace(/[\\*_~|>#\[\]()<:@-]/g, "\\$&");
+const dcCode = (v) => String(v ?? "").replace(/[\r\n]+/g, " ").replace(/`/g, "'");
+const dcHead = (clan, game, date, n, tot) => "## " + dcMd(clan) + " \u00b7 " + dcMd(game) + "\n-# " + date + "\n**" + n + "** members \u00b7 **" + tot + "** points";
 const dcBreakdown = (sh, f) => {
   const it = sh.items, n = it.length, tot = it.reduce((a, x) => a + x.n, 0), sg = (d) => (d >= 0 ? "+" : "-") + f(Math.abs(d)), pc = (d, b) => (b ? " (" + (d > 0 ? "+" : "") + (d / b * 100).toFixed(1) + "%)" : "");
   const dt = (d) => d.toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
-  const blk = (sign, lines, total) => "\n```diff\n" + lines.map((l) => sign + " " + l).join("\n") + (total > lines.length ? "\n  and " + (total - lines.length) + " more (see the file)" : "") + "\n```";
-  let t = "## " + sh.clan + " \u00b7 " + sh.game + "\n-# " + sh.date + " \u00b7 " + n + " members \u00b7 " + f(tot) + " points";
+  const blk = (sign, lines, total) => "\n```diff\n" + lines.map((l) => sign + " " + dcCode(l)).join("\n") + (total > lines.length ? "\n  and " + (total - lines.length) + " more (see the file)" : "") + "\n```";
+  let t = "## " + dcMd(sh.clan) + " \u00b7 " + dcMd(sh.game) + "\n-# " + dcMd(sh.date) + " \u00b7 " + n + " members \u00b7 " + f(tot) + " points";
   const roles = {}; it.forEach((x) => { const k = x.role || "No role"; roles[k] = (roles[k] || 0) + 1; });
-  t += "\n### Clan Members\n- " + Object.entries(roles).sort((x, y) => y[1] - x[1]).map(([k, c]) => c + " " + k + (c > 1 ? (/(s|x|ch|sh)$/i.test(k) ? "es" : "s") : "")).join(", ") + "\n- About " + f(tot / Math.max(n, 1)) + " points each";
+  t += "\n### Clan Members\n- " + Object.entries(roles).sort((x, y) => y[1] - x[1]).map(([k, c]) => c + " " + dcMd(k) + (c > 1 ? (/(s|x|ch|sh)$/i.test(k) ? "es" : "s") : "")).join(", ") + "\n- About " + f(tot / Math.max(n, 1)) + " points each";
   if (sh.any) {
     const ret = it.filter((x) => x.b !== null), fresh = it.filter((x) => x.b === null), d = ret.reduce((a, x) => a + x.n - x.b, 0), b0 = ret.reduce((a, x) => a + x.b, 0);
     const up = ret.filter((x) => x.n > x.b).sort((x, y) => (y.n - y.b) - (x.n - x.b)), dn = ret.filter((x) => x.n < x.b).sort((x, y) => (x.n - x.b) - (y.n - y.b)), same = ret.length - up.length - dn.length;
@@ -1678,11 +1681,11 @@ function hookText(compact) {
   let t = dcHead(pv.p.clan, pv.p.game, todayText(), rows.length, f(tot));
   if (pm && (up.length || dn.length || same)) {
     t += "\n**" + sg(change) + pc(change, before) + "** since last run (returning members)\nUp " + up.length + " \u00b7 Down " + dn.length + " \u00b7 Same " + same + " \u00b7 New " + fresh.length;
-    if (up.length && !compact) t += "\n**Top gains**\n" + up.slice(0, 5).map((g, i) => (i + 1) + ". " + g[0] + " " + sg(g[1]) + pc(g[1], g[2])).join("\n");
-    if (dn.length && !compact) t += "\nBiggest drops: " + dn.slice(0, 3).map((g) => g[0] + " " + sg(g[1])).join(", ");
-    if (fresh.length) t += "\nNew: " + fresh.slice(0, 10).join(", ") + (fresh.length > 10 ? " and " + (fresh.length - 10) + " more" : "");
+    if (up.length && !compact) t += "\n**Top gains**\n" + up.slice(0, 5).map((g, i) => (i + 1) + ". " + dcMd(g[0]) + " " + sg(g[1]) + pc(g[1], g[2])).join("\n");
+    if (dn.length && !compact) t += "\nBiggest drops: " + dn.slice(0, 3).map((g) => dcMd(g[0]) + " " + sg(g[1])).join(", ");
+    if (fresh.length) t += "\nNew: " + fresh.slice(0, 10).map(dcMd).join(", ") + (fresh.length > 10 ? " and " + (fresh.length - 10) + " more" : "");
     const left = [...pm.keys()].filter((k) => !here.has(k));
-    if (left.length) t += "\nNot in this list: " + left.slice(0, 10).join(", ") + (left.length > 10 ? " and " + (left.length - 10) + " more" : "");
+    if (left.length) t += "\nNot in this list: " + left.slice(0, 10).map(dcMd).join(", ") + (left.length > 10 ? " and " + (left.length - 10) + " more" : "");
   }
   return t.slice(0, 1900);
 }
@@ -2006,7 +2009,7 @@ async function bpPost() {
     billSay("Posting to Discord...");
     await loadExcel();
     if (!window.ExcelJS) throw new Error("The spreadsheet part did not load. Refresh the page.");
-    const text = ("**Bills** \u00b7 " + todayText() + "\n" + bills.map((b) => b.supplier + (b.billDate ? " \u00b7 " + b.billDate : "") + " \u00b7 " + b.lines.length + " charges" + (b.total !== null ? " \u00b7 " + (b.currency || "") + " " + b.total : "")).join("\n")).slice(0, 1900);
+    const text = ("**Bills** \u00b7 " + todayText() + "\n" + bills.map((b) => dcMd(b.supplier) + (b.billDate ? " \u00b7 " + dcMd(b.billDate) : "") + " \u00b7 " + b.lines.length + " charges" + (b.total !== null ? " \u00b7 " + dcMd(b.currency || "") + " " + b.total : "")).join("\n")).slice(0, 1900);
     const name = "Bills - " + (bills.length === 1 ? clean(bills[0].supplier, 40) || "bill" : bills.length + " bills") + ".xlsx";
     const pic = await billPic(bills).catch((e) => { clog("Table picture skipped: " + why(e)); return null; });
     const sent = await hookPost(text, [pic, $("hookxlsx").checked && { blob: new Blob([await buildBillBook(window.ExcelJS, bills, todayText()).xlsx.writeBuffer()], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), name }].filter(Boolean));
