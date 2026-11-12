@@ -7,7 +7,7 @@ Turn Roblox clan screenshots or video, and photos of household bills, into Excel
 
 ## At a glance
 - **Clan sheet:** screenshots or a video of a Roblox clan member list (any Roblox game) become a sheet with Rank, Username, Role and Points. Add last week's sheet to see the change.
-- **Bills:** photos of power, gas, water, phone and other bills become a sheet with one row per charge, plus a Summary tab with cost by type.
+- **Bills:** photos of power, gas, water, phone and other bills become a sheet with one row per charge, plus a **Summary** tab with cost by type.
 - **Check before you download:** after the AI reads your pictures, an Excel-style table lets you fix any cell first.
 - **Your own AI key:** Google Gemini is the default and has a free key. Anthropic works too. OpenAI is not tested yet.
 - **Private:** no accounts and no server of ours. Pictures go only to the AI company you pick, straight from your browser.

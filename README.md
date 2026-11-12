@@ -18,9 +18,9 @@ Turns clan screenshots or a video from any Roblox game into a ready-to-use Excel
 
 ## What you get
 
-- An Excel file named after the game and clan (or the Clan name you type), like `Roblox - Gym League - Loki.xlsx`.
-- **Clan Members** tab: coloured ranks and roles, plus Rank, Username, Role, Points (as shown, e.g. `52.51K`) and Points (number, e.g. `52510`). The number column is a real number, so you can sort and add it.
-- With a last sheet chosen: Previous Points, Change, % Change and a Trend arrow (new members show as "new"). These are formulas, so fixing a misread number updates them.
+- An Excel file named after the game and clan (or the **Clan name** you type), like `Roblox - Gym League - Loki.xlsx`.
+- **Clan Members** tab: coloured ranks and roles, plus **Rank**, **Username**, **Role**, **Points** (as shown, e.g. `52.51K`) and **Points** (number, e.g. `52510`). The number column is a real number, so you can sort and add it.
+- With a last sheet chosen: **Previous Points**, **Change**, **% Change** and a **Trend** arrow (new members show as "new"). These are formulas, so fixing a misread number updates them.
 - **About this sheet** tab: what each column means.
 - Anyone who appears in more than one picture is listed once.
 
@@ -28,24 +28,24 @@ Turns clan screenshots or a video from any Roblox game into a ready-to-use Excel
 
 - Screenshots (PNG, JPEG, WebP) or video (MP4, MOV, WEBM). From a video the page keeps the pictures that changed (up to 24), right in your browser.
 - Remembers your last sheet on this device so you don't have to pick it again (names and points only). Tap **Remove** to forget it.
-- Themes (Auto, Light, Dark, Ocean, Forest, Berry) and Large text, in the Settings tab.
+- Themes (Auto, Light, Dark, Ocean, Forest, Berry) and **Large text**, in the **Settings** tab.
 - A GitHub link on the Home tab, where this guide lives.
 - **Home tab** that explains what the page does, then **Clan sheet** and **Bills** tabs for the two tools.
-- **Bills tab:** add photos of household bills (power, gas, water, internet, phone and more) and get a sheet with one row per charge and a Summary tab. Usage is turned into kWh (from MJ, therms, or gas volume using the factors printed on the bill) so bills can be compared. Money is kept in the bill's own currency. Bills are private: the whole photo goes to the AI company you pick, so only upload your own.
+- **Bills tab:** add photos of household bills (power, gas, water, internet, phone and more) and get a sheet with one row per charge and a **Summary** tab. Usage is turned into kWh (from MJ, therms, or gas volume using the factors printed on the bill) so bills can be compared. Money is kept in the bill's own currency. Bills are private: the whole photo goes to the AI company you pick, so only upload your own.
 - The update history is in [CHANGELOG.md](CHANGELOG.md), one plain-English entry per change.
-- Live steps with a timer under Make my sheet, and a Log box that opens by itself during a run on both tabs, with a Copy bug report button. A red Copy error button shows under any error.
-- Optional Clan name box, optional Remember my key, and a banner when a new version is out.
+- Live steps with a timer under **Make my sheet**, and a **Log** box that opens by itself during a run on both tabs, with a **Copy bug report** button. A red **Copy error** button shows under any error.
+- Optional **Clan name** box, optional **Remember my key**, and a banner when a new version is out.
 
 ## Privacy
 
-- Your key is only saved if you tick "Remember my key", and then only in your own browser. Untick to delete it.
+- Your key is only saved if you tick **Remember my key**, and then only in your own browser. Untick to delete it.
 - Pictures go only to the AI company you pick, straight from your browser. There is no server of our own and no tracking.
 - Theme, text size and the last sheet are stored on your device only.
 
 ## Known limits
 
 - **OpenAI is not tested yet** and may not work. Anthropic and Google Gemini have been tested.
-- A real run of the Clan name box is not tested yet.
+- A real run of the **Clan name** box is not tested yet.
 - A long video skips more of the list, so keep videos short or use screenshots. Rows cut off at the top or bottom edge are skipped.
 - The AI reads the names and points, so check any `?` or odd spelling by hand.
 - Rate limits and other AI errors show as a general "The AI said no" message.
