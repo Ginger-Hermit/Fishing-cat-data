@@ -31,6 +31,9 @@ Tell it to search for the exact spot instead of reading every file, to send only
 ## 8. Be the tester
 Claude cannot hold your phone or post in your real Discord. Run the real thing yourself and send a screenshot. That is your main job.
 
+## The manual steps
+Only a few things need your hands: accounts, connecting GitHub, connecting a free host, and testing on your phone. They are listed in [Setup steps](SETUP_STEPS.md).
+
 ## What went wrong
 - Unclear requests got the wrong thing built twice. One short question beats a wrong build.
 - Never paste secret keys into a chat. If you do, delete the key.

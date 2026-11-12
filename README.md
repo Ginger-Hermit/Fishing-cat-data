@@ -69,6 +69,7 @@ All rights reserved. You can use the site and read the code, but not copy, re-ho
 - Each change to `index.html` is released with `python3 tools/release.py`, which bumps the version and writes the changelog entry (see `CLAUDE.md`).
 - `python3 tests/check.py` is the auto check. GitHub runs it after every push, along with the other tests, including `tests/browser.test.js` in Chrome, Firefox and Safari's engine.
 - Every push to `main` publishes automatically after about a minute.
+- [developer/SETUP_STEPS.md](developer/SETUP_STEPS.md): the manual steps to set it up: GitHub, a free web host, repo safety settings, and a real test.
 - [developer/HOW_TO_BE_LAZY_WITH_CLAUDE.md](developer/HOW_TO_BE_LAZY_WITH_CLAUDE.md): a copyable guide to getting Claude to do almost everything when you make an app on GitHub.
 - [developer/THE_LAZY_WAY.md](developer/THE_LAZY_WAY.md): how a non-coder got Claude to build all of this, the lazy way, including what went wrong.
 - [developer/HOW_IT_WAS_BUILT.md](developer/HOW_IT_WAS_BUILT.md): how the whole page was built, step by step, in plain words.
