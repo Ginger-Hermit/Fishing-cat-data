@@ -62,6 +62,12 @@ Not our code. The host added it. We moved hosts.
 
 Claude rewrote it in plain words.
 
+## The first website (11 Nov)
+
+The page had a profile list and an "Add a game" form, a Record screen button, and an Updates tab. All three were later deleted.
+
+<table><tr><td align="center" valign="top"><img src="https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/web_add_game_form.png" width="170"><br><sub>Add a game form</sub></td><td align="center" valign="top"><img src="https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/web_record_screen.png" width="170"><br><sub>Record screen button</sub></td><td align="center" valign="top"><img src="https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/web_updates_tab.png" width="170"><br><sub>Updates tab</sub></td></tr></table>
+
 ## Then the website
 
 > "This spacing and the discord thingy?"
