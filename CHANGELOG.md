@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Fewer colours
+
+12 Nov 2026 (06:57 UTC) · Changed
+
+The sheet and preview only use colour for up, down, left the clan and check this.
+
+**What you'll see:** Make a sheet: no gold, silver, bronze or role colours.
+
+- Removed rank medal colours and Owner/Coach colours from the sheet and preview; the About tab colour key lists only what is left.
+
 ## Less clutter after a read
 
-12 Nov 2026 (06:56 UTC) · Changed
+12 Nov 2026 (06:56 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/694e7ec)
 
 After a read there are fewer lines of small print above the preview.
 

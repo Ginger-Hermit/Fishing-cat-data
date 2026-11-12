@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: After a read there are fewer lines of small print above the preview. -->
+<!-- Patch note: The sheet and preview only use colour for up, down, left the clan and check this. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -100,7 +100,7 @@ button:disabled{opacity:.5}
 <p style="margin:6px 0 0;font-size:14px;opacity:.75">A sample with made-up players. Yours will have your clan's names.</p>
 <ul style="margin:10px 0 0;padding-left:20px;line-height:1.6">
 <li><b>Clan Members:</b> everyone's rank, role and points, with the change since last time.</li>
-<li><b>Leaderboard:</b> who gained the most, with gold, silver and bronze for the top 3.</li>
+<li><b>Leaderboard:</b> who gained the most.</li>
 <li><b>Points history:</b> one column per week, with a clan total.</li>
 <li><b>About</b> and <b>How it's worked out:</b> what every tab and colour means.</li>
 <li><b>Bills:</b> add photos or PDFs of power, gas, water, internet or phone bills and get one row per charge, plus a summary.</li>
@@ -379,7 +379,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-y";
+const BUILD = "2026-11-12-z";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -837,7 +837,7 @@ function buildWorkbook(EJ, rows, prev, p, when) {
     const c = ws.getCell(3, i + 1);
     c.value = h; c.font = { bold: true, color: { argb: "FFFFFFFF" } }; c.fill = fill(NAVY);
   });
-  const rankLook = { 1: ["FFFFF2CC", "FF7F6000"], 2: ["FFEDEDED", "FF404040"], 3: ["FFFBE5D6", "FF843C0C"] };
+  const rankLook = {}; // no rank medals or role colours: only up, down and left-the-clan have colour
   rows.forEach((r, i) => {
     const n = i + 4;
     const rk = ws.getCell(n, 1);
@@ -849,8 +849,6 @@ function buildWorkbook(EJ, rows, prev, p, when) {
     const role = ws.getCell(n, 3);
     role.value = r.role || "";
     if (p.extra) { /* extra column: plain text */ }
-    else if (/owner/i.test(role.value)) { role.font = { bold: true, color: { argb: "FF7F6000" } }; role.fill = fill("FFFFE699"); }
-    else if (/coach/i.test(role.value)) { role.font = { bold: true, color: { argb: "FF843C0C" } }; role.fill = fill("FFFCE4D6"); }
     ws.getCell(n, 4).value = String(r.points);
     ws.getCell(n, 4).font = { color: { argb: GREY } };
     const num = parsePoints(r.points);
@@ -1104,9 +1102,6 @@ function buildWorkbook(EJ, rows, prev, p, when) {
   [
     ["Green", "Went up.", "FFC6EFCE", "FF006100"],
     ["Red", "Went down.", "FFFFC7CE", "FF9C0006"],
-    ["Gold", "Rank 1.", "FFFFF2CC", "FF7F6000"],
-    ["Silver", "Rank 2.", "FFEDEDED", "FF404040"],
-    ["Bronze", "Rank 3.", "FFFBE5D6", "FF843C0C"],
     ["Grey", "Left the clan. Kept so the history stays.", "FFFFFFFF", "FF9A9A9A"]
   ].forEach((r, i) => {
     const n = ck + 1 + i;
@@ -1127,7 +1122,7 @@ function buildWorkbook(EJ, rows, prev, p, when) {
     ["Best run", "The biggest gain between two runs in a row.", `IFERROR(${nm}&": best was "&${fm("Leaderboard!E4")}&" on "&TEXT(Leaderboard!F4,"d mmm yy"),"Needs two runs")`],
     ["Avg / day", "Gained divided by the days between their first and last run.", `IFERROR(${nm}&": "&${fm("Leaderboard!D4")}&" over "&(Leaderboard!J4-Leaderboard!H4)&" days = "&${fm("Leaderboard!G4")}&" a day","Needs two runs on different days")`],
     ["Clan total", "All members' points added up for each run (Points history tab). The line under it is the clan's gain.", `"Latest run: "&${fm(`${HS}${LC}${tr}`)}`],
-    ["Colours", "Green = went up. Red = went down. Grey name = left the clan (kept so the history stays).", `"Top 3 on the Leaderboard are shaded gold, silver and bronze."`]
+    ["Colours", "Green = went up. Red = went down. Grey name = left the clan (kept so the history stays).", `"Only up, down and left-the-clan have colours."`]
   ].forEach((r, i) => {
     const n = 5 + i;
     hw.getCell(n, 1).value = r[0]; hw.getCell(n, 2).value = r[1]; hw.getCell(n, 3).value = { formula: r[2] };
@@ -1571,7 +1566,7 @@ function pvDraw() {
     const role = String(r.role || "");
     return { bad: pvBad(r), delLabel: "Delete row " + (i + 1), del: () => { pv.rows.splice(i, 1); pvDraw(); }, cells: [
       Object.assign({ cls: "r" }, ed("rank", "36px", "Rank")), ed("name", "110px", "Username"),
-      Object.assign({ cls: pv.p.extra ? "" : /owner/i.test(role) ? "own" : /coach/i.test(role) ? "coach" : "" }, ed("role", "84px", "Role")), Object.assign({ cls: "r" }, ed("points", "84px", "Points")),
+      Object.assign({ cls: "" }, ed("role", "84px", "Role")), Object.assign({ cls: "r" }, ed("points", "84px", "Points")),
       { t: n === null ? "" : String(n), cls: "r" }, { t: has ? String(b) : "", cls: "r" },
       { t: d === null ? "" : (d > 0 ? "+" : "") + d, cls: "r " + cl }, { t: d === null || !b ? "" : (d > 0 ? "+" : "") + (d / b * 100).toFixed(1) + "%", cls: "r " + cl },
       { t: d !== null ? (d > 0 ? "▲" : d < 0 ? "▼" : "–") : pm && n !== null ? "new" : "", cls: "r " + cl }] };
