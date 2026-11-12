@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## AI flags names it is unsure of
+
+12 Nov 2026 (23:50 UTC) · New
+
+Names the AI isn't sure about show orange in the table so you can check them.
+
+> [!TIP]
+> **What you'll see:** Clan check-your-list table
+
+- AI marks unsure names; the table counts them as needing a look.
+
 ## Better name reading
 
-12 Nov 2026 (23:49 UTC) · Changed
+12 Nov 2026 (23:49 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0b338e9)
 
 The AI is told to copy names letter by letter: 1 vs l, and underscores not dots.
 

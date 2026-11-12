@@ -1,4 +1,4 @@
-// Patch note: The AI is told to copy names letter by letter: 1 vs l, and underscores not dots.
+// Patch note: Names the AI isn't sure about show orange in the table so you can check them.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -17,7 +17,7 @@ function buildPrompt(p) {
   return `These images show the member list of a Roblox game clan screen.
 Each row shows ${rankLine}, a username, ${roleLine} and a points number (like 52.51K, 1.307M or 507).
 The list may scroll: later images often show lower rows. Read EVERY image to the last one, and EVERY row that is fully visible in each. Skip rows cut off at the top or bottom edge. Keep rows in the order shown, top first.
-Copy usernames exactly, letter by letter. Roblox names use only letters, digits and one underscore "_" (never dots or spaces). Look closely at 1 vs l vs I and 0 vs O; a digit next to other digits is usually a digit. Points: copy exactly as shown. Never guess; use "?" if unreadable.
+Copy usernames exactly, letter by letter. Roblox names use only letters, digits and one underscore "_" (never dots or spaces). Look closely at 1 vs l vs I and 0 vs O; a digit next to other digits is usually a digit. If you are not sure of any letter in a name, add "unsure": true to that row. Points: copy exactly as shown. Never guess; use "?" if unreadable.
 If a member count is shown on screen (like "Members 49"), add one last object {"members_on_screen": 49}.
 Answer with ONLY a JSON array, no other text:
 [{"rank": 12, "name": "example_name", "role": "${p.extra ? "value" : "Member"}", "points": "16.6K"}, ...]`;
@@ -72,7 +72,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-zzg";
+const BUILD = "2026-11-12-zzh";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -374,6 +374,7 @@ function parseRows(text) {
     const k = r.name.toLowerCase();
     if (k !== "?" && seen.has(k)) return false;
     seen.add(k);
+    r.unsure = r.unsure === true;
     r.role = tidy(r.role, 40);
     r.points = tidy(r.points, 20) || "?";
     const n = Number(String(r.rank ?? "").replace(/^#\s*/, ""));
@@ -1169,7 +1170,7 @@ function xlTable(o) {
 }
 // ---- Preview: check and fix the list before the sheet is made ----
 let pv = null;
-const pvBad = (r) => /\?/.test(String(r.name)) || !String(r.name).trim() || parsePoints(r.points) === null;
+const pvBad = (r) => r.unsure || /\?/.test(String(r.name)) || !String(r.name).trim() || parsePoints(r.points) === null;
 // Player text goes to Discord as plain words: no fake links, no broken code blocks
 const dcMd = (v) => String(v ?? "").replace(/[\r\n]+/g, " ").replace(/`/g, "'").replace(/[\\*_~|>#\[\]()<:@-]/g, "\\$&");
 const dcCode = (v) => String(v ?? "").replace(/[\r\n]+/g, " ").replace(/`/g, "'");
@@ -1441,7 +1442,7 @@ function pvDraw() {
   const rows = pv.rows.map((r, i) => {
     const n = parsePoints(r.points), b = pm ? pm.get(String(r.name).trim().toLowerCase()) : undefined, has = typeof b === "number" && n !== null, d = has ? n - b : null;
     const cl = d === null ? "" : d > 0 ? "up" : d < 0 ? "dn" : "";
-    const ed = (k, w, label) => ({ edit: { value: r[k] === undefined || r[k] === null ? "" : String(r[k]), w, label: label + ", row " + (i + 1), input: (v) => { r[k] = v; } } });
+    const ed = (k, w, label) => ({ edit: { value: r[k] === undefined || r[k] === null ? "" : String(r[k]), w, label: label + ", row " + (i + 1), input: (v) => { r[k] = v; if (k === "name") r.unsure = false; } } });
     const role = String(r.role || "");
     return { bad: pvBad(r), delLabel: "Delete row " + (i + 1), del: () => { pv.rows.splice(i, 1); pvDraw(); }, cells: [
       Object.assign({ cls: "r" }, ed("rank", "36px", "Rank")), ed("name", "110px", "Username"),
