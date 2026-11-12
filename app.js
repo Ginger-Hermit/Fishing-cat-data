@@ -1,4 +1,4 @@
-// Patch note: Names the AI isn't sure about show orange in the table so you can check them.
+// Patch note: The developer line at the top is easier to read, with a Get button when a new version is live.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -72,7 +72,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-zzh";
+const BUILD = "2026-11-12-zzi";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -965,7 +965,13 @@ function devPics(pics) {
 if (DEV && location.protocol.startsWith("http")) {
   const bar = document.createElement("div"); bar.id = "devbar"; document.body.prepend(bar);
   let next = 0, live = "?";
-  const show = () => { bar.textContent = "Developer · this page " + BUILD + " · live " + live + (live !== "?" && live !== BUILD ? " · New version is live: refresh" : "") + " · next check " + next + "s"; };
+  const sp = (t, c) => Object.assign(document.createElement("span"), { textContent: t, className: c || "" });
+  const show = () => {
+    const kids = [sp("Developer", "dvk"), sp("Version " + BUILD.slice(-3))];
+    if (live !== "?" && live !== BUILD) { const r = Object.assign(document.createElement("button"), { type: "button", textContent: "Get " + live.slice(-3) }); r.onclick = () => location.reload(); kids.push(r); }
+    else kids.push(sp(live === BUILD ? "Up to date" : "Checking\u2026", "dvm"));
+    kids.push(sp("Next check " + next + "s", "dvm")); bar.replaceChildren(...kids);
+  };
   const look = async () => { try { const r = await fetch("version.txt?t=" + Date.now(), { cache: "no-store", signal: AbortSignal.timeout(15000) }); const v = (await r.text()).trim(); if (r.ok && /^[\w.-]{1,40}$/.test(v)) live = v; } catch (e) {} next = 30; show(); };
   setInterval(() => { if (--next <= 0) look(); else show(); }, 1000); look();
 }

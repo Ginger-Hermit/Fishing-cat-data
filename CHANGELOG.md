@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Tidier developer bar
+
+12 Nov 2026 (23:51 UTC) · Changed
+
+The developer line at the top is easier to read, with a Get button when a new version is live.
+
+> [!NOTE]
+> **What you'll see:** Top of page in developer mode
+
+- Developer bar reworded and spaced out.
+
 ## AI flags names it is unsure of
 
-12 Nov 2026 (23:50 UTC) · New
+12 Nov 2026 (23:50 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8c75155)
 
 Names the AI isn't sure about show orange in the table so you can check them.
 
