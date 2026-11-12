@@ -1,39 +1,30 @@
 # Status
 
 Last updated: 12 Nov 2026. Page version 2026-11-12-a. Live at fishing-cat-data.pages.dev.
-`tools/release.py` keeps the two values above up to date. Keep this file under 60 lines: it is read at the start of every chat.
+`tools/release.py` keeps the version and date up to date. Keep this file under 50 lines.
 
 ## What the page does
-- **Home tab** explains the page. **Clan sheet tab:** screenshots or a video of a Roblox clan member list (any Roblox game) become an Excel sheet. Two AI requests per run (layout, then rows). An earlier sheet can be added to show changes.
-- **Bills tab:** photos of household bills (power, gas, water, phone and more; 12 at most) become a sheet with one row per charge and a Summary tab with cost by type. One AI request. The AI only copies; the sheet does the sums.
-- Gemini is the default company (free key). Anthropic works. OpenAI is untested.
-- Record screen and the Updates tab were removed on 12 Nov. Update history is only in CHANGELOG.md. Live steps and a live Log show during a run. After a read, an Excel-style table lets you fix cells before Download sheet (both tabs). Settings has a Privacy section (see and delete what is saved).
+- **Home** explains the page. **Roblox clan sheet:** screenshots or video of a clan list become an Excel sheet (two AI requests: layout, then rows). An earlier sheet adds history tabs (Leaderboard, Points history, How it's worked out), no extra AI.
+- **Bills:** photos or PDFs of household bills (12 at most) become an Excel file: Summary first (sections, "Same as the bill?" check), then every charge. One AI request. The AI only copies; the sheet does the sums.
+- Gemini is the default (free key). Anthropic works. OpenAI untested. After a read, an Excel-style table lets you fix cells before Download. Settings has Privacy (see and delete what is saved). Update history is in CHANGELOG.md only.
+- The Log and "Copy bug report" are detailed: timings, sizes, AI token counts, errors.
 
 ## Next
-- **Next chat starts here:** build **Post to Discord** (details below). Also offered, not built: preview tabs for Leaderboard and Points history; one AI request per clan run (would save ~20s on Gemini).
-- Ginger: one real run of each tab on the live site (real clan video, real bill photo), then a screenshot. Nothing since 11 Nov has been run with a real AI.
-- **Clan history tabs built 12 Nov** (Clan Members stays first, then Leaderboard, Points history, How it's worked out). History is carried forward by `readHistory` from the earlier sheet; no AI. An earlier sheet with no history becomes the first column. A third run on one day replaces that day's column. Earlier months fold into one column (last run of that month); first-run points are kept in hidden Leaderboard columns H to J. Season Info box removed, Clan Summary now at K3. About tab shortened (wording guessed, the sample file is not in the repo). Not checked by eye in real Excel (tested with LibreOffice only).
-- **Approved by Ginger 12 Nov, not built: Post to Discord (webhook).** Next to build. First check that Discord takes a file posted from a web page (CORS); if not, post the message only.
-  - Settings: one box "Discord webhook link" with a **Test** button (posts "Fishing Cat Data is connected"). Off until a link is pasted. Stored in the browser only (`fcd_hook`), shown and deletable in Privacy, scrubbed from Log and bug report like the key. Accept only `https://discord.com/api/webhooks/...`.
-  - After a clan read: **Post to Discord** button next to Download sheet, with a preview of the message (clan, date, top 3 gained with medals, clan total, new players) built by the page, no AI. Posts message plus the .xlsx. Only on tap. Never on Bills.
-  - Also a **Copy message** button (no webhook needed).
-  - Needs `https://discord.com` in `_headers` connect-src, a Stay safe line, and the "nothing leaves your PC" wording changed to mention Discord when turned on. Never ask Ginger for the webhook link.
-  - Sample sheet she approved the look from: built in chat 12 Nov (tabs Leaderboard, Points history, How it's worked out, simpler About, colour keys, Clan Summary without the empty Season Info box). Tab is called **Points history**, not Every run.
-- Offered, not approved: one AI request per clan run instead of two; shorter AI replies; PDF bills; compare with the last bill; preview addresses instead of pushing straight to live.
+- **Bills slow on Gemini** (80s+ for 2 photos, 12 Nov, not the page). Waiting for a finished Copy bug report to see tokens and thinking time. Idea: Gemini `thinkingLevel` "minimal" with fallback to "low", plus JSON-only output.
+- **Post to Discord (approved 12 Nov, not built).** First check that Discord takes a file from a web page (CORS), else post the message only. Settings box "Discord webhook link" + Test (stored in browser as `fcd_hook`, shown and deletable in Privacy, scrubbed from Log and bug report, only `https://discord.com/api/webhooks/...`). After a clan read: **Post to Discord** (preview: clan, date, top 3 gained, total, new players; built by the page, no AI; message plus .xlsx; on tap only; never on Bills) and **Copy message**. Needs `https://discord.com` in `_headers`, a Stay safe line, "nothing leaves your PC" wording updated. Never ask for the webhook link.
+- Ginger: one real run of each tab on the live site, then a screenshot.
+- Offered, not approved: one AI request per clan run (saves ~20s on Gemini); PDF-bill and compare-with-last-bill ideas; preview tabs for Leaderboard and Points history.
 
 ## Tested
-- GitHub runs everything after each push: `check.py`, row tests, bill tests, fuzz (5,000 cases), and `tests/browser.test.js` in Chrome, Firefox and Safari's engine with a pretend AI. A red cross there means fix it first.
-- Stress and fuzz results, with numbers: `developer/STRESS_TEST_LOG.md`.
+GitHub runs `check.py`, row, bill and fuzz tests, and the page in Chrome, Firefox and Safari's engine with a pretend AI after every push. Stress results: `developer/STRESS_TEST_LOG.md`.
 
 ## Not tested
-- Real Excel by eye for the new tabs and the bills sheet. The bills Test button. PDF bills with a real AI.
-- Any real AI call since 11 Nov, including the whole Bills tab and re-saving pictures as JPEG before sending.
-- A real phone by eye (widths were simulated).
-- OpenAI. The live security header (`_headers`). "Remember my key" beyond one sighting.
+- Any real AI call since 11 Nov (Bills tab, JPEG re-save, PDFs). OpenAI.
+- Real Excel by eye (new clan tabs, new Bills Summary): only LibreOffice.
+- A real phone by eye. The live `_headers` security header. "Remember my key" beyond one sighting.
 
 ## Known limits
-- Clan sheet: all pictures go in one request; accuracy may drop past about 20 pictures.
-- Bills: a cut-off AI reply loses the whole run. Gas in m3 or CCF without printed factors is flagged, not converted. PDFs are sent as they are (8 MB each, Gemini and Anthropic only, not tested with a real AI). No currency conversion. No compare-with-last-bill.
-- Label text contrast is about 4.2 to 1 in Light and Ocean (target 4.5).
-- LICENSE is all rights reserved, owner named as Ginger-Hermit, not checked by a lawyer.
-- Fingerprint: not recorded.
+- Clan: all pictures go in one request; accuracy may drop past about 20.
+- Bills: a cut-off AI reply loses the run. Gas in m3 or CCF without printed factors is flagged, not converted. No currency conversion.
+- Label contrast about 4.2 to 1 in Light and Ocean (target 4.5).
+- LICENSE is all rights reserved, not checked by a lawyer.
