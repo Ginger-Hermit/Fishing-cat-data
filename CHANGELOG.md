@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Remove stray headings
+
+12 Nov 2026 (07:14 UTC) · Changed
+
+Took out the two headings added last update; they ended up in the wrong place.
+
+> [!NOTE]
+> **What you'll see:** Bottom of the clan tab: the headings are gone.
+
+- Removed the Share to Discord and Problems? headings.
+
 ## Sections for Discord and Log
 
 12 Nov 2026 (07:12 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/62e6186)
