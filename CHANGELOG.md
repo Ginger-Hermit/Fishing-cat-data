@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Video reads catch every clan member
+
+12 Nov 2026 (23:07 UTC) · Changed
+
+Quick scroll videos no longer drop the bottom of the list
+
+> [!NOTE]
+> **What you'll see:** Roblox clan sheet, video
+
+- Video stills are taken 8 times a second and a small scrolling list counts as a new picture
+
 ## Points with dots or spaces
 
 12 Nov 2026 (12:58 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/88454da)

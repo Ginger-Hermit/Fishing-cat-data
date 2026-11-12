@@ -1,4 +1,4 @@
-// Patch note: Points written like 1.234.567 or 1 234 now read as numbers instead of blank.
+// Patch note: Quick scroll videos no longer drop the bottom of the list
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -72,7 +72,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-zx";
+const BUILD = "2026-11-12-zy";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -199,12 +199,12 @@ function addFiles(fileList) {
   refresh();
 }
 
-// Tiny 24x24 copy of a picture, used to tell if two pictures are nearly the same.
-function tinyPix(src) { const c = document.createElement("canvas"); c.width = 96; c.height = 54; const x = c.getContext("2d"); x.drawImage(src, 0, 0, 96, 54); return x.getImageData(0, 0, 96, 54).data; }
+// Tiny 192x108 copy (small enough to be quick, big enough to see a few rows scroll in a small clan panel) of a picture, used to tell if two pictures are nearly the same.
+function tinyPix(src) { const c = document.createElement("canvas"); c.width = 192; c.height = 108; const x = c.getContext("2d"); x.drawImage(src, 0, 0, 192, 108); return x.getImageData(0, 0, 192, 108).data; }
 // Same picture = almost no pixel changed a lot. (A scrolling list only changes a small patch, so an average over the whole screen would call it "same".)
-function samePic(a, b) { if (!a || !b) return false; let n = 0; for (let i = 0; i < a.length; i += 4) if (Math.abs(a[i] - b[i]) + Math.abs(a[i + 1] - b[i + 1]) + Math.abs(a[i + 2] - b[i + 2]) > 90) n++; return n < 25; }
+function samePic(a, b) { if (!a || !b) return false; let n = 0; for (let i = 0; i < a.length; i += 4) if (Math.abs(a[i] - b[i]) + Math.abs(a[i + 1] - b[i + 1]) + Math.abs(a[i + 2] - b[i + 2]) > 60) n++; return n < 6; }
 
-// Pull still frames from a video in the browser: looks about 4 times a second (up to 60 looks), keeps the ones that changed, at most 24 spread over the whole video.
+// Pull still frames from a video in the browser: looks about 8 times a second (up to 60 looks), keeps the ones that changed, at most 24 spread over the whole video.
 function videoFrames(file) {
   return new Promise((resolve, reject) => {
     const url = URL.createObjectURL(file);
@@ -217,7 +217,7 @@ function videoFrames(file) {
       try {
         const d = v.duration;
         if (!Number.isFinite(d) || !v.videoWidth) throw new Error("This video could not be read. Try an MP4 recording, or use screenshots.");
-        const n = Math.min(60, Math.max(8, Math.ceil(d * 4))); // 4 a second: a quick scroll must not skip rows (repeats are dropped below)
+        const n = Math.min(60, Math.max(8, Math.ceil(d * 8))); // 8 a second: a quick scroll must not skip rows (repeats are dropped below)
         const scale = Math.min(1, 1280 / v.videoWidth);
         const canvas = document.createElement("canvas");
         canvas.width = Math.round(v.videoWidth * scale);

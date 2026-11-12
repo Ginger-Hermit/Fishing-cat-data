@@ -17,7 +17,7 @@ a = ap.parse_args()
 now = datetime.datetime.now(datetime.timezone.utc)
 old = open("version.txt", encoding="utf-8").read().strip()
 day = max(now.strftime("%Y-%m-%d"), old[:10])   # never go backwards: the owner's local date can be a day ahead of world time
-shown = datetime.date.fromisoformat(day).strftime("%-d %b %Y")
+shown = datetime.date.fromisoformat(day).strftime("%d %b %Y").lstrip("0")
 new = (old[:-1] + chr(ord(old[-1]) + 1) if old[-1] != "z" else old + "a") if old.startswith(day) else day + "-a"   # same day: ...-y, -z, -za, -zb; never repeats a version
 head = subprocess.run(["git", "log", "--format=%h", "-1"], capture_output=True, text=True).stdout.strip()
 q = lambda t: json.dumps(t, ensure_ascii=False)
