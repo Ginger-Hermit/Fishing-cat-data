@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Nicer developer bar
 
-12 Nov 2026 (23:53 UTC) · Changed
+12 Nov 2026 (23:53 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/09400f4)
 
 The developer bar at the top is easier to read and shows more.
 
