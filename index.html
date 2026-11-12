@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: If the AI can't tell the game, the page uses the last game it recognised instead of 'Game'. -->
+<!-- Patch note: The buttons under the table no longer run off the page. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -40,7 +40,7 @@ button:disabled{opacity:.5}
 .pv th{background:var(--accent);color:var(--onAccent);font-weight:500;padding:5px 6px;text-align:left}
 .pv tr.bad td{background:#FFF0D6}.pv td input{width:100%;min-width:40px;margin:0;padding:6px;border:none;border-radius:0;background:transparent;font-size:14px;color:var(--text)}
 .pv td.ro{padding:6px;white-space:nowrap}.pv .pvx{width:auto;margin:0;padding:4px 10px;border:none;background:none;color:var(--err);font-size:18px}
-.pv .pvb{display:flex;gap:8px;margin-top:10px}.pv .pvb button{margin:0;white-space:nowrap}.pv .pvb button.tab{padding:12px 14px}
+.pv .pvb{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.pv .pvb button{margin:0;white-space:nowrap}.pv .pvb button.tab{padding:12px 14px}
 
 .xl{border:1px solid #B8BCC2;border-radius:8px;overflow:hidden;background:#fff;color:#1B1B1B;font-family:Calibri,Arial,sans-serif}
 .xlbar{background:#217346;color:#fff;padding:8px 12px;display:flex;justify-content:space-between;font-size:14px;gap:8px}.xlbar b{font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -379,7 +379,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-c";
+const BUILD = "2026-11-12-e";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1152,7 +1152,7 @@ $("prevfile").onchange = async (e) => {
     await loadExcel();
     if (!window.ExcelJS) throw new Error("The spreadsheet part did not load. Refresh the page.");
     prevMap = await readPrevious(window.ExcelJS, await f.arrayBuffer());
-    prevName = f.name;
+    prevName = f.name; pendingPrev = null;
     if (lsGet("fcd_keepprev") !== "0") try { localStorage.setItem("fcd_prev", JSON.stringify({ name: prevName, entries: [...prevMap], hist: prevMap.hist })); } catch (e) {}
     showPrev();
     clog("Last sheet read: " + prevMap.size + " members.");
@@ -1163,6 +1163,14 @@ $("prevfile").onchange = async (e) => {
     setMsg(err instanceof Error && /made by this page|did not load/.test(err.message) ? err.message : "That file could not be read. Choose a sheet made by this page (.xlsx).", true);
   }
 };
+// A sheet you just made becomes the last sheet for the next run (saved now, used from the next list on, so this list's changes stay right).
+let pendingPrev = null;
+async function keepMade(buf, name) {
+  try { await loadExcel(); const m = await readPrevious(window.ExcelJS, buf); pendingPrev = { m, name };
+    if (lsGet("fcd_keepprev") !== "0") localStorage.setItem("fcd_prev", JSON.stringify({ name, entries: [...m], hist: m.hist }));
+    clog("Kept this sheet as your last sheet for next time (" + m.size + " members)."); } catch (e) { clog("Could not keep this sheet as the last one: " + (e && e.message)); }
+}
+function adoptPending() { if (!pendingPrev) return; prevMap = pendingPrev.m; prevName = pendingPrev.name; pendingPrev = null; showPrev(); }
 // Remember the last sheet on this device (names and points only), so it does not need picking again.
 try {
   const d = JSON.parse(localStorage.getItem("fcd_prev"));
@@ -1353,7 +1361,7 @@ $("testgo").onclick = async () => {
     const bad = rows.filter(r => r.name === "?" || parsePoints(r.points) === null).length;
     if (p.ranks === false) rows.forEach((r, i) => { r.rank = i + 1; });
     const shown = (text.match(/"members_on_screen"\s*:\s*(\d+)/) || [])[1];
-    pv = { rows: rows.map(r => ({ ...r })), orig: rows.map(r => ({ ...r })), p, shown };
+    adoptPending(); pv = { rows: rows.map(r => ({ ...r })), orig: rows.map(r => ({ ...r })), p, shown };
     pvDraw();
     setMsg("Test read OK: " + rows.length + " rows from 1 picture (the first one only). Check the Roblox clan preview below. If it looks right, tap Make my sheet. Nothing was downloaded.");
   } catch (err) { clog("Test stopped: " + err.message); setMsg(plain(err), true); }
@@ -1504,7 +1512,7 @@ async function pvPost() {
     setMsg("Posting to Discord...");
     await loadExcel();
     let file = null;
-    if (window.ExcelJS) file = { blob: new Blob([await buildWorkbook(window.ExcelJS, rows, prevMap, pv.p, todayText()).xlsx.writeBuffer()], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), name: nameOf(pv.p) + ".xlsx" };
+    if (window.ExcelJS) { const buf = await buildWorkbook(window.ExcelJS, rows, prevMap, pv.p, todayText()).xlsx.writeBuffer(); file = { blob: new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), name: nameOf(pv.p) + ".xlsx" }; await keepMade(buf, file.name); }
     const pic = await clanPic(rows).catch((e) => { clog("Table picture skipped: " + why(e)); return null; });
     const sent = await hookPost(hookText(), [pic, file].filter(Boolean));
     setMsg(sent ? "Posted to Discord with the sheet." : "Posted to Discord. The sheet file could not go, so use Download sheet.");
@@ -1514,8 +1522,9 @@ async function makeSheet(rows, p) {
   let blob, ext = ".xlsx";
   await loadExcel();
   if (window.ExcelJS) {
-    const wb = buildWorkbook(window.ExcelJS, rows, prevMap, p, todayText());
-    blob = new Blob([await wb.xlsx.writeBuffer()], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+    const wb = buildWorkbook(window.ExcelJS, rows, prevMap, p, todayText()), buf = await wb.xlsx.writeBuffer();
+    blob = new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+    await keepMade(buf, nameOf(p) + ".xlsx");
   } else {
     ext = ".csv";
     blob = new Blob([toCsv(rows)], { type: "text/csv" });
@@ -1590,7 +1599,7 @@ $("go").onclick = async () => {
     const shown = (text.match(/"members_on_screen"\s*:\s*(\d+)/) || [])[1];
     clog("Found " + rows.length + " unique row(s).");
     if (!rows.length) throw new Error("No member rows were found. The pictures may not show the member list.");
-    pv = { rows: rows.map(r => ({ ...r })), orig: rows.map(r => ({ ...r })), p, shown };
+    adoptPending(); pv = { rows: rows.map(r => ({ ...r })), orig: rows.map(r => ({ ...r })), p, shown };
     pvDraw();
     const bad = rows.filter(r => r.name === "?" || parsePoints(r.points) === null).length;
     let last = 0, order = false;

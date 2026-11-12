@@ -2,9 +2,29 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Buttons wrap on small screens
+
+12 Nov 2026 (06:38 UTC) · Changed
+
+The buttons under the table no longer run off the page.
+
+**What you'll see:** Make a list: Download sheet, Add row, Post to Discord, Copy message, Reset wrap to a second line if needed.
+
+- Button row under the clan and Bills tables now wraps.
+
+## Last sheet kept automatically
+
+12 Nov 2026 (06:38 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/4aaf91d)
+
+The sheet you just made becomes your last sheet, so you don't pick it again.
+
+**What you'll see:** Make a sheet, then refresh or start a new list: Last sheet is already filled in.
+
+- Download or Post to Discord keeps the new sheet (names, points, history) on this device for the next run. Not used until the next list, so this list's changes stay right.
+
 ## Remember the game name
 
-12 Nov 2026 (06:36 UTC) · Changed
+12 Nov 2026 (06:36 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/4aaf91d)
 
 If the AI can't tell the game, the page uses the last game it recognised instead of 'Game'.
 
