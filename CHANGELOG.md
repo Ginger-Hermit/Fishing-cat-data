@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Optional ping on Discord posts
 
-12 Nov 2026 (07:38 UTC) · New
+12 Nov 2026 (07:38 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/43d6eec)
 
 Pick Ping @here or Ping @everyone on the Discord tab; the default pings nobody.
 
