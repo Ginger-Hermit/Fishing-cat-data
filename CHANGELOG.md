@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
-## Bills Summary column widths
+## Clan history tab layout
 
 12 Nov 2026 (06:06 UTC) · Changed
+
+The Points history tab shows its title and how-to-read box in full instead of cutting them off.
+
+**What you'll see:** Open Points history in the clan Excel file: title complete, how-to-read box fully visible, no frozen column splitting it.
+
+- Points history: how-to-read box and title fit the runs, only the top rows are frozen
+- Bills Summary: no frozen column splitting the how-to-read box
+
+## Bills Summary column widths
+
+12 Nov 2026 (06:06 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/3d817d9)
 
 The Bills Summary tab columns are wide enough to read again.
 

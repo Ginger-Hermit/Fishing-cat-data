@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The Bills Summary tab columns are wide enough to read again. -->
+<!-- Patch note: The Points history tab shows its title and how-to-read box in full instead of cutting them off. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -370,7 +370,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-k";
+const BUILD = "2026-11-12-l";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -919,15 +919,16 @@ function buildWorkbook(EJ, rows, prev, p, when) {
   });
   // Points history + Leaderboard (no AI: old numbers come from the earlier sheet, Excel does the sums)
   const H = mergeHist(prev, rows), N = H.dates.length, LC = colL(2 + N), HS = "'Points history'!";
-  const hs = wb.addWorksheet("Points history", { views: [{ state: "frozen", xSplit: 2, ySplit: 3 }] });
+  const hs = wb.addWorksheet("Points history", { views: [{ state: "frozen", ySplit: 3 }] }); // rows only: a frozen column would cut the how-to-read box in half
   hs.getColumn(1).width = 26; hs.getColumn(2).width = 9;
-  hs.mergeCells("A1:B1");
   hs.getCell("A1").value = p.clan + " \u2013 Points history"; hs.getCell("A1").font = { bold: true, size: 16, color: { argb: NAVY } };
   const KEY = (parts) => ({ richText: parts.map(([text, c, b]) => ({ text, font: { size: 10, bold: !!b, color: { argb: c || INK } } })) });
   const GRN = "FF006100", RED = "FF9C0006", SOFT = "FFF5F7FA";
-  hs.mergeCells(`A2:${colL(Math.max(8, 2 + N))}2`);
+  const KC = Math.max(5, 2 + N), KW = 35 + 14 * (KC - 2); // the box stops at the last run, so nothing runs off screen
+  hs.mergeCells(`A1:${colL(KC)}1`);
+  hs.mergeCells(`A2:${colL(KC)}2`);
   hs.getCell("A2").value = KEY([["How to read  ", NAVY, 1], ["Each column is one run. The bold number is the points that day. The small number under it is what was gained since the run before.\n"], ["Green = went up", GRN, 1], ["     "], ["Red = went down", RED, 1], ["     "], ["Gold, silver, bronze = top 3 gainers", "FF7F6000", 1], ["     "], ["Grey = left the clan", GREY, 1], ["     Earlier months show their last run only."]]);
-  hs.getCell("A2").alignment = { wrapText: true, vertical: "middle", indent: 1 }; hs.getCell("A2").fill = fill(SOFT); hs.getRow(2).height = 48; hs.getRow(1).height = 30;
+  hs.getCell("A2").alignment = { wrapText: true, vertical: "middle", indent: 1 }; hs.getCell("A2").fill = fill(SOFT); hs.getRow(2).height = Math.max(48, (Math.ceil(135 / KW) + Math.ceil(170 / KW)) * 14 + 12); hs.getRow(1).height = 30;
   hs.getCell("A1").alignment = { vertical: "middle" };
   ["Username", ""].forEach((t, i) => { const c = hs.getCell(3, i + 1); c.value = t; c.font = { bold: true, color: { argb: "FFFFFFFF" } }; c.fill = fill(NAVY); });
   H.dates.forEach((d, i) => {
@@ -1555,7 +1556,7 @@ function buildBillBook(EJ, bills, when) {
   const rich = (parts) => ({ richText: parts.map(([text, c, b]) => ({ text, font: { size: 10, bold: !!b, color: { argb: c || INK } } })) });
   const strip = (sh, last, parts, h) => { sh.mergeCells("A2:" + last + "2"); const c = sh.getCell("A2"); c.value = rich(parts); c.fill = fill(SOFT); c.alignment = { wrapText: true, vertical: "middle", indent: 1 }; sh.getRow(2).height = h; sh.getRow(1).height = 30; sh.getCell("A1").alignment = { vertical: "middle" }; };
   const BANDS = ["FFEAF0FA", "FFFFF8E5", "FFF0EAF7", "FFFDEBE4"];
-  const sm = wb.addWorksheet("Summary", { views: [{ state: "frozen", xSplit: 1 }] });
+  const sm = wb.addWorksheet("Summary");
   const ws = wb.addWorksheet("Bills", { views: [{ state: "frozen", ySplit: 3 }] });
   [7, 24, 14, 16, 16, 12, 30, 14, 9, 13, 14, 40, 16, 15, 10].forEach((w, i) => { ws.getColumn(i + 1).width = w; });
   const count = bills.reduce((t, b) => t + b.lines.length, 0);
