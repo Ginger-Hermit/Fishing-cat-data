@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Page styles moved to their own file
 
-12 Nov 2026 (12:41 UTC) · Changed
+12 Nov 2026 (12:41 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c272914)
 
 All page styles now live in style.css, so the browser refuses any styles sneaked into the page.
 

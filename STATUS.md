@@ -30,3 +30,4 @@ GitHub runs `check.py`, row, bill and fuzz tests, and the page in Chrome, Firefo
 - Clan: all pictures go in one request; accuracy may drop past about 20.
 - Bills: a cut-off AI reply keeps the complete charges (Log says so); the last bill may be short. Gas in m3 or CCF without printed factors is flagged, not converted. No currency conversion.
 - LICENSE is all rights reserved, not checked by a lawyer.
+- 12 Nov: page split into index.html, app.js, style.css; CSP allows no inline code or styles. Screens compared before/after; not seen on a real phone.
