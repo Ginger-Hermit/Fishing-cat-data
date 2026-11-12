@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## No ping everyone
+
+12 Nov 2026 (10:42 UTC) · Changed
+
+The Discord ping choice no longer has @here or @everyone, so the whole channel can't be pinged by mistake. Role pings stay.
+
+> [!NOTE]
+> **What you'll see:** Discord tab: the ping menu has Don't ping anyone and Ping a role only.
+
+- Removed the @here and @everyone options and their code.
+
 ## Safer Discord posting
 
 12 Nov 2026 (10:38 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/1980862)

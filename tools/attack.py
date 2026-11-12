@@ -31,6 +31,7 @@ def fresh(pg, mode="ok"):
     st.update(n=0, mode=mode)
 
 def g_ping(pg):
+    chk("no @everyone or @here option", pg.evaluate("![...document.getElementById('dcping').options].some(o=>/everyone|here/.test(o.value))"))
     pg.evaluate("localStorage.setItem('fcd_pingmode','everyone')"); pg.reload(); pg.wait_for_timeout(300)
     v = pg.evaluate("[document.getElementById('dcping').value, localStorage.getItem('fcd_pingmode')]")
     chk("@everyone is not remembered", v == ["", None], v)

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Four Discord problems are fixed: the ping everyone choice is no longer remembered, a double tap can't post twice, a failed second message tells you the picture went but the breakdown did not (and retries once if Discord says slow down), and huge Excel files are refused. -->
+<!-- Patch note: The Discord ping choice no longer has @here or @everyone, so the whole channel can't be pinged by mistake. Role pings stay. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -208,10 +208,10 @@ button:disabled{opacity:.5}
 <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><label for="artfile" class="tab big" style="cursor:pointer;display:inline-flex;align-items:center;margin:0;color:var(--link)">Choose picture</label><button id="artforget" type="button" class="tab big" style="display:none">Remove</button><img id="artthumb" alt="Your saved header picture" style="display:none;height:48px;border-radius:6px;border:1px solid var(--soft)"></div><div id="artmsg" role="status" style="font-size:14px;color:var(--noteText);margin-top:6px"></div>
 <label style="display:flex;gap:10px;align-items:center;font-weight:normal;font-size:16px;margin-top:16px"><input type="checkbox" id="hookxlsx" checked style="width:22px;height:22px;min-height:0;padding:0;margin:0"> Also attach the Excel file (leave unticked for picture and text only)</label>
 <div style="font-weight:600;font-size:17px;margin:20px 0 8px">3. Ping (optional)</div>
-<select id="dcping" style="min-height:48px;font-size:16px"><option value="">Don't ping anyone</option><option value="here">Ping @here (people online now)</option><option value="everyone">Ping @everyone</option><option value="role">Ping a role (you choose which)</option></select>
+<select id="dcping" style="min-height:48px;font-size:16px"><option value="">Don't ping anyone</option><option value="role">Ping a role (you choose which)</option></select>
 <input id="dcrole" inputmode="numeric" autocomplete="off" placeholder="Role ID, like 123456789012345678" style="display:none;min-height:48px;font-size:16px;margin-top:8px">
 <div id="dcrolehelp" style="display:none;font-size:13px;color:var(--muted);margin-top:4px">In Discord: Settings, Advanced, turn on Developer Mode. Then right-click the role and tap Copy Role ID. Paste it here. It is saved on this device.</div>
-<div style="font-size:13px;color:var(--muted);margin-top:4px">@here and @everyone ping the whole channel. A role pings only the people who have that role.</div>
+<div style="font-size:13px;color:var(--muted);margin-top:4px">A role pings only the people who have that role.</div>
 <div style="font-weight:600;font-size:17px;margin:20px 0 8px">4. Post</div>
 <button id="dcgo" type="button" style="width:100%;padding:16px;font-size:18px">Post to Discord</button>
 <div id="hookmsg" role="status" aria-live="polite" style="font-size:15px;margin-top:10px"></div>
@@ -426,7 +426,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-zh";
+const BUILD = "2026-11-12-zi";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1533,7 +1533,7 @@ async function hookPost(text, file, quiet) {
   postBusy = true; try { return await hookSend(text, file, quiet); } finally { postBusy = false; }
 }
 async function hookSend(text, file, quiet) {
-  const url = hookGet(), pg = quiet ? "" : $("dcping").value, rid = (($("dcrole").value.match(/\d{15,25}/) || [])[0]), body = { content: (pg === "role" ? (rid ? "<@&" + rid + ">\n" : "") : pg ? "@" + pg + "\n" : "") + text, allowed_mentions: pg === "role" ? { parse: [], roles: rid ? [rid] : [] } : { parse: pg ? ["everyone"] : [] } };
+  const url = hookGet(), pg = quiet ? "" : $("dcping").value, rid = (($("dcrole").value.match(/\d{15,25}/) || [])[0]), body = { content: (pg === "role" && rid ? "<@&" + rid + ">\n" : "") + text, allowed_mentions: { parse: [], roles: pg === "role" && rid ? [rid] : [] } };
   if (pg === "role" && !rid) throw new Error("Enter the role ID first (or pick Don't ping anyone).");
   if (!HOOK_RE.test(url)) throw new Error("Add your Discord link in Settings first.");
   const send = (body) => fetch(url + "?wait=true", { method: "POST", body, signal: AbortSignal.timeout(30000) }).catch((e) => { clog("Discord: could not reach it (" + (e && e.name) + ": " + (e && e.message) + ")."); throw e; });
