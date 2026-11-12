@@ -2,9 +2,22 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Clan history in the Excel file
+
+12 Nov 2026 (04:51 UTC) · New
+
+The clan sheet now keeps history instead of only showing the last change.
+
+**What you'll see:** Download a clan sheet: there are new Leaderboard, Points history and How it's worked out tabs. Choose last week's sheet as the earlier sheet and the history carries on.
+
+- Leaderboard tab ranked by points gained, with best run and average per day
+- Points history tab with one column per run and a clan total
+- How it's worked out tab with plain-words examples
+- No extra AI use: old numbers come from the earlier sheet
+
 ## Faster first step
 
-12 Nov 2026 (04:27 UTC) · Changed
+12 Nov 2026 (04:27 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/efa5bd2)
 
 The first step no longer holds up the run.
 

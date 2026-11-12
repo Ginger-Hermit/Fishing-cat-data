@@ -1,6 +1,6 @@
 # Status
 
-Last updated: 12 Nov 2026. Page version 2026-11-12-b. Live at fishing-cat-data.pages.dev.
+Last updated: 12 Nov 2026. Page version 2026-11-12-c. Live at fishing-cat-data.pages.dev.
 `tools/release.py` keeps the two values above up to date. Keep this file under 60 lines: it is read at the start of every chat.
 
 ## What the page does
@@ -11,12 +11,8 @@ Last updated: 12 Nov 2026. Page version 2026-11-12-b. Live at fishing-cat-data.p
 
 ## Next
 - Ginger: one real run of each tab on the live site (real clan video, real bill photo), then a screenshot. Nothing since 11 Nov has been run with a real AI.
-- **Approved by Ginger 12 Nov, not built: clan history in the Excel file.** No extra AI use: old numbers come from the earlier sheet, Excel does the sums.
-  - **Leaderboard** tab (front): #, Username, Now, Gained (all time), Best run (+date), Avg / day, Since. Ranked by points gained (Ginger left the choice to Claude). Top 3 shaded like the main sheet. Players who left stay, greyed.
-  - **Points history** tab (behind; was called Every run): one column per run with the gain under each number, Clan total row. At a new month, last month folds into one column.
-  - **How it's worked out** tab (last): plain-words list of each column with one worked example from the sheet's own top player (Change, % Change, Gained, Best run, Avg / day, Clan total). Static text plus live cell references. No AI.
-  - `readPrevious` must carry both tabs forward from the earlier sheet. Mockup was shown and accepted in chat. Add tests to `tests/excel-math.test.js`.
-- **Approved by Ginger 12 Nov, not built: Post to Discord (webhook).** Build after the history tabs. First check that Discord takes a file posted from a web page (CORS); if not, post the message only.
+- **Clan history tabs built 12 Nov** (Leaderboard in front, Points history, How it's worked out). History is carried forward by `readHistory` from the earlier sheet; no AI. Same day twice replaces that day's column. Not built yet: folding last month into one column; removing the empty Season Info box; the simpler About tab. Not checked by eye in real Excel (tested with LibreOffice only).
+- **Approved by Ginger 12 Nov, not built: Post to Discord (webhook).** Next to build. First check that Discord takes a file posted from a web page (CORS); if not, post the message only.
   - Settings: one box "Discord webhook link" with a **Test** button (posts "Fishing Cat Data is connected"). Off until a link is pasted. Stored in the browser only (`fcd_hook`), shown and deletable in Privacy, scrubbed from Log and bug report like the key. Accept only `https://discord.com/api/webhooks/...`.
   - After a clan read: **Post to Discord** button next to Download sheet, with a preview of the message (clan, date, top 3 gained with medals, clan total, new players) built by the page, no AI. Posts message plus the .xlsx. Only on tap. Never on Bills.
   - Also a **Copy message** button (no webhook needed).

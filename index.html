@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The first step no longer holds up the run. -->
+<!-- Patch note: The clan sheet now keeps history instead of only showing the last change. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -324,7 +324,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-b";
+const BUILD = "2026-11-12-c";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -605,14 +605,73 @@ async function readPrevious(EJ, buf) {
   let head = 0;
   ws.eachRow((row, n) => { if (!head && String(row.getCell(2).value).trim() === "Username") head = n; });
   if (!head) throw new Error("That file is not a sheet made by this page.");
-  const map = new Map();
+  const map = new Map(), names = new Map();
   for (let r = head + 1; r <= ws.rowCount; r++) {
     const name = ws.getCell(r, 2).value;
     let pts = ws.getCell(r, 5).value;
     if (pts && typeof pts === "object" && "result" in pts) pts = pts.result;
-    if (name && typeof pts === "number") map.set(String(name).trim().toLowerCase(), pts);
+    if (name && typeof pts === "number") { const k = String(name).trim().toLowerCase(); map.set(k, pts); names.set(k, String(name).trim()); }
   }
+  map.hist = readHistory(wb, ws, map, names);
   return map;
+}
+
+// Carries the Points history tab of the earlier sheet forward (no AI). Old sheets without it start a one-run history.
+function readHistory(wb, ws, map, names) {
+  const dv = (c) => { let v = c.value; if (v && typeof v === "object" && "result" in v) v = v.result; return v; };
+  const day = (d) => Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+  let dates = [], players = new Map();
+  const hs = wb.getWorksheet("Points history");
+  if (hs) {
+    for (let c = 3; c <= hs.columnCount; c++) { const v = dv(hs.getCell(3, c)); if (v instanceof Date) dates.push(day(v)); else break; }
+    for (let r = 4; dates.length && r <= hs.rowCount; r++) {
+      if (String(dv(hs.getCell(r, 2))) !== "Points") continue;
+      const name = dv(hs.getCell(r, 1));
+      if (!name || String(name) === "Clan total") continue;
+      players.set(String(name).trim().toLowerCase(), { name: String(name).trim(), vals: dates.map((_, i) => { const v = dv(hs.getCell(r, 3 + i)); return typeof v === "number" ? v : null; }) });
+    }
+  }
+  if (!dates.length) {
+    const d = dv(ws.getCell("L8"));
+    dates = [day(d instanceof Date ? d : (wb.modified || wb.created || new Date()))];
+  }
+  const li = dates.length - 1;
+  map.forEach((pts, k) => {
+    let e = players.get(k);
+    if (!e) { e = { name: names.get(k), vals: dates.map(() => null) }; players.set(k, e); }
+    e.vals[li] = pts;
+  });
+  return { dates, players: [...players] };
+}
+
+function colL(n) { let t = ""; while (n > 0) { const m = (n - 1) % 26; t = String.fromCharCode(65 + m) + t; n = Math.floor((n - 1) / 26); } return t; }
+
+// Adds today's run to the earlier history (same day twice = replace that column).
+function mergeHist(prev, rows) {
+  const n = new Date(), today = Date.UTC(n.getFullYear(), n.getMonth(), n.getDate());
+  const h = prev && prev.hist;
+  const dates = h ? h.dates.slice() : [];
+  const pl = new Map(h ? h.players.map(([k, e]) => [k, { name: e.name, vals: e.vals.slice() }]) : []);
+  let col = dates.length - 1;
+  if (col >= 0 && dates[col] === today) pl.forEach((e) => { e.vals[col] = null; });
+  else { dates.push(today); col = dates.length - 1; pl.forEach((e) => e.vals.push(null)); }
+  rows.forEach((r) => {
+    const num = parsePoints(r.points);
+    if (num === null) return;
+    const k = String(r.name).trim().toLowerCase();
+    let e = pl.get(k);
+    if (!e) { e = { name: String(r.name).trim(), vals: dates.map(() => null) }; pl.set(k, e); }
+    e.vals[col] = num;
+  });
+  const N = dates.length;
+  const list = [...pl.values()].map((e) => {
+    const idx = e.vals.map((v, i) => (v === null ? -1 : i)).filter((i) => i >= 0);
+    const fi = idx.length ? idx[0] : 0, li = idx.length ? idx[idx.length - 1] : 0;
+    const first = e.vals[fi], last = e.vals[li];
+    return { name: e.name, vals: e.vals, fi, li, first, last, gained: first === null ? 0 : last - first, here: e.vals[N - 1] !== null };
+  }).filter((e) => e.first !== null);
+  list.sort((a, b) => (b.here - a.here) || (b.gained - a.gained) || (b.last - a.last));
+  return { dates, list };
 }
 
 function buildWorkbook(EJ, rows, prev, p, when) {
@@ -620,6 +679,7 @@ function buildWorkbook(EJ, rows, prev, p, when) {
   wb.calcProperties.fullCalcOnLoad = true;
   const NAVY = "FF1F3864", INK = "FF1F2937", GREY = "FF7F7F7F";
   const fill = (c) => ({ type: "pattern", pattern: "solid", fgColor: { argb: c } });
+  const lb = wb.addWorksheet("Leaderboard", { views: [{ state: "frozen", ySplit: 3 }] });
   const ws = wb.addWorksheet("Clan Members", { views: [{ state: "frozen", ySplit: 3 }] });
   [11, 26, 18, 24, 22, 19, 14, 15, 12, 3, 29, 22].forEach((w, i) => { ws.getColumn(i + 1).width = w; });
   ws.mergeCells("A1:I1");
@@ -753,6 +813,100 @@ function buildWorkbook(EJ, rows, prev, p, when) {
       { type: "expression", priority: 6, formulae: [`AND(ISNUMBER($L$${rr}),$L$${rr}<0)`], style: down }
     ] });
   });
+  // Points history + Leaderboard (no AI: old numbers come from the earlier sheet, Excel does the sums)
+  const H = mergeHist(prev, rows), N = H.dates.length, LC = colL(2 + N), HS = "'Points history'!";
+  const hs = wb.addWorksheet("Points history", { views: [{ state: "frozen", xSplit: 2, ySplit: 3 }] });
+  hs.getColumn(1).width = 26; hs.getColumn(2).width = 9;
+  hs.mergeCells("A1:B1");
+  hs.getCell("A1").value = p.clan + " \u2013 Points history"; hs.getCell("A1").font = { bold: true, size: 16, color: { argb: NAVY } };
+  hs.getCell("A2").value = "One column per run. The small number under each is the gain since the run before."; hs.getCell("A2").font = { color: { argb: GREY } };
+  ["Username", ""].forEach((t, i) => { const c = hs.getCell(3, i + 1); c.value = t; c.font = { bold: true, color: { argb: "FFFFFFFF" } }; c.fill = fill(NAVY); });
+  H.dates.forEach((d, i) => {
+    hs.getColumn(3 + i).width = 12;
+    const c = hs.getCell(3, 3 + i);
+    c.value = new Date(d); c.numFmt = "d\\ mmm\\ yy"; c.font = { bold: true, color: { argb: "FFFFFFFF" } }; c.fill = fill(NAVY); c.alignment = { horizontal: "center" };
+  });
+  hs.getRow(3).height = 24;
+  const hrow = (i) => 4 + 2 * i;
+  H.list.forEach((e, i) => {
+    const r = hrow(i);
+    hs.getCell(r, 1).value = e.name; hs.getCell(r, 1).font = { bold: true, color: { argb: e.here ? INK : GREY } };
+    hs.getCell(r, 2).value = "Points"; hs.getCell(r, 2).font = { size: 9, color: { argb: GREY } };
+    hs.getCell(r + 1, 2).value = "Gain"; hs.getCell(r + 1, 2).font = { size: 9, color: { argb: GREY } };
+    e.vals.forEach((v, k) => {
+      const c = hs.getCell(r, 3 + k);
+      if (v !== null) c.value = v;
+      c.numFmt = "#,##0"; c.font = { bold: true, color: { argb: INK } }; c.alignment = { horizontal: "right" };
+      const g = hs.getCell(r + 1, 3 + k);
+      if (k > 0) g.value = { formula: `IF(OR(${colL(2 + k)}${r}="",${colL(3 + k)}${r}=""),"",${colL(3 + k)}${r}-${colL(2 + k)}${r})` };
+      g.numFmt = "\\+#,##0;\\-#,##0;0"; g.font = { size: 9, color: { argb: GREY } }; g.alignment = { horizontal: "right" };
+    });
+  });
+  const tr = hrow(H.list.length), lastH = tr - 1;
+  hs.getCell(tr, 1).value = "Clan total"; hs.getCell(tr, 2).value = "Points"; hs.getCell(tr + 1, 2).value = "Gain";
+  for (let k = 0; k < N; k++) {
+    const cl = colL(3 + k);
+    const t = hs.getCell(tr, 3 + k);
+    t.value = { formula: `SUMIF($B$4:$B$${lastH},"Points",${cl}$4:${cl}$${lastH})` }; t.numFmt = "#,##0"; t.font = { bold: true, color: { argb: NAVY } };
+    if (k > 0) { const g = hs.getCell(tr + 1, 3 + k); g.value = { formula: `${cl}${tr}-${colL(2 + k)}${tr}` }; g.numFmt = "\\+#,##0;\\-#,##0;0"; g.font = { size: 9, color: { argb: GREY } }; }
+  }
+  hs.getCell(tr, 1).font = { bold: true, color: { argb: NAVY } };
+  hs.addConditionalFormatting({ ref: `C4:${LC}${tr + 1}`, rules: [
+    { type: "expression", priority: 7, formulae: ['AND($B4="Gain",ISNUMBER(C4),C4>0)'], style: { font: { color: { argb: "FF006100" } } } },
+    { type: "expression", priority: 8, formulae: ['AND($B4="Gain",ISNUMBER(C4),C4<0)'], style: { font: { color: { argb: "FF9C0006" } } } }
+  ] });
+
+  lb.getColumn(1).width = 7; lb.getColumn(2).width = 26;
+  [14, 16, 12, 16, 12, 14].forEach((w, i) => { lb.getColumn(3 + i).width = w; });
+  lb.getColumn(9).hidden = true; lb.getColumn(10).hidden = true;
+  lb.mergeCells("A1:H1"); lb.mergeCells("A2:H2");
+  lb.getCell("A1").value = p.clan + " \u2013 Leaderboard"; lb.getCell("A1").font = { bold: true, size: 16, color: { argb: NAVY } };
+  lb.getCell("A2").value = "Ranked by points gained since the first run   \u00b7   " + N + (N === 1 ? " run" : " runs") + " so far   \u00b7   grey = left the clan";
+  lb.getCell("A2").font = { color: { argb: GREY } };
+  lb.getRow(1).height = 30;
+  ["#", "Username", "Now", "Gained (all time)", "Best run", "Best run date", "Avg / day", "Since", "Started at", "Last seen"].forEach((h, i) => {
+    const c = lb.getCell(3, i + 1);
+    c.value = h; c.font = { bold: true, color: { argb: "FFFFFFFF" } }; c.fill = fill(NAVY);
+    c.alignment = { horizontal: "center", vertical: "middle", wrapText: true };
+    c.border = { left: LINE, right: LINE, top: LINE, bottom: { style: "medium", color: { argb: NAVY } } };
+  });
+  lb.getRow(3).height = 30;
+  lb.getCell("J2").value = { formula: `MAX(${HS}C3:${LC}3)` }; lb.getCell("J2").numFmt = "d\\ mmm\\ yy";
+  H.list.forEach((e, i) => {
+    const n = 4 + i, r = hrow(i), P = `${HS}C${r}:${LC}${r}`, G = `${HS}C${r + 1}:${LC}${r + 1}`;
+    const rk = lb.getCell(n, 1); rk.value = i + 1;
+    const look = e.here && rankLook[i + 1];
+    rk.font = { bold: true, color: { argb: look ? look[1] : GREY } };
+    if (look) rk.fill = fill(look[0]);
+    lb.getCell(n, 2).value = e.name;
+    lb.getCell(n, 3).value = { formula: `IFERROR(LOOKUP(2,1/(${P}<>""),${P}),"")` };
+    lb.getCell(n, 4).value = { formula: `IF(OR(C${n}="",I${n}=""),"",C${n}-I${n})` };
+    lb.getCell(n, 5).value = { formula: `IF(COUNT(${G})=0,"",MAX(${G}))` };
+    lb.getCell(n, 6).value = { formula: `IF(COUNT(${G})=0,"",INDEX(${HS}$C$3:$${LC}$3,MATCH(MAX(${G}),${G},0)))` };
+    lb.getCell(n, 7).value = { formula: `IFERROR(IF(OR(C${n}="",I${n}=""),"",(C${n}-I${n})/(J${n}-H${n})),"")` };
+    lb.getCell(n, 8).value = new Date(H.dates[e.fi]);
+    lb.getCell(n, 9).value = e.first;
+    lb.getCell(n, 10).value = new Date(H.dates[e.li]);
+    lb.getCell(n, 3).numFmt = "#,##0"; lb.getCell(n, 4).numFmt = "\\+#,##0;\\-#,##0;0"; lb.getCell(n, 5).numFmt = "\\+#,##0;\\-#,##0;0";
+    lb.getCell(n, 6).numFmt = "d\\ mmm\\ yy"; lb.getCell(n, 7).numFmt = "#,##0"; lb.getCell(n, 8).numFmt = "d\\ mmm\\ yy"; lb.getCell(n, 9).numFmt = "#,##0"; lb.getCell(n, 10).numFmt = "d\\ mmm\\ yy";
+    lb.getRow(n).height = 19.5;
+    for (let c = 1; c <= 8; c++) {
+      const cell = lb.getCell(n, c);
+      cell.border = box;
+      cell.alignment = { horizontal: c === 2 ? "left" : c === 1 ? "center" : "right", vertical: "middle", indent: c === 2 ? 1 : 0 };
+      if (c > 1) cell.font = { bold: c === 3 || c === 4, color: { argb: INK } };
+    }
+  });
+  const lastL = 3 + H.list.length;
+  lb.autoFilter = `A3:H${lastL}`;
+  lb.addConditionalFormatting({ ref: `D4:E${lastL}`, rules: [
+    { type: "expression", priority: 9, formulae: ["AND(ISNUMBER(D4),D4>0)"], style: up },
+    { type: "expression", priority: 10, formulae: ["AND(ISNUMBER(D4),D4<0)"], style: down }
+  ] });
+  lb.addConditionalFormatting({ ref: `A4:H${lastL}`, rules: [
+    { type: "expression", priority: 11, formulae: ["$J4<$J$2"], style: { font: { color: { argb: "FF9A9A9A" } } } }
+  ] });
+
   const ab = wb.addWorksheet("About this sheet");
   ab.getColumn(1).width = 26; ab.getColumn(2).width = 92;
   ab.getCell("A1").value = "About this sheet"; ab.getCell("A1").font = { bold: true, size: 16, color: { argb: NAVY } };
@@ -771,6 +925,26 @@ function buildWorkbook(EJ, rows, prev, p, when) {
   ].forEach((r, i) => {
     ab.getCell(5 + i, 1).value = r[0]; ab.getCell(5 + i, 1).font = { bold: true, color: { argb: INK } };
     ab.getCell(5 + i, 2).value = r[1]; ab.getCell(5 + i, 2).alignment = { wrapText: true, vertical: "top" };
+  });
+  const hw = wb.addWorksheet("How it's worked out");
+  hw.getColumn(1).width = 22; hw.getColumn(2).width = 62; hw.getColumn(3).width = 62;
+  hw.getCell("A1").value = "How it's worked out"; hw.getCell("A1").font = { bold: true, size: 16, color: { argb: NAVY } };
+  hw.getCell("A2").value = "Plain words for each number. The examples use the top player on the Leaderboard and update with the sheet."; hw.getCell("A2").font = { color: { argb: GREY } };
+  ["Column", "What it means", "Example"].forEach((t, i) => { const c = hw.getCell(4, i + 1); c.value = t; c.font = { bold: true, color: { argb: "FFFFFFFF" } }; c.fill = fill(NAVY); });
+  const nm = "Leaderboard!B4", fm = (a) => `TEXT(${a},"#,##0")`;
+  [
+    ["Change", "Points now minus points in the run before (Clan Members tab).", `IFERROR(${nm}&": "&${fm("'Clan Members'!E4")}&" now - "&${fm("'Clan Members'!F4")}&" before = "&${fm("'Clan Members'!G4")},"Needs an earlier sheet")`],
+    ["% Change", "Change divided by the points in the run before.", `IFERROR(${nm}&": "&${fm("'Clan Members'!G4")}&" / "&${fm("'Clan Members'!F4")}&" = "&TEXT('Clan Members'!H4,"0.0%"),"Needs an earlier sheet")`],
+    ["Gained (all time)", "Points now minus the points the player had in their first run. Players who left show their last known points.", `IFERROR(${nm}&": "&${fm("Leaderboard!C4")}&" now - "&${fm("Leaderboard!I4")}&" at the start = "&${fm("Leaderboard!D4")},"")`],
+    ["Best run", "The biggest gain between two runs in a row.", `IFERROR(${nm}&": best was "&${fm("Leaderboard!E4")}&" on "&TEXT(Leaderboard!F4,"d mmm yy"),"Needs two runs")`],
+    ["Avg / day", "Gained divided by the days between their first and last run.", `IFERROR(${nm}&": "&${fm("Leaderboard!D4")}&" over "&(Leaderboard!J4-Leaderboard!H4)&" days = "&${fm("Leaderboard!G4")}&" a day","Needs two runs on different days")`],
+    ["Clan total", "All members' points added up for each run (Points history tab). The line under it is the clan's gain.", `"Latest run: "&${fm(`${HS}${LC}${tr}`)}`],
+    ["Colours", "Green = went up. Red = went down. Grey name = left the clan (kept so the history stays).", `"Top 3 on the Leaderboard are shaded gold, silver and bronze."`]
+  ].forEach((r, i) => {
+    const n = 5 + i;
+    hw.getCell(n, 1).value = r[0]; hw.getCell(n, 1).font = { bold: true, color: { argb: INK } };
+    hw.getCell(n, 2).value = r[1]; hw.getCell(n, 3).value = { formula: r[2] };
+    [1, 2, 3].forEach((c) => { hw.getCell(n, c).alignment = { wrapText: true, vertical: "top" }; });
   });
   return wb;
 }
@@ -802,7 +976,7 @@ $("prevfile").onchange = async (e) => {
     if (!window.ExcelJS) throw new Error("The spreadsheet part did not load. Refresh the page.");
     prevMap = await readPrevious(window.ExcelJS, await f.arrayBuffer());
     prevName = f.name;
-    if (lsGet("fcd_keepprev") !== "0") try { localStorage.setItem("fcd_prev", JSON.stringify({ name: prevName, entries: [...prevMap] })); } catch (e) {}
+    if (lsGet("fcd_keepprev") !== "0") try { localStorage.setItem("fcd_prev", JSON.stringify({ name: prevName, entries: [...prevMap], hist: prevMap.hist })); } catch (e) {}
     showPrev();
     clog("Last sheet read: " + prevMap.size + " members.");
   } catch (err) {
@@ -816,7 +990,7 @@ $("prevfile").onchange = async (e) => {
 try {
   const d = JSON.parse(localStorage.getItem("fcd_prev"));
   if (d && Array.isArray(d.entries) && d.entries.every(e => typeof e[0] === "string" && typeof e[1] === "number")) {
-    prevMap = new Map(d.entries); prevName = String(d.name || "last sheet");
+    prevMap = new Map(d.entries); prevMap.hist = d.hist || null; prevName = String(d.name || "last sheet");
   }
 } catch (e) {}
 showPrev();
