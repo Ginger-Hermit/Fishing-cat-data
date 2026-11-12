@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Discord tab has bigger buttons and choices, Choose files and Choose picture buttons, and Clear, Remove and Forget link show when there is something to clear. -->
+<!-- Patch note: Removed the Forget link button; the tick now says Save my link on this device and unticking deletes it. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -192,8 +192,8 @@ button:disabled{opacity:.5}
 <div style="font-size:13px;color:var(--muted);margin-top:12px">Post a clan sheet, a Bills sheet, or your own files to your Discord channel.</div>
 <div style="font-weight:600;font-size:17px;margin:20px 0 8px">Your Discord link</div>
 <input id="hookbox" type="password" autocomplete="off" spellcheck="false" placeholder="https://discord.com/api/webhooks/..." style="min-height:48px;font-size:16px">
-<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px"><label style="display:flex;gap:10px;align-items:center;font-weight:normal;font-size:16px;margin:0"><input type="checkbox" id="hookkeep" style="width:22px;height:22px;min-height:0;padding:0;margin:0"> Remember my link</label><button id="hookforget" type="button" class="tab big">Forget link</button><button id="hooktest" type="button" class="tab big" style="display:none">Send a test</button></div>
-<div style="font-size:13px;color:var(--muted);margin-top:6px">Anyone with this link can post in your channel, so keep it private.</div>
+<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px"><label style="display:flex;gap:10px;align-items:center;font-weight:normal;font-size:16px;margin:0"><input type="checkbox" id="hookkeep" style="width:22px;height:22px;min-height:0;padding:0;margin:0"> Save my link on this device</label><button id="hookforget" type="button" class="tab big" style="display:none">Forget link</button><button id="hooktest" type="button" class="tab big" style="display:none">Send a test</button></div>
+<div style="font-size:13px;color:var(--muted);margin-top:6px">Untick to delete the saved copy. Anyone with this link can post in your channel, so keep it private.</div>
 <div style="font-weight:600;font-size:17px;margin:20px 0 8px">1. What do you want to post?</div>
 <label style="display:flex;gap:12px;align-items:center;font-weight:normal;font-size:16px;margin:8px 0 0;padding:12px 14px;min-height:48px;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;background:var(--field)"><input type="radio" name="dcsrc" value="sheet" style="width:22px;height:22px;min-height:0;padding:0;margin:0;flex:none"> Latest clan sheet</label>
 <label style="display:flex;gap:12px;align-items:center;font-weight:normal;font-size:16px;margin:8px 0 0;padding:12px 14px;min-height:48px;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;background:var(--field)"><input type="radio" name="dcsrc" value="bill" style="width:22px;height:22px;min-height:0;padding:0;margin:0;flex:none"> Latest Bills</label>
@@ -421,7 +421,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-v";
+const BUILD = "2026-11-12-w";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };

@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## One tick for the Discord link
+
+12 Nov 2026 (07:26 UTC) · Changed
+
+Removed the Forget link button; the tick now says Save my link on this device and unticking deletes it.
+
+> [!NOTE]
+> **What you'll see:** Discord tab, under the link box.
+
+- Hid Forget link; renamed the tick; added a one-line hint.
+
 ## Bigger Discord buttons, clear options back
 
 12 Nov 2026 (07:23 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/be59c53)
