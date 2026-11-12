@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Compact clan tab
+
+12 Nov 2026 (06:39 UTC) · Changed
+
+The clan tab is shorter: key, last sheet, Discord and Log are tucked into closed sections.
+
+**What you'll see:** Roblox clan sheet tab: clan name, screenshots, Make my sheet. Everything else is under small arrows.
+
+- AI key box closes once a key is saved. Last sheet and Test first moved under More options. Discord link and header picture moved under Post to Discord (optional).
+
 ## Buttons wrap on small screens
 
-12 Nov 2026 (06:38 UTC) · Changed
+12 Nov 2026 (06:38 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/480ddb9)
 
 The buttons under the table no longer run off the page.
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The buttons under the table no longer run off the page. -->
+<!-- Patch note: The clan tab is shorter: key, last sheet, Discord and Log are tucked into closed sections. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -120,7 +120,7 @@ button:disabled{opacity:.5}
 </ul>
 </details>
 </div>
-<div id="keybox">
+<div id="keybox"><details id="keydet" open><summary style="cursor:pointer;font-size:14px;font-weight:600">AI company and key</summary>
 <label for="provider">AI company</label>
 <select id="provider"><option value="gemini">Google Gemini</option><option value="anthropic">Anthropic (Claude)</option><option value="openai">OpenAI (untested)</option></select>
 <div id="untested" class="warnbox" style="display:none">Heads up: this one has not been tested yet. It might not work. If it fails, tap the big Copy error button under the red message and send it to the author.</div>
@@ -129,7 +129,7 @@ button:disabled{opacity:.5}
 <input id="key" type="password" placeholder="Paste key here" autocomplete="off" spellcheck="false" autocapitalize="off" data-lpignore="true" data-1p-ignore="true">
 <label class="rem" style="display:flex;gap:8px;align-items:center;margin-top:6px;font-weight:normal"><input type="checkbox" id="remember" style="width:auto;margin:0"> Remember my key on this device</label>
 <div id="remnote" style="display:none;font-size:.85em;opacity:.75">Saved only in this browser, never sent anywhere else. Don't tick this on a shared or public computer. Untick to delete it.</div>
-</div>
+</details></div>
 <div id="sheet" style="display:none">
 <div style="font-size:13px;color:var(--muted);margin-top:10px">Turns clan screenshots or a video from any Roblox game into a member sheet.</div>
 <label for="clanbox">Clan name (optional)</label>
@@ -139,17 +139,19 @@ button:disabled{opacity:.5}
 <div style="font-size:13px;color:var(--muted);margin-top:6px">Recording a video? Scroll the whole list slowly, about 1 second per 5 members (50 members = 10 seconds).</div>
 <input id="files" type="file" accept="image/png,image/jpeg,image/webp,video/mp4,video/quicktime,video/webm" multiple hidden>
 <div id="list"></div>
+<button id="go" disabled>Make my sheet</button>
+<details id="moreopts" style="margin-top:10px"><summary style="cursor:pointer;font-size:14px">More options</summary>
 <label>Last sheet (optional)</label>
 <div class="drop" id="prevdrop">Tap to choose an earlier sheet (.xlsx) to compare</div>
 <input id="prevfile" type="file" accept=".xlsx" hidden>
 <div id="previnfo"></div>
-<button id="go" disabled>Make my sheet</button>
 <button id="testgo" type="button" class="tab" disabled style="margin-top:8px;width:100%">Test first (small read, no file)</button>
+</details>
 <div class="msg" id="msg" role="status" aria-live="polite"></div>
 <div class="prog" id="prog" aria-live="polite"></div>
 <div class="pv" id="preview" style="display:none"></div>
 <button id="copyerr" type="button" class="tab" style="display:none;margin-top:8px;width:100%;padding:12px;font-size:16px;border-color:var(--err);color:var(--err)">Copy error to send</button>
-<div id="hookblock" style="margin:12px 0"><div style="font-size:13px;color:var(--muted);margin:0 0 6px">Discord link (optional)</div>
+<details id="hookblock" style="margin:12px 0"><summary style="cursor:pointer;font-size:14px">Post to Discord (optional)</summary><div style="font-size:13px;color:var(--muted);margin:8px 0 6px">Discord link</div>
 <input id="hookbox" type="password" autocomplete="off" spellcheck="false" placeholder="https://discord.com/api/webhooks/...">
 <label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin-top:6px"><input type="checkbox" id="hookkeep" style="width:auto;margin:0"> Remember my link</label>
 <div style="display:flex;gap:8px;align-items:center;margin-top:6px"><button id="hooktest" type="button" class="tab">Test</button><button id="hookforget" type="button" class="tab">Forget</button><span id="hookmsg" role="status" style="font-size:13px"></span></div>
@@ -157,7 +159,7 @@ button:disabled{opacity:.5}
 <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><input type="file" id="artfile" accept="image/*" style="width:auto"><button id="artforget" type="button" class="tab">Remove</button><span id="artmsg" role="status" style="font-size:13px"></span></div>
 <div style="font-size:12px;color:var(--muted);margin:6px 0 0">Pick it once. It stays on this device and only goes to Discord inside your post.</div>
 <div style="font-size:12px;color:var(--muted);margin:6px 0 0">Adds a Post to Discord button to your sheet. Nothing is posted unless you tap it. Not remembered unless you tick the box: it is gone when you close the page. Anyone with this link can post in your channel, so keep it private. If posting fails, an ad blocker or privacy shield may be blocking Discord: turn it off for this site or use a Private window.</div>
-</div>
+</details>
 <details id="logbox" style="margin-top:12px"><summary style="cursor:pointer;font-size:14px">Log: what the page did</summary>
 <pre id="console" style="background:#0d0d0d;color:#e5e7eb;border:1px solid #444;border-radius:6px;padding:10px;font-size:13px;font-family:Consolas,Menlo,monospace;line-height:1.5;white-space:pre-wrap;word-break:break-word;min-height:120px;max-height:360px;overflow:auto;resize:vertical;margin:6px 0 0"></pre>
 <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button id="copybug" type="button">Copy bug report</button><a id="ghbug" href="https://github.com/Ginger-Hermit/Fishing-cat-data/issues/new" target="_blank" rel="noopener">Report on GitHub</a></div>
@@ -379,7 +381,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-e";
+const BUILD = "2026-11-12-f";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1922,6 +1924,7 @@ $("billgo").onclick = async () => {
     running = false; refresh();
   }
 };
+$("keydet").open = !$("key").value.trim();
 </script>
 </body>
 </html>
