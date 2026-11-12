@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Skip the busy Gemini model
+
+12 Nov 2026 (06:13 UTC) · Changed
+
+After a backup model answers, the next steps start on it for 10 minutes instead of waiting on the busy one again.
+
+**What you'll see:** Log says Starting on gemini-3.7-flash
+
+- Remember the Gemini model that last answered
+
 ## Post to Discord
 
-12 Nov 2026 (06:12 UTC) · New
+12 Nov 2026 (06:12 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6b2217a)
 
 Optional Discord link in Settings. After a clan read, Post to Discord sends a short summary and the sheet. Copy message copies the summary.
 
