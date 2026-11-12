@@ -6,7 +6,6 @@ Also at the start: `tail -3 developer/LIVE_CHECK_LOG.md` and the latest GitHub A
 @STATUS.md
 
 Web page: reads Roblox clan screenshots or video (any Roblox game) with an AI and makes an Excel sheet. Bills tab: photos of household bills become a sheet. Live: fishing-cat-data.pages.dev. Pushing to `main` deploys in about a minute.
-Ginger does not code. Short, blunt answers. Plain words on screen.
 
 ## Every change to `index.html`
 1. `git pull` first. Find the exact spot with grep (table below), read only those lines. Small find-and-replace edits that each match once, all in one script. Backup outside the repo.
@@ -22,10 +21,9 @@ Ginger does not code. Short, blunt answers. Plain words on screen.
 - Never print whole files or long logs. Grep and cut to width.
 - Use existing tools: `release.py`, `tests/*`. No new harness. Web search only if the answer isn't here.
 - Mockup: a few lines or one small inline picture. Full canvas only for a whole new screen.
-- Ask one short question only if a wrong guess wastes a patch. Otherwise pick the default, say which, go.
-- Warn before big jobs (stress test, full review, new feature).
 - Small wording or colour changes don't need the strongest model. Say so.
 - Long chat? Tell Ginger to start a new one. Nothing is lost.
+- GitHub runs are free; only chat costs tokens. Add free GitHub checks without asking.
 - Do not sleep and wait for GitHub tests after a push: say they are running; Ginger sees a red cross. Check only if Ginger asks.
 - Layout fixes: render once (LibreOffice to one small PNG), look at only the changed tab. No second render unless it looks wrong.
 - Do not read screenshots twice, and do not re-check files already shown in the chat.
@@ -35,7 +33,6 @@ Ginger does not code. Short, blunt answers. Plain words on screen.
 - No `eval` / `exec`. No unknown websites: a new one needs `_headers` (CSP `connect-src`) and a line in Stay safe.
 - Keep the AI safety notice and the wrong-address warning.
 - Bills: the AI copies, the sheet calculates. No AI sums or conversions. No fields for name, address or account numbers.
-- Never ask for the key. If one is pasted, tell Ginger to delete it now.
 - Nothing leaves the PC except to the AI company Ginger picked. No new packages (only `exceljs.bare.min.js`, loaded by `loadExcel`).
 
 ## Where things are (grep `index.html`)
@@ -55,12 +52,5 @@ Ginger does not code. Short, blunt answers. Plain words on screen.
 | Tests (`check.py` also scans for risky patterns; a safe false alarm goes in its SAFE list) | `tests/rows.test.js`, `bills.test.js`, `fuzz.js` (`node tests/fuzz.js 7 20000`), `excel-math.test.js` (needs `npm i exceljs@4.4.0`; add an assert for any Excel change), `browser.test.js`, `tools/attack.py` (break test with a pretend Discord, about 8 s; narrow with `post`, `ping`, `excel`, `secrets`, `names` or `role`; add a check there for each new Discord bug) |
 | Background | `developer/HOW_IT_WAS_BUILT.md`, `developer/STRESS_TEST_LOG.md` (read section 7 before calling a feature done) |
 
-## Style on screen
-Clean and calm. No big coloured blocks, no boxes in boxes. Buttons 1 to 3 words, one grey help line at most. No jargon. Check light, dark and big-text themes.
-
 ## Working with Ginger
-- Mockups first for anything new on screen; build only what Ginger approves.
-- New big feature? First ask if the basic sheet works in a real run.
-- Bad or bloated idea: say so in one line, offer a cheaper way.
-- Fails twice: stop, suggest a simpler version or dropping it.
 - Later, not now: split code out of `index.html` and drop `'unsafe-inline'` from the CSP. Only after real clan and bill runs work; warn first.
