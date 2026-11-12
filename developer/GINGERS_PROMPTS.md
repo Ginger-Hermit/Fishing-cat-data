@@ -66,13 +66,25 @@ Claude rewrote it in plain words.
 
 The page had a profile list and an "Add a game" form, a Record screen button, and an Updates tab. All three were later deleted.
 
-<table><tr><td align="center" valign="top"><img src="https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/web_add_game_form.png" width="170"><br><sub>Add a game form</sub></td><td align="center" valign="top"><img src="https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/web_record_screen.png" width="170"><br><sub>Record screen button</sub></td><td align="center" valign="top"><img src="https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/web_updates_tab.png" width="170"><br><sub>Updates tab</sub></td></tr></table>
+**Add a game form**
+
+![Add a game form](https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/web_add_game_form.png)
+
+**Record screen button**
+
+![Record screen button](https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/web_record_screen.png)
+
+**Updates tab**
+
+![Updates tab](https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/web_updates_tab.png)
 
 ## Then the website
 
 > "This spacing and the discord thingy?"
 
-<table><tr><td align="center" valign="top"><img src="https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/clan_before.png" width="230"><br><sub>The clan tab then</sub></td></tr></table>
+**The clan tab then**
+
+![The clan tab then](https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/clan_before.png)
 
 Uneven gaps, and the Discord box stuck in the middle. Fixed.
 
@@ -88,13 +100,25 @@ Claude asked permission to fix something. Two words fixed that.
 
 The Discord box was cut to four steps.
 
-<table><tr><td align="center" valign="top"><img src="https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/discord_v1.png" width="230"><br><sub>Before</sub></td><td align="center" valign="top"><img src="https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/discord_now.png" width="230"><br><sub>Now</sub></td></tr></table>
+**Before**
+
+![Before](https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/discord_v1.png)
+
+**Now**
+
+![Now](https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/discord_now.png)
 
 > "Isn't this weird lol"
 
 A Remember button and a Forget button, side by side. Now one tick box.
 
-<table><tr><td align="center" valign="top"><img src="https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/discord_remember_forget.png" width="230"><br><sub>Before</sub></td><td align="center" valign="top"><img src="https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/discord_one_tick.png" width="230"><br><sub>After</sub></td></tr></table>
+**Before**
+
+![Before](https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/discord_remember_forget.png)
+
+**After**
+
+![After](https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/discord_one_tick.png)
 
 > "looks like a bunch of shitty numbers"
 
