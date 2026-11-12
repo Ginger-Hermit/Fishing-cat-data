@@ -1,4 +1,4 @@
-// Patch note: With ?dev, a line at the top shows this page's version, the live version, and a countdown to the next check.
+// Patch note: Picking a video you already turned into a sheet shows 'Already used' with the date.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -72,7 +72,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-zzd";
+const BUILD = "2026-11-12-zze";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -189,14 +189,25 @@ function loadExcel() {
   return excelWait;
 }
 
+const vidId = (f) => f.name + "|" + f.size + "|" + f.lastModified;
+function usedVids() { try { return JSON.parse(lsGet("fcd_usedvids")) || {}; } catch (e) { return {}; } }
+function markUsedVids() {
+  const u = usedVids(), day = new Date().toLocaleDateString(undefined, { day: "numeric", month: "short" });
+  images.filter((f) => f.type.startsWith("video/")).forEach((f) => { u[vidId(f)] = day; });
+  const k = Object.keys(u); k.slice(0, Math.max(0, k.length - 200)).forEach((x) => delete u[x]);
+  lsSet("fcd_usedvids", JSON.stringify(u));
+}
 function addFiles(fileList) {
   loadExcel();
+  const seen = usedVids(), old = [];
   for (const f of fileList) {
+    if (f.type && f.type.startsWith("video/") && seen[vidId(f)]) old.push(f.name + " (" + seen[vidId(f)] + ")");
     if (!f.size || (!f.type.startsWith("image/") && !f.type.startsWith("video/"))) continue;
     if (images.length >= MAX_FILES) { setMsg("Up to " + MAX_FILES + " files at a time. Tap Clear to start again.", true); break; }
     images.push(f);
   }
   refresh();
+  if (old.length) setMsg("Already used: " + old.join(", ") + ". Tap Clear if that was a mistake.", true);
 }
 
 // Tiny 192x108 copy (small enough to be quick, big enough to see a few rows scroll in a small clan panel) of a picture, used to tell if two pictures are nearly the same.
@@ -1408,6 +1419,7 @@ async function pvDownload() {
   try {
     await makeSheet(rows, pv.p);
     clog("Sheet downloaded from the checked list (" + rows.length + " rows).");
+    markUsedVids();
     setMsg("Done: " + rows.length + " rows. Your sheet was downloaded.");
   } catch (err) { clog("Stopped: " + why(err)); setMsg(plain(err), true); }
 }

@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Warns about reused videos
+
+12 Nov 2026 (23:47 UTC) · New
+
+Picking a video you already turned into a sheet shows 'Already used' with the date.
+
+> [!TIP]
+> **What you'll see:** Clan tab, after picking a video
+
+- Remembers used videos (name, size, date only) on this device.
+
 ## Developer update line
 
 12 Nov 2026 (23:45 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2abdd42)
