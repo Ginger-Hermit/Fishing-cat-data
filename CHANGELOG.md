@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Ping box readable by screen readers
+
+12 Nov 2026 (12:12 UTC) · Changed
+
+The Discord ping picker now has a name screen readers can say.
+
+> [!NOTE]
+> **What you'll see:** Bills or clan tab, Discord box
+
+- Added a label to the ping picker; new readability test runs on GitHub.
+
 ## Zip bomb guard, risky-code scanner
 
 12 Nov 2026 (10:58 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/e949de3)

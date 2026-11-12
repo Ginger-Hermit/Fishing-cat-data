@@ -1,4 +1,4 @@
-# Patch note: also runs the Discord/Excel break test (tools/attack.py) after every push.
+# Patch note: also checks readability (axe) and warns if index.html grows over 5% in one push.
 name: Check
 on: [push]
 jobs:
@@ -10,6 +10,12 @@ jobs:
       - run: node tests/rows.test.js
       - run: node tests/bills.test.js
       - run: node tests/fuzz.js 7 5000
+      - name: Size watch (index.html must not grow over 5% in one push)
+        run: |
+          git fetch -q --depth=2 origin "$GITHUB_SHA" || exit 0
+          OLD=$(git show HEAD~1:index.html 2>/dev/null | wc -c); NEW=$(wc -c < index.html)
+          echo "index.html: $OLD -> $NEW bytes"
+          [ "$OLD" -eq 0 ] || [ $((NEW * 100)) -le $((OLD * 105)) ] || { echo "FAIL index.html grew over 5%"; exit 1; }
   browsers:
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -18,9 +24,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: npm install --no-save playwright
+      - run: npm install --no-save playwright axe-core@4.10.2
       - run: npx playwright install --with-deps chromium firefox webkit 2>&1 | tail -40
       - run: node tests/browser.test.js
+      - run: node tests/a11y.test.js
   attack:
     runs-on: ubuntu-latest
     timeout-minutes: 10
