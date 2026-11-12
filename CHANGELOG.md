@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Page code moved to its own file
 
-12 Nov 2026 (12:31 UTC) · Changed
+12 Nov 2026 (12:31 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2999a40)
 
 The page's code now lives in app.js, so the browser refuses any code sneaked into the page.
 
