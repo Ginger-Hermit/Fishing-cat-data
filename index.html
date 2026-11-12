@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The Log now catches and shows page errors, blocked requests, failed loads and browser warnings, with errors in red. -->
+<!-- Patch note: Bill reads to Google Gemini now have a size cap and ask for JSON only, so a stuck reply can't run for minutes. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -370,7 +370,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-c";
+const BUILD = "2026-11-12-d";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1245,7 +1245,7 @@ const ASKERS = {
     const parts = pics.map(p => ({ inline_data: { mime_type: p.type, data: p.data } }));
     parts.push({ text: PROMPT });
     const d = await postJson("https://generativelanguage.googleapis.com/v1beta/models/" + encodeURIComponent(model) + ":generateContent",
-      { "content-type": "application/json", "x-goog-api-key": key }, { contents: [{ parts }], generationConfig: { thinkingConfig: { thinkingLevel: "low" } } });
+      { "content-type": "application/json", "x-goog-api-key": key }, { contents: [{ parts }], generationConfig: PROMPT === BILL_PROMPT ? { thinkingConfig: { thinkingLevel: "low" }, maxOutputTokens: 8192, responseMimeType: "application/json" } : { thinkingConfig: { thinkingLevel: "low" } } });
     const first = (d.candidates || [])[0];
     return ((first && first.content && first.content.parts) || []).map(p => p.text || "").join("\n");
   },

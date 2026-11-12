@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Stop Gemini bills running away
+
+12 Nov 2026 (05:49 UTC) · Changed
+
+Bill reads to Google Gemini now have a size cap and ask for JSON only, so a stuck reply can't run for minutes.
+
+**What you'll see:** Make a bills sheet with Gemini: it should answer in well under a minute, or stop with a clear message.
+
+- Gemini bill requests capped at 8192 tokens and set to JSON-only
+
 ## Console shows errors
 
-12 Nov 2026 (05:46 UTC) · Changed
+12 Nov 2026 (05:46 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/d64a74f)
 
 The Log now catches and shows page errors, blocked requests, failed loads and browser warnings, with errors in red.
 
