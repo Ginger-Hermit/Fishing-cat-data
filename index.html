@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Stay safe now says plainly what happens to your pictures and key, and the Bills tab has a Test button like the clan tab. -->
+<!-- Patch note: The tick lists on Stay safe and Privacy now read as normal sentences. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -18,7 +18,7 @@ html[data-size=large] .card{zoom:1.25}
 .ok{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--noteBg);color:var(--noteText);border-radius:8px;padding:12px 14px;margin-top:8px;font-size:15px;font-weight:500}
 .hc{background:var(--field);border:1px solid var(--soft);border-radius:10px;padding:12px 14px;margin-bottom:10px}
 .hc summary{cursor:pointer;font-weight:600;color:var(--link);list-style:none;display:flex;align-items:center;gap:8px}.hc summary::-webkit-details-marker{display:none}.hc summary:after{content:"\203A";margin-left:auto;font-size:1.3em;line-height:1;transition:transform .15s}.hc[open]>summary:after{transform:rotate(90deg)}
-.facts{list-style:none;margin:10px 0 0;padding:0}.facts li{display:flex;gap:10px;align-items:flex-start;margin:8px 0;line-height:1.5}.facts li:before{content:"\2713";color:var(--noteText);background:var(--noteBg);border-radius:50%;min-width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;margin-top:1px}.facts li.no:before{content:"\2715";color:var(--err);background:var(--soft)}
+.facts{list-style:none;margin:10px 0 0;padding:0}.facts li{position:relative;padding-left:32px;margin:8px 0;line-height:1.5}.facts li:before{content:"\2713";position:absolute;left:0;top:1px;color:var(--noteText);background:var(--noteBg);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}.facts li.no:before{content:"\2715";color:var(--err);background:var(--soft)}.facts li.warn:before{content:"!";color:var(--err);background:var(--soft)}
 .hc ul{margin:8px 0 0;padding-left:20px;line-height:1.7}
 .hc p{margin:8px 0 0;color:var(--muted)}
 .hsec>summary{color:var(--link);border-left:4px solid var(--accent);padding:6px 2px 6px 12px;list-style:none;display:flex;align-items:center;gap:8px}.hsec>summary::-webkit-details-marker{display:none}.hsec>summary:after{content:"\203A";margin-left:auto;font-size:1.3em;line-height:1;transition:transform .15s}.hsec[open]>summary:after{transform:rotate(90deg)}.hsec li b{color:var(--link)}.hsafe{background:var(--noteBg);color:var(--noteText);border-radius:8px;padding:8px 12px 8px 28px}.hsafe a{color:var(--noteText);font-weight:600}
@@ -255,15 +255,15 @@ button:disabled{opacity:.5}
 </div>
 <div id="privacytab" class="page" style="display:none">
 <div class="hc"><b>Privacy</b>
-<ul>
+<ul class="facts">
 <li>Your AI key stays in this browser. It is only kept if you tick Remember my key, and it is never sent anywhere except the AI company you pick.</li>
 <li>The page is locked down by the browser so it can only talk to Anthropic, Google and OpenAI. It only sends to the one you pick.</li>
 <li>Your pictures (and the stills pulled from a video) go only to the AI company you pick, straight from your browser, to be read. This page has no server of its own, so we never see them.</li>
 <li>What that company does with what you send is covered by its own policies. Free plans can have different rules, so check them.</li>
 <li>Saved on your device only: theme, text size, and the last sheet you chose (names, points and past runs). Settings has a Privacy section that lists what is saved and can delete it, or stop saving the last sheet.</li>
 <li>No accounts and no tracking added by this page. The page is hosted on a normal website host, which may keep normal visit records like any website host.</li>
-<li>Bills: the whole photo goes to the AI company, including your name, address and account number. The page asks the AI not to copy those, and the sheet has no place for them.</li>
-<li>The names in your pictures belong to real people. Share the sheet only with people who should see it.</li>
+<li class="warn">Bills: the whole photo goes to the AI company, including your name, address and account number. The page asks the AI not to copy those, and the sheet has no place for them.</li>
+<li class="warn">The names in your pictures belong to real people. Share the sheet only with people who should see it.</li>
 </ul></div>
 </div>
 <div id="legaltab" class="page" style="display:none">
@@ -370,7 +370,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-x";
+const BUILD = "2026-11-12-y";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };

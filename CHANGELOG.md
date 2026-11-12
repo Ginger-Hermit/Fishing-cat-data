@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Tidier safety and privacy lists
+
+12 Nov 2026 (05:35 UTC) · Changed
+
+The tick lists on Stay safe and Privacy now read as normal sentences.
+
+**What you'll see:** Open Stay safe and Privacy: ticks on the left, each sentence in one block, bold words and links inline.
+
+- Fixed bold words and links breaking out of the tick lists
+- Privacy list now uses the same tick style as Stay safe, with a ! on the two warnings
+
 ## Stay safe page reassures, Bills gets Test first
 
-12 Nov 2026 (05:31 UTC) · Changed
+12 Nov 2026 (05:31 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/cac3fc3)
 
 Stay safe now says plainly what happens to your pictures and key, and the Bills tab has a Test button like the clan tab.
 
