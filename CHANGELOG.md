@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Zip bomb guard, risky-code scanner
 
-12 Nov 2026 (10:58 UTC) · Changed
+12 Nov 2026 (10:58 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/e949de3)
 
 A booby-trapped Excel file is refused instead of freezing the page; the update check gives up after 15 seconds.
 
