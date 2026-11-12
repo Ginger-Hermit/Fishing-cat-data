@@ -1,6 +1,6 @@
 # Status
 
-Last updated: 12 Nov 2026. Page version 2026-11-12-t. Live at fishing-cat-data.pages.dev.
+Last updated: 12 Nov 2026. Page version 2026-11-12-u. Live at fishing-cat-data.pages.dev.
 `tools/release.py` keeps the two values above up to date. Keep this file under 60 lines: it is read at the start of every chat.
 
 ## What the page does
@@ -11,7 +11,7 @@ Last updated: 12 Nov 2026. Page version 2026-11-12-t. Live at fishing-cat-data.p
 
 ## Next
 - Ginger: one real run of each tab on the live site (real clan video, real bill photo), then a screenshot. Nothing since 11 Nov has been run with a real AI.
-- Offered, not approved: one AI request per clan run instead of two; shorter AI replies; PDF bills; compare with the last bill; Cloudflare preview addresses instead of pushing straight to live.
+- Offered, not approved: one AI request per clan run instead of two; shorter AI replies; PDF bills; compare with the last bill; preview addresses instead of pushing straight to live.
 
 ## Tested
 - GitHub runs everything after each push: `check.py`, row tests, bill tests, fuzz (5,000 cases), and `tests/browser.test.js` in Chrome, Firefox and Safari's engine with a pretend AI. A red cross there means fix it first.

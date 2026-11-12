@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Hosting wording
+
+12 Nov 2026 (00:20 UTC) · Changed
+
+The privacy note no longer names the web host.
+
+**What you'll see:** Privacy page: says the page is hosted on a normal website host.
+
+- Reworded the hosting line in the privacy page
+
 ## Privacy settings
 
-12 Nov 2026 (00:14 UTC) · New
+12 Nov 2026 (00:14 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/899f9ae)
 
 Settings now shows what is saved on your device and lets you delete it or stop saving your last sheet.
 

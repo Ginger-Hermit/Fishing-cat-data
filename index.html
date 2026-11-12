@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Settings now shows what is saved on your device and lets you delete it or stop saving your last sheet. -->
+<!-- Patch note: The privacy note no longer names the web host. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -212,7 +212,7 @@ button:disabled{opacity:.5}
 <li>Your pictures (and the stills pulled from a video) go only to the AI company you pick, straight from your browser, to be read. This page has no server of its own, so we never see them.</li>
 <li>What that company does with what you send is covered by its own policies. Free plans can have different rules, so check them.</li>
 <li>Saved on your device only: theme, text size, and the last sheet you chose (names and points). Settings has a Privacy section that lists what is saved and can delete it, or stop saving the last sheet.</li>
-<li>No accounts and no tracking added by this page. The page is hosted on Cloudflare Pages, which may keep normal visit records like any website host.</li>
+<li>No accounts and no tracking added by this page. The page is hosted on a normal website host, which may keep normal visit records like any website host.</li>
 <li>Bills: the whole photo goes to the AI company, including your name, address and account number. The page asks the AI not to copy those, and the sheet has no place for them.</li>
 <li>The names in your pictures belong to real people. Share the sheet only with people who should see it.</li>
 </ul></div>
@@ -321,7 +321,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-t";
+const BUILD = "2026-11-12-u";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
