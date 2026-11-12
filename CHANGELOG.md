@@ -11,7 +11,7 @@ Names the AI isn't sure about show orange in the table so you can check them.
 > [!TIP]
 > **What you'll see:** Clan check-your-list table
 
-- AI marks unsure names; the table counts them as needing a look.
+- AI marks unsure names; the table counts them as needing a look. [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/31ce75984c921dfebfac0c656c33656e57457670)
 
 ## Better name reading
 
