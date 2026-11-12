@@ -1,9 +1,11 @@
-# Patch note: weekly check that the live site loads, runs the newest version and sends its security header.
+# Patch note: weekly live-site check; never fails (so no emails), writes the result to developer/LIVE_CHECK_LOG.md.
 name: Live site
 on:
   schedule:
     - cron: "17 5 * * 1"
   workflow_dispatch:
+permissions:
+  contents: write
 jobs:
   live:
     runs-on: ubuntu-latest
@@ -11,15 +13,21 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check fishing-cat-data.pages.dev
         run: |
-          set -e
           SITE=https://fishing-cat-data.pages.dev
           WANT=$(tr -d '[:space:]' < version.txt)
-          curl -fsS -D head.txt -o page.html "$SITE/?t=$(date +%s)" || { echo "FAIL page does not load"; exit 1; }
-          echo "PASS page loads"
-          GOT=$(curl -fsS "$SITE/version.txt?t=$(date +%s)" | tr -d '[:space:]')
-          [ "$GOT" = "$WANT" ] || { echo "FAIL live version.txt is $GOT, repo has $WANT"; exit 1; }
-          grep -q "const BUILD = \"$WANT\"" page.html || { echo "FAIL live page is not version $WANT"; exit 1; }
-          echo "PASS version $WANT"
-          grep -qi "^content-security-policy:.*connect-src" head.txt || { echo "FAIL security header missing"; exit 1; }
-          grep -qi "^x-content-type-options: nosniff" head.txt || { echo "FAIL nosniff header missing"; exit 1; }
-          echo "PASS security header"
+          R=""
+          if curl -fsS -m 30 -D head.txt -o page.html "$SITE/?t=$(date +%s)"; then
+            GOT=$(curl -fsS -m 30 "$SITE/version.txt?t=$(date +%s)" | tr -d '[:space:]')
+            [ "$GOT" = "$WANT" ] || R="$R live version.txt is $GOT, repo has $WANT;"
+            grep -q "const BUILD = \"$WANT\"" page.html || R="$R live page is not version $WANT;"
+            grep -qi "^content-security-policy:.*connect-src" head.txt || R="$R security header missing;"
+            grep -qi "^x-content-type-options: nosniff" head.txt || R="$R nosniff header missing;"
+          else
+            R=" page does not load;"
+          fi
+          F=developer/LIVE_CHECK_LOG.md
+          [ -f $F ] || printf '# Live site checks\nWritten by GitHub every Monday. Newest at the bottom.\n\n' > $F
+          echo "- $(date -u +%Y-%m-%d) version $WANT: ${R:- OK}" >> $F
+          git add $F
+          git -c user.name="github-actions" -c user.email="noreply@github.com" commit -qm "Live site check [skip ci]"
+          git push -q || echo "could not save the log"
