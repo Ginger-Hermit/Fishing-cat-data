@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Remember the game name
+
+12 Nov 2026 (06:36 UTC) · Changed
+
+If the AI can't tell the game, the page uses the last game it recognised instead of 'Game'.
+
+**What you'll see:** Run a clan with one screenshot where the game isn't clear.
+
+- Last recognised game is kept on this device and used when the AI gives none. Listed under Privacy.
+
 ## Ad blocker note for Discord
 
-12 Nov 2026 (06:34 UTC) · Changed
+12 Nov 2026 (06:34 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8d28a1f)
 
 The page warns that ad blockers can stop Discord posts.
 
