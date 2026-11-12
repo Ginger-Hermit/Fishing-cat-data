@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
-## Black Log box
+## Console shows errors
 
 12 Nov 2026 (05:46 UTC) · Changed
+
+The Log now catches and shows page errors, blocked requests, failed loads and browser warnings, with errors in red.
+
+**What you'll see:** Any error or failure appears in red in the black Log, and the Log opens by itself when one happens.
+
+- Page errors, security-rule blocks, failed file loads and console errors and warnings are recorded
+- Errors red, warnings amber, Log opens on an error
+
+## Black Log box
+
+12 Nov 2026 (05:46 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c5ea7c4)
 
 The Log now looks like a live console: dark, easy-to-read text that scrolls to the newest line.
 

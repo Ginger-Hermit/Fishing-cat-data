@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The Log now looks like a live console: dark, easy-to-read text that scrolls to the newest line. -->
+<!-- Patch note: The Log now catches and shows page errors, blocked requests, failed loads and browser warnings, with errors in red. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -370,7 +370,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-b";
+const BUILD = "2026-11-12-c";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -406,10 +406,15 @@ function scrub(t) { // remove the typed key and anything that looks like a key
 function clog(text) {
   let t = new Date().toLocaleTimeString();
   try { if (prog.t0) t = ((Date.now() - prog.t0) / 1000).toFixed(1) + "s"; } catch (e) {}
-  const box = document.getElementById("console");
-  box.textContent += (box.textContent ? "\n" : "") + t.padStart(6) + "   " + scrub(text);
-  if (box.textContent.length > 80000) box.textContent = box.textContent.slice(-60000);
+  const box = document.getElementById("console"), line = scrub(text), first = line.split("\n")[0];
+  const bad = /error|failed|stopped|blocked|violation|could not|couldn't|BLOCKED/i.test(first), warn = !bad && /warn|check:/i.test(first);
+  const row = document.createElement("span");
+  if (bad) row.style.color = "#ff6b6b"; else if (warn) row.style.color = "#fbbf24";
+  row.textContent = t.padStart(6) + "   " + line + "\n";
+  box.appendChild(row);
+  while (box.firstChild && box.childNodes.length > 1 && box.textContent.length > 80000) box.removeChild(box.firstChild);
   box.scrollTop = box.scrollHeight;
+  if (bad) { try { document.getElementById("logbox").open = true; } catch (e) {} }
 }
 function envInfo() {
   const n = navigator, c = n.connection || {};
@@ -421,6 +426,9 @@ function envInfo() {
 const why = (e) => (e && e.message ? e.message : String(e)) + (e && e.stack ? "\n" + String(e.stack).split("\n").slice(0, 4).join("\n") : "");
 addEventListener("error", (e) => { try { clog("PAGE ERROR: " + e.message + " at " + String(e.filename).split("/").pop() + ":" + e.lineno + ":" + e.colno + (e.error && e.error.stack ? "\n" + String(e.error.stack).split("\n").slice(0, 4).join("\n") : "")); } catch (x) {} });
 addEventListener("unhandledrejection", (e) => { try { clog("PAGE ERROR (promise): " + why(e.reason)); } catch (x) {} });
+addEventListener("securitypolicyviolation", (e) => { try { clog("BLOCKED by the page's security rules: " + e.violatedDirective + " -> " + e.blockedURI + " (" + String(e.sourceFile).split("/").pop() + ":" + e.lineNumber + ")"); } catch (x) {} });
+addEventListener("error", (e) => { try { const el = e.target; if (el && el !== window && (el.src || el.href)) clog("FAILED to load: " + (el.src || el.href)); } catch (x) {} }, true);
+["error", "warn"].forEach((k) => { const o = console[k]; console[k] = (...a) => { try { clog((k === "error" ? "CONSOLE ERROR: " : "CONSOLE WARN: ") + a.map((x) => x && x.stack ? String(x.stack).split("\n").slice(0, 4).join("\n") : typeof x === "object" ? JSON.stringify(x).slice(0, 300) : String(x)).join(" ")); } catch (x) {} o.apply(console, a); }; });
 let images = [];
 const MAX_FILES = 30;
 
