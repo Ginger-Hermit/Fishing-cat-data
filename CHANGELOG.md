@@ -11,7 +11,7 @@ The AI is told to copy names letter by letter: 1 vs l, and underscores not dots.
 > [!NOTE]
 > **What you'll see:** Clan sheet usernames
 
-- Stricter username rule in the AI instructions.
+- Stricter username rule in the AI instructions. [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/95d4423edc94a60a2289e21dac8dcb3a77056862)
 
 ## Bug report button by the stills
 
