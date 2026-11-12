@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: One file box takes your Excel sheet and/or photo; fewer buttons; a wrong file gives a plain message. -->
+<!-- Patch note: The Log and Copy bug report box now also shows at the bottom of the Discord tab. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -376,6 +376,7 @@ function showTab(which) {
     const b = btn[k] && document.getElementById(btn[k]);
     if (b) { b.classList.toggle("on", k === which); b.setAttribute("aria-selected", k === which); }
   }
+  if (which === "discord") document.getElementById("discordtab").appendChild(document.getElementById("logbox"));
   if (which === "sheet" || which === "bill") { const t = document.getElementById(which === "bill" ? "billtab" : "sheet"); t.appendChild(document.getElementById("logbox")); lastKind = which; }
   if (which === "discord") { const r = document.querySelector('input[name=dcsrc]:checked'); if (!r) document.querySelector('input[name=dcsrc][value='+(pv ? "sheet" : bp ? "bill" : "files")+']').checked = true; dcShow(); }
   if (which === "settings") { renderSaved(); $("wipemsg").textContent = ""; }
@@ -415,7 +416,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-t";
+const BUILD = "2026-11-12-u";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };

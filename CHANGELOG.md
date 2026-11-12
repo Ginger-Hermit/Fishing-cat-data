@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Log and bug report on the Discord tab
+
+12 Nov 2026 (07:21 UTC) · Changed
+
+The Log and Copy bug report box now also shows at the bottom of the Discord tab.
+
+> [!NOTE]
+> **What you'll see:** Bottom of the Discord tab: Log: what the page did.
+
+- Log box follows you to the Discord tab; it opens by itself on an error.
+
 ## Simpler Discord tab, one file picker
 
 12 Nov 2026 (07:21 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/5c66d6c)
