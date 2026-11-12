@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## No ping everyone
 
-12 Nov 2026 (10:42 UTC) · Changed
+12 Nov 2026 (10:42 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/231ff87)
 
 The Discord ping choice no longer has @here or @everyone, so the whole channel can't be pinged by mistake. Role pings stay.
 
