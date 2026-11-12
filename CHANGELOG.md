@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Discord post breaks down the stats
 
-12 Nov 2026 (07:30 UTC) · Changed
+12 Nov 2026 (07:30 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0747fba)
 
 The Discord message now shows average points, up, down, same and new counts, top gains, biggest drops and new members.
 
