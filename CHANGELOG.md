@@ -2,9 +2,40 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Excel preview tidy
+
+12 Nov 2026 (00:09 UTC) · Changed
+
+The selected cell shows a clean green outline.
+
+**What you'll see:** Tap a cell in the check table: green outline only.
+
+- Removed the black focus ring inside preview cells
+
+## Excel-style preview
+
+12 Nov 2026 (00:09 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/4c3b562)
+
+The check tables now look like the Excel sheet, so you can see what you will get.
+
+**What you'll see:** After a read, the table has a green Excel bar, a cell box, column letters, row numbers and sheet tabs.
+
+- Clan and Bills previews look like Excel, with the real column order and the calculated Change, % and Trend
+
+## Check your charges first
+
+12 Nov 2026 (00:08 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/4c3b562)
+
+After the AI reads your bills, you can fix charges and amounts in a table before the sheet is made.
+
+**What you'll see:** Bills: tap Make my sheet, check the table (it says if the charges match the bill total), fix cells, then tap Download sheet.
+
+- New table after reading bills: fix type, charge and amount, add or delete a charge, or Reset
+- Shows whether the charges add up to the total printed on the bill
+
 ## Check your list tidy
 
-12 Nov 2026 (00:06 UTC) · Changed
+12 Nov 2026 (00:06 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/4c3b562)
 
 The check table is easier to read.
 

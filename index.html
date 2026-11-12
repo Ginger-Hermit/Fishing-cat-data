@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The check table is easier to read. -->
+<!-- Patch note: The selected cell shows a clean green outline. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -39,6 +39,24 @@ button:disabled{opacity:.5}
 .pv tr.bad td{background:#FFF0D6}.pv td input{width:100%;min-width:40px;margin:0;padding:6px;border:none;border-radius:0;background:transparent;font-size:14px;color:var(--text)}
 .pv td.ro{padding:6px;white-space:nowrap}.pv .pvx{width:auto;margin:0;padding:4px 10px;border:none;background:none;color:var(--err);font-size:18px}
 .pv .pvb{display:flex;gap:8px;margin-top:10px}.pv .pvb button{margin:0;white-space:nowrap}.pv .pvb button.tab{padding:12px 14px}
+
+.xl{border:1px solid #B8BCC2;border-radius:8px;overflow:hidden;background:#fff;color:#1B1B1B;font-family:Calibri,Arial,sans-serif}
+.xlbar{background:#217346;color:#fff;padding:8px 12px;display:flex;justify-content:space-between;font-size:14px;gap:8px}.xlbar b{font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.xlfx{display:flex;align-items:center;border-bottom:1px solid #D5D9DE;font-size:13px;min-height:30px}.xlnm{width:52px;text-align:center;border-right:1px solid #D5D9DE;color:#444;align-self:stretch;display:flex;align-items:center;justify-content:center}.xlfx i{color:#217346;padding:0 8px;border-right:1px solid #D5D9DE}.xlfv{padding:0 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.xlg{overflow-x:auto}.xl table{border-collapse:collapse;min-width:100%}
+.xl th,.xl td{border:1px solid #E1E3E6;padding:0 6px;height:28px;font-size:14px;white-space:nowrap;background:#fff;color:#1B1B1B}
+.xl th.xlc{background:#F3F3F3;color:#444;font-weight:400;text-align:center;font-size:12px}
+.xl td.xlr{background:#F3F3F3;color:#444;text-align:center;width:30px;font-size:12px}
+.xl td.xlh{background:#1F3864;color:#fff;font-weight:700}
+.xl td.xlt1{font-size:16px;font-weight:700;color:#1F3864;height:32px}.xl td.xlt2{color:#7F7F7F}
+.xl td.own{background:#FFE699;font-weight:700;color:#7F6000}.xl td.coach{background:#FCE4D6;font-weight:700;color:#843C0C}
+.xl tr.bad td:not(.xlr):not(.xlx){background:#FFF0D6}
+.xl td.sel{outline:2px solid #217346;outline-offset:-2px}
+.xl td input{width:100%;margin:0;padding:4px 0;border:none;border-radius:0;background:transparent;color:inherit;font-size:14px;font-family:inherit;font-weight:inherit}
+.xl td input:focus{outline:none;box-shadow:none}
+.xl td.r{text-align:right}.xl td.xlx{width:30px;text-align:center;padding:0}
+.xl .up{color:#1E7B34}.xl .dn{color:#B3261E}
+.xltabs{display:flex;background:#F3F3F3;border-top:1px solid #D5D9DE;padding:0 6px}.xltabs div{padding:6px 14px;font-size:12px;color:#444}.xltabs .on{background:#fff;color:#217346;font-weight:700;border-bottom:2px solid #217346}
 .prog{font-size:15px;line-height:1.7;margin-top:10px}
 .prog div{color:var(--muted)}
 .prog .dn{color:var(--text)}
@@ -113,6 +131,7 @@ button:disabled{opacity:.5}
 <button id="billgo" disabled>Make my sheet</button>
 <div class="msg" id="billmsg" role="status" aria-live="polite"></div>
 <div class="prog" id="billprog" aria-live="polite"></div>
+<div class="pv" id="billpreview" style="display:none"></div>
 </div>
 <div id="helptab" class="page" style="display:none">
 <div class="hc"><b>GitHub</b>
@@ -294,7 +313,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-o";
+const BUILD = "2026-11-12-r";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -894,6 +913,46 @@ $("testgo").onclick = async () => {
   finally { running = false; refresh(); }
 };
 
+// Excel-looking grid used by both previews (all text goes in with textContent or input values)
+function xlTable(o) {
+  const el = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x !== undefined) e.textContent = x; return e; };
+  const L = (i) => String.fromCharCode(65 + i);
+  const frame = el("div", "xl"), bar = el("div", "xlbar");
+  bar.appendChild(el("b", "", o.file)); bar.appendChild(el("span", "", "Preview")); frame.appendChild(bar);
+  const fx = el("div", "xlfx"), nm = el("span", "xlnm", "A1"), fv = el("span", "xlfv", "");
+  fx.appendChild(nm); fx.appendChild(el("i", "", "fx")); fx.appendChild(fv); frame.appendChild(fx);
+  const wrap = el("div", "xlg"), tb = el("table"), hl = el("tr");
+  hl.appendChild(el("th", "xlc", ""));
+  o.header.forEach((h, i) => hl.appendChild(el("th", "xlc", L(i))));
+  hl.appendChild(el("th", "xlc", "")); tb.appendChild(hl);
+  let rn = 1;
+  o.titles.forEach((t, k) => { const tr = el("tr"); tr.appendChild(el("td", "xlr", String(rn++))); const td = el("td", k === 0 ? "xlt1" : "xlt2", t); td.colSpan = o.header.length + 1; tr.appendChild(td); tb.appendChild(tr); });
+  const hr = el("tr"); hr.appendChild(el("td", "xlr", String(rn++)));
+  o.header.forEach(h => hr.appendChild(el("td", "xlh", h))); hr.appendChild(el("td", "xlh", "")); tb.appendChild(hr);
+  o.rows.forEach((r) => {
+    const tr = el("tr", r.bad ? "bad" : ""), row = rn++;
+    tr.appendChild(el("td", "xlr", String(row)));
+    r.cells.forEach((c, i) => {
+      const td = el("td", c.cls || "");
+      if (c.edit) {
+        const inp = el("input");
+        inp.value = c.edit.value; inp.style.minWidth = c.edit.w; inp.setAttribute("aria-label", c.edit.label);
+        const show = () => { nm.textContent = L(i) + row; fv.textContent = inp.value; };
+        inp.onfocus = () => { td.classList.add("sel"); show(); };
+        inp.onblur = () => td.classList.remove("sel");
+        inp.oninput = () => { c.edit.input(inp.value); show(); };
+        inp.onchange = () => o.redraw();
+        td.appendChild(inp);
+      } else td.textContent = c.t;
+      tr.appendChild(td);
+    });
+    const x = el("td", "xlx"), b = el("button", "pvx", "×");
+    b.type = "button"; b.setAttribute("aria-label", r.delLabel); b.onclick = r.del; x.appendChild(b); tr.appendChild(x); tb.appendChild(tr);
+  });
+  wrap.appendChild(tb); frame.appendChild(wrap);
+  const tabs = el("div", "xltabs"); o.tabs.forEach((t, i) => tabs.appendChild(el("div", i === 0 ? "on" : "", t))); frame.appendChild(tabs);
+  return frame;
+}
 // ---- Preview: check and fix the list before the sheet is made ----
 let pv = null;
 const pvBad = (r) => /\?/.test(String(r.name)) || !String(r.name).trim() || parsePoints(r.points) === null;
@@ -928,31 +987,19 @@ function pvDraw() {
   const bad = pv.rows.filter(pvBad).length, off = pv.shown && Number(pv.shown) !== pv.rows.length;
   box.appendChild(el("div", "pvt", "Check your list"));
   box.appendChild(el("div", "pvd", pv.rows.length + " rows." + (bad ? " " + bad + (bad === 1 ? " needs" : " need") + " a look (orange)." : "") + (off ? " The screen says " + pv.shown + " members." : "") + " Tap a cell to fix it."));
-  const wrap = el("div", "pvg"), tb = el("table"), hr = el("tr");
-  ["#", "Username", pv.p.extra || "Role", "Points"].concat(prevMap ? ["Previous", "Change", "% Change"] : [], [""]).forEach(h => hr.appendChild(el("th", "", h)));
-  tb.appendChild(hr);
-  pv.rows.forEach((r, i) => {
-    const tr = el("tr", pvBad(r) ? "bad" : "");
-    ["rank", "name", "role", "points"].forEach(k => {
-      const td = el("td"), inp = el("input");
-      inp.value = r[k] === undefined || r[k] === null ? "" : String(r[k]);
-      inp.setAttribute("aria-label", k + ", row " + (i + 1));
-      inp.style.minWidth = { rank: "36px", name: "90px", role: "84px", points: "72px" }[k];
-      inp.oninput = () => { r[k] = inp.value; };
-      inp.onchange = () => pvDraw();
-      td.appendChild(inp); tr.appendChild(td);
-    });
-    if (prevMap) {
-      const n = parsePoints(r.points), b = prevMap.get(String(r.name).trim().toLowerCase()), has = typeof b === "number" && n !== null;
-      const d = has ? n - b : null;
-      [has ? b : "", d === null ? (n !== null ? "new" : "") : (d > 0 ? "+" : "") + d, d === null || !b ? "" : (d > 0 ? "+" : "") + (d / b * 100).toFixed(1) + "%"].forEach(t => tr.appendChild(el("td", "ro", String(t))));
-    }
-    const td = el("td"), x = el("button", "pvx", "\u00d7");
-    x.type = "button"; x.setAttribute("aria-label", "Delete row " + (i + 1));
-    x.onclick = () => { pv.rows.splice(i, 1); pvDraw(); };
-    td.appendChild(x); tr.appendChild(td); tb.appendChild(tr);
+  const rows = pv.rows.map((r, i) => {
+    const n = parsePoints(r.points), b = prevMap ? prevMap.get(String(r.name).trim().toLowerCase()) : undefined, has = typeof b === "number" && n !== null, d = has ? n - b : null;
+    const cl = d === null ? "" : d > 0 ? "up" : d < 0 ? "dn" : "";
+    const ed = (k, w, label) => ({ edit: { value: r[k] === undefined || r[k] === null ? "" : String(r[k]), w, label: label + ", row " + (i + 1), input: (v) => { r[k] = v; } } });
+    const role = String(r.role || "");
+    return { bad: pvBad(r), delLabel: "Delete row " + (i + 1), del: () => { pv.rows.splice(i, 1); pvDraw(); }, cells: [
+      Object.assign({ cls: "r" }, ed("rank", "36px", "Rank")), ed("name", "110px", "Username"),
+      Object.assign({ cls: pv.p.extra ? "" : /owner/i.test(role) ? "own" : /coach/i.test(role) ? "coach" : "" }, ed("role", "84px", "Role")), Object.assign({ cls: "r" }, ed("points", "84px", "Points")),
+      { t: n === null ? "" : String(n), cls: "r" }, { t: has ? String(b) : "", cls: "r" },
+      { t: d === null ? "" : (d > 0 ? "+" : "") + d, cls: "r " + cl }, { t: d === null || !b ? "" : (d > 0 ? "+" : "") + (d / b * 100).toFixed(1) + "%", cls: "r " + cl },
+      { t: d !== null ? (d > 0 ? "▲" : d < 0 ? "▼" : "–") : prevMap && n !== null ? "new" : "", cls: "r " + cl }] };
   });
-  wrap.appendChild(tb); box.appendChild(wrap);
+  box.appendChild(xlTable({ file: nameOf(pv.p) + ".xlsx", titles: [pv.p.clan + " – Member Points", pv.p.game + "   ·   " + pv.rows.length + " members read"], header: ["Rank", "Username", pv.p.extra || "Role", "Points (as shown)", "Points (number)", "Previous Points", "Change", "% Change", "Trend"], rows, tabs: ["Clan Members", "About this sheet"], redraw: pvDraw }));
   const bt = el("div", "pvb"), mk = (id, text, fn) => { const b = el("button", "tab", text); b.type = "button"; if (id) b.id = id; b.onclick = fn; bt.appendChild(b); return b; };
   const dl = mk("pvgo", "Download sheet", pvDownload); dl.classList.remove("tab");
   mk("pvadd", "Add row", () => { const last = Number(pv.rows.length ? pv.rows[pv.rows.length - 1].rank : 0); pv.rows.push({ rank: (Number.isFinite(last) ? last : pv.rows.length) + 1, name: "", role: "", points: "" }); pvDraw(); });
@@ -1152,12 +1199,58 @@ function addBills(fileList) {
 }
 $("billdrop").ondrop = (e) => { e.preventDefault(); addBills(e.dataTransfer.files); };
 $("billfiles").onchange = (e) => addBills(e.target.files);
+// ---- Bills preview: check and fix the charges before the sheet is made ----
+let bp = null;
+const mkEl = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined) e.textContent = text; return e; };
+async function bpDownload() {
+  const bills = bp.bills.map(b => ({ ...b, lines: b.lines.filter(l => String(l.charge).trim() || l.amount !== null).map(l => ({ ...l, type: l.type || "Other" })) })).filter(b => b.lines.length);
+  if (!bills.length) { billSay("The list is empty. Add a charge or tap Reset.", true); return; }
+  try {
+    await loadExcel();
+    if (!window.ExcelJS) throw new Error("The spreadsheet part did not load. Refresh the page.");
+    bp = { bills, orig: JSON.parse(JSON.stringify(bills)) };
+    bpDraw();
+    clog("Bills sheet downloaded from the checked list (" + bills.length + " bill(s)).");
+    billSay("Done: " + bills.length + " bill(s). Your sheet was downloaded. Compare the numbers with the bill before relying on them.");
+  } catch (err) { clog("Stopped: " + err.message); billSay(plain(err), true); }
+}
+function bpDraw() {
+  const box = $("billpreview");
+  box.replaceChildren();
+  box.style.display = bp ? "" : "none";
+  if (!bp) return;
+  box.appendChild(mkEl("div", "pvt", "Check your charges"));
+  box.appendChild(mkEl("div", "pvd", "Tap a cell to fix it. Orange means the amount was not read."));
+  const rows = [];
+  bp.bills.forEach((b, bi) => {
+    const sum = Math.round(b.lines.reduce((t, l) => t + (l.amount || 0), 0) * 100) / 100, same = b.total !== null && Math.abs(sum - b.total) < 0.005;
+    box.appendChild(mkEl("div", "pvd", "Bill " + (bi + 1) + ", " + b.supplier + ": charges add up to " + sum.toFixed(2) + ". Total on the bill: " + (b.total === null ? "not read." : b.total.toFixed(2) + (same ? ". They match." : ". They do not match, so check the charges."))));
+    b.lines.forEach((l, i) => {
+      const ed = (k, w, label, fix) => ({ edit: { value: l[k] === undefined || l[k] === null ? "" : String(l[k]), w, label: label + ", bill " + (bi + 1) + " row " + (i + 1), input: (v) => { l[k] = fix(v); if (k === "amountShown") l.amount = parseNum(v, ""); } } });
+      rows.push({ bad: l.amount === null, delLabel: "Delete row " + (i + 1) + " of bill " + (bi + 1), del: () => { b.lines.splice(i, 1); bpDraw(); }, cells: [
+        { t: String(bi + 1), cls: "r" }, ed("type", "84px", "Type", (v) => v.replace(/[^A-Za-z]/g, "").slice(0, 20)), ed("charge", "150px", "Charge", (v) => v),
+        { t: (l.usedShown + " " + l.unit).trim() }, Object.assign({ cls: "r" }, ed("amountShown", "80px", "Amount", (v) => v)), { t: b.currency }] });
+    });
+  });
+  const count = rows.length;
+  box.appendChild(xlTable({ file: "Bills - " + (bp.bills.length === 1 ? clean(bp.bills[0].supplier, 40) || "bill" : bp.bills.length + " bills") + ".xlsx", titles: ["Bills", bp.bills.length + " bill(s), " + count + " charge(s) read"], header: ["Bill", "Type", "Charge", "Used", "Amount", "Currency"], rows, tabs: ["Bills", "Summary"], redraw: bpDraw }));
+  const bt = mkEl("div", "pvb");
+  const dl = mkEl("button", "", "Download sheet"); dl.id = "bpgo"; dl.type = "button"; dl.onclick = bpDownload; bt.appendChild(dl);
+  bp.bills.forEach((b, bi) => {
+    const add = mkEl("button", "tab", bp.bills.length > 1 ? "Add to bill " + (bi + 1) : "Add charge"); add.type = "button";
+    add.onclick = () => { b.lines.push({ type: "Other", charge: "", usedShown: "", unit: "", used: null, k: { how: "" }, how: "", amountShown: "", amount: null, check: false }); bpDraw(); };
+    bt.appendChild(add);
+  });
+  const rs = mkEl("button", "tab", "Reset"); rs.id = "bpreset"; rs.type = "button"; rs.onclick = () => { bp.bills = JSON.parse(JSON.stringify(bp.orig)); bpDraw(); }; bt.appendChild(rs);
+  box.appendChild(bt);
+}
 $("billgo").onclick = async () => {
   const key = $("key").value.trim(), id = provider();
   running = true; refresh();
+  bp = null; bpDraw();
   clog("Bill run started with " + billPics.length + " photo(s), using " + PROVIDERS[id].name + " (" + modelFor(id) + ").");
   billSay("Reading " + billPics.length + " photo(s)... this can take about 30 seconds.");
-  prog.start("billprog", ["Checking photos", "Waiting for the AI to read the bills", "Building your sheet"]);
+  prog.start("billprog", ["Checking photos", "Waiting for the AI to read the bills", "Getting your charges ready"]);
   try {
     checkKey(key);
     const pics = await collectPictures(billPics);
@@ -1173,7 +1266,7 @@ $("billgo").onclick = async () => {
     saveBlob(new Blob([await wb.xlsx.writeBuffer()], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), "Bills - " + (bills.length === 1 ? clean(bills[0].supplier, 40) || "bill" : bills.length + " bills") + ".xlsx");
     clog("Bills: " + bills.length + ", charges: " + lines + ", rows to check: " + checks + ".");
     prog.stop(true);
-    billSay("Done: " + bills.length + " bill(s), " + lines + " charge(s). Your sheet was downloaded." + (checks ? " Check " + checks + " row(s) marked check." : "") + " Compare the numbers with the bill before relying on them.");
+    billSay("Check your charges below, then tap Download sheet." + (checks ? " " + checks + " row(s) are marked check in the sheet." : ""));
   } catch (err) {
     clog("Bill run stopped: " + err.message);
     prog.stop(false);
