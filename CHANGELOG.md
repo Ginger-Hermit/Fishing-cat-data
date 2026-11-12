@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Home sections fold up, links at the top
+
+12 Nov 2026 (05:23 UTC) · Changed
+
+The Home page sections now open and close, with a link to the full guide and the free key at the top.
+
+**What you'll see:** Open the page: tap a heading on Home to open or close it.
+
+- Home sections collapse (How to use it open by default)
+- Links to the GitHub guide and the free key sit at the top
+
 ## Home page carries a short version of the guide
 
-12 Nov 2026 (05:22 UTC) · Changed
+12 Nov 2026 (05:22 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/a3d009e)
 
 The Home page now has a shortened copy of the README: how to use it, what you get, safety and limits.
 

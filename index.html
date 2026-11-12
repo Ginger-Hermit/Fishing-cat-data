@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The Home page now has a shortened copy of the README: how to use it, what you get, safety and limits. -->
+<!-- Patch note: The Home page sections now open and close, with a link to the full guide and the free key at the top. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -76,19 +76,21 @@ button:disabled{opacity:.5}
 <div id="newver" role="status" style="display:none;background:var(--field);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:14px">New version ready. <a href="#" id="reloadnow">Refresh now</a></div>
 <div class="tabs"><button id="t0" class="tab on">Home</button><button id="t1" class="tab">Roblox clan sheet</button><button id="t3" class="tab">Bills</button><button id="t4" class="tab">GitHub</button><button id="t5" class="tab">Settings</button></div>
 <div id="hometab">
+<p style="margin:2px 0 8px;font-size:14px"><a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">Full guide on GitHub</a> &middot; <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Get my free key</a></p>
 <h2 style="margin:6px 0">Turn your Roblox clan list into a spreadsheet</h2>
 <p>Take screenshots of your clan's member list. This page reads them and gives you a spreadsheet file. Nobody has to type anything.</p>
 <button data-go="sheet">Make a Roblox clan sheet</button>
 <button data-go="bill" class="tab" style="width:100%;margin-top:8px;padding:12px">Read my bills</button>
 <div style="font-size:13px;color:var(--muted);margin-top:6px">Bills works for power, gas, water, internet and phone. Photos or PDFs.</div>
-<h3 style="margin:18px 0 6px">How to use it</h3>
+<details open class="hsec" style="margin-top:12px"><summary style="font-weight:600;font-size:1.1em;cursor:pointer;padding:6px 0">How to use it</summary>
 <ol style="margin:0;padding-left:20px;line-height:1.6">
 <li>Get a free key from Google. It works like a password that lets this page read your pictures. It takes about 1 minute. <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Get my free key</a>, then paste it in the box on the next screen.</li>
 <li>Add screenshots of your clan's member list, or a screen recording of you scrolling it slowly (about 1 second per 5 members).</li>
 <li>Optional: add last week's sheet. Then you see who gained, and it keeps track of everyone over time.</li>
 <li>Tap <b>Make my sheet</b>. After about 20 seconds an Excel file downloads.</li>
 </ol>
-<h3 style="margin:18px 0 6px">What you get</h3>
+</details>
+<details class="hsec" style="margin-top:12px"><summary style="font-weight:600;font-size:1.1em;cursor:pointer;padding:6px 0">What you get</summary>
 <img src="images/clan-leaderboard.png" alt="Sample Leaderboard tab: six made-up players ranked by points gained, with gold, silver and bronze rows for the top 3" loading="lazy" width="727" height="233" style="display:block;width:100%;height:auto;border:1px solid var(--line,#ccc);border-radius:6px">
 <p style="margin:6px 0 0;font-size:14px;opacity:.75">A sample with made-up players. Yours will have your clan's names.</p>
 <ul style="margin:10px 0 0;padding-left:20px;line-height:1.6">
@@ -98,19 +100,22 @@ button:disabled{opacity:.5}
 <li><b>About</b> and <b>How it's worked out:</b> what every tab and colour means.</li>
 <li><b>Bills:</b> add photos or PDFs of power, gas, water, internet or phone bills and get one row per charge, plus a summary.</li>
 </ul>
-<h3 style="margin:18px 0 6px">Is it safe?</h3>
+</details>
+<details class="hsec" style="margin-top:12px"><summary style="font-weight:600;font-size:1.1em;cursor:pointer;padding:6px 0">Is it safe?</summary>
 <ul style="margin:0;padding-left:20px;line-height:1.6">
 <li>Your key stays on your device. It is only saved if you tick Remember my key.</li>
 <li>Only the company you pick (Google or Anthropic) sees your pictures. Nothing is saved on this site.</li>
 </ul>
 <p style="margin:6px 0 0"><a href="#" data-go="safety">More on staying safe</a></p>
-<h3 style="margin:18px 0 6px">Good to know</h3>
+</details>
+<details class="hsec" style="margin-top:12px"><summary style="font-weight:600;font-size:1.1em;cursor:pointer;padding:6px 0">Good to know</summary>
 <ul style="margin:0;padding-left:20px;line-height:1.6">
 <li>The free Google key has a daily limit. If it runs out, wait until tomorrow.</li>
 <li>The AI reads the names and points. Check any <b>?</b> or odd spelling by hand.</li>
 <li>OpenAI is not tested yet and may not work.</li>
 <li>Stuck? Tap <b>Copy bug report</b> in the box that appears while it works, and send it to the person who shared this page.</li>
 </ul>
+</details>
 <p style="font-size:13px;color:var(--muted);margin-top:14px">Built entirely by Claude, an AI. Not an official Roblox, Anthropic, Google or OpenAI product. For personal use, provided as is. The full guide is on <a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">GitHub</a>.</p>
 </div>
 <div id="keybox">
@@ -349,7 +354,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-s";
+const BUILD = "2026-11-12-t";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
