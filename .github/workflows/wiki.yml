@@ -17,7 +17,7 @@ jobs:
           REPO: ${{ github.repository }}
         run: |
           git clone "https://x-access-token:${TOKEN}@github.com/${REPO}.wiki.git" wiki
-          cp README.md wiki/Home.md
+          cp developer/WIKI_HOME.md wiki/Home.md
           cp STATUS.md wiki/Status.md
           cp CHANGELOG.md wiki/Changelog.md
           cp developer/HOW_IT_WAS_BUILT.md wiki/How-it-was-built.md
