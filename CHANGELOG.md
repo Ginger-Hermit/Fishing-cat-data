@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Ping a Discord role
 
-12 Nov 2026 (07:41 UTC) · New
+12 Nov 2026 (07:41 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/87f0d00)
 
 On the Discord tab you can pick Ping a role, paste your own role ID, and posts ping only that role.
 
