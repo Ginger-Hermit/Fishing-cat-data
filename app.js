@@ -1,4 +1,4 @@
-// Patch note: All page styles now live in style.css, so the browser refuses any styles sneaked into the page.
+// Patch note: A damaged saved last sheet is ignored instead of breaking the next sheet; negative points stay numbers in the backup CSV.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -72,7 +72,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-zv";
+const BUILD = "2026-11-12-zw";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -894,14 +894,19 @@ function adoptPending() { if (!pendingPrev) return; prevMap = pendingPrev.m; pre
 try {
   const d = JSON.parse(localStorage.getItem("fcd_prev"));
   if (d && Array.isArray(d.entries) && d.entries.every(e => typeof e[0] === "string" && typeof e[1] === "number")) {
-    prevMap = new Map(d.entries); prevMap.hist = d.hist || null; prevMap = dayBase(prevMap); prevName = String(d.name || "last sheet");
+    prevMap = new Map(d.entries); prevMap.hist = okHist(d.hist) ? d.hist : null; prevMap = dayBase(prevMap); prevName = String(d.name || "last sheet");
   }
 } catch (e) {}
 showPrev();
 
+// Saved history must have the right shape; a damaged copy is dropped, not used.
+function okHist(h) {
+  const num = (v) => typeof v === "number" && isFinite(v);
+  return !!h && Array.isArray(h.dates) && h.dates.every(num) && Array.isArray(h.players) && h.players.every(p => Array.isArray(p) && typeof p[0] === "string" && p[1] && typeof p[1] === "object" && Array.isArray(p[1].vals) && p[1].vals.every(v => v === null || num(v)) && (p[1].start === undefined || (Array.isArray(p[1].start) && p[1].start.every(num))));
+}
 function toCsv(rows) {
   // A leading ' stops Excel treating a name like =SUM(...) as a formula.
-  const esc = (v) => '"' + String(v ?? "").replace(/^([=+\-@\t\r])/, "'$1").replace(/"/g, '""') + '"';
+  const esc = (v) => typeof v === "number" ? String(v) : '"' + String(v ?? "").replace(/^([=+\-@\t\r])/, "'$1").replace(/"/g, '""') + '"';
   const lines = ["Rank,Name,Role,Points"];
   rows.forEach(r => lines.push([r.rank, r.name, r.role, r.points].map(esc).join(",")));
   return lines.join("\n");

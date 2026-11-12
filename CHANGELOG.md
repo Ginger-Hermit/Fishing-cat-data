@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Safer saved sheet and CSV
+
+12 Nov 2026 (12:52 UTC) · Changed
+
+A damaged saved last sheet is ignored instead of breaking the next sheet; negative points stay numbers in the backup CSV.
+
+> [!NOTE]
+> **What you'll see:** Clan tab: make a sheet as usual; nothing looks different.
+
+- okHist checks saved history shape; toCsv leaves numbers unquoted
+
 ## Page styles moved to their own file
 
 12 Nov 2026 (12:41 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c272914)
