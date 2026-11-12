@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Calmer developer bar
+
+12 Nov 2026 (23:59 UTC) · Changed
+
+The developer bar is flatter and takes less space.
+
+> [!NOTE]
+> **What you'll see:** Open the page with ?dev on the end.
+
+- Developer bar is one slim box: status and version on top, one grey line of details below.
+
 ## Earlier wrong names no longer stick
 
-12 Nov 2026 (23:57 UTC) · Changed
+12 Nov 2026 (23:57 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/3238c7b)
 
 If an earlier sheet had an impossible name (like dots), the new correct spelling is kept and its history moves over.
 

@@ -1,4 +1,4 @@
-// Patch note: If an earlier sheet had an impossible name (like dots), the new correct spelling is kept and its history moves over.
+// Patch note: The developer bar is flatter and takes less space.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -72,7 +72,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.2";
+const BUILD = "1.1.3";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -981,13 +981,12 @@ if (DEV && location.protocol.startsWith("http")) {
     const stale = live !== "?" && live !== BUILD, ok = live === BUILD;
     bar.className = stale ? "dvnew" : ok ? "dvok" : "";
     const head = el("", "dvh", "div");
-    head.append(el("", "dvdot"), el(stale ? "New version ready" : ok ? "Up to date" : fails ? "Can't check right now" : "Checking\u2026", "dvs"), el("Developer", "dvm"));
+    head.append(el("", "dvdot"), el(stale ? "New version ready" : ok ? "Up to date" : fails ? "Can't check right now" : "Checking\u2026", "dvs"), el("Developer " + BUILD, "dvm"));
     const kids = [head];
     if (stale) { const r = el("Refresh now", "", "button"); r.type = "button"; r.onclick = () => location.reload(); kids.push(el("This page " + BUILD + ", live " + live + ".", "dvm dvp"), r); }
     else {
-      const g = el("", "dvg", "div");
-      g.append(cell("This page", BUILD), cell("Live now", live === "?" ? "not recorded" : live), cell("Last checked", lastAt ? ago(Math.round((Date.now() - lastAt) / 1000)) : "not yet"), cell("Check speed", ms ? ms + " ms" : "not recorded"), cell("Page opened", ago(Math.round((Date.now() - t0) / 1000))), cell("Next check", next + " s"));
-      kids.push(g);
+      const sec = (s) => s < 60 ? s + " s" : Math.floor(s / 60) + " min";
+      kids.push(el("Live " + (live === "?" ? "not recorded" : live) + "  \u00b7  Checked " + (lastAt ? sec(Math.round((Date.now() - lastAt) / 1000)) + " ago" : "not yet") + "  \u00b7  " + (ms ? ms + " ms" : "not recorded") + "  \u00b7  Open " + sec(Math.round((Date.now() - t0) / 1000)) + "  \u00b7  Next check " + next + " s", "dvp"));
     }
     bar.replaceChildren(...kids);
   };
