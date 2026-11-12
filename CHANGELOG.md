@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Developer update line
+
+12 Nov 2026 (23:45 UTC) · New
+
+With ?dev, a line at the top shows this page's version, the live version, and a countdown to the next check.
+
+> [!TIP]
+> **What you'll see:** fishing-cat-data.pages.dev/?dev
+
+- Developer mode: version line with check countdown.
+
 ## Developer mode
 
 12 Nov 2026 (23:42 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0b15645)

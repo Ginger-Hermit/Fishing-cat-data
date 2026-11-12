@@ -1,4 +1,4 @@
-// Patch note: Add ?dev to the address to see each still sent to the AI and its raw reply.
+// Patch note: With ?dev, a line at the top shows this page's version, the live version, and a countdown to the next check.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -72,7 +72,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-zzc";
+const BUILD = "2026-11-12-zzd";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -946,6 +946,14 @@ function devPics(pics) {
   if (!d) { d = document.createElement("details"); d.id = "devpics"; d.open = true; document.getElementById("logbox").after(d); }
   d.replaceChildren(Object.assign(document.createElement("summary"), { textContent: "Developer: " + pics.length + " stills sent" }));
   pics.forEach((x, i) => { if (!x.type.startsWith("image/")) return; const im = new Image(); im.src = "data:" + x.type + ";base64," + x.data; im.alt = "Still " + (i + 1); im.className = "devpic"; d.appendChild(im); });
+}
+// Developer mode: a line at the top with this page's version, the live version, and a countdown to the next check (every 30 s, own site only).
+if (DEV && location.protocol.startsWith("http")) {
+  const bar = document.createElement("div"); bar.id = "devbar"; document.body.prepend(bar);
+  let next = 0, live = "?";
+  const show = () => { bar.textContent = "Developer · this page " + BUILD + " · live " + live + (live !== "?" && live !== BUILD ? " · New version is live: refresh" : "") + " · next check " + next + "s"; };
+  const look = async () => { try { const r = await fetch("version.txt?t=" + Date.now(), { cache: "no-store", signal: AbortSignal.timeout(15000) }); const v = (await r.text()).trim(); if (r.ok && /^[\w.-]{1,40}$/.test(v)) live = v; } catch (e) {} next = 30; show(); };
+  setInterval(() => { if (--next <= 0) look(); else show(); }, 1000); look();
 }
 const devReply = (text) => { if (DEV) clog("Developer, raw AI reply:\n" + String(text).slice(0, 20000), true); };
 async function collectPictures(images) {
