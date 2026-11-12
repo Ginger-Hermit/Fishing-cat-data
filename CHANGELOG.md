@@ -2,6 +2,18 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Discord has its own tab
+
+12 Nov 2026 (07:14 UTC) · New
+
+Posting to Discord now lives in its own Discord tab, so the sheet tabs are less crowded.
+
+> [!TIP]
+> **What you'll see:** New Discord tab between Bills and GitHub. It posts your latest clan sheet or Bills sheet.
+
+- Moved the Discord box and Post without the AI to a Discord tab.
+- Errors from posting show in the Discord tab.
+
 ## Remove stray headings
 
 12 Nov 2026 (07:14 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/b885d54)

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Took out the two headings added last update; they ended up in the wrong place. -->
+<!-- Patch note: Posting to Discord now lives in its own Discord tab, so the sheet tabs are less crowded. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -80,7 +80,7 @@ button:disabled{opacity:.5}
 <h1>Fishing Cat Data</h1>
 <div id="fake" style="display:none;border:2px solid var(--err);color:var(--err);background:var(--field);border-radius:8px;padding:12px 14px;margin-bottom:14px;font-weight:500">Warning: this is not the real Fishing Cat Data page. Do not paste your key here. The real page is fishing-cat-data.pages.dev</div>
 <div id="newver" role="status" style="display:none;background:var(--field);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:14px">New version ready. <a href="#" id="reloadnow">Refresh now</a></div>
-<div class="tabs main"><button id="t0" class="tab on">Home</button><button id="t1" class="tab">Roblox clan sheet</button><button id="t3" class="tab">Bills</button><button id="t4" class="tab">GitHub</button><button id="t5" class="tab">Settings</button></div>
+<div class="tabs main"><button id="t0" class="tab on">Home</button><button id="t1" class="tab">Roblox clan sheet</button><button id="t3" class="tab">Bills</button><button id="t6" class="tab">Discord</button><button id="t4" class="tab">GitHub</button><button id="t5" class="tab">Settings</button></div>
 <div id="hometab">
 <p style="margin:2px 0 8px;font-size:14px"><a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">Guide on GitHub</a> &middot; <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Free key from Google (opens Google)</a></p>
 <h2 style="margin:6px 0">Turn your Roblox clan list into a spreadsheet</h2>
@@ -167,7 +167,13 @@ button:disabled{opacity:.5}
 <div class="prog" id="prog" aria-live="polite"></div>
 <div class="pv" id="preview" style="display:none"></div>
 <button id="copyerr" type="button" class="tab" style="display:none;margin-top:8px;width:100%;padding:12px;font-size:16px;border-color:var(--err);color:var(--err)">Copy error to send</button>
-<details id="hookblock" style="margin:12px 0"><summary style="cursor:pointer;font-size:14px">Post to Discord (optional)</summary><div style="font-size:13px;color:var(--muted);margin:8px 0 6px">Discord link</div>
+<details id="logbox" style="margin-top:12px"><summary style="cursor:pointer;font-size:14px">Log: what the page did</summary>
+<pre id="console" style="background:#0d0d0d;color:#e5e7eb;border:1px solid #444;border-radius:6px;padding:10px;font-size:13px;font-family:Consolas,Menlo,monospace;line-height:1.5;white-space:pre-wrap;word-break:break-word;min-height:120px;max-height:360px;overflow:auto;resize:vertical;margin:6px 0 0"></pre>
+<div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button id="copybug" type="button">Copy bug report</button><a id="ghbug" href="https://github.com/Ginger-Hermit/Fishing-cat-data/issues/new" target="_blank" rel="noopener">Report on GitHub</a></div>
+<div style="font-size:13px;color:var(--muted);margin-top:6px">Copies the page log and your browser type. Keys are removed. Pictures are not included. Nothing is sent until you paste it somewhere. Report on GitHub opens a public form with the report filled in: read it first, then send it (needs a GitHub account).</div>
+</details>
+</div>
+<div id="discordtab" style="display:none"><p id="dcwhat" style="font-size:13px;color:var(--muted);margin:10px 0 0"></p><details id="hookblock" open style="margin:12px 0"><summary style="cursor:pointer;font-size:14px">Post to Discord (optional)</summary><div style="font-size:13px;color:var(--muted);margin:8px 0 6px">Discord link</div>
 <input id="hookbox" type="password" autocomplete="off" spellcheck="false" placeholder="https://discord.com/api/webhooks/...">
 <label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin-top:6px"><input type="checkbox" id="hookxlsx" checked style="width:auto;margin:0"> Attach the Excel file</label>
 <label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin-top:6px"><input type="checkbox" id="hookkeep" style="width:auto;margin:0"> Remember my link</label>
@@ -180,11 +186,6 @@ button:disabled{opacity:.5}
 <label for="phfile">Photo (optional)</label><div style="display:flex;gap:8px;align-items:center"><input type="file" id="phfile" accept="image/*"><button id="phclear" type="button" class="tab">Clear</button></div><div id="phsel" style="font-size:13px;color:var(--noteText)"></div>
 <div style="display:flex;gap:8px;align-items:center;margin-top:8px"><button id="shpost" type="button" class="tab">Post these</button><span id="shmsg" role="status" style="font-size:13px"></span></div>
 <div style="font-size:13px;color:var(--muted);margin:12px 0 0">Nothing is posted unless you tap Post to Discord. Anyone with this link can post in your channel, so keep it private. If posting fails, turn off any ad blocker for this site or use a Private window.</div>
-</details>
-<details id="logbox" style="margin-top:12px"><summary style="cursor:pointer;font-size:14px">Log: what the page did</summary>
-<pre id="console" style="background:#0d0d0d;color:#e5e7eb;border:1px solid #444;border-radius:6px;padding:10px;font-size:13px;font-family:Consolas,Menlo,monospace;line-height:1.5;white-space:pre-wrap;word-break:break-word;min-height:120px;max-height:360px;overflow:auto;resize:vertical;margin:6px 0 0"></pre>
-<div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button id="copybug" type="button">Copy bug report</button><a id="ghbug" href="https://github.com/Ginger-Hermit/Fishing-cat-data/issues/new" target="_blank" rel="noopener">Report on GitHub</a></div>
-<div style="font-size:13px;color:var(--muted);margin-top:6px">Copies the page log and your browser type. Keys are removed. Pictures are not included. Nothing is sent until you paste it somewhere. Report on GitHub opens a public form with the report filled in: read it first, then send it (needs a GitHub account).</div>
 </details>
 </div>
 <div id="billtab" style="display:none">
@@ -346,24 +347,27 @@ Answer with ONLY a JSON array, no other text:
 [{"rank": 12, "name": "example_name", "role": "${p.extra ? "value" : "Member"}", "points": "16.6K"}, ...]`;
 }
 // Newest 5 only. The full history is in CHANGELOG.md.
+let lastKind = "sheet";
 function showTab(which) {
-  const shown = { home: "hometab", sheet: "sheet", bill: "billtab", help: "helptab", settings: "settingstab", privacy: "privacytab", safety: "safetytab", legal: "legaltab" };
-  const btn = { home: "t0", sheet: "t1", bill: "t3", help: "t4", settings: "t5" };
+  const shown = { home: "hometab", sheet: "sheet", bill: "billtab", discord: "discordtab", help: "helptab", settings: "settingstab", privacy: "privacytab", safety: "safetytab", legal: "legaltab" };
+  const btn = { home: "t0", sheet: "t1", bill: "t3", discord: "t6", help: "t4", settings: "t5" };
   for (const k in shown) {
     document.getElementById(shown[k]).style.display = k === which ? "" : "none";
     const b = btn[k] && document.getElementById(btn[k]);
     if (b) { b.classList.toggle("on", k === which); b.setAttribute("aria-selected", k === which); }
   }
-  if (which === "sheet" || which === "bill") { const t = document.getElementById(which === "bill" ? "billtab" : "sheet"); t.appendChild(document.getElementById("hookblock")); t.appendChild(document.getElementById("logbox")); }
+  if (which === "sheet" || which === "bill") { const t = document.getElementById(which === "bill" ? "billtab" : "sheet"); t.appendChild(document.getElementById("logbox")); lastKind = which; }
+  if (which === "discord") { const bl = lastKind === "bill"; $("dcwhat").textContent = "Posts your latest " + (bl ? "Bills sheet" : "Roblox clan sheet") + "."; }
   if (which === "settings") { renderSaved(); $("wipemsg").textContent = ""; }
   document.getElementById("keybox").style.display = which === "sheet" || which === "bill" ? "" : "none";
 }
 document.querySelector(".tabs").setAttribute("role", "tablist");
-["t0", "t1", "t3", "t4", "t5"].forEach(id => document.getElementById(id).setAttribute("role", "tab"));
+["t0", "t1", "t3", "t6", "t4", "t5"].forEach(id => document.getElementById(id).setAttribute("role", "tab"));
 document.getElementById("t0").setAttribute("aria-selected", "true");
 document.getElementById("t0").onclick = () => showTab("home");
 document.getElementById("t1").onclick = () => showTab("sheet");
 document.getElementById("t3").onclick = () => showTab("bill");
+document.getElementById("t6").onclick = () => showTab("discord");
 document.getElementById("t4").onclick = () => showTab("help");
 document.getElementById("t5").onclick = () => showTab("settings");
 document.querySelectorAll("[data-go]").forEach(a => { a.onclick = (e) => { e.preventDefault(); showTab(a.dataset.go); window.scrollTo(0, 0); }; });
@@ -390,7 +394,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-m";
+const BUILD = "2026-11-12-n";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -474,7 +478,8 @@ const prog = {
     if (end === 1) { const d = document.createElement("div"); d.className = "now"; d.textContent = "Done in " + sec + "s"; this.el.appendChild(d); }
   }
 };
-const setMsg = (text, bad) => { $("msg").textContent = text; $("msg").className = "msg" + (bad ? " err" : ""); $("copyerr").style.display = bad ? "block" : "none"; if (bad) $("logbox").open = true; };
+const dcSay = (text) => { if ($("discordtab").style.display !== "none") $("hookmsg").textContent = text; };
+const setMsg = (text, bad) => { dcSay(text); $("msg").textContent = text; $("msg").className = "msg" + (bad ? " err" : ""); $("copyerr").style.display = bad ? "block" : "none"; if (bad) $("logbox").open = true; };
 
 function showCount(id, n, clear) {
   const box = $(id);
@@ -1554,7 +1559,7 @@ async function billPic(bills) {
   return { blob: await tablePic("Bills", todayText(), [{ h: "Charge", w: 470 }, { h: "Amount", w: 200, a: "r" }], out), name: "Bills.png" };
 }
 $("hookpost").onclick = () => {
-  const bills = $("hookblock").parentElement.id === "billtab", have = bills ? bp : pv;
+  const bills = lastKind === "bill", have = bills ? bp : pv;
   if (!have) { $("hookmsg").textContent = bills ? "Read your bills first." : "Make a list first."; return; }
   $("hookmsg").textContent = ""; (bills ? bpPost : pvPost)();
 };
@@ -1865,7 +1870,7 @@ function buildBillBook(EJ, bills, when) {
   });
   return wb;
 }
-const billSay = (text, bad) => { $("billmsg").textContent = text; $("billmsg").className = "msg" + (bad ? " err" : ""); };
+const billSay = (text, bad) => { dcSay(text); $("billmsg").textContent = text; $("billmsg").className = "msg" + (bad ? " err" : ""); };
 $("billdrop").onclick = () => $("billfiles").click();
 $("billdrop").ondragover = (e) => e.preventDefault();
 function addBills(fileList) {
