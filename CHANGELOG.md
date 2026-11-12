@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Post to Discord for bills
+
+12 Nov 2026 (06:16 UTC) · Changed
+
+Bills now has Post to Discord too, on tap only. It sends a short summary and the sheet.
+
+**What you'll see:** Bills preview: Post to Discord
+
+- Discord posting on Bills
+
 ## Post to Discord always shown
 
-12 Nov 2026 (06:15 UTC) · Changed
+12 Nov 2026 (06:15 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c6782c6)
 
 Post to Discord now shows on every clan sheet. With no saved link it asks you to paste one.
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Post to Discord now shows on every clan sheet. With no saved link it asks you to paste one. -->
+<!-- Patch note: Bills now has Post to Discord too, on tap only. It sends a short summary and the sheet. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -375,7 +375,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-q";
+const BUILD = "2026-11-12-r";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1735,6 +1735,19 @@ async function bpDownload() {
     billSay("Done: " + bills.length + " bill(s). Your sheet was downloaded. Compare the numbers with the bill before relying on them.");
   } catch (err) { clog("Stopped: " + why(err)); billSay(plain(err), true); }
 }
+async function bpPost() {
+  const bills = bp.bills.map(b => ({ ...b, lines: b.lines.filter(l => String(l.charge).trim() || l.amount !== null).map(l => ({ ...l, type: l.type || "Other" })) })).filter(b => b.lines.length);
+  if (!bills.length) { billSay("The list is empty. Add a charge or tap Reset.", true); return; }
+  try {
+    billSay("Posting to Discord...");
+    await loadExcel();
+    if (!window.ExcelJS) throw new Error("The spreadsheet part did not load. Refresh the page.");
+    const text = ("**Bills** \u00b7 " + todayText() + "\n" + bills.map((b) => b.supplier + (b.billDate ? " \u00b7 " + b.billDate : "") + " \u00b7 " + b.lines.length + " charges" + (b.total !== null ? " \u00b7 " + (b.currency || "") + " " + b.total : "")).join("\n")).slice(0, 1900);
+    const name = "Bills - " + (bills.length === 1 ? clean(bills[0].supplier, 40) || "bill" : bills.length + " bills") + ".xlsx";
+    const sent = await hookPost(text, { blob: new Blob([await buildBillBook(window.ExcelJS, bills, todayText()).xlsx.writeBuffer()], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), name });
+    billSay(sent ? "Posted to Discord with the sheet." : "Posted to Discord. The sheet file could not go, so use Download sheet.");
+  } catch (err) { clog("Stopped: " + why(err)); billSay(plain(err), true); }
+}
 function bpDraw() {
   const box = $("billpreview");
   box.replaceChildren();
@@ -1757,6 +1770,12 @@ function bpDraw() {
   box.appendChild(xlTable({ file: "Bills - " + (bp.bills.length === 1 ? clean(bp.bills[0].supplier, 40) || "bill" : bp.bills.length + " bills") + ".xlsx", titles: ["Bills", bp.bills.length + " bill(s), " + count + " charge(s) read"], header: ["Bill", "Type", "Charge", "Used", "Amount", "Currency"], rows, tabs: ["Bills", "Summary"], redraw: bpDraw }));
   const bt = mkEl("div", "pvb");
   const dl = mkEl("button", "", "Download sheet"); dl.id = "bpgo"; dl.type = "button"; dl.onclick = bpDownload; bt.appendChild(dl);
+  const ask = mkEl("div", "pvd", ""), inp = document.createElement("input"), sendBtn = mkEl("button", "tab", "Send"), hk = mkEl("button", "tab", "Post to Discord");
+  ask.style.cssText = "display:none;flex-basis:100%"; sendBtn.type = "button"; hk.type = "button"; inp.type = "password"; inp.autocomplete = "off"; inp.placeholder = "Paste your Discord link"; inp.setAttribute("aria-label", "Discord link");
+  sendBtn.onclick = () => { const v = inp.value.trim(); if (!HOOK_RE.test(v)) { billSay("That is not a Discord link.", true); return; } setHook(v); $("hookbox").value = v; bpPost(); };
+  ask.append(inp, sendBtn, mkEl("div", "", "Used for this visit only. Bills can show private details, so check the table first."));
+  hk.onclick = () => { if (HOOK_RE.test(hookGet())) return bpPost(); ask.style.display = ask.style.display ? "" : "none"; };
+  bt.appendChild(hk); bt.appendChild(ask);
   bp.bills.forEach((b, bi) => {
     const add = mkEl("button", "tab", bp.bills.length > 1 ? "Add to bill " + (bi + 1) : "Add charge"); add.type = "button";
     add.onclick = () => { b.lines.push({ type: "Other", charge: "", usedShown: "", unit: "", used: null, k: { how: "" }, how: "", amountShown: "", amount: null, check: false }); bpDraw(); };
