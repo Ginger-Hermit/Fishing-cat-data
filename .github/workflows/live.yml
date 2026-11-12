@@ -1,4 +1,4 @@
-# Patch note: weekly live-site check (Mondays); never fails (so no emails), writes the result to developer/LIVE_CHECK_LOG.md.
+# Patch note: weekly live-site check (Mondays); silent when fine, red cross and a log line only when broken, writes the result to developer/LIVE_CHECK_LOG.md.
 name: Live site
 on:
   schedule:
@@ -25,11 +25,12 @@ jobs:
           else
             R=" page does not load;"
           fi
-          # quiet: only saves a line when something is wrong, or on Mondays
-          [ -n "$R" ] || [ "$(date -u +%u)" = 1 ] || { echo "OK"; exit 0; }
+          # silent when fine; when broken: one log line and a red cross
+          [ -n "$R" ] || { echo "OK"; exit 0; }
           F=developer/LIVE_CHECK_LOG.md
           [ -f $F ] || printf '# Live site checks\nWritten by GitHub every Monday. Newest at the bottom.\n\n' > $F
           echo "- $(date -u +%Y-%m-%d) version $WANT: ${R:- OK}" >> $F
           git add $F
           git -c user.name="github-actions" -c user.email="noreply@github.com" commit -qm "Live site check [skip ci]"
           git push -q || echo "could not save the log"
+          echo "FAIL live site:$R"; exit 1
