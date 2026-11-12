@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Version numbers
+
+12 Nov 2026 (23:55 UTC) · Changed
+
+Versions are now simple numbers like 1.1.1 instead of date and letters.
+
+> [!NOTE]
+> **What you'll see:** Open the page with ?dev on the end. It shows the version number.
+
+- Page version is now a number (1.1.x). Each update adds 1 to the last number.
+
 ## Nicer developer bar
 
 12 Nov 2026 (23:53 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/09400f4)

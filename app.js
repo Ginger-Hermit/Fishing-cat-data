@@ -1,4 +1,4 @@
-// Patch note: The developer bar at the top is easier to read and shows more.
+// Patch note: Versions are now simple numbers like 1.1.1 instead of date and letters.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -72,7 +72,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-zzj";
+const BUILD = "1.1.1";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -974,10 +974,10 @@ if (DEV && location.protocol.startsWith("http")) {
     const head = el("", "dvh", "div");
     head.append(el("", "dvdot"), el(stale ? "New version ready" : ok ? "Up to date" : fails ? "Can't check right now" : "Checking\u2026", "dvs"), el("Developer", "dvm"));
     const kids = [head];
-    if (stale) { const r = el("Refresh now", "", "button"); r.type = "button"; r.onclick = () => location.reload(); kids.push(el("This page " + BUILD.slice(-3) + ", live " + live.slice(-3) + ".", "dvm dvp"), r); }
+    if (stale) { const r = el("Refresh now", "", "button"); r.type = "button"; r.onclick = () => location.reload(); kids.push(el("This page " + BUILD + ", live " + live + ".", "dvm dvp"), r); }
     else {
       const g = el("", "dvg", "div");
-      g.append(cell("This page", BUILD.slice(-3)), cell("Live now", live === "?" ? "not recorded" : live.slice(-3)), cell("Last checked", lastAt ? ago(Math.round((Date.now() - lastAt) / 1000)) : "not yet"), cell("Check speed", ms ? ms + " ms" : "not recorded"), cell("Page opened", ago(Math.round((Date.now() - t0) / 1000))), cell("Next check", next + " s"));
+      g.append(cell("This page", BUILD), cell("Live now", live === "?" ? "not recorded" : live), cell("Last checked", lastAt ? ago(Math.round((Date.now() - lastAt) / 1000)) : "not yet"), cell("Check speed", ms ? ms + " ms" : "not recorded"), cell("Page opened", ago(Math.round((Date.now() - t0) / 1000))), cell("Next check", next + " s"));
       kids.push(g);
     }
     bar.replaceChildren(...kids);

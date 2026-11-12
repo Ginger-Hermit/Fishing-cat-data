@@ -18,7 +18,8 @@ now = datetime.datetime.now(datetime.timezone.utc)
 old = open("version.txt", encoding="utf-8").read().strip()
 day = max(now.strftime("%Y-%m-%d"), old[:10])   # never go backwards: the owner's local date can be a day ahead of world time
 shown = datetime.date.fromisoformat(day).strftime("%d %b %Y").lstrip("0")
-new = (old[:-1] + chr(ord(old[-1]) + 1) if old[-1] != "z" else old + "a") if old.startswith(day) else day + "-a"   # same day: ...-y, -z, -za, -zb; never repeats a version
+m = re.fullmatch(r"(\d+)\.(\d+)\.(\d+)", old)
+new = "%s.%s.%d" % (m[1], m[2], int(m[3]) + 1) if m else "1.1.1"   # version is major.minor.patch: every release adds 1 to the last number
 head = subprocess.run(["git", "log", "--format=%h", "-1"], capture_output=True, text=True).stdout.strip()
 q = lambda t: json.dumps(t, ensure_ascii=False)
 REPO = "https://github.com/Ginger-Hermit/Fishing-cat-data/commit/"
@@ -47,7 +48,7 @@ block = "\n## %s\n\n%s (%s UTC) · %s\n\n%s\n\n> [!%s]\n> **What you'll see:** %
 open("CHANGELOG.md", "w", encoding="utf-8").write(c[:k] + block + c[k:])
 
 st = open("STATUS.md", encoding="utf-8").read()
-st, n = re.subn(r"Page version \d{4}-\d\d-\d\d-[a-z]+", "Page version " + new, st, count=1)
+st, n = re.subn(r"Page version [\w.-]+", "Page version " + new, st, count=1)
 st = re.sub(r"Last updated: [^.]*\.", "Last updated: %s." % shown, st, count=1)
 if n != 1: sys.exit("release.py: 'Page version' not found in STATUS.md")
 open("STATUS.md", "w", encoding="utf-8").write(st)
