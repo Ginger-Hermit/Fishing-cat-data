@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Slow Gemini switches model
+
+12 Nov 2026 (06:10 UTC) · Changed
+
+If Google is slow, the page tries a backup model after 75s instead of waiting 3 minutes.
+
+**What you'll see:** Log says Too slow. Switching
+
+- Timeout now swaps to the backup Gemini model
+
 ## Clan history tab layout
 
-12 Nov 2026 (06:06 UTC) · Changed
+12 Nov 2026 (06:06 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6ac51d6)
 
 The Points history tab shows its title and how-to-read box in full instead of cutting them off.
 
