@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Webhook help wording
 
-12 Nov 2026 (12:17 UTC) · Changed
+12 Nov 2026 (12:17 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0bb230c)
 
 The webhook steps no longer have random capital letters.
 
