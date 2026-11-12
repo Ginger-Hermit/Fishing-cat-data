@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## One tick for the Discord link
 
-12 Nov 2026 (07:26 UTC) · Changed
+12 Nov 2026 (07:26 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/73f759a)
 
 Removed the Forget link button; the tick now says Save my link on this device and unticking deletes it.
 
