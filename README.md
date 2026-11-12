@@ -64,9 +64,9 @@ All rights reserved. You can use the site and read the code, but not copy, re-ho
 
 ## For developers
 
-- Plain static site: `index.html` (all the page's code) and `exceljs.bare.min.js` ([ExcelJS](https://github.com/exceljs/exceljs) 4.4.0, used to make and read `.xlsx`). No build step.
+- Plain static site: `index.html` (what's on screen), `app.js` (all the code), `style.css` (the look) and `exceljs.bare.min.js` ([ExcelJS](https://github.com/exceljs/exceljs) 4.4.0, used to make and read `.xlsx`). No build step.
 - The AI models are listed in `PROVIDERS` near the top of the script (`MODEL` is the Anthropic default). If a model is retired, change it there.
-- Each change to `index.html` is released with `python3 tools/release.py`, which bumps the version and writes the changelog entry (see `CLAUDE.md`).
+- Each change to `index.html`, `app.js` or `style.css` is released with `python3 tools/release.py`, which bumps the version and writes the changelog entry (see `CLAUDE.md`).
 - `python3 tests/check.py` is the auto check. GitHub runs it after every push, along with the other tests, including `tests/browser.test.js` in Chrome, Firefox and Safari's engine.
 - Every push to `main` publishes automatically after about a minute.
 - [developer/HOW_TO_BE_LAZY_WITH_CLAUDE.md](developer/HOW_TO_BE_LAZY_WITH_CLAUDE.md): a copyable guide to getting Claude to do almost everything when you make an app on GitHub, including the manual setup steps, costs and Free vs Pro.
@@ -86,18 +86,27 @@ To run it from the repo folder:
 
 It prints an error if a check fails. If LibreOffice isn't installed, the formula checks are skipped and only the points parsing is tested.
 
+**Run by GitHub automatically (free, no tokens):**
+- Every push: `tests/check.py` (syntax, risky code, no inline code or styles), row, bill and fuzz tests, the page in Chrome, Firefox and Safari's engine, `tests/a11y.test.js` (readability in every theme), `tools/attack.py` (break test with a pretend Discord), and a size watch on `index.html`.
+- Every push to main and weekly: CodeQL security scan (results under Security, Code scanning).
+- Weekly: live-site check, written to `developer/LIVE_CHECK_LOG.md`.
+
 ## Read the code (quick guide)
 
-**TL;DR:** the whole page is one file, `index.html`. Search it for a word you see on screen. That's it.
+**TL;DR:** the page is three files: `index.html` (words on screen), `app.js` (code), `style.css` (look). Search them for a word you see on screen. That's it.
 
 ### 1. What's in the repo (30 seconds)
 
 | File | What it is | Open it? |
 |---|---|---|
-| `index.html` | The whole page | Yes |
+| `index.html` | The page's words and layout | Yes |
+| `app.js` | All the page's code | Yes |
+| `style.css` | Colours, sizes, spacing | Yes |
 | `README.md` | This guide | You're here |
 | `STATUS.md` | What's done, what's next | Yes |
 | `tests/check.py` | Auto check, runs on every push | No |
+| `tests/a11y.test.js`, `tools/attack.py` | Readability and break tests, run on every push | No |
+| `developer/BUG_LOG.md`, `developer/LIVE_CHECK_LOG.md` | Bugs fixed; weekly live-site checks | Yes |
 | `_headers` | Browser lock (who the page may talk to) | No |
 | `exceljs.bare.min.js` | Excel maker, unreadable on purpose | Never |
 | `CLAUDE.md`, `version.txt` | Rules for the AI, version number | No |
@@ -111,7 +120,7 @@ It prints an error if a check fails. If LibreOffice isn't installed, the formula
 5. `parseRows`: turns the reply into a list
 6. `buildWorkbook`: makes the Excel file
 
-Search `index.html` for any of these names to jump straight there.
+Search `app.js` for any of these names to jump straight there.
 
 ### 3. Read one line (1 minute)
 
@@ -166,6 +175,6 @@ Free places to start. Pick **one**, not all.
 
 **Tips that help**
 - 15 minutes a day beats 3 hours once.
-- Change one small thing in a copy of `index.html` (a button's words) and see what happens. You can't break the live site from your own computer.
+- Change one small thing in a copy of the page (a button's words in `index.html`) and see what happens. You can't break the live site from your own computer.
 - Stuck for more than 10 minutes? Ask an AI chat: "explain this like I'm new".
 - Keep your first goal tiny: "I can read this one function".

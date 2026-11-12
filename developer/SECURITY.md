@@ -13,7 +13,7 @@ The page's security header (`_headers`) only allows connections to:
 - api.anthropic.com
 - generativelanguage.googleapis.com
 - api.openai.com
-- discord.com (only for Post to Discord, to the link you paste; posts never ping anyone)
+- discord.com (only for Post to Discord, to the link you paste; posts ping only the role you pick, never @everyone)
 
 Anything else is blocked by the browser. A new website needs an edit to `_headers` and a mention in the on-page safety text.
 
@@ -30,6 +30,8 @@ Anything else is blocked by the browser. A new website needs an edit to `_header
 - No `eval` or `exec`.
 - No packages except `exceljs.bare.min.js`, loaded only when needed.
 - Other security header rules: no framing, no referrer sent, camera, microphone and location blocked.
+- No inline code or styles: the page's code is only in `app.js` and its look only in `style.css`, so code or styles sneaked into the page are refused by the browser.
+- Checked on GitHub: CodeQL security scan (every push and weekly), break test `tools/attack.py` and readability test after every push, live-site check weekly (`developer/LIVE_CHECK_LOG.md`).
 
 ## Real page or copy
 The only official address is **https://fishing-cat-data.pages.dev**. A copy could be changed to steal keys. The page shows a red warning and locks the key box if opened from another address, but copies can remove that, so check the address yourself.

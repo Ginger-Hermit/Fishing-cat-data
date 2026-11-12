@@ -1,11 +1,11 @@
 # Patch note: builds the wiki pages from the repo docs. Run by .github/workflows/wiki.yml with the wiki folder as the argument.
-import re, sys, shutil
+import re, sys, shutil, os
 W = sys.argv[1]
 REPO = "https://github.com/Ginger-Hermit/Fishing-cat-data/blob/main/"
 RAW = "https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/"
 LINKS = {"CHANGELOG.md": "Changelog", "STATUS.md": "Status", "README.md": "Home",
          "developer/HOW_IT_WAS_BUILT.md": "How-it-was-built", "developer/THE_LAZY_WAY.md": "The-lazy-way", "developer/HOW_TO_BE_LAZY_WITH_CLAUDE.md": "How-to-be-lazy-with-Claude", "developer/STRESS_TEST_LOG.md": "Stress-test-log",
-         "developer/SECURITY.md": "Security", "developer/FAQ.md": "FAQ", "CLAUDE.md": "AI-rules"}
+         "developer/SECURITY.md": "Security", "developer/BUG_LOG.md": "Bug-log", "developer/LIVE_CHECK_LOG.md": "Live-checks", "developer/FAQ.md": "FAQ", "CLAUDE.md": "AI-rules"}
 def fix(t):
     def f(m):
         u = m.group(1)
@@ -35,6 +35,8 @@ put("Home", home.replace("{{STATUS}}", status).replace("{{LATEST}}", latest()))
 whole("STATUS.md", "Status"); whole("CHANGELOG.md", "Changelog")
 whole("developer/HOW_IT_WAS_BUILT.md", "How-it-was-built"); whole("developer/THE_LAZY_WAY.md", "The-lazy-way"); whole("developer/HOW_TO_BE_LAZY_WITH_CLAUDE.md", "How-to-be-lazy-with-Claude"); whole("developer/STRESS_TEST_LOG.md", "Stress-test-log")
 whole("developer/WIKI_USING.md", "Using-it"); whole("developer/WIKI_DEV.md", "Developers"); whole("developer/SECURITY.md", "Security"); whole("developer/FAQ.md", "FAQ")
+whole("developer/BUG_LOG.md", "Bug-log")
+if os.path.exists("developer/LIVE_CHECK_LOG.md"): whole("developer/LIVE_CHECK_LOG.md", "Live-checks")
 put("AI-rules", "# Rules for the AI\n\nThe rules the AI follows on every change.\n" + open("CLAUDE.md").read().split("\n", 1)[1].replace("@STATUS.md\n", ""))
 R = {"How to use it": "How-to-use", "What you get": "What-you-get", "Features": "Features", "Privacy": "Privacy",
      "Known limits": "Known-limits", "Licence": "Licence", "For developers": "For-developers",
@@ -53,4 +55,5 @@ open(f"{W}/_Sidebar.md", "w").write("""**Pages**
 - [Developers](Developers)
 - [Status](Status)
 - [Changelog](Changelog)
+- [Bug log](Bug-log)
 """)

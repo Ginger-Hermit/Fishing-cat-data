@@ -1,10 +1,10 @@
 # Developers
 
-For anyone who wants to look under the bonnet. The whole page is one file, `index.html`, with no new packages.
+For anyone who wants to look under the bonnet. The page is three files, `index.html`, `app.js` and `style.css`, with no new packages.
 
 **Start here**
 - [For developers](For-developers): how the repo works
-- [Read the code](Read-the-code): a quick guide to what is in `index.html`
+- [Read the code](Read-the-code): a quick guide to what is in the page's code
 - [Tests](Tests): how the sheet maths and the AI reading are checked
 - [AI rules](AI-rules): the rules the AI follows on every change
 

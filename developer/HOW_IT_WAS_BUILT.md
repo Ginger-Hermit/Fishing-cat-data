@@ -7,7 +7,7 @@ Written 12 Nov 2026. The owner (Ginger) does not code. Claude, an AI, wrote ever
 A Roblox clan leader scrolls a member list and types the points into a sheet by hand. The page should do that from screenshots or a video: an AI reads the pictures, and the page makes an Excel sheet. Later, the same page also reads photos of household bills.
 
 Rules set from the start, and kept:
-- One web page (`index.html`), no server, no accounts, no new packages.
+- One web page (`index.html`, with its code in `app.js` and look in `style.css`), no server, no accounts, no new packages.
 - The AI copies what it sees. The sheet does the sums.
 - Nothing leaves the person's device except the pictures going to the AI company they picked.
 

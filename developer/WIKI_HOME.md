@@ -24,7 +24,7 @@ Sample data, not real people.
 For bills the AI only copies what it sees. The sheet does all the sums and conversions.
 
 ## The story in short
-A clan leader scrolls a member list and types the points into a sheet by hand. This page does that from screenshots or a video. The whole page is one file with no new packages, and every line of code was written by an AI, with the author giving the ideas and testing it. See [How it was built](How-it-was-built) and [What broke](What-broke) for the honest version.
+A clan leader scrolls a member list and types the points into a sheet by hand. This page does that from screenshots or a video. The whole page is three small files with no new packages, and every line of code was written by an AI, with the author giving the ideas and testing it. See [How it was built](How-it-was-built) and [What broke](What-broke) for the honest version.
 
 ## Where things stand
 {{STATUS}}
