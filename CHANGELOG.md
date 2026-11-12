@@ -11,7 +11,7 @@ The developer stills now have their own Copy bug report button.
 > [!NOTE]
 > **What you'll see:** Developer stills, below the Log
 
-- Added a Copy bug report button under the stills heading.
+- Added a Copy bug report button under the stills heading. [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/18ced806a939df75299c1df84910a6b30e33e096)
 
 ## Warns about reused videos
 
