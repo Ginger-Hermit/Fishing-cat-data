@@ -1,7 +1,7 @@
 # Rules for Claude: Fishing Cat Data
 
 Read this and the status at the start of every chat. Never ask Ginger for a handoff.
-Also at the start: `tail -3 developer/LIVE_CHECK_LOG.md` and the latest GitHub Actions results on `main` (Check, CodeQL). Mention a problem in one line; say nothing if all is fine. Ginger doesn't read email.
+Also at the start: check the latest GitHub Actions results on `main` (Check, CodeQL). Mention a problem in one line; say nothing if all is fine. Ginger doesn't read email.
 
 @STATUS.md
 
