@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Safer Discord posting, clearer grey text
 
-12 Nov 2026 (10:51 UTC) · Changed
+12 Nov 2026 (10:51 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2289668)
 
 A slow upload no longer posts twice, a busy Discord gets one more try, and grey help text is easier to read.
 
