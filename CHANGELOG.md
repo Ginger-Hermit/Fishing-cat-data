@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Simpler Discord tab
 
-12 Nov 2026 (12:25 UTC) · Changed
+12 Nov 2026 (12:25 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8bb1a01)
 
 The Discord tab has fewer steps. Header picture and ping moved into More options, and the webhook help links to Discord's own guide.
 
