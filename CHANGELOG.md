@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Even gaps and Discord hint
+
+12 Nov 2026 (07:16 UTC) · Changed
+
+Same gap above every bar on the clan tab; the hint no longer points to Discord under an arrow.
+
+> [!NOTE]
+> **What you'll see:** Clan tab: the More options and Log bars; Discord tab: file pickers fit the screen.
+
+- Removed two odd gap settings; shortened the empty Log; made file pickers shrink to fit.
+
 ## Discord has its own tab
 
 12 Nov 2026 (07:14 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/1c9aa43)

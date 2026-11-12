@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Posting to Discord now lives in its own Discord tab, so the sheet tabs are less crowded. -->
+<!-- Patch note: Same gap above every bar on the clan tab; the hint no longer points to Discord under an arrow. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -155,20 +155,20 @@ button:disabled{opacity:.5}
 <div id="list"></div>
 </details>
 <button id="go" disabled>Make my sheet</button>
-<details id="moreopts" style="margin-top:10px"><summary style="cursor:pointer;font-size:14px">More options (last sheet, test)</summary>
+<details id="moreopts"><summary style="cursor:pointer;font-size:14px">More options (last sheet, test)</summary>
 <label>Last sheet (optional)</label>
 <div class="drop" id="prevdrop">Tap to choose an earlier sheet (.xlsx) to compare</div>
 <input id="prevfile" type="file" accept=".xlsx" hidden>
 <div id="previnfo"></div>
 <button id="testgo" type="button" class="tab" disabled style="margin-top:8px;width:100%">Test first (small read, no file)</button>
 </details>
-<div id="opthint" style="font-size:13px;color:var(--muted);margin:8px 0 0">Looking for Discord, your last sheet or the Log? They are under the small arrows (▸) on this page.</div>
+<div id="opthint" style="font-size:13px;color:var(--muted);margin:12px 0 0">Looking for your last sheet or the Log? They are under the small arrows (▸). Discord posting has its own tab.</div>
 <div class="msg" id="msg" role="status" aria-live="polite"></div>
 <div class="prog" id="prog" aria-live="polite"></div>
 <div class="pv" id="preview" style="display:none"></div>
 <button id="copyerr" type="button" class="tab" style="display:none;margin-top:8px;width:100%;padding:12px;font-size:16px;border-color:var(--err);color:var(--err)">Copy error to send</button>
-<details id="logbox" style="margin-top:12px"><summary style="cursor:pointer;font-size:14px">Log: what the page did</summary>
-<pre id="console" style="background:#0d0d0d;color:#e5e7eb;border:1px solid #444;border-radius:6px;padding:10px;font-size:13px;font-family:Consolas,Menlo,monospace;line-height:1.5;white-space:pre-wrap;word-break:break-word;min-height:120px;max-height:360px;overflow:auto;resize:vertical;margin:6px 0 0"></pre>
+<details id="logbox"><summary style="cursor:pointer;font-size:14px">Log: what the page did</summary>
+<pre id="console" style="background:#0d0d0d;color:#e5e7eb;border:1px solid #444;border-radius:6px;padding:10px;font-size:13px;font-family:Consolas,Menlo,monospace;line-height:1.5;white-space:pre-wrap;word-break:break-word;min-height:60px;max-height:360px;overflow:auto;resize:vertical;margin:6px 0 0"></pre>
 <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button id="copybug" type="button">Copy bug report</button><a id="ghbug" href="https://github.com/Ginger-Hermit/Fishing-cat-data/issues/new" target="_blank" rel="noopener">Report on GitHub</a></div>
 <div style="font-size:13px;color:var(--muted);margin-top:6px">Copies the page log and your browser type. Keys are removed. Pictures are not included. Nothing is sent until you paste it somewhere. Report on GitHub opens a public form with the report filled in: read it first, then send it (needs a GitHub account).</div>
 </details>
@@ -182,8 +182,8 @@ button:disabled{opacity:.5}
 <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><input type="file" id="artfile" accept="image/*" style="width:auto"><button id="artforget" type="button" class="tab">Remove</button><img id="artthumb" alt="Your saved header picture" style="display:none;height:44px;border-radius:6px;border:1px solid var(--soft)"><span id="artmsg" role="status" style="font-size:13px"></span></div>
 <div style="font-weight:600;margin:16px 0 4px">Post without the AI</div>
 <div style="font-size:13px;color:var(--muted)">Uses no AI, so no tokens. Pick a saved Excel sheet and/or a photo. With only a sheet, the table picture is drawn from it. Whatever you pick is posted.</div>
-<label for="shfile">Excel sheet</label><div style="display:flex;gap:8px;align-items:center"><input type="file" id="shfile" accept=".xlsx"><button id="shclear" type="button" class="tab">Clear</button></div><div id="shsel" style="font-size:13px;color:var(--noteText)"></div>
-<label for="phfile">Photo (optional)</label><div style="display:flex;gap:8px;align-items:center"><input type="file" id="phfile" accept="image/*"><button id="phclear" type="button" class="tab">Clear</button></div><div id="phsel" style="font-size:13px;color:var(--noteText)"></div>
+<label for="shfile">Excel sheet</label><div style="display:flex;gap:8px;align-items:center"><input type="file" id="shfile" accept=".xlsx" style="flex:1;min-width:0"><button id="shclear" type="button" class="tab">Clear</button></div><div id="shsel" style="font-size:13px;color:var(--noteText)"></div>
+<label for="phfile">Photo (optional)</label><div style="display:flex;gap:8px;align-items:center"><input type="file" id="phfile" accept="image/*" style="flex:1;min-width:0"><button id="phclear" type="button" class="tab">Clear</button></div><div id="phsel" style="font-size:13px;color:var(--noteText)"></div>
 <div style="display:flex;gap:8px;align-items:center;margin-top:8px"><button id="shpost" type="button" class="tab">Post these</button><span id="shmsg" role="status" style="font-size:13px"></span></div>
 <div style="font-size:13px;color:var(--muted);margin:12px 0 0">Nothing is posted unless you tap Post to Discord. Anyone with this link can post in your channel, so keep it private. If posting fails, turn off any ad blocker for this site or use a Private window.</div>
 </details>
@@ -394,7 +394,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-n";
+const BUILD = "2026-11-12-o";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
