@@ -2,7 +2,40 @@
 
 Ginger doesn't code. Every line of this app was written by Claude, an AI, from short messages like these, often typed on a phone. This page is the real thing: what she said, when, and what it caused. Spelling is fixed. A few swear words are starred.
 
-Counts are **minimums**, from what could be found in her saved chats (9 Nov to 12 Nov 2026). Nothing older survives.
+The app-days prompts are first. Counts are **minimums**, from what could be found in her saved chats (9 Nov to 12 Nov 2026). Nothing older survives.
+
+## The app days (9 to 11 Nov): before the website
+
+The first version was a Windows desktop program, not a web page. These are her prompts from then, in order.
+
+| Date | She said | What happened |
+|---|---|---|
+| 9 Nov | "Can we redo the owner sh*t and make it simpler, I keep losing it" | A password replaced the key file. |
+| 9 Nov | "F*ck it this is too annoying, lets do how it was before, no owner sh*t and password" | All owner signing was removed. Fingerprint only. |
+| 9 Nov | "Can we add a way to get low cost or free api tokens for this use?" | Free AI models were added. |
+| 9 Nov | "Cool, can we make this more clean and optimised and tidy" | Settings became groups and cards. |
+| 9 Nov | "This needs updating too, too old looking" | View code redesigned. |
+| 9 Nov | "These are UGLY, update again please too!!!" | Show or hide buttons got on/off switches. |
+| 9 Nov | "Can we be really thorough with privacy ... different modes" | Privacy got Standard, Private, Maximum and Custom. |
+| 9 Nov | "Can we confirm that this works without wifi??" | Start.bat fixed so it starts offline. |
+| 9 Nov | "This mega ugly." | Update log regrouped by day. |
+| 9 Nov | "Can we update this? Bit much on the eyes" | Themes became small preview cards. |
+| 10 Nov | "Ugh this is annoying, can we make it simpler" | Updates finish by themselves. |
+| 10 Nov | "Refresh and clear button don't work lol" | Both fixed. |
+| 10 Nov | "this doesn't make much sense LOL" | The maths was explained again with real numbers. |
+| 10 Nov | "You can't add photos lol" | Bug photos moved to a link column. |
+| 10 Nov | "Can we make the speed test not flash you" | The speed test runs hidden. |
+| 10 Nov | "Profile thing is too wonky and too stupid to make simple" | The photo version of profiles was dropped. |
+| 10 Nov | "just remove the whole profile thingy lol" | Profiles hidden from the screen. |
+| 10 Nov | "Yeah just all of it and start over" | Tabs, profile row and buttons all removed. |
+| 10 Nov | "how much of this is bloat lol" | About half the Developer tools flagged as bloat. |
+| 10 Nov | "Put under Developer box lol" | Settings cut to 5 everyday tiles. |
+| 10 Nov | "Dude look and compare. Look how weird the spacings are between the two!" | Both screens given the same width and spacing. |
+| 10 Nov | "No I meant like clickable tabs, Game tab, bill tab" | Real tabs instead of drop-down entries. |
+| 10 Nov | "Or could we link it to the pdf guide instead LOL" | Plan to swap the Guide window for the PDF guides. |
+| 11 Nov | "This reads so boring and like a language model" | Lessons rewritten in a casual voice. |
+| 11 Nov | "can we remove that nifty popup thingy" | The web page's host popup led to a host move. |
+| 11 Nov | "I don't see a point in this, it should be upload photo/video and it fills it in" | The set-up form was dropped. |
 
 ## How often she said the same thing
 
