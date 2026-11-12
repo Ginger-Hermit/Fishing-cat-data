@@ -178,6 +178,18 @@ Rule: **times, versions and hashes are read from the system, never typed from me
 A 155-line README written in another session was replaced with a 20-line one, by a session that did not look first. It was restored from history.
 Rule: **look at what is there, and pull the latest version, before writing a file.**
 
+### 5.10 Blockers look like bugs (Discord, 12 Nov 2026)
+Posting to Discord failed in Firefox with a vague "something went wrong". The cause was an ad blocker, not the code. Log the real reason, say it in plain words ("an ad blocker may be blocking it"), and put a one-line note next to the feature.
+
+### 5.11 A Test button must say what it tests
+Test sent a text message only, so it worked while the picture post never ran, and it looked like the picture was broken. Log every step (files, sizes, answer) so a bug report shows what was actually tapped.
+
+### 5.12 Remember the last good value instead of a placeholder
+When the AI could not name the game, the file was called "Game". Keep the last name it did recognise and use that.
+
+### 5.13 Compact screens: hide, but point to it
+Rarely used boxes (key, last sheet, Discord, Log) now sit under closed arrows, with one grey line saying where they are. If a script moves an element, wrap the element itself in the closed section, not its parent. Rows of buttons need to wrap on a phone.
+
 ## 6. What should have been done at the beginning
 
 If this project were started again tomorrow, in this order:
