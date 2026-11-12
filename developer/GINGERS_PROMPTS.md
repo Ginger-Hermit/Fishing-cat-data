@@ -66,9 +66,9 @@ Claude rewrote it in plain words.
 
 > "This spacing and the discord thingy?"
 
-The clan tab, with uneven gaps and the Discord box in the middle:
+<table><tr><td align="center" valign="top"><img src="https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/clan_before.png" width="230"><br><sub>The clan tab then</sub></td></tr></table>
 
-![The clan tab before](https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/clan_before.png)
+Uneven gaps, and the Discord box stuck in the middle. Fixed.
 
 > "I don't see a point in this, it should be upload photo/video and it fills it in"
 
@@ -82,27 +82,13 @@ Claude asked permission to fix something. Two words fixed that.
 
 The Discord box was cut to four steps.
 
-What they were looking at, first Discord tab:
-
-![The first Discord tab](https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/discord_v1.png)
-
-What it is now:
-
-![The Discord tab now](https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/discord_now.png)
-
+<table><tr><td align="center" valign="top"><img src="https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/discord_v1.png" width="230"><br><sub>Before</sub></td><td align="center" valign="top"><img src="https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/discord_now.png" width="230"><br><sub>Now</sub></td></tr></table>
 
 > "Isn't this weird lol"
 
 A Remember button and a Forget button, side by side. Now one tick box.
 
-Before:
-
-![Remember my link and Forget link](https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/discord_remember_forget.png)
-
-After:
-
-![One tick box](https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/discord_one_tick.png)
-
+<table><tr><td align="center" valign="top"><img src="https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/discord_remember_forget.png" width="230"><br><sub>Before</sub></td><td align="center" valign="top"><img src="https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/discord_one_tick.png" width="230"><br><sub>After</sub></td></tr></table>
 
 > "looks like a bunch of shitty numbers"
 
