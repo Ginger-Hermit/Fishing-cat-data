@@ -69,6 +69,7 @@ All rights reserved. You can use the site and read the code, but not copy, re-ho
 - Each change to `index.html` is released with `python3 tools/release.py`, which bumps the version and writes the changelog entry (see `CLAUDE.md`).
 - `python3 tests/check.py` is the auto check. GitHub runs it after every push, along with the other tests, including `tests/browser.test.js` in Chrome, Firefox and Safari's engine.
 - Every push to `main` publishes automatically after about a minute.
+- [developer/THE_LAZY_WAY.md](developer/THE_LAZY_WAY.md): how a non-coder got Claude to build all of this, the lazy way, including what went wrong.
 - [developer/HOW_IT_WAS_BUILT.md](developer/HOW_IT_WAS_BUILT.md): how the whole page was built, step by step, in plain words.
 - [developer/STRESS_TEST_LOG.md](developer/STRESS_TEST_LOG.md): how the page was stress tested and broken on purpose, what was found, and lessons for future projects.
 - `node tests/rows.test.js` and `node tests/bills.test.js` check how AI replies are read. `node tests/fuzz.js` throws thousands of scrambled replies at the same code. Full history of changes: [CHANGELOG.md](CHANGELOG.md).
