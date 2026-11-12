@@ -4,6 +4,18 @@
 
 > **The whole job in one line:** you're the boss and the tester. Claude is the builder. Say what you want, look at a picture, say "go", send a screenshot, repeat.
 
+## The story: how this app really got built
+It started with a boring chore. A Roblox clan leader scrolls the member list and types every player's points into a sheet by hand. The idea: take screenshots, let an AI read them, get an Excel sheet.
+
+- **Day 1 (11 Nov):** a first working page that read screenshots into a sheet. Then came the first stress test: fake AI replies, bad pictures, weird numbers. About 20 weak spots turned up, all fixed. None were security holes; they were "wrong sheet" and "confusing message" problems.
+- **The first host showed a popup,** so the page moved to a different free host, deployed straight from GitHub. The fix took one chat.
+- **The AI bill worry:** the owner didn't want to spend her own credit, so the page switched to a free Google AI key. It worked first time.
+- **Day 2 (12 Nov):** a Bills tab (photos of bills become a sheet), a Home page, a calmer look after "this looks tacky" (no gradients, no emoji), and an Excel file that keeps history week to week.
+- **Then Discord:** post the result to a channel with a picture of the table and the Loki poster on top. The first version was crowded ("too much info", "so many buttons", "this seems hard to use"), so it was cut down three times, then split into its own tab.
+- **Last:** a breakdown message with green and red lines, an optional role ping, a break-and-security report, and these guides.
+
+The pattern every time: **owner says what's wrong, Claude shows a picture, owner says go, Claude builds, owner sends a screenshot.** About 100 small rounds of that, mostly from a phone.
+
 ## The 8 lazy moves
 
 | # | Do this | Why it's lazy |
@@ -20,14 +32,20 @@
 ## Copy this starter prompt
 > *"I do not code. Build me [your idea] as a web page in a GitHub repo. First show me a mockup. Create CLAUDE.md (rules for how we work) and STATUS.md (what works, what's next, what's untested). After each change run tests and update STATUS.md. Warn me before anything big. Keep words plain."*
 
-## The only things your hands must do
-Claude writes everything. You do the parts that need *your* logins:
+## The only things your hands must do (and how long they take)
+Claude writes everything. You do the parts that need *your* logins. Times are my estimates for a first time, not measured. The owner's real time wasn't recorded.
 
-1. **GitHub:** make a free account and a new repo (public is fine). Connect Claude to *only that repo*.
-2. **Safety switches:** in the repo's Settings, turn on **secret scanning** and **push protection** (blocks pushes with real-looking keys). Optional: turn on the **wiki**.
-3. **Free web host:** make a free account at any static-site host, choose **connect to GitHub**, pick the repo and main branch. Build command: **empty**. Publish folder: **the root**. Press deploy.
-4. **Done:** after about a minute you get a link. From then on, every push to main goes live by itself.
-5. **Test on your phone.** Do one real run, send Claude a screenshot.
+| Step | What you do | About |
+|---|---|---|
+| 1 | Make a free GitHub account | 5 min |
+| 2 | Make a new repo (public is fine), connect Claude to *only that repo* | 5 min |
+| 3 | Turn on **secret scanning** and **push protection** in the repo's Settings (blocks pushes with real-looking keys). Optional: turn on the **wiki** | 3 min |
+| 4 | Make a free account at any static-site host | 5 min |
+| 5 | In the host: **connect to GitHub**, pick the repo and main branch. Build command **empty**, publish folder **the root**. Deploy | 5 to 10 min |
+| 6 | Wait for the first deploy, open the link on your phone | 2 min |
+| 7 | One real run, send Claude a screenshot | 5 to 10 min |
+
+**Total: roughly 30 to 45 minutes, once.** After that there is nothing to set up. Claude pushes, the host sees it, and the site updates by itself in about a minute. The hardest part is the sign-in and permission screens, not anything technical. If you get stuck on one, screenshot it and ask Claude.
 
 **Privacy first:** hide your email (use GitHub's private noreply address before the first push). Your host's name may show in your web address. Never commit a key. Treat Discord webhook links like passwords.
 
