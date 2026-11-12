@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The clan tab now says how long to record. -->
+<!-- Patch note: If the AI reads a name with one wrong letter, the player is no longer split in two. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -325,7 +325,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-f";
+const BUILD = "2026-11-12-g";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -650,6 +650,34 @@ function readHistory(wb, ws, map, names) {
   return { dates, players: [...players] };
 }
 
+// One letter misread by the AI (healthles / Healthies) = same player. Only for names of 6+ letters, and only when the match is unique.
+function nameClose(a, b) {
+  if (a.length < 6 || b.length < 6 || Math.abs(a.length - b.length) > 1) return false;
+  let i = 0; while (i < a.length && i < b.length && a[i] === b[i]) i++;
+  if (a.length === b.length) return a.slice(i + 1) === b.slice(i + 1);
+  const [x, y] = a.length > b.length ? [a, b] : [b, a];
+  return x.slice(i + 1) === y.slice(i);
+}
+function fixNames(prev, rows) {
+  if (!prev) return prev;
+  const norm = (n) => String(n).trim().toLowerCase();
+  const cur = new Set(rows.map((r) => norm(r.name)));
+  const old = new Set([...prev.keys(), ...(prev.hist ? prev.hist.players.map(([k]) => k) : [])]);
+  const free = [...old].filter((k) => !cur.has(k));
+  const ren = new Map();
+  rows.forEach((r) => {
+    const k = norm(r.name);
+    if (old.has(k)) return;
+    const m = free.filter((f) => nameClose(f, k));
+    if (m.length !== 1) return;
+    ren.set(m[0], k); free.splice(free.indexOf(m[0]), 1);
+  });
+  if (!ren.size) return prev;
+  const out = new Map([...prev].map(([k, v]) => [ren.get(k) || k, v]));
+  out.hist = prev.hist && { dates: prev.hist.dates, players: prev.hist.players.map(([k, e]) => [ren.get(k) || k, e]) };
+  return out;
+}
+
 function colL(n) { let t = ""; while (n > 0) { const m = (n - 1) % 26; t = String.fromCharCode(65 + m) + t; n = Math.floor((n - 1) / 26); } return t; }
 
 // Adds today's run to the earlier history (same day twice = replace that column).
@@ -691,6 +719,7 @@ function mergeHist(prev, rows) {
 }
 
 function buildWorkbook(EJ, rows, prev, p, when) {
+  prev = fixNames(prev, rows);
   const wb = new EJ.Workbook();
   wb.calcProperties.fullCalcOnLoad = true;
   const NAVY = "FF1F3864", INK = "FF1F2937", GREY = "FF7F7F7F";

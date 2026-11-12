@@ -4,7 +4,7 @@ let EJ; try { EJ = require("exceljs"); } catch (e) { console.error("Run once: np
 const html = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
 const js = html.match(/<script>([\s\S]*)<\/script>/)[1];
 const grab = (name) => { const i = js.indexOf(name); let d = 0, j = js.indexOf("{", i); for (; j < js.length; j++) { if (js[j] === "{") d++; if (js[j] === "}" && !--d) break; } return js.slice(i, j + 1); };
-const { parsePoints, buildWorkbook, readPrevious } = new Function(["function parsePoints", "function buildWorkbook", "function readPrevious", "function readHistory", "function colL", "function mergeHist"].map(grab).join("\n").replace("function readPrevious", "async function readPrevious") + "\nreturn {parsePoints, buildWorkbook, readPrevious};")();
+const { parsePoints, buildWorkbook, readPrevious, nameClose } = new Function(["function parsePoints", "function buildWorkbook", "function readPrevious", "function readHistory", "function colL", "function mergeHist", "function nameClose", "function fixNames"].map(grab).join("\n").replace("function readPrevious", "async function readPrevious") + "\nreturn {parsePoints, buildWorkbook, readPrevious, nameClose};")();
 
 for (const [t, n] of [["52.51K", 52510], ["1K", 1000], ["507", 507], ["1.2M", 1200000], ["16.6k", 16600]]) assert.strictEqual(parsePoints(t), n, t);
 assert.strictEqual(parsePoints("?"), null);
@@ -57,5 +57,11 @@ const prev = new Map([["ann", 80000], ["bob", 50000], ["cy", 25000]]);
   const f3 = await readPrevious(EJ, fs.readFileSync(path.join(dir, "rc", "h3.xlsx")));
   assert.strictEqual(new Map(f3.hist.players).get("ann").start[1], 70000);
   assert.strictEqual(rv(wb.getWorksheet("Leaderboard").getCell("D4")), 20000, "earlier sheet without history becomes the first column");
+  // One misread letter = same player
+  assert.ok(nameClose("healthles", "healthies") && nameClose("xxxluffyxcx", "xxkluffyxcx") && !nameClose("kiviix", "kiviiy2x") && !nameClose("abcde", "abcdf"));
+  const nm = new Map([["healthles", 65690]]);
+  await buildWorkbook(EJ, [{ rank: 1, name: "Healthies", role: "", points: "83.73K" }], nm, { clan: "T", game: "G" }, "t").xlsx.writeFile(path.join(dir, "n.xlsx"));
+  const wn = new EJ.Workbook(); await wn.xlsx.readFile(path.join(dir, "n.xlsx"));
+  assert.strictEqual(wn.getWorksheet("Clan Members").getCell("F4").value, 65690, "misread name matched to earlier name");
   console.log("All Excel maths checks passed.");
 })().catch((e) => { console.error("FAIL:", e.message); process.exit(1); });

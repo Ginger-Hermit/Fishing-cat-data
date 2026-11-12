@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Misread names count as the same player
+
+12 Nov 2026 (05:03 UTC) · Changed
+
+If the AI reads a name with one wrong letter, the player is no longer split in two.
+
+**What you'll see:** Run a clan with an earlier sheet: a player the AI spelled slightly differently keeps their history.
+
+- A name that differs by one letter (6+ letters) from a missing earlier name is matched to it
+
 ## Video recording tip
 
-12 Nov 2026 (05:02 UTC) · Changed
+12 Nov 2026 (05:02 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7317b50)
 
 The clan tab now says how long to record.
 
