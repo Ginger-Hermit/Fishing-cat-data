@@ -5,25 +5,38 @@ Turn Roblox clan screenshots or video, and photos of household bills, into Excel
 - **Use it:** https://fishing-cat-data.pages.dev
 - **Code:** https://github.com/Ginger-Hermit/Fishing-cat-data
 
-## What it does
-- **Clan sheet:** screenshots or a video of a Roblox clan member list (any Roblox game) become a sheet. You can check and fix it before you download.
+## At a glance
+- **Clan sheet:** screenshots or a video of a Roblox clan member list (any Roblox game) become a sheet with Rank, Username, Role and Points. Add last week's sheet to see the change.
 - **Bills:** photos of power, gas, water, phone and other bills become a sheet with one row per charge, plus a Summary tab with cost by type.
+- **Check before you download:** after the AI reads your pictures, an Excel-style table lets you fix any cell first.
+- **Your own AI key:** Google Gemini is the default and has a free key. Anthropic works too. OpenAI is not tested yet.
+- **Private:** no accounts and no server of ours. Pictures go only to the AI company you pick, straight from your browser.
 
-## Using it
-- [How to use it](How-to-use) and [What you get](What-you-get)
-- [Features](Features), [Privacy](Privacy), [Security](Security)
-- [Known limits](Known-limits), [FAQ](FAQ), [Licence](Licence)
+## How it works
+1. You add pictures, or a short video of you scrolling the list.
+2. The AI works out the game and clan, then reads the names and points.
+3. The page checks the reply and shows you a table to fix.
+4. You tap **Download sheet** and get an Excel file.
 
-## Progress
-- [Status](Status): what works now and what is next
-- [Changelog](Changelog): every change, newest first
+For bills the AI only copies what it sees. The sheet does all the sums and conversions.
 
-## For developers
-- [Read the code](Read-the-code), [Tests](Tests), [AI rules](AI-rules)
-- [How it was built](How-it-was-built)
-- [Stress test log](Stress-test-log), [What broke](What-broke), [Lessons learnt](Lessons-learnt), [Project checklist](Project-checklist)
+## The story in short
+A clan leader scrolls a member list and types the points into a sheet by hand. This page does that from screenshots or a video. The whole page is one file with no new packages, and every line of code was written by an AI, with the author giving the ideas and testing it. See [How it was built](How-it-was-built) and [What broke](What-broke) for the honest version.
+
+## Where things stand
+{{STATUS}}
+
+## Latest changes
+{{LATEST}}
+
+Every change is in the [Changelog](Changelog).
+
+## Find your way
+- **Using it:** [How to use it](How-to-use), [What you get](What-you-get), [Features](Features), [Privacy](Privacy), [Security](Security), [Known limits](Known-limits), [FAQ](FAQ), [Licence](Licence)
+- **Progress:** [Status](Status), [Changelog](Changelog)
+- **Developers:** [Read the code](Read-the-code), [Tests](Tests), [AI rules](AI-rules), [How it was built](How-it-was-built), [Stress test log](Stress-test-log), [What broke](What-broke), [Lessons learnt](Lessons-learnt), [Project checklist](Project-checklist)
 
 ## Good to know
-- You use your own AI key. Runs use credit on that account.
+- Runs use credit on your own AI account.
 - Check the sheet before you rely on it. The AI can misread.
-- All rights reserved. See the licence in the repo.
+- All rights reserved. See the [Licence](Licence).

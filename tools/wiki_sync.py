@@ -8,7 +8,7 @@ LINKS = {"CHANGELOG.md": "Changelog", "STATUS.md": "Status", "README.md": "Home"
 def fix(t):
     def f(m):
         u = m.group(1)
-        if re.match(r'(https?:|#|mailto:)', u): return m.group(0)
+        if re.match(r'(https?:|#|mailto:)', u) or not re.search(r'[./]', u): return m.group(0)
         return "](" + (LINKS.get(u) or REPO + u) + ")"
     return re.sub(r'\]\(([^)]+)\)', f, t)
 def put(name, text): open(f"{W}/{name}.md", "w").write(fix(text).rstrip("\n") + "\n")
@@ -16,7 +16,21 @@ def whole(src, name): put(name, open(src).read())
 def sections(src):
     parts = re.split(r'(?m)^(?=## )', open(src).read())
     return {p.split("\n", 1)[0][3:].strip(): p.split("\n", 1)[1] for p in parts[1:]}
-whole("developer/WIKI_HOME.md", "Home"); whole("STATUS.md", "Status"); whole("CHANGELOG.md", "Changelog")
+def block(src, head):
+    m = re.search(r'(?m)^## ' + re.escape(head) + r'\n(.*?)(?=^## |\Z)', open(src).read(), re.S)
+    return m.group(1).strip() if m else ""
+def latest(n=3):
+    L = open("CHANGELOG.md").read().split("\n"); out = []
+    for i, l in enumerate(L):
+        if re.match(r'^\d+ \w+ 20\d\d .*\u00b7 (New|Changed)', l):
+            nxt = next((x for x in L[i + 1:] if x.strip()), "")
+            out.append("- **" + l.split(" (")[0] + ":** " + nxt)
+        if len(out) == n: break
+    return "\n".join(out)
+home = open("developer/WIKI_HOME.md").read()
+status = "**Next**\n" + block("STATUS.md", "Next") + "\n\n**Not tested yet**\n" + block("STATUS.md", "Not tested")
+put("Home", home.replace("{{STATUS}}", status).replace("{{LATEST}}", latest()))
+whole("STATUS.md", "Status"); whole("CHANGELOG.md", "Changelog")
 whole("developer/HOW_IT_WAS_BUILT.md", "How-it-was-built"); whole("developer/STRESS_TEST_LOG.md", "Stress-test-log")
 whole("developer/SECURITY.md", "Security"); whole("developer/FAQ.md", "FAQ")
 put("AI-rules", "# Rules for the AI\n\nThe rules the AI follows on every change.\n" + open("CLAUDE.md").read().split("\n", 1)[1].replace("@STATUS.md\n", ""))
