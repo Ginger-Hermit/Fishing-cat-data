@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
-## Colour stripes on section bars
+## Gradient on section bars
 
 12 Nov 2026 (06:41 UTC) · Changed
+
+The section bars now fade from colour to calm.
+
+**What you'll see:** Clan tab: blue, green, purple and grey bars.
+
+- Soft colour gradient behind each section heading, same stripe colours.
+
+## Colour stripes on section bars
+
+12 Nov 2026 (06:41 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/b69bb92)
 
 Each closed section has its own colour stripe.
 

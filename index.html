@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Each closed section has its own colour stripe. -->
+<!-- Patch note: The section bars now fade from colour to calm. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -41,7 +41,7 @@ button:disabled{opacity:.5}
 .pv tr.bad td{background:#FFF0D6}.pv td input{width:100%;min-width:40px;margin:0;padding:6px;border:none;border-radius:0;background:transparent;font-size:14px;color:var(--text)}
 .pv td.ro{padding:6px;white-space:nowrap}.pv .pvx{width:auto;margin:0;padding:4px 10px;border:none;background:none;color:var(--err);font-size:18px}
 #moreopts>summary,#hookblock>summary,#logbox>summary,#keydet>summary{font-size:16px!important;font-weight:600;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--field);color:var(--text,inherit);cursor:pointer}#moreopts[open]>summary,#hookblock[open]>summary,#logbox[open]>summary,#keydet[open]>summary{margin-bottom:12px}#moreopts,#hookblock,#logbox{margin-top:12px}
-#keydet>summary{border-left:6px solid #2f6fed}#moreopts>summary{border-left:6px solid #2e9d5b}#hookblock>summary{border-left:6px solid #8a4fd6}#logbox>summary{border-left:6px solid #6b7280}
+#keydet>summary{border-left:6px solid #2f6fed;background:linear-gradient(90deg,rgba(47,111,237,.28),rgba(47,111,237,0) 85%),var(--field)}#moreopts>summary{border-left:6px solid #2e9d5b;background:linear-gradient(90deg,rgba(46,157,91,.28),rgba(46,157,91,0) 85%),var(--field)}#hookblock>summary{border-left:6px solid #8a4fd6;background:linear-gradient(90deg,rgba(138,79,214,.28),rgba(138,79,214,0) 85%),var(--field)}#logbox>summary{border-left:6px solid #6b7280;background:linear-gradient(90deg,rgba(107,114,128,.28),rgba(107,114,128,0) 85%),var(--field)}
 .pv .pvb{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.pv .pvb button{margin:0;white-space:nowrap}.pv .pvb button.tab{padding:12px 14px}
 
 .xl{border:1px solid #B8BCC2;border-radius:8px;overflow:hidden;background:#fff;color:#1B1B1B;font-family:Calibri,Arial,sans-serif}
@@ -383,7 +383,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-i";
+const BUILD = "2026-11-12-j";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
