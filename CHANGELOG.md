@@ -11,7 +11,7 @@ If an earlier sheet had an impossible name (like dots), the new correct spelling
 > [!NOTE]
 > **What you'll see:** Clan sheet with an earlier sheet added
 
-- fixNames keeps the new spelling when the earlier one is not a valid Roblox name.
+- fixNames keeps the new spelling when the earlier one is not a valid Roblox name. [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/13811fc969f83dc10deeef5fed43dd80ac89da50)
 
 ## Version numbers
 
