@@ -5,7 +5,7 @@ Also at the start: check the latest GitHub Actions results on `main` (Check, Cod
 
 @STATUS.md
 
-Web page: reads Roblox clan screenshots or video (any Roblox game) with an AI and makes an Excel sheet. Bills tab: photos of household bills become a sheet. Live: fishing-cat-data.pages.dev. Pushing to `main` deploys in about a minute.
+Web page: reads Roblox clan screenshots or video (any Roblox game) with an AI and makes an Excel sheet. Bills tab: photos of household bills become a sheet. Live: fishing-cat-data.pages.dev. Pushing to `main` goes live only after every Check test passes (about 5 minutes): `golive.yml` moves the `live` branch, which Cloudflare publishes. Red cross = not live.
 
 ## Every change to `index.html` (page) or `app.js` (all the code)
 1. `git pull` first. Find the exact spot with grep (table below), read only those lines. Small find-and-replace edits that each match once, all in one script. Backup outside the repo.

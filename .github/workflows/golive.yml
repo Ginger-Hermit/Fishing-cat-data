@@ -1,0 +1,24 @@
+# Patch note: the page only goes live after every Check test passes. Cloudflare publishes the "live" branch; this moves it up to main's tested commit.
+name: Go live
+on:
+  workflow_run:
+    workflows: [Check]
+    types: [completed]
+    branches: [main]
+permissions:
+  contents: write
+concurrency: golive
+jobs:
+  golive:
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Move live up to the tested commit (never backwards)
+        run: |
+          SHA=${{ github.event.workflow_run.head_sha }}
+          if git rev-parse -q --verify origin/live >/dev/null && git merge-base --is-ancestor "$SHA" origin/live; then echo "live already has $SHA"; exit 0; fi
+          git push origin "$SHA:refs/heads/live"
+          echo "live is now $SHA"
