@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The clan sheet opens on Clan Members again, and history now starts from your earlier sheet. -->
+<!-- Patch note: The two history tabs now look like the main sheet and explain themselves at the top. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -324,7 +324,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-d";
+const BUILD = "2026-11-12-e";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -819,10 +819,15 @@ function buildWorkbook(EJ, rows, prev, p, when) {
   hs.getColumn(1).width = 26; hs.getColumn(2).width = 9;
   hs.mergeCells("A1:B1");
   hs.getCell("A1").value = p.clan + " \u2013 Points history"; hs.getCell("A1").font = { bold: true, size: 16, color: { argb: NAVY } };
-  hs.getCell("A2").value = "One column per run. The small number under each is the gain since the run before. Earlier months show their last run only."; hs.getCell("A2").font = { color: { argb: GREY } };
+  const KEY = (parts) => ({ richText: parts.map(([text, c, b]) => ({ text, font: { size: 10, bold: !!b, color: { argb: c || INK } } })) });
+  const GRN = "FF006100", RED = "FF9C0006", SOFT = "FFF5F7FA";
+  hs.mergeCells(`A2:${colL(Math.max(8, 2 + N))}2`);
+  hs.getCell("A2").value = KEY([["How to read  ", NAVY, 1], ["Each column is one run. The bold number is the points that day. The small number under it is what was gained since the run before.\n"], ["Green = went up", GRN, 1], ["     "], ["Red = went down", RED, 1], ["     "], ["Gold, silver, bronze = top 3 gainers", "FF7F6000", 1], ["     "], ["Grey = left the clan", GREY, 1], ["     Earlier months show their last run only."]]);
+  hs.getCell("A2").alignment = { wrapText: true, vertical: "middle", indent: 1 }; hs.getCell("A2").fill = fill(SOFT); hs.getRow(2).height = 48; hs.getRow(1).height = 30;
+  hs.getCell("A1").alignment = { vertical: "middle" };
   ["Username", ""].forEach((t, i) => { const c = hs.getCell(3, i + 1); c.value = t; c.font = { bold: true, color: { argb: "FFFFFFFF" } }; c.fill = fill(NAVY); });
   H.dates.forEach((d, i) => {
-    hs.getColumn(3 + i).width = 12;
+    hs.getColumn(3 + i).width = 14;
     const c = hs.getCell(3, 3 + i);
     c.value = new Date(d); c.numFmt = "d\\ mmm\\ yy"; c.font = { bold: true, color: { argb: "FFFFFFFF" } }; c.fill = fill(NAVY); c.alignment = { horizontal: "center" };
   });
@@ -830,7 +835,13 @@ function buildWorkbook(EJ, rows, prev, p, when) {
   const hrow = (i) => 4 + 2 * i;
   H.list.forEach((e, i) => {
     const r = hrow(i);
-    hs.getCell(r, 1).value = e.name; hs.getCell(r, 1).font = { bold: true, color: { argb: e.here ? INK : GREY } };
+    hs.mergeCells(r, 1, r + 1, 1);
+    hs.getCell(r, 1).value = e.name; hs.getCell(r, 1).font = { bold: true, italic: !e.here, color: { argb: e.here ? INK : GREY } };
+    hs.getCell(r, 1).alignment = { vertical: "middle", indent: 1 };
+    const med = e.here && e.gained > 0 && rankLook[i + 1];
+    if (med) { hs.getCell(r, 1).fill = fill(med[0]); hs.getCell(r, 1).font = { bold: true, color: { argb: med[1] } }; }
+    for (let c = 1; c <= 2 + N; c++) for (const rr of [r, r + 1]) { const x = hs.getCell(rr, c); x.border = box; if (i % 2 && !(c === 1 && med)) x.fill = fill(SOFT); }
+    hs.getRow(r).height = 18; hs.getRow(r + 1).height = 15;
     hs.getCell(r, 2).value = "Points"; hs.getCell(r, 2).font = { size: 9, color: { argb: GREY } };
     hs.getCell(r + 1, 2).value = "Gain"; hs.getCell(r + 1, 2).font = { size: 9, color: { argb: GREY } };
     e.vals.forEach((v, k) => {
@@ -850,19 +861,26 @@ function buildWorkbook(EJ, rows, prev, p, when) {
     t.value = { formula: `SUMIF($B$4:$B$${lastH},"Points",${cl}$4:${cl}$${lastH})` }; t.numFmt = "#,##0"; t.font = { bold: true, color: { argb: NAVY } };
     if (k > 0) { const g = hs.getCell(tr + 1, 3 + k); g.value = { formula: `${cl}${tr}-${colL(2 + k)}${tr}` }; g.numFmt = "\\+#,##0;\\-#,##0;0"; g.font = { size: 9, color: { argb: GREY } }; }
   }
-  hs.getCell(tr, 1).font = { bold: true, color: { argb: NAVY } };
+  hs.getCell(tr, 1).font = { bold: true, color: { argb: NAVY } }; hs.getCell(tr, 1).alignment = { indent: 1 };
+  for (let c = 1; c <= 2 + N; c++) {
+    hs.getCell(tr, c).border = { left: LINE, right: LINE, bottom: LINE, top: { style: "medium", color: { argb: NAVY } } }; hs.getCell(tr + 1, c).border = box;
+    hs.getCell(tr, c).fill = fill("FFE8EDF5"); hs.getCell(tr + 1, c).fill = fill("FFE8EDF5");
+    hs.getCell(3, c).border = { left: LINE, right: LINE, top: LINE, bottom: { style: "medium", color: { argb: NAVY } } };
+  }
+  hs.getCell(tr, 2).font = { size: 9, color: { argb: GREY } }; hs.getCell(tr + 1, 2).font = { size: 9, color: { argb: GREY } };
   hs.addConditionalFormatting({ ref: `C4:${LC}${tr + 1}`, rules: [
-    { type: "expression", priority: 7, formulae: ['AND($B4="Gain",ISNUMBER(C4),C4>0)'], style: { font: { color: { argb: "FF006100" } } } },
-    { type: "expression", priority: 8, formulae: ['AND($B4="Gain",ISNUMBER(C4),C4<0)'], style: { font: { color: { argb: "FF9C0006" } } } }
+    { type: "expression", priority: 7, formulae: ['AND($B4="Gain",ISNUMBER(C4),C4>0)'], style: up },
+    { type: "expression", priority: 8, formulae: ['AND($B4="Gain",ISNUMBER(C4),C4<0)'], style: down }
   ] });
 
-  lb.getColumn(1).width = 7; lb.getColumn(2).width = 26;
-  [14, 16, 12, 16, 12, 14].forEach((w, i) => { lb.getColumn(3 + i).width = w; });
+  lb.getColumn(1).width = 8; lb.getColumn(2).width = 26;
+  [14, 20, 14, 17, 14, 14].forEach((w, i) => { lb.getColumn(3 + i).width = w; });
   lb.getColumn(9).hidden = true; lb.getColumn(10).hidden = true;
   lb.mergeCells("A1:H1"); lb.mergeCells("A2:H2");
   lb.getCell("A1").value = p.clan + " \u2013 Leaderboard"; lb.getCell("A1").font = { bold: true, size: 16, color: { argb: NAVY } };
-  lb.getCell("A2").value = "Ranked by points gained since the first run   \u00b7   " + N + (N === 1 ? " run" : " runs") + " so far   \u00b7   grey = left the clan";
-  lb.getCell("A2").font = { color: { argb: GREY } };
+  lb.getCell("A2").value = KEY([["How to read  ", NAVY, 1], ["Ranked by points gained since each player's first run (" + N + (N === 1 ? " run" : " runs") + " so far). Now = points today. Best run = biggest jump between two runs. Avg / day = gained per day.\n"], ["Green = went up", GRN, 1], ["     "], ["Red = went down", RED, 1], ["     "], ["Gold, silver, bronze = top 3", "FF7F6000", 1], ["     "], ["Grey = left the clan", GREY, 1]]);
+  lb.getCell("A2").alignment = { wrapText: true, vertical: "middle", indent: 1 }; lb.getCell("A2").fill = fill(SOFT); lb.getRow(2).height = 48;
+  lb.getCell("A1").alignment = { vertical: "middle" };
   lb.getRow(1).height = 30;
   ["#", "Username", "Now", "Gained (all time)", "Best run", "Best run date", "Avg / day", "Since", "Started at", "Last seen"].forEach((h, i) => {
     const c = lb.getCell(3, i + 1);
@@ -897,7 +915,9 @@ function buildWorkbook(EJ, rows, prev, p, when) {
       const cell = lb.getCell(n, c);
       cell.border = box;
       cell.alignment = { horizontal: c === 2 ? "left" : c === 1 ? "center" : "right", vertical: "middle", indent: c === 2 ? 1 : 0 };
-      if (c > 1) cell.font = { bold: c === 3 || c === 4, color: { argb: INK } };
+      if (c > 1) cell.font = { bold: c === 3 || c === 4, italic: !e.here, color: { argb: e.here ? INK : "FF9A9A9A" } };
+      if (i % 2 && c > 1) cell.fill = fill(SOFT);
+      if (c === 2 && look) { cell.fill = fill(look[0]); cell.font = { bold: true, color: { argb: look[1] } }; }
     }
   });
   const lastL = 3 + H.list.length;
@@ -905,9 +925,6 @@ function buildWorkbook(EJ, rows, prev, p, when) {
   lb.addConditionalFormatting({ ref: `D4:E${lastL}`, rules: [
     { type: "expression", priority: 9, formulae: ["AND(ISNUMBER(D4),D4>0)"], style: up },
     { type: "expression", priority: 10, formulae: ["AND(ISNUMBER(D4),D4<0)"], style: down }
-  ] });
-  lb.addConditionalFormatting({ ref: `A4:H${lastL}`, rules: [
-    { type: "expression", priority: 11, formulae: ["$J4<$J$2"], style: { font: { color: { argb: "FF9A9A9A" } } } }
   ] });
 
   const ab = wb.addWorksheet("About this sheet");

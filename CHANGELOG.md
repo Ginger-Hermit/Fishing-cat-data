@@ -2,9 +2,21 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Leaderboard and Points history: colours and a How to read line
+
+12 Nov 2026 (04:58 UTC) · Changed
+
+The two history tabs now look like the main sheet and explain themselves at the top.
+
+**What you'll see:** Download a clan sheet and open the Leaderboard and Points history tabs.
+
+- How to read line with a colour key at the top of both tabs
+- Gold, silver, bronze for the top 3, green and red for gains, grey for players who left
+- Boxes, shaded rows and a marked Clan total row on Points history
+
 ## Clan Members tab first, history fixes
 
-12 Nov 2026 (04:54 UTC) · Changed
+12 Nov 2026 (04:54 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7db9458)
 
 The clan sheet opens on Clan Members again, and history now starts from your earlier sheet.
 
