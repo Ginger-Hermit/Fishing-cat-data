@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
-## Tidier Settings
+## Easier to read grey text, simpler GitHub tab
 
 12 Nov 2026 (06:49 UTC) · Changed
+
+Grey help words are darker and a bit bigger. The GitHub tab is simpler.
+
+**What you'll see:** Any grey help line; the GitHub tab.
+
+- Darker grey in all themes, 12px help text now 13px, removed the fake README preview, added a Read the guide button.
+
+## Tidier Settings
+
+12 Nov 2026 (06:49 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/dc0af66)
 
 Settings is split into clear boxes.
 

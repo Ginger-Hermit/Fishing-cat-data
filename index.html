@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<!-- Patch note: Settings is split into clear boxes. -->
+<!-- Patch note: Grey help words are darker and a bit bigger. The GitHub tab is simpler. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fishing Cat Data</title>
 <style>
-:root{--bg:#F0F2F5;--text:#1B1B1B;--muted:#707377;--accent:#1F3864;--link:#1F3864;--onAccent:#fff;--line:#898C90;--field:#fff;--soft:#D5D8DD;--noteBg:#E3F4E8;--noteText:#14632D;--err:#A31616}
+:root{--bg:#F0F2F5;--text:#1B1B1B;--muted:#585B60;--accent:#1F3864;--link:#1F3864;--onAccent:#fff;--line:#898C90;--field:#fff;--soft:#D5D8DD;--noteBg:#E3F4E8;--noteText:#14632D;--err:#A31616}
 html[data-theme=dark]{color-scheme:dark;--bg:#14171C;--text:#E8EAED;--muted:#9AA0A6;--accent:#3F66B0;--link:#8FB0F0;--line:#4A5058;--field:#1F242B;--soft:#2E343C;--noteBg:#17301F;--noteText:#7FD69A;--err:#FF8A8A}
-html[data-theme=ocean]{--bg:#E6F3F7;--text:#10252E;--muted:#5A7580;--accent:#0B6E8A;--link:#0B6E8A;--line:#7FA8B5;--soft:#CBE3EA;--noteBg:#D6F0F4;--noteText:#0B5566}
-html[data-theme=forest]{--bg:#EEF3EC;--text:#1A2A1C;--muted:#5F7260;--accent:#2F6B3A;--link:#2F6B3A;--line:#8FA58F;--soft:#D3E0D1;--noteBg:#DDEBD0;--noteText:#245A2E}
-html[data-theme=berry]{--bg:#F6EEF3;--text:#2A1B26;--muted:#7A6373;--accent:#8A2D63;--link:#8A2D63;--line:#B096A6;--soft:#E6D5DF;--noteBg:#F3DDE8;--noteText:#7A1F52}
+html[data-theme=ocean]{--bg:#E6F3F7;--text:#10252E;--muted:#456470;--accent:#0B6E8A;--link:#0B6E8A;--line:#7FA8B5;--soft:#CBE3EA;--noteBg:#D6F0F4;--noteText:#0B5566}
+html[data-theme=forest]{--bg:#EEF3EC;--text:#1A2A1C;--muted:#4B604C;--accent:#2F6B3A;--link:#2F6B3A;--line:#8FA58F;--soft:#D3E0D1;--noteBg:#DDEBD0;--noteText:#245A2E}
+html[data-theme=berry]{--bg:#F6EEF3;--text:#2A1B26;--muted:#664F5F;--accent:#8A2D63;--link:#8A2D63;--line:#B096A6;--soft:#E6D5DF;--noteBg:#F3DDE8;--noteText:#7A1F52}
 html[data-size=large] .card{zoom:1.25}
 .warnbox{border:1px solid var(--line);background:var(--field);border-radius:8px;padding:10px 12px;font-size:14px;margin-top:8px}
 #foot a{color:inherit}
@@ -158,7 +158,7 @@ button:disabled{opacity:.5}
 <div id="previnfo"></div>
 <button id="testgo" type="button" class="tab" disabled style="margin-top:8px;width:100%">Test first (small read, no file)</button>
 </details>
-<div style="font-size:12px;color:var(--muted);margin-top:8px">Looking for Discord, your last sheet or the Log? They are under the small arrows (▸) on this page.</div>
+<div style="font-size:13px;color:var(--muted);margin-top:8px">Looking for Discord, your last sheet or the Log? They are under the small arrows (▸) on this page.</div>
 <div class="msg" id="msg" role="status" aria-live="polite"></div>
 <div class="prog" id="prog" aria-live="polite"></div>
 <div class="pv" id="preview" style="display:none"></div>
@@ -169,12 +169,12 @@ button:disabled{opacity:.5}
 <div style="display:flex;gap:8px;align-items:center;margin-top:6px"><button id="hooktest" type="button" class="tab">Test</button><button id="hookforget" type="button" class="tab">Forget</button><span id="hookmsg" role="status" style="font-size:13px"></span></div>
 <div style="font-size:13px;color:var(--muted);margin:12px 0 6px">Header picture for the Discord table (optional)</div>
 <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><input type="file" id="artfile" accept="image/*" style="width:auto"><button id="artforget" type="button" class="tab">Remove</button><span id="artmsg" role="status" style="font-size:13px"></span></div>
-<div style="font-size:12px;color:var(--muted);margin:6px 0 0">Nothing is posted unless you tap Post to Discord. Anyone with this link can post in your channel, so keep it private. If posting fails, turn off any ad blocker for this site or use a Private window.</div>
+<div style="font-size:13px;color:var(--muted);margin:6px 0 0">Nothing is posted unless you tap Post to Discord. Anyone with this link can post in your channel, so keep it private. If posting fails, turn off any ad blocker for this site or use a Private window.</div>
 </details>
 <details id="logbox" style="margin-top:12px"><summary style="cursor:pointer;font-size:14px">Log: what the page did</summary>
 <pre id="console" style="background:#0d0d0d;color:#e5e7eb;border:1px solid #444;border-radius:6px;padding:10px;font-size:13px;font-family:Consolas,Menlo,monospace;line-height:1.5;white-space:pre-wrap;word-break:break-word;min-height:120px;max-height:360px;overflow:auto;resize:vertical;margin:6px 0 0"></pre>
 <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button id="copybug" type="button">Copy bug report</button><a id="ghbug" href="https://github.com/Ginger-Hermit/Fishing-cat-data/issues/new" target="_blank" rel="noopener">Report on GitHub</a></div>
-<div style="font-size:12px;color:var(--muted);margin-top:6px">Copies the page log and your browser type. Keys are removed. Pictures are not included. Nothing is sent until you paste it somewhere. Report on GitHub opens a public form with the report filled in: read it first, then send it (needs a GitHub account).</div>
+<div style="font-size:13px;color:var(--muted);margin-top:6px">Copies the page log and your browser type. Keys are removed. Pictures are not included. Nothing is sent until you paste it somewhere. Report on GitHub opens a public form with the report filled in: read it first, then send it (needs a GitHub account).</div>
 </details>
 <div class="hc" style="margin-top:14px;font-size:13px"><b>Your key is safe here.</b> It stays on this device and goes only to the AI company you pick. Treat it like a password. <a href="#" data-go="safety">More</a></div>
 </div>
@@ -194,11 +194,6 @@ button:disabled{opacity:.5}
 <div id="helptab" class="page" style="display:none">
 <div class="hc"><b>GitHub</b>
 <p>The code, the update history (<a href="https://github.com/Ginger-Hermit/Fishing-cat-data/blob/main/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG</a>) and the guide (README) are on GitHub.</p>
-<div style="border:1px solid var(--soft);border-radius:8px;font-size:14px;margin:8px 0">
-<div style="padding:8px 12px;border-bottom:1px solid var(--soft);color:var(--muted)">Preview: README.md</div>
-<div style="padding:8px 12px"><b>Fishing Cat Data</b><br>Turns clan screenshots or a video from any Roblox game into an Excel sheet.
-<ul style="margin:8px 0 0;padding-left:18px"><li>How to use it</li><li>What you get</li><li>Features</li><li>Privacy</li><li>Known limits</li><li>Read the code (quick guide)</li></ul></div>
-</div>
 <a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener" class="tab" style="display:inline-block;text-decoration:none;margin-top:6px">Open GitHub</a>
 </div>
 </div>
@@ -209,7 +204,7 @@ button:disabled{opacity:.5}
 <li>Your pictures go straight from your browser to the AI company you picked. They don't pass through any computer of ours.</li>
 <li>There is no server of ours. This is one web page, so there is nowhere for us to keep your pictures, your sheets or your key.</li>
 <li>Your key is only saved if you tick <b>Remember my key</b>, and then only in this browser. Untick it to delete it.</li>
-<li>Settings lists everything saved on your device and lets you delete it: <a href="#" data-go="privacy">see what is saved</a>.</li>
+<li>Settings lists everything saved on your device and lets you delete it: <a href="#" data-go="privacy">see what is saved</a> <a href="https://github.com/Ginger-Hermit/Fishing-cat-data/wiki" target="_blank" rel="noopener" class="tab" style="display:inline-block;text-decoration:none;margin-top:6px">Read the guide</a>.</li>
 <li>Anyone can read the code that does all this. It is public on <a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">GitHub</a>.</li>
 <li class="no">We never ask for your password, your email, your name or any payment details.</li>
 <li class="no">No ads, no tracking, and nothing is shared with anyone else.</li>
@@ -307,21 +302,21 @@ button:disabled{opacity:.5}
 <div class="tabs" id="sizeBtns" style="margin-bottom:0"></div></div>
 <div class="hc"><div style="font-weight:600;margin-bottom:8px">Updates</div>
 <label style="display:flex;gap:8px;align-items:center;font-weight:normal"><input type="checkbox" id="autoref" style="width:auto;margin:0"> Refresh automatically when there is an update</label>
-<div style="font-size:12px;color:var(--muted);margin:4px 0 0">Only refreshes when no files are picked. Off: you get a banner instead.</div></div>
+<div style="font-size:13px;color:var(--muted);margin:4px 0 0">Only refreshes when no files are picked. Off: you get a banner instead.</div></div>
 <div class="hc"><div style="font-weight:600;margin-bottom:8px">Privacy</div>
 <div style="font-size:14px;margin-bottom:6px">Saved on this device:</div>
 <div id="saved" style="font-size:14px;line-height:1.6"></div>
 <label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin-top:8px"><input type="checkbox" id="keepprev" style="width:auto;margin:0"> Remember my last sheet</label>
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button id="wipekey" type="button" class="tab">Forget my key</button><button id="wipeall" type="button" class="tab" style="border-color:var(--err);color:var(--err)">Delete everything saved</button></div>
 <div id="wipemsg" role="status" style="font-size:13px;margin-top:6px"></div>
-<div style="font-size:12px;color:var(--muted);margin:4px 0 0">These buttons only clear this device. Nothing is sent anywhere. <a href="#" data-go="privacy">Privacy page</a></div></div>
+<div style="font-size:13px;color:var(--muted);margin:4px 0 0">These buttons only clear this device. Nothing is sent anywhere. <a href="#" data-go="privacy">Privacy page</a></div></div>
 <details class="hc"><summary>AI model (advanced)</summary>
 <input id="modelbox" autocomplete="off" spellcheck="false">
-<div style="font-size:12px;color:var(--muted);margin:6px 0 10px">Leave empty to use the built-in one. Only change it if an error says the model is gone. It is kept for the company chosen on the first tab.</div>
-<div style="font-size:12px;color:var(--muted)">Saved on this device only.</div>
+<div style="font-size:13px;color:var(--muted);margin:6px 0 10px">Leave empty to use the built-in one. Only change it if an error says the model is gone. It is kept for the company chosen on the first tab.</div>
+<div style="font-size:13px;color:var(--muted)">Saved on this device only.</div>
 </details>
 </div>
-<div id="foot" style="text-align:center;margin-top:16px;font-size:12px;color:var(--muted)">
+<div id="foot" style="text-align:center;margin-top:16px;font-size:13px;color:var(--muted)">
 <a href="#" data-go="safety">Stay safe</a> &middot; <a href="#" data-go="privacy">Privacy</a> &middot; <a href="#" data-go="legal">Legal</a> &middot; <a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">GitHub</a>
 <div style="margin-top:8px">Built by Claude, an AI &middot; Personal use only &middot; Not an official Roblox, Anthropic, Google or OpenAI product &middot; No guarantees</div>
 </div>
@@ -393,7 +388,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-p";
+const BUILD = "2026-11-12-q";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
