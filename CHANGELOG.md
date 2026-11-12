@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Safer Discord posting
+
+12 Nov 2026 (10:38 UTC) · Changed
+
+Four Discord problems are fixed: the ping everyone choice is no longer remembered, a double tap can't post twice, a failed second message tells you the picture went but the breakdown did not (and retries once if Discord says slow down), and huge Excel files are refused.
+
+> [!NOTE]
+> **What you'll see:** Discord tab: tap Post twice quickly and only one post goes.
+
+- Only the role ping is remembered; Post blocked while posting; one retry on Discord's slow-down; Excel files over 5 MB or 5000 rows are cut off.
+
 ## Discord post in two messages
 
 12 Nov 2026 (07:42 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/afa5f12)

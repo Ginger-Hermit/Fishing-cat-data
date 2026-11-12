@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The picture comes first, right under the heading, and the written breakdown follows as a second message with less empty space. -->
+<!-- Patch note: Four Discord problems are fixed: the ping everyone choice is no longer remembered, a double tap can't post twice, a failed second message tells you the picture went but the breakdown did not (and retries once if Discord says slow down), and huge Excel files are refused. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -426,7 +426,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-zg";
+const BUILD = "2026-11-12-zh";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -737,6 +737,7 @@ function parsePoints(t) {
 }
 
 async function readPrevious(EJ, buf) {
+  if (buf && buf.byteLength > 5e6) throw new Error("That Excel file is too big to be one of ours.");
   const wb = new EJ.Workbook();
   await wb.xlsx.load(buf);
   const ws = wb.getWorksheet("Clan Members") || wb.worksheets[0];
@@ -744,7 +745,7 @@ async function readPrevious(EJ, buf) {
   ws.eachRow((row, n) => { if (!head && String(row.getCell(2).value).trim() === "Username") head = n; });
   if (!head) throw new Error("That file is not a sheet made by this page.");
   const map = new Map(), names = new Map();
-  for (let r = head + 1; r <= ws.rowCount; r++) {
+  for (let r = head + 1; r <= Math.min(ws.rowCount, 5000); r++) {
     const name = ws.getCell(r, 2).value;
     let pts = ws.getCell(r, 5).value;
     if (pts && typeof pts === "object" && "result" in pts) pts = pts.result;
@@ -772,7 +773,7 @@ function readHistory(wb, ws, map, names) {
   const hs = wb.getWorksheet("Points history");
   if (hs) {
     for (let c = 3; c <= hs.columnCount; c++) { const v = dv(hs.getCell(3, c)); if (v instanceof Date) dates.push(day(v)); else break; }
-    for (let r = 4; dates.length && r <= hs.rowCount; r++) {
+    for (let r = 4; dates.length && r <= Math.min(hs.rowCount, 5000); r++) {
       if (String(dv(hs.getCell(r, 2))) !== "Points") continue;
       const name = dv(hs.getCell(r, 1));
       if (!name || String(name) === "Clan total") continue;
@@ -790,7 +791,7 @@ function readHistory(wb, ws, map, names) {
     e.vals[li] = pts;
   });
   const lbs = wb.getWorksheet("Leaderboard");
-  if (lbs) for (let r = 4; r <= lbs.rowCount; r++) {
+  if (lbs) for (let r = 4; r <= Math.min(lbs.rowCount, 5000); r++) {
     const e = players.get(String(dv(lbs.getCell(r, 2)) ?? "").trim().toLowerCase()), d = dv(lbs.getCell(r, 8)), v = dv(lbs.getCell(r, 9));
     if (e && d instanceof Date && typeof v === "number") e.start = [day(d), v];
   }
@@ -1500,23 +1501,38 @@ const dcBreakdown = (sh, f) => {
 const HOOK_RE = /^https:\/\/discord\.com\/api\/webhooks\/\d+\/[\w-]+$/;
 const setHook = (v) => { hookNow = v; try { if (v && $("hookkeep").checked) localStorage.setItem("fcd_hook", v); else localStorage.removeItem("fcd_hook"); } catch (e) {} };
 $("hookbox").onchange = () => { const v = $("hookbox").value.trim(); if (v && !HOOK_RE.test(v)) { $("hookmsg").textContent = "That is not a Discord link."; return; } setHook(v); $("hookmsg").textContent = v ? "Ready." : "Removed."; renderSaved(); if (pv) pvDraw(); };
-$("dcping").value = lsGet("fcd_pingmode") || ""; $("dcrole").value = lsGet("fcd_pingrole") || "";
+if (lsGet("fcd_pingmode") !== "role") { try { localStorage.removeItem("fcd_pingmode"); } catch (e) {} } $("dcping").value = lsGet("fcd_pingmode") === "role" ? "role" : ""; $("dcrole").value = lsGet("fcd_pingrole") || "";
 const dcPingShow = () => { const on = $("dcping").value === "role"; $("dcrole").style.display = on ? "" : "none"; $("dcrolehelp").style.display = on ? "" : "none"; };
 dcPingShow();
-$("dcping").onchange = () => { dcPingShow(); const v = $("dcping").value; if (v) lsSet("fcd_pingmode", v); else try { localStorage.removeItem("fcd_pingmode"); } catch (e) {} };
+$("dcping").onchange = () => { dcPingShow(); const v = $("dcping").value; if (v === "role") lsSet("fcd_pingmode", v); else try { localStorage.removeItem("fcd_pingmode"); } catch (e) {} };
 $("dcrole").onchange = () => { const id = (($("dcrole").value.match(/\d{15,25}/) || [])[0]) || ""; $("dcrole").value = id; if (id) lsSet("fcd_pingrole", id); else try { localStorage.removeItem("fcd_pingrole"); } catch (e) {} };
 $("hookxlsx").checked = lsGet("fcd_hookxlsx") !== "0";
 $("hookxlsx").onchange = () => { lsSet("fcd_hookxlsx", $("hookxlsx").checked ? "1" : "0"); renderSaved(); };
 $("hookkeep").onchange = () => { setHook(HOOK_RE.test(hookGet()) ? hookGet() : ""); renderSaved(); };
 $("hookforget").onclick = () => { $("hookkeep").checked = false; setHook(""); $("hookbox").value = ""; $("hookmsg").textContent = "Forgotten."; renderSaved(); if (pv) pvDraw(); };
+let postBusy = false;
+const nap = (ms) => new Promise((r) => setTimeout(r, ms));
 async function dcPost(t, files) {
-  const i = t.indexOf("\n### "); let head = i > 0 ? t.slice(0, i) : t, body = i > 0 ? t.slice(i + 1) : "";
-  if (body.length > 1900) body = body.slice(0, body.lastIndexOf("\n", 1850)) + "\n-# (cut short, the rest is in the file)";
-  const sent = await hookPost(head.slice(0, 1900), files);
-  if (body) await hookPost(body, undefined, true);
-  return sent;
+  if (postBusy) throw new Error("Already posting. Wait a moment.");
+  postBusy = true;
+  try {
+    const i = t.indexOf("\n### "); let head = i > 0 ? t.slice(0, i) : t, body = i > 0 ? t.slice(i + 1) : "";
+    if (body.length > 1900) body = body.slice(0, body.lastIndexOf("\n", 1850)) + "\n-# (cut short, the rest is in the file)";
+    const sent = await hookSend(head.slice(0, 1900), files);
+    if (body) {
+      try { await hookSend(body, undefined, true); } catch (e) {
+        if (/429/.test(String(e && e.message))) { clog("Discord: slowing us down. Trying the breakdown again in 4 seconds."); await nap(4000); try { await hookSend(body, undefined, true); return sent; } catch (e2) { e = e2; } }
+        throw new Error("The picture posted, but the breakdown did not. Wait a minute, then post again.");
+      }
+    }
+    return sent;
+  } finally { postBusy = false; }
 }
 async function hookPost(text, file, quiet) {
+  if (postBusy) throw new Error("Already posting. Wait a moment.");
+  postBusy = true; try { return await hookSend(text, file, quiet); } finally { postBusy = false; }
+}
+async function hookSend(text, file, quiet) {
   const url = hookGet(), pg = quiet ? "" : $("dcping").value, rid = (($("dcrole").value.match(/\d{15,25}/) || [])[0]), body = { content: (pg === "role" ? (rid ? "<@&" + rid + ">\n" : "") : pg ? "@" + pg + "\n" : "") + text, allowed_mentions: pg === "role" ? { parse: [], roles: rid ? [rid] : [] } : { parse: pg ? ["everyone"] : [] } };
   if (pg === "role" && !rid) throw new Error("Enter the role ID first (or pick Don't ping anyone).");
   if (!HOOK_RE.test(url)) throw new Error("Add your Discord link in Settings first.");
@@ -1588,20 +1604,21 @@ async function clanPic(rows) {
 }
 // Read a sheet this page made (no AI): who is in it, their points, and the earlier points.
 async function readSheet(buf) {
+  if (buf && buf.byteLength > 5e6) throw new Error("That Excel file is too big to be one of ours.");
   await loadExcel(); if (!window.ExcelJS) throw new Error("The spreadsheet part did not load. Refresh the page.");
   const wb = new window.ExcelJS.Workbook(); await wb.xlsx.load(buf);
   const ws = wb.getWorksheet("Clan Members") || wb.worksheets[0]; let head = 0;
   ws.eachRow((row, n) => { if (!head && String(row.getCell(2).value).trim() === "Username") head = n; });
   if (!head) throw new Error("That file is not a sheet made by this page.");
   const val = (c) => { let v = c.value; if (v && typeof v === "object" && "result" in v) v = v.result; return v; }, items = []; let any = false;
-  for (let r = head + 1; r <= ws.rowCount; r++) {
+  for (let r = head + 1; r <= Math.min(ws.rowCount, 5000); r++) {
     const name = val(ws.getCell(r, 2)), n = val(ws.getCell(r, 5)), b = val(ws.getCell(r, 6)); if (!name || typeof n !== "number") continue;
     if (typeof b === "number") any = true;
     items.push({ rk: Number(val(ws.getCell(r, 1))) || items.length + 1, name: String(name), role: String(val(ws.getCell(r, 3)) || ""), points: String(val(ws.getCell(r, 4)) || n), n, b: typeof b === "number" ? b : null });
   }
   let hist = null; const hs = wb.getWorksheet("Points history");
   if (hs) { const dates = []; for (let c = 3; c <= hs.columnCount; c++) { const v = val(hs.getCell(3, c)); if (v instanceof Date) dates.push(v); else break; }
-    const list = []; for (let r = 4; r <= hs.rowCount; r += 2) { const nm = val(hs.getCell(r, 1)); if (!nm) break; list.push({ name: String(nm), vals: dates.map((_, k) => { const v = val(hs.getCell(r, 3 + k)); return typeof v === "number" ? v : null; }) }); }
+    const list = []; for (let r = 4; r <= Math.min(hs.rowCount, 5000); r += 2) { const nm = val(hs.getCell(r, 1)); if (!nm) break; list.push({ name: String(nm), vals: dates.map((_, k) => { const v = val(hs.getCell(r, 3 + k)); return typeof v === "number" ? v : null; }) }); }
     if (dates.length && list.length) hist = { dates, list }; }
   const t1 = String(val(ws.getCell(1, 1)) || ""), t2 = String(val(ws.getCell(2, 1)) || "");
   return { items, any, hist, clan: t1.split(/\s[\u2013-]\s/)[0] || "Clan", game: t2.split("\u00b7")[0].trim() || "Roblox", date: ((t2.match(/Recorded ([^\u00b7]+)/) || [])[1] || todayText()).trim() };
