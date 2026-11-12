@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Simpler video tip
+
+12 Nov 2026 (06:59 UTC) · Changed
+
+The video tip is one short sentence.
+
+**What you'll see:** Clan tab under the screenshot box.
+
+- Reworded the video scrolling tip.
+
 ## Key note moved next to the key
 
-12 Nov 2026 (06:58 UTC) · Changed
+12 Nov 2026 (06:58 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/44f2624)
 
 The 'Your key is safe here' note sits under the key box, not in the middle of the page.
 
