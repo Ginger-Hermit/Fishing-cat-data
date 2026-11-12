@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Back to a calm look
+
+12 Nov 2026 (06:48 UTC) · Changed
+
+No gradients. Flat, calm colours with a colour stripe on each bar.
+
+**What you'll see:** Whole page.
+
+- Removed all gradients and the banner. Page looks as before, with the bars keeping their colour stripe.
+
 ## No emoji in the banner
 
-12 Nov 2026 (06:47 UTC) · Changed
+12 Nov 2026 (06:47 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2f1742a)
 
 The banner is just the name now.
 

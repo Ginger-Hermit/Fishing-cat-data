@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The banner is just the name now. -->
+<!-- Patch note: No gradients. Flat, calm colours with a colour stripe on each bar. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -41,7 +41,7 @@ button:disabled{opacity:.5}
 .pv tr.bad td{background:#FFF0D6}.pv td input{width:100%;min-width:40px;margin:0;padding:6px;border:none;border-radius:0;background:transparent;font-size:14px;color:var(--text)}
 .pv td.ro{padding:6px;white-space:nowrap}.pv .pvx{width:auto;margin:0;padding:4px 10px;border:none;background:none;color:var(--err);font-size:18px}
 #moreopts>summary,#hookblock>summary,#logbox>summary,#keydet>summary{font-size:16px!important;font-weight:600;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--field);color:var(--text,inherit);cursor:pointer}#moreopts[open]>summary,#hookblock[open]>summary,#logbox[open]>summary,#keydet[open]>summary{margin-bottom:12px}#moreopts,#hookblock,#logbox{margin-top:12px}
-#keydet>summary{border-left:6px solid #2f6fed;background:linear-gradient(90deg,rgba(47,111,237,.28),rgba(47,111,237,0) 85%),var(--field)}#moreopts>summary{border-left:6px solid #2e9d5b;background:linear-gradient(90deg,rgba(46,157,91,.28),rgba(46,157,91,0) 85%),var(--field)}#hookblock>summary{border-left:6px solid #8a4fd6;background:linear-gradient(90deg,rgba(138,79,214,.28),rgba(138,79,214,0) 85%),var(--field)}#logbox>summary{border-left:6px solid #6b7280;background:linear-gradient(90deg,rgba(107,114,128,.28),rgba(107,114,128,0) 85%),var(--field)}
+#keydet>summary{border-left:6px solid #2f6fed;}#moreopts>summary{border-left:6px solid #2e9d5b;}#hookblock>summary{border-left:6px solid #8a4fd6;}#logbox>summary{border-left:6px solid #6b7280;}
 .pv .pvb{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.pv .pvb button{margin:0;white-space:nowrap}.pv .pvb button.tab{padding:12px 14px}
 
 .xl{border:1px solid #B8BCC2;border-radius:8px;overflow:hidden;background:#fff;color:#1B1B1B;font-family:Calibri,Arial,sans-serif}
@@ -72,14 +72,6 @@ button:disabled{opacity:.5}
 .tab{width:auto;margin:0;padding:8px 12px;font-size:14px;background:var(--field);color:var(--link);border:1px solid var(--link);border-radius:6px}
 .page{font-size:15px;line-height:1.5}
 .tab.on{background:var(--accent);color:var(--onAccent)}
-:root{--accent2:#7C4DD8}
-html[data-theme=dark]{--accent2:#7B61D6}html[data-theme=ocean]{--accent2:#14A3A0}html[data-theme=forest]{--accent2:#3E9C6C}html[data-theme=berry]{--accent2:#D0527A}
-body{background:linear-gradient(160deg,var(--bg),color-mix(in srgb,var(--accent2) 14%,var(--bg)));min-height:100vh}
-.card{border-radius:16px;box-shadow:0 6px 24px rgba(31,56,100,.14);padding:0 18px 16px;overflow:hidden;margin:20px auto}
-h1{margin:0 -18px 12px;padding:16px 18px;font-size:22px;font-weight:600;color:var(--onAccent);background:linear-gradient(90deg,var(--accent),var(--accent2))}
-.tabs{margin:0 0 10px}label{margin:10px 0 3px}
-.tab{border-radius:999px;padding:8px 14px}
-.tab.on,#go,#billgo,.pvb button:first-child{background:linear-gradient(90deg,var(--accent),var(--accent2));border-color:transparent}
 </style>
 </head>
 <body>
@@ -127,7 +119,7 @@ h1{margin:0 -18px 12px;padding:16px 18px;font-size:22px;font-weight:600;color:va
 <li><b style="color:#2e9d5b">Green</b>: More options (last sheet, test).</li>
 <li><b style="color:#8a4fd6">Purple</b>: posting to Discord.</li>
 <li><b style="color:#6b7280">Grey</b>: the Log, for fixing problems.</li>
-<li>The gradient banner and tabs are just the look. Tap a bar with an arrow to open it.</li>
+<li>Tap a bar with an arrow to open it.</li>
 </ul>
 </details>
 <details class="hsec" style="margin-top:12px"><summary style="font-weight:600;font-size:1.1em;cursor:pointer">Good to know</summary>
@@ -400,7 +392,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-n";
+const BUILD = "2026-11-12-o";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
