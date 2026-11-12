@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Home page colours
+
+12 Nov 2026 (05:24 UTC) · Changed
+
+The Home page now uses the theme colour for headings, steps and the safety box.
+
+**What you'll see:** Open Home in any theme: section headings have a coloured bar, the steps are numbered circles and the safety part is tinted.
+
+- Coloured section headings and numbered steps on Home
+- Safety section tinted, follows the chosen theme
+
 ## Home sections fold up, links at the top
 
-12 Nov 2026 (05:23 UTC) · Changed
+12 Nov 2026 (05:23 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7a53a58)
 
 The Home page sections now open and close, with a link to the full guide and the free key at the top.
 
