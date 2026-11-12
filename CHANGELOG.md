@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Detailed Discord summary
+
+12 Nov 2026 (06:25 UTC) · Changed
+
+The Discord post and Copy message now say what changed: total change, who went up or down, top 5 gains, drops, new and missing members.
+
+**What you'll see:** Copy message on a clan preview
+
+- Longer change summary for Discord
+
 ## Discord link on the clan and bills tabs
 
-12 Nov 2026 (06:23 UTC) · Changed
+12 Nov 2026 (06:23 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/b5889db)
 
 The Discord link box moved from Settings to the Roblox clan sheet and Bills tabs.
 

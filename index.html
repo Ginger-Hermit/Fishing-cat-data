@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The Discord link box moved from Settings to the Roblox clan sheet and Bills tabs. -->
+<!-- Patch note: The Discord post and Copy message now say what changed: total change, who went up or down, top 5 gains, drops, new and missing members. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -376,7 +376,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-w";
+const BUILD = "2026-11-12-x";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1419,14 +1419,23 @@ $("hooktest").onclick = async () => {
   try { await hookPost("Fishing Cat Data test: this link works."); $("hookmsg").textContent = "Worked. Check Discord."; } catch (e) { $("hookmsg").textContent = plain(e); }
 };
 function hookText() {
-  const pm = fixNames(prevMap, pv.rows), rows = pv.rows.filter((r) => String(r.name).trim()), tot = rows.reduce((t, r) => t + (parsePoints(r.points) || 0), 0);
-  const gain = [], fresh = [];
-  rows.forEach((r) => { const n = parsePoints(r.points), b = pm ? pm.get(String(r.name).trim().toLowerCase()) : undefined; if (n === null || !pm) return; if (typeof b === "number") { if (n - b > 0) gain.push([r.name, n - b]); } else fresh.push(r.name); });
-  gain.sort((a, c) => c[1] - a[1]);
-  const f = (n) => n.toLocaleString("en-US");
+  const pm = fixNames(prevMap, pv.rows), rows = pv.rows.filter((r) => String(r.name).trim()), f = (n) => Math.round(n).toLocaleString("en-US"), sg = (n) => (n > 0 ? "+" : n < 0 ? "-" : "") + f(Math.abs(n));
+  const tot = rows.reduce((t, r) => t + (parsePoints(r.points) || 0), 0), up = [], dn = [], fresh = [], here = new Set();
+  let same = 0, before = 0, change = 0;
+  rows.forEach((r) => { const k = String(r.name).trim().toLowerCase(), n = parsePoints(r.points), b = pm ? pm.get(k) : undefined; here.add(k); if (n === null || !pm) return;
+    if (typeof b !== "number") { fresh.push(r.name); return; }
+    const d = n - b; before += b; change += d; if (d > 0) up.push([r.name, d, b]); else if (d < 0) dn.push([r.name, d, b]); else same++; });
+  up.sort((x, y) => y[1] - x[1]); dn.sort((x, y) => x[1] - y[1]);
+  const pc = (d, b) => (b ? " (" + (d > 0 ? "+" : "") + (d / b * 100).toFixed(1) + "%)" : "");
   let t = "**" + pv.p.clan + "** \u00b7 " + pv.p.game + " \u00b7 " + todayText() + "\n" + rows.length + " members \u00b7 " + f(tot) + " points in total";
-  if (gain.length) t += "\nTop gains: " + gain.slice(0, 3).map((g, i) => (i + 1) + ". " + g[0] + " +" + f(g[1])).join(", ");
-  if (fresh.length) t += "\nNew: " + fresh.slice(0, 10).join(", ") + (fresh.length > 10 ? " and " + (fresh.length - 10) + " more" : "");
+  if (pm && (up.length || dn.length || same)) {
+    t += "\nSince last run: " + sg(change) + pc(change, before) + " from returning members\nUp " + up.length + " \u00b7 Down " + dn.length + " \u00b7 Same " + same + " \u00b7 New " + fresh.length;
+    if (up.length) t += "\nTop gains:\n" + up.slice(0, 5).map((g, i) => (i + 1) + ". " + g[0] + " " + sg(g[1]) + pc(g[1], g[2])).join("\n");
+    if (dn.length) t += "\nBiggest drops: " + dn.slice(0, 3).map((g) => g[0] + " " + sg(g[1])).join(", ");
+    if (fresh.length) t += "\nNew: " + fresh.slice(0, 10).join(", ") + (fresh.length > 10 ? " and " + (fresh.length - 10) + " more" : "");
+    const left = [...pm.keys()].filter((k) => !here.has(k));
+    if (left.length) t += "\nNot in this list: " + left.slice(0, 10).join(", ") + (left.length > 10 ? " and " + (left.length - 10) + " more" : "");
+  }
   return t.slice(0, 1900);
 }
 async function pvPost() {
