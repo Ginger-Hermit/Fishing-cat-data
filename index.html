@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The Discord message now reads the whole Excel file and explains Clan Members, Leaderboard and Points history in plain sentences. -->
+<!-- Patch note: The written breakdown in the Discord post now uses short bullet points under each tab name. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -421,7 +421,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-za";
+const BUILD = "2026-11-12-b";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1472,23 +1472,23 @@ const dcBreakdown = (sh, f) => {
   let t = dcHead(sh.clan, sh.game, sh.date, n, f(tot));
   const roles = {}; it.forEach((x) => { const k = x.role || "No role"; (roles[k] = roles[k] || { c: 0, p: 0 }).c++; roles[k].p += x.n; });
   const top = [...it].sort((x, y) => y.n - x.n).slice(0, 3);
-  t += "\n\n**Clan Members**\nAverage " + f(tot / Math.max(n, 1)) + " points each. Top 3: " + top.map((x) => x.name + " " + f(x.n)).join(", ") + ".\nBy role: " + Object.entries(roles).sort((x, y) => y[1].p - x[1].p).map(([k, v]) => k + " x" + v.c + " (" + f(v.p) + ")").join(", ") + ".";
+  t += "\n\n**Clan Members**\n- Average: **" + f(tot / Math.max(n, 1)) + "** points each\n- Top 3: " + top.map((x) => x.name + " " + f(x.n)).join(", ") + "\n- Roles: " + Object.entries(roles).sort((x, y) => y[1].p - x[1].p).map(([k, v]) => k + " x" + v.c + " (" + f(v.p) + ")").join(", ");
   if (sh.any) {
     const ret = it.filter((x) => x.b !== null), fresh = it.filter((x) => x.b === null), d = ret.reduce((a, x) => a + x.n - x.b, 0), b0 = ret.reduce((a, x) => a + x.b, 0);
     const up = ret.filter((x) => x.n > x.b).sort((x, y) => (y.n - y.b) - (x.n - x.b)), dn = ret.filter((x) => x.n < x.b).sort((x, y) => (x.n - x.b) - (y.n - y.b));
-    t += "\n\n**Leaderboard**\nSince the last run the clan gained **" + sg(d) + pc(d, b0) + "**. Up " + up.length + ", down " + dn.length + ", same " + (ret.length - up.length - dn.length) + ", new " + fresh.length + ".";
-    if (up.length) t += "\nBiggest gains: " + up.slice(0, 3).map((x) => x.name + " " + sg(x.n - x.b) + pc(x.n - x.b, x.b)).join(", ") + ".";
-    if (dn.length) t += "\nBiggest drops: " + dn.slice(0, 3).map((x) => x.name + " " + sg(x.n - x.b)).join(", ") + ".";
-    if (fresh.length) t += "\nNew: " + fresh.slice(0, 8).map((x) => x.name).join(", ") + (fresh.length > 8 ? " and " + (fresh.length - 8) + " more" : "") + ".";
+    t += "\n\n**Leaderboard**\n- Since last run: **" + sg(d) + pc(d, b0) + "**\n- Up " + up.length + " · Down " + dn.length + " · Same " + (ret.length - up.length - dn.length) + " · New " + fresh.length;
+    if (up.length) t += "\n- Biggest gains: " + up.slice(0, 3).map((x) => x.name + " " + sg(x.n - x.b) + pc(x.n - x.b, x.b)).join(", ");
+    if (dn.length) t += "\n- Biggest drops: " + dn.slice(0, 3).map((x) => x.name + " " + sg(x.n - x.b)).join(", ");
+    if (fresh.length) t += "\n- New: " + fresh.slice(0, 8).map((x) => x.name).join(", ") + (fresh.length > 8 ? " and " + (fresh.length - 8) + " more" : "");
   }
   const h = sh.hist;
   if (h && h.dates.length > 1) {
     const K = h.dates.length, totals = h.dates.map((_, k) => h.list.reduce((a, e) => a + (e.vals[k] || 0), 0));
     const since = h.list.map((e) => { const v = e.vals.filter((x) => x !== null); return { name: e.name, g: v.length > 1 ? v[v.length - 1] - v[0] : null }; }).filter((x) => x.g !== null && x.g > 0).sort((x, y) => y.g - x.g).slice(0, 3);
-    t += "\n\n**Points history**\n" + K + " runs so far, " + dt(h.dates[0]) + " to " + dt(h.dates[K - 1]) + ". Clan total: " + totals.slice(-5).map((v, i, arr) => dt(h.dates[K - arr.length + i]) + " " + f(v)).join(" > ") + ".";
-    if (since.length) t += "\nMost gained over all runs: " + since.map((x) => x.name + " " + sg(x.g)).join(", ") + ".";
+    t += "\n\n**Points history**\n- " + K + " runs, " + dt(h.dates[0]) + " to " + dt(h.dates[K - 1]) + "\n- Clan total: " + totals.slice(-5).map((v, i, arr) => dt(h.dates[K - arr.length + i]) + " " + f(v)).join(" > ");
+    if (since.length) t += "\n- Most gained overall: " + since.map((x) => x.name + " " + sg(x.g)).join(", ");
     const left = h.list.filter((e) => e.vals[K - 1] === null && e.vals.some((x) => x !== null)).map((e) => e.name);
-    if (left.length) t += "\nLeft the clan (kept in history): " + left.slice(0, 8).join(", ") + (left.length > 8 ? " and " + (left.length - 8) + " more" : "") + ".";
+    if (left.length) t += "\n- Left the clan (kept in history): " + left.slice(0, 8).join(", ") + (left.length > 8 ? " and " + (left.length - 8) + " more" : "");
   }
   t += "\n\n-# In the file: green = went up, red = went down, gold, silver and bronze = top 3, grey = left the clan.";
   if (t.length > 1900) t = t.slice(0, t.lastIndexOf("\n", 1880)) + "\n-# (cut short, the full list is in the file)";

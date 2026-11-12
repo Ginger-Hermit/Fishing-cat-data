@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Bullet points in the Discord breakdown
+
+12 Nov 2026 (07:35 UTC) · Changed
+
+The written breakdown in the Discord post now uses short bullet points under each tab name.
+
+> [!NOTE]
+> **What you'll see:** Discord post text: bullets under Clan Members, Leaderboard and Points history.
+
+- Turned the sentences into bullets.
+
 ## Discord post breaks down every tab
 
 12 Nov 2026 (07:34 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c250686)
