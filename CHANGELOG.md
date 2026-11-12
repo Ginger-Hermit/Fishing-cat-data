@@ -2,9 +2,23 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Clan Members tab first, history fixes
+
+12 Nov 2026 (04:54 UTC) · Changed
+
+The clan sheet opens on Clan Members again, and history now starts from your earlier sheet.
+
+**What you'll see:** Download a clan sheet with an earlier sheet chosen: Clan Members is the first tab and the Leaderboard shows points gained.
+
+- Clan Members is the first tab, Leaderboard second
+- An earlier sheet with no history now becomes the first history column
+- Leaderboard numbers show in phone previews
+- Earlier months fold into one column
+- Empty Season Info box removed, shorter About tab
+
 ## Clan history in the Excel file
 
-12 Nov 2026 (04:51 UTC) · New
+12 Nov 2026 (04:51 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/a4436ab)
 
 The clan sheet now keeps history instead of only showing the last change.
 

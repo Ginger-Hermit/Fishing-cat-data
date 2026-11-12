@@ -1,6 +1,6 @@
 # Status
 
-Last updated: 12 Nov 2026. Page version 2026-11-12-c. Live at fishing-cat-data.pages.dev.
+Last updated: 12 Nov 2026. Page version 2026-11-12-d. Live at fishing-cat-data.pages.dev.
 `tools/release.py` keeps the two values above up to date. Keep this file under 60 lines: it is read at the start of every chat.
 
 ## What the page does
@@ -11,7 +11,7 @@ Last updated: 12 Nov 2026. Page version 2026-11-12-c. Live at fishing-cat-data.p
 
 ## Next
 - Ginger: one real run of each tab on the live site (real clan video, real bill photo), then a screenshot. Nothing since 11 Nov has been run with a real AI.
-- **Clan history tabs built 12 Nov** (Leaderboard in front, Points history, How it's worked out). History is carried forward by `readHistory` from the earlier sheet; no AI. Same day twice replaces that day's column. Not built yet: folding last month into one column; removing the empty Season Info box; the simpler About tab. Not checked by eye in real Excel (tested with LibreOffice only).
+- **Clan history tabs built 12 Nov** (Clan Members stays first, then Leaderboard, Points history, How it's worked out). History is carried forward by `readHistory` from the earlier sheet; no AI. An earlier sheet with no history becomes the first column. A third run on one day replaces that day's column. Earlier months fold into one column (last run of that month); first-run points are kept in hidden Leaderboard columns H to J. Season Info box removed, Clan Summary now at K3. About tab shortened (wording guessed, the sample file is not in the repo). Not checked by eye in real Excel (tested with LibreOffice only).
 - **Approved by Ginger 12 Nov, not built: Post to Discord (webhook).** Next to build. First check that Discord takes a file posted from a web page (CORS); if not, post the message only.
   - Settings: one box "Discord webhook link" with a **Test** button (posts "Fishing Cat Data is connected"). Off until a link is pasted. Stored in the browser only (`fcd_hook`), shown and deletable in Privacy, scrubbed from Log and bug report like the key. Accept only `https://discord.com/api/webhooks/...`.
   - After a clan read: **Post to Discord** button next to Download sheet, with a preview of the message (clan, date, top 3 gained with medals, clan total, new players) built by the page, no AI. Posts message plus the .xlsx. Only on tap. Never on Bills.
