@@ -1,6 +1,6 @@
 # Status
 
-Last updated: 12 Nov 2026. Page version 2026-11-12-o. Live at fishing-cat-data.pages.dev.
+Last updated: 12 Nov 2026. Page version 2026-11-12-p. Live at fishing-cat-data.pages.dev.
 `tools/release.py` keeps the two values above up to date. Keep this file under 60 lines: it is read at the start of every chat.
 
 ## What the page does
@@ -31,7 +31,7 @@ Last updated: 12 Nov 2026. Page version 2026-11-12-o. Live at fishing-cat-data.p
 
 ## Known limits
 - Clan sheet: all pictures go in one request; accuracy may drop past about 20 pictures.
-- Bills: a cut-off AI reply loses the whole run. Gas in m3 or CCF without printed factors is flagged, not converted. Photos only, no PDFs. No currency conversion. No compare-with-last-bill.
+- Bills: a cut-off AI reply loses the whole run. Gas in m3 or CCF without printed factors is flagged, not converted. PDFs are sent as they are (8 MB each, Gemini and Anthropic only, not tested with a real AI). No currency conversion. No compare-with-last-bill.
 - Label text contrast is about 4.2 to 1 in Light and Ocean (target 4.5).
 - LICENSE is all rights reserved, owner named as Ginger-Hermit, not checked by a lawyer.
 - Fingerprint: not recorded.

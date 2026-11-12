@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The clan preview is now titled Roblox clan preview. -->
+<!-- Patch note: The Bills tab now takes PDF bills as well as photos. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -129,8 +129,8 @@ button:disabled{opacity:.5}
 <div style="font-size:13px;color:var(--muted);margin-top:10px">Turns photos of household bills into a sheet, one row per charge, with a summary.</div>
 <div class="warnbox" style="border-color:var(--err)"><b style="color:var(--err)">Bills are private.</b> Your name, address and account number are in the photo, and the whole photo is sent to the AI company you pick. Only upload your own bills.</div>
 <label>Bill photos</label>
-<div class="drop" id="billdrop">Tap to add photos of bills</div>
-<input id="billfiles" type="file" accept="image/png,image/jpeg,image/webp" multiple hidden>
+<div class="drop" id="billdrop">Tap to add photos or PDFs of bills</div>
+<input id="billfiles" type="file" accept="image/png,image/jpeg,image/webp,application/pdf" multiple hidden>
 <div id="billlist"></div>
 <button id="billgo" disabled>Make my sheet</button>
 <div class="msg" id="billmsg" role="status" aria-live="polite"></div>
@@ -325,7 +325,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-o";
+const BUILD = "2026-11-12-p";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1103,12 +1103,21 @@ async function toPic(f) {
     return { type: "image/jpeg", data: c.toDataURL("image/jpeg", 0.9).split(",")[1] };
   } catch (e) { throw new Error('The picture "' + tidy(f.name, 40) + '" could not be opened. Tap Clear and add the others again.'); }
 }
+// A PDF is sent as it is (Gemini and Anthropic read PDFs themselves).
+function pdfPart(f) {
+  return new Promise((ok, bad) => {
+    const r = new FileReader();
+    r.onload = () => ok({ type: "application/pdf", data: String(r.result).split(",")[1] });
+    r.onerror = () => bad(new Error('The PDF "' + tidy(f.name, 40) + '" could not be opened. Tap Clear and add the others again.'));
+    r.readAsDataURL(f);
+  });
+}
 // Pictures made from each file are kept, so a file is only read once per run.
 const picCache = new WeakMap();
 async function collectPictures(images) {
   const pics = [];
   for (const f of images) {
-    if (!picCache.has(f)) picCache.set(f, f.type.startsWith("video/") ? await videoFrames(f) : [await toPic(f)]);
+    if (!picCache.has(f)) picCache.set(f, f.type.startsWith("video/") ? await videoFrames(f) : f.type === "application/pdf" ? [await pdfPart(f)] : [await toPic(f)]);
     pics.push(...picCache.get(f));
   }
   if (pics.length > 100) throw new Error("Too many pictures (" + pics.length + "). The most is 100. Use one video, or fewer screenshots.");
@@ -1144,7 +1153,7 @@ async function postJson(url, headers, body) {
 
 const ASKERS = {
   anthropic: async (key, model, pics) => {
-    const content = pics.map(p => ({ type: "image", source: { type: "base64", media_type: p.type, data: p.data } }));
+    const content = pics.map(p => ({ type: p.type === "application/pdf" ? "document" : "image", source: { type: "base64", media_type: p.type, data: p.data } }));
     content.push({ type: "text", text: PROMPT });
     const d = await postJson("https://api.anthropic.com/v1/messages", {
       "content-type": "application/json",
@@ -1163,6 +1172,7 @@ const ASKERS = {
     return ((first && first.content && first.content.parts) || []).map(p => p.text || "").join("\n");
   },
   openai: async (key, model, pics) => {
+    if (pics.some(p => p.type === "application/pdf")) throw new Error("OpenAI can't read PDFs here. Use photos, or pick Google Gemini or Anthropic.");
     const content = pics.map(p => ({ type: "image_url", image_url: { url: "data:" + p.type + ";base64," + p.data } }));
     content.push({ type: "text", text: PROMPT });
     const d = await postJson("https://api.openai.com/v1/chat/completions",
@@ -1508,8 +1518,10 @@ $("billdrop").onclick = () => $("billfiles").click();
 $("billdrop").ondragover = (e) => e.preventDefault();
 function addBills(fileList) {
   for (const f of fileList) {
-    if (!f.size || !f.type.startsWith("image/")) continue;
-    if (billPics.length >= 12) { billSay("Up to 12 photos at a time. Tap Clear to start again.", true); break; }
+    const pdf = f.type === "application/pdf";
+    if (!f.size || !(pdf || f.type.startsWith("image/"))) continue;
+    if (pdf && f.size > 8e6) { billSay("The PDF \"" + tidy(f.name, 40) + "\" is over 8 MB. Use a smaller one or take a photo.", true); continue; }
+    if (billPics.length >= 12) { billSay("Up to 12 photos or PDFs at a time. Tap Clear to start again.", true); break; }
     billPics.push(f);
   }
   loadExcel();

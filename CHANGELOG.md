@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Bills: PDFs
+
+12 Nov 2026 (05:17 UTC) · New
+
+The Bills tab now takes PDF bills as well as photos.
+
+**What you'll see:** Bills tab: tap the box, choose a PDF bill, then Make my sheet.
+
+- PDF bills accepted (up to 8 MB each) with Gemini or Anthropic; OpenAI says it can't read PDFs
+
 ## Roblox clan preview
 
-12 Nov 2026 (05:15 UTC) · Changed
+12 Nov 2026 (05:15 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/f46863b)
 
 The clan preview is now titled Roblox clan preview.
 
