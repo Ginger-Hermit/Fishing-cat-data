@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Break-test helper for the Discord and Excel parts. Pretend Discord, no real network, about 15 seconds.
 Run all:   python3 -I tools/attack.py
-Narrow:    python3 -I tools/attack.py post        (groups: ping post excel secrets)
+Narrow:    python3 -I tools/attack.py post        (groups: ping post excel secrets names role)
 Prints one line per check and a one-line verdict, so the output stays tiny.
 To add a check: write one chk(...) call inside a group below."""
-import os, sys
+import os, sys, json
 from playwright.sync_api import sync_playwright
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -13,12 +13,14 @@ URL = "https://discord.com/api/webhooks/123456789012345678/" + TOKEN
 CORS = {"access-control-allow-origin": "*", "access-control-allow-headers": "*", "access-control-allow-methods": "*"}
 T = "## Clan\n-# x\n### What changed\nbody"
 CALL = "async t=>{try{await dcPost(t);return 'ok'}catch(e){return e.message}}"
-st = {"n": 0, "mode": "ok"}
+st = {"n": 0, "mode": "ok", "bodies": []}
 out = []
 
 def route(r):
     if r.request.method == "OPTIONS": return r.fulfill(status=204, headers=CORS)
     st["n"] += 1; n, m, code = st["n"], st["mode"], 200
+    try: st["bodies"].append(json.loads(r.request.post_data or "{}"))
+    except Exception: pass
     if m == "429second" and n == 2: code = 429
     if m == "failsecond" and n >= 2: code = 500
     if m == "all429": code = 429
@@ -28,7 +30,7 @@ def chk(name, ok, info=""):
     out.append(ok); print(("PASS " if ok else "FAIL ") + name + ("" if ok else "  -> " + str(info)[:160]))
 
 def fresh(pg, mode="ok"):
-    st.update(n=0, mode=mode)
+    st.update(n=0, mode=mode, bodies=[])
 
 def g_ping(pg):
     chk("no @everyone or @here option", pg.evaluate("![...document.getElementById('dcping').options].some(o=>/everyone|here/.test(o.value))"))
@@ -72,7 +74,33 @@ def g_secrets(pg):
     rep = pg.evaluate("typeof bugText==='function'?bugText():''") if pg.evaluate("typeof bugText") == "function" else ""
     chk("webhook link not in bug report", TOKEN not in rep)
 
-GROUPS = {"ping": g_ping, "post": g_post, "excel": g_excel, "secrets": g_secrets}
+
+NASTY = ["@everyone", "@here", "<@&999999999999999999>", "[click me](http://evil.example)", "```evil```", "x" * 3000, "_under_score_", "**bold**"]
+def g_names(pg):
+    pg.evaluate("u=>{hookNow=u}", URL); pg.evaluate("document.getElementById('dcping').value=''")
+    fresh(pg)
+    js = "async a=>{const f=n=>Math.round(n).toLocaleString('en-US');const sh={clan:'Clan',game:'Game',date:'12 Nov',any:true,items:a.map((x,i)=>({rk:i+1,name:x,role:'@here',n:100+i,b:50,points:'100'}))};try{await dcPost(dcBreakdown(sh,f));return 'ok'}catch(e){return e.message}}"
+    r = pg.evaluate(js, NASTY)
+    chk("nasty names still post", r == "ok", r)
+    ok = all(b.get("allowed_mentions", {}).get("parse") == [] and b.get("allowed_mentions", {}).get("roles") == [] for b in st["bodies"])
+    chk("nasty names can't ping anyone", ok and len(st["bodies"]) >= 1, [b.get("allowed_mentions") for b in st["bodies"]])
+    chk("every message is under 2000 characters", all(len(b.get("content", "")) <= 2000 for b in st["bodies"]), [len(b.get("content", "")) for b in st["bodies"]])
+    fresh(pg); big = ["Player%d" % i for i in range(200)]
+    r = pg.evaluate(js, big)
+    chk("200-player clan posts, messages under 2000", r == "ok" and all(len(b.get("content", "")) <= 2000 for b in st["bodies"]), (r, [len(b.get("content", "")) for b in st["bodies"]]))
+
+def g_role(pg):
+    pg.evaluate("u=>{hookNow=u}", URL)
+    pg.evaluate("()=>{const s=document.getElementById('dcping');s.value='role';document.getElementById('dcrole').value='abc'}")
+    fresh(pg); r = pg.evaluate(CALL, T)
+    chk("bad role id is refused, nothing sent", "role ID" in r and st["n"] == 0, (r, st["n"]))
+    pg.evaluate("document.getElementById('dcrole').value='<@&123456789012345678>'")
+    fresh(pg); r = pg.evaluate(CALL, T)
+    first, second = (st["bodies"] + [{}, {}])[:2]
+    chk("role ping goes on the first message only", r == "ok" and first.get("content", "").startswith("<@&123456789012345678>") and not second.get("content", "").startswith("<@&") and first["allowed_mentions"]["roles"] == ["123456789012345678"] and second["allowed_mentions"]["roles"] == [], (r, first.get("allowed_mentions"), second.get("allowed_mentions")))
+    pg.evaluate("document.getElementById('dcping').value=''")
+
+GROUPS = {"ping": g_ping, "post": g_post, "excel": g_excel, "secrets": g_secrets, "names": g_names, "role": g_role}
 want = sys.argv[1:] or list(GROUPS)
 bad = [w for w in want if w not in GROUPS]
 if bad: sys.exit("Unknown group: %s. Use: %s" % (", ".join(bad), " ".join(GROUPS)))
