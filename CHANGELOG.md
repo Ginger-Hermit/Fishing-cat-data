@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Foldable developer bar
 
-12 Nov 2026 (23:59 UTC) · Changed
+12 Nov 2026 (23:59 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/645a6cb)
 
 Tap the developer bar to fold it down to one line.
 
