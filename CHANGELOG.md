@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Safer Discord posting, clearer grey text
+
+12 Nov 2026 (10:51 UTC) · Changed
+
+A slow upload no longer posts twice, a busy Discord gets one more try, and grey help text is easier to read.
+
+> [!NOTE]
+> **What you'll see:** Post to Discord; Light and Ocean themes
+
+- Timeout stops instead of resending; 429 retry on the first message; long-message cut guard; darker muted colour
+
 ## Safe names in Discord posts
 
 12 Nov 2026 (10:48 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/45186ff)

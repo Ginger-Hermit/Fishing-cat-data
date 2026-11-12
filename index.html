@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<!-- Patch note: A player or bill name can no longer turn into a fake link or break the Discord message. -->
+<!-- Patch note: A slow upload no longer posts twice, a busy Discord gets one more try, and grey help text is easier to read. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fishing Cat Data</title>
 <style>
-:root{--bg:#F0F2F5;--text:#1B1B1B;--muted:#585B60;--accent:#1F3864;--link:#1F3864;--onAccent:#fff;--line:#898C90;--field:#fff;--soft:#D5D8DD;--noteBg:#E3F4E8;--noteText:#14632D;--err:#A31616}
+:root{--bg:#F0F2F5;--text:#1B1B1B;--muted:#4D5055;--accent:#1F3864;--link:#1F3864;--onAccent:#fff;--line:#898C90;--field:#fff;--soft:#D5D8DD;--noteBg:#E3F4E8;--noteText:#14632D;--err:#A31616}
 html[data-theme=dark]{color-scheme:dark;--bg:#14171C;--text:#E8EAED;--muted:#9AA0A6;--accent:#3F66B0;--link:#8FB0F0;--line:#4A5058;--field:#1F242B;--soft:#2E343C;--noteBg:#17301F;--noteText:#7FD69A;--err:#FF8A8A}
-html[data-theme=ocean]{--bg:#E6F3F7;--text:#10252E;--muted:#456470;--accent:#0B6E8A;--link:#0B6E8A;--line:#7FA8B5;--soft:#CBE3EA;--noteBg:#D6F0F4;--noteText:#0B5566}
+html[data-theme=ocean]{--bg:#E6F3F7;--text:#10252E;--muted:#3A5763;--accent:#0B6E8A;--link:#0B6E8A;--line:#7FA8B5;--soft:#CBE3EA;--noteBg:#D6F0F4;--noteText:#0B5566}
 html[data-theme=forest]{--bg:#EEF3EC;--text:#1A2A1C;--muted:#4B604C;--accent:#2F6B3A;--link:#2F6B3A;--line:#8FA58F;--soft:#D3E0D1;--noteBg:#DDEBD0;--noteText:#245A2E}
 html[data-theme=berry]{--bg:#F6EEF3;--text:#2A1B26;--muted:#664F5F;--accent:#8A2D63;--link:#8A2D63;--line:#B096A6;--soft:#E6D5DF;--noteBg:#F3DDE8;--noteText:#7A1F52}
 html[data-size=large] .card{zoom:1.25}
@@ -426,7 +426,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-zj";
+const BUILD = "2026-11-12-zk";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1520,8 +1520,8 @@ async function dcPost(t, files) {
   postBusy = true;
   try {
     const i = t.indexOf("\n### "); let head = i > 0 ? t.slice(0, i) : t, body = i > 0 ? t.slice(i + 1) : "";
-    if (body.length > 1900) body = body.slice(0, body.lastIndexOf("\n", 1850)) + "\n-# (cut short, the rest is in the file)";
-    const sent = await hookSend(head.slice(0, 1900), files);
+    if (body.length > 1900) body = body.slice(0, Math.max(body.lastIndexOf("\n", 1850), 0) || 1850) + "\n-# (cut short, the rest is in the file)";
+    let sent; try { sent = await hookSend(head.slice(0, 1900), files); } catch (e) { if (!/429/.test(String(e && e.message))) throw e; clog("Discord: slowing us down. Trying again in 4 seconds."); await nap(4000); sent = await hookSend(head.slice(0, 1900), files); }
     if (body) {
       try { await hookSend(body, undefined, true); } catch (e) {
         if (/429/.test(String(e && e.message))) { clog("Discord: slowing us down. Trying the breakdown again in 4 seconds."); await nap(4000); try { await hookSend(body, undefined, true); return sent; } catch (e2) { e = e2; } }
@@ -1542,7 +1542,7 @@ async function hookSend(text, file, quiet) {
   const send = (body) => fetch(url + "?wait=true", { method: "POST", body, signal: AbortSignal.timeout(30000) }).catch((e) => { clog("Discord: could not reach it (" + (e && e.name) + ": " + (e && e.message) + ")."); throw e; });
   let res, fileSent = false;
   clog("Discord: sending a message" + (file ? " with " + [].concat(file).map((x) => x.name + " " + Math.round(x.blob.size / 1024) + " KB").join(", ") : " (no files)") + ".");
-  if (file) { try { const f = new FormData(); f.append("payload_json", JSON.stringify(body)); [].concat(file).forEach((x, i) => f.append("files[" + i + "]", x.blob, x.name)); res = await send(f); fileSent = res.ok; } catch (e) { clog("Discord: the file could not go with the message (" + (e && e.name) + "). Trying the message alone."); } }
+  if (file) { try { const f = new FormData(); f.append("payload_json", JSON.stringify(body)); [].concat(file).forEach((x, i) => f.append("files[" + i + "]", x.blob, x.name)); res = await send(f); fileSent = res.ok; } catch (e) { clog("Discord: the file could not go with the message (" + (e && e.name) + "). Trying the message alone."); if (e && e.name === "TimeoutError") throw new Error("Discord was slow. Check the channel before posting again."); } }
   if (!res || !res.ok) { try { res = await send(new Blob([JSON.stringify(body)], { type: "application/json" })); } catch (e) { throw new Error("Could not reach Discord. An ad blocker or privacy shield may be blocking it. Turn it off for this site, or try a Private window."); } }
   clog("Discord answered: HTTP " + res.status + (fileSent ? " (files went)" : " (message only)"));
   if (!res.ok) { try { clog("Discord said: " + (await res.clone().text()).slice(0, 150)); } catch (e) {} }

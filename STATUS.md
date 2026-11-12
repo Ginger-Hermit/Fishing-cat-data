@@ -1,6 +1,6 @@
 # Status
 
-Last updated: 12 Nov 2026. Page version 2026-11-12-zj. Live at fishing-cat-data.pages.dev.
+Last updated: 12 Nov 2026. Page version 2026-11-12-zk. Live at fishing-cat-data.pages.dev.
 `tools/release.py` keeps the version and date up to date. Keep this file under 50 lines.
 
 ## What the page does
@@ -12,7 +12,7 @@ Last updated: 12 Nov 2026. Page version 2026-11-12-zj. Live at fishing-cat-data.
 ## Next
 - **Bills slow on Gemini = Google overload** (12 Nov: 503 "high demand" after 54s on gemini-3.8-flash). Built: 3 tries, and the 2nd and 3rd switch to gemini-3.7-flash then gemini-3.5-flash-lite (a missing backup model, 404, also moves on to the next). Not tested with real Gemini. If it still fails often, consider making 3.7 the default.
 - **Post to Discord: built 12 Nov (clan and Bills).** Link box sits on both tabs (not saved unless "Remember my link"; never in Log or bug report; only `discord.com/api/webhooks/...`). Clan message has a detailed what-changed summary; no AI. Not tested with a real Discord channel. **Table picture built 12 Nov:** canvas picture (no AI) posted with the message and .xlsx; header artwork picked once in Settings, kept in the browser only. Clan: #, Username, Role, Points, Change with gold/silver/bronze; Bills: simple charges table. Looked at in headless Chrome only; not tested with a real Discord channel or a real poster.
-- **Fix first:** see `developer/BREAK_REPORT_2026-11-12.md` (markdown in names can fake a link in Discord; @everyone choice is remembered; half posts; double tap; unlimited Excel read).
+- **Fix first:** Excel zip bomb can still freeze the tab (see `developer/BREAK_REPORT_2026-11-12.md` item 5). Items 1 to 4 fixed 12 Nov.
 - **Later:** break-test round 2 is planned in `developer/BREAK_TEST_PLAN.md` (security first, then bad input). Not started.
 - Ginger: one real run of each tab on the live site, then a screenshot.
 - Offered, not approved: one AI request per clan run (saves ~20s on Gemini); PDF-bill and compare-with-last-bill ideas; preview tabs for Leaderboard and Points history.
@@ -29,5 +29,4 @@ GitHub runs `check.py`, row, bill and fuzz tests, and the page in Chrome, Firefo
 - Gemini free tier: only 20 requests a day per model (12 Nov, error 429). Every retry and every clan run (2 requests) counts. A busy-model retry or a daily-limit 429 now moves to the next backup model.
 - Clan: all pictures go in one request; accuracy may drop past about 20.
 - Bills: a cut-off AI reply loses the run. Gas in m3 or CCF without printed factors is flagged, not converted. No currency conversion.
-- Label contrast about 4.2 to 1 in Light and Ocean (target 4.5).
 - LICENSE is all rights reserved, not checked by a lawyer.
