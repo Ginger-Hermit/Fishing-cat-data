@@ -475,7 +475,6 @@ function fixNames(prev, rows) {
   const cur = new Set(rows.map((r) => norm(r.name)));
   const old = new Set([...prev.keys(), ...(prev.hist ? prev.hist.players.map(([k]) => k) : [])]);
   const free = [...old].filter((k) => !cur.has(k));
-  const ren = new Map();
   rows.forEach((r) => {
     const k = norm(r.name);
     if (old.has(k)) return;
