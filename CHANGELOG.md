@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Home page carries a short version of the guide
+
+12 Nov 2026 (05:22 UTC) · Changed
+
+The Home page now has a shortened copy of the README: how to use it, what you get, safety and limits.
+
+**What you'll see:** Open the page: Home lists the steps, what is in the sheet, safety and good to know.
+
+- Home: how to use it, what you get, is it safe, good to know, link to the full guide
+
 ## Bills sheet: colours, how to read, tidy layout
 
-12 Nov 2026 (05:21 UTC) · Changed
+12 Nov 2026 (05:21 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/ffefa4c)
 
 The bills Excel file now has colours and explains itself at the top of both tabs.
 

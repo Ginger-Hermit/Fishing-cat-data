@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The bills Excel file now has colours and explains itself at the top of both tabs. -->
+<!-- Patch note: The Home page now has a shortened copy of the README: how to use it, what you get, safety and limits. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -81,19 +81,37 @@ button:disabled{opacity:.5}
 <button data-go="sheet">Make a Roblox clan sheet</button>
 <button data-go="bill" class="tab" style="width:100%;margin-top:8px;padding:12px">Read my bills</button>
 <div style="font-size:13px;color:var(--muted);margin-top:6px">Bills works for power, gas, water, internet and phone. Photos or PDFs.</div>
-<h3 style="margin:18px 0 6px">You need two things</h3>
+<h3 style="margin:18px 0 6px">How to use it</h3>
 <ol style="margin:0;padding-left:20px;line-height:1.6">
-<li>Screenshots of your clan list, or a short screen recording of you scrolling it slowly.</li>
-<li>A free key from Google. It works like a password that lets this page read your pictures. It takes about 1 minute. <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Get my free key</a>, then paste it in the box on the next screen.</li>
+<li>Get a free key from Google. It works like a password that lets this page read your pictures. It takes about 1 minute. <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Get my free key</a>, then paste it in the box on the next screen.</li>
+<li>Add screenshots of your clan's member list, or a screen recording of you scrolling it slowly (about 1 second per 5 members).</li>
+<li>Optional: add last week's sheet. Then you see who gained, and it keeps track of everyone over time.</li>
+<li>Tap <b>Make my sheet</b>. After about 20 seconds an Excel file downloads.</li>
 </ol>
 <h3 style="margin:18px 0 6px">What you get</h3>
 <img src="images/clan-leaderboard.png" alt="Sample Leaderboard tab: six made-up players ranked by points gained, with gold, silver and bronze rows for the top 3" loading="lazy" width="727" height="233" style="display:block;width:100%;height:auto;border:1px solid var(--line,#ccc);border-radius:6px">
 <p style="margin:6px 0 0;font-size:14px;opacity:.75">A sample with made-up players. Yours will have your clan's names.</p>
-<p style="margin:10px 0 0">A spreadsheet with everyone's points, who gained the most, and colours for the top 3. Next week, add this week's file when you make a new one and it keeps track of everyone over time.</p>
+<ul style="margin:10px 0 0;padding-left:20px;line-height:1.6">
+<li><b>Clan Members:</b> everyone's rank, role and points, with the change since last time.</li>
+<li><b>Leaderboard:</b> who gained the most, with gold, silver and bronze for the top 3.</li>
+<li><b>Points history:</b> one column per week, with a clan total.</li>
+<li><b>About</b> and <b>How it's worked out:</b> what every tab and colour means.</li>
+<li><b>Bills:</b> add photos or PDFs of power, gas, water, internet or phone bills and get one row per charge, plus a summary.</li>
+</ul>
 <h3 style="margin:18px 0 6px">Is it safe?</h3>
-<p style="margin:0">Your key stays on your device. Only the company you pick (Google or Anthropic) sees your pictures, and nothing is saved on this site. <a href="#" data-go="safety">More on staying safe</a></p>
-<p style="font-size:13px;color:var(--muted);margin-top:14px">The free Google key has a daily limit. If it runs out, wait until tomorrow. Stuck? Tap <b>Copy bug report</b> in the box that appears while it works, and send it to the person who shared this page.</p>
-<p style="font-size:13px;color:var(--muted);margin-top:6px">Built entirely by Claude, an AI.</p>
+<ul style="margin:0;padding-left:20px;line-height:1.6">
+<li>Your key stays on your device. It is only saved if you tick Remember my key.</li>
+<li>Only the company you pick (Google or Anthropic) sees your pictures. Nothing is saved on this site.</li>
+</ul>
+<p style="margin:6px 0 0"><a href="#" data-go="safety">More on staying safe</a></p>
+<h3 style="margin:18px 0 6px">Good to know</h3>
+<ul style="margin:0;padding-left:20px;line-height:1.6">
+<li>The free Google key has a daily limit. If it runs out, wait until tomorrow.</li>
+<li>The AI reads the names and points. Check any <b>?</b> or odd spelling by hand.</li>
+<li>OpenAI is not tested yet and may not work.</li>
+<li>Stuck? Tap <b>Copy bug report</b> in the box that appears while it works, and send it to the person who shared this page.</li>
+</ul>
+<p style="font-size:13px;color:var(--muted);margin-top:14px">Built entirely by Claude, an AI. Not an official Roblox, Anthropic, Google or OpenAI product. For personal use, provided as is. The full guide is on <a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">GitHub</a>.</p>
 </div>
 <div id="keybox">
 <label for="provider">AI company</label>
@@ -331,7 +349,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-r";
+const BUILD = "2026-11-12-s";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
