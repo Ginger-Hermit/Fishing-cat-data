@@ -2,9 +2,21 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Much more detailed Log
+
+12 Nov 2026 (05:41 UTC) · Changed
+
+The Log and bug report now record timings, sizes, AI token counts and error details so slow or failed runs can be diagnosed.
+
+**What you'll see:** Run a bill or clan sheet, then Copy bug report: it now has a device block, photo sizes, what was sent, how long the AI took and how many tokens it used.
+
+- Log shows photo sizes, request size, AI settings, HTTP status, AI token counts and tokens a second
+- Failed runs log the full error reply and the code location
+- Bug report starts with page version, model, screen, connection and device
+
 ## Clearer bills sheet
 
-12 Nov 2026 (05:37 UTC) · Changed
+12 Nov 2026 (05:37 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c96fc6d)
 
 The bills Excel file now opens on a Summary that a new person can follow.
 

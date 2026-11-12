@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The bills Excel file now opens on a Summary that a new person can follow. -->
+<!-- Patch note: The Log and bug report now record timings, sizes, AI token counts and error details so slow or failed runs can be diagnosed. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -370,7 +370,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-z";
+const BUILD = "2026-11-12-a";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -405,11 +405,21 @@ function scrub(t) { // remove the typed key and anything that looks like a key
 }
 function clog(text) {
   let t = new Date().toLocaleTimeString();
-  try { if (prog.t0) t = Math.round((Date.now() - prog.t0) / 1000) + "s"; } catch (e) {}
+  try { if (prog.t0) t = ((Date.now() - prog.t0) / 1000).toFixed(1) + "s"; } catch (e) {}
   const box = document.getElementById("console");
-  box.textContent += (box.textContent ? "\n" : "") + t.padStart(4) + "   " + scrub(text);
-  if (box.textContent.length > 30000) box.textContent = box.textContent.slice(-20000);
+  box.textContent += (box.textContent ? "\n" : "") + t.padStart(6) + "   " + scrub(text);
+  if (box.textContent.length > 80000) box.textContent = box.textContent.slice(-60000);
 }
+function envInfo() {
+  const n = navigator, c = n.connection || {};
+  let mdl = "?"; try { mdl = modelFor(provider()); } catch (e) {}
+  return "Page version: " + BUILD + "\nModel: " + mdl + "\nWindow: " + innerWidth + "x" + innerHeight + " at " + devicePixelRatio + "x, screen " + screen.width + "x" + screen.height
+    + "\nOnline: " + n.onLine + (c.effectiveType ? ", connection " + c.effectiveType + ", about " + c.rtt + " ms delay, " + c.downlink + " Mbit/s" : "")
+    + "\nComputer: " + (n.hardwareConcurrency || "?") + " cores" + (n.deviceMemory ? ", " + n.deviceMemory + " GB" : "") + ", " + Intl.DateTimeFormat().resolvedOptions().timeZone + ", " + n.language;
+}
+const why = (e) => (e && e.message ? e.message : String(e)) + (e && e.stack ? "\n" + String(e.stack).split("\n").slice(0, 4).join("\n") : "");
+addEventListener("error", (e) => { try { clog("PAGE ERROR: " + e.message + " at " + String(e.filename).split("/").pop() + ":" + e.lineno + ":" + e.colno + (e.error && e.error.stack ? "\n" + String(e.error.stack).split("\n").slice(0, 4).join("\n") : "")); } catch (x) {} });
+addEventListener("unhandledrejection", (e) => { try { clog("PAGE ERROR (promise): " + why(e.reason)); } catch (x) {} });
 let images = [];
 const MAX_FILES = 30;
 
@@ -578,7 +588,7 @@ const bugCopy = async (btn, label) => {
   const k = $("key").value.trim();
   if (k) t = t.split(k).join("[key removed]");
   t = t.replace(/sk-[\w-]{8,}|AIza[\w-]{8,}/g, "[key removed]");
-  let rep = "Fishing Cat Data bug report\n" + new Date().toString() + "\nError shown: " + ($("msg").className.includes("err") ? $("msg").textContent : "none") + "\nBrowser: " + navigator.userAgent + "\nCompany: " + provider() + "\n\n" + t;
+  let rep = "Fishing Cat Data bug report\n" + new Date().toString() + "\nError shown: " + ($("msg").className.includes("err") ? $("msg").textContent : "none") + "\nBrowser: " + navigator.userAgent + "\nCompany: " + provider() + "\n" + envInfo() + "\n\n" + t;
   rep = scrub(rep);
   let done = "Copied! Paste it to Claude";
   try { await navigator.clipboard.writeText(rep); } catch (e) { done = "Couldn't copy: select the log and copy by hand"; }
@@ -1139,14 +1149,16 @@ function toCsv(rows) {
 // Make one picture ready to send: at most 2000 px on the long side, saved as JPEG (much smaller than a PNG screenshot).
 async function toPic(f) {
   try {
-    const bmp = await createImageBitmap(f);
+    const t0 = performance.now(), bmp = await createImageBitmap(f), bw = bmp.width, bh = bmp.height;
     const sc = Math.min(1, 2000 / Math.max(bmp.width, bmp.height)), c = document.createElement("canvas");
     c.width = Math.round(bmp.width * sc); c.height = Math.round(bmp.height * sc);
     const x = c.getContext("2d");
     x.fillStyle = "#fff"; x.fillRect(0, 0, c.width, c.height);
     x.drawImage(bmp, 0, 0, c.width, c.height);
     bmp.close();
-    return { type: "image/jpeg", data: c.toDataURL("image/jpeg", 0.9).split(",")[1] };
+    const out = c.toDataURL("image/jpeg", 0.9).split(",")[1];
+    try { clog("Photo: " + f.type + " " + Math.round(f.size / 1024) + " KB, " + bw + "x" + bh + " -> " + c.width + "x" + c.height + " JPEG " + Math.round(out.length * 0.75 / 1024) + " KB, " + Math.round(performance.now() - t0) + " ms"); } catch (e) {}
+    return { type: "image/jpeg", data: out };
   } catch (e) { throw new Error('The picture "' + tidy(f.name, 40) + '" could not be opened. Tap Clear and add the others again.'); }
 }
 // A PDF is sent as it is (Gemini and Anthropic read PDFs themselves).
@@ -1167,22 +1179,31 @@ async function collectPictures(images) {
     pics.push(...picCache.get(f));
   }
   if (pics.length > 100) throw new Error("Too many pictures (" + pics.length + "). The most is 100. Use one video, or fewer screenshots.");
+  try { const by = {}; pics.forEach((x) => { by[x.type] = by[x.type] || [0, 0]; by[x.type][0]++; by[x.type][1] += Math.round(x.data.length * 0.75 / 1024); }); clog("Ready to send: " + Object.keys(by).map((k) => by[k][0] + " x " + k + " (" + by[k][1] + " KB)").join(", ")); } catch (e) {}
   if (pics.reduce((t, x) => t + x.data.length, 0) > 18e6) throw new Error("These pictures are too big to send in one go. Use fewer pictures or a shorter video.");
   return pics;
 }
 
 let aiWait = 180000, QUICK = false; // QUICK: the small first step asks Gemini for light thinking
+const hdrs = (res) => { const o = []; try { res.headers.forEach((v, k) => { if (/^(content-length|content-encoding|retry-after|server-timing|x-envoy-upstream-service-time|request-id|x-request-id|x-ratelimit|anthropic-ratelimit)/i.test(k)) o.push(k + "=" + v); }); } catch (e) {} return o.length ? " [" + o.join(", ") + "]" : ""; };
+function aiStats(d, secs) {
+  const u = d.usageMetadata || d.usage || {}, nums = Object.keys(u).filter((k) => typeof u[k] === "number").map((k) => k + "=" + u[k]).join(" ");
+  const c0 = (d.candidates || [])[0] || {}, ch0 = (d.choices || [])[0] || {};
+  const out = (u.candidatesTokenCount || u.output_tokens || u.completion_tokens || 0) + (u.thoughtsTokenCount || 0);
+  clog("AI says: model " + (d.modelVersion || d.model || "?") + ", finished: " + (c0.finishReason || d.stop_reason || ch0.finish_reason || "?") + ", tokens: " + (nums || "not reported") + (out ? ", about " + (out / Math.max(secs, 0.1)).toFixed(0) + " tokens a second" : "") + (d.promptFeedback && d.promptFeedback.blockReason ? ", BLOCKED: " + d.promptFeedback.blockReason : ""));
+}
 async function postJson(url, headers, body) {
   let res;
-  const payload = JSON.stringify(body), t0 = Date.now();
-  clog("Sent " + Math.round(payload.length / 1024) + " KB to the AI. Waiting...");
-  const beat = setInterval(() => clog("Still waiting for the AI (" + Math.round((Date.now() - t0) / 1000) + "s)"), 10000);
-  try { res = await fetch(url, { method: "POST", headers, body: payload, signal: AbortSignal.timeout(aiWait) }); clearInterval(beat); clog("AI answered in " + Math.round((Date.now() - t0) / 1000) + "s"); }
-  catch (e) { clearInterval(beat); throw new Error(e && e.name === "TimeoutError" ? "The AI took too long to answer. Try again, or use fewer pictures." : "Couldn't reach the AI. Check your internet and try again."); }
+  const payload = JSON.stringify(body), t0 = Date.now(), sec = () => ((Date.now() - t0) / 1000).toFixed(1) + "s";
+  clog("Request: POST " + url.replace(/^https:\/\//, "").replace(/\?.*$/, "") + ", " + Math.round(payload.length / 1024) + " KB" + (body.generationConfig ? ", settings " + JSON.stringify(body.generationConfig) : "") + (body.max_tokens ? ", max_tokens " + body.max_tokens : "") + ", online " + navigator.onLine + ", gives up after " + Math.round(aiWait / 1000) + "s");
+  const beat = setInterval(() => clog("Still waiting for the AI (" + sec() + ")"), 10000);
+  try { res = await fetch(url, { method: "POST", headers, body: payload, signal: AbortSignal.timeout(aiWait) }); clearInterval(beat); clog("AI answered after " + sec() + ": HTTP " + res.status + " " + res.statusText + hdrs(res)); }
+  catch (e) { clearInterval(beat); clog("Request failed after " + sec() + ": " + (e && e.name) + ": " + (e && e.message) + ", online " + navigator.onLine); throw new Error(e && e.name === "TimeoutError" ? "The AI took too long to answer. Try again, or use fewer pictures." : "Couldn't reach the AI. Check your internet and try again."); }
   if (!res.ok) {
-    let detail = "";
-    try { detail = (await res.json()).error.message || ""; } catch (e) {}
-    clog("AI error " + res.status + ": " + detail);
+    let raw = "", detail = "";
+    try { raw = await res.text(); } catch (e) {}
+    try { detail = JSON.parse(raw).error.message || ""; } catch (e) {}
+    clog("AI error " + res.status + ": " + detail + "\nFull error reply: " + raw.slice(0, 1500));
     if (/credit|quota|billing/i.test(detail)) throw new Error("Your AI account is out of credit or over its limit.");
     if (res.status === 401 || res.status === 403 || /api key/i.test(detail)) throw new Error("The AI doesn't accept that key. Check it and paste it again.");
     if (res.status === 429) throw new Error("Too many requests right now. Wait a minute and try again.");
@@ -1192,8 +1213,10 @@ async function postJson(url, headers, body) {
     throw new Error("The AI said no (" + res.status + "). Check the key.");
   }
   let d = null;
-  try { d = await res.json(); } catch (e) {}
+  try { d = await res.json(); } catch (e) { clog("Reply was not readable JSON: " + (e && e.message)); }
   if (!d || typeof d !== "object") throw new Error("The AI sent back something unreadable. Try again.");
+  clog("AI reply fully read after " + sec() + ".");
+  try { aiStats(d, (Date.now() - t0) / 1000); } catch (e) {}
   return d;
 }
 
@@ -1346,7 +1369,7 @@ async function pvDownload() {
     await makeSheet(rows, pv.p);
     clog("Sheet downloaded from the checked list (" + rows.length + " rows).");
     setMsg("Done: " + rows.length + " rows. Your sheet was downloaded.");
-  } catch (err) { clog("Stopped: " + err.message); setMsg(plain(err), true); }
+  } catch (err) { clog("Stopped: " + why(err)); setMsg(plain(err), true); }
 }
 function pvDraw() {
   const box = $("preview");
@@ -1412,7 +1435,7 @@ $("go").onclick = async () => {
     prog.stop(true);
     setMsg("Check your Roblox clan preview below, then tap Download sheet." + (rows.cut ? " The AI's reply was cut short, so some members may be missing. Try fewer pictures." : "") + (countOff ? " The screen says " + shown + " members, so some may be missing. Scroll slower and try again." : "") + (bad ? " Check " + bad + " row(s) marked ?." : "") + (order ? " Some ranks look out of order, so check the list." : ""));
   } catch (err) {
-    clog("Stopped: " + err.message);
+    clog("Stopped: " + why(err));
     prog.stop(false);
     setMsg(plain(err), true);
   } finally {
@@ -1615,7 +1638,7 @@ async function bpDownload() {
     saveBlob(new Blob([await wb.xlsx.writeBuffer()], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), "Bills - " + (bills.length === 1 ? clean(bills[0].supplier, 40) || "bill" : bills.length + " bills") + ".xlsx");
     clog("Bills sheet downloaded from the checked list (" + bills.length + " bill(s)).");
     billSay("Done: " + bills.length + " bill(s). Your sheet was downloaded. Compare the numbers with the bill before relying on them.");
-  } catch (err) { clog("Stopped: " + err.message); billSay(plain(err), true); }
+  } catch (err) { clog("Stopped: " + why(err)); billSay(plain(err), true); }
 }
 function bpDraw() {
   const box = $("billpreview");
@@ -1674,6 +1697,7 @@ $("billgo").onclick = async () => {
   clog("Bill run started with " + billPics.length + " photo(s), using " + PROVIDERS[id].name + " (" + modelFor(id) + ").");
   billSay("Reading " + billPics.length + " photo(s)... this can take about 30 seconds.");
   prog.start("billprog", ["Checking photos", "Waiting for the AI to read the bills", "Getting your charges ready"]);
+  clog("Run: " + billPics.length + " file(s) [" + billPics.map((f) => f.type + " " + Math.round(f.size / 1024) + " KB").join(", ") + "], company " + id + ", model " + modelFor(id));
   try {
     checkKey(key);
     const pics = await collectPictures(billPics);
@@ -1684,14 +1708,17 @@ $("billgo").onclick = async () => {
     const text = await ASKERS[id](key, modelFor(id), pics);
     prog.next();
     clog("AI replied (" + text.length + " characters).");
-    const bills = parseBills(text), lines = bills.reduce((t, b) => t + b.lines.length, 0), checks = bills.reduce((t, b) => t + b.lines.filter(l => l.check).length, 0);
+    let bills; try { bills = parseBills(text); } catch (e) { clog("Reply that could not be used (first 3000 characters): " + text.slice(0, 3000)); throw e; }
+    const lines = bills.reduce((t, b) => t + b.lines.length, 0), checks = bills.reduce((t, b) => t + b.lines.filter(l => l.check).length, 0);
     bp = { bills, orig: JSON.parse(JSON.stringify(bills)) };
     bpDraw();
     clog("Bills: " + bills.length + ", charges: " + lines + ", rows to check: " + checks + ".");
+    bills.forEach((b, i) => clog("Bill " + (i + 1) + ": " + b.supplier + ", " + (b.country || "country ?") + ", " + (b.currency || "currency ?") + ", " + b.lines.length + " charge(s), days " + (b.days || "?") + ", total " + (b.total !== null && b.total !== undefined ? b.total : (b.totalShown || "?")) + ", AI notes " + (b.notes || []).length + (b.lines.some((l) => l.check) ? ", rows to check: " + b.lines.filter((l) => l.check).map((l) => l.charge + " (" + l.how + ")").join("; ") : "")));
+    if (checks) clog("Reply (first 3000 characters, because rows need checking): " + text.slice(0, 3000));
     prog.stop(true);
     billSay("Check your charges below, then tap Download sheet." + (checks ? " " + checks + " row(s) are marked check in the sheet." : ""));
   } catch (err) {
-    clog("Bill run stopped: " + err.message);
+    clog("Bill run stopped: " + why(err));
     prog.stop(false);
     billSay(plain(err), true);
   } finally {
