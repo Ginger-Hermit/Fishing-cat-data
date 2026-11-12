@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Safe names in Discord posts
 
-12 Nov 2026 (10:48 UTC) · Changed
+12 Nov 2026 (10:48 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/45186ff)
 
 A player or bill name can no longer turn into a fake link or break the Discord message.
 
