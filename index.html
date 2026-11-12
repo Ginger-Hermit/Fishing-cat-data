@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The tip about More options, Log and the Discord tab is now a coloured note at the top. -->
+<!-- Patch note: The Discord tab is now three steps: pick what to post, optional header picture, one Post button. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -173,20 +173,27 @@ button:disabled{opacity:.5}
 <div style="font-size:13px;color:var(--muted);margin-top:6px">Copies the page log and your browser type. Keys are removed. Pictures are not included. Nothing is sent until you paste it somewhere. Report on GitHub opens a public form with the report filled in: read it first, then send it (needs a GitHub account).</div>
 </details>
 </div>
-<div id="discordtab" style="display:none"><p id="dcwhat" style="font-size:13px;color:var(--muted);margin:10px 0 0"></p><details id="hookblock" open style="margin:12px 0"><summary style="cursor:pointer;font-size:14px">Post to Discord (optional)</summary><div style="font-size:13px;color:var(--muted);margin:8px 0 6px">Discord link</div>
+<div id="discordtab" style="display:none">
+<div style="font-weight:600;margin:16px 0 6px;margin-top:12px">Discord link</div>
 <input id="hookbox" type="password" autocomplete="off" spellcheck="false" placeholder="https://discord.com/api/webhooks/...">
-<label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin-top:6px"><input type="checkbox" id="hookxlsx" checked style="width:auto;margin:0"> Attach the Excel file</label>
-<label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin-top:6px"><input type="checkbox" id="hookkeep" style="width:auto;margin:0"> Remember my link</label>
-<div style="display:flex;gap:8px;align-items:center;margin-top:6px"><button id="hookpost" type="button" class="tab">Post to Discord</button><button id="hooktest" type="button" class="tab">Test</button><button id="hookforget" type="button" class="tab">Forget</button><span id="hookmsg" role="status" style="font-size:13px"></span></div>
-<div style="font-size:13px;color:var(--muted);margin:12px 0 6px">Header picture for the Discord table (optional)</div>
-<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><input type="file" id="artfile" accept="image/*" style="width:auto"><button id="artforget" type="button" class="tab">Remove</button><img id="artthumb" alt="Your saved header picture" style="display:none;height:44px;border-radius:6px;border:1px solid var(--soft)"><span id="artmsg" role="status" style="font-size:13px"></span></div>
-<div style="font-weight:600;margin:16px 0 4px">Post without the AI</div>
-<div style="font-size:13px;color:var(--muted)">Uses no AI, so no tokens. Pick a saved Excel sheet and/or a photo. With only a sheet, the table picture is drawn from it. Whatever you pick is posted.</div>
+<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px"><label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin:0"><input type="checkbox" id="hookkeep" style="width:auto;margin:0"> Remember my link</label><button id="hooktest" type="button" class="tab">Send a test</button><button id="hookforget" type="button" class="tab">Forget link</button></div>
+<div style="font-size:13px;color:var(--muted);margin-top:6px">Anyone with this link can post in your channel, so keep it private.</div>
+<div style="font-weight:600;margin:16px 0 6px">1. What to post</div>
+<label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin:4px 0"><input type="radio" name="dcsrc" value="sheet" style="width:auto;margin:0"> Latest clan sheet</label>
+<label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin:4px 0"><input type="radio" name="dcsrc" value="bill" style="width:auto;margin:0"> Latest Bills</label>
+<label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin:4px 0"><input type="radio" name="dcsrc" value="files" style="width:auto;margin:0"> Files from my device (no AI)</label>
+<div id="dcfiles" style="display:none;margin-top:6px">
 <label for="shfile">Excel sheet</label><div style="display:flex;gap:8px;align-items:center"><input type="file" id="shfile" accept=".xlsx" style="flex:1;min-width:0"><button id="shclear" type="button" class="tab">Clear</button></div><div id="shsel" style="font-size:13px;color:var(--noteText)"></div>
 <label for="phfile">Photo (optional)</label><div style="display:flex;gap:8px;align-items:center"><input type="file" id="phfile" accept="image/*" style="flex:1;min-width:0"><button id="phclear" type="button" class="tab">Clear</button></div><div id="phsel" style="font-size:13px;color:var(--noteText)"></div>
-<div style="display:flex;gap:8px;align-items:center;margin-top:8px"><button id="shpost" type="button" class="tab">Post these</button><span id="shmsg" role="status" style="font-size:13px"></span></div>
-<div style="font-size:13px;color:var(--muted);margin:12px 0 0">Nothing is posted unless you tap Post to Discord. Anyone with this link can post in your channel, so keep it private. If posting fails, turn off any ad blocker for this site or use a Private window.</div>
-</details>
+<div style="font-size:13px;color:var(--muted)">With only a sheet, the table picture is drawn from it.</div></div>
+<div style="font-weight:600;margin:16px 0 6px">2. Header picture (optional)</div>
+<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><input type="file" id="artfile" accept="image/*" style="flex:1;min-width:0"><button id="artforget" type="button" class="tab">Remove</button><img id="artthumb" alt="Your saved header picture" style="display:none;height:44px;border-radius:6px;border:1px solid var(--soft)"></div><div id="artmsg" role="status" style="font-size:13px;color:var(--noteText)"></div>
+<label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin-top:12px"><input type="checkbox" id="hookxlsx" checked style="width:auto;margin:0"> Attach the Excel file</label>
+<div style="font-weight:600;margin:16px 0 6px">3. Post</div>
+<button id="dcgo" type="button" style="width:100%;padding:14px;font-size:16px">Post to Discord</button>
+<div id="hookmsg" role="status" aria-live="polite" style="font-size:14px;margin-top:8px"></div>
+<button id="shpost" type="button" hidden></button>
+<div style="font-size:13px;color:var(--muted);margin-top:12px">Nothing is posted until you tap Post to Discord. If posting fails, turn off any ad blocker for this site or use a Private window.</div>
 </div>
 <div id="billtab" style="display:none">
 <details id="addbill" open style="margin-top:10px"><summary>Add bills</summary>
@@ -357,7 +364,7 @@ function showTab(which) {
     if (b) { b.classList.toggle("on", k === which); b.setAttribute("aria-selected", k === which); }
   }
   if (which === "sheet" || which === "bill") { const t = document.getElementById(which === "bill" ? "billtab" : "sheet"); t.appendChild(document.getElementById("logbox")); lastKind = which; }
-  if (which === "discord") { const bl = lastKind === "bill"; $("dcwhat").textContent = "Posts your latest " + (bl ? "Bills sheet" : "Roblox clan sheet") + "."; }
+  if (which === "discord") { const r = document.querySelector('input[name=dcsrc]:checked'); if (!r) document.querySelector('input[name=dcsrc][value='+(pv ? "sheet" : bp ? "bill" : "files")+']').checked = true; dcShow(); }
   if (which === "settings") { renderSaved(); $("wipemsg").textContent = ""; }
   document.getElementById("keybox").style.display = which === "sheet" || which === "bill" ? "" : "none";
 }
@@ -394,7 +401,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-p";
+const BUILD = "2026-11-12-q";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1532,7 +1539,7 @@ async function readSheet(buf) {
 }
 [["shfile", "shsel", "shclear"], ["phfile", "phsel", "phclear"]].forEach(([f, m, c]) => { $(f).onchange = () => { const x = $(f).files[0]; $(m).textContent = x ? "\u2713 File selected: " + x.name : ""; }; $(c).onclick = () => { $(f).value = ""; $(m).textContent = ""; }; });
 $("shpost").onclick = async () => {
-  const xf = $("shfile").files[0], pf = $("phfile").files[0], say = (t) => { $("shmsg").textContent = t; };
+  const xf = $("shfile").files[0], pf = $("phfile").files[0], say = (t) => { $("hookmsg").textContent = t; };
   if (!xf && !pf) { say("Pick an Excel sheet or a photo first."); return; }
   say("Posting...");
   try {
@@ -1558,10 +1565,15 @@ async function billPic(bills) {
   if (out.length > MAX) { const n = out.length - MAX; out.length = MAX; out.push({ c: ["+" + n + " more rows in the sheet", ""] }); }
   return { blob: await tablePic("Bills", todayText(), [{ h: "Charge", w: 470 }, { h: "Amount", w: 200, a: "r" }], out), name: "Bills.png" };
 }
-$("hookpost").onclick = () => {
-  const bills = lastKind === "bill", have = bills ? bp : pv;
-  if (!have) { $("hookmsg").textContent = bills ? "Read your bills first." : "Make a list first."; return; }
-  $("hookmsg").textContent = ""; (bills ? bpPost : pvPost)();
+const dcShow = () => { const v = document.querySelector("input[name=dcsrc]:checked").value; $("dcfiles").style.display = v === "files" ? "" : "none"; };
+document.querySelectorAll("input[name=dcsrc]").forEach((r) => { r.onchange = dcShow; });
+$("dcgo").onclick = () => {
+  const v = document.querySelector("input[name=dcsrc]:checked").value, say = (t) => { $("hookmsg").textContent = t; };
+  say("");
+  if (v === "files") { $("shpost").click(); return; }
+  if (v === "bill") { if (!bp) { say("Read your bills first (Bills tab)."); return; } bpPost(); return; }
+  if (!pv) { say("Make a clan sheet first (Roblox clan sheet tab)."); return; }
+  pvPost();
 };
 $("hooktest").onclick = async () => {
   const v = $("hookbox").value.trim(); if (HOOK_RE.test(v)) setHook(v); renderSaved();

@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Simpler Discord tab
+
+12 Nov 2026 (07:18 UTC) · Changed
+
+The Discord tab is now three steps: pick what to post, optional header picture, one Post button.
+
+> [!NOTE]
+> **What you'll see:** Discord tab: link at the top, then What to post, Header picture, Post to Discord.
+
+- Replaced the two posting boxes with one flow and one button; errors show under the button.
+
 ## Hint at the top of the clan tab
 
 12 Nov 2026 (07:17 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7bb4637)
