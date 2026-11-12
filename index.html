@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The Home page now explains the page in plain words for people who have never seen it. -->
+<!-- Patch note: The bills Excel file now has colours and explains itself at the top of both tabs. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -331,7 +331,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-q";
+const BUILD = "2026-11-12-r";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1459,40 +1459,51 @@ function buildBillBook(EJ, bills, when) {
   const fill = (c) => ({ type: "pattern", pattern: "solid", fgColor: { argb: c } });
   const headCell = (c, t) => { c.value = t; c.font = { bold: true, color: { argb: "FFFFFFFF" } }; c.fill = fill(NAVY); c.border = box; c.alignment = { vertical: "middle", wrapText: true }; };
   const title = (ws, t, sub) => { ws.getCell("A1").value = t; ws.getCell("A1").font = { bold: true, size: 16, color: { argb: NAVY } }; ws.getCell("A2").value = sub; ws.getCell("A2").font = { color: { argb: GREY } }; };
+  const INK = "FF1F2937", SOFT = "FFF5F7FA", GRN = "FF2E6B3F", GRNF = "FFEAF4EC";
+  const rich = (parts) => ({ richText: parts.map(([text, c, b]) => ({ text, font: { size: 10, bold: !!b, color: { argb: c || INK } } })) });
+  const strip = (sh, last, parts, h) => { sh.mergeCells("A2:" + last + "2"); const c = sh.getCell("A2"); c.value = rich(parts); c.fill = fill(SOFT); c.alignment = { wrapText: true, vertical: "middle", indent: 1 }; sh.getRow(2).height = h; sh.getRow(1).height = 30; sh.getCell("A1").alignment = { vertical: "middle" }; };
+  const BANDS = ["FFEAF0FA", "FFFFF8E5", "FFF0EAF7", "FFFDEBE4"];
   const ws = wb.addWorksheet("Bills", { views: [{ state: "frozen", ySplit: 3 }] });
   [7, 24, 14, 16, 16, 12, 30, 14, 9, 13, 14, 40, 16, 15, 10].forEach((w, i) => { ws.getColumn(i + 1).width = w; });
   const count = bills.reduce((t, b) => t + b.lines.length, 0);
-  title(ws, "Bills", bills.length + " bill(s), " + count + " charge(s) read   ·   Recorded " + when + "   ·   Check every number against the bill");
-  ["Bill", "Supplier", "Country", "Bill date", "Due date", "Type", "Charge", "Used (as shown)", "Unit", "Used (number)", "Used in kWh", "How kWh was worked out", "Amount (as shown)", "Amount (number)", "Currency"].forEach((h, i) => headCell(ws.getCell(3, i + 1), h));
-  ws.getRow(3).height = 32;
+  title(ws, "Bills", "");
+  strip(ws, "O", [["How to read  ", NAVY, 1], [bills.length + (bills.length === 1 ? " bill" : " bills") + ", " + count + " charges read on " + when + ". One row per charge on the bill. Always check the numbers against the paper bill.\n"], ["Grey small text", GREY, 1], [" = exactly what the bill printed.   "], ["Bold number", INK, 1], [" = the number used for the sums.   "], ["Green columns", GRN, 1], [" = worked out by the sheet.   "], ["Red", "FF9C0006", 1], [" = check this one.   Each bill has its own row colour."]], 52);
+  ["Bill", "Supplier", "Country", "Bill date", "Due date", "Type", "Charge", "Used (printed)", "Unit", "Used (number)", "Used in kWh (worked out)", "How it was worked out", "Amount (printed)", "Amount (number)", "Currency"].forEach((h, i) => { const c = ws.getCell(3, i + 1); headCell(c, h); c.alignment = { vertical: "middle", horizontal: "center", wrapText: true }; if (i === 10 || i === 11) c.fill = fill(GRN); else if (i === 7 || i === 12) c.fill = fill("FF5B6B8C"); });
+  ws.getRow(3).height = 38;
   let n = 3;
   bills.forEach((b, i) => b.lines.forEach((l) => {
     n++;
     [i + 1, b.supplier, b.country, b.billDate, b.dueDate, l.type, l.charge, l.usedShown, l.unit, l.used, null, l.how, l.amountShown, l.amount, b.currency].forEach((v, c) => {
       const cell = ws.getCell(n, c + 1);
       if (v !== null && v !== "") cell.value = v;
-      cell.border = box;
-      if (c === 7 || c === 12) cell.font = { color: { argb: GREY } };
+      cell.border = box; cell.fill = fill(BANDS[i % BANDS.length]); cell.font = { color: { argb: INK } };
+      cell.alignment = { vertical: "middle", horizontal: [0, 8, 9, 10, 12, 13].includes(c) ? "right" : "left", indent: c === 0 || c === 8 ? 0 : 1 };
+      if (c === 7 || c === 12) cell.font = { size: 9, color: { argb: GREY } };
+      if (c === 9 || c === 13) cell.font = { bold: true, color: { argb: INK } };
+      if (/gst|tax|vat/i.test(String(l.charge || ""))) { if (c >= 5 && c <= 6) cell.font = { italic: true, color: { argb: GREY } }; }
     });
+    ws.getRow(n).height = 20;
     const k = ws.getCell(n, 11);
     if (l.k.value !== undefined) k.value = l.k.value;
     else if (l.k.add !== undefined) k.value = { formula: `IF(J${n}="","",J${n}${l.k.add})` };
-    k.fill = fill("FFEAF4EC");
+    k.fill = fill(GRNF); k.font = { bold: true, color: { argb: GRN } }; k.alignment = { horizontal: "right", vertical: "middle" };
     ws.getCell(n, 10).numFmt = "#,##0.##"; k.numFmt = "#,##0.0"; ws.getCell(n, 14).numFmt = "#,##0.00";
-    if (l.check) ws.getCell(n, 12).font = { bold: true, color: { argb: "FF9C0006" } };
+    ws.getCell(n, 12).fill = fill(GRNF); ws.getCell(n, 12).font = l.check ? { bold: true, color: { argb: "FF9C0006" } } : { size: 9, color: { argb: GRN } };
   }));
   ws.autoFilter = `A3:O${n}`;
   // Summary: one column per bill. Numbers are formulas; the plain words come from the AI.
   const sm = wb.addWorksheet("Summary");
-  sm.getColumn(1).width = 38;
-  title(sm, "Summary", "The numbers are worked out by the sheet from the first tab. The plain words are written by the AI: check them.");
+  sm.getColumn(1).width = 40;
+  title(sm, "Summary", "");
+  strip(sm, colL(1 + bills.length), [["How to read  ", NAVY, 1], ["One column per bill.\n"], ["White", INK, 1], [" = copied from the bill.   "], ["Green", GRN, 1], [" = worked out by the sheet (fix a number on the Bills tab and it updates).   "], ["Blue", "FF2F5597", 1], [" = plain-words notes written by the AI. Check them, they do not update.   Money is never converted between currencies."]], 52);
+  sm.getRow(3).height = 8;
   headCell(sm.getCell(4, 1), "");
   const S = "'Bills'!", rows = ["Supplier", "Country", "Bill date", "Due date", "Currency", "Days covered", "Electricity used (kWh)", "Gas used (kWh)", "Energy used per day (kWh)", "Electricity cost per kWh (usage charges)", "Charges listed (added up)", "Total on the bill (as printed)", "Reading estimated?"];
-  rows.forEach((t, r) => { const c = sm.getCell(5 + r, 1); c.value = t; c.font = { bold: true }; c.fill = fill("FFF5F7FA"); c.border = box; });
+  rows.forEach((t, r) => { const c = sm.getCell(5 + r, 1); c.value = t; c.font = { bold: true, color: { argb: r >= 6 && r <= 10 ? GRN : INK } }; c.fill = fill(r >= 6 && r <= 10 ? GRNF : SOFT); c.border = box; c.alignment = { vertical: "middle", indent: 1 }; sm.getRow(5 + r).height = 21; });
   headCell(sm.getCell(19, 1), "In plain words (written by the AI, check it)");
   bills.forEach((b, i) => {
     const L = String.fromCharCode(66 + i), id = i + 1;
-    sm.getColumn(i + 2).width = 30;
+    sm.getColumn(i + 2).width = 46;
     headCell(sm.getCell(4, i + 2), "Bill " + id);
     headCell(sm.getCell(19, i + 2), "Bill " + id);
     const kwh = (type) => ({ formula: `SUMIFS(${S}K:K,${S}A:A,${id},${S}F:F,"${type}")` });
@@ -1502,11 +1513,11 @@ function buildBillBook(EJ, bills, when) {
       { formula: `SUMIFS(${S}N:N,${S}A:A,${id})` }, b.total !== null ? b.total : b.totalShown, b.estimated].forEach((v, r) => {
       const c = sm.getCell(5 + r, i + 2);
       if (v !== null && v !== "") c.value = v;
-      c.border = box; c.alignment = { horizontal: "right" };
-      if (v && v.formula) c.fill = fill("FFEAF4EC");
+      c.border = box; c.alignment = { horizontal: "right", vertical: "middle", indent: 1 };
+      if (v && v.formula) { c.fill = fill(GRNF); c.font = { bold: true, color: { argb: GRN } }; }
       c.numFmt = r === 9 ? "0.0000" : (r === 10 || r === 11) ? "#,##0.00" : (r >= 5 && r <= 8) ? "#,##0.0" : "@";
     });
-    b.notes.forEach((t, r) => { const c = sm.getCell(20 + r, i + 2); c.value = t; c.alignment = { wrapText: true, vertical: "top" }; c.border = box; });
+    b.notes.forEach((t, r) => { const c = sm.getCell(20 + r, i + 2); c.value = t; c.alignment = { wrapText: true, vertical: "top", indent: 1 }; c.border = box; c.fill = fill("FFEEF3FB"); c.font = { color: { argb: INK } }; sm.getRow(20 + r).height = Math.max(sm.getRow(20 + r).height || 0, 18 + 15 * Math.ceil(String(t).length / 46)); });
   });
   sm.getCell("A25").value = "Green cells are formulas: fix a number on the first tab and they update. The AI's words do not update. Money is never converted between currencies.";
   sm.getCell("A25").font = { italic: true, size: 9, color: { argb: GREY } };

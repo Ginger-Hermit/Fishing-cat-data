@@ -2,9 +2,21 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Bills sheet: colours, how to read, tidy layout
+
+12 Nov 2026 (05:21 UTC) · Changed
+
+The bills Excel file now has colours and explains itself at the top of both tabs.
+
+**What you'll see:** Make a bills sheet: each bill has its own row colour, green means worked out by the sheet, and a How to read strip sits at the top.
+
+- How to read strip with a colour key on Bills and Summary
+- Rows shaded per bill, plain column names, printed vs number columns marked
+- Summary: green for worked-out rows, blue notes, wider columns
+
 ## New Home page for newcomers
 
-12 Nov 2026 (05:18 UTC) · Changed
+12 Nov 2026 (05:18 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/b2d4d19)
 
 The Home page now explains the page in plain words for people who have never seen it.
 
