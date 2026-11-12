@@ -4,9 +4,9 @@ Turns clan screenshots or a video from any Roblox game into a ready-to-use Excel
 
 **Built entirely by Claude, an AI.** The author gave the ideas and tested it. The AI wrote all the code, this page and the notes.
 
-**Use it:** https://fishing-cat-data.pages.dev
-
-**Wiki:** https://github.com/Ginger-Hermit/Fishing-cat-data/wiki (status, changelog, security, FAQ)
+- **Use it:** https://fishing-cat-data.pages.dev
+- **Wiki:** https://github.com/Ginger-Hermit/Fishing-cat-data/wiki (status, changelog, security, FAQ)
+- **Update history:** [CHANGELOG.md](CHANGELOG.md)
 
 ## How to use it
 
@@ -29,7 +29,7 @@ Turns clan screenshots or a video from any Roblox game into a ready-to-use Excel
 - Screenshots (PNG, JPEG, WebP) or video (MP4, MOV, WEBM). From a video the page keeps the pictures that changed (up to 24), right in your browser.
 - Remembers your last sheet on this device so you don't have to pick it again (names and points only). Tap **Remove** to forget it.
 - Themes (Auto, Light, Dark, Ocean, Forest, Berry) and Large text, in the Settings tab.
-- GitHub tab that links here, where this guide lives.
+- A GitHub link on the Home tab, where this guide lives.
 - **Home tab** that explains what the page does, then **Clan sheet** and **Bills** tabs for the two tools.
 - **Bills tab:** add photos of household bills (power, gas, water, internet, phone and more) and get a sheet with one row per charge and a Summary tab. Usage is turned into kWh (from MJ, therms, or gas volume using the factors printed on the bill) so bills can be compared. Money is kept in the bill's own currency. Bills are private: the whole photo goes to the AI company you pick, so only upload your own.
 - The update history is in [CHANGELOG.md](CHANGELOG.md), one plain-English entry per change.
@@ -51,17 +51,6 @@ Turns clan screenshots or a video from any Roblox game into a ready-to-use Excel
 - Rate limits and other AI errors show as a general "The AI said no" message.
 - Not tested with screen readers or keyboard-only use.
 
-## For developers
-
-- Plain static site: `index.html` (all the page's code) and `exceljs.bare.min.js` ([ExcelJS](https://github.com/exceljs/exceljs) 4.4.0, used to make and read `.xlsx`). No build step.
-- The AI models are listed in `PROVIDERS` near the top of the script (`MODEL` is the Anthropic default). If a model is retired, change it there.
-- Each change gets an entry in `UPDATE_LOG` in `index.html`.
-- `python3 tests/check.py` is the auto check. GitHub runs it after every push, along with the other tests, including `tests/browser.test.js` in Chrome, Firefox and Safari's engine.
-- Every push to `main` publishes automatically after about a minute.
-- [developer/HOW_IT_WAS_BUILT.md](developer/HOW_IT_WAS_BUILT.md): how the whole page was built, step by step, in plain words.
-- [developer/STRESS_TEST_LOG.md](developer/STRESS_TEST_LOG.md): how the page was stress tested and broken on purpose, what was found, and lessons for future projects.
-- `node tests/rows.test.js` and `node tests/bills.test.js` check how AI replies are read. `node tests/fuzz.js` throws thousands of scrambled replies at the same code. Full history of changes: [CHANGELOG.md](CHANGELOG.md).
-
 ## Disclaimer
 
 For personal use only. Not an official Roblox, Anthropic, Google or OpenAI product. Provided as is, with no guarantees.
@@ -69,6 +58,17 @@ For personal use only. Not an official Roblox, Anthropic, Google or OpenAI produ
 ## Licence
 
 All rights reserved. You can use the site and read the code, but not copy, re-host, change or sell it. Full terms are in [LICENSE](LICENSE).
+
+## For developers
+
+- Plain static site: `index.html` (all the page's code) and `exceljs.bare.min.js` ([ExcelJS](https://github.com/exceljs/exceljs) 4.4.0, used to make and read `.xlsx`). No build step.
+- The AI models are listed in `PROVIDERS` near the top of the script (`MODEL` is the Anthropic default). If a model is retired, change it there.
+- Each change to `index.html` is released with `python3 tools/release.py`, which bumps the version and writes the changelog entry (see `CLAUDE.md`).
+- `python3 tests/check.py` is the auto check. GitHub runs it after every push, along with the other tests, including `tests/browser.test.js` in Chrome, Firefox and Safari's engine.
+- Every push to `main` publishes automatically after about a minute.
+- [developer/HOW_IT_WAS_BUILT.md](developer/HOW_IT_WAS_BUILT.md): how the whole page was built, step by step, in plain words.
+- [developer/STRESS_TEST_LOG.md](developer/STRESS_TEST_LOG.md): how the page was stress tested and broken on purpose, what was found, and lessons for future projects.
+- `node tests/rows.test.js` and `node tests/bills.test.js` check how AI replies are read. `node tests/fuzz.js` throws thousands of scrambled replies at the same code. Full history of changes: [CHANGELOG.md](CHANGELOG.md).
 
 ## Tests (for developers, optional)
 
