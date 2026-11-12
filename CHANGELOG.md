@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Discord posts can't ping anyone
+
+12 Nov 2026 (07:27 UTC) · Changed
+
+A name like @everyone in a sheet can no longer ping your whole Discord server.
+
+> [!NOTE]
+> **What you'll see:** Nothing visible; Discord shows the name as plain text.
+
+- Posts now tell Discord to ignore mentions.
+
 ## One tick for the Discord link
 
 12 Nov 2026 (07:26 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/73f759a)

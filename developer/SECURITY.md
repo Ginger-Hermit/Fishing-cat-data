@@ -13,6 +13,7 @@ The page's security header (`_headers`) only allows connections to:
 - api.anthropic.com
 - generativelanguage.googleapis.com
 - api.openai.com
+- discord.com (only for Post to Discord, to the link you paste; posts never ping anyone)
 
 Anything else is blocked by the browser. A new website needs an edit to `_headers` and a mention in the on-page safety text.
 
