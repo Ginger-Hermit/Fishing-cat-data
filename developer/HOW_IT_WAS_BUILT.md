@@ -60,6 +60,7 @@ All checks pass on GitHub: the code check, row and bill tests, fuzz (5,000 cases
 - **Hosting and privacy.** The page is plain files on a normal web host. The host can see that someone opened the site and which files they asked for (and the page asks for `version.txt` every 5 minutes), as any web host can. It never receives the key, pictures, bills or sheets, because those go straight from the browser to the AI company the person picked. How long the host keeps its own logs was not checked.
 - **People control what is saved.** Settings has a Privacy section: it lists what is stored on the device (never the values), stops saving the last sheet, forgets the key, or deletes everything. Delete buttons need a second tap.
 - **The AI never does sums.** Anything numeric is a formula in the sheet or a plain calculation in the page, so a misread is visible and checkable.
+- **The wiki: the AI said no, Ginger said yes, and Ginger was right.** Claude called a wiki padding and suggested leaving it off. Ginger wanted one anyway. It was built as about 20 pages made automatically from the repo docs, with a real front page, a grouped page list, section front pages and sample screenshots. It turned out useful. Lesson: an AI's "not worth it" is a guess about cost, not a fact. If the owner wants something and the cost is small, build it, and make it cheap to keep up to date by generating it from one source instead of pasting.
 
 ## 5. Tools and tests
 
@@ -101,3 +102,4 @@ An earlier lesson from 11 Nov: working from a stale copy overwrote a README and 
 5. Test with pretend AI replies for everything you can, and with the real thing before you trust the numbers.
 6. Make the tests try to break it, not just prove it works.
 7. Start a fresh chat when one gets long. The rules and status files carry the memory.
+8. Do not let the AI talk you out of something you want just because it says it is not worth it. Ask for the cheapest way to do it, then judge the result yourself. The wiki here was first called padding and ended up being one of the most useful parts.
