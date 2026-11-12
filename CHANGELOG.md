@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Plainer video tip
+
+12 Nov 2026 (07:00 UTC) · Changed
+
+The video tip reads naturally.
+
+**What you'll see:** Clan tab under the screenshot box.
+
+- Reworded the video tip again.
+
 ## Simpler video tip
 
-12 Nov 2026 (06:59 UTC) · Changed
+12 Nov 2026 (06:59 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7b87251)
 
 The video tip is one short sentence.
 
