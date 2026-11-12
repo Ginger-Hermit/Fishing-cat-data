@@ -49,29 +49,8 @@ for h, body in sections("developer/STRESS_TEST_LOG.md").items():
 open(f"{W}/_Sidebar.md", "w").write("""**Pages**
 
 - [Home](Home)
+- [Using it](Using-it)
+- [Developers](Developers)
 - [Status](Status)
 - [Changelog](Changelog)
-
-**[Using it](Using-it)**
-
-- [How to use it](How-to-use)
-- [What you get](What-you-get)
-- [Features](Features)
-- [Privacy](Privacy)
-- [Security](Security)
-- [Known limits](Known-limits)
-- [FAQ](FAQ)
-- [Licence](Licence)
-
-**[Developers](Developers)**
-
-- [For developers](For-developers)
-- [Read the code](Read-the-code)
-- [Tests](Tests)
-- [AI rules](AI-rules)
-- [How it was built](How-it-was-built)
-- [Stress test log](Stress-test-log)
-- [What broke](What-broke)
-- [Lessons learnt](Lessons-learnt)
-- [Project checklist](Project-checklist)
 """)
