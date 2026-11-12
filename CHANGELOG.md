@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Log shows AI wait
+
+12 Nov 2026 (04:18 UTC) · Changed
+
+The Log now shows what is slow.
+
+**What you'll see:** Log lines: size sent, still waiting every 10s, time to answer.
+
+- Log shows size sent and a wait counter
+
 ## Security fixes
 
-12 Nov 2026 (00:35 UTC) · Changed
+12 Nov 2026 (00:35 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c92e4c4)
 
 Closed holes found in a break test.
 

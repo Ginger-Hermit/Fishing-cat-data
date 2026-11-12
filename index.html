@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Closed holes found in a break test. -->
+<!-- Patch note: The Log now shows what is slow. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -321,7 +321,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-v";
+const BUILD = "2026-11-12-w";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -855,8 +855,11 @@ async function collectPictures(images) {
 let aiWait = 180000;
 async function postJson(url, headers, body) {
   let res;
-  try { res = await fetch(url, { method: "POST", headers, body: JSON.stringify(body), signal: AbortSignal.timeout(aiWait) }); }
-  catch (e) { throw new Error(e && e.name === "TimeoutError" ? "The AI took too long to answer. Try again, or use fewer pictures." : "Couldn't reach the AI. Check your internet and try again."); }
+  const payload = JSON.stringify(body), t0 = Date.now();
+  clog("Sent " + Math.round(payload.length / 1024) + " KB to the AI. Waiting...");
+  const beat = setInterval(() => clog("Still waiting for the AI (" + Math.round((Date.now() - t0) / 1000) + "s)"), 10000);
+  try { res = await fetch(url, { method: "POST", headers, body: payload, signal: AbortSignal.timeout(aiWait) }); clearInterval(beat); clog("AI answered in " + Math.round((Date.now() - t0) / 1000) + "s"); }
+  catch (e) { clearInterval(beat); throw new Error(e && e.name === "TimeoutError" ? "The AI took too long to answer. Try again, or use fewer pictures." : "Couldn't reach the AI. Check your internet and try again."); }
   if (!res.ok) {
     let detail = "";
     try { detail = (await res.json()).error.message || ""; } catch (e) {}
