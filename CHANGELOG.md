@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Easier to read menus
+
+12 Nov 2026 (06:40 UTC) · Changed
+
+The closed sections now look like clear buttons.
+
+**What you'll see:** Clan tab: More options, Post to Discord, Log, AI company and key.
+
+- Bigger bold headings with a border; one grey help line in the Discord section instead of three.
+
 ## Hint for hidden options
 
-12 Nov 2026 (06:39 UTC) · Changed
+12 Nov 2026 (06:39 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6c8fcf1)
 
 A short note tells people where Discord, last sheet and the Log are.
 
