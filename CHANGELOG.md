@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Points with dots or spaces
 
-12 Nov 2026 (12:58 UTC) · Changed
+12 Nov 2026 (12:58 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/88454da)
 
 Points written like 1.234.567 or 1 234 now read as numbers instead of blank.
 
