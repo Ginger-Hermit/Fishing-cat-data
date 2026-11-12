@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Discord: shorter message and optional Excel file
+
+12 Nov 2026 (07:04 UTC) · Changed
+
+Untick Attach the Excel file to post without the download; the message is shorter when a picture goes with it.
+
+**What you'll see:** Post to Discord (optional) box: Attach the Excel file tick box.
+
+- Optional Excel attachment (remembered). With the picture, the message drops the top-gains and drops lists since the picture shows Change.
+
 ## Header picture shows it is saved
 
-12 Nov 2026 (07:03 UTC) · Changed
+12 Nov 2026 (07:03 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0bde9c2)
 
 After you pick a header picture, a small preview and 'Picture saved' stay in the Discord box.
 

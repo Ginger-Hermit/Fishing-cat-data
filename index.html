@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: After you pick a header picture, a small preview and 'Picture saved' stay in the Discord box. -->
+<!-- Patch note: Untick Attach the Excel file to post without the download; the message is shorter when a picture goes with it. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -166,6 +166,7 @@ button:disabled{opacity:.5}
 <button id="copyerr" type="button" class="tab" style="display:none;margin-top:8px;width:100%;padding:12px;font-size:16px;border-color:var(--err);color:var(--err)">Copy error to send</button>
 <details id="hookblock" style="margin:12px 0"><summary style="cursor:pointer;font-size:14px">Post to Discord (optional)</summary><div style="font-size:13px;color:var(--muted);margin:8px 0 6px">Discord link</div>
 <input id="hookbox" type="password" autocomplete="off" spellcheck="false" placeholder="https://discord.com/api/webhooks/...">
+<label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin-top:6px"><input type="checkbox" id="hookxlsx" checked style="width:auto;margin:0"> Attach the Excel file</label>
 <label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin-top:6px"><input type="checkbox" id="hookkeep" style="width:auto;margin:0"> Remember my link</label>
 <div style="display:flex;gap:8px;align-items:center;margin-top:6px"><button id="hookpost" type="button" class="tab">Post to Discord</button><button id="hooktest" type="button" class="tab">Test</button><button id="hookforget" type="button" class="tab">Forget</button><span id="hookmsg" role="status" style="font-size:13px"></span></div>
 <div style="font-size:13px;color:var(--muted);margin:12px 0 6px">Header picture for the Discord table (optional)</div>
@@ -379,7 +380,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-f";
+const BUILD = "2026-11-12-g";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -565,7 +566,7 @@ function renderSaved() {
   if (keys.includes("fcd_hook")) lines.push("Discord link");
   if (keys.includes("fcd_art")) lines.push("Discord header picture");
   if (keys.some(k => k.startsWith("fcd_model_"))) lines.push("AI model name");
-  if (keys.some(k => ["fcd_theme", "fcd_size", "fcd_autoref", "fcd_provider"].includes(k))) lines.push("Look and settings");
+  if (keys.some(k => ["fcd_theme", "fcd_size", "fcd_autoref", "fcd_provider", "fcd_hookxlsx"].includes(k))) lines.push("Look and settings");
   const box = $("saved"); box.replaceChildren();
   (lines.length ? lines : ["Nothing saved."]).forEach(t => { const d = document.createElement("div"); d.textContent = (lines.length ? "\u2022 " : "") + t; box.appendChild(d); });
   $("keepprev").checked = lsGet("fcd_keepprev") !== "0";
@@ -1425,6 +1426,8 @@ const pvBad = (r) => /\?/.test(String(r.name)) || !String(r.name).trim() || pars
 const HOOK_RE = /^https:\/\/discord\.com\/api\/webhooks\/\d+\/[\w-]+$/;
 const setHook = (v) => { hookNow = v; try { if (v && $("hookkeep").checked) localStorage.setItem("fcd_hook", v); else localStorage.removeItem("fcd_hook"); } catch (e) {} };
 $("hookbox").onchange = () => { const v = $("hookbox").value.trim(); if (v && !HOOK_RE.test(v)) { $("hookmsg").textContent = "That is not a Discord link."; return; } setHook(v); $("hookmsg").textContent = v ? "Ready." : "Removed."; renderSaved(); if (pv) pvDraw(); };
+$("hookxlsx").checked = lsGet("fcd_hookxlsx") !== "0";
+$("hookxlsx").onchange = () => { lsSet("fcd_hookxlsx", $("hookxlsx").checked ? "1" : "0"); renderSaved(); };
 $("hookkeep").onchange = () => { setHook(HOOK_RE.test(hookGet()) ? hookGet() : ""); renderSaved(); };
 $("hookforget").onclick = () => { $("hookkeep").checked = false; setHook(""); $("hookbox").value = ""; $("hookmsg").textContent = "Forgotten."; renderSaved(); if (pv) pvDraw(); };
 async function hookPost(text, file) {
@@ -1502,7 +1505,7 @@ $("hooktest").onclick = async () => {
   $("hookmsg").textContent = "Sending...";
   try { await hookPost("Fishing Cat Data test: this link works."); $("hookmsg").textContent = "Worked. Check Discord."; } catch (e) { $("hookmsg").textContent = plain(e); }
 };
-function hookText() {
+function hookText(compact) {
   const pm = fixNames(prevMap, pv.rows), rows = pv.rows.filter((r) => String(r.name).trim()), f = (n) => Math.round(n).toLocaleString("en-US"), sg = (n) => (n > 0 ? "+" : n < 0 ? "-" : "") + f(Math.abs(n));
   const tot = rows.reduce((t, r) => t + (parsePoints(r.points) || 0), 0), up = [], dn = [], fresh = [], here = new Set();
   let same = 0, before = 0, change = 0;
@@ -1514,8 +1517,8 @@ function hookText() {
   let t = "**" + pv.p.clan + "** \u00b7 " + pv.p.game + " \u00b7 " + todayText() + "\n" + rows.length + " members \u00b7 " + f(tot) + " points in total";
   if (pm && (up.length || dn.length || same)) {
     t += "\nSince last run: " + sg(change) + pc(change, before) + " from returning members\nUp " + up.length + " \u00b7 Down " + dn.length + " \u00b7 Same " + same + " \u00b7 New " + fresh.length;
-    if (up.length) t += "\nTop gains:\n" + up.slice(0, 5).map((g, i) => (i + 1) + ". " + g[0] + " " + sg(g[1]) + pc(g[1], g[2])).join("\n");
-    if (dn.length) t += "\nBiggest drops: " + dn.slice(0, 3).map((g) => g[0] + " " + sg(g[1])).join(", ");
+    if (up.length && !compact) t += "\nTop gains:\n" + up.slice(0, 5).map((g, i) => (i + 1) + ". " + g[0] + " " + sg(g[1]) + pc(g[1], g[2])).join("\n");
+    if (dn.length && !compact) t += "\nBiggest drops: " + dn.slice(0, 3).map((g) => g[0] + " " + sg(g[1])).join(", ");
     if (fresh.length) t += "\nNew: " + fresh.slice(0, 10).join(", ") + (fresh.length > 10 ? " and " + (fresh.length - 10) + " more" : "");
     const left = [...pm.keys()].filter((k) => !here.has(k));
     if (left.length) t += "\nNot in this list: " + left.slice(0, 10).join(", ") + (left.length > 10 ? " and " + (left.length - 10) + " more" : "");
@@ -1529,10 +1532,10 @@ async function pvPost() {
     setMsg("Posting to Discord...");
     await loadExcel();
     let file = null;
-    if (window.ExcelJS) { const buf = await buildWorkbook(window.ExcelJS, rows, prevMap, pv.p, todayText()).xlsx.writeBuffer(); file = { blob: new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), name: nameOf(pv.p) + ".xlsx" }; await keepMade(buf, file.name); }
+    if (window.ExcelJS) { const buf = await buildWorkbook(window.ExcelJS, rows, prevMap, pv.p, todayText()).xlsx.writeBuffer(), fname = nameOf(pv.p) + ".xlsx"; if ($("hookxlsx").checked) file = { blob: new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), name: fname }; await keepMade(buf, fname); }
     const pic = await clanPic(rows).catch((e) => { clog("Table picture skipped: " + why(e)); return null; });
-    const sent = await hookPost(hookText(), [pic, file].filter(Boolean));
-    setMsg(sent ? "Posted to Discord with the sheet." : "Posted to Discord. The sheet file could not go, so use Download sheet.");
+    const sent = await hookPost(hookText(!!pic), [pic, file].filter(Boolean));
+    setMsg(sent ? "Posted to Discord." : "Posted to Discord. The sheet file could not go, so use Download sheet.");
   } catch (err) { clog("Stopped: " + why(err)); setMsg(plain(err), true); }
 }
 async function makeSheet(rows, p) {
@@ -1845,8 +1848,8 @@ async function bpPost() {
     const text = ("**Bills** \u00b7 " + todayText() + "\n" + bills.map((b) => b.supplier + (b.billDate ? " \u00b7 " + b.billDate : "") + " \u00b7 " + b.lines.length + " charges" + (b.total !== null ? " \u00b7 " + (b.currency || "") + " " + b.total : "")).join("\n")).slice(0, 1900);
     const name = "Bills - " + (bills.length === 1 ? clean(bills[0].supplier, 40) || "bill" : bills.length + " bills") + ".xlsx";
     const pic = await billPic(bills).catch((e) => { clog("Table picture skipped: " + why(e)); return null; });
-    const sent = await hookPost(text, [pic, { blob: new Blob([await buildBillBook(window.ExcelJS, bills, todayText()).xlsx.writeBuffer()], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), name }].filter(Boolean));
-    billSay(sent ? "Posted to Discord with the sheet." : "Posted to Discord. The sheet file could not go, so use Download sheet.");
+    const sent = await hookPost(text, [pic, $("hookxlsx").checked && { blob: new Blob([await buildBillBook(window.ExcelJS, bills, todayText()).xlsx.writeBuffer()], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), name }].filter(Boolean));
+    billSay(sent ? "Posted to Discord." : "Posted to Discord. The sheet file could not go, so use Download sheet.");
   } catch (err) { clog("Stopped: " + why(err)); billSay(plain(err), true); }
 }
 function bpDraw() {
