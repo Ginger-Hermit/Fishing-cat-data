@@ -3,7 +3,7 @@ name: Wiki
 on:
   push:
     branches: [main]
-    paths: [README.md, STATUS.md, CHANGELOG.md, developer/**, .github/workflows/wiki.yml]
+    paths: [README.md, STATUS.md, CHANGELOG.md, LICENSE, CLAUDE.md, developer/**, tools/wiki_sync.py, .github/workflows/wiki.yml]
 permissions:
   contents: write
 jobs:
@@ -17,14 +17,7 @@ jobs:
           REPO: ${{ github.repository }}
         run: |
           git clone "https://x-access-token:${TOKEN}@github.com/${REPO}.wiki.git" wiki
-          cp developer/WIKI_HOME.md wiki/Home.md
-          cp STATUS.md wiki/Status.md
-          cp CHANGELOG.md wiki/Changelog.md
-          cp developer/HOW_IT_WAS_BUILT.md wiki/How-it-was-built.md
-          cp developer/STRESS_TEST_LOG.md wiki/Stress-test-log.md
-          cp developer/SECURITY.md wiki/Security.md
-          cp developer/FAQ.md wiki/FAQ.md
-          printf '%s\n' '**Pages**' '' '- [Home](Home)' '- [Status](Status)' '- [Changelog](Changelog)' '- [How it was built](How-it-was-built)' '- [Stress test log](Stress-test-log)' '- [Security](Security)' '- [FAQ](FAQ)' > wiki/_Sidebar.md
+          python3 -I tools/wiki_sync.py wiki
           cd wiki
           git add -A
           git diff --cached --quiet && exit 0
