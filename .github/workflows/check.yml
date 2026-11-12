@@ -1,3 +1,4 @@
+# Patch note: also runs the Discord/Excel break test (tools/attack.py) after every push.
 name: Check
 on: [push]
 jobs:
@@ -20,3 +21,11 @@ jobs:
       - run: npm install --no-save playwright
       - run: npx playwright install --with-deps chromium firefox webkit 2>&1 | tail -40
       - run: node tests/browser.test.js
+  attack:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install playwright
+      - run: python3 -m playwright install --with-deps chromium 2>&1 | tail -20
+      - run: python3 -I tools/attack.py
