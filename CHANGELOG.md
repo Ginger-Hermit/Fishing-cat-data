@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Discord has its own tab
 
-12 Nov 2026 (07:14 UTC) · New
+12 Nov 2026 (07:14 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/1c9aa43)
 
 Posting to Discord now lives in its own Discord tab, so the sheet tabs are less crowded.
 
