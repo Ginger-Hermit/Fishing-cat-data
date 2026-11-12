@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Discord posts can't ping anyone
 
-12 Nov 2026 (07:27 UTC) · Changed
+12 Nov 2026 (07:27 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/3d2381b)
 
 A name like @everyone in a sheet can no longer ping your whole Discord server.
 
