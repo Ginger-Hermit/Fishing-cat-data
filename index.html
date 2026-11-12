@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: After a backup model answers, the next steps start on it for 10 minutes instead of waiting on the busy one again. -->
+<!-- Patch note: The Discord link is forgotten when you close the page unless you tick Remember my link. A Forget button clears it. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -295,8 +295,9 @@ button:disabled{opacity:.5}
 <div style="font-size:12px;color:var(--muted);margin:4px 0 0">These buttons only clear this device. Nothing is sent anywhere. <a href="#" data-go="privacy">Privacy page</a></div>
 <div style="font-size:13px;color:var(--muted);margin:14px 0 6px">Discord link (optional)</div>
 <input id="hookbox" type="password" autocomplete="off" spellcheck="false" placeholder="https://discord.com/api/webhooks/...">
-<div style="display:flex;gap:8px;align-items:center;margin-top:6px"><button id="hooktest" type="button" class="tab">Test</button><span id="hookmsg" role="status" style="font-size:13px"></span></div>
-<div style="font-size:12px;color:var(--muted);margin:6px 0 0">Adds a Post to Discord button to your clan sheet. Nothing is posted unless you tap it. Anyone with this link can post in your channel, so keep it private.</div>
+<label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin-top:6px"><input type="checkbox" id="hookkeep" style="width:auto;margin:0"> Remember my link</label>
+<div style="display:flex;gap:8px;align-items:center;margin-top:6px"><button id="hooktest" type="button" class="tab">Test</button><button id="hookforget" type="button" class="tab">Forget</button><span id="hookmsg" role="status" style="font-size:13px"></span></div>
+<div style="font-size:12px;color:var(--muted);margin:6px 0 0">Adds a Post to Discord button to your clan sheet. Nothing is posted unless you tap it. Not remembered unless you tick the box: it is gone when you close the page. Anyone with this link can post in your channel, so keep it private.</div>
 <div style="font-size:13px;color:var(--muted);margin:14px 0 6px">AI model (advanced)</div>
 <input id="modelbox" autocomplete="off" spellcheck="false">
 <div style="font-size:12px;color:var(--muted);margin:6px 0 10px">Leave empty to use the built-in one. Only change it if an error says the model is gone. It is kept for the company chosen on the first tab.</div>
@@ -374,7 +375,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-o";
+const BUILD = "2026-11-12-p";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -550,6 +551,7 @@ $("clanbox").value = lsGet("fcd_clan") || "";
 $("clanbox").oninput = () => lsSet("fcd_clan", clean($("clanbox").value, 40));
 // Privacy: see and clear what is saved on this device. Values are never shown or sent anywhere.
 function savedKeys() { const out = []; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith("fcd_")) out.push(k); } } catch (e) {} return out; }
+let hookNow = ""; const hookGet = () => hookNow || lsGet("fcd_hook") || "";
 function renderSaved() {
   const keys = savedKeys(), lines = [];
   keys.filter(k => k.startsWith("fcd_key_")).forEach(k => { const id = k.slice(8); lines.push("AI key (" + (PROVIDERS[id] ? PROVIDERS[id].name : "other") + ")"); });
@@ -561,13 +563,13 @@ function renderSaved() {
   const box = $("saved"); box.replaceChildren();
   (lines.length ? lines : ["Nothing saved."]).forEach(t => { const d = document.createElement("div"); d.textContent = (lines.length ? "\u2022 " : "") + t; box.appendChild(d); });
   $("keepprev").checked = lsGet("fcd_keepprev") !== "0";
-  $("hookbox").value = lsGet("fcd_hook") || "";
+  $("hookbox").value = hookGet(); if (lsGet("fcd_hook")) $("hookkeep").checked = true;
 }
 $("keepprev").onchange = () => { lsSet("fcd_keepprev", $("keepprev").checked ? "1" : "0"); if (!$("keepprev").checked) { try { localStorage.removeItem("fcd_prev"); } catch (e) {} } renderSaved(); };
 function wipe(what) {
   try { savedKeys().filter(k => what === "all" || k.startsWith("fcd_key_")).forEach(k => localStorage.removeItem(k)); } catch (e) {}
   $("key").value = ""; $("remember").checked = false;
-  if (what === "all") { prevMap = null; prevName = ""; showPrev(); $("clanbox").value = ""; }
+  if (what === "all") { hookNow = ""; prevMap = null; prevName = ""; showPrev(); $("clanbox").value = ""; }
   refresh(); renderSaved();
   $("wipemsg").textContent = what === "all" ? "Everything saved on this device was deleted." : "Your key was forgotten.";
 }
@@ -1392,9 +1394,12 @@ function xlTable(o) {
 let pv = null;
 const pvBad = (r) => /\?/.test(String(r.name)) || !String(r.name).trim() || parsePoints(r.points) === null;
 const HOOK_RE = /^https:\/\/discord\.com\/api\/webhooks\/\d+\/[\w-]+$/;
-$("hookbox").onchange = () => { const v = $("hookbox").value.trim(); if (!v) { try { localStorage.removeItem("fcd_hook"); } catch (e) {} $("hookmsg").textContent = "Removed."; } else if (!HOOK_RE.test(v)) { $("hookmsg").textContent = "That is not a Discord link."; return; } else { lsSet("fcd_hook", v); $("hookmsg").textContent = "Saved."; } renderSaved(); if (pv) pvDraw(); };
+const setHook = (v) => { hookNow = v; try { if (v && $("hookkeep").checked) localStorage.setItem("fcd_hook", v); else localStorage.removeItem("fcd_hook"); } catch (e) {} };
+$("hookbox").onchange = () => { const v = $("hookbox").value.trim(); if (v && !HOOK_RE.test(v)) { $("hookmsg").textContent = "That is not a Discord link."; return; } setHook(v); $("hookmsg").textContent = v ? "Ready." : "Removed."; renderSaved(); if (pv) pvDraw(); };
+$("hookkeep").onchange = () => { setHook(HOOK_RE.test(hookGet()) ? hookGet() : ""); renderSaved(); };
+$("hookforget").onclick = () => { $("hookkeep").checked = false; setHook(""); $("hookbox").value = ""; $("hookmsg").textContent = "Forgotten."; renderSaved(); if (pv) pvDraw(); };
 async function hookPost(text, file) {
-  const url = lsGet("fcd_hook") || "";
+  const url = hookGet();
   if (!HOOK_RE.test(url)) throw new Error("Add your Discord link in Settings first.");
   const send = (body) => fetch(url + "?wait=true", { method: "POST", body, signal: AbortSignal.timeout(30000) });
   let res, fileSent = false;
@@ -1405,7 +1410,7 @@ async function hookPost(text, file) {
   return fileSent;
 }
 $("hooktest").onclick = async () => {
-  const v = $("hookbox").value.trim(); if (HOOK_RE.test(v)) lsSet("fcd_hook", v); renderSaved();
+  const v = $("hookbox").value.trim(); if (HOOK_RE.test(v)) setHook(v); renderSaved();
   $("hookmsg").textContent = "Sending...";
   try { await hookPost("Fishing Cat Data test: this link works."); $("hookmsg").textContent = "Worked. Check Discord."; } catch (e) { $("hookmsg").textContent = plain(e); }
 };
@@ -1482,7 +1487,7 @@ function pvDraw() {
   const bt = el("div", "pvb"), mk = (id, text, fn) => { const b = el("button", "tab", text); b.type = "button"; if (id) b.id = id; b.onclick = fn; bt.appendChild(b); return b; };
   const dl = mk("pvgo", "Download sheet", pvDownload); dl.classList.remove("tab");
   mk("pvadd", "Add row", () => { const last = Number(pv.rows.length ? pv.rows[pv.rows.length - 1].rank : 0); pv.rows.push({ rank: (Number.isFinite(last) ? last : pv.rows.length) + 1, name: "", role: "", points: "" }); pvDraw(); });
-  if (HOOK_RE.test(lsGet("fcd_hook") || "")) mk("pvpost", "Post to Discord", pvPost);
+  if (HOOK_RE.test(hookGet())) mk("pvpost", "Post to Discord", pvPost);
   mk("pvcopy", "Copy message", async () => { try { await navigator.clipboard.writeText(hookText()); setMsg("Message copied."); } catch (e) { setMsg("Couldn't copy. Select the message and copy it by hand.", true); } });
   mk("pvreset", "Reset", () => { pv.rows = pv.orig.map(r => ({ ...r })); pvDraw(); });
   box.appendChild(bt);

@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Discord link not saved by default
+
+12 Nov 2026 (06:15 UTC) · Changed
+
+The Discord link is forgotten when you close the page unless you tick Remember my link. A Forget button clears it.
+
+**What you'll see:** Settings: Remember my link and Forget
+
+- Discord link kept in memory only by default
+
 ## Skip the busy Gemini model
 
-12 Nov 2026 (06:13 UTC) · Changed
+12 Nov 2026 (06:13 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/a75c7d2)
 
 After a backup model answers, the next steps start on it for 10 minutes instead of waiting on the busy one again.
 
