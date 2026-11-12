@@ -1,4 +1,4 @@
-// Patch note: The developer line at the top is easier to read, with a Get button when a new version is live.
+// Patch note: The developer bar at the top is easier to read and shows more.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -72,7 +72,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-zzi";
+const BUILD = "2026-11-12-zzj";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -964,15 +964,25 @@ function devPics(pics) {
 // Developer mode: a line at the top with this page's version, the live version, and a countdown to the next check (every 30 s, own site only).
 if (DEV && location.protocol.startsWith("http")) {
   const bar = document.createElement("div"); bar.id = "devbar"; document.body.prepend(bar);
-  let next = 0, live = "?";
-  const sp = (t, c) => Object.assign(document.createElement("span"), { textContent: t, className: c || "" });
+  const t0 = Date.now(); let next = 0, live = "?", lastAt = 0, ms = 0, fails = 0, checks = 0;
+  const el = (t, c, tag) => Object.assign(document.createElement(tag || "span"), { textContent: t, className: c || "" });
+  const ago = (s) => s < 60 ? s + " s ago" : s < 3600 ? Math.floor(s / 60) + " min ago" : Math.floor(s / 3600) + " h ago";
+  const cell = (k, v) => { const d = el("", "dvc", "div"); d.append(el(k, "dvk"), el(v, "dvv")); return d; };
   const show = () => {
-    const kids = [sp("Developer", "dvk"), sp("Version " + BUILD.slice(-3))];
-    if (live !== "?" && live !== BUILD) { const r = Object.assign(document.createElement("button"), { type: "button", textContent: "Get " + live.slice(-3) }); r.onclick = () => location.reload(); kids.push(r); }
-    else kids.push(sp(live === BUILD ? "Up to date" : "Checking\u2026", "dvm"));
-    kids.push(sp("Next check " + next + "s", "dvm")); bar.replaceChildren(...kids);
+    const stale = live !== "?" && live !== BUILD, ok = live === BUILD;
+    bar.className = stale ? "dvnew" : ok ? "dvok" : "";
+    const head = el("", "dvh", "div");
+    head.append(el("", "dvdot"), el(stale ? "New version ready" : ok ? "Up to date" : fails ? "Can't check right now" : "Checking\u2026", "dvs"), el("Developer", "dvm"));
+    const kids = [head];
+    if (stale) { const r = el("Refresh now", "", "button"); r.type = "button"; r.onclick = () => location.reload(); kids.push(el("This page " + BUILD.slice(-3) + ", live " + live.slice(-3) + ".", "dvm dvp"), r); }
+    else {
+      const g = el("", "dvg", "div");
+      g.append(cell("This page", BUILD.slice(-3)), cell("Live now", live === "?" ? "not recorded" : live.slice(-3)), cell("Last checked", lastAt ? ago(Math.round((Date.now() - lastAt) / 1000)) : "not yet"), cell("Check speed", ms ? ms + " ms" : "not recorded"), cell("Page opened", ago(Math.round((Date.now() - t0) / 1000))), cell("Next check", next + " s"));
+      kids.push(g);
+    }
+    bar.replaceChildren(...kids);
   };
-  const look = async () => { try { const r = await fetch("version.txt?t=" + Date.now(), { cache: "no-store", signal: AbortSignal.timeout(15000) }); const v = (await r.text()).trim(); if (r.ok && /^[\w.-]{1,40}$/.test(v)) live = v; } catch (e) {} next = 30; show(); };
+  const look = async () => { const t = Date.now(); try { const r = await fetch("version.txt?t=" + t, { cache: "no-store", signal: AbortSignal.timeout(15000) }); const v = (await r.text()).trim(); if (r.ok && /^[\w.-]{1,40}$/.test(v)) { live = v; fails = 0; ms = Date.now() - t; lastAt = Date.now(); } else fails++; } catch (e) { fails++; } checks++; next = 30; show(); };
   setInterval(() => { if (--next <= 0) look(); else show(); }, 1000); look();
 }
 const devReply = (text) => { if (DEV) clog("Developer, raw AI reply:\n" + String(text).slice(0, 20000), true); };

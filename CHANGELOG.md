@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Nicer developer bar
+
+12 Nov 2026 (23:53 UTC) · Changed
+
+The developer bar at the top is easier to read and shows more.
+
+> [!NOTE]
+> **What you'll see:** Open the page with ?dev on the end.
+
+- Developer bar shows status, page and live version, last checked, check speed and page age, in the page colours.
+
 ## Tidier developer bar
 
-12 Nov 2026 (23:51 UTC) · Changed
+12 Nov 2026 (23:51 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/fbfee6a)
 
 The developer line at the top is easier to read, with a Get button when a new version is live.
 
