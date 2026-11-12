@@ -77,6 +77,9 @@ Lessons from the 11 to 12 Nov session, where most waste came from the same few h
 ## Style on screen
 Clean and calm. No big coloured blocks, no boxes in boxes. Short button names (1 to 3 words), one grey help line at most. No jargon. Check light, dark and big-text themes.
 
+## Do when needed (not now)
+- Split the code out of `index.html` into separate script and style files, then remove `'unsafe-inline'` from the CSP in `_headers`. Safer and easier to edit, but a big change. Only after a real clan run and a real bill run both work, and warn Ginger first.
+
 ## Working with Ginger
 - Mockups first for anything new on screen; build only what she approves.
 - New big feature? First ask whether the basic sheet works in a real run yet.
