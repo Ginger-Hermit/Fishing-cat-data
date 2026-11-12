@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Black Log box
+
+12 Nov 2026 (05:46 UTC) · Changed
+
+The Log now looks like a live console: dark, easy-to-read text that scrolls to the newest line.
+
+**What you'll see:** Run a sheet and watch the Log: black box, newest line always visible, drag the corner to make it taller.
+
+- Log box is dark with monospace text, scrolls to the newest line, can be resized
+
 ## Much more detailed Log
 
-12 Nov 2026 (05:41 UTC) · Changed
+12 Nov 2026 (05:41 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/f26e58c)
 
 The Log and bug report now record timings, sizes, AI token counts and error details so slow or failed runs can be diagnosed.
 
