@@ -1,0 +1,29 @@
+# Patch note: copies the docs into the GitHub wiki after each push, so nobody pastes by hand.
+name: Wiki
+on:
+  push:
+    branches: [main]
+    paths: [README.md, STATUS.md, CHANGELOG.md, developer/**, .github/workflows/wiki.yml]
+permissions:
+  contents: write
+jobs:
+  wiki:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Copy docs to wiki
+        env:
+          TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          git clone "https://x-access-token:${TOKEN}@github.com/${REPO}.wiki.git" wiki
+          cp README.md wiki/Home.md
+          cp STATUS.md wiki/Status.md
+          cp CHANGELOG.md wiki/Changelog.md
+          cp developer/HOW_IT_WAS_BUILT.md wiki/How-it-was-built.md
+          cp developer/STRESS_TEST_LOG.md wiki/Stress-test-log.md
+          cd wiki
+          git add -A
+          git diff --cached --quiet && exit 0
+          git -c user.name="github-actions" -c user.email="noreply@github.com" commit -m "Sync docs from repo"
+          git push
