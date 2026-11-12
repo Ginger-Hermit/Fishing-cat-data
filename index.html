@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The two history tabs now look like the main sheet and explain themselves at the top. -->
+<!-- Patch note: The clan tab now says how long to record. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -105,6 +105,7 @@ button:disabled{opacity:.5}
 <input id="clanbox" maxlength="40" autocomplete="off" placeholder="e.g. Loki. Used in the file name">
 <label>Screenshots</label>
 <div class="drop" id="drop">Drop screenshots here, or tap to choose</div>
+<div style="font-size:13px;color:var(--muted);margin-top:6px">Recording a video? Scroll the whole list slowly, about 1 second per 5 members (50 members = 10 seconds).</div>
 <input id="files" type="file" accept="image/png,image/jpeg,image/webp,video/mp4,video/quicktime,video/webm" multiple hidden>
 <div id="list"></div>
 <label>Last sheet (optional)</label>
@@ -324,7 +325,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-e";
+const BUILD = "2026-11-12-f";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };

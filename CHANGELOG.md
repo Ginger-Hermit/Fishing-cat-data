@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Video recording tip
+
+12 Nov 2026 (05:02 UTC) · Changed
+
+The clan tab now says how long to record.
+
+**What you'll see:** Open the Clan sheet tab: a grey line under the upload box.
+
+- Tip: scroll the whole list slowly, about 1 second per 5 members
+
 ## Leaderboard and Points history: colours and a How to read line
 
-12 Nov 2026 (04:58 UTC) · Changed
+12 Nov 2026 (04:58 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/fc8ee3b)
 
 The two history tabs now look like the main sheet and explain themselves at the top.
 
