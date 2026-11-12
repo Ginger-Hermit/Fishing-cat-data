@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Developer mode
 
-12 Nov 2026 (23:42 UTC) · New
+12 Nov 2026 (23:42 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0b15645)
 
 Add ?dev to the address to see each still sent to the AI and its raw reply.
 
