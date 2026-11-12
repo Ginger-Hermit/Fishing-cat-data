@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Log shows Discord steps
+
+12 Nov 2026 (06:34 UTC) · Changed
+
+The Log and bug report now show what happened with Discord.
+
+**What you'll see:** Post to Discord, then open Log.
+
+- Log lines for: files sent and sizes, header picture used or not, Discord's answer and reason. The link is never written.
+
 ## Clear Discord error
 
-12 Nov 2026 (06:33 UTC) · Changed
+12 Nov 2026 (06:33 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/a31cd1a)
 
 If Discord can't be reached, the page says so in plain words.
 
