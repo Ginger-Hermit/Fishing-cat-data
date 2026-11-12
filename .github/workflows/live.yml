@@ -1,0 +1,25 @@
+# Patch note: weekly check that the live site loads, runs the newest version and sends its security header.
+name: Live site
+on:
+  schedule:
+    - cron: "17 5 * * 1"
+  workflow_dispatch:
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check fishing-cat-data.pages.dev
+        run: |
+          set -e
+          SITE=https://fishing-cat-data.pages.dev
+          WANT=$(tr -d '[:space:]' < version.txt)
+          curl -fsS -D head.txt -o page.html "$SITE/?t=$(date +%s)" || { echo "FAIL page does not load"; exit 1; }
+          echo "PASS page loads"
+          GOT=$(curl -fsS "$SITE/version.txt?t=$(date +%s)" | tr -d '[:space:]')
+          [ "$GOT" = "$WANT" ] || { echo "FAIL live version.txt is $GOT, repo has $WANT"; exit 1; }
+          grep -q "const BUILD = \"$WANT\"" page.html || { echo "FAIL live page is not version $WANT"; exit 1; }
+          echo "PASS version $WANT"
+          grep -qi "^content-security-policy:.*connect-src" head.txt || { echo "FAIL security header missing"; exit 1; }
+          grep -qi "^x-content-type-options: nosniff" head.txt || { echo "FAIL nosniff header missing"; exit 1; }
+          echo "PASS security header"
