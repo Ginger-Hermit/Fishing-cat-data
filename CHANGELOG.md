@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Header picture shows it is saved
+
+12 Nov 2026 (07:03 UTC) · Changed
+
+After you pick a header picture, a small preview and 'Picture saved' stay in the Discord box.
+
+**What you'll see:** Open Post to Discord (optional): small picture next to Remove.
+
+- Added a thumbnail and a clear saved message, also shown when you come back later.
+
 ## Post to Discord button in the Discord box
 
-12 Nov 2026 (07:01 UTC) · New
+12 Nov 2026 (07:01 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/f8548b7)
 
 The Discord box has its own Post to Discord button.
 

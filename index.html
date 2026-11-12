@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The Discord box has its own Post to Discord button. -->
+<!-- Patch note: After you pick a header picture, a small preview and 'Picture saved' stay in the Discord box. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -169,7 +169,7 @@ button:disabled{opacity:.5}
 <label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin-top:6px"><input type="checkbox" id="hookkeep" style="width:auto;margin:0"> Remember my link</label>
 <div style="display:flex;gap:8px;align-items:center;margin-top:6px"><button id="hookpost" type="button" class="tab">Post to Discord</button><button id="hooktest" type="button" class="tab">Test</button><button id="hookforget" type="button" class="tab">Forget</button><span id="hookmsg" role="status" style="font-size:13px"></span></div>
 <div style="font-size:13px;color:var(--muted);margin:12px 0 6px">Header picture for the Discord table (optional)</div>
-<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><input type="file" id="artfile" accept="image/*" style="width:auto"><button id="artforget" type="button" class="tab">Remove</button><span id="artmsg" role="status" style="font-size:13px"></span></div>
+<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><input type="file" id="artfile" accept="image/*" style="width:auto"><button id="artforget" type="button" class="tab">Remove</button><img id="artthumb" alt="Your saved header picture" style="display:none;height:44px;border-radius:6px;border:1px solid var(--soft)"><span id="artmsg" role="status" style="font-size:13px"></span></div>
 <div style="font-size:13px;color:var(--muted);margin:6px 0 0">Nothing is posted unless you tap Post to Discord. Anyone with this link can post in your channel, so keep it private. If posting fails, turn off any ad blocker for this site or use a Private window.</div>
 </details>
 <details id="logbox" style="margin-top:12px"><summary style="cursor:pointer;font-size:14px">Log: what the page did</summary>
@@ -379,7 +379,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-e";
+const BUILD = "2026-11-12-f";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -570,6 +570,7 @@ function renderSaved() {
   (lines.length ? lines : ["Nothing saved."]).forEach(t => { const d = document.createElement("div"); d.textContent = (lines.length ? "\u2022 " : "") + t; box.appendChild(d); });
   $("keepprev").checked = lsGet("fcd_keepprev") !== "0";
   $("hookbox").value = hookGet(); if (lsGet("fcd_hook")) $("hookkeep").checked = true;
+  artShow();
 }
 $("keepprev").onchange = () => { lsSet("fcd_keepprev", $("keepprev").checked ? "1" : "0"); if (!$("keepprev").checked) { try { localStorage.removeItem("fcd_prev"); } catch (e) {} } renderSaved(); };
 function wipe(what) {
@@ -1440,12 +1441,13 @@ async function hookPost(text, file) {
   return fileSent;
 }
 // ---- Table picture for Discord: drawn on a canvas here, no AI, no package ----
+function artShow() { const d = lsGet("fcd_art"), t = $("artthumb"); t.style.display = d ? "" : "none"; if (d) t.src = d; if (d && !$("artmsg").textContent) $("artmsg").textContent = "Picture saved on this device."; }
 const artLoad = () => new Promise((ok) => { const d = lsGet("fcd_art"); if (!d) return ok(null); const i = new Image(); i.onload = () => ok(i); i.onerror = () => ok(null); i.src = d; });
 $("artfile").onchange = () => {
   const f = $("artfile").files[0]; if (!f) return; const u = URL.createObjectURL(f), i = new Image();
   i.onload = () => { try {
     const w = Math.min(900, i.naturalWidth), c = document.createElement("canvas"); c.width = w; c.height = Math.round(i.naturalHeight * w / i.naturalWidth);
-    c.getContext("2d").drawImage(i, 0, 0, c.width, c.height); localStorage.setItem("fcd_art", c.toDataURL("image/jpeg", 0.85)); clog("Header picture saved (" + c.width + "x" + c.height + ")."); $("artmsg").textContent = "Saved."; renderSaved();
+    c.getContext("2d").drawImage(i, 0, 0, c.width, c.height); localStorage.setItem("fcd_art", c.toDataURL("image/jpeg", 0.85)); clog("Header picture saved (" + c.width + "x" + c.height + ")."); $("artmsg").textContent = "Picture saved on this device."; renderSaved();
   } catch (e) { clog("Header picture not saved: " + (e && e.name)); $("artmsg").textContent = "Too big to keep. Try a smaller picture."; } URL.revokeObjectURL(u); $("artfile").value = ""; };
   i.onerror = () => { $("artmsg").textContent = "That picture would not open."; URL.revokeObjectURL(u); };
   i.src = u;
