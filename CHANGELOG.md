@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Simpler Discord tab
+
+12 Nov 2026 (12:25 UTC) · Changed
+
+The Discord tab has fewer steps. Header picture and ping moved into More options, and the webhook help links to Discord's own guide.
+
+> [!NOTE]
+> **What you'll see:** Discord tab
+
+- Link is step 1 with a short webhook line and Discord guide link, header picture and ping moved into More options, added a Stay safe line for support.discord.com
+
 ## Cut-off bill reply keeps what was read
 
 12 Nov 2026 (12:22 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/089a57c)
