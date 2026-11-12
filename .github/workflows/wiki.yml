@@ -22,6 +22,7 @@ jobs:
           cp CHANGELOG.md wiki/Changelog.md
           cp developer/HOW_IT_WAS_BUILT.md wiki/How-it-was-built.md
           cp developer/STRESS_TEST_LOG.md wiki/Stress-test-log.md
+          printf '%s\n' '**Pages**' '' '- [Home](Home)' '- [Status](Status)' '- [Changelog](Changelog)' '- [How it was built](How-it-was-built)' '- [Stress test log](Stress-test-log)' > wiki/_Sidebar.md
           cd wiki
           git add -A
           git diff --cached --quiet && exit 0
