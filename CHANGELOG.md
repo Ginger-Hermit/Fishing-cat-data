@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Remove stray headings
 
-12 Nov 2026 (07:14 UTC) · Changed
+12 Nov 2026 (07:14 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/b885d54)
 
 Took out the two headings added last update; they ended up in the wrong place.
 
