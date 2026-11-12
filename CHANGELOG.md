@@ -16,7 +16,7 @@ Pick Ping @here or Ping @everyone on the Discord tab; the default pings nobody.
 
 ## Discord breakdown with headers and per-person changes
 
-12 Nov 2026 (07:38 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6bcb4fd)
+12 Nov 2026 (07:38 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/43d6eec)
 
 The Discord message has headers and lists each person's old points, new points and difference.
 
