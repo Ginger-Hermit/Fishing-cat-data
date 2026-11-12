@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Webhook help wording
+
+12 Nov 2026 (12:17 UTC) · Changed
+
+The webhook steps no longer have random capital letters.
+
+> [!NOTE]
+> **What you'll see:** Discord tab, under the link box
+
+- Lowercased the step words in the webhook help
+
 ## Webhook help on the Discord tab
 
 12 Nov 2026 (12:14 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6cf6ed8)
