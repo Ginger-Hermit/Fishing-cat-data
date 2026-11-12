@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Foldable developer bar
+
+12 Nov 2026 (23:59 UTC) · Changed
+
+Tap the developer bar to fold it down to one line.
+
+> [!NOTE]
+> **What you'll see:** Open the page with ?dev on the end, then tap the bar.
+
+- Developer bar folds to one line; the page remembers your choice.
+
 ## Calmer developer bar
 
 12 Nov 2026 (23:59 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8de4038)

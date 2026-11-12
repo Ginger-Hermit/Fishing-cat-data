@@ -1,4 +1,4 @@
-// Patch note: The developer bar is flatter and takes less space.
+// Patch note: Tap the developer bar to fold it down to one line.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -72,7 +72,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.3";
+const BUILD = "1.1.4";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -973,14 +973,14 @@ function devPics(pics) {
 // Developer mode: a line at the top with this page's version, the live version, and a countdown to the next check (every 30 s, own site only).
 if (DEV && location.protocol.startsWith("http")) {
   const bar = document.createElement("div"); bar.id = "devbar"; document.body.prepend(bar);
-  const t0 = Date.now(); let next = 0, live = "?", lastAt = 0, ms = 0, fails = 0, checks = 0;
+  const t0 = Date.now(); let fold = lsGet("fcd_devfold") === "1", next = 0, live = "?", lastAt = 0, ms = 0, fails = 0, checks = 0;
   const el = (t, c, tag) => Object.assign(document.createElement(tag || "span"), { textContent: t, className: c || "" });
   const ago = (s) => s < 60 ? s + " s ago" : s < 3600 ? Math.floor(s / 60) + " min ago" : Math.floor(s / 3600) + " h ago";
   const cell = (k, v) => { const d = el("", "dvc", "div"); d.append(el(k, "dvk"), el(v, "dvv")); return d; };
   const show = () => {
     const stale = live !== "?" && live !== BUILD, ok = live === BUILD;
-    bar.className = stale ? "dvnew" : ok ? "dvok" : "";
-    const head = el("", "dvh", "div");
+    bar.className = (stale ? "dvnew" : ok ? "dvok" : "") + (fold ? " dvfold" : "");
+    const head = el("", "dvh", "div"); head.tabIndex = 0; head.setAttribute("role", "button"); head.setAttribute("aria-expanded", fold ? "false" : "true"); const flip = () => { fold = !fold; lsSet("fcd_devfold", fold ? "1" : "0"); show(); }; head.onclick = flip; head.onkeydown = (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flip(); } };
     head.append(el("", "dvdot"), el(stale ? "New version ready" : ok ? "Up to date" : fails ? "Can't check right now" : "Checking\u2026", "dvs"), el("Developer " + BUILD, "dvm"));
     const kids = [head];
     if (stale) { const r = el("Refresh now", "", "button"); r.type = "button"; r.onclick = () => location.reload(); kids.push(el("This page " + BUILD + ", live " + live + ".", "dvm dvp"), r); }
