@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Switch Gemini model when busy
+
+12 Nov 2026 (05:55 UTC) · Changed
+
+When Google says gemini-3.8-flash is overloaded, the retries now use older Gemini models, which are usually less busy.
+
+**What you'll see:** Log shows 'Switching to gemini-3.7-flash for the next try.' after a busy error.
+
+- Busy Gemini retries switch to gemini-3.7-flash, then gemini-3.6-flash
+
 ## Retry when the AI is busy
 
-12 Nov 2026 (05:51 UTC) · Changed
+12 Nov 2026 (05:51 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2f92a27)
 
 When Google (or another AI company) says it is busy, the page waits a few seconds and tries again, up to 3 times, instead of failing at once.
 

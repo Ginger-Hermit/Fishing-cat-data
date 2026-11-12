@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: When Google (or another AI company) says it is busy, the page waits a few seconds and tries again, up to 3 times, instead of failing at once. -->
+<!-- Patch note: When Google says gemini-3.8-flash is overloaded, the retries now use older Gemini models, which are usually less busy. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -370,7 +370,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-e";
+const BUILD = "2026-11-12-f";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1202,7 +1202,7 @@ function aiStats(d, secs) {
   clog("AI says: model " + (d.modelVersion || d.model || "?") + ", finished: " + (c0.finishReason || d.stop_reason || ch0.finish_reason || "?") + ", tokens: " + (nums || "not reported") + (out ? ", about " + (out / Math.max(secs, 0.1)).toFixed(0) + " tokens a second" : "") + (d.promptFeedback && d.promptFeedback.blockReason ? ", BLOCKED: " + d.promptFeedback.blockReason : ""));
 }
 async function postJson(url, headers, body) {
-  const payload = JSON.stringify(body), nap = (ms) => new Promise((r) => setTimeout(r, ms));
+  const payload = JSON.stringify(body), nap = (ms) => new Promise((r) => setTimeout(r, ms)), baseUrl = url;
   for (let attempt = 1; ; attempt++) { // up to 3 tries when the AI is busy or the connection drops
   let res;
   const t0 = Date.now(), sec = () => ((Date.now() - t0) / 1000).toFixed(1) + "s";
@@ -1217,7 +1217,8 @@ async function postJson(url, headers, body) {
     try { raw = await res.text(); } catch (e) {}
     try { detail = JSON.parse(raw).error.message || ""; } catch (e) {}
     clog("AI error " + res.status + ": " + detail + "\nFull error reply: " + raw.slice(0, 1500));
-    if ([500, 502, 503, 504].includes(res.status) && attempt < 3) { clog("The AI is busy (HTTP " + res.status + "). Trying again in " + attempt * 4 + "s (try " + (attempt + 1) + " of 3)."); await nap(attempt * 4000); continue; }
+    if ([500, 502, 503, 504].includes(res.status) && attempt < 3) { clog("The AI is busy (HTTP " + res.status + "). Trying again in " + attempt * 4 + "s (try " + (attempt + 1) + " of 3)."); const alt = ["gemini-3.7-flash", "gemini-3.6-flash"][attempt - 1]; if (alt && /generativelanguage/.test(baseUrl) && baseUrl.includes("/" + PROVIDERS.gemini.model + ":")) { url = baseUrl.replace(PROVIDERS.gemini.model, alt); clog("Switching to " + alt + " for the next try."); }
+      await nap(attempt * 4000); continue; }
     if (/credit|quota|billing/i.test(detail)) throw new Error("Your AI account is out of credit or over its limit.");
     if (res.status === 401 || res.status === 403 || /api key/i.test(detail)) throw new Error("The AI doesn't accept that key. Check it and paste it again.");
     if (res.status === 429) throw new Error("Too many requests right now. Wait a minute and try again.");
