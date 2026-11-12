@@ -34,6 +34,7 @@ async function runCase(page, flow, kind) {
     box.textContent = ""; btn.click();
     const locked = document.getElementById("go").disabled && document.getElementById("billgo").disabled && document.getElementById("provider").disabled;
     for (let k = 0; k < 600; k++) { await new Promise(r => setTimeout(r, 25)); if (box.textContent && !/^Reading|^Test read: looking/.test(box.textContent)) break; }
+    if (flow === "go" && !box.className.includes("err") && document.getElementById("pvgo")) { document.getElementById("pvgo").click(); for (let k = 0; k < 400 && !window.__dl; k++) await new Promise(r => setTimeout(r, 25)); }
     aiWait = 180000;
     return { msg: box.textContent, err: box.className.includes("err"), file: window.__dl, locked, unlocked: !running && !btn.disabled };
   }, [flow, kind, LAYOUT, ROWS, BILL]);

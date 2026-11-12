@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The page says Roblox again. It works for clans in any Roblox game. -->
+<!-- Patch note: The check table is easier to read. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -32,6 +32,13 @@ input,select{color:var(--text);width:100%;box-sizing:border-box;padding:10px;bor
 button{width:100%;margin-top:14px;padding:14px;background:var(--accent);color:var(--onAccent);border:0;border-radius:8px;font-size:17px;font-weight:500;cursor:pointer}
 button:disabled{opacity:.5}
 .note{background:var(--noteBg);color:var(--noteText);border-radius:6px;padding:10px 12px;font-size:13px;margin-top:12px}
+.pv{margin-top:14px}.pv .pvt{font-size:17px;font-weight:500}.pv .pvd{color:var(--muted);margin:2px 0 8px;font-size:14px}
+.pvg{overflow-x:auto;border:1px solid var(--line);background:var(--field)}
+.pv table{border-collapse:collapse;min-width:420px;width:100%}.pv th,.pv td{border:1px solid var(--soft);padding:0;font-size:14px}
+.pv th{background:var(--accent);color:var(--onAccent);font-weight:500;padding:5px 6px;text-align:left}
+.pv tr.bad td{background:#FFF0D6}.pv td input{width:100%;min-width:40px;margin:0;padding:6px;border:none;border-radius:0;background:transparent;font-size:14px;color:var(--text)}
+.pv td.ro{padding:6px;white-space:nowrap}.pv .pvx{width:auto;margin:0;padding:4px 10px;border:none;background:none;color:var(--err);font-size:18px}
+.pv .pvb{display:flex;gap:8px;margin-top:10px}.pv .pvb button{margin:0;white-space:nowrap}.pv .pvb button.tab{padding:12px 14px}
 .prog{font-size:15px;line-height:1.7;margin-top:10px}
 .prog div{color:var(--muted)}
 .prog .dn{color:var(--text)}
@@ -87,6 +94,7 @@ button:disabled{opacity:.5}
 <button id="testgo" type="button" class="tab" disabled style="margin-top:8px;width:100%">Test first (small read, no file)</button>
 <div class="msg" id="msg" role="status" aria-live="polite"></div>
 <div class="prog" id="prog" aria-live="polite"></div>
+<div class="pv" id="preview" style="display:none"></div>
 <button id="copyerr" type="button" class="tab" style="display:none;margin-top:8px;width:100%;padding:12px;font-size:16px;border-color:var(--err);color:var(--err)">Copy error to send</button>
 <details id="logbox" style="margin-top:12px"><summary style="cursor:pointer;font-size:14px">Log: what the page did</summary>
 <pre id="console" style="background:var(--field);border:1px solid var(--line);border-radius:6px;padding:10px;font-size:14px;font-family:inherit;line-height:1.6;white-space:pre-wrap;min-height:60px;margin:6px 0 0;color:var(--text)"></pre>
@@ -286,7 +294,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-m";
+const BUILD = "2026-11-12-o";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -886,12 +894,78 @@ $("testgo").onclick = async () => {
   finally { running = false; refresh(); }
 };
 
+// ---- Preview: check and fix the list before the sheet is made ----
+let pv = null;
+const pvBad = (r) => /\?/.test(String(r.name)) || !String(r.name).trim() || parsePoints(r.points) === null;
+async function makeSheet(rows, p) {
+  let blob, ext = ".xlsx";
+  await loadExcel();
+  if (window.ExcelJS) {
+    const wb = buildWorkbook(window.ExcelJS, rows, prevMap, p, todayText());
+    blob = new Blob([await wb.xlsx.writeBuffer()], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+  } else {
+    ext = ".csv";
+    blob = new Blob([toCsv(rows)], { type: "text/csv" });
+    clog("The spreadsheet part did not load, so a CSV was made instead.");
+  }
+  saveBlob(blob, nameOf(p) + ext);
+}
+async function pvDownload() {
+  const rows = pv.rows.filter(r => String(r.name).trim() || String(r.points).trim()).map(r => { const n = Number(r.rank); return { ...r, rank: String(r.rank).trim() !== "" && Number.isFinite(n) ? n : r.rank }; });
+  if (!rows.length) { setMsg("The list is empty. Add a row or tap Reset.", true); return; }
+  try {
+    await makeSheet(rows, pv.p);
+    clog("Sheet downloaded from the checked list (" + rows.length + " rows).");
+    setMsg("Done: " + rows.length + " rows. Your sheet was downloaded.");
+  } catch (err) { clog("Stopped: " + err.message); setMsg(plain(err), true); }
+}
+function pvDraw() {
+  const box = $("preview");
+  box.replaceChildren();
+  box.style.display = pv ? "" : "none";
+  if (!pv) return;
+  const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined) e.textContent = text; return e; };
+  const bad = pv.rows.filter(pvBad).length, off = pv.shown && Number(pv.shown) !== pv.rows.length;
+  box.appendChild(el("div", "pvt", "Check your list"));
+  box.appendChild(el("div", "pvd", pv.rows.length + " rows." + (bad ? " " + bad + (bad === 1 ? " needs" : " need") + " a look (orange)." : "") + (off ? " The screen says " + pv.shown + " members." : "") + " Tap a cell to fix it."));
+  const wrap = el("div", "pvg"), tb = el("table"), hr = el("tr");
+  ["#", "Username", pv.p.extra || "Role", "Points"].concat(prevMap ? ["Previous", "Change", "% Change"] : [], [""]).forEach(h => hr.appendChild(el("th", "", h)));
+  tb.appendChild(hr);
+  pv.rows.forEach((r, i) => {
+    const tr = el("tr", pvBad(r) ? "bad" : "");
+    ["rank", "name", "role", "points"].forEach(k => {
+      const td = el("td"), inp = el("input");
+      inp.value = r[k] === undefined || r[k] === null ? "" : String(r[k]);
+      inp.setAttribute("aria-label", k + ", row " + (i + 1));
+      inp.style.minWidth = { rank: "36px", name: "90px", role: "84px", points: "72px" }[k];
+      inp.oninput = () => { r[k] = inp.value; };
+      inp.onchange = () => pvDraw();
+      td.appendChild(inp); tr.appendChild(td);
+    });
+    if (prevMap) {
+      const n = parsePoints(r.points), b = prevMap.get(String(r.name).trim().toLowerCase()), has = typeof b === "number" && n !== null;
+      const d = has ? n - b : null;
+      [has ? b : "", d === null ? (n !== null ? "new" : "") : (d > 0 ? "+" : "") + d, d === null || !b ? "" : (d > 0 ? "+" : "") + (d / b * 100).toFixed(1) + "%"].forEach(t => tr.appendChild(el("td", "ro", String(t))));
+    }
+    const td = el("td"), x = el("button", "pvx", "\u00d7");
+    x.type = "button"; x.setAttribute("aria-label", "Delete row " + (i + 1));
+    x.onclick = () => { pv.rows.splice(i, 1); pvDraw(); };
+    td.appendChild(x); tr.appendChild(td); tb.appendChild(tr);
+  });
+  wrap.appendChild(tb); box.appendChild(wrap);
+  const bt = el("div", "pvb"), mk = (id, text, fn) => { const b = el("button", "tab", text); b.type = "button"; if (id) b.id = id; b.onclick = fn; bt.appendChild(b); return b; };
+  const dl = mk("pvgo", "Download sheet", pvDownload); dl.classList.remove("tab");
+  mk("pvadd", "Add row", () => { const last = Number(pv.rows.length ? pv.rows[pv.rows.length - 1].rank : 0); pv.rows.push({ rank: (Number.isFinite(last) ? last : pv.rows.length) + 1, name: "", role: "", points: "" }); pvDraw(); });
+  mk("pvreset", "Reset", () => { pv.rows = pv.orig.map(r => ({ ...r })); pvDraw(); });
+  box.appendChild(bt);
+}
 $("go").onclick = async () => {
   const key = $("key").value.trim();
   running = true; refresh();
+  pv = null; pvDraw();
   clog("Run started with " + images.length + " file(s).");
   setMsg("Reading " + images.length + " screenshot(s)... this can take about 20-30 seconds.");
-  prog.start("prog", ["Checking pictures", "Working out the game", "Waiting for the AI to read the list", "Building your sheet"]);
+  prog.start("prog", ["Checking pictures", "Working out the game", "Waiting for the AI to read the list", "Getting your list ready"]);
   try {
     await collectPictures(images); // checks every file opens and the total is not too big, before any AI request
     prog.next();
@@ -906,17 +980,8 @@ $("go").onclick = async () => {
     const shown = (text.match(/"members_on_screen"\s*:\s*(\d+)/) || [])[1];
     clog("Found " + rows.length + " unique row(s).");
     if (!rows.length) throw new Error("No member rows were found. The pictures may not show the member list.");
-    let blob, ext = ".xlsx";
-    await loadExcel();
-    if (window.ExcelJS) {
-      const wb = buildWorkbook(window.ExcelJS, rows, prevMap, p, todayText());
-      blob = new Blob([await wb.xlsx.writeBuffer()], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-    } else {
-      ext = ".csv";
-      blob = new Blob([toCsv(rows)], { type: "text/csv" });
-      clog("The spreadsheet part did not load, so a CSV was made instead.");
-    }
-    saveBlob(blob, nameOf(p) + ext);
+    pv = { rows: rows.map(r => ({ ...r })), orig: rows.map(r => ({ ...r })), p, shown };
+    pvDraw();
     const bad = rows.filter(r => r.name === "?" || parsePoints(r.points) === null).length;
     let last = 0, order = false;
     for (const r of rows) { const n = Number(r.rank); if (!Number.isFinite(n) || n <= last) order = true; else last = n; }
@@ -925,7 +990,7 @@ $("go").onclick = async () => {
     if (countOff) clog("Count check: screen says " + shown + ", read " + rows.length + ".");
     if (rows.cut) clog("The AI reply was cut off or untidy; kept the complete rows.");
     prog.stop(true);
-    setMsg("Done: " + rows.length + " rows. Your sheet was downloaded." + (rows.cut ? " The AI's reply was cut short, so some members may be missing. Try fewer pictures." : "") + (countOff ? " The screen says " + shown + " members, so some may be missing. Scroll slower and try again." : "") + (bad ? " Check " + bad + " row(s) marked ?." : "") + (order ? " Some ranks look out of order, so check the list." : ""));
+    setMsg("Check your list below, then tap Download sheet." + (rows.cut ? " The AI's reply was cut short, so some members may be missing. Try fewer pictures." : "") + (countOff ? " The screen says " + shown + " members, so some may be missing. Scroll slower and try again." : "") + (bad ? " Check " + bad + " row(s) marked ?." : "") + (order ? " Some ranks look out of order, so check the list." : ""));
   } catch (err) {
     clog("Stopped: " + err.message);
     prog.stop(false);

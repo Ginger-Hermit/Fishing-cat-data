@@ -2,9 +2,31 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Check your list tidy
+
+12 Nov 2026 (00:06 UTC) · Changed
+
+The check table is easier to read.
+
+**What you'll see:** Roles are no longer cut off and the buttons sit on one line.
+
+- Wider role and name cells, one-line buttons, 'needs' wording
+
+## Check your list first
+
+12 Nov 2026 (00:06 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/d3a398e)
+
+After the AI reads the clan list, you can fix names and points in a table before the sheet is made.
+
+**What you'll see:** Clan sheet: tap Make my sheet, check the table (orange rows need a look), fix cells, then tap Download sheet.
+
+- New table after reading: fix names, roles and points, add or delete rows, or Reset
+- Shows if the screen member count differs from rows read
+- The sheet downloads from the table when you tap Download sheet
+
 ## Roblox wording back
 
-12 Nov 2026 (00:00 UTC) · Changed
+12 Nov 2026 (00:00 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/d3a398e)
 
 The page says Roblox again. It works for clans in any Roblox game.
 
