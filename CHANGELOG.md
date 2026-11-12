@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Sections for Discord and Log
+
+12 Nov 2026 (07:12 UTC) · Changed
+
+The Discord box and the Log now sit under their own small headings, split from the sheet area.
+
+> [!NOTE]
+> **What you'll see:** Bottom of the clan tab: a line and a heading above Post to Discord and above Log.
+
+- Added two headings with a divider line (Share to Discord, Problems?).
+
 ## Clear buttons on Post without the AI
 
 12 Nov 2026 (07:15 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/47cafb8)

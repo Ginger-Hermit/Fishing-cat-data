@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Gaps between the bars are the same and the empty message areas no longer leave a big gap. -->
+<!-- Patch note: The Discord box and the Log now sit under their own small headings, split from the sheet area. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -167,7 +167,7 @@ button:disabled{opacity:.5}
 <div class="prog" id="prog" aria-live="polite"></div>
 <div class="pv" id="preview" style="display:none"></div>
 <button id="copyerr" type="button" class="tab" style="display:none;margin-top:8px;width:100%;padding:12px;font-size:16px;border-color:var(--err);color:var(--err)">Copy error to send</button>
-<details id="hookblock" style="margin:12px 0"><summary style="cursor:pointer;font-size:14px">Post to Discord (optional)</summary><div style="font-size:13px;color:var(--muted);margin:8px 0 6px">Discord link</div>
+<div style="border-top:1px solid var(--soft);margin:18px 0 0;padding-top:12px;font-weight:600">Share to Discord</div><details id="hookblock" style="margin:12px 0"><summary style="cursor:pointer;font-size:14px">Post to Discord (optional)</summary><div style="font-size:13px;color:var(--muted);margin:8px 0 6px">Discord link</div>
 <input id="hookbox" type="password" autocomplete="off" spellcheck="false" placeholder="https://discord.com/api/webhooks/...">
 <label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin-top:6px"><input type="checkbox" id="hookxlsx" checked style="width:auto;margin:0"> Attach the Excel file</label>
 <label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin-top:6px"><input type="checkbox" id="hookkeep" style="width:auto;margin:0"> Remember my link</label>
@@ -181,7 +181,7 @@ button:disabled{opacity:.5}
 <div style="display:flex;gap:8px;align-items:center;margin-top:8px"><button id="shpost" type="button" class="tab">Post these</button><span id="shmsg" role="status" style="font-size:13px"></span></div>
 <div style="font-size:13px;color:var(--muted);margin:12px 0 0">Nothing is posted unless you tap Post to Discord. Anyone with this link can post in your channel, so keep it private. If posting fails, turn off any ad blocker for this site or use a Private window.</div>
 </details>
-<details id="logbox" style="margin-top:12px"><summary style="cursor:pointer;font-size:14px">Log: what the page did</summary>
+<div style="border-top:1px solid var(--soft);margin:18px 0 0;padding-top:12px;font-weight:600">Problems?</div><details id="logbox" style="margin-top:12px"><summary style="cursor:pointer;font-size:14px">Log: what the page did</summary>
 <pre id="console" style="background:#0d0d0d;color:#e5e7eb;border:1px solid #444;border-radius:6px;padding:10px;font-size:13px;font-family:Consolas,Menlo,monospace;line-height:1.5;white-space:pre-wrap;word-break:break-word;min-height:120px;max-height:360px;overflow:auto;resize:vertical;margin:6px 0 0"></pre>
 <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button id="copybug" type="button">Copy bug report</button><a id="ghbug" href="https://github.com/Ginger-Hermit/Fishing-cat-data/issues/new" target="_blank" rel="noopener">Report on GitHub</a></div>
 <div style="font-size:13px;color:var(--muted);margin-top:6px">Copies the page log and your browser type. Keys are removed. Pictures are not included. Nothing is sent until you paste it somewhere. Report on GitHub opens a public form with the report filled in: read it first, then send it (needs a GitHub account).</div>
@@ -390,7 +390,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-k";
+const BUILD = "2026-11-12-l";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
