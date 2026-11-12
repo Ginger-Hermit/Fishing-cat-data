@@ -145,8 +145,9 @@ async function runCase(page, flow, kind) {
     check("security: no prototype pollution", !sec.poll);
     check("no page errors", pageErrors.length === 0, pageErrors.slice(0, 2).join(" ; "));
     if (name === "webkit") {
-      // iPhone 15 in Safari's engine: clan read with dot and space thousands marks, light and dark
-      const dev = { ...pw.devices["iPhone 15"] }; delete dev.defaultBrowserType;
+      // newest iPhone in Safari's engine: clan read with dot and space thousands marks, light and dark
+      const phone = Object.keys(pw.devices).filter(k => /^iPhone \d+$/.test(k)).sort((x, y) => parseInt(x.slice(7)) - parseInt(y.slice(7))).pop();
+      const dev = { ...pw.devices[phone] }; delete dev.defaultBrowserType; console.log("webkit: testing as " + phone);
       for (const scheme of ["light", "dark"]) {
         const ctx = await browser.newContext({ ...dev, colorScheme: scheme }), ip = await ctx.newPage(), ipErr = [];
         ip.on("pageerror", e => ipErr.push(String(e)));
@@ -164,10 +165,10 @@ async function runCase(page, flow, kind) {
           const wide = []; for (const t of ["home", "sheet", "bill", "settings"]) { showTab(t); await new Promise(r => setTimeout(r, 10)); if (document.documentElement.scrollWidth > innerWidth) wide.push(t); }
           return { pts: pv && pv.rows.map(x => String(parsePoints(x.points))).join(","), wide, err: box.className.includes("err"), msg: box.textContent };
         }, LAYOUT);
-        check("iPhone " + scheme + ": clan read works", !r.err, r.msg);
-        check("iPhone " + scheme + ": dotted and spaced points read in full", r.pts === "1234567,987654", r.pts);
-        check("iPhone " + scheme + ": nothing scrolls sideways", r.wide.length === 0, r.wide.join(","));
-        check("iPhone " + scheme + ": no page errors", ipErr.length === 0, ipErr.slice(0, 2).join(" ; "));
+        check(phone + " " + scheme + ": clan read works", !r.err, r.msg);
+        check(phone + " " + scheme + ": dotted and spaced points read in full", r.pts === "1234567,987654", r.pts);
+        check(phone + " " + scheme + ": nothing scrolls sideways", r.wide.length === 0, r.wide.join(","));
+        check(phone + " " + scheme + ": no page errors", ipErr.length === 0, ipErr.slice(0, 2).join(" ; "));
         await ctx.close();
       }
     }
