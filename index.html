@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The Log now shows what is slow. -->
+<!-- Patch note: The Clan sheet tab is now called Roblox clans. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -74,7 +74,7 @@ button:disabled{opacity:.5}
 <h1>Fishing Cat Data</h1>
 <div id="fake" style="display:none;border:2px solid var(--err);color:var(--err);background:var(--field);border-radius:8px;padding:12px 14px;margin-bottom:14px;font-weight:500">Warning: this is not the real Fishing Cat Data page. Do not paste your key here. The real page is fishing-cat-data.pages.dev</div>
 <div id="newver" role="status" style="display:none;background:var(--field);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:14px">New version ready. <a href="#" id="reloadnow">Refresh now</a></div>
-<div class="tabs"><button id="t0" class="tab on">Home</button><button id="t1" class="tab">Clan sheet</button><button id="t3" class="tab">Bills</button><button id="t4" class="tab">GitHub</button><button id="t5" class="tab">Settings</button></div>
+<div class="tabs"><button id="t0" class="tab on">Home</button><button id="t1" class="tab">Roblox clans</button><button id="t3" class="tab">Bills</button><button id="t4" class="tab">GitHub</button><button id="t5" class="tab">Settings</button></div>
 <div id="hometab">
 <h2 style="margin:6px 0">Pictures in, Excel out</h2>
 <p>Turn clan screenshots or a video from any Roblox game into a sheet. It also reads household bills: power, gas, water, internet, phone and more.</p>
@@ -321,7 +321,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-w";
+const BUILD = "2026-11-12-x";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };

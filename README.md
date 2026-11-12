@@ -40,7 +40,7 @@ What it looks like (sample data, not real people):
 - Remembers your last sheet on this device so you don't have to pick it again (names and points only). Tap **Remove** to forget it.
 - Themes (Auto, Light, Dark, Ocean, Forest, Berry) and **Large text**, in the **Settings** tab.
 - A GitHub link on the Home tab, where this guide lives.
-- **Home tab** that explains what the page does, then **Clan sheet** and **Bills** tabs for the two tools.
+- **Home tab** that explains what the page does, then **Roblox clans** and **Bills** tabs for the two tools.
 - **Bills tab:** add photos of household bills (power, gas, water, internet, phone and more) and get a sheet with one row per charge and a **Summary** tab. Usage is turned into kWh (from MJ, therms, or gas volume using the factors printed on the bill) so bills can be compared. Money is kept in the bill's own currency. Bills are private: the whole photo goes to the AI company you pick, so only upload your own.
 - The update history is in [CHANGELOG.md](CHANGELOG.md), one plain-English entry per change.
 - Live steps with a timer under **Make my sheet**, and a **Log** box that opens by itself during a run on both tabs, with a **Copy bug report** button. A red **Copy error** button shows under any error.

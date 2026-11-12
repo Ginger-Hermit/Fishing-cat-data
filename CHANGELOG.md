@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Tab renamed
+
+12 Nov 2026 (04:21 UTC) · Changed
+
+The Clan sheet tab is now called Roblox clans.
+
+**What you'll see:** The second tab at the top.
+
+- Clan sheet tab renamed to Roblox clans
+
 ## Log shows AI wait
 
-12 Nov 2026 (04:18 UTC) · Changed
+12 Nov 2026 (04:18 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0ae1e2c)
 
 The Log now shows what is slow.
 
