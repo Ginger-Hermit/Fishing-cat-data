@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Webhook help on the Discord tab
+
+12 Nov 2026 (12:14 UTC) · New
+
+New people can see what a Discord webhook is and how to get one. A wrong link now says to copy it again.
+
+> [!TIP]
+> **What you'll see:** Discord tab, under the link box
+
+- Added short webhook steps under the link box and clearer wrong-link message
+
 ## Ping box readable by screen readers
 
 12 Nov 2026 (12:12 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8904e69)

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The Discord ping picker now has a name screen readers can say. -->
+<!-- Patch note: New people can see what a Discord webhook is and how to get one. A wrong link now says to copy it again. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -193,7 +193,7 @@ button:disabled{opacity:.5}
 <div style="font-weight:600;font-size:17px;margin:20px 0 8px">Your Discord link</div>
 <input id="hookbox" type="password" autocomplete="off" spellcheck="false" placeholder="https://discord.com/api/webhooks/..." style="min-height:48px;font-size:16px">
 <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px"><label style="display:flex;gap:10px;align-items:center;font-weight:normal;font-size:16px;margin:0"><input type="checkbox" id="hookkeep" style="width:22px;height:22px;min-height:0;padding:0;margin:0"> Save my link on this device</label><button id="hookforget" type="button" class="tab big" style="display:none">Forget link</button><button id="hooktest" type="button" class="tab big" style="display:none">Send a test</button></div>
-<div style="font-size:13px;color:var(--muted);margin-top:6px">Untick to delete the saved copy. Anyone with this link can post in your channel, so keep it private.</div>
+<div style="font-size:13px;color:var(--muted);margin-top:6px">Untick to delete the saved copy. Anyone with this link can post in your channel, so keep it private.</div><div style="font-size:13px;color:var(--muted);margin-top:10px;line-height:1.6">A webhook is a private link that lets this page post in your channel.<br>Where to get it:<br>1. Hold your channel, tap Edit Channel<br>2. Integrations, then Webhooks, then New Webhook<br>3. Tap Copy Webhook URL and paste it above<br>Can't see Webhooks? Only server admins can make them. Ask one to send you the link.</div>
 <div style="font-weight:600;font-size:17px;margin:20px 0 8px">1. What do you want to post?</div>
 <label style="display:flex;gap:12px;align-items:center;font-weight:normal;font-size:16px;margin:8px 0 0;padding:12px 14px;min-height:48px;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;background:var(--field)"><input type="radio" name="dcsrc" value="sheet" style="width:22px;height:22px;min-height:0;padding:0;margin:0;flex:none"> Latest clan sheet</label>
 <label style="display:flex;gap:12px;align-items:center;font-weight:normal;font-size:16px;margin:8px 0 0;padding:12px 14px;min-height:48px;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;background:var(--field)"><input type="radio" name="dcsrc" value="bill" style="width:22px;height:22px;min-height:0;padding:0;margin:0;flex:none"> Latest Bills</label>
@@ -426,7 +426,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-zm";
+const BUILD = "2026-11-12-zn";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1516,7 +1516,7 @@ const dcBreakdown = (sh, f) => {
 };
 const HOOK_RE = /^https:\/\/discord\.com\/api\/webhooks\/\d+\/[\w-]+$/;
 const setHook = (v) => { hookNow = v; try { if (v && $("hookkeep").checked) localStorage.setItem("fcd_hook", v); else localStorage.removeItem("fcd_hook"); } catch (e) {} };
-$("hookbox").onchange = () => { const v = $("hookbox").value.trim(); if (v && !HOOK_RE.test(v)) { $("hookmsg").textContent = "That is not a Discord link."; return; } setHook(v); $("hookmsg").textContent = v ? "Ready." : "Removed."; renderSaved(); if (pv) pvDraw(); };
+$("hookbox").onchange = () => { const v = $("hookbox").value.trim(); if (v && !HOOK_RE.test(v)) { $("hookmsg").textContent = "That doesn't look like a Discord webhook link. Copy it again."; return; } setHook(v); $("hookmsg").textContent = v ? "Ready." : "Removed."; renderSaved(); if (pv) pvDraw(); };
 if (lsGet("fcd_pingmode") !== "role") { try { localStorage.removeItem("fcd_pingmode"); } catch (e) {} } $("dcping").value = lsGet("fcd_pingmode") === "role" ? "role" : ""; $("dcrole").value = lsGet("fcd_pingrole") || "";
 const dcPingShow = () => { const on = $("dcping").value === "role"; $("dcrole").style.display = on ? "" : "none"; $("dcrolehelp").style.display = on ? "" : "none"; };
 dcPingShow();
@@ -1769,7 +1769,7 @@ function pvDraw() {
   mk("pvadd", "Add row", () => { const last = Number(pv.rows.length ? pv.rows[pv.rows.length - 1].rank : 0); pv.rows.push({ rank: (Number.isFinite(last) ? last : pv.rows.length) + 1, name: "", role: "", points: "" }); pvDraw(); });
   const ask = el("div", "pvd"), inp = document.createElement("input"), sendBtn = el("button", "tab", "Send"); ask.style.display = "none"; sendBtn.type = "button";
   inp.type = "password"; inp.autocomplete = "off"; inp.placeholder = "Paste your Discord link"; inp.setAttribute("aria-label", "Discord link");
-  sendBtn.onclick = () => { const v = inp.value.trim(); if (!HOOK_RE.test(v)) { setMsg("That is not a Discord link.", true); return; } setHook(v); $("hookbox").value = v; pvPost(); };
+  sendBtn.onclick = () => { const v = inp.value.trim(); if (!HOOK_RE.test(v)) { setMsg("That doesn't look like a Discord webhook link. Copy it again.", true); return; } setHook(v); $("hookbox").value = v; pvPost(); };
   ask.append(inp, sendBtn, el("div", "", "Used for this visit only. Tick Remember my link in Settings to keep it."));
   mk("pvpost", "Post to Discord", () => { if (HOOK_RE.test(hookGet())) return pvPost(); ask.style.display = ask.style.display ? "" : "none"; });
   mk("pvcopy", "Copy message", async () => { try { await navigator.clipboard.writeText(hookText()); setMsg("Message copied."); } catch (e) { setMsg("Couldn't copy. Select the message and copy it by hand.", true); } });
@@ -2053,7 +2053,7 @@ function bpDraw() {
   const dl = mkEl("button", "", "Download sheet"); dl.id = "bpgo"; dl.type = "button"; dl.onclick = bpDownload; bt.appendChild(dl);
   const ask = mkEl("div", "pvd", ""), inp = document.createElement("input"), sendBtn = mkEl("button", "tab", "Send"), hk = mkEl("button", "tab", "Post to Discord");
   ask.style.cssText = "display:none;flex-basis:100%"; sendBtn.type = "button"; hk.type = "button"; inp.type = "password"; inp.autocomplete = "off"; inp.placeholder = "Paste your Discord link"; inp.setAttribute("aria-label", "Discord link");
-  sendBtn.onclick = () => { const v = inp.value.trim(); if (!HOOK_RE.test(v)) { billSay("That is not a Discord link.", true); return; } setHook(v); $("hookbox").value = v; bpPost(); };
+  sendBtn.onclick = () => { const v = inp.value.trim(); if (!HOOK_RE.test(v)) { billSay("That doesn't look like a Discord webhook link. Copy it again.", true); return; } setHook(v); $("hookbox").value = v; bpPost(); };
   ask.append(inp, sendBtn, mkEl("div", "", "Used for this visit only. Bills can show private details, so check the table first."));
   hk.onclick = () => { if (HOOK_RE.test(hookGet())) return bpPost(); ask.style.display = ask.style.display ? "" : "none"; };
   bt.appendChild(hk); bt.appendChild(ask);
