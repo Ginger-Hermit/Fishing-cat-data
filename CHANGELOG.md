@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Simpler Discord tab
 
-12 Nov 2026 (07:18 UTC) · Changed
+12 Nov 2026 (07:18 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c369598)
 
 The Discord tab is now three steps: pick what to post, optional header picture, one Post button.
 
