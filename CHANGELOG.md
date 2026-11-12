@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Discord post in two messages
 
-12 Nov 2026 (07:42 UTC) · Changed
+12 Nov 2026 (07:42 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/afa5f12)
 
 The picture comes first, right under the heading, and the written breakdown follows as a second message with less empty space.
 
