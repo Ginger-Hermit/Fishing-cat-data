@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Points with dots or spaces
+
+12 Nov 2026 (12:58 UTC) · Changed
+
+Points written like 1.234.567 or 1 234 now read as numbers instead of blank.
+
+> [!NOTE]
+> **What you'll see:** Clan sheet Points column
+
+- parsePoints treats dot, space or apostrophe thousands marks as separators
+
 ## Safer saved sheet and CSV
 
-12 Nov 2026 (12:52 UTC) · Changed
+12 Nov 2026 (12:52 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/1b018fe)
 
 A damaged saved last sheet is ignored instead of breaking the next sheet; negative points stay numbers in the backup CSV.
 

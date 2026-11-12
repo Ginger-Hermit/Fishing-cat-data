@@ -17,5 +17,5 @@ r=parseRows('{"rows":[{"rank":1,"name":"a","points":"1"}]}');A.equal(r.length,1)
 A.equal(parseRows("[]").length,0);
 r=parseRows(JSON.stringify([{rank:1e99,name:{a:1},points:"1"},{rank:-1,name:12345,role:[1],points:null},{rank:"#7",name:"x".repeat(900),points:507},true,null]));
 A.equal(r.length,2);A.equal(r[0].name,"12345");A.equal(r[0].rank,"");A.equal(r[0].points,"?");A.equal(r[0].role,"");A.equal(r[1].rank,7);A.equal(r[1].name.length,60);A.equal(r[1].points,"507");
-A.equal(parsePoints("1.2.3K"),null);A.equal(parsePoints("2T"),2e12);A.equal(parsePoints("1,234"),1234);A.equal(parsePoints("-5"),null);A.equal(parsePoints(""),null);
+A.equal(parsePoints("1.2.3K"),null);A.equal(parsePoints("2T"),2e12);A.equal(parsePoints("1,234"),1234);A.equal(parsePoints("1.234.567"),1234567);A.equal(parsePoints("1 234"),1234);A.equal(parsePoints("1.234"),1234);A.equal(parsePoints("1.5K"),1500);A.equal(parsePoints("-5"),null);A.equal(parsePoints(""),null);
 console.log("round 2 unit tests ok");
