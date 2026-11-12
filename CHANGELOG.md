@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Green and red lines in the Discord post
+
+12 Nov 2026 (07:40 UTC) · Changed
+
+Who went up shows green and who went down shows red in the Discord post.
+
+> [!NOTE]
+> **What you'll see:** Discord post: the Went up, New, Went down and Left the clan lists.
+
+- Lists use Discord's diff colours: plus lines green, minus lines red.
+
 ## Optional ping on Discord posts
 
 12 Nov 2026 (07:38 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/43d6eec)
