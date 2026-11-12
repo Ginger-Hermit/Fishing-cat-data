@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Zip bomb guard, risky-code scanner
+
+12 Nov 2026 (10:58 UTC) · Changed
+
+A booby-trapped Excel file is refused instead of freezing the page; the update check gives up after 15 seconds.
+
+> [!NOTE]
+> **What you'll see:** Pick an earlier sheet or post an Excel file to Discord
+
+- zipCheck before every Excel open; column loops capped at 400; version fetch timeout; tests/check.py scans for risky patterns
+
 ## Safer Discord posting, clearer grey text
 
 12 Nov 2026 (10:51 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2289668)

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: A slow upload no longer posts twice, a busy Discord gets one more try, and grey help text is easier to read. -->
+<!-- Patch note: A booby-trapped Excel file is refused instead of freezing the page; the update check gives up after 15 seconds. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -426,7 +426,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-zk";
+const BUILD = "2026-11-12-zl";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -439,7 +439,7 @@ if (lsGet("fcd_justupdated") === "1") {
 }
 async function checkUpdate() {
   try {
-    const r = await fetch("version.txt?t=" + Date.now(), { cache: "no-store" });
+    const r = await fetch("version.txt?t=" + Date.now(), { cache: "no-store", signal: AbortSignal.timeout(15000) });
     if (!r.ok) return;
     const v = (await r.text()).trim();
     if (!/^[\w.-]{1,40}$/.test(v) || v === BUILD) return;
@@ -736,10 +736,23 @@ function parsePoints(t) {
   return n <= 1e15 ? n : null; // bigger than Excel can hold exactly: treat as unreadable
 }
 
+// Zip bomb guard: read the zip's own list of sizes before unpacking (an Excel file is a zip)
+function zipCheck(buf) {
+  const v = new DataView(buf instanceof ArrayBuffer ? buf : buf.buffer, buf.byteOffset || 0, buf.byteLength), len = v.byteLength;
+  let e = len - 22; while (e >= Math.max(0, len - 65557) && v.getUint32(e, true) !== 0x06054b50) e--;
+  if (e < Math.max(0, len - 65557)) throw new Error("That file is not an Excel sheet.");
+  let p = v.getUint32(e + 16, true), tot = 0; const n = v.getUint16(e + 10, true);
+  if (n > 2000) throw new Error("That Excel file is too big to be one of ours.");
+  for (let k = 0; k < n; k++) {
+    if (p + 46 > len || v.getUint32(p, true) !== 0x02014b50) throw new Error("That Excel file is damaged.");
+    tot += v.getUint32(p + 24, true); p += 46 + v.getUint16(p + 28, true) + v.getUint16(p + 30, true) + v.getUint16(p + 32, true);
+  }
+  if (tot > 1e8) throw new Error("That Excel file is too big to be one of ours.");
+}
 async function readPrevious(EJ, buf) {
   if (buf && buf.byteLength > 5e6) throw new Error("That Excel file is too big to be one of ours.");
   const wb = new EJ.Workbook();
-  await wb.xlsx.load(buf);
+  zipCheck(buf); await wb.xlsx.load(buf);
   const ws = wb.getWorksheet("Clan Members") || wb.worksheets[0];
   let head = 0;
   ws.eachRow((row, n) => { if (!head && String(row.getCell(2).value).trim() === "Username") head = n; });
@@ -772,7 +785,7 @@ function readHistory(wb, ws, map, names) {
   let dates = [], players = new Map();
   const hs = wb.getWorksheet("Points history");
   if (hs) {
-    for (let c = 3; c <= hs.columnCount; c++) { const v = dv(hs.getCell(3, c)); if (v instanceof Date) dates.push(day(v)); else break; }
+    for (let c = 3; c <= Math.min(hs.columnCount, 400); c++) { const v = dv(hs.getCell(3, c)); if (v instanceof Date) dates.push(day(v)); else break; }
     for (let r = 4; dates.length && r <= Math.min(hs.rowCount, 5000); r++) {
       if (String(dv(hs.getCell(r, 2))) !== "Points") continue;
       const name = dv(hs.getCell(r, 1));
@@ -1609,7 +1622,7 @@ async function clanPic(rows) {
 async function readSheet(buf) {
   if (buf && buf.byteLength > 5e6) throw new Error("That Excel file is too big to be one of ours.");
   await loadExcel(); if (!window.ExcelJS) throw new Error("The spreadsheet part did not load. Refresh the page.");
-  const wb = new window.ExcelJS.Workbook(); await wb.xlsx.load(buf);
+  const wb = new window.ExcelJS.Workbook(); zipCheck(buf); await wb.xlsx.load(buf);
   const ws = wb.getWorksheet("Clan Members") || wb.worksheets[0]; let head = 0;
   ws.eachRow((row, n) => { if (!head && String(row.getCell(2).value).trim() === "Username") head = n; });
   if (!head) throw new Error("That file is not a sheet made by this page.");
@@ -1620,7 +1633,7 @@ async function readSheet(buf) {
     items.push({ rk: Number(val(ws.getCell(r, 1))) || items.length + 1, name: String(name), role: String(val(ws.getCell(r, 3)) || ""), points: String(val(ws.getCell(r, 4)) || n), n, b: typeof b === "number" ? b : null });
   }
   let hist = null; const hs = wb.getWorksheet("Points history");
-  if (hs) { const dates = []; for (let c = 3; c <= hs.columnCount; c++) { const v = val(hs.getCell(3, c)); if (v instanceof Date) dates.push(v); else break; }
+  if (hs) { const dates = []; for (let c = 3; c <= Math.min(hs.columnCount, 400); c++) { const v = val(hs.getCell(3, c)); if (v instanceof Date) dates.push(v); else break; }
     const list = []; for (let r = 4; r <= Math.min(hs.rowCount, 5000); r += 2) { const nm = val(hs.getCell(r, 1)); if (!nm) break; list.push({ name: String(nm), vals: dates.map((_, k) => { const v = val(hs.getCell(r, 3 + k)); return typeof v === "number" ? v : null; }) }); }
     if (dates.length && list.length) hist = { dates, list }; }
   const t1 = String(val(ws.getCell(1, 1)) || ""), t2 = String(val(ws.getCell(2, 1)) || "");

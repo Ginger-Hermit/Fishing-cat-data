@@ -1,6 +1,6 @@
 # Status
 
-Last updated: 12 Nov 2026. Page version 2026-11-12-zk. Live at fishing-cat-data.pages.dev.
+Last updated: 12 Nov 2026. Page version 2026-11-12-zl. Live at fishing-cat-data.pages.dev.
 `tools/release.py` keeps the version and date up to date. Keep this file under 50 lines.
 
 ## What the page does
@@ -12,7 +12,7 @@ Last updated: 12 Nov 2026. Page version 2026-11-12-zk. Live at fishing-cat-data.
 ## Next
 - **Bills slow on Gemini = Google overload** (12 Nov: 503 "high demand" after 54s on gemini-3.8-flash). Built: 3 tries, and the 2nd and 3rd switch to gemini-3.7-flash then gemini-3.5-flash-lite (a missing backup model, 404, also moves on to the next). Not tested with real Gemini. If it still fails often, consider making 3.7 the default.
 - **Post to Discord: built 12 Nov (clan and Bills).** Link box sits on both tabs (not saved unless "Remember my link"; never in Log or bug report; only `discord.com/api/webhooks/...`). Clan message has a detailed what-changed summary; no AI. Not tested with a real Discord channel. **Table picture built 12 Nov:** canvas picture (no AI) posted with the message and .xlsx; header artwork picked once in Settings, kept in the browser only. Clan: #, Username, Role, Points, Change with gold/silver/bronze; Bills: simple charges table. Looked at in headless Chrome only; not tested with a real Discord channel or a real poster.
-- **Fix first:** Excel zip bomb can still freeze the tab (see `developer/BREAK_REPORT_2026-11-12.md` item 5). Items 1 to 4 fixed 12 Nov.
+- **Fix first:** nothing from the 12 Nov break report (items 1 to 5 fixed). `tests/check.py` now scans for risky code patterns on every push.
 - **Later:** break-test round 2 is planned in `developer/BREAK_TEST_PLAN.md` (security first, then bad input). Not started.
 - Ginger: one real run of each tab on the live site, then a screenshot.
 - Offered, not approved: one AI request per clan run (saves ~20s on Gemini); PDF-bill and compare-with-last-bill ideas; preview tabs for Leaderboard and Points history.

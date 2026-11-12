@@ -7,7 +7,7 @@ Written from what was built today (Discord tab, role ping, two-message post, bre
 2. **(Fixed 12 Nov)** **"Ping @everyone" is remembered.** The ping choice is saved on the device, so next week a post can ping the whole server by accident. Fix: only save the role choice; always start on "Don't ping anyone" for @here and @everyone.
 3. **(Fixed 12 Nov)** **Half post.** The post is now two messages. If message 2 fails (rate limit 429, network), message 1 is already in the channel. Fix: on a 429 wait the Retry-After time once and retry; if it still fails say "The picture posted but the breakdown didn't. Tap Post again to resend only the breakdown", and do not repost the picture.
 4. **(Fixed 12 Nov)** **Double tap.** Check that tapping Post twice cannot send two posts (the run lock may not cover the Discord tab). Fix: disable the button while a post runs.
-5. **Unlimited loops when reading an Excel file.** `readSheet` loops to the last row and column the file claims. A hostile or broken .xlsx (zip bomb, 1 million rows) can freeze the tab. Fix: cap at 500 rows and 60 columns, refuse files over about 5 MB, plain message.
+5. **(Fixed 12 Nov)** **Unlimited loops when reading an Excel file.** `readSheet` loops to the last row and column the file claims. A hostile or broken .xlsx (zip bomb, 1 million rows) can freeze the tab. Fix: cap at 500 rows and 60 columns, refuse files over about 5 MB, plain message.
 
 ## Test next (needs the attack script from the plan)
 6. **Canary check:** fake key and fake Discord link must never appear in the Log, bug report, Excel file, GitHub issue link or error text. The new Discord code logs file names and sizes, so confirm the link is never logged.
