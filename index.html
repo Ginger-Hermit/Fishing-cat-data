@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Same gap above every bar on the clan tab; the hint no longer points to Discord under an arrow. -->
+<!-- Patch note: The tip about More options, Log and the Discord tab is now a coloured note at the top. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -144,6 +144,7 @@ button:disabled{opacity:.5}
 <div class="hc" style="margin-top:10px;font-size:13px"><b>Your key is safe here.</b> It stays on this device and goes only to the AI company you pick. Treat it like a password. <a href="#" data-go="safety">More</a></div>
 </details></div>
 <div id="sheet" style="display:none">
+<div id="opthint" style="background:var(--noteBg);color:var(--noteText);border-radius:8px;padding:10px 12px;margin:10px 0 0;font-size:14px">Looking for your last sheet or the Log? They are under the small arrows (▸). Discord posting has its own tab.</div>
 <details id="adddet" open style="margin-top:10px"><summary>Add screenshots</summary>
 <div style="font-size:13px;color:var(--muted);margin-top:10px">Turns clan screenshots or a video from any Roblox game into a member sheet.</div>
 <label for="clanbox">Clan name (optional)</label>
@@ -162,7 +163,6 @@ button:disabled{opacity:.5}
 <div id="previnfo"></div>
 <button id="testgo" type="button" class="tab" disabled style="margin-top:8px;width:100%">Test first (small read, no file)</button>
 </details>
-<div id="opthint" style="font-size:13px;color:var(--muted);margin:12px 0 0">Looking for your last sheet or the Log? They are under the small arrows (▸). Discord posting has its own tab.</div>
 <div class="msg" id="msg" role="status" aria-live="polite"></div>
 <div class="prog" id="prog" aria-live="polite"></div>
 <div class="pv" id="preview" style="display:none"></div>
@@ -394,7 +394,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-o";
+const BUILD = "2026-11-12-p";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };

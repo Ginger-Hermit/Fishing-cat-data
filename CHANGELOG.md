@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Hint at the top of the clan tab
+
+12 Nov 2026 (07:17 UTC) · Changed
+
+The tip about More options, Log and the Discord tab is now a coloured note at the top.
+
+> [!NOTE]
+> **What you'll see:** Top of the clan tab, in a green note.
+
+- Moved the hint from under the bars to the top and gave it a colour.
+
 ## Even gaps and Discord hint
 
 12 Nov 2026 (07:16 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/d57265f)
