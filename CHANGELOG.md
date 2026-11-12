@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## New Home page for newcomers
+
+12 Nov 2026 (05:18 UTC) · Changed
+
+The Home page now explains the page in plain words for people who have never seen it.
+
+**What you'll see:** Open the page: Home says what it does, what you need, what you get and whether it is safe.
+
+- Home rewritten in plain words
+- New sample picture: the Leaderboard tab
+
 ## Bills: PDFs
 
-12 Nov 2026 (05:17 UTC) · New
+12 Nov 2026 (05:17 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/55cb71f)
 
 The Bills tab now takes PDF bills as well as photos.
 

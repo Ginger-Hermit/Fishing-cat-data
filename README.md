@@ -24,6 +24,8 @@ What it looks like (sample data, not real people):
 
 ![The Excel file you get](images/clan-excel.png)
 
+![The Leaderboard tab you get](images/clan-leaderboard.png)
+
 ![Bills: check your charges](images/bills-table.png)
 
 ## What you get
