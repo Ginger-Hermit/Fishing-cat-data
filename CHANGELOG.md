@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Green and red lines in the Discord post
 
-12 Nov 2026 (07:40 UTC) · Changed
+12 Nov 2026 (07:40 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7eb1f08)
 
 Who went up shows green and who went down shows red in the Discord post.
 
