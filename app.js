@@ -1,4 +1,6 @@
-// Patch note: The page's code now lives in app.js, so the browser refuses any code sneaked into the page.
+// Patch note: All page styles now live in style.css, so the browser refuses any styles sneaked into the page.
+// Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
+document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
 // Anthropic is tested. Gemini and OpenAI are not. Names can be changed under Settings.
 const PROVIDERS = {
@@ -70,7 +72,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-zu";
+const BUILD = "2026-11-12-zv";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };

@@ -1,120 +1,51 @@
 <!DOCTYPE html>
-<!-- Patch note: The page's code now lives in app.js, so the browser refuses any code sneaked into the page. -->
+<!-- Patch note: All page styles now live in style.css, so the browser refuses any styles sneaked into the page. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fishing Cat Data</title>
-<style>
-:root{--bg:#F0F2F5;--text:#1B1B1B;--muted:#4D5055;--accent:#1F3864;--link:#1F3864;--onAccent:#fff;--line:#898C90;--field:#fff;--soft:#D5D8DD;--noteBg:#E3F4E8;--noteText:#14632D;--err:#A31616}
-html[data-theme=dark]{color-scheme:dark;--bg:#14171C;--text:#E8EAED;--muted:#9AA0A6;--accent:#3F66B0;--link:#8FB0F0;--line:#4A5058;--field:#1F242B;--soft:#2E343C;--noteBg:#17301F;--noteText:#7FD69A;--err:#FF8A8A}
-html[data-theme=ocean]{--bg:#E6F3F7;--text:#10252E;--muted:#3A5763;--accent:#0B6E8A;--link:#0B6E8A;--line:#7FA8B5;--soft:#CBE3EA;--noteBg:#D6F0F4;--noteText:#0B5566}
-html[data-theme=forest]{--bg:#EEF3EC;--text:#1A2A1C;--muted:#4B604C;--accent:#2F6B3A;--link:#2F6B3A;--line:#8FA58F;--soft:#D3E0D1;--noteBg:#DDEBD0;--noteText:#245A2E}
-html[data-theme=berry]{--bg:#F6EEF3;--text:#2A1B26;--muted:#664F5F;--accent:#8A2D63;--link:#8A2D63;--line:#B096A6;--soft:#E6D5DF;--noteBg:#F3DDE8;--noteText:#7A1F52}
-html[data-size=large] .card{zoom:1.25}
-.warnbox{border:1px solid var(--line);background:var(--field);border-radius:8px;padding:10px 12px;font-size:14px;margin-top:8px}
-#hometab>p a{color:var(--link);font-weight:600}#foot a{color:var(--link);font-size:15px;font-weight:600;padding:6px 6px;display:inline-block}
-.hc a{color:var(--link)}
-.ok{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--noteBg);color:var(--noteText);border-radius:8px;padding:12px 14px;margin-top:8px;font-size:15px;font-weight:500}
-.hc{background:var(--field);border:1px solid var(--soft);border-radius:10px;padding:12px 14px;margin-bottom:10px}
-.hc summary{cursor:pointer;font-weight:600;color:var(--link);list-style:none;display:flex;align-items:center;gap:8px}.hc summary::-webkit-details-marker{display:none}.hc summary:after{content:"\203A";margin-left:auto;font-size:1.3em;line-height:1;transition:transform .15s}.hc[open]>summary:after{transform:rotate(90deg)}
-.facts{list-style:none;margin:10px 0 0;padding:0}.facts li{position:relative;padding-left:32px;margin:8px 0;line-height:1.5}.facts li:before{content:"\2713";position:absolute;left:0;top:1px;color:var(--noteText);background:var(--noteBg);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}.facts li.no:before{content:"\2715";color:var(--err);background:var(--soft)}.facts li.warn:before{content:"!";color:var(--err);background:var(--soft)}
-.hc ul{margin:8px 0 0;padding-left:20px;line-height:1.7}
-.hc p{margin:8px 0 0;color:var(--muted)}
-.hsec>summary{color:var(--link);border-left:4px solid var(--accent);padding:6px 2px 6px 12px;list-style:none;display:flex;align-items:center;gap:8px}.hsec>summary::-webkit-details-marker{display:none}.hsec>summary:after{content:"\203A";margin-left:auto;font-size:1.3em;line-height:1;transition:transform .15s}.hsec[open]>summary:after{transform:rotate(90deg)}.hsec li b{color:var(--link)}.hsafe{background:var(--noteBg);color:var(--noteText);border-radius:8px;padding:8px 12px 8px 28px}.hsafe a{color:var(--noteText);font-weight:600}
-.steps{list-style:none;padding:0;margin:10px 0 0;counter-reset:s}
-.steps li{display:block;position:relative;padding-left:32px;margin:10px 0;counter-increment:s}
-.steps li:before{content:counter(s);position:absolute;left:0;top:1px;background:var(--accent);color:var(--onAccent);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600}
-body{margin:0;background:var(--bg);color:var(--text);font-family:"Segoe UI",system-ui,sans-serif;font-size:16px}
-.card{max-width:520px;margin:24px auto;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:18px}
-h1{font-size:20px;font-weight:500;color:var(--link);margin:0 0 14px}
-label{display:block;font-size:13px;color:var(--muted);margin:12px 0 4px}
-input,select{color:var(--text);width:100%;box-sizing:border-box;padding:10px;border:1px solid var(--line);border-radius:6px;font-size:15px;background:var(--field)}
-.drop{background:var(--field);border:2px dashed var(--line);border-radius:8px;padding:18px;text-align:center;color:var(--muted);margin-top:4px;cursor:pointer}
-button{width:100%;margin-top:14px;padding:14px;background:var(--accent);color:var(--onAccent);border:0;border-radius:8px;font-size:17px;font-weight:500;cursor:pointer}
-button:disabled{opacity:.5}
-.note{background:var(--noteBg);color:var(--noteText);border-radius:6px;padding:10px 12px;font-size:13px;margin-top:12px}
-.pv{margin-top:14px}.pv .pvt{font-size:17px;font-weight:500}.pv .pvd{color:var(--muted);margin:2px 0 8px;font-size:14px}
-.pvg{overflow-x:auto;border:1px solid var(--line);background:var(--field)}
-.pv table{border-collapse:collapse;min-width:420px;width:100%}.pv th,.pv td{border:1px solid var(--soft);padding:0;font-size:14px}
-.pv th{background:var(--accent);color:var(--onAccent);font-weight:500;padding:5px 6px;text-align:left}
-.pv tr.bad td{background:#FFF0D6}.pv td input{width:100%;min-width:40px;margin:0;padding:6px;border:none;border-radius:0;background:transparent;font-size:14px;color:var(--text)}
-.pv td.ro{padding:6px;white-space:nowrap}.pv .pvx{width:auto;margin:0;padding:4px 10px;border:none;background:none;color:var(--err);font-size:18px}
-#adddet>summary,#addbill>summary,#moreopts>summary,#hookblock>summary,#logbox>summary,#keydet>summary{font-size:16px!important;font-weight:600;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--field);color:var(--text,inherit);cursor:pointer}#adddet[open]>summary,#addbill[open]>summary,#moreopts[open]>summary,#hookblock[open]>summary,#logbox[open]>summary,#keydet[open]>summary{margin-bottom:12px}#moreopts,#hookblock,#logbox{margin-top:12px}
-#keydet>summary{border-left:6px solid #2f6fed}#adddet>summary,#addbill>summary{border-left:6px solid #e08a1e}#moreopts>summary{border-left:6px solid #2e9d5b;}#hookblock>summary{border-left:6px solid #8a4fd6;}#logbox>summary{border-left:6px solid #6b7280;}
-.pv .pvb{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.pv .pvb button{margin:0;white-space:nowrap}.pv .pvb button.tab{padding:12px 14px}
-
-.xl{border:1px solid #B8BCC2;border-radius:8px;overflow:hidden;background:#fff;color:#1B1B1B;font-family:Calibri,Arial,sans-serif}
-.xlbar{background:#217346;color:#fff;padding:8px 12px;display:flex;justify-content:space-between;font-size:14px;gap:8px}.xlbar b{font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.xlfx{display:flex;align-items:center;border-bottom:1px solid #D5D9DE;font-size:13px;min-height:30px}.xlnm{width:52px;text-align:center;border-right:1px solid #D5D9DE;color:#444;align-self:stretch;display:flex;align-items:center;justify-content:center}.xlfx i{color:#217346;padding:0 8px;border-right:1px solid #D5D9DE}.xlfv{padding:0 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.xlg{overflow-x:auto}.xl table{border-collapse:collapse;min-width:100%}
-.xl th,.xl td{border:1px solid #E1E3E6;padding:0 6px;height:28px;font-size:14px;white-space:nowrap;background:#fff;color:#1B1B1B}
-.xl th.xlc{background:#F3F3F3;color:#444;font-weight:400;text-align:center;font-size:12px}
-.xl td.xlr{background:#F3F3F3;color:#444;text-align:center;width:30px;font-size:12px}
-.xl td.xlh{background:#1F3864;color:#fff;font-weight:700}
-.xl td.xlt1{font-size:16px;font-weight:700;color:#1F3864;height:32px}.xl td.xlt2{color:#7F7F7F}
-.xl td.own{background:#FFE699;font-weight:700;color:#7F6000}.xl td.coach{background:#FCE4D6;font-weight:700;color:#843C0C}
-.xl tr.bad td:not(.xlr):not(.xlx){background:#FFF0D6}
-.xl td.sel{outline:2px solid #217346;outline-offset:-2px}
-.xl td input{width:100%;margin:0;padding:4px 0;border:none;border-radius:0;background:transparent;color:inherit;font-size:14px;font-family:inherit;font-weight:inherit}
-.xl td input:focus{outline:none;box-shadow:none}
-.xl td.r{text-align:right}.xl td.xlx{width:30px;text-align:center;padding:0}
-.xl .up{color:#1E7B34}.xl .dn{color:#B3261E}
-.xltabs{display:flex;background:#F3F3F3;border-top:1px solid #D5D9DE;padding:0 6px}.xltabs div{padding:6px 14px;font-size:12px;color:#444}.xltabs .on{background:#fff;color:#217346;font-weight:700;border-bottom:2px solid #217346}
-.prog{font-size:15px;line-height:1.7;margin-top:10px}
-.prog div{color:var(--muted)}
-.prog .dn{color:var(--text)}
-.prog .now{color:var(--text);font-weight:500}
-.msg{margin-top:12px;font-size:14px}.msg:empty,.prog:empty{display:none;margin:0}
-#adddet,#moreopts,#hookblock,#logbox,#keydet{margin:12px 0 0}#go,#billgo{margin-top:12px}
-.err{color:var(--err)}
-.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
-.tabs.main{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}.tabs.main::-webkit-scrollbar{display:none}.tabs.main .tab{flex:0 0 auto}
-.tab.big{box-sizing:border-box;padding:10px 18px!important;font-size:16px!important;min-height:48px}
-.tab{width:auto;margin:0;padding:8px 12px;font-size:14px;background:var(--field);color:var(--link);border:1px solid var(--link);border-radius:6px}
-.page{font-size:15px;line-height:1.5}
-.tab.on{background:var(--accent);color:var(--onAccent)}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="card">
 <h1>Fishing Cat Data</h1>
-<div id="fake" style="display:none;border:2px solid var(--err);color:var(--err);background:var(--field);border-radius:8px;padding:12px 14px;margin-bottom:14px;font-weight:500">Warning: this is not the real Fishing Cat Data page. Do not paste your key here. The real page is fishing-cat-data.pages.dev</div>
-<div id="newver" role="status" style="display:none;background:var(--field);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:14px">New version ready. <a href="#" id="reloadnow">Refresh now</a></div>
+<div id="fake" class="s1" data-d="none">Warning: this is not the real Fishing Cat Data page. Do not paste your key here. The real page is fishing-cat-data.pages.dev</div>
+<div id="newver" role="status" class="s2" data-d="none">New version ready. <a href="#" id="reloadnow">Refresh now</a></div>
 <div class="tabs main"><button id="t0" class="tab on">Home</button><button id="t1" class="tab">Roblox clan sheet</button><button id="t3" class="tab">Bills</button><button id="t6" class="tab">Discord</button><button id="t4" class="tab">GitHub</button><button id="t5" class="tab">Settings</button></div>
 <div id="hometab">
-<p style="margin:2px 0 8px;font-size:14px"><a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">Guide on GitHub</a> &middot; <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Free key from Google (opens Google)</a></p>
-<h2 style="margin:6px 0">Fishing Cat Data turns screenshots into spreadsheets</h2>
+<p class="s3"><a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">Guide on GitHub</a> &middot; <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Free key from Google (opens Google)</a></p>
+<h2 class="s4">Fishing Cat Data turns screenshots into spreadsheets</h2>
 <p>Take screenshots (or a screen recording) of your Roblox clan's member list, or photos of a bill. An AI reads them and gives you an Excel file. Nobody has to type anything.</p>
-<div style="font-weight:600;margin-top:10px">What it can do</div>
-<ul style="margin:4px 0 0;padding-left:20px;line-height:1.5;font-size:14px">
+<div class="s5">What it can do</div>
+<ul class="s6">
 <li>Make a clan sheet for any Roblox game and show who gained points since last time.</li>
 <li>Turn power, gas, water, internet and phone bills into one row per charge, plus a summary.</li>
 <li>Post the result to your Discord channel, with a table picture.</li>
 <li>It's free to use. You bring your own AI key (a free one works).</li>
 </ul>
-<div style="font-weight:600;margin-top:10px">What it can't do</div>
-<ul style="margin:4px 0 0;padding-left:20px;line-height:1.5;font-size:14px">
+<div class="s5">What it can't do</div>
+<ul class="s6">
 <li>It doesn't connect to Roblox or log in anywhere. It only reads the pictures you give it.</li>
 <li>The AI can misread a name or number, so give the sheet a quick look.</li>
 <li>It has no accounts and keeps nothing online. Your history lives in the Excel file you keep.</li>
 <li>It isn't financial advice, and it isn't an official Roblox, Google or Anthropic product.</li>
 </ul>
 <button data-go="sheet">Make a Roblox clan sheet</button>
-<button data-go="bill" class="tab" style="width:100%;margin-top:8px;padding:12px">Read my bills</button>
-<div style="font-size:13px;color:var(--muted);margin-top:6px">Bills works for power, gas, water, internet and phone. Photos or PDFs.</div>
-<details open class="hsec" style="margin-top:12px"><summary style="font-weight:600;font-size:1.1em;cursor:pointer">How to use it</summary>
-<ol class="steps" style="margin:0;line-height:1.5">
+<button data-go="bill" class="s7 tab">Read my bills</button>
+<div class="s8">Bills works for power, gas, water, internet and phone. Photos or PDFs.</div>
+<details open class="s9 hsec"><summary class="s10">How to use it</summary>
+<ol class="s11 steps">
 <li>Get a free key from Google. It works like a password that lets this page read your pictures. It takes about 1 minute. <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Get my free key</a>, then paste it in the box on the next screen.</li>
 <li>Add screenshots of your clan's member list, or a screen recording of you scrolling it slowly (about 1 second per 5 members).</li>
 <li>Optional: add last week's sheet. Then you see who gained, and it keeps track of everyone over time.</li>
 <li>Tap <b>Make my sheet</b>. After about 20 seconds an Excel file downloads.</li>
 </ol>
 </details>
-<details class="hsec" style="margin-top:12px"><summary style="font-weight:600;font-size:1.1em;cursor:pointer">What you get</summary>
-<img src="images/clan-leaderboard.png" alt="Sample Leaderboard tab: six made-up players ranked by points gained, with gold, silver and bronze rows for the top 3" loading="lazy" width="727" height="233" style="display:block;width:100%;height:auto;border:1px solid var(--line,#ccc);border-radius:6px">
-<p style="margin:6px 0 0;font-size:14px;opacity:.75">A sample with made-up players. Yours will have your clan's names.</p>
-<ul style="margin:10px 0 0;padding-left:20px;line-height:1.6">
+<details class="s9 hsec"><summary class="s10">What you get</summary>
+<img src="images/clan-leaderboard.png" alt="Sample Leaderboard tab: six made-up players ranked by points gained, with gold, silver and bronze rows for the top 3" loading="lazy" width="727" height="233" class="s12" data-d="block">
+<p class="s13">A sample with made-up players. Yours will have your clan's names.</p>
+<ul class="s14">
 <li><b>Clan Members:</b> everyone's rank, role and points, with the change since last time.</li>
 <li><b>Leaderboard:</b> who gained the most, with gold, silver and bronze for the top 3.</li>
 <li><b>Points history:</b> one column per week, with a clan total.</li>
@@ -122,24 +53,24 @@ button:disabled{opacity:.5}
 <li><b>Bills:</b> add photos or PDFs of power, gas, water, internet or phone bills and get one row per charge, plus a summary.</li>
 </ul>
 </details>
-<details class="hsec" style="margin-top:12px"><summary style="font-weight:600;font-size:1.1em;cursor:pointer">Is it safe?</summary>
-<div class="hsafe"><ul style="margin:0;padding-left:0;line-height:1.6">
+<details class="s9 hsec"><summary class="s10">Is it safe?</summary>
+<div class="hsafe"><ul class="s15">
 <li>Your key stays on your device. It is only saved if you tick Remember my key.</li>
 <li>Only the company you pick (Google or Anthropic) sees your pictures. Nothing is saved on this site.</li>
 </ul>
-<p style="margin:6px 0 0"><a href="#" data-go="safety">More on staying safe</a></p></div>
+<p class="s16"><a href="#" data-go="safety">More on staying safe</a></p></div>
 </details>
-<details class="hsec" style="margin-top:12px"><summary style="font-weight:600;font-size:1.1em;cursor:pointer">What the colours mean</summary>
-<ul style="margin:0;padding-left:20px;line-height:1.6">
-<li><b style="color:#2f6fed">Blue</b>: your AI company and key.</li>
-<li><b style="color:#2e9d5b">Green</b>: More options (last sheet, test).</li>
-<li><b style="color:#8a4fd6">Purple</b>: posting to Discord.</li>
-<li><b style="color:#6b7280">Grey</b>: the Log, for fixing problems.</li>
+<details class="s9 hsec"><summary class="s10">What the colours mean</summary>
+<ul class="s17">
+<li><b class="s18">Blue</b>: your AI company and key.</li>
+<li><b class="s19">Green</b>: More options (last sheet, test).</li>
+<li><b class="s20">Purple</b>: posting to Discord.</li>
+<li><b class="s21">Grey</b>: the Log, for fixing problems.</li>
 <li>Tap a bar with an arrow to open it.</li>
 </ul>
 </details>
-<details class="hsec" style="margin-top:12px"><summary style="font-weight:600;font-size:1.1em;cursor:pointer">Good to know</summary>
-<ul style="margin:0;padding-left:20px;line-height:1.6">
+<details class="s9 hsec"><summary class="s10">Good to know</summary>
+<ul class="s17">
 <li>The free Google key has a daily limit. If it runs out, wait until tomorrow.</li>
 <li>The AI reads the names and points. Check any <b>?</b> or odd spelling by hand.</li>
 <li>OpenAI is not tested yet and may not work.</li>
@@ -147,102 +78,102 @@ button:disabled{opacity:.5}
 </ul>
 </details>
 </div>
-<div id="introbox" style="display:none"><p id="introtxt" style="font-size:14px;color:var(--muted);margin:10px 0 0"></p><div id="opthint" style="background:var(--noteBg);color:var(--noteText);border-radius:8px;padding:10px 12px;margin:10px 0 0;font-size:14px">Looking for your last sheet or the Log? They are under the small arrows (▸). Discord posting has its own tab.</div>
+<div id="introbox" data-d="none"><p id="introtxt" class="s22"></p><div id="opthint" class="s23">Looking for your last sheet or the Log? They are under the small arrows (▸). Discord posting has its own tab.</div>
 </div>
-<div id="keybox"><details id="keydet" open><summary style="cursor:pointer;font-size:14px;font-weight:600">AI company and key</summary>
+<div id="keybox"><details id="keydet" open><summary class="s24">AI company and key</summary>
 <label for="provider">AI company</label>
 <select id="provider"><option value="gemini">Google Gemini</option><option value="anthropic">Anthropic (Claude)</option><option value="openai">OpenAI (untested)</option></select>
-<div id="untested" class="warnbox" style="display:none">Heads up: this one has not been tested yet. It might not work. If it fails, tap the big Copy error button under the red message and send it to the author.</div>
-<label for="key" id="keylabel">Your AI key (Google Gemini)</label> <a id="keyhelp" href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" style="font-size:13px">How to get a free key</a>
-<div id="keylimit" class="note" style="display:none">The free key has a daily limit. If it runs out, wait until the next day.</div>
+<div id="untested" class="warnbox" data-d="none">Heads up: this one has not been tested yet. It might not work. If it fails, tap the big Copy error button under the red message and send it to the author.</div>
+<label for="key" id="keylabel">Your AI key (Google Gemini)</label> <a id="keyhelp" href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" class="s25">How to get a free key</a>
+<div id="keylimit" class="note" data-d="none">The free key has a daily limit. If it runs out, wait until the next day.</div>
 <input id="key" type="password" placeholder="Paste key here" autocomplete="off" spellcheck="false" autocapitalize="off" data-lpignore="true" data-1p-ignore="true">
-<label class="rem" style="display:flex;gap:8px;align-items:center;margin-top:6px;font-weight:normal"><input type="checkbox" id="remember" style="width:auto;margin:0"> Remember my key on this device</label>
-<div id="remnote" style="display:none;font-size:.85em;opacity:.75">Saved only in this browser, never sent anywhere else. Don't tick this on a shared or public computer. Untick to delete it.</div>
-<div class="hc" style="margin-top:10px;font-size:13px"><b>Your key is safe here.</b> It stays on this device and goes only to the AI company you pick. Treat it like a password. <a href="#" data-go="safety">More</a></div>
+<label class="s26 rem" data-d="flex"><input type="checkbox" id="remember" class="s27"> Remember my key on this device</label>
+<div id="remnote" class="s28" data-d="none">Saved only in this browser, never sent anywhere else. Don't tick this on a shared or public computer. Untick to delete it.</div>
+<div class="s29 hc"><b>Your key is safe here.</b> It stays on this device and goes only to the AI company you pick. Treat it like a password. <a href="#" data-go="safety">More</a></div>
 </details></div>
-<div id="sheet" style="display:none">
-<details id="adddet" open style="margin-top:10px"><summary>Add screenshots</summary>
+<div id="sheet" data-d="none">
+<details id="adddet" open class="s30"><summary>Add screenshots</summary>
 <label for="clanbox">Clan name (optional)</label>
 <input id="clanbox" maxlength="40" autocomplete="off" placeholder="e.g. Loki. Used in the file name">
 <label>Screenshots</label>
 <div class="drop" id="drop">Drop screenshots here, or tap to choose</div>
-<div style="font-size:13px;color:var(--muted);margin-top:6px">Using a video? Slowly scroll down the whole list. A 50-member clan takes about 10 seconds.</div>
+<div class="s8">Using a video? Slowly scroll down the whole list. A 50-member clan takes about 10 seconds.</div>
 <input id="files" type="file" accept="image/png,image/jpeg,image/webp,video/mp4,video/quicktime,video/webm" multiple hidden>
 <div id="list"></div>
 </details>
 <button id="go" disabled>Make my sheet</button>
-<details id="moreopts"><summary style="cursor:pointer;font-size:14px">More options (last sheet, test)</summary>
+<details id="moreopts"><summary class="s31">More options (last sheet, test)</summary>
 <label>Last sheet (optional)</label>
 <div class="drop" id="prevdrop">Tap to choose an earlier sheet (.xlsx) to compare</div>
 <input id="prevfile" type="file" accept=".xlsx" hidden>
 <div id="previnfo"></div>
-<button id="testgo" type="button" class="tab" disabled style="margin-top:8px;width:100%">Test first (small read, no file)</button>
+<button id="testgo" type="button" class="s32 tab" disabled>Test first (small read, no file)</button>
 </details>
 <div class="msg" id="msg" role="status" aria-live="polite"></div>
 <div class="prog" id="prog" aria-live="polite"></div>
-<div class="pv" id="preview" style="display:none"></div>
-<button id="copyerr" type="button" class="tab" style="display:none;margin-top:8px;width:100%;padding:12px;font-size:16px;border-color:var(--err);color:var(--err)">Copy error to send</button>
-<details id="logbox"><summary style="cursor:pointer;font-size:14px">Log: what the page did</summary>
-<pre id="console" style="background:#0d0d0d;color:#e5e7eb;border:1px solid #444;border-radius:6px;padding:10px;font-size:13px;font-family:Consolas,Menlo,monospace;line-height:1.5;white-space:pre-wrap;word-break:break-word;min-height:60px;max-height:360px;overflow:auto;resize:vertical;margin:6px 0 0"></pre>
-<div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button id="copybug" type="button">Copy bug report</button><a id="ghbug" href="https://github.com/Ginger-Hermit/Fishing-cat-data/issues/new" target="_blank" rel="noopener">Report on GitHub</a></div>
-<div style="font-size:13px;color:var(--muted);margin-top:6px">Copies the log and your browser type. Keys are removed and pictures are not included. Nothing is sent until you paste it. Report on GitHub opens a public form with it filled in: read it first (needs a GitHub account).</div>
+<div class="pv" id="preview" data-d="none"></div>
+<button id="copyerr" type="button" class="s33 tab" data-d="none">Copy error to send</button>
+<details id="logbox"><summary class="s31">Log: what the page did</summary>
+<pre id="console" class="s34"></pre>
+<div class="s35" data-d="flex"><button id="copybug" type="button">Copy bug report</button><a id="ghbug" href="https://github.com/Ginger-Hermit/Fishing-cat-data/issues/new" target="_blank" rel="noopener">Report on GitHub</a></div>
+<div class="s8">Copies the log and your browser type. Keys are removed and pictures are not included. Nothing is sent until you paste it. Report on GitHub opens a public form with it filled in: read it first (needs a GitHub account).</div>
 </details>
 </div>
-<div id="discordtab" style="display:none">
-<div style="font-size:13px;color:var(--muted);margin-top:12px">Post a sheet to your Discord channel.</div>
-<div style="font-weight:600;font-size:17px;margin:20px 0 8px">1. Paste your Discord link</div>
-<input id="hookbox" type="password" autocomplete="off" spellcheck="false" placeholder="https://discord.com/api/webhooks/..." style="min-height:48px;font-size:16px"><div id="hookchk" role="status" aria-live="polite" style="font-size:14px;margin-top:6px"></div>
-<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px"><label style="display:flex;gap:10px;align-items:center;font-weight:normal;font-size:16px;margin:0"><input type="checkbox" id="hookkeep" style="width:22px;height:22px;min-height:0;padding:0;margin:0"> Save my link on this device</label><button id="hookforget" type="button" class="tab big" style="display:none">Forget link</button><button id="hooktest" type="button" class="tab big" style="display:none">Send a test</button></div>
-<div id="hookkeepnote" style="display:none;font-size:13px;color:var(--muted);margin-top:6px">Untick to delete the saved copy.</div><div style="font-size:13px;color:var(--muted);line-height:1.6;margin-top:10px">No link? In Discord: Server settings, Integrations, Create webhook, Copy webhook URL. <a href="https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks" target="_blank" rel="noopener">Discord's guide</a><br>Keep it private: anyone with it can post in your channel.</div>
-<div style="font-weight:600;font-size:17px;margin:20px 0 8px">2. What do you want to post?</div>
-<label style="display:flex;gap:12px;align-items:center;font-weight:normal;font-size:16px;margin:8px 0 0;padding:12px 14px;min-height:48px;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;background:var(--field)"><input type="radio" name="dcsrc" value="sheet" style="width:22px;height:22px;min-height:0;padding:0;margin:0;flex:none"> Latest clan sheet</label>
-<label style="display:flex;gap:12px;align-items:center;font-weight:normal;font-size:16px;margin:8px 0 0;padding:12px 14px;min-height:48px;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;background:var(--field)"><input type="radio" name="dcsrc" value="bill" style="width:22px;height:22px;min-height:0;padding:0;margin:0;flex:none"> Latest Bills</label>
-<label style="display:flex;gap:12px;align-items:center;font-weight:normal;font-size:16px;margin:8px 0 0;padding:12px 14px;min-height:48px;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;background:var(--field)"><input type="radio" name="dcsrc" value="files" style="width:22px;height:22px;min-height:0;padding:0;margin:0;flex:none"> My own files (no AI)</label>
-<div id="dcfiles" style="display:none;margin-top:10px">
-<input type="file" id="shfile" accept=".xlsx,image/*" multiple style="display:none">
-<div style="display:flex;gap:10px;flex-wrap:wrap"><label for="shfile" class="tab big" style="cursor:pointer;display:inline-flex;align-items:center;margin:0;color:var(--link)">Choose files</label><button id="shclear" type="button" class="tab big" style="display:none">Clear</button></div>
-<div id="shsel" style="font-size:14px;color:var(--noteText);margin-top:6px"></div>
-<div style="font-size:13px;color:var(--muted);margin-top:4px">Pick your Excel sheet. It is read, and the post gets a table picture and a written breakdown. The file itself is only sent if you tick the box below.</div></div>
-<button id="dcgo" type="button" style="width:100%;padding:16px;font-size:18px">Post to Discord</button>
-<div id="hookmsg" role="status" aria-live="polite" style="font-size:15px;margin-top:10px"></div>
+<div id="discordtab" data-d="none">
+<div class="s36">Post a sheet to your Discord channel.</div>
+<div class="s37">1. Paste your Discord link</div>
+<input id="hookbox" type="password" autocomplete="off" spellcheck="false" placeholder="https://discord.com/api/webhooks/..." class="s38"><div id="hookchk" role="status" aria-live="polite" class="s39"></div>
+<div class="s40" data-d="flex"><label class="s41" data-d="flex"><input type="checkbox" id="hookkeep" class="s42"> Save my link on this device</label><button id="hookforget" type="button" class="tab big" data-d="none">Forget link</button><button id="hooktest" type="button" class="tab big" data-d="none">Send a test</button></div>
+<div id="hookkeepnote" class="s8" data-d="none">Untick to delete the saved copy.</div><div class="s43">No link? In Discord: Server settings, Integrations, Create webhook, Copy webhook URL. <a href="https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks" target="_blank" rel="noopener">Discord's guide</a><br>Keep it private: anyone with it can post in your channel.</div>
+<div class="s37">2. What do you want to post?</div>
+<label class="s44" data-d="flex"><input type="radio" name="dcsrc" value="sheet" class="s45"> Latest clan sheet</label>
+<label class="s44" data-d="flex"><input type="radio" name="dcsrc" value="bill" class="s45"> Latest Bills</label>
+<label class="s44" data-d="flex"><input type="radio" name="dcsrc" value="files" class="s45"> My own files (no AI)</label>
+<div id="dcfiles" class="s30" data-d="none">
+<input type="file" id="shfile" accept=".xlsx,image/*" multiple data-d="none">
+<div class="s46" data-d="flex"><label for="shfile" class="s47 tab big" data-d="inline-flex">Choose files</label><button id="shclear" type="button" class="tab big" data-d="none">Clear</button></div>
+<div id="shsel" class="s48"></div>
+<div class="s49">Pick your Excel sheet. It is read, and the post gets a table picture and a written breakdown. The file itself is only sent if you tick the box below.</div></div>
+<button id="dcgo" type="button" class="s50">Post to Discord</button>
+<div id="hookmsg" role="status" aria-live="polite" class="s51"></div>
 <button id="shpost" type="button" hidden></button>
-<details id="dcmore" style="margin-top:20px"><summary style="border:1px solid var(--link);border-radius:10px;padding:0 14px;min-height:44px;display:flex;align-items:center;cursor:pointer;color:var(--link);list-style:none">More options</summary>
-<div style="font-weight:600;font-size:17px;margin:20px 0 8px">Header picture (optional)</div>
-<input type="file" id="artfile" accept="image/*" style="display:none">
-<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><label for="artfile" class="tab big" style="cursor:pointer;display:inline-flex;align-items:center;margin:0;color:var(--link)">Choose picture</label><button id="artforget" type="button" class="tab big" style="display:none">Remove</button><img id="artthumb" alt="Your saved header picture" style="display:none;height:48px;border-radius:6px;border:1px solid var(--soft)"></div><div id="artmsg" role="status" style="font-size:14px;color:var(--noteText);margin-top:6px"></div>
-<label style="display:flex;gap:10px;align-items:center;font-weight:normal;font-size:16px;margin-top:16px"><input type="checkbox" id="hookxlsx" checked style="width:22px;height:22px;min-height:0;padding:0;margin:0"> Also attach the Excel file (leave unticked for picture and text only)</label>
-<div style="font-weight:600;font-size:17px;margin:20px 0 8px">Ping (optional)</div>
-<select id="dcping" aria-label="Who to ping" style="min-height:48px;font-size:16px"><option value="">Don't ping anyone</option><option value="role">Ping a role (you choose which)</option></select>
-<input id="dcrole" inputmode="numeric" autocomplete="off" placeholder="Role ID, like 123456789012345678" style="display:none;min-height:48px;font-size:16px;margin-top:8px">
-<div id="dcrolehelp" style="display:none;font-size:13px;color:var(--muted);margin-top:4px">In Discord: Settings, Advanced, turn on Developer Mode. Then right-click the role and tap Copy Role ID. Paste it here. It is saved on this device.</div>
-<div style="font-size:13px;color:var(--muted);margin-top:4px">A role pings only the people who have that role.</div>
+<details id="dcmore" class="s52"><summary class="s53" data-d="flex">More options</summary>
+<div class="s37">Header picture (optional)</div>
+<input type="file" id="artfile" accept="image/*" data-d="none">
+<div class="s54" data-d="flex"><label for="artfile" class="s47 tab big" data-d="inline-flex">Choose picture</label><button id="artforget" type="button" class="tab big" data-d="none">Remove</button><img id="artthumb" alt="Your saved header picture" class="s55" data-d="none"></div><div id="artmsg" role="status" class="s48"></div>
+<label class="s56" data-d="flex"><input type="checkbox" id="hookxlsx" checked class="s42"> Also attach the Excel file (leave unticked for picture and text only)</label>
+<div class="s37">Ping (optional)</div>
+<select id="dcping" aria-label="Who to ping" class="s38"><option value="">Don't ping anyone</option><option value="role">Ping a role (you choose which)</option></select>
+<input id="dcrole" inputmode="numeric" autocomplete="off" placeholder="Role ID, like 123456789012345678" class="s57" data-d="none">
+<div id="dcrolehelp" class="s49" data-d="none">In Discord: Settings, Advanced, turn on Developer Mode. Then right-click the role and tap Copy Role ID. Paste it here. It is saved on this device.</div>
+<div class="s49">A role pings only the people who have that role.</div>
 </details>
-<div style="font-size:13px;color:var(--muted);margin-top:12px">If posting fails, turn off any ad blocker for this site or use a Private window.</div>
+<div class="s36">If posting fails, turn off any ad blocker for this site or use a Private window.</div>
 </div>
-<div id="billtab" style="display:none">
-<details id="addbill" open style="margin-top:10px"><summary>Add bills</summary>
-<div style="font-size:13px;color:var(--muted);margin-top:10px">Turns photos of household bills into a sheet, one row per charge, with a summary.</div>
-<div class="warnbox" style="border-color:var(--err)"><b style="color:var(--err)">Bills are private.</b> Your name, address and account number are in the photo, and the whole photo is sent to the AI company you pick. Only upload your own bills.</div>
+<div id="billtab" data-d="none">
+<details id="addbill" open class="s30"><summary>Add bills</summary>
+<div class="s58">Turns photos of household bills into a sheet, one row per charge, with a summary.</div>
+<div class="s59 warnbox"><b class="s60">Bills are private.</b> Your name, address and account number are in the photo, and the whole photo is sent to the AI company you pick. Only upload your own bills.</div>
 <label>Bill photos</label>
 <div class="drop" id="billdrop">Tap to add photos or PDFs of bills</div>
 <input id="billfiles" type="file" accept="image/png,image/jpeg,image/webp,application/pdf" multiple hidden>
 <div id="billlist"></div>
 </details>
 <button id="billgo" disabled>Make my sheet</button>
-<button id="billtest" type="button" class="tab" disabled style="margin-top:8px;width:100%">Test first (one bill, no file)</button>
+<button id="billtest" type="button" class="s32 tab" disabled>Test first (one bill, no file)</button>
 <div class="msg" id="billmsg" role="status" aria-live="polite"></div>
 <div class="prog" id="billprog" aria-live="polite"></div>
-<div class="pv" id="billpreview" style="display:none"></div>
+<div class="pv" id="billpreview" data-d="none"></div>
 </div>
-<div id="helptab" class="page" style="display:none">
+<div id="helptab" class="page" data-d="none">
 <div class="hc"><b>GitHub</b>
 <p>The code, the update history (<a href="https://github.com/Ginger-Hermit/Fishing-cat-data/blob/main/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG</a>) and the guide (README) are on GitHub.</p>
-<a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener" style="display:block;text-decoration:none;color:inherit;border:1px solid var(--soft);border-radius:10px;padding:10px 12px;margin-top:8px;background:var(--field)"><b style="color:var(--link)">Fishing Cat Data on GitHub</b> <span style="color:var(--muted)">&rsaquo;</span><div style="font-size:13px;color:var(--muted);margin-top:2px">The code and the project page</div><div style="font-size:13px;margin-top:6px">Turns clan screenshots or a video from any Roblox game into an Excel sheet.</div></a><a href="https://github.com/Ginger-Hermit/Fishing-cat-data/wiki" target="_blank" rel="noopener" style="display:block;text-decoration:none;color:inherit;border:1px solid var(--soft);border-radius:10px;padding:10px 12px;margin-top:8px;background:var(--field)"><b style="color:var(--link)">The guide</b> <span style="color:var(--muted)">&rsaquo;</span><div style="font-size:13px;color:var(--muted);margin-top:2px">How to use it, what you get, privacy, known limits</div><div style="font-size:13px;margin-top:6px">How to use it &middot; What you get &middot; Features &middot; Privacy &middot; Known limits</div></a><a href="https://github.com/Ginger-Hermit/Fishing-cat-data/blob/main/CHANGELOG.md" target="_blank" rel="noopener" style="display:block;text-decoration:none;color:inherit;border:1px solid var(--soft);border-radius:10px;padding:10px 12px;margin-top:8px;background:var(--field)"><b style="color:var(--link)">Update history</b> <span style="color:var(--muted)">&rsaquo;</span><div style="font-size:13px;color:var(--muted);margin-top:2px">What changed and when, newest first</div><div style="font-size:13px;margin-top:6px">Each update has a short plain-words note: what it does and what to look for.</div></a>
+<a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener" class="s61" data-d="block"><b class="s62">Fishing Cat Data on GitHub</b> <span class="s63">&rsaquo;</span><div class="s64">The code and the project page</div><div class="s65">Turns clan screenshots or a video from any Roblox game into an Excel sheet.</div></a><a href="https://github.com/Ginger-Hermit/Fishing-cat-data/wiki" target="_blank" rel="noopener" class="s61" data-d="block"><b class="s62">The guide</b> <span class="s63">&rsaquo;</span><div class="s64">How to use it, what you get, privacy, known limits</div><div class="s65">How to use it &middot; What you get &middot; Features &middot; Privacy &middot; Known limits</div></a><a href="https://github.com/Ginger-Hermit/Fishing-cat-data/blob/main/CHANGELOG.md" target="_blank" rel="noopener" class="s61" data-d="block"><b class="s62">Update history</b> <span class="s63">&rsaquo;</span><div class="s64">What changed and when, newest first</div><div class="s65">Each update has a short plain-words note: what it does and what to look for.</div></a>
 </div>
 </div>
-<div id="safetytab" class="page" style="display:none">
-<div class="hc" style="border-color:var(--accent)">
-<b style="font-size:1.05em">The short version</b>
+<div id="safetytab" class="page" data-d="none">
+<div class="s66 hc">
+<b class="s67">The short version</b>
 <ul class="facts">
 <li>Your pictures go straight from your browser to the AI company you picked. There is no server of ours, so nothing is kept.</li>
 <li>Your AI key is a password. Paste it only in the first box. It is saved only if you tick <b>Remember my key</b>.</li>
@@ -254,7 +185,7 @@ button:disabled{opacity:.5}
 </ul>
 </div>
 <details class="hc"><summary>More detail</summary>
-<div style="font-weight:600;margin:16px 0 4px;color:var(--link)">Keeping your AI key safe</div>
+<div class="s68">Keeping your AI key safe</div>
 <ul>
 <li>Think of it like a credit card number: if someone uses your key, you get charged.</li>
 <li>Never put it in a chat, email, post, screenshot or file you send. Anyone with it can use your credit.</li>
@@ -270,7 +201,7 @@ button:disabled{opacity:.5}
 <li>If a key ends up in a public GitHub repo, GitHub tells Anthropic and the key is switched off automatically. Don't count on that.</li>
 <li>Read Anthropic's own guide: <a href="https://support.claude.com/en/articles/9767949-api-key-best-practices-keeping-your-keys-safe-and-secure" target="_blank" rel="noopener noreferrer">API key best practices</a>. It has the current steps.</li>
 </ul>
-<div style="font-weight:600;margin:16px 0 4px;color:var(--link)">Real page or fake?</div>
+<div class="s68">Real page or fake?</div>
 <ul>
 <li>Anyone can copy a web page and change it to steal keys. Only paste your key on the real link: fishing-cat-data.pages.dev</li>
 <li>Check the address bar before you paste. Bookmark the real link.</li>
@@ -278,25 +209,25 @@ button:disabled{opacity:.5}
 <li>Be careful with links sent by strangers, even if the page looks the same.</li>
 <li>This page will never ask for your password, your email or anything except the AI key.</li>
 </ul>
-<div style="font-weight:600;margin:16px 0 4px;color:var(--link)">Costs</div>
+<div class="s68">Costs</div>
 <ul>
 <li>Every run uses credit on your own account with the AI company you pick.</li>
 <li>Check your usage in your AI account now and then. See whether it offers a way to limit spending.</li>
 <li>Short videos and fewer pictures cost less than long ones.</li>
 </ul>
-<div style="font-weight:600;margin:16px 0 4px;color:var(--link)">Other people's names</div>
+<div class="s68">Other people's names</div>
 <ul>
 <li>The usernames in your pictures belong to real people.</li>
 <li>Share the sheet only with people who should see it.</li>
 <li>Don't post screenshots or sheets with names in public places.</li>
 </ul>
-<div style="font-weight:600;margin:16px 0 4px;color:var(--link)">Checking the sheet</div>
+<div class="s68">Checking the sheet</div>
 <ul>
 <li>The AI can misread names and numbers. Look for "?" and odd spellings.</li>
 <li>Check the ranks and points before you make decisions about members.</li>
 <li>The page warns you if rows are unreadable or ranks look out of order. Take that seriously.</li>
 </ul>
-<div style="font-weight:600;margin:16px 0 4px;color:var(--link)">If something goes wrong</div>
+<div class="s68">If something goes wrong</div>
 <ul>
 <li>Stop using the page.</li>
 <li>Delete the key in your AI account.</li>
@@ -305,7 +236,7 @@ button:disabled{opacity:.5}
 </ul>
 </details>
 </div>
-<div id="privacytab" class="page" style="display:none">
+<div id="privacytab" class="page" data-d="none">
 <div class="hc"><b>Privacy</b>
 <ul class="facts">
 <li>Your AI key stays in this browser. It is only kept if you tick Remember my key, and it is never sent anywhere except the AI company you pick.</li>
@@ -318,7 +249,7 @@ button:disabled{opacity:.5}
 <li class="warn">The names in your pictures belong to real people. Share the sheet only with people who should see it.</li>
 </ul></div>
 </div>
-<div id="legaltab" class="page" style="display:none">
+<div id="legaltab" class="page" data-d="none">
 <div class="hc"><b>Legal</b>
 <ul>
 <li>For personal use only.</li>
@@ -330,30 +261,30 @@ button:disabled{opacity:.5}
 <li>The spreadsheet part is ExcelJS, an open-source library.</li>
 </ul></div>
 </div>
-<div id="settingstab" style="display:none">
-<div class="hc"><div style="font-weight:600;margin-bottom:8px">Look</div><div style="font-size:13px;color:var(--muted);margin-bottom:6px">Theme</div>
+<div id="settingstab" data-d="none">
+<div class="hc"><div class="s69">Look</div><div class="s70">Theme</div>
 <div class="tabs" id="themeBtns"></div>
-<div style="font-size:13px;color:var(--muted);margin-bottom:6px">Text size</div>
-<div class="tabs" id="sizeBtns" style="margin-bottom:0"></div></div>
-<div class="hc"><div style="font-weight:600;margin-bottom:8px">Updates</div>
-<label style="display:flex;gap:8px;align-items:center;font-weight:normal"><input type="checkbox" id="autoref" style="width:auto;margin:0"> Refresh automatically when there is an update</label>
-<div style="font-size:13px;color:var(--muted);margin:4px 0 0">Only refreshes when no files are picked. Off: you get a banner instead.</div></div>
-<div class="hc"><div style="font-weight:600;margin-bottom:8px">Privacy</div>
-<div style="font-size:14px;margin-bottom:6px">Saved on this device:</div>
-<div id="saved" style="font-size:14px;line-height:1.6"></div>
-<label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin-top:8px"><input type="checkbox" id="keepprev" style="width:auto;margin:0"> Remember my last sheet</label>
-<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button id="wipekey" type="button" class="tab">Forget my key</button><button id="wipeall" type="button" class="tab" style="border-color:var(--err);color:var(--err)">Delete everything saved</button></div>
-<div id="wipemsg" role="status" style="font-size:13px;margin-top:6px"></div>
-<div style="font-size:13px;color:var(--muted);margin:4px 0 0">These buttons only clear this device. Nothing is sent anywhere. <a href="#" data-go="privacy">Privacy page</a></div></div>
+<div class="s70">Text size</div>
+<div class="s71 tabs" id="sizeBtns"></div></div>
+<div class="hc"><div class="s69">Updates</div>
+<label class="s72" data-d="flex"><input type="checkbox" id="autoref" class="s27"> Refresh automatically when there is an update</label>
+<div class="s73">Only refreshes when no files are picked. Off: you get a banner instead.</div></div>
+<div class="hc"><div class="s69">Privacy</div>
+<div class="s74">Saved on this device:</div>
+<div id="saved" class="s75"></div>
+<label class="s76" data-d="flex"><input type="checkbox" id="keepprev" class="s27"> Remember my last sheet</label>
+<div class="s77" data-d="flex"><button id="wipekey" type="button" class="tab">Forget my key</button><button id="wipeall" type="button" class="s78 tab">Delete everything saved</button></div>
+<div id="wipemsg" role="status" class="s65"></div>
+<div class="s73">These buttons only clear this device. Nothing is sent anywhere. <a href="#" data-go="privacy">Privacy page</a></div></div>
 <details class="hc"><summary>AI model (advanced)</summary>
 <input id="modelbox" autocomplete="off" spellcheck="false">
-<div style="font-size:13px;color:var(--muted);margin:6px 0 10px">Leave empty to use the built-in one. Only change it if an error says the model is gone. It is kept for the company chosen on the first tab.</div>
-<div style="font-size:13px;color:var(--muted)">Saved on this device only.</div>
+<div class="s79">Leave empty to use the built-in one. Only change it if an error says the model is gone. It is kept for the company chosen on the first tab.</div>
+<div class="s80">Saved on this device only.</div>
 </details>
 </div>
-<div id="foot" style="text-align:center;margin-top:16px;font-size:13px;color:var(--muted)">
+<div id="foot" class="s81">
 <a href="#" data-go="safety">Stay safe</a> &middot; <a href="#" data-go="privacy">Privacy</a> &middot; <a href="#" data-go="legal">Legal</a> &middot; <a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">GitHub</a>
-<div style="margin-top:8px">Built by Claude, an AI &middot; Personal use only &middot; Not an official Roblox, Anthropic, Google or OpenAI product &middot; No guarantees</div>
+<div class="s82">Built by Claude, an AI &middot; Personal use only &middot; Not an official Roblox, Anthropic, Google or OpenAI product &middot; No guarantees</div>
 </div>
 </div>
 <script src="app.js"></script>

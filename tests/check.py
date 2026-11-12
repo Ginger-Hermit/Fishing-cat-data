@@ -1,7 +1,7 @@
 # Auto check for index.html: syntax, eval/exec, missing ids, unused code, risky patterns (zip bomb, no timeout, Discord escaping). Run: python3 -I tests/check.py
 import re, subprocess, sys, tempfile, os
-s = open("index.html", encoding="utf-8").read() + "<script>" + open("app.js", encoding="utf-8").read() + "</script>"
-if re.search(r"<script(?![^>]*src)", open("index.html", encoding="utf-8").read()): print("FAIL code inside index.html; it belongs in app.js") or sys.exit(1)
+s = open("index.html", encoding="utf-8").read() + "<style>" + open("style.css", encoding="utf-8").read() + "</style><script>" + open("app.js", encoding="utf-8").read() + "</script>"
+if re.search(r"<script(?![^>]*src)|<style|\sstyle=\"", open("index.html", encoding="utf-8").read()): print("FAIL code or style inside index.html; it belongs in app.js or style.css") or sys.exit(1)
 bad = []
 js = "\n".join(re.findall(r'<script(?![^>]*src)[^>]*>([\s\S]*?)</script>', s))
 with tempfile.NamedTemporaryFile("w", suffix=".js", delete=False) as f:

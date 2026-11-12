@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Page styles moved to their own file
+
+12 Nov 2026 (12:41 UTC) · Changed
+
+All page styles now live in style.css, so the browser refuses any styles sneaked into the page.
+
+> [!NOTE]
+> **What you'll see:** Nothing looks different
+
+- Moved the style block and 155 inline styles into style.css; _headers no longer allows inline styles.
+
 ## Page code moved to its own file
 
 12 Nov 2026 (12:31 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2999a40)

@@ -54,4 +54,4 @@ Web page: reads Roblox clan screenshots or video (any Roblox game) with an AI an
 | Background | `developer/HOW_IT_WAS_BUILT.md`, `developer/STRESS_TEST_LOG.md` (read section 7 before calling a feature done) |
 
 ## Working with Ginger
-- Split batch 1 done 12 Nov: code in `app.js`, CSP `script-src 'self'` (no inline code allowed; never add `<script>` code or `on...=` to `index.html`). Batch 2, not started: move the ~155 `style="..."` to classes so `style-src` can drop `'unsafe-inline'`.
+- Split batch 1 done 12 Nov: code in `app.js`, CSP `script-src 'self'` (no inline code allowed; never add `<script>` code or `on...=` to `index.html`). Batch 2 done 12 Nov: styles in `style.css`, CSP `style-src 'self'`; never add `style="..."` or `<style>` to `index.html` (start-up display uses `data-d`).
