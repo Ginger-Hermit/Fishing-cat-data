@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Less clutter after a read
+
+12 Nov 2026 (06:56 UTC) · Changed
+
+After a read there are fewer lines of small print above the preview.
+
+**What you'll see:** Run a Test or a sheet: short message, one note, then the preview.
+
+- Shorter Test OK message, shorter earlier-members note, and the 'Looking for Discord' hint hides while a preview is showing.
+
 ## Ask before opening links
 
-12 Nov 2026 (06:54 UTC) · Changed
+12 Nov 2026 (06:54 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/08709a4)
 
 The page asks before it opens another website.
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The page asks before it opens another website. -->
+<!-- Patch note: After a read there are fewer lines of small print above the preview. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -158,7 +158,7 @@ button:disabled{opacity:.5}
 <div id="previnfo"></div>
 <button id="testgo" type="button" class="tab" disabled style="margin-top:8px;width:100%">Test first (small read, no file)</button>
 </details>
-<div style="font-size:13px;color:var(--muted);margin-top:8px">Looking for Discord, your last sheet or the Log? They are under the small arrows (▸) on this page.</div>
+<div id="opthint" style="font-size:13px;color:var(--muted);margin-top:8px">Looking for Discord, your last sheet or the Log? They are under the small arrows (▸) on this page.</div>
 <div class="msg" id="msg" role="status" aria-live="polite"></div>
 <div class="prog" id="prog" aria-live="polite"></div>
 <div class="pv" id="preview" style="display:none"></div>
@@ -379,7 +379,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-x";
+const BUILD = "2026-11-12-y";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1373,7 +1373,7 @@ $("testgo").onclick = async () => {
     const shown = (text.match(/"members_on_screen"\s*:\s*(\d+)/) || [])[1];
     adoptPending(); pv = { rows: rows.map(r => ({ ...r })), orig: rows.map(r => ({ ...r })), p, shown };
     pvDraw();
-    setMsg("Test read OK: " + rows.length + " rows from 1 picture (the first one only). Check the Roblox clan preview below. If it looks right, tap Make my sheet. Nothing was downloaded.");
+    setMsg("Test OK: " + rows.length + " rows from 1 picture. Nothing was downloaded.");
   } catch (err) { clog("Test stopped: " + err.message); setMsg(plain(err), true); }
   finally { running = false; refresh(); }
 };
@@ -1552,6 +1552,7 @@ async function pvDownload() {
   } catch (err) { clog("Stopped: " + why(err)); setMsg(plain(err), true); }
 }
 function pvDraw() {
+  $("opthint").style.display = pv ? "none" : "";
   const box = $("preview");
   box.replaceChildren();
   box.style.display = pv ? "" : "none";
@@ -1562,7 +1563,7 @@ function pvDraw() {
   box.appendChild(el("div", "pvt", "Roblox clan preview"));
   box.appendChild(el("div", "pvd", pv.rows.length + " rows." + (bad ? " " + bad + (bad === 1 ? " needs" : " need") + " a look (orange)." : "") + (off ? " The screen says " + pv.shown + " members." : "") + " Tap a cell to fix it."));
   const here = new Set(pv.rows.map((r) => String(r.name).trim().toLowerCase())), gone = pm ? [...(pm.hist ? pm.hist.players.map(([k]) => k) : pm.keys())].filter((k) => !here.has(k)).length : 0;
-  if (gone) box.appendChild(el("div", "pvd", gone + (gone === 1 ? " earlier member is" : " earlier members are") + " not in this list. They stay in the history, greyed. Scroll the video to the bottom to catch them."));
+  if (gone) box.appendChild(el("div", "pvd", gone + (gone === 1 ? " earlier member is" : " earlier members are") + " not in this list (kept in the history)."));
   const rows = pv.rows.map((r, i) => {
     const n = parsePoints(r.points), b = pm ? pm.get(String(r.name).trim().toLowerCase()) : undefined, has = typeof b === "number" && n !== null, d = has ? n - b : null;
     const cl = d === null ? "" : d > 0 ? "up" : d < 0 ? "dn" : "";
@@ -1892,7 +1893,7 @@ $("billtest").onclick = async () => {
     const lines = bills.reduce((t, b) => t + b.lines.length, 0);
     bp = { bills, orig: JSON.parse(JSON.stringify(bills)) };
     bpDraw();
-    billSay("Test read OK: " + lines + " charge(s) from 1 photo. Check the preview below. If it looks right, tap Make my sheet. Nothing was downloaded.");
+    billSay("Test OK: " + lines + " charge(s) from 1 photo. Nothing was downloaded.");
   } catch (err) { clog("Bill test stopped: " + err.message); billSay(plain(err), true); }
   finally { running = false; refresh(); }
 };
