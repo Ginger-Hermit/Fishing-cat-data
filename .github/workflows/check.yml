@@ -19,20 +19,25 @@ jobs:
   browsers:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        b: [chromium, firefox, webkit]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
       - run: npm install --no-save playwright axe-core@4.10.2
-      - run: npx playwright install --with-deps chromium firefox webkit 2>&1 | tail -40
-      - run: node tests/browser.test.js
-      - run: node tests/a11y.test.js
+      - run: npx playwright install --with-deps ${{ matrix.b == 'webkit' && 'webkit chromium' || matrix.b }} 2>&1 | tail -40
+      - run: BROWSERS=${{ matrix.b }} node tests/browser.test.js
+      - if: matrix.b == 'chromium'
+        run: node tests/a11y.test.js
       - name: Phone pictures (every tab, newest iPhone and Pixel, light, dark, big text)
-        if: always()
+        if: always() && matrix.b == 'webkit'
         run: node tests/pictures.js
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: always() && matrix.b == 'webkit'
         with:
           name: phone-pictures
           path: pictures/
