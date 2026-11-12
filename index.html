@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The Stay safe page is easier to follow. -->
+<!-- Patch note: The GitHub tab shows a small preview card for each link. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -194,7 +194,7 @@ button:disabled{opacity:.5}
 <div id="helptab" class="page" style="display:none">
 <div class="hc"><b>GitHub</b>
 <p>The code, the update history (<a href="https://github.com/Ginger-Hermit/Fishing-cat-data/blob/main/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG</a>) and the guide (README) are on GitHub.</p>
-<a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener" class="tab" style="display:inline-block;text-decoration:none;margin-top:6px">Open GitHub</a> <a href="https://github.com/Ginger-Hermit/Fishing-cat-data/wiki" target="_blank" rel="noopener" class="tab" style="display:inline-block;text-decoration:none;margin-top:6px">Read the guide</a>
+<a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener" style="display:block;text-decoration:none;color:inherit;border:1px solid var(--soft);border-radius:10px;padding:10px 12px;margin-top:8px;background:var(--field)"><b style="color:var(--link)">Fishing Cat Data on GitHub</b> <span style="color:var(--muted)">&rsaquo;</span><div style="font-size:13px;color:var(--muted);margin-top:2px">The code and the project page</div><div style="font-size:13px;margin-top:6px">Turns clan screenshots or a video from any Roblox game into an Excel sheet.</div></a><a href="https://github.com/Ginger-Hermit/Fishing-cat-data/wiki" target="_blank" rel="noopener" style="display:block;text-decoration:none;color:inherit;border:1px solid var(--soft);border-radius:10px;padding:10px 12px;margin-top:8px;background:var(--field)"><b style="color:var(--link)">The guide</b> <span style="color:var(--muted)">&rsaquo;</span><div style="font-size:13px;color:var(--muted);margin-top:2px">How to use it, what you get, privacy, known limits</div><div style="font-size:13px;margin-top:6px">How to use it &middot; What you get &middot; Features &middot; Privacy &middot; Known limits</div></a><a href="https://github.com/Ginger-Hermit/Fishing-cat-data/blob/main/CHANGELOG.md" target="_blank" rel="noopener" style="display:block;text-decoration:none;color:inherit;border:1px solid var(--soft);border-radius:10px;padding:10px 12px;margin-top:8px;background:var(--field)"><b style="color:var(--link)">Update history</b> <span style="color:var(--muted)">&rsaquo;</span><div style="font-size:13px;color:var(--muted);margin-top:2px">What changed and when, newest first</div><div style="font-size:13px;margin-top:6px">Each update has a short plain-words note: what it does and what to look for.</div></a>
 </div>
 </div>
 <div id="safetytab" class="page" style="display:none">
@@ -388,7 +388,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-s";
+const BUILD = "2026-11-12-t";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };

@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
-## Tidier Stay safe page
+## Link cards on the GitHub tab
 
 12 Nov 2026 (06:51 UTC) · Changed
+
+The GitHub tab shows a small preview card for each link.
+
+**What you'll see:** GitHub tab: three cards (project, guide, update history).
+
+- Replaced the two buttons with three preview cards. No new website is contacted: the previews are written into the page.
+
+## Tidier Stay safe page
+
+12 Nov 2026 (06:51 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/4615b26)
 
 The Stay safe page is easier to follow.
 
