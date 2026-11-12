@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Bills now show the check table first, and Download sheet makes the file. -->
+<!-- Patch note: Settings now shows what is saved on your device and lets you delete it or stop saving your last sheet. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -211,7 +211,7 @@ button:disabled{opacity:.5}
 <li>The page is locked down by the browser so it can only talk to Anthropic, Google and OpenAI. It only sends to the one you pick.</li>
 <li>Your pictures (and the stills pulled from a video) go only to the AI company you pick, straight from your browser, to be read. This page has no server of its own, so we never see them.</li>
 <li>What that company does with what you send is covered by its own policies. Free plans can have different rules, so check them.</li>
-<li>Saved on your device only: theme, text size, and the last sheet you chose (names and points). Tap Remove on the first tab to forget the sheet.</li>
+<li>Saved on your device only: theme, text size, and the last sheet you chose (names and points). Settings has a Privacy section that lists what is saved and can delete it, or stop saving the last sheet.</li>
 <li>No accounts and no tracking added by this page. The page is hosted on Cloudflare Pages, which may keep normal visit records like any website host.</li>
 <li>Bills: the whole photo goes to the AI company, including your name, address and account number. The page asks the AI not to copy those, and the sheet has no place for them.</li>
 <li>The names in your pictures belong to real people. Share the sheet only with people who should see it.</li>
@@ -237,6 +237,13 @@ button:disabled{opacity:.5}
 <div style="font-size:13px;color:var(--muted);margin:14px 0 6px">Updates</div>
 <label style="display:flex;gap:8px;align-items:center;font-weight:normal"><input type="checkbox" id="autoref" style="width:auto;margin:0"> Refresh automatically when there is an update</label>
 <div style="font-size:12px;color:var(--muted);margin:4px 0 0">Only refreshes when no files are picked. Off: you get a banner instead.</div>
+<div style="font-size:13px;color:var(--muted);margin:14px 0 6px">Privacy</div>
+<div style="font-size:14px;margin-bottom:6px">Saved on this device:</div>
+<div id="saved" style="font-size:14px;line-height:1.6"></div>
+<label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin-top:8px"><input type="checkbox" id="keepprev" style="width:auto;margin:0"> Remember my last sheet</label>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button id="wipekey" type="button" class="tab">Forget my key</button><button id="wipeall" type="button" class="tab" style="border-color:var(--err);color:var(--err)">Delete everything saved</button></div>
+<div id="wipemsg" role="status" style="font-size:13px;margin-top:6px"></div>
+<div style="font-size:12px;color:var(--muted);margin:4px 0 0">These buttons only clear this device. Nothing is sent anywhere. <a href="#" data-go="privacy">Privacy page</a></div>
 <div style="font-size:13px;color:var(--muted);margin:14px 0 6px">AI model (advanced)</div>
 <input id="modelbox" autocomplete="off" spellcheck="false">
 <div style="font-size:12px;color:var(--muted);margin:6px 0 10px">Leave empty to use the built-in one. Only change it if an error says the model is gone. It is kept for the company chosen on the first tab.</div>
@@ -279,6 +286,7 @@ function showTab(which) {
     if (b) { b.classList.toggle("on", k === which); b.setAttribute("aria-selected", k === which); }
   }
   if (which === "sheet" || which === "bill") document.getElementById(which === "bill" ? "billtab" : "sheet").appendChild(document.getElementById("logbox"));
+  if (which === "settings") { renderSaved(); $("wipemsg").textContent = ""; }
   document.getElementById("keybox").style.display = which === "sheet" || which === "bill" ? "" : "none";
 }
 document.querySelector(".tabs").setAttribute("role", "tablist");
@@ -313,7 +321,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-s";
+const BUILD = "2026-11-12-t";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -460,6 +468,31 @@ $("drop").ondragover = (e) => e.preventDefault();
 $("drop").ondrop = (e) => { e.preventDefault(); addFiles(e.dataTransfer.files); };
 $("clanbox").value = lsGet("fcd_clan") || "";
 $("clanbox").oninput = () => lsSet("fcd_clan", clean($("clanbox").value, 40));
+// Privacy: see and clear what is saved on this device. Values are never shown or sent anywhere.
+function savedKeys() { const out = []; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith("fcd_")) out.push(k); } } catch (e) {} return out; }
+function renderSaved() {
+  const keys = savedKeys(), lines = [];
+  keys.filter(k => k.startsWith("fcd_key_")).forEach(k => { const id = k.slice(8); lines.push("AI key (" + (PROVIDERS[id] ? PROVIDERS[id].name : "other") + ")"); });
+  if (keys.includes("fcd_prev")) { let n = ""; try { n = " (" + JSON.parse(lsGet("fcd_prev")).entries.length + " members)"; } catch (e) {} lines.push("Last sheet, names and points" + n); }
+  if (keys.includes("fcd_clan")) lines.push("Clan name");
+  if (keys.some(k => k.startsWith("fcd_model_"))) lines.push("AI model name");
+  if (keys.some(k => ["fcd_theme", "fcd_size", "fcd_autoref", "fcd_provider"].includes(k))) lines.push("Look and settings");
+  const box = $("saved"); box.replaceChildren();
+  (lines.length ? lines : ["Nothing saved."]).forEach(t => { const d = document.createElement("div"); d.textContent = (lines.length ? "\u2022 " : "") + t; box.appendChild(d); });
+  $("keepprev").checked = lsGet("fcd_keepprev") !== "0";
+}
+$("keepprev").onchange = () => { lsSet("fcd_keepprev", $("keepprev").checked ? "1" : "0"); if (!$("keepprev").checked) { try { localStorage.removeItem("fcd_prev"); } catch (e) {} } renderSaved(); };
+function wipe(what) {
+  try { savedKeys().filter(k => what === "all" || k.startsWith("fcd_key_")).forEach(k => localStorage.removeItem(k)); } catch (e) {}
+  $("key").value = ""; $("remember").checked = false;
+  if (what === "all") { prevMap = null; prevName = ""; showPrev(); $("clanbox").value = ""; }
+  refresh(); renderSaved();
+  $("wipemsg").textContent = what === "all" ? "Everything saved on this device was deleted." : "Your key was forgotten.";
+}
+const confirmTap = (id, label, fn) => { let t = 0; $(id).onclick = () => { if (t) { clearTimeout(t); t = 0; $(id).textContent = label; fn(); return; } $(id).textContent = "Tap again to confirm"; t = setTimeout(() => { t = 0; $(id).textContent = label; }, 4000); }; };
+confirmTap("wipekey", "Forget my key", () => wipe("key"));
+confirmTap("wipeall", "Delete everything saved", () => wipe("all"));
+renderSaved();
 $("key").oninput = () => { refresh(); if ($("remember").checked) keepKey(); };
 
 function provider() { return $("provider").value; }
@@ -759,7 +792,7 @@ $("prevfile").onchange = async (e) => {
     if (!window.ExcelJS) throw new Error("The spreadsheet part did not load. Refresh the page.");
     prevMap = await readPrevious(window.ExcelJS, await f.arrayBuffer());
     prevName = f.name;
-    try { localStorage.setItem("fcd_prev", JSON.stringify({ name: prevName, entries: [...prevMap] })); } catch (e) {}
+    if (lsGet("fcd_keepprev") !== "0") try { localStorage.setItem("fcd_prev", JSON.stringify({ name: prevName, entries: [...prevMap] })); } catch (e) {}
     showPrev();
     clog("Last sheet read: " + prevMap.size + " members.");
   } catch (err) {

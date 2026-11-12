@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Privacy settings
+
+12 Nov 2026 (00:14 UTC) · New
+
+Settings now shows what is saved on your device and lets you delete it or stop saving your last sheet.
+
+**What you'll see:** Settings tab: a Privacy section lists what is saved, with Forget my key and Delete everything saved.
+
+- New Privacy section in Settings: what is saved, a Remember my last sheet switch, Forget my key, Delete everything saved
+- Delete buttons need a second tap, and nothing is sent anywhere
+
 ## Bills download fix
 
-12 Nov 2026 (00:11 UTC) · Changed
+12 Nov 2026 (00:11 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/f370a93)
 
 Bills now show the check table first, and Download sheet makes the file.
 

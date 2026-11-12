@@ -106,6 +106,29 @@ async function runCase(page, flow, kind) {
     check("bills preview: odd type word and hostile text download", !!br.bdl && br.bsize > 1000, br.bdl + " " + br.bsize);
     check("bills preview: empty list gives a plain message and no file", /empty/.test(br.bempty) && !br.bemptyDl, br.bempty);
     check("bills preview: reset brings charges back", br.breset === 2, String(br.breset));
+    const pr = await page.evaluate(async () => {
+      let ok = true; try { localStorage.setItem("t_", "1"); localStorage.removeItem("t_"); } catch (e) { ok = false; }
+      if (!ok) return { skip: true };
+      const wait = (ms) => new Promise(r => setTimeout(r, ms));
+      localStorage.setItem("fcd_key_gemini", "AIzaSECRETSECRET1"); localStorage.setItem("fcd_prev", JSON.stringify({ name: "x", entries: [["a", 1]] })); localStorage.setItem("fcd_clan", "Loki");
+      showTab("settings"); const shown = document.getElementById("saved").textContent;
+      document.getElementById("keepprev").checked = false; document.getElementById("keepprev").onchange();
+      const prevGone = localStorage.getItem("fcd_prev") === null;
+      document.getElementById("key").value = "AIzaSECRETSECRET1";
+      document.getElementById("wipekey").click(); const askKey = document.getElementById("wipekey").textContent; document.getElementById("wipekey").click();
+      const keyGone = localStorage.getItem("fcd_key_gemini") === null && document.getElementById("key").value === "";
+      localStorage.setItem("fcd_clan", "Loki"); document.getElementById("wipeall").click(); const once = localStorage.getItem("fcd_clan"); document.getElementById("wipeall").click();
+      const left = []; for (let i = 0; i < localStorage.length; i++) if (localStorage.key(i).startsWith("fcd_")) left.push(localStorage.key(i));
+      return { shown, prevGone, askKey, keyGone, once, left, noSecret: !document.getElementById("saved").textContent.includes("SECRET") };
+    });
+    if (!pr.skip) {
+      check("privacy: lists what is saved, never the key itself", /AI key/.test(pr.shown) && /Last sheet/.test(pr.shown) && pr.noSecret, pr.shown);
+      check("privacy: switching off remember-sheet deletes it", pr.prevGone);
+      check("privacy: delete needs a second tap", pr.askKey === "Tap again to confirm" && pr.once === "Loki", pr.askKey + "/" + pr.once);
+      check("privacy: forget key clears it and the box", pr.keyGone);
+      check("privacy: delete everything leaves nothing saved", pr.left.length === 0, pr.left.join(","));
+    }
+    await page.evaluate(() => { showTab("sheet"); pv = { rows: [{ rank: 1, name: "Ann", role: "Owner", points: "10" }], orig: [], p: { clan: "C", game: "G", ranks: true, extra: "" }, shown: "" }; pvDraw(); });
     await page.fill('#preview input[aria-label="Username, row 1"]', "Zed");
     const typed = await page.evaluate(() => [pv.rows[0].name, document.querySelector("#preview .xlfv").textContent]);
     check("preview: real typing reaches the data and the formula bar", typed[0] === "Zed" && typed[1] === "Zed", typed.join("|"));
