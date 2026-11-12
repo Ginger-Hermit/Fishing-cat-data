@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Clearer links at the top of Home
+
+12 Nov 2026 (06:54 UTC) · Changed
+
+The two links at the top say where they go and use the page's link colour.
+
+**What you'll see:** Top of the Home tab.
+
+- Renamed to Guide on GitHub and Free key from Google (opens Google); bold, link colour.
+
 ## Footer links easier to see
 
-12 Nov 2026 (06:53 UTC) · Changed
+12 Nov 2026 (06:53 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7423f10)
 
 Stay safe, Privacy, Legal and GitHub links are bigger and in colour.
 
