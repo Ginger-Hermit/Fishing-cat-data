@@ -6,7 +6,7 @@ The app-days prompts are first. Counts are **minimums**, from what could be foun
 
 ## The app days (9 to 11 Nov): before the website
 
-The first version was a Windows desktop program, not a web page. These are her prompts from then, in order.
+**We tried an app first. It failed.** The first version was a Windows desktop program, not a web page. It got too complicated to keep working, so the project started over as a web page on 11 Nov. These are her prompts from the app days, in order.
 
 | Date | She said | What happened |
 |---|---|---|
