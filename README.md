@@ -6,6 +6,8 @@ Turns clan screenshots or a video from any Roblox game into a ready-to-use Excel
 
 **Use it:** https://fishing-cat-data.pages.dev
 
+**Wiki:** https://github.com/Ginger-Hermit/Fishing-cat-data/wiki (status, changelog, security, FAQ)
+
 ## How to use it
 
 1. Paste your own AI key. Google Gemini is picked first and has a free key: tap **How to get a free key**. The free key has a daily limit. Anthropic also works; OpenAI is untested.
