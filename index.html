@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The Discord message now shows average points, up, down, same and new counts, top gains, biggest drops and new members. -->
+<!-- Patch note: The Discord message now reads the whole Excel file and explains Clan Members, Leaderboard and Points history in plain sentences. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -202,11 +202,11 @@ button:disabled{opacity:.5}
 <input type="file" id="shfile" accept=".xlsx,image/*" multiple style="display:none">
 <div style="display:flex;gap:10px;flex-wrap:wrap"><label for="shfile" class="tab big" style="cursor:pointer;display:inline-flex;align-items:center;margin:0;color:var(--link)">Choose files</label><button id="shclear" type="button" class="tab big" style="display:none">Clear</button></div>
 <div id="shsel" style="font-size:14px;color:var(--noteText);margin-top:6px"></div>
-<div style="font-size:13px;color:var(--muted);margin-top:4px">An Excel sheet (.xlsx), a picture, or both.</div></div>
+<div style="font-size:13px;color:var(--muted);margin-top:4px">Pick your Excel sheet. It is read, and the post gets a table picture and a written breakdown. The file itself is only sent if you tick the box below.</div></div>
 <div style="font-weight:600;font-size:17px;margin:20px 0 8px">2. Header picture (optional)</div>
 <input type="file" id="artfile" accept="image/*" style="display:none">
 <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><label for="artfile" class="tab big" style="cursor:pointer;display:inline-flex;align-items:center;margin:0;color:var(--link)">Choose picture</label><button id="artforget" type="button" class="tab big" style="display:none">Remove</button><img id="artthumb" alt="Your saved header picture" style="display:none;height:48px;border-radius:6px;border:1px solid var(--soft)"></div><div id="artmsg" role="status" style="font-size:14px;color:var(--noteText);margin-top:6px"></div>
-<label style="display:flex;gap:10px;align-items:center;font-weight:normal;font-size:16px;margin-top:16px"><input type="checkbox" id="hookxlsx" checked style="width:22px;height:22px;min-height:0;padding:0;margin:0"> Attach the Excel file</label>
+<label style="display:flex;gap:10px;align-items:center;font-weight:normal;font-size:16px;margin-top:16px"><input type="checkbox" id="hookxlsx" checked style="width:22px;height:22px;min-height:0;padding:0;margin:0"> Also attach the Excel file (leave unticked for picture and text only)</label>
 <div style="font-weight:600;font-size:17px;margin:20px 0 8px">3. Post</div>
 <button id="dcgo" type="button" style="width:100%;padding:16px;font-size:18px">Post to Discord</button>
 <div id="hookmsg" role="status" aria-live="polite" style="font-size:15px;margin-top:10px"></div>
@@ -421,7 +421,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-z";
+const BUILD = "2026-11-12-za";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1466,16 +1466,32 @@ function xlTable(o) {
 let pv = null;
 const pvBad = (r) => /\?/.test(String(r.name)) || !String(r.name).trim() || parsePoints(r.points) === null;
 const dcHead = (clan, game, date, n, tot) => "## " + clan + " \u00b7 " + game + "\n-# " + date + "\n**" + n + "** members \u00b7 **" + tot + "** points";
-const dcStats = (items, f, any) => {
-  const sg = (d) => (d >= 0 ? "+" : "-") + f(Math.abs(d)), pc = (d, b) => (b ? " (" + (d > 0 ? "+" : "") + (d / b * 100).toFixed(1) + "%)" : "");
-  let t = "\nAverage **" + f(items.reduce((a, x) => a + x.n, 0) / Math.max(items.length, 1)) + "** points each";
-  if (!any) return t;
-  const ret = items.filter((x) => x.b !== null), fresh = items.filter((x) => x.b === null), d = ret.reduce((a, x) => a + x.n - x.b, 0), b0 = ret.reduce((a, x) => a + x.b, 0);
-  const up = ret.filter((x) => x.n > x.b).sort((x, y) => (y.n - y.b) - (x.n - x.b)), dn = ret.filter((x) => x.n < x.b).sort((x, y) => (x.n - x.b) - (y.n - y.b));
-  t += "\n**" + sg(d) + pc(d, b0) + "** since last run (returning members)\nUp " + up.length + " \u00b7 Down " + dn.length + " \u00b7 Same " + (ret.length - up.length - dn.length) + " \u00b7 New " + fresh.length;
-  if (up.length) t += "\n**Top gains**\n" + up.slice(0, 5).map((x, i) => (i + 1) + ". " + x.name + " " + sg(x.n - x.b) + pc(x.n - x.b, x.b)).join("\n");
-  if (dn.length) t += "\n**Biggest drops:** " + dn.slice(0, 3).map((x) => x.name + " " + sg(x.n - x.b)).join(", ");
-  if (fresh.length) t += "\n**New:** " + fresh.slice(0, 10).map((x) => x.name).join(", ") + (fresh.length > 10 ? " and " + (fresh.length - 10) + " more" : "");
+const dcBreakdown = (sh, f) => {
+  const it = sh.items, n = it.length, tot = it.reduce((a, x) => a + x.n, 0), sg = (d) => (d >= 0 ? "+" : "-") + f(Math.abs(d)), pc = (d, b) => (b ? " (" + (d > 0 ? "+" : "") + (d / b * 100).toFixed(1) + "%)" : "");
+  const dt = (d) => d.toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
+  let t = dcHead(sh.clan, sh.game, sh.date, n, f(tot));
+  const roles = {}; it.forEach((x) => { const k = x.role || "No role"; (roles[k] = roles[k] || { c: 0, p: 0 }).c++; roles[k].p += x.n; });
+  const top = [...it].sort((x, y) => y.n - x.n).slice(0, 3);
+  t += "\n\n**Clan Members**\nAverage " + f(tot / Math.max(n, 1)) + " points each. Top 3: " + top.map((x) => x.name + " " + f(x.n)).join(", ") + ".\nBy role: " + Object.entries(roles).sort((x, y) => y[1].p - x[1].p).map(([k, v]) => k + " x" + v.c + " (" + f(v.p) + ")").join(", ") + ".";
+  if (sh.any) {
+    const ret = it.filter((x) => x.b !== null), fresh = it.filter((x) => x.b === null), d = ret.reduce((a, x) => a + x.n - x.b, 0), b0 = ret.reduce((a, x) => a + x.b, 0);
+    const up = ret.filter((x) => x.n > x.b).sort((x, y) => (y.n - y.b) - (x.n - x.b)), dn = ret.filter((x) => x.n < x.b).sort((x, y) => (x.n - x.b) - (y.n - y.b));
+    t += "\n\n**Leaderboard**\nSince the last run the clan gained **" + sg(d) + pc(d, b0) + "**. Up " + up.length + ", down " + dn.length + ", same " + (ret.length - up.length - dn.length) + ", new " + fresh.length + ".";
+    if (up.length) t += "\nBiggest gains: " + up.slice(0, 3).map((x) => x.name + " " + sg(x.n - x.b) + pc(x.n - x.b, x.b)).join(", ") + ".";
+    if (dn.length) t += "\nBiggest drops: " + dn.slice(0, 3).map((x) => x.name + " " + sg(x.n - x.b)).join(", ") + ".";
+    if (fresh.length) t += "\nNew: " + fresh.slice(0, 8).map((x) => x.name).join(", ") + (fresh.length > 8 ? " and " + (fresh.length - 8) + " more" : "") + ".";
+  }
+  const h = sh.hist;
+  if (h && h.dates.length > 1) {
+    const K = h.dates.length, totals = h.dates.map((_, k) => h.list.reduce((a, e) => a + (e.vals[k] || 0), 0));
+    const since = h.list.map((e) => { const v = e.vals.filter((x) => x !== null); return { name: e.name, g: v.length > 1 ? v[v.length - 1] - v[0] : null }; }).filter((x) => x.g !== null && x.g > 0).sort((x, y) => y.g - x.g).slice(0, 3);
+    t += "\n\n**Points history**\n" + K + " runs so far, " + dt(h.dates[0]) + " to " + dt(h.dates[K - 1]) + ". Clan total: " + totals.slice(-5).map((v, i, arr) => dt(h.dates[K - arr.length + i]) + " " + f(v)).join(" > ") + ".";
+    if (since.length) t += "\nMost gained over all runs: " + since.map((x) => x.name + " " + sg(x.g)).join(", ") + ".";
+    const left = h.list.filter((e) => e.vals[K - 1] === null && e.vals.some((x) => x !== null)).map((e) => e.name);
+    if (left.length) t += "\nLeft the clan (kept in history): " + left.slice(0, 8).join(", ") + (left.length > 8 ? " and " + (left.length - 8) + " more" : "") + ".";
+  }
+  t += "\n\n-# In the file: green = went up, red = went down, gold, silver and bronze = top 3, grey = left the clan.";
+  if (t.length > 1900) t = t.slice(0, t.lastIndexOf("\n", 1880)) + "\n-# (cut short, the full list is in the file)";
   return t;
 };
 const HOOK_RE = /^https:\/\/discord\.com\/api\/webhooks\/\d+\/[\w-]+$/;
@@ -1567,8 +1583,12 @@ async function readSheet(buf) {
     if (typeof b === "number") any = true;
     items.push({ rk: Number(val(ws.getCell(r, 1))) || items.length + 1, name: String(name), role: String(val(ws.getCell(r, 3)) || ""), points: String(val(ws.getCell(r, 4)) || n), n, b: typeof b === "number" ? b : null });
   }
+  let hist = null; const hs = wb.getWorksheet("Points history");
+  if (hs) { const dates = []; for (let c = 3; c <= hs.columnCount; c++) { const v = val(hs.getCell(3, c)); if (v instanceof Date) dates.push(v); else break; }
+    const list = []; for (let r = 4; r <= hs.rowCount; r += 2) { const nm = val(hs.getCell(r, 1)); if (!nm) break; list.push({ name: String(nm), vals: dates.map((_, k) => { const v = val(hs.getCell(r, 3 + k)); return typeof v === "number" ? v : null; }) }); }
+    if (dates.length && list.length) hist = { dates, list }; }
   const t1 = String(val(ws.getCell(1, 1)) || ""), t2 = String(val(ws.getCell(2, 1)) || "");
-  return { items, any, clan: t1.split(/\s[\u2013-]\s/)[0] || "Clan", game: t2.split("\u00b7")[0].trim() || "Roblox", date: ((t2.match(/Recorded ([^\u00b7]+)/) || [])[1] || todayText()).trim() };
+  return { items, any, hist, clan: t1.split(/\s[\u2013-]\s/)[0] || "Clan", game: t2.split("\u00b7")[0].trim() || "Roblox", date: ((t2.match(/Recorded ([^\u00b7]+)/) || [])[1] || todayText()).trim() };
 }
 const dcPick = () => { const fs = [...$("shfile").files]; $("shsel").textContent = fs.length ? "\u2713 " + fs.map((f) => f.name).join(", ") : "No files chosen."; $("shclear").style.display = fs.length ? "" : "none"; };
 $("shfile").onchange = dcPick; $("shclear").onclick = () => { $("shfile").value = ""; dcPick(); };
@@ -1580,8 +1600,7 @@ $("shpost").onclick = async () => {
     const files = []; let text = "Fishing Cat Data";
     if (xf) {
       const sh = await readSheet(await xf.arrayBuffer()).catch(() => { throw new Error("That Excel file could not be read. Use a sheet this page made."); }), f = (n) => Math.round(n).toLocaleString("en-US"), tot = sh.items.reduce((t, r) => t + r.n, 0);
-      text = dcHead(sh.clan, sh.game, sh.date, sh.items.length, f(tot));
-      text += dcStats(sh.items, f, sh.any);
+      text = dcBreakdown(sh, f);
       if (!pf) files.push(await rowsPic(sh.items.map((r) => ({ ...r, ch: sh.any ? chCell(r.n, r.b === null ? undefined : r.b) : ["", "#b5bac1"] })), sh.clan, subLine(sh.date, sh.items.length, tot, sh.items.filter((r) => r.b !== null).reduce((t, r) => t + r.n - r.b, 0), sh.any), sh.clan + ".png"));
     }
     if (pf) files.push({ blob: pf, name: pf.name });
@@ -1640,10 +1659,10 @@ async function pvPost() {
   try {
     setMsg("Posting to Discord...");
     await loadExcel();
-    let file = null;
-    if (window.ExcelJS) { const buf = await buildWorkbook(window.ExcelJS, rows, prevMap, pv.p, todayText()).xlsx.writeBuffer(), fname = nameOf(pv.p) + ".xlsx"; if ($("hookxlsx").checked) file = { blob: new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), name: fname }; await keepMade(buf, fname); }
+    let file = null, txt = hookText(false);
+    if (window.ExcelJS) { const buf = await buildWorkbook(window.ExcelJS, rows, prevMap, pv.p, todayText()).xlsx.writeBuffer(), fname = nameOf(pv.p) + ".xlsx"; if ($("hookxlsx").checked) file = { blob: new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), name: fname }; await keepMade(buf, fname); try { txt = dcBreakdown(await readSheet(buf), (n) => Math.round(n).toLocaleString("en-US")); } catch (e) { clog("Breakdown skipped: " + why(e)); } }
     const pic = await clanPic(rows).catch((e) => { clog("Table picture skipped: " + why(e)); return null; });
-    const sent = await hookPost(hookText(false), [pic, file].filter(Boolean));
+    const sent = await hookPost(txt, [pic, file].filter(Boolean));
     setMsg(sent ? "Posted to Discord." : "Posted to Discord. The sheet file could not go, so use Download sheet.");
   } catch (err) { clog("Stopped: " + why(err)); setMsg(plain(err), true); }
 }

@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Discord post breaks down every tab
+
+12 Nov 2026 (07:34 UTC) · Changed
+
+The Discord message now reads the whole Excel file and explains Clan Members, Leaderboard and Points history in plain sentences.
+
+> [!NOTE]
+> **What you'll see:** Post a sheet to Discord: sections for each tab under the heading.
+
+- Reads the Points history tab; message lists roles, top points, gains, drops, new and left members, clan total per run.
+
 ## Discord post breaks down the stats
 
 12 Nov 2026 (07:30 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0747fba)
