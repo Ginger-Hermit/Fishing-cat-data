@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Log and bug report on the Discord tab
 
-12 Nov 2026 (07:21 UTC) · Changed
+12 Nov 2026 (07:21 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/683e11e)
 
 The Log and Copy bug report box now also shows at the bottom of the Discord tab.
 
