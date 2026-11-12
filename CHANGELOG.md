@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Cleaner Stay safe page
+
+12 Nov 2026 (06:52 UTC) · Changed
+
+The Stay safe page is one short box plus one More detail box.
+
+**What you'll see:** Stay safe: six short points, and all the extra detail under More detail.
+
+- Merged the two top boxes and the six detail boxes into one short list and a single closed More detail section.
+
 ## Link cards on the GitHub tab
 
-12 Nov 2026 (06:51 UTC) · Changed
+12 Nov 2026 (06:51 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/1610b22)
 
 The GitHub tab shows a small preview card for each link.
 
