@@ -34,10 +34,11 @@ async function runCase(page, flow, kind) {
     box.textContent = ""; btn.click();
     const locked = document.getElementById("go").disabled && document.getElementById("billgo").disabled && document.getElementById("provider").disabled;
     for (let k = 0; k < 600; k++) { await new Promise(r => setTimeout(r, 25)); if (box.textContent && !/^Reading|^Test read: looking/.test(box.textContent)) break; }
+    window.__early = window.__dl;
     const dlb = document.getElementById(flow === "go" ? "pvgo" : flow === "bill" ? "bpgo" : "none");
     if (dlb && !box.className.includes("err")) { dlb.click(); for (let k = 0; k < 400 && !window.__dl; k++) await new Promise(r => setTimeout(r, 25)); }
     aiWait = 180000;
-    return { msg: box.textContent, err: box.className.includes("err"), file: window.__dl, locked, unlocked: !running && !btn.disabled };
+    return { early: window.__early, msg: box.textContent, err: box.className.includes("err"), file: window.__dl, locked, unlocked: !running && !btn.disabled };
   }, [flow, kind, LAYOUT, ROWS, BILL]);
 }
 
@@ -63,10 +64,51 @@ async function runCase(page, flow, kind) {
       check(tag + ": locked during the run, unlocked after", r.locked && r.unlocked);
       if (!wantErr && flow !== "test") check(tag + ": file made", !!r.file && r.file.endsWith(".xlsx"), String(r.file));
       if (wantErr) check(tag + ": no file on error", !r.file);
+      if (!wantErr && (flow === "go" || flow === "bill")) check(tag + ": nothing downloads until Download sheet is tapped", !r.early, String(r.early));
     }
     // the Excel file has the right numbers and formulas
     const cells = await page.evaluate(async (BILL) => { const wb = buildBillBook(window.ExcelJS, parseBills(BILL), "today"); const b2 = new ExcelJS.Workbook(); await b2.xlsx.load(await wb.xlsx.writeBuffer()); const s = b2.getWorksheet("Bills"); return [s.getCell("J4").value, s.getCell("K5").value.formula, s.getCell("N4").value, b2.getWorksheet("Summary").getCell("B11").value.formula.includes("SUMIFS")].join("|"); }, BILL);
     check("bill sheet numbers", cells === '425|IF(J5="","",J5/3.6)|94.99|true', cells);
+    // break-it tests: hostile text, odd numbers, empty lists, 200 added rows, real typing
+    const hostile = '<img src=x onerror="window.__xss=1">';
+    const br = await page.evaluate(async (hostile) => {
+      const out = {}; window.__xss = 0; window.__dl = null; window.__href = null;
+      HTMLAnchorElement.prototype.click = function () { window.__dl = this.download; window.__href = this.href; };
+      const mk = URL.createObjectURL; URL.createObjectURL = (x) => { window.__sz = x.size; return mk.call(URL, x); };
+      const size = async () => window.__sz || 0;
+      const reset = () => { window.__dl = null; window.__href = null; window.__sz = 0; };
+      showTab("sheet"); prevMap = new Map([["x", 5]]);
+      const rows = [{ rank: 1, name: hostile, role: "Owner", points: "1.5K" }, { rank: 2, name: "=1+1", role: "", points: "abc" }, { rank: "x", name: "é".repeat(3000), role: "Coach", points: "99999999999999999999" }, { rank: 4, name: "", role: "", points: "" }];
+      pv = { rows: rows.map(r => ({ ...r })), orig: rows.map(r => ({ ...r })), p: { clan: hostile, game: "G", ranks: true, extra: "" }, shown: "9" };
+      pvDraw(); out.xss1 = window.__xss; out.cells = document.querySelectorAll("#preview td input").length;
+      await pvDownload(); out.dl1 = window.__dl; out.size1 = await size();
+      pv.rows = []; pvDraw(); reset(); await pvDownload(); out.emptyMsg = document.getElementById("msg").textContent; out.emptyDl = window.__dl;
+      document.getElementById("pvreset").click(); out.reset = pv.rows.length;
+      for (let k = 0; k < 200; k++) document.getElementById("pvadd").click();
+      out.added = pv.rows.length; reset(); await pvDownload(); out.dl2 = window.__dl; out.size2 = await size();
+      showTab("bill");
+      const bills = parseBills(JSON.stringify({ bills: [{ supplier: hostile, currency: "NZD", total_due: "100", lines: [{ energy: "other", kind: 'wa"ter)', charge: hostile, amount: "abc" }, { energy: "electricity", charge: "Usage", used: "425", unit: "kWh", amount: "$94.99" }] }] }));
+      bp = { bills, orig: JSON.parse(JSON.stringify(bills)) }; bpDraw();
+      out.xss2 = window.__xss; out.mismatch = /do not match/.test(document.getElementById("billpreview").textContent); out.badRow = document.querySelectorAll("#billpreview tr.bad").length;
+      reset(); await bpDownload(); out.bdl = window.__dl; out.bsize = await size();
+      bp.bills[0].lines = []; bpDraw(); reset(); await bpDownload(); out.bempty = document.getElementById("billmsg").textContent; out.bemptyDl = window.__dl;
+      document.getElementById("bpreset").click(); out.breset = bp.bills[0].lines.length;
+      showTab("sheet"); pv = { rows: [{ rank: 1, name: "Ann", role: "Owner", points: "10" }], orig: [], p: { clan: "C", game: "G", ranks: true, extra: "" }, shown: "" }; pvDraw();
+      return out;
+    }, hostile);
+    check("preview: hostile text never runs", br.xss1 === 0 && br.xss2 === 0);
+    check("preview: draws an input per cell", br.cells === 16, String(br.cells));
+    check("preview: odd rows still download an .xlsx", !!br.dl1 && br.size1 > 1000, br.dl1 + " " + br.size1);
+    check("preview: empty list gives a plain message and no file", /empty/.test(br.emptyMsg) && !br.emptyDl, br.emptyMsg);
+    check("preview: reset brings rows back", br.reset === 4, String(br.reset));
+    check("preview: 200 added rows download", br.added === 204 && !!br.dl2 && br.size2 > 1000, br.added + " " + br.size2);
+    check("bills preview: mismatch and unread amount flagged", br.mismatch && br.badRow === 1, br.mismatch + " " + br.badRow);
+    check("bills preview: odd type word and hostile text download", !!br.bdl && br.bsize > 1000, br.bdl + " " + br.bsize);
+    check("bills preview: empty list gives a plain message and no file", /empty/.test(br.bempty) && !br.bemptyDl, br.bempty);
+    check("bills preview: reset brings charges back", br.breset === 2, String(br.breset));
+    await page.fill('#preview input[aria-label="Username, row 1"]', "Zed");
+    const typed = await page.evaluate(() => [pv.rows[0].name, document.querySelector("#preview .xlfv").textContent]);
+    check("preview: real typing reaches the data and the formula bar", typed[0] === "Zed" && typed[1] === "Zed", typed.join("|"));
     check("no page errors", pageErrors.length === 0, pageErrors.slice(0, 2).join(" ; "));
     await browser.close();
     console.log(name + ": done");

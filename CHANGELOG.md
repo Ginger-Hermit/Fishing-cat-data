@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Bills download fix
+
+12 Nov 2026 (00:11 UTC) · Changed
+
+Bills now show the check table first, and Download sheet makes the file.
+
+**What you'll see:** Bills: after reading, the table shows and nothing downloads until you tap Download sheet.
+
+- Fixed: the Bills sheet downloaded straight away and the Download sheet button did nothing
+
 ## Excel preview tidy
 
-12 Nov 2026 (00:09 UTC) · Changed
+12 Nov 2026 (00:09 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6d812b6)
 
 The selected cell shows a clean green outline.
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The selected cell shows a clean green outline. -->
+<!-- Patch note: Bills now show the check table first, and Download sheet makes the file. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -313,7 +313,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-r";
+const BUILD = "2026-11-12-s";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1208,8 +1208,8 @@ async function bpDownload() {
   try {
     await loadExcel();
     if (!window.ExcelJS) throw new Error("The spreadsheet part did not load. Refresh the page.");
-    bp = { bills, orig: JSON.parse(JSON.stringify(bills)) };
-    bpDraw();
+    const wb = buildBillBook(window.ExcelJS, bills, todayText());
+    saveBlob(new Blob([await wb.xlsx.writeBuffer()], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), "Bills - " + (bills.length === 1 ? clean(bills[0].supplier, 40) || "bill" : bills.length + " bills") + ".xlsx");
     clog("Bills sheet downloaded from the checked list (" + bills.length + " bill(s)).");
     billSay("Done: " + bills.length + " bill(s). Your sheet was downloaded. Compare the numbers with the bill before relying on them.");
   } catch (err) { clog("Stopped: " + err.message); billSay(plain(err), true); }
@@ -1262,8 +1262,8 @@ $("billgo").onclick = async () => {
     prog.next();
     clog("AI replied (" + text.length + " characters).");
     const bills = parseBills(text), lines = bills.reduce((t, b) => t + b.lines.length, 0), checks = bills.reduce((t, b) => t + b.lines.filter(l => l.check).length, 0);
-    const wb = buildBillBook(window.ExcelJS, bills, todayText());
-    saveBlob(new Blob([await wb.xlsx.writeBuffer()], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), "Bills - " + (bills.length === 1 ? clean(bills[0].supplier, 40) || "bill" : bills.length + " bills") + ".xlsx");
+    bp = { bills, orig: JSON.parse(JSON.stringify(bills)) };
+    bpDraw();
     clog("Bills: " + bills.length + ", charges: " + lines + ", rows to check: " + checks + ".");
     prog.stop(true);
     billSay("Check your charges below, then tap Download sheet." + (checks ? " " + checks + " row(s) are marked check in the sheet." : ""));
