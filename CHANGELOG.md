@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Post to Discord
+
+12 Nov 2026 (06:12 UTC) · New
+
+Optional Discord link in Settings. After a clan read, Post to Discord sends a short summary and the sheet. Copy message copies the summary.
+
+**What you'll see:** Settings has Discord link, clan preview has Post to Discord and Copy message
+
+- Discord webhook posting, on tap only
+
 ## Slow Gemini switches model
 
-12 Nov 2026 (06:10 UTC) · Changed
+12 Nov 2026 (06:10 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/a1a19b4)
 
 If Google is slow, the page tries a backup model after 75s instead of waiting 3 minutes.
 

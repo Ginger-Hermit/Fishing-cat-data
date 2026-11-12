@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: If Google is slow, the page tries a backup model after 75s instead of waiting 3 minutes. -->
+<!-- Patch note: Optional Discord link in Settings. After a clan read, Post to Discord sends a short summary and the sheet. Copy message copies the summary. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -257,7 +257,7 @@ button:disabled{opacity:.5}
 <div class="hc"><b>Privacy</b>
 <ul class="facts">
 <li>Your AI key stays in this browser. It is only kept if you tick Remember my key, and it is never sent anywhere except the AI company you pick.</li>
-<li>The page is locked down by the browser so it can only talk to Anthropic, Google and OpenAI. It only sends to the one you pick.</li>
+<li>The page is locked down by the browser so it can only talk to Anthropic, Google and OpenAI (and Discord). It only sends to the AI company you pick. Discord is used only if you add a Discord link in Settings and tap Post to Discord. That sends the clan name, points summary and sheet to your channel.</li>
 <li>Your pictures (and the stills pulled from a video) go only to the AI company you pick, straight from your browser, to be read. This page has no server of its own, so we never see them.</li>
 <li>What that company does with what you send is covered by its own policies. Free plans can have different rules, so check them.</li>
 <li>Saved on your device only: theme, text size, and the last sheet you chose (names, points and past runs). Settings has a Privacy section that lists what is saved and can delete it, or stop saving the last sheet.</li>
@@ -293,6 +293,10 @@ button:disabled{opacity:.5}
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button id="wipekey" type="button" class="tab">Forget my key</button><button id="wipeall" type="button" class="tab" style="border-color:var(--err);color:var(--err)">Delete everything saved</button></div>
 <div id="wipemsg" role="status" style="font-size:13px;margin-top:6px"></div>
 <div style="font-size:12px;color:var(--muted);margin:4px 0 0">These buttons only clear this device. Nothing is sent anywhere. <a href="#" data-go="privacy">Privacy page</a></div>
+<div style="font-size:13px;color:var(--muted);margin:14px 0 6px">Discord link (optional)</div>
+<input id="hookbox" type="password" autocomplete="off" spellcheck="false" placeholder="https://discord.com/api/webhooks/...">
+<div style="display:flex;gap:8px;align-items:center;margin-top:6px"><button id="hooktest" type="button" class="tab">Test</button><span id="hookmsg" role="status" style="font-size:13px"></span></div>
+<div style="font-size:12px;color:var(--muted);margin:6px 0 0">Adds a Post to Discord button to your clan sheet. Nothing is posted unless you tap it. Anyone with this link can post in your channel, so keep it private.</div>
 <div style="font-size:13px;color:var(--muted);margin:14px 0 6px">AI model (advanced)</div>
 <input id="modelbox" autocomplete="off" spellcheck="false">
 <div style="font-size:12px;color:var(--muted);margin:6px 0 10px">Leave empty to use the built-in one. Only change it if an error says the model is gone. It is kept for the company chosen on the first tab.</div>
@@ -370,7 +374,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-m";
+const BUILD = "2026-11-12-n";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -401,7 +405,7 @@ if (location.protocol.startsWith("http")) { checkUpdate(); setInterval(checkUpda
 function scrub(t) { // remove the typed key and anything that looks like a key
   t = String(t);
   try { const k = document.getElementById("key").value.trim(); if (k.length >= 6) t = t.split(k).join("[key removed]"); } catch (e) {}
-  return t.replace(/sk-[\w-]{8,}|AIza[\w-]{8,}/g, "[key removed]");
+  return t.replace(/sk-[\w-]{8,}|AIza[\w-]{8,}/g, "[key removed]").replace(/https:\/\/discord\.com\/api\/webhooks\/\S+/g, "[link removed]");
 }
 function clog(text, priv) {
   let t = new Date().toLocaleTimeString();
@@ -551,11 +555,13 @@ function renderSaved() {
   keys.filter(k => k.startsWith("fcd_key_")).forEach(k => { const id = k.slice(8); lines.push("AI key (" + (PROVIDERS[id] ? PROVIDERS[id].name : "other") + ")"); });
   if (keys.includes("fcd_prev")) { let n = ""; try { n = " (" + JSON.parse(lsGet("fcd_prev")).entries.length + " members)"; } catch (e) {} lines.push("Last sheet, names, points and past runs" + n); }
   if (keys.includes("fcd_clan")) lines.push("Clan name");
+  if (keys.includes("fcd_hook")) lines.push("Discord link");
   if (keys.some(k => k.startsWith("fcd_model_"))) lines.push("AI model name");
   if (keys.some(k => ["fcd_theme", "fcd_size", "fcd_autoref", "fcd_provider"].includes(k))) lines.push("Look and settings");
   const box = $("saved"); box.replaceChildren();
   (lines.length ? lines : ["Nothing saved."]).forEach(t => { const d = document.createElement("div"); d.textContent = (lines.length ? "\u2022 " : "") + t; box.appendChild(d); });
   $("keepprev").checked = lsGet("fcd_keepprev") !== "0";
+  $("hookbox").value = lsGet("fcd_hook") || "";
 }
 $("keepprev").onchange = () => { lsSet("fcd_keepprev", $("keepprev").checked ? "1" : "0"); if (!$("keepprev").checked) { try { localStorage.removeItem("fcd_prev"); } catch (e) {} } renderSaved(); };
 function wipe(what) {
@@ -1381,6 +1387,47 @@ function xlTable(o) {
 // ---- Preview: check and fix the list before the sheet is made ----
 let pv = null;
 const pvBad = (r) => /\?/.test(String(r.name)) || !String(r.name).trim() || parsePoints(r.points) === null;
+const HOOK_RE = /^https:\/\/discord\.com\/api\/webhooks\/\d+\/[\w-]+$/;
+$("hookbox").onchange = () => { const v = $("hookbox").value.trim(); if (!v) { try { localStorage.removeItem("fcd_hook"); } catch (e) {} $("hookmsg").textContent = "Removed."; } else if (!HOOK_RE.test(v)) { $("hookmsg").textContent = "That is not a Discord link."; return; } else { lsSet("fcd_hook", v); $("hookmsg").textContent = "Saved."; } renderSaved(); if (pv) pvDraw(); };
+async function hookPost(text, file) {
+  const url = lsGet("fcd_hook") || "";
+  if (!HOOK_RE.test(url)) throw new Error("Add your Discord link in Settings first.");
+  const send = (body) => fetch(url + "?wait=true", { method: "POST", body, signal: AbortSignal.timeout(30000) });
+  let res, fileSent = false;
+  if (file) { try { const f = new FormData(); f.append("payload_json", JSON.stringify({ content: text })); f.append("files[0]", file.blob, file.name); res = await send(f); fileSent = res.ok; } catch (e) { clog("Discord: the file could not go with the message (" + (e && e.name) + "). Trying the message alone."); } }
+  if (!res || !res.ok) res = await send(new Blob([JSON.stringify({ content: text })], { type: "application/json" }));
+  clog("Discord answered: HTTP " + res.status);
+  if (!res.ok) throw new Error(res.status === 404 ? "Discord says that link is gone. Make a new one in Discord." : "Discord said no (" + res.status + ").");
+  return fileSent;
+}
+$("hooktest").onclick = async () => {
+  const v = $("hookbox").value.trim(); if (HOOK_RE.test(v)) lsSet("fcd_hook", v); renderSaved();
+  $("hookmsg").textContent = "Sending...";
+  try { await hookPost("Fishing Cat Data test: this link works."); $("hookmsg").textContent = "Worked. Check Discord."; } catch (e) { $("hookmsg").textContent = plain(e); }
+};
+function hookText() {
+  const pm = fixNames(prevMap, pv.rows), rows = pv.rows.filter((r) => String(r.name).trim()), tot = rows.reduce((t, r) => t + (parsePoints(r.points) || 0), 0);
+  const gain = [], fresh = [];
+  rows.forEach((r) => { const n = parsePoints(r.points), b = pm ? pm.get(String(r.name).trim().toLowerCase()) : undefined; if (n === null || !pm) return; if (typeof b === "number") { if (n - b > 0) gain.push([r.name, n - b]); } else fresh.push(r.name); });
+  gain.sort((a, c) => c[1] - a[1]);
+  const f = (n) => n.toLocaleString("en-US");
+  let t = "**" + pv.p.clan + "** \u00b7 " + pv.p.game + " \u00b7 " + todayText() + "\n" + rows.length + " members \u00b7 " + f(tot) + " points in total";
+  if (gain.length) t += "\nTop gains: " + gain.slice(0, 3).map((g, i) => (i + 1) + ". " + g[0] + " +" + f(g[1])).join(", ");
+  if (fresh.length) t += "\nNew: " + fresh.slice(0, 10).join(", ") + (fresh.length > 10 ? " and " + (fresh.length - 10) + " more" : "");
+  return t.slice(0, 1900);
+}
+async function pvPost() {
+  const rows = pv.rows.filter((r) => String(r.name).trim() || String(r.points).trim());
+  if (!rows.length) { setMsg("The list is empty. Add a row or tap Reset.", true); return; }
+  try {
+    setMsg("Posting to Discord...");
+    await loadExcel();
+    let file = null;
+    if (window.ExcelJS) file = { blob: new Blob([await buildWorkbook(window.ExcelJS, rows, prevMap, pv.p, todayText()).xlsx.writeBuffer()], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), name: nameOf(pv.p) + ".xlsx" };
+    const sent = await hookPost(hookText(), file);
+    setMsg(sent ? "Posted to Discord with the sheet." : "Posted to Discord. The sheet file could not go, so use Download sheet.");
+  } catch (err) { clog("Stopped: " + why(err)); setMsg(plain(err), true); }
+}
 async function makeSheet(rows, p) {
   let blob, ext = ".xlsx";
   await loadExcel();
@@ -1431,6 +1478,8 @@ function pvDraw() {
   const bt = el("div", "pvb"), mk = (id, text, fn) => { const b = el("button", "tab", text); b.type = "button"; if (id) b.id = id; b.onclick = fn; bt.appendChild(b); return b; };
   const dl = mk("pvgo", "Download sheet", pvDownload); dl.classList.remove("tab");
   mk("pvadd", "Add row", () => { const last = Number(pv.rows.length ? pv.rows[pv.rows.length - 1].rank : 0); pv.rows.push({ rank: (Number.isFinite(last) ? last : pv.rows.length) + 1, name: "", role: "", points: "" }); pvDraw(); });
+  if (HOOK_RE.test(lsGet("fcd_hook") || "")) mk("pvpost", "Post to Discord", pvPost);
+  mk("pvcopy", "Copy message", async () => { try { await navigator.clipboard.writeText(hookText()); setMsg("Message copied."); } catch (e) { setMsg("Couldn't copy. Select the message and copy it by hand.", true); } });
   mk("pvreset", "Reset", () => { pv.rows = pv.orig.map(r => ({ ...r })); pvDraw(); });
   box.appendChild(bt);
 }
