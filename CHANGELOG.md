@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Ping a Discord role
+
+12 Nov 2026 (07:41 UTC) · New
+
+On the Discord tab you can pick Ping a role, paste your own role ID, and posts ping only that role.
+
+> [!TIP]
+> **What you'll see:** Discord tab, step 3 Ping (optional): Ping a role, with help on finding the role ID.
+
+- Role pings use the role ID you paste (saved on this device); nobody else gets pinged.
+
 ## Green and red lines in the Discord post
 
 12 Nov 2026 (07:40 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7eb1f08)
