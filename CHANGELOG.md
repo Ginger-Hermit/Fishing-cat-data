@@ -11,7 +11,7 @@ Picking a video you already turned into a sheet shows 'Already used' with the da
 > [!TIP]
 > **What you'll see:** Clan tab, after picking a video
 
-- Remembers used videos (name, size, date only) on this device.
+- Remembers used videos (name, size, date only) on this device. [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/501f309386921fc667536f6a13f399cfe6ffa569)
 
 ## Developer update line
 
