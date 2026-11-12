@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
-## Clearer links at the top of Home
+## Ask before opening links
 
 12 Nov 2026 (06:54 UTC) · Changed
+
+The page asks before it opens another website.
+
+**What you'll see:** Tap any link to GitHub or Google: a box says which site and asks Open it?
+
+- All links to other websites now ask first, naming the site.
+
+## Clearer links at the top of Home
+
+12 Nov 2026 (06:54 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0e226e9)
 
 The two links at the top say where they go and use the page's link colour.
 

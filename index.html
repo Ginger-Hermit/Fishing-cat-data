@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The two links at the top say where they go and use the page's link colour. -->
+<!-- Patch note: The page asks before it opens another website. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -379,7 +379,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-w";
+const BUILD = "2026-11-12-x";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1933,6 +1933,14 @@ $("billgo").onclick = async () => {
   }
 };
 $("keydet").open = !$("key").value.trim();
+// Ask before opening any other website.
+document.addEventListener("click", (e) => {
+  const a = e.target.closest && e.target.closest("a[href]"); if (!a || a.dataset.go) return;
+  let u; try { u = new URL(a.href, location.href); } catch (x) { return; }
+  if (!/^https?:$/.test(u.protocol) || u.host === location.host) return;
+  e.preventDefault();
+  if (confirm("This opens " + u.host + " in a new tab. Open it?")) window.open(u.href, "_blank", "noopener,noreferrer");
+});
 </script>
 </body>
 </html>
