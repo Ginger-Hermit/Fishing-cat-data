@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: A name like @everyone in a sheet can no longer ping your whole Discord server. -->
+<!-- Patch note: The Discord message has a heading and bold numbers, and My own files now respects the Attach the Excel file tick, so you can post just the picture. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -421,7 +421,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-x";
+const BUILD = "2026-11-12-y";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1465,6 +1465,7 @@ function xlTable(o) {
 // ---- Preview: check and fix the list before the sheet is made ----
 let pv = null;
 const pvBad = (r) => /\?/.test(String(r.name)) || !String(r.name).trim() || parsePoints(r.points) === null;
+const dcHead = (clan, game, date, n, tot) => "## " + clan + " \u00b7 " + game + "\n-# " + date + "\n**" + n + "** members \u00b7 **" + tot + "** points";
 const HOOK_RE = /^https:\/\/discord\.com\/api\/webhooks\/\d+\/[\w-]+$/;
 const setHook = (v) => { hookNow = v; try { if (v && $("hookkeep").checked) localStorage.setItem("fcd_hook", v); else localStorage.removeItem("fcd_hook"); } catch (e) {} };
 $("hookbox").onchange = () => { const v = $("hookbox").value.trim(); if (v && !HOOK_RE.test(v)) { $("hookmsg").textContent = "That is not a Discord link."; return; } setHook(v); $("hookmsg").textContent = v ? "Ready." : "Removed."; renderSaved(); if (pv) pvDraw(); };
@@ -1567,12 +1568,12 @@ $("shpost").onclick = async () => {
     const files = []; let text = "Fishing Cat Data";
     if (xf) {
       const sh = await readSheet(await xf.arrayBuffer()).catch(() => { throw new Error("That Excel file could not be read. Use a sheet this page made."); }), f = (n) => Math.round(n).toLocaleString("en-US"), tot = sh.items.reduce((t, r) => t + r.n, 0);
-      text = "**" + sh.clan + "** \u00b7 " + sh.game + " \u00b7 " + sh.date + "\n" + sh.items.length + " members \u00b7 " + f(tot) + " points in total";
-      if (sh.any) { const ret = sh.items.filter((r) => r.b !== null), d = ret.reduce((t, r) => t + r.n - r.b, 0), b0 = ret.reduce((t, r) => t + r.b, 0); text += "\nSince last run: " + (d >= 0 ? "+" : "-") + f(Math.abs(d)) + (b0 ? " (" + (d >= 0 ? "+" : "") + (d / b0 * 100).toFixed(1) + "%)" : "") + " from returning members"; }
+      text = dcHead(sh.clan, sh.game, sh.date, sh.items.length, f(tot));
+      if (sh.any) { const ret = sh.items.filter((r) => r.b !== null), d = ret.reduce((t, r) => t + r.n - r.b, 0), b0 = ret.reduce((t, r) => t + r.b, 0); text += "\n**" + (d >= 0 ? "+" : "-") + f(Math.abs(d)) + (b0 ? " (" + (d >= 0 ? "+" : "") + (d / b0 * 100).toFixed(1) + "%)" : "") + "** since last run (returning members)"; }
       if (!pf) files.push(await rowsPic(sh.items.map((r) => ({ ...r, ch: sh.any ? chCell(r.n, r.b === null ? undefined : r.b) : ["", "#b5bac1"] })), sh.clan, subLine(sh.date, sh.items.length, tot, sh.items.filter((r) => r.b !== null).reduce((t, r) => t + r.n - r.b, 0), sh.any), sh.clan + ".png"));
     }
     if (pf) files.push({ blob: pf, name: pf.name });
-    if (xf) files.push({ blob: xf, name: xf.name });
+    if (xf && $("hookxlsx").checked) files.push({ blob: xf, name: xf.name });
     const sent = await hookPost(text.slice(0, 1900), files);
     say(files.length && !sent ? "Posted the message, but the files could not go." : "Posted.");
   } catch (err) { clog("Stopped: " + why(err)); say(plain(err)); }
@@ -1610,10 +1611,10 @@ function hookText(compact) {
     const d = n - b; before += b; change += d; if (d > 0) up.push([r.name, d, b]); else if (d < 0) dn.push([r.name, d, b]); else same++; });
   up.sort((x, y) => y[1] - x[1]); dn.sort((x, y) => x[1] - y[1]);
   const pc = (d, b) => (b ? " (" + (d > 0 ? "+" : "") + (d / b * 100).toFixed(1) + "%)" : "");
-  let t = "**" + pv.p.clan + "** \u00b7 " + pv.p.game + " \u00b7 " + todayText() + "\n" + rows.length + " members \u00b7 " + f(tot) + " points in total";
+  let t = dcHead(pv.p.clan, pv.p.game, todayText(), rows.length, f(tot));
   if (pm && (up.length || dn.length || same)) {
-    t += "\nSince last run: " + sg(change) + pc(change, before) + " from returning members\nUp " + up.length + " \u00b7 Down " + dn.length + " \u00b7 Same " + same + " \u00b7 New " + fresh.length;
-    if (up.length && !compact) t += "\nTop gains:\n" + up.slice(0, 5).map((g, i) => (i + 1) + ". " + g[0] + " " + sg(g[1]) + pc(g[1], g[2])).join("\n");
+    t += "\n**" + sg(change) + pc(change, before) + "** since last run (returning members)\nUp " + up.length + " \u00b7 Down " + dn.length + " \u00b7 Same " + same + " \u00b7 New " + fresh.length;
+    if (up.length && !compact) t += "\n**Top gains**\n" + up.slice(0, 5).map((g, i) => (i + 1) + ". " + g[0] + " " + sg(g[1]) + pc(g[1], g[2])).join("\n");
     if (dn.length && !compact) t += "\nBiggest drops: " + dn.slice(0, 3).map((g) => g[0] + " " + sg(g[1])).join(", ");
     if (fresh.length) t += "\nNew: " + fresh.slice(0, 10).join(", ") + (fresh.length > 10 ? " and " + (fresh.length - 10) + " more" : "");
     const left = [...pm.keys()].filter((k) => !here.has(k));

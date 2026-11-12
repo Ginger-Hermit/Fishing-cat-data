@@ -2,6 +2,18 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Tidier Discord message, no Excel on request
+
+12 Nov 2026 (07:29 UTC) · Changed
+
+The Discord message has a heading and bold numbers, and My own files now respects the Attach the Excel file tick, so you can post just the picture.
+
+> [!NOTE]
+> **What you'll see:** Discord: untick Attach the Excel file, pick your sheet, Post: only the table picture goes.
+
+- New message layout (heading, date line, bold totals and change).
+- Picked Excel files are only attached when the tick is on; the picture is drawn from them either way.
+
 ## Discord posts can't ping anyone
 
 12 Nov 2026 (07:27 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/3d2381b)
