@@ -1,4 +1,4 @@
-// Patch note: The developer stills now have their own Copy bug report button.
+// Patch note: The AI is told to copy names letter by letter: 1 vs l, and underscores not dots.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -17,7 +17,7 @@ function buildPrompt(p) {
   return `These images show the member list of a Roblox game clan screen.
 Each row shows ${rankLine}, a username, ${roleLine} and a points number (like 52.51K, 1.307M or 507).
 The list may scroll: later images often show lower rows. Read EVERY image to the last one, and EVERY row that is fully visible in each. Skip rows cut off at the top or bottom edge. Keep rows in the order shown, top first.
-Copy usernames exactly. Points: copy exactly as shown. Never guess; use "?" if unreadable.
+Copy usernames exactly, letter by letter. Roblox names use only letters, digits and one underscore "_" (never dots or spaces). Look closely at 1 vs l vs I and 0 vs O; a digit next to other digits is usually a digit. Points: copy exactly as shown. Never guess; use "?" if unreadable.
 If a member count is shown on screen (like "Members 49"), add one last object {"members_on_screen": 49}.
 Answer with ONLY a JSON array, no other text:
 [{"rank": 12, "name": "example_name", "role": "${p.extra ? "value" : "Member"}", "points": "16.6K"}, ...]`;
@@ -72,7 +72,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-zzf";
+const BUILD = "2026-11-12-zzg";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };

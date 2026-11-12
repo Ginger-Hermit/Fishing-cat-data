@@ -11,3 +11,4 @@ Older bugs: `BREAK_REPORT_2026-11-12.md` and `STRESS_TEST_LOG.md`.
 - 2026-11-13: Video missed new clan members. Cause: 96x54 compare called a scrolled clan panel the same picture; 4 looks a second skipped fast scrolls. Fix: 192x108 compare, stricter threshold, 8 looks a second.
 - 2026-11-13: Deathgold1198 became Deathgoldl198 in every tab. Cause: fixNames renamed the history to today's misread. Fix: today's row takes the earlier spelling.
 - 12 Nov: clan video gave 5 of 11 members. Cause: Test read sent only the first still of the video. Fix: Test read sends all stills of a video.
+- 12 Nov 2026: clan names misread (Deathgold1198 as Deathgoldl198, rakha_112233 as rakha..112233). Cause: prompt too loose. Fix: stricter username rule in buildPrompt.

@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Better name reading
+
+12 Nov 2026 (23:49 UTC) · Changed
+
+The AI is told to copy names letter by letter: 1 vs l, and underscores not dots.
+
+> [!NOTE]
+> **What you'll see:** Clan sheet usernames
+
+- Stricter username rule in the AI instructions.
+
 ## Bug report button by the stills
 
-12 Nov 2026 (23:48 UTC) · Changed
+12 Nov 2026 (23:48 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6e06b83)
 
 The developer stills now have their own Copy bug report button.
 
