@@ -1,6 +1,6 @@
 // Fuzzer: throws thousands of scrambled AI replies at the reading code and checks rules that must always hold.
 // Run from the repo folder: node tests/fuzz.js [seed] [cases]   e.g. node tests/fuzz.js 7 20000   (no output lines starting with ! means no failures)
-const fs=require("fs");const h=fs.readFileSync("index.html","utf8");
+const fs=require("fs");const h=fs.readFileSync("index.html","utf8")+"<script>"+fs.readFileSync("app.js","utf8")+"</script>";
 const grab=(a,b)=>h.slice(h.indexOf(a),h.indexOf(b));
 eval(grab("const tidy =","async function readPrevious")+grab("function parseNum","function buildBillBook"));
 let seed=+process.argv[2]||12345;const rnd=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};

@@ -1,5 +1,5 @@
 // Checks reading numbers and units from energy bills. Run from the repo folder: node tests/bills.test.js
-const fs=require("fs");const h=fs.readFileSync("index.html","utf8");
+const fs=require("fs");const h=fs.readFileSync("index.html","utf8")+"<script>"+fs.readFileSync("app.js","utf8")+"</script>";
 const grab=(a,b)=>h.slice(h.indexOf(a),h.indexOf(b));
 eval(grab("const tidy =","function parseRows")+grab("function parseNum","function buildBillBook"));
 const A=require("assert");

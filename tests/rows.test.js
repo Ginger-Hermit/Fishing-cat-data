@@ -1,5 +1,5 @@
 // Checks reading rows and points from AI replies. Run from the repo folder: node tests/rows.test.js
-const fs=require("fs");const h=fs.readFileSync("index.html","utf8");
+const fs=require("fs");const h=fs.readFileSync("index.html","utf8")+"<script>"+fs.readFileSync("app.js","utf8")+"</script>";
 const grab=(a,b)=>h.slice(h.indexOf(a),h.indexOf(b));
 eval(grab("// Tidy one value","// Excel: turn")+grab("function parsePoints","async function readPrevious")+";globalThis.parseRows=parseRows;globalThis.parsePoints=parsePoints");
 const A=require("assert");

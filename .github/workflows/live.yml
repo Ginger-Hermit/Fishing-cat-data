@@ -19,7 +19,7 @@ jobs:
           if curl -fsS -m 30 -D head.txt -o page.html "$SITE/?t=$(date +%s)"; then
             GOT=$(curl -fsS -m 30 "$SITE/version.txt?t=$(date +%s)" | tr -d '[:space:]')
             [ "$GOT" = "$WANT" ] || R="$R live version.txt is $GOT, repo has $WANT;"
-            grep -q "const BUILD = \"$WANT\"" page.html || R="$R live page is not version $WANT;"
+            curl -fsS -m 30 -o app.js.live "$SITE/app.js?t=$(date +%s)" && grep -q "const BUILD = \"$WANT\"" app.js.live || R="$R live code is not version $WANT;"
             grep -qi "^content-security-policy:.*connect-src" head.txt || R="$R security header missing;"
             grep -qi "^x-content-type-options: nosniff" head.txt || R="$R nosniff header missing;"
           else

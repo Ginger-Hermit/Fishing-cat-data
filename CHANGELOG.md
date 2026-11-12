@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Page code moved to its own file
+
+12 Nov 2026 (12:31 UTC) · Changed
+
+The page's code now lives in app.js, so the browser refuses any code sneaked into the page.
+
+> [!NOTE]
+> **What you'll see:** Nothing looks different
+
+- Moved the script out of index.html into app.js; _headers no longer allows inline scripts.
+
 ## Shorter bug report help
 
 12 Nov 2026 (12:28 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/a417f9b)

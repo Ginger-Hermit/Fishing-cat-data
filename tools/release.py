@@ -27,8 +27,11 @@ def once(s, old_text, new_text, what):
     if s.count(old_text) != 1: sys.exit("release.py: could not find exactly one " + what)
     return s.replace(old_text, new_text)
 
+j = open("app.js", encoding="utf-8").read()
+j = once(j, 'const BUILD = "%s";' % old, 'const BUILD = "%s";' % new, "BUILD line")
+jl = j.split("\n"); jl[0] = "// Patch note: %s" % (a.note or a.meaning)
+open("app.js", "w", encoding="utf-8").write("\n".join(jl))
 s = open("index.html", encoding="utf-8").read()
-s = once(s, 'const BUILD = "%s";' % old, 'const BUILD = "%s";' % new, "BUILD line")
 lines = s.split("\n")
 if not lines[1].startswith("<!-- Patch note:"): sys.exit("release.py: patch note line not found")
 lines[1] = "<!-- Patch note: %s -->" % (a.note or a.meaning)

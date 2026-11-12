@@ -7,12 +7,12 @@ Also at the start: `tail -3 developer/LIVE_CHECK_LOG.md` and the latest GitHub A
 
 Web page: reads Roblox clan screenshots or video (any Roblox game) with an AI and makes an Excel sheet. Bills tab: photos of household bills become a sheet. Live: fishing-cat-data.pages.dev. Pushing to `main` deploys in about a minute.
 
-## Every change to `index.html`
+## Every change to `index.html` (page) or `app.js` (all the code)
 1. `git pull` first. Find the exact spot with grep (table below), read only those lines. Small find-and-replace edits that each match once, all in one script. Backup outside the repo.
 2. Run `python3 tools/release.py --title ... --tag New|Changed --meaning ... --see ... --change ...` once. It does the version, CHANGELOG, patch note, STATUS and `tests/check.py`. Never by hand.
    After pushing, put the new commit hash on that entry as a `[code](.../commit/HASH)` link in CHANGELOG.md (release.py only fills the previous entry), then push again.
 3. Touched `parseRows`, `parsePoints`, `parseBills`, `parseNum` or `kwhFor`? Also run `node tests/rows.test.js && node tests/bills.test.js && node tests/fuzz.js 7 5000`.
-4. Commit, push. GitHub runs every test in three browsers; a red cross comes first. Changes outside `index.html` need no release.
+4. Commit, push. GitHub runs every test in three browsers; a red cross comes first. Changes outside `index.html` and `app.js` need no release.
 5. One bug per patch unless the same cause. Say what you couldn't test.
    Fixed a bug? Add one line to `developer/BUG_LOG.md` (date, what broke, cause, fix, commit).
 6. Edit `STATUS.md` Next / Not tested only when they really change. Keep it under 50 lines.
@@ -36,7 +36,7 @@ Web page: reads Roblox clan screenshots or video (any Roblox game) with an AI an
 - Bills: the AI copies, the sheet calculates. No AI sums or conversions. No fields for name, address or account numbers.
 - Nothing leaves the PC except to the AI company Ginger picked. No new packages (only `exceljs.bare.min.js`, loaded by `loadExcel`).
 
-## Where things are (grep `index.html`)
+## Where things are (grep `app.js`; screen text and layout are in `index.html`)
 | What | Search |
 |---|---|
 | AI companies, models, requests | `const PROVIDERS`, `const ASKERS`, `function postJson` |
@@ -54,4 +54,4 @@ Web page: reads Roblox clan screenshots or video (any Roblox game) with an AI an
 | Background | `developer/HOW_IT_WAS_BUILT.md`, `developer/STRESS_TEST_LOG.md` (read section 7 before calling a feature done) |
 
 ## Working with Ginger
-- Later, not now: split code out of `index.html` and drop `'unsafe-inline'` from the CSP. Only after real clan and bill runs work; warn first.
+- Split batch 1 done 12 Nov: code in `app.js`, CSP `script-src 'self'` (no inline code allowed; never add `<script>` code or `on...=` to `index.html`). Batch 2, not started: move the ~155 `style="..."` to classes so `style-src` can drop `'unsafe-inline'`.
