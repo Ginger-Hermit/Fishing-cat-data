@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Ping box readable by screen readers
 
-12 Nov 2026 (12:12 UTC) · Changed
+12 Nov 2026 (12:12 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8904e69)
 
 The Discord ping picker now has a name screen readers can say.
 
