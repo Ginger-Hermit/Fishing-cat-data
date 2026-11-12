@@ -1,4 +1,4 @@
-// Patch note: Versions are now simple numbers like 1.1.1 instead of date and letters.
+// Patch note: If an earlier sheet had an impossible name (like dots), the new correct spelling is kept and its history moves over.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -72,7 +72,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.1";
+const BUILD = "1.1.2";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -481,6 +481,7 @@ function nameClose(a, b) {
   const [x, y] = a.length > b.length ? [a, b] : [b, a];
   return x.slice(i + 1) === y.slice(i);
 }
+const okName = (n) => /^[A-Za-z0-9]+(_[A-Za-z0-9]+)?$/.test(String(n).trim());
 function fixNames(prev, rows) {
   if (!prev) return prev;
   const norm = (n) => String(n).trim().toLowerCase();
@@ -494,7 +495,15 @@ function fixNames(prev, rows) {
     if (m.length !== 1) return;
     // Close to a name from earlier runs = the AI misread it (l for 1 etc.), so keep the earlier spelling.
     const h = prev.hist && prev.hist.players.find(([x]) => x === m[0]);
-    r.name = (h && h[1] && h[1].name) || m[0]; free.splice(free.indexOf(m[0]), 1);
+    const was = (h && h[1] && h[1].name) || m[0];
+    free.splice(free.indexOf(m[0]), 1);
+    // Earlier spelling is not a possible Roblox name (dots, two underscores) but the new one is: keep the new one and move the history to it.
+    if (!okName(was) && okName(r.name)) {
+      if (prev.has(m[0])) { prev.set(k, prev.get(m[0])); prev.delete(m[0]); }
+      if (h) { h[0] = k; if (h[1] && h[1].name) h[1].name = String(r.name).trim(); }
+      return;
+    }
+    r.name = was;
   });
   return prev;
 }

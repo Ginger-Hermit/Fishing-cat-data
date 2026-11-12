@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Earlier wrong names no longer stick
+
+12 Nov 2026 (23:57 UTC) · Changed
+
+If an earlier sheet had an impossible name (like dots), the new correct spelling is kept and its history moves over.
+
+> [!NOTE]
+> **What you'll see:** Clan sheet with an earlier sheet added
+
+- fixNames keeps the new spelling when the earlier one is not a valid Roblox name.
+
 ## Version numbers
 
 12 Nov 2026 (23:55 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6cc1be1)
