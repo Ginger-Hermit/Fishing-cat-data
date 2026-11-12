@@ -2,9 +2,22 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Bills sheet simpler, Home steps line up
+
+12 Nov 2026 (05:27 UTC) · Changed
+
+The bills sheet shows fewer columns and plainer words, and the numbered steps on Home no longer break into columns.
+
+**What you'll see:** Home: the steps read as sentences. Bills sheet: fewer columns, and the Summary names each note.
+
+- Home steps keep links and bold words in the sentence
+- Bills tab hides the repeated and printed columns (still there, unhide to see)
+- Bill column says Bill 1, Bill 2
+- Summary: plainer row names and a name for each plain-words note
+
 ## Home page colours
 
-12 Nov 2026 (05:24 UTC) · Changed
+12 Nov 2026 (05:24 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/cbd527f)
 
 The Home page now uses the theme colour for headings, steps and the safety box.
 
