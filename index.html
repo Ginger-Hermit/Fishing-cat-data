@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The Home page no longer repeats the footer, the section arrows match the page and the tab row stays on one line. -->
+<!-- Patch note: Stay safe now says plainly what happens to your pictures and key, and the Bills tab has a Test button like the clan tab. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -17,7 +17,8 @@ html[data-size=large] .card{zoom:1.25}
 .hc a{color:var(--link)}
 .ok{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--noteBg);color:var(--noteText);border-radius:8px;padding:12px 14px;margin-top:8px;font-size:15px;font-weight:500}
 .hc{background:var(--field);border:1px solid var(--soft);border-radius:10px;padding:12px 14px;margin-bottom:10px}
-.hc summary{cursor:pointer;font-weight:500;color:var(--link)}
+.hc summary{cursor:pointer;font-weight:600;color:var(--link);list-style:none;display:flex;align-items:center;gap:8px}.hc summary::-webkit-details-marker{display:none}.hc summary:after{content:"\203A";margin-left:auto;font-size:1.3em;line-height:1;transition:transform .15s}.hc[open]>summary:after{transform:rotate(90deg)}
+.facts{list-style:none;margin:10px 0 0;padding:0}.facts li{display:flex;gap:10px;align-items:flex-start;margin:8px 0;line-height:1.5}.facts li:before{content:"\2713";color:var(--noteText);background:var(--noteBg);border-radius:50%;min-width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;margin-top:1px}.facts li.no:before{content:"\2715";color:var(--err);background:var(--soft)}
 .hc ul{margin:8px 0 0;padding-left:20px;line-height:1.7}
 .hc p{margin:8px 0 0;color:var(--muted)}
 .hsec>summary{color:var(--link);border-left:4px solid var(--accent);padding:6px 2px 6px 12px;list-style:none;display:flex;align-items:center;gap:8px}.hsec>summary::-webkit-details-marker{display:none}.hsec>summary:after{content:"\203A";margin-left:auto;font-size:1.3em;line-height:1;transition:transform .15s}.hsec[open]>summary:after{transform:rotate(90deg)}.hsec li b{color:var(--link)}.hsafe{background:var(--noteBg);color:var(--noteText);border-radius:8px;padding:8px 12px 8px 28px}.hsafe a{color:var(--noteText);font-weight:600}
@@ -163,6 +164,7 @@ button:disabled{opacity:.5}
 <input id="billfiles" type="file" accept="image/png,image/jpeg,image/webp,application/pdf" multiple hidden>
 <div id="billlist"></div>
 <button id="billgo" disabled>Make my sheet</button>
+<button id="billtest" type="button" class="tab" disabled style="margin-top:8px;width:100%">Test first (one bill, no file)</button>
 <div class="msg" id="billmsg" role="status" aria-live="polite"></div>
 <div class="prog" id="billprog" aria-live="polite"></div>
 <div class="pv" id="billpreview" style="display:none"></div>
@@ -179,6 +181,19 @@ button:disabled{opacity:.5}
 </div>
 </div>
 <div id="safetytab" class="page" style="display:none">
+<div class="hc" style="border-color:var(--accent)">
+<b style="font-size:1.05em">What happens to your pictures and your key</b>
+<ul class="facts">
+<li>Your pictures go straight from your browser to the AI company you picked. They don't pass through any computer of ours.</li>
+<li>There is no server of ours. This is one web page, so there is nowhere for us to keep your pictures, your sheets or your key.</li>
+<li>Your key is only saved if you tick <b>Remember my key</b>, and then only in this browser. Untick it to delete it.</li>
+<li>Settings lists everything saved on your device and lets you delete it: <a href="#" data-go="privacy">see what is saved</a>.</li>
+<li>Anyone can read the code that does all this. It is public on <a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">GitHub</a>.</li>
+<li class="no">We never ask for your password, your email, your name or any payment details.</li>
+<li class="no">No ads, no tracking, and nothing is shared with anyone else.</li>
+</ul>
+<p style="margin-top:10px">The rest of this page is the detail, in plain words. You don't have to read it to use the page safely: the first three points cover most of it.</p>
+</div>
 <div class="hc"><b>The 5 big ones</b>
 <ul>
 <li>Your AI key is a password. Never send it to anyone or paste it anywhere but the first box.</li>
@@ -355,7 +370,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-w";
+const BUILD = "2026-11-12-x";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -440,6 +455,7 @@ function refresh() {
   $("go").disabled = running || !(key && images.length);
   $("testgo").disabled = $("go").disabled;
   $("billgo").disabled = running || !(key && billPics.length);
+  $("billtest").disabled = running || !(key && billPics.length);
   $("provider").disabled = running;
 }
 
@@ -1620,6 +1636,26 @@ function bpDraw() {
   const rs = mkEl("button", "tab", "Reset"); rs.id = "bpreset"; rs.type = "button"; rs.onclick = () => { bp.bills = JSON.parse(JSON.stringify(bp.orig)); bpDraw(); }; bt.appendChild(rs);
   box.appendChild(bt);
 }
+$("billtest").onclick = async () => {
+  const key = $("key").value.trim(), id = provider();
+  running = true; refresh();
+  bp = null; bpDraw();
+  billSay("Test read: looking at 1 photo... this can take about 30 seconds.");
+  try {
+    checkKey(key);
+    const pics = (await collectPictures([billPics[0]])).slice(0, 1);
+    await loadExcel();
+    PROMPT = BILL_PROMPT;
+    const bills = parseBills(await ASKERS[id](key, modelFor(id), pics));
+    if (!bills.length) throw new Error("Test read: no charges found. The photo may not show the charges part of the bill.");
+    const lines = bills.reduce((t, b) => t + b.lines.length, 0);
+    bp = { bills, orig: JSON.parse(JSON.stringify(bills)) };
+    bpDraw();
+    billSay("Test read OK: " + lines + " charge(s) from 1 photo. Check the preview below. If it looks right, tap Make my sheet. Nothing was downloaded.");
+  } catch (err) { clog("Bill test stopped: " + err.message); billSay(plain(err), true); }
+  finally { running = false; refresh(); }
+};
+
 $("billgo").onclick = async () => {
   const key = $("key").value.trim(), id = provider();
   running = true; refresh();

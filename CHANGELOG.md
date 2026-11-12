@@ -2,9 +2,22 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Stay safe page reassures, Bills gets Test first
+
+12 Nov 2026 (05:31 UTC) · Changed
+
+Stay safe now says plainly what happens to your pictures and key, and the Bills tab has a Test button like the clan tab.
+
+**What you'll see:** Stay safe: a panel at the top with ticks. Bills tab: a Test first button under Make my sheet.
+
+- Stay safe: panel saying pictures go straight to the AI company, there is no server of ours, nothing is tracked
+- Stay safe and Help sections use the same small arrows as Home
+- Bills: Test first (one photo, no file) fills the preview
+- Sample photos removed from the GitHub guide
+
 ## Home tidy-up
 
-12 Nov 2026 (05:28 UTC) · Changed
+12 Nov 2026 (05:28 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0f6c071)
 
 The Home page no longer repeats the footer, the section arrows match the page and the tab row stays on one line.
 

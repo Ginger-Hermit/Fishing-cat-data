@@ -16,18 +16,6 @@ Turns clan screenshots or a video from any Roblox game into a ready-to-use Excel
 4. Optional: choose last time's sheet to compare.
 5. Tap **Make my sheet**. After about 20 seconds an Excel file downloads.
 
-What it looks like (sample data, not real people):
-
-![The home page on a phone](images/home.png)
-
-![Check your list: fix any cell before you download](images/clan-table.png)
-
-![The Excel file you get](images/clan-excel.png)
-
-![The Leaderboard tab you get](images/clan-leaderboard.png)
-
-![Bills: check your charges](images/bills-table.png)
-
 ## What you get
 
 - An Excel file named after the game and clan (or the **Clan name** you type), like `Roblox - Gym League - Loki.xlsx`.
