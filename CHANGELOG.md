@@ -2,6 +2,29 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Optional ping on Discord posts
+
+12 Nov 2026 (07:38 UTC) · New
+
+Pick Ping @here or Ping @everyone on the Discord tab; the default pings nobody.
+
+> [!TIP]
+> **What you'll see:** Discord tab, step 3 Ping (optional). Also fixed 'Gym Coachs' to 'Gym Coaches'.
+
+- Added a ping choice (off by default).
+- Fixed plurals in the role line.
+
+## Discord breakdown with headers and per-person changes
+
+12 Nov 2026 (07:38 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6bcb4fd)
+
+The Discord message has headers and lists each person's old points, new points and difference.
+
+> [!NOTE]
+> **What you'll see:** Discord post: Clan Members, What changed (Went up, Went down, New) and Points history.
+
+- Per-person lines like Kiviix: 136,630 to 155,240 (+18,610); lists show 10 then and N more.
+
 ## Bullet points in the Discord breakdown
 
 12 Nov 2026 (07:35 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0db833c)

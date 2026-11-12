@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The written breakdown in the Discord post now uses short bullet points under each tab name. -->
+<!-- Patch note: Pick Ping @here or Ping @everyone on the Discord tab; the default pings nobody. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -207,7 +207,10 @@ button:disabled{opacity:.5}
 <input type="file" id="artfile" accept="image/*" style="display:none">
 <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><label for="artfile" class="tab big" style="cursor:pointer;display:inline-flex;align-items:center;margin:0;color:var(--link)">Choose picture</label><button id="artforget" type="button" class="tab big" style="display:none">Remove</button><img id="artthumb" alt="Your saved header picture" style="display:none;height:48px;border-radius:6px;border:1px solid var(--soft)"></div><div id="artmsg" role="status" style="font-size:14px;color:var(--noteText);margin-top:6px"></div>
 <label style="display:flex;gap:10px;align-items:center;font-weight:normal;font-size:16px;margin-top:16px"><input type="checkbox" id="hookxlsx" checked style="width:22px;height:22px;min-height:0;padding:0;margin:0"> Also attach the Excel file (leave unticked for picture and text only)</label>
-<div style="font-weight:600;font-size:17px;margin:20px 0 8px">3. Post</div>
+<div style="font-weight:600;font-size:17px;margin:20px 0 8px">3. Ping (optional)</div>
+<select id="dcping" style="min-height:48px;font-size:16px"><option value="">Don't ping anyone</option><option value="here">Ping @here (people online now)</option><option value="everyone">Ping @everyone</option></select>
+<div style="font-size:13px;color:var(--muted);margin-top:4px">This pings the whole channel. The page can't tell which Discord person is which Roblox name.</div>
+<div style="font-weight:600;font-size:17px;margin:20px 0 8px">4. Post</div>
 <button id="dcgo" type="button" style="width:100%;padding:16px;font-size:18px">Post to Discord</button>
 <div id="hookmsg" role="status" aria-live="polite" style="font-size:15px;margin-top:10px"></div>
 <button id="shpost" type="button" hidden></button>
@@ -421,7 +424,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-zb";
+const BUILD = "2026-11-12-zd";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1469,29 +1472,28 @@ const dcHead = (clan, game, date, n, tot) => "## " + clan + " \u00b7 " + game + 
 const dcBreakdown = (sh, f) => {
   const it = sh.items, n = it.length, tot = it.reduce((a, x) => a + x.n, 0), sg = (d) => (d >= 0 ? "+" : "-") + f(Math.abs(d)), pc = (d, b) => (b ? " (" + (d > 0 ? "+" : "") + (d / b * 100).toFixed(1) + "%)" : "");
   const dt = (d) => d.toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
-  let t = dcHead(sh.clan, sh.game, sh.date, n, f(tot));
-  const roles = {}; it.forEach((x) => { const k = x.role || "No role"; (roles[k] = roles[k] || { c: 0, p: 0 }).c++; roles[k].p += x.n; });
-  const top = [...it].sort((x, y) => y.n - x.n).slice(0, 3);
-  t += "\n\n**Clan Members**\n- Average: **" + f(tot / Math.max(n, 1)) + "** points each\n- Top 3: " + top.map((x) => x.name + " " + f(x.n)).join(", ") + "\n- Roles: " + Object.entries(roles).sort((x, y) => y[1].p - x[1].p).map(([k, v]) => k + " x" + v.c + " (" + f(v.p) + ")").join(", ");
+  const more = (a, k) => a.length > k ? "\n- and " + (a.length - k) + " more (see the file)" : "";
+  let t = "## " + sh.clan + " \u00b7 " + sh.game + "\n-# " + sh.date + " \u00b7 " + n + " members \u00b7 " + f(tot) + " points";
+  const roles = {}; it.forEach((x) => { const k = x.role || "No role"; roles[k] = (roles[k] || 0) + 1; });
+  t += "\n\n### Clan Members\n- " + Object.entries(roles).sort((x, y) => y[1] - x[1]).map(([k, c]) => c + " " + k + (c > 1 ? (/(s|x|ch|sh)$/i.test(k) ? "es" : "s") : "")).join(", ") + "\n- About " + f(tot / Math.max(n, 1)) + " points each";
   if (sh.any) {
     const ret = it.filter((x) => x.b !== null), fresh = it.filter((x) => x.b === null), d = ret.reduce((a, x) => a + x.n - x.b, 0), b0 = ret.reduce((a, x) => a + x.b, 0);
-    const up = ret.filter((x) => x.n > x.b).sort((x, y) => (y.n - y.b) - (x.n - x.b)), dn = ret.filter((x) => x.n < x.b).sort((x, y) => (x.n - x.b) - (y.n - y.b));
-    t += "\n\n**Leaderboard**\n- Since last run: **" + sg(d) + pc(d, b0) + "**\n- Up " + up.length + " · Down " + dn.length + " · Same " + (ret.length - up.length - dn.length) + " · New " + fresh.length;
-    if (up.length) t += "\n- Biggest gains: " + up.slice(0, 3).map((x) => x.name + " " + sg(x.n - x.b) + pc(x.n - x.b, x.b)).join(", ");
-    if (dn.length) t += "\n- Biggest drops: " + dn.slice(0, 3).map((x) => x.name + " " + sg(x.n - x.b)).join(", ");
-    if (fresh.length) t += "\n- New: " + fresh.slice(0, 8).map((x) => x.name).join(", ") + (fresh.length > 8 ? " and " + (fresh.length - 8) + " more" : "");
+    const up = ret.filter((x) => x.n > x.b).sort((x, y) => (y.n - y.b) - (x.n - x.b)), dn = ret.filter((x) => x.n < x.b).sort((x, y) => (x.n - x.b) - (y.n - y.b)), same = ret.length - up.length - dn.length;
+    const line = (x) => "\n- " + x.name + ": " + f(x.b) + " \u2192 " + f(x.n) + " (" + sg(x.n - x.b) + ")";
+    t += "\n\n### What changed\n**Whole clan: " + sg(d) + " points" + pc(d, b0) + "**";
+    if (up.length) t += "\n\n**Went up (" + up.length + ")**" + up.slice(0, 10).map(line).join("") + more(up, 10);
+    if (dn.length) t += "\n\n**Went down (" + dn.length + ")**" + dn.slice(0, 10).map(line).join("") + more(dn, 10);
+    if (same) t += "\n\n**No change (" + same + ")**";
+    if (fresh.length) t += "\n\n**New (" + fresh.length + ")**" + fresh.slice(0, 10).map((x) => "\n- " + x.name + ": " + f(x.n) + " points").join("") + more(fresh, 10);
   }
   const h = sh.hist;
   if (h && h.dates.length > 1) {
     const K = h.dates.length, totals = h.dates.map((_, k) => h.list.reduce((a, e) => a + (e.vals[k] || 0), 0));
-    const since = h.list.map((e) => { const v = e.vals.filter((x) => x !== null); return { name: e.name, g: v.length > 1 ? v[v.length - 1] - v[0] : null }; }).filter((x) => x.g !== null && x.g > 0).sort((x, y) => y.g - x.g).slice(0, 3);
-    t += "\n\n**Points history**\n- " + K + " runs, " + dt(h.dates[0]) + " to " + dt(h.dates[K - 1]) + "\n- Clan total: " + totals.slice(-5).map((v, i, arr) => dt(h.dates[K - arr.length + i]) + " " + f(v)).join(" > ");
-    if (since.length) t += "\n- Most gained overall: " + since.map((x) => x.name + " " + sg(x.g)).join(", ");
+    t += "\n\n### Points history\n- " + K + " runs saved, " + dt(h.dates[0]) + " to " + dt(h.dates[K - 1]) + "\n- Clan total: " + f(totals[0]) + " \u2192 " + f(totals[K - 1]);
     const left = h.list.filter((e) => e.vals[K - 1] === null && e.vals.some((x) => x !== null)).map((e) => e.name);
-    if (left.length) t += "\n- Left the clan (kept in history): " + left.slice(0, 8).join(", ") + (left.length > 8 ? " and " + (left.length - 8) + " more" : "");
+    if (left.length) t += "\n\n**Left the clan (" + left.length + ")**" + left.slice(0, 10).map((x) => "\n- " + x).join("") + more(left, 10);
   }
-  t += "\n\n-# In the file: green = went up, red = went down, gold, silver and bronze = top 3, grey = left the clan.";
-  if (t.length > 1900) t = t.slice(0, t.lastIndexOf("\n", 1880)) + "\n-# (cut short, the full list is in the file)";
+  if (t.length > 1900) t = t.slice(0, t.lastIndexOf("\n", 1880)) + "\n-# (cut short, the rest is in the file)";
   return t;
 };
 const HOOK_RE = /^https:\/\/discord\.com\/api\/webhooks\/\d+\/[\w-]+$/;
@@ -1502,13 +1504,13 @@ $("hookxlsx").onchange = () => { lsSet("fcd_hookxlsx", $("hookxlsx").checked ? "
 $("hookkeep").onchange = () => { setHook(HOOK_RE.test(hookGet()) ? hookGet() : ""); renderSaved(); };
 $("hookforget").onclick = () => { $("hookkeep").checked = false; setHook(""); $("hookbox").value = ""; $("hookmsg").textContent = "Forgotten."; renderSaved(); if (pv) pvDraw(); };
 async function hookPost(text, file) {
-  const url = hookGet();
+  const url = hookGet(), pg = $("dcping").value, body = { content: (pg ? "@" + pg + "\n" : "") + text, allowed_mentions: { parse: pg ? ["everyone"] : [] } };
   if (!HOOK_RE.test(url)) throw new Error("Add your Discord link in Settings first.");
   const send = (body) => fetch(url + "?wait=true", { method: "POST", body, signal: AbortSignal.timeout(30000) }).catch((e) => { clog("Discord: could not reach it (" + (e && e.name) + ": " + (e && e.message) + ")."); throw e; });
   let res, fileSent = false;
   clog("Discord: sending a message" + (file ? " with " + [].concat(file).map((x) => x.name + " " + Math.round(x.blob.size / 1024) + " KB").join(", ") : " (no files)") + ".");
-  if (file) { try { const f = new FormData(); f.append("payload_json", JSON.stringify({ content: text, allowed_mentions: { parse: [] } })); [].concat(file).forEach((x, i) => f.append("files[" + i + "]", x.blob, x.name)); res = await send(f); fileSent = res.ok; } catch (e) { clog("Discord: the file could not go with the message (" + (e && e.name) + "). Trying the message alone."); } }
-  if (!res || !res.ok) { try { res = await send(new Blob([JSON.stringify({ content: text, allowed_mentions: { parse: [] } })], { type: "application/json" })); } catch (e) { throw new Error("Could not reach Discord. An ad blocker or privacy shield may be blocking it. Turn it off for this site, or try a Private window."); } }
+  if (file) { try { const f = new FormData(); f.append("payload_json", JSON.stringify(body)); [].concat(file).forEach((x, i) => f.append("files[" + i + "]", x.blob, x.name)); res = await send(f); fileSent = res.ok; } catch (e) { clog("Discord: the file could not go with the message (" + (e && e.name) + "). Trying the message alone."); } }
+  if (!res || !res.ok) { try { res = await send(new Blob([JSON.stringify(body)], { type: "application/json" })); } catch (e) { throw new Error("Could not reach Discord. An ad blocker or privacy shield may be blocking it. Turn it off for this site, or try a Private window."); } }
   clog("Discord answered: HTTP " + res.status + (fileSent ? " (files went)" : " (message only)"));
   if (!res.ok) { try { clog("Discord said: " + (await res.clone().text()).slice(0, 150)); } catch (e) {} }
   if (!res.ok) throw new Error(res.status === 404 ? "Discord says that link is gone. Make a new one in Discord." : "Discord said no (" + res.status + ").");
