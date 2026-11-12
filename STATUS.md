@@ -11,6 +11,10 @@ Last updated: 12 Nov 2026. Page version 2026-11-12-b. Live at fishing-cat-data.p
 
 ## Next
 - Ginger: one real run of each tab on the live site (real clan video, real bill photo), then a screenshot. Nothing since 11 Nov has been run with a real AI.
+- **Approved by Ginger 12 Nov, not built: clan history in the Excel file.** No extra AI use: old numbers come from the earlier sheet, Excel does the sums.
+  - **Leaderboard** tab (front): #, Username, Now, Gained (all time), Best run (+date), Avg / day, Since. Ranked by points gained (Ginger left the choice to Claude). Top 3 shaded like the main sheet. Players who left stay, greyed.
+  - **Every run** tab (behind): one column per run with the gain under each number, Clan total row. At a new month, last month folds into one column.
+  - `readPrevious` must carry both tabs forward from the earlier sheet. Mockup was shown and accepted in chat. Add tests to `tests/excel-math.test.js`.
 - Offered, not approved: one AI request per clan run instead of two; shorter AI replies; PDF bills; compare with the last bill; preview addresses instead of pushing straight to live.
 
 ## Tested
