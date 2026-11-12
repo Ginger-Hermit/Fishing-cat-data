@@ -34,7 +34,7 @@ status = "**Next**\n" + block("STATUS.md", "Next") + "\n\n**Not tested yet**\n" 
 put("Home", home.replace("{{STATUS}}", status).replace("{{LATEST}}", latest()))
 whole("STATUS.md", "Status"); whole("CHANGELOG.md", "Changelog")
 whole("developer/HOW_IT_WAS_BUILT.md", "How-it-was-built"); whole("developer/STRESS_TEST_LOG.md", "Stress-test-log")
-whole("developer/SECURITY.md", "Security"); whole("developer/FAQ.md", "FAQ")
+whole("developer/WIKI_USING.md", "Using-it"); whole("developer/WIKI_DEV.md", "Developers"); whole("developer/SECURITY.md", "Security"); whole("developer/FAQ.md", "FAQ")
 put("AI-rules", "# Rules for the AI\n\nThe rules the AI follows on every change.\n" + open("CLAUDE.md").read().split("\n", 1)[1].replace("@STATUS.md\n", ""))
 R = {"How to use it": "How-to-use", "What you get": "What-you-get", "Features": "Features", "Privacy": "Privacy",
      "Known limits": "Known-limits", "Licence": "Licence", "For developers": "For-developers",
@@ -52,7 +52,7 @@ open(f"{W}/_Sidebar.md", "w").write("""**Pages**
 - [Status](Status)
 - [Changelog](Changelog)
 
-**Using it**
+**[Using it](Using-it)**
 
 - [How to use it](How-to-use)
 - [What you get](What-you-get)
@@ -63,7 +63,7 @@ open(f"{W}/_Sidebar.md", "w").write("""**Pages**
 - [FAQ](FAQ)
 - [Licence](Licence)
 
-**Developers**
+**[Developers](Developers)**
 
 - [For developers](For-developers)
 - [Read the code](Read-the-code)

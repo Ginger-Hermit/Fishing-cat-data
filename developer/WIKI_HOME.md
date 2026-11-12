@@ -43,9 +43,9 @@ A clan leader scrolls a member list and types the points into a sheet by hand. T
 Every change is in the [Changelog](Changelog).
 
 ## Find your way
-- **Using it:** [How to use it](How-to-use), [What you get](What-you-get), [Features](Features), [Privacy](Privacy), [Security](Security), [Known limits](Known-limits), [FAQ](FAQ), [Licence](Licence)
+- **[Using it](Using-it):** [How to use it](How-to-use), [What you get](What-you-get), [Features](Features), [Privacy](Privacy), [Security](Security), [Known limits](Known-limits), [FAQ](FAQ), [Licence](Licence)
 - **Progress:** [Status](Status), [Changelog](Changelog)
-- **Developers:** [Read the code](Read-the-code), [Tests](Tests), [AI rules](AI-rules), [How it was built](How-it-was-built), [Stress test log](Stress-test-log), [What broke](What-broke), [Lessons learnt](Lessons-learnt), [Project checklist](Project-checklist)
+- **[Developers](Developers):** [Read the code](Read-the-code), [Tests](Tests), [AI rules](AI-rules), [How it was built](How-it-was-built), [Stress test log](Stress-test-log), [What broke](What-broke), [Lessons learnt](Lessons-learnt), [Project checklist](Project-checklist)
 
 ## Good to know
 - Runs use credit on your own AI account.
