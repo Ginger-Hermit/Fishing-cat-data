@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: A quick scroll through the member list no longer skips members. -->
+<!-- Patch note: The Check your list preview now treats a misread name as the same player, and says who is missing. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -325,7 +325,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-j";
+const BUILD = "2026-11-12-k";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1294,11 +1294,14 @@ function pvDraw() {
   box.style.display = pv ? "" : "none";
   if (!pv) return;
   const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined) e.textContent = text; return e; };
+  const pm = fixNames(prevMap, pv.rows); // same name matching as the sheet, so the preview agrees with it
   const bad = pv.rows.filter(pvBad).length, off = pv.shown && Number(pv.shown) !== pv.rows.length;
   box.appendChild(el("div", "pvt", "Check your list"));
   box.appendChild(el("div", "pvd", pv.rows.length + " rows." + (bad ? " " + bad + (bad === 1 ? " needs" : " need") + " a look (orange)." : "") + (off ? " The screen says " + pv.shown + " members." : "") + " Tap a cell to fix it."));
+  const here = new Set(pv.rows.map((r) => String(r.name).trim().toLowerCase())), gone = pm ? [...(pm.hist ? pm.hist.players.map(([k]) => k) : pm.keys())].filter((k) => !here.has(k)).length : 0;
+  if (gone) box.appendChild(el("div", "pvd", gone + (gone === 1 ? " earlier member is" : " earlier members are") + " not in this list. They stay in the history, greyed. Scroll the video to the bottom to catch them."));
   const rows = pv.rows.map((r, i) => {
-    const n = parsePoints(r.points), b = prevMap ? prevMap.get(String(r.name).trim().toLowerCase()) : undefined, has = typeof b === "number" && n !== null, d = has ? n - b : null;
+    const n = parsePoints(r.points), b = pm ? pm.get(String(r.name).trim().toLowerCase()) : undefined, has = typeof b === "number" && n !== null, d = has ? n - b : null;
     const cl = d === null ? "" : d > 0 ? "up" : d < 0 ? "dn" : "";
     const ed = (k, w, label) => ({ edit: { value: r[k] === undefined || r[k] === null ? "" : String(r[k]), w, label: label + ", row " + (i + 1), input: (v) => { r[k] = v; } } });
     const role = String(r.role || "");
@@ -1307,7 +1310,7 @@ function pvDraw() {
       Object.assign({ cls: pv.p.extra ? "" : /owner/i.test(role) ? "own" : /coach/i.test(role) ? "coach" : "" }, ed("role", "84px", "Role")), Object.assign({ cls: "r" }, ed("points", "84px", "Points")),
       { t: n === null ? "" : String(n), cls: "r" }, { t: has ? String(b) : "", cls: "r" },
       { t: d === null ? "" : (d > 0 ? "+" : "") + d, cls: "r " + cl }, { t: d === null || !b ? "" : (d > 0 ? "+" : "") + (d / b * 100).toFixed(1) + "%", cls: "r " + cl },
-      { t: d !== null ? (d > 0 ? "▲" : d < 0 ? "▼" : "–") : prevMap && n !== null ? "new" : "", cls: "r " + cl }] };
+      { t: d !== null ? (d > 0 ? "▲" : d < 0 ? "▼" : "–") : pm && n !== null ? "new" : "", cls: "r " + cl }] };
   });
   box.appendChild(xlTable({ file: nameOf(pv.p) + ".xlsx", titles: [pv.p.clan + " – Member Points", pv.p.game + "   ·   " + pv.rows.length + " members read"], header: ["Rank", "Username", pv.p.extra || "Role", "Points (as shown)", "Points (number)", "Previous Points", "Change", "% Change", "Trend"], rows, tabs: ["Clan Members", "About this sheet"], redraw: pvDraw }));
   const bt = el("div", "pvb"), mk = (id, text, fn) => { const b = el("button", "tab", text); b.type = "button"; if (id) b.id = id; b.onclick = fn; bt.appendChild(b); return b; };

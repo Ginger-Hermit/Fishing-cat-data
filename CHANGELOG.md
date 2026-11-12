@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Preview matches the sheet
+
+12 Nov 2026 (05:08 UTC) · Changed
+
+The Check your list preview now treats a misread name as the same player, and says who is missing.
+
+**What you'll see:** Run a clan read with an earlier sheet and look at Check your list.
+
+- Preview uses the same name matching as the Excel file
+- A line shows how many earlier members are not in this list
+
 ## Video: take more pictures of a short scroll
 
-12 Nov 2026 (05:07 UTC) · Changed
+12 Nov 2026 (05:07 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2893086)
 
 A quick scroll through the member list no longer skips members.
 
