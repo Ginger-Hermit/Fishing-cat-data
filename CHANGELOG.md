@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Shorter bug report help
 
-12 Nov 2026 (12:28 UTC) · Changed
+12 Nov 2026 (12:28 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/a417f9b)
 
 The help text under Copy bug report is shorter.
 
