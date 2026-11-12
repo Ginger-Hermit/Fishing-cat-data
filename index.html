@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The bug report no longer includes your time zone. Its date is shown in UTC. -->
+<!-- Patch note: The AI is now allowed to recognise the Roblox game from how the screen looks, so the sheet says the real game name instead of Game. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -375,7 +375,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-t";
+const BUILD = "2026-11-12-u";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1308,8 +1308,8 @@ const clean = (t, n) => (typeof t === "string" ? t : "").replace(/[\r\n"\\<>\/:*
 const SETUP_PROMPT = `These images show the member list of a Roblox game clan screen.
 Work out how the list is laid out. Do not copy the whole list. If several images are given, use the one that shows the member list best.
 Answer with ONLY one JSON object, no other text:
-{"clan_name": "name of the clan if it is clearly visible, otherwise empty", "game_name": "name of the game if it is clearly visible, otherwise empty", "ranks_shown": true or false (is a rank number like #1 shown beside each member?), "extra_column": "the heading or label of any column besides rank, username, role and points, otherwise empty"}
-Never guess; use empty text if unsure.`;
+{"clan_name": "name of the clan if it is clearly visible, otherwise empty", "game_name": "name of the Roblox game, read from the screen or recognised from how the screen looks, otherwise empty", "ranks_shown": true or false (is a rank number like #1 shown beside each member?), "extra_column": "the heading or label of any column besides rank, username, role and points, otherwise empty"}
+Never guess the clan name or layout; use empty text if unsure.`;
 function checkKey(key) { if (/[^\x21-\x7e]/.test(key)) throw new Error("That key has odd characters or spaces in it. Copy it again and paste it."); }
 const todayText = () => new Date().toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric" }).replace(/,/g, "");
 function saveBlob(blob, name) { const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name; a.click(); }

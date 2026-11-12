@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Better game name read
+
+12 Nov 2026 (06:21 UTC) · Changed
+
+The AI is now allowed to recognise the Roblox game from how the screen looks, so the sheet says the real game name instead of Game.
+
+**What you'll see:** Sheet title shows the game name
+
+- Looser game_name wording in the layout prompt
+
 ## Bug report hides your time zone
 
-12 Nov 2026 (06:18 UTC) · Changed
+12 Nov 2026 (06:18 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/eec3d3e)
 
 The bug report no longer includes your time zone. Its date is shown in UTC.
 
