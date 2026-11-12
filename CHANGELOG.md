@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Misread names keep the earlier spelling
+
+12 Nov 2026 (23:23 UTC) · Changed
+
+If the AI misreads a name (like l for 1), the sheet keeps the spelling from earlier runs
+
+> [!NOTE]
+> **What you'll see:** Roblox clan sheet
+
+- fixNames now corrects today's row to the earlier name instead of renaming the history
+
 ## Video reads catch every clan member
 
-12 Nov 2026 (23:07 UTC) · Changed
+12 Nov 2026 (23:07 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/cb94eed)
 
 Quick scroll videos no longer drop the bottom of the list
 

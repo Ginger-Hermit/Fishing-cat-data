@@ -63,5 +63,6 @@ const prev = new Map([["ann", 80000], ["bob", 50000], ["cy", 25000]]);
   await buildWorkbook(EJ, [{ rank: 1, name: "Healthies", role: "", points: "83.73K" }], nm, { clan: "T", game: "G" }, "t").xlsx.writeFile(path.join(dir, "n.xlsx"));
   const wn = new EJ.Workbook(); await wn.xlsx.readFile(path.join(dir, "n.xlsx"));
   assert.strictEqual(wn.getWorksheet("Clan Members").getCell("F4").value, 65690, "misread name matched to earlier name");
+  assert.strictEqual(wn.getWorksheet("Clan Members").getCell("B4").value, "healthles", "misread name keeps the earlier spelling");
   console.log("All Excel maths checks passed.");
 })().catch((e) => { console.error("FAIL:", e.message); process.exit(1); });

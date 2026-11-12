@@ -1,4 +1,4 @@
-// Patch note: Quick scroll videos no longer drop the bottom of the list
+// Patch note: If the AI misreads a name (like l for 1), the sheet keeps the spelling from earlier runs
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -72,7 +72,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-zy";
+const BUILD = "2026-11-12-zz";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -481,12 +481,11 @@ function fixNames(prev, rows) {
     if (old.has(k)) return;
     const m = free.filter((f) => nameClose(f, k));
     if (m.length !== 1) return;
-    ren.set(m[0], k); free.splice(free.indexOf(m[0]), 1);
+    // Close to a name from earlier runs = the AI misread it (l for 1 etc.), so keep the earlier spelling.
+    const h = prev.hist && prev.hist.players.find(([x]) => x === m[0]);
+    r.name = (h && h[1] && h[1].name) || m[0]; free.splice(free.indexOf(m[0]), 1);
   });
-  if (!ren.size) return prev;
-  const out = new Map([...prev].map(([k, v]) => [ren.get(k) || k, v]));
-  out.hist = prev.hist && { dates: prev.hist.dates, players: prev.hist.players.map(([k, e]) => [ren.get(k) || k, e]) };
-  return out;
+  return prev;
 }
 
 function colL(n) { let t = ""; while (n > 0) { const m = (n - 1) % 26; t = String.fromCharCode(65 + m) + t; n = Math.floor((n - 1) / 26); } return t; }

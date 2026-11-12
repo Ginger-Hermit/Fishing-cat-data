@@ -9,3 +9,4 @@ Older bugs: `BREAK_REPORT_2026-11-12.md` and `STRESS_TEST_LOG.md`.
 - 12 Nov 2026: points like "1.234.567" or "1 234" came out blank. Cause: parsePoints only knew comma thousands marks. Fix: dot, space and apostrophe groups of three read as thousands. [88454da](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/88454da)
 - 2026-11-13: Video missed new clan members (3 of 8+ dropped). Cause: tiny 96x54 compare called a scrolled clan panel the same picture, and 4 looks a second skipped fast scrolls. Fix: 192x108 compare, stricter threshold, 8 looks a second.
 - 2026-11-13: Video missed new clan members. Cause: 96x54 compare called a scrolled clan panel the same picture; 4 looks a second skipped fast scrolls. Fix: 192x108 compare, stricter threshold, 8 looks a second.
+- 2026-11-13: Deathgold1198 became Deathgoldl198 in every tab. Cause: fixNames renamed the history to today's misread. Fix: today's row takes the earlier spelling.
