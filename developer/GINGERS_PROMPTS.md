@@ -1,6 +1,6 @@
 # The prompts Ginger really used
 
-Ginger doesn't code. Every line of this app was written by Claude, an AI, from short messages like these, often typed on a phone. This page is the real thing: what she said, when, and what it caused. Spelling is fixed. A few swear words are starred.
+Ginger doesn't code. Every line of this app was written by Claude, an AI, from short messages like these, often typed on a phone. This page is the real thing: what she said, when, and what it caused. Spelling is fixed. Her words are left as she wrote them.
 
 The app-days prompts are first. Counts are **minimums**, from what could be found in her saved chats (9 Nov to 12 Nov 2026). Nothing older survives.
 
@@ -10,8 +10,8 @@ The app-days prompts are first. Counts are **minimums**, from what could be foun
 
 | Date | She said | What happened |
 |---|---|---|
-| 9 Nov | "Can we redo the owner sh*t and make it simpler, I keep losing it" | A password replaced the key file. |
-| 9 Nov | "F*ck it this is too annoying, lets do how it was before, no owner sh*t and password" | All owner signing was removed. Fingerprint only. |
+| 9 Nov | "Can we redo the owner shit and make it simpler, I keep losing it" | A password replaced the key file. |
+| 9 Nov | "Fuck it this is too annoying, lets do how it was before, no owner shit and password" | All owner signing was removed. Fingerprint only. |
 | 9 Nov | "Can we add a way to get low cost or free api tokens for this use?" | Free AI models were added. |
 | 9 Nov | "Cool, can we make this more clean and optimised and tidy" | Settings became groups and cards. |
 | 9 Nov | "This needs updating too, too old looking" | View code redesigned. |
@@ -55,8 +55,8 @@ About 75 repeats. Most happened because a new chat started blank. It asked for t
 ### Simplify
 | Date | She said | What happened |
 |---|---|---|
-| 9 Nov | "Can we redo the owner sh*t and make it simpler, I keep losing it" | A password replaced the key file. |
-| 9 Nov | "F*ck it this is too annoying, lets do how it was before" | All owner signing was removed. Fingerprint only. |
+| 9 Nov | "Can we redo the owner shit and make it simpler, I keep losing it" | A password replaced the key file. |
+| 9 Nov | "Fuck it this is too annoying, lets do how it was before" | All owner signing was removed. Fingerprint only. |
 | 10 Nov | "Ugh this is annoying, can we make it simpler" | Updates now finish by themselves. |
 | 10 Nov | "just remove the whole profile thingy lol" | Profiles were hidden. |
 | 10 Nov | "Yeah just all of it and start over" | Tabs, profile row and buttons all removed. |
@@ -72,7 +72,7 @@ About 75 repeats. Most happened because a new chat started blank. It asked for t
 | 9 Nov | "Bit much on the eyes" | Themes became small preview cards. |
 | 10 Nov | "Dude look and compare. Look how weird the spacings are between the two!" | Both screens got the same width and spacing. |
 | 12 Nov | "Isn't this weird lol" | Remember and Forget became one tick box. |
-| 12 Nov | "Does that even look okay to understand though? looks like a bunch of sh*tty numbers" | The Discord post got headings and green and red lines. |
+| 12 Nov | "Does that even look okay to understand though? looks like a bunch of shitty numbers" | The Discord post got headings and green and red lines. |
 | 12 Nov | "Borning!" | The lazy guide got a story. |
 
 ### Fix it, don't ask
@@ -80,7 +80,7 @@ About 75 repeats. Most happened because a new chat started blank. It asked for t
 |---|---|---|
 | 10 Nov | "Refresh and clear button don't work lol" | Both fixed. |
 | 11 Nov | "fixy dumbo" | Claude had asked permission for a fix she'd already asked for. |
-| 12 Nov | "do it f*cker" | Said when Claude asked before writing a note. It did it. |
+| 12 Nov | "do it fucker" | Said when Claude asked before writing a note. It did it. |
 | 12 Nov | "Ugh I meant in a discord paragraph" | A short correction, not a long re-explain. |
 
 ## Her shorthand (a glossary Claude was given)
