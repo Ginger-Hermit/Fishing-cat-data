@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Faster Gemini reads
+
+12 Nov 2026 (05:05 UTC) · Changed
+
+Gemini now uses light thinking for every read, not just the first step.
+
+**What you'll see:** Run a clan read and check the Log for how many seconds the AI took.
+
+- Gemini asked for light thinking on the member read and on bills
+
 ## About and How it's worked out: colours and formatting
 
-12 Nov 2026 (05:04 UTC) · Changed
+12 Nov 2026 (05:04 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/bdf0357)
 
 The two text tabs now match the rest of the sheet.
 
