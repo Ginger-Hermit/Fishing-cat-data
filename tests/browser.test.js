@@ -67,7 +67,7 @@ async function runCase(page, flow, kind) {
       if (!wantErr && (flow === "go" || flow === "bill")) check(tag + ": nothing downloads until Download sheet is tapped", !r.early, String(r.early));
     }
     // the Excel file has the right numbers and formulas
-    const cells = await page.evaluate(async (BILL) => { const wb = buildBillBook(window.ExcelJS, parseBills(BILL), "today"); const b2 = new ExcelJS.Workbook(); await b2.xlsx.load(await wb.xlsx.writeBuffer()); const s = b2.getWorksheet("Bills"); return [s.getCell("J4").value, s.getCell("K5").value.formula, s.getCell("N4").value, b2.getWorksheet("Summary").getCell("B11").value.formula.includes("SUMIFS")].join("|"); }, BILL);
+    const cells = await page.evaluate(async (BILL) => { const wb = buildBillBook(window.ExcelJS, parseBills(BILL), "today"); const b2 = new ExcelJS.Workbook(); await b2.xlsx.load(await wb.xlsx.writeBuffer()); const s = b2.getWorksheet("Bills"); return [s.getCell("J4").value, s.getCell("K5").value.formula, s.getCell("N4").value, (() => { const m = b2.getWorksheet("Summary"); for (let r = 1; r < 40; r++) if (m.getCell(r, 1).value === "Electricity used (kWh)") return m.getCell(r, 2).value.formula.includes("SUMIFS"); return false; })()].join("|"); }, BILL);
     check("bill sheet numbers", cells === '425|IF(J5="","",J5/3.6)|94.99|true', cells);
     // break-it tests: hostile text, odd numbers, empty lists, 200 added rows, real typing
     const hostile = '<img src=x onerror="window.__xss=1">';

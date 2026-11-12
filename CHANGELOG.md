@@ -2,9 +2,22 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Clearer bills sheet
+
+12 Nov 2026 (05:37 UTC) · Changed
+
+The bills Excel file now opens on a Summary that a new person can follow.
+
+**What you'll see:** Make a bills sheet and open it: Summary is the first tab, in sections (About the bill, Does it add up?, Energy used, Cost by type, In plain words).
+
+- Summary is now the first tab, in labelled sections
+- New row 'Same as the bill?' says Yes or No: check the charges
+- Cost by type moved up above the AI's words
+- Plainer column names on the Bills tab
+
 ## Tidier safety and privacy lists
 
-12 Nov 2026 (05:35 UTC) · Changed
+12 Nov 2026 (05:35 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/5f27f5c)
 
 The tick lists on Stay safe and Privacy now read as normal sentences.
 
