@@ -10,6 +10,7 @@ Ginger does not code. Short, blunt answers. Plain words on screen.
 ## Every change to `index.html`
 1. `git pull` first. Find the exact spot with grep (table below), read only those lines. Small find-and-replace edits that each match once, all in one script. Backup outside the repo.
 2. Run `python3 tools/release.py --title ... --tag New|Changed --meaning ... --see ... --change ...` once. It does the version, CHANGELOG, patch note, STATUS and `tests/check.py`. Never by hand.
+   After pushing, put the new commit hash on that entry as a `[code](.../commit/HASH)` link in CHANGELOG.md (release.py only fills the previous entry), then push again.
 3. Touched `parseRows`, `parsePoints`, `parseBills`, `parseNum` or `kwhFor`? Also run `node tests/rows.test.js && node tests/bills.test.js && node tests/fuzz.js 7 5000`.
 4. Commit, push. GitHub runs every test in three browsers; a red cross comes first. Changes outside `index.html` need no release.
 5. One bug per patch unless the same cause. Say what you couldn't test.

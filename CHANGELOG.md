@@ -4,16 +4,18 @@ Newest first. The page itself shows only the newest 5.
 
 ## Clear buttons on Post without the AI
 
-12 Nov 2026 · Changed
+12 Nov 2026 (07:15 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/47cafb8)
 
 Each file box now has a Clear button, so you can take a picked sheet or photo back out.
 
 > [!NOTE]
 > **What you'll see:** Post without the AI: a Clear button next to Excel sheet and Photo.
 
+- Clear button under each file picker; it empties the pick and the green tick.
+
 ## Even spacing
 
-12 Nov 2026 (07:08 UTC) · Changed
+12 Nov 2026 (07:08 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/da8d26a)
 
 Gaps between the bars are the same and the empty message areas no longer leave a big gap.
 
