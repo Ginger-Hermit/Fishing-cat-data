@@ -24,6 +24,9 @@ Ginger does not code. Short, blunt answers. Plain words on screen.
 - Warn before big jobs (stress test, full review, new feature).
 - Small wording or colour changes don't need the strongest model. Say so.
 - Long chat? Tell Ginger to start a new one. Nothing is lost.
+- Do not sleep and wait for GitHub tests after a push: say they are running; Ginger sees a red cross. Check only if she asks.
+- Layout fixes: render once (LibreOffice to one small PNG), look at only the changed tab. No second render unless it looks wrong.
+- Do not read screenshots twice, and do not re-check files already shown in the chat.
 - Bugs: ask for the Copy bug report text first (the Log has timings, sizes, AI token counts, errors). Don't guess.
 
 ## Safety (keep)
