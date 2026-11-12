@@ -49,11 +49,16 @@ Rules set from the start, and kept:
 - **Privacy section in Settings:** shows what is saved on the device, can stop saving the last sheet, forget the key, or delete everything. Delete buttons need a second tap.
 - **Break-it tests** added to the browser test (section 6).
 
+### Where the build stands (version 2026-11-12-t)
+All checks pass on GitHub: the code check, row and bill tests, fuzz (5,000 cases) and 81 browser checks in Chrome, Firefox and Safari's engine. Passing with pretend AI replies is not the same as working on real pictures, so the first real run is still next.
+
 ## 4. Decisions worth knowing
 
 - **Mockups first** stopped the build of things Ginger did not want. Several screens were drawn and rejected before any code was written (a four-screen wizard, a one-screen form, a table, then the Excel-look table that was finally built).
 - **Wording mistake, fixed:** the page was briefly changed to say "any game" after Ginger asked for other clan games. She meant any Roblox game. It was put back the same day. Lesson: ask one short question when a wording change could mean two things.
 - **Errors do not report themselves.** The page cannot send errors anywhere, by design. A red "Copy error to send" button copies a report (keys removed) that the user pastes into a chat or a GitHub issue.
+- **Hosting and privacy.** The page is plain files on Cloudflare Pages. Cloudflare can see that someone opened the site and which files they asked for (and the page asks for `version.txt` every 5 minutes), as any web host can. It never receives the key, pictures, bills or sheets, because those go straight from the browser to the AI company the person picked. How long Cloudflare keeps its own logs was not checked: read their privacy policy.
+- **People control what is saved.** Settings has a Privacy section: it lists what is stored on the device (never the values), stops saving the last sheet, forgets the key, or deletes everything. Delete buttons need a second tap.
 - **The AI never does sums.** Anything numeric is a formula in the sheet or a plain calculation in the page, so a misread is visible and checkable.
 
 ## 5. Tools and tests
@@ -83,7 +88,11 @@ An earlier lesson from 11 Nov: working from a stale copy overwrote a README and 
 - OpenAI is untested. The live security header (`_headers`) is untested.
 - Bills are photos only, no PDFs. The Bills preview shows 6 of the sheet's 15 columns, and the Summary tab is not previewed.
 
-## 8. If you build something like this with an AI
+## 8. Next steps
+1. One real clan video and one real bill photo on the live site, with a screenshot of the result.
+2. Then, from the offered list: one AI request per clan run instead of two, PDF bills, and compare with the last bill.
+
+## 9. If you build something like this with an AI
 
 1. Write the rules down in a file the AI reads at the start of every chat (`CLAUDE.md`), and keep a short status file next to it.
 2. Draw it before building it.
