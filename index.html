@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The smallest Gemini model now only does the quick layout step. Reading the member list and bills never use it, so lists are not left half empty. -->
+<!-- Patch note: The bug report no longer includes your time zone. Its date is shown in UTC. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -375,7 +375,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-s";
+const BUILD = "2026-11-12-t";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -427,7 +427,7 @@ function envInfo() {
   let mdl = "?"; try { mdl = modelFor(provider()); } catch (e) {}
   return "Page version: " + BUILD + "\nModel: " + mdl + "\nWindow: " + innerWidth + "x" + innerHeight + " at " + devicePixelRatio + "x, screen " + screen.width + "x" + screen.height
     + "\nOnline: " + n.onLine + (c.effectiveType ? ", connection " + c.effectiveType + ", about " + c.rtt + " ms delay, " + c.downlink + " Mbit/s" : "")
-    + "\nComputer: " + (n.hardwareConcurrency || "?") + " cores" + (n.deviceMemory ? ", " + n.deviceMemory + " GB" : "") + ", " + Intl.DateTimeFormat().resolvedOptions().timeZone + ", " + n.language;
+    + "\nComputer: " + (n.hardwareConcurrency || "?") + " cores" + (n.deviceMemory ? ", " + n.deviceMemory + " GB" : "") + ", " + n.language;
 }
 const why = (e) => (e && e.message ? e.message : String(e)) + (e && e.stack ? "\n" + String(e.stack).split("\n").slice(0, 4).join("\n") : "");
 addEventListener("error", (e) => { try { clog("PAGE ERROR: " + e.message + " at " + String(e.filename).split("/").pop() + ":" + e.lineno + ":" + e.colno + (e.error && e.error.stack ? "\n" + String(e.error.stack).split("\n").slice(0, 4).join("\n") : "")); } catch (x) {} });
@@ -604,7 +604,7 @@ $("remember").onchange = keepKey;
 function bugReport(skipPrivate) {
   const box = $("console"); let t = "";
   box.childNodes.forEach((n) => { if (!(skipPrivate && n.dataset && n.dataset.priv)) t += n.textContent; });
-  return scrub("Fishing Cat Data bug report\n" + new Date().toString() + "\nError shown: " + ($("msg").className.includes("err") ? $("msg").textContent : "none") + "\nBrowser: " + navigator.userAgent + "\nCompany: " + provider() + "\n" + envInfo() + "\n\n" + (t || "(log is empty)"));
+  return scrub("Fishing Cat Data bug report\n" + new Date().toUTCString() + "\nError shown: " + ($("msg").className.includes("err") ? $("msg").textContent : "none") + "\nBrowser: " + navigator.userAgent + "\nCompany: " + provider() + "\n" + envInfo() + "\n\n" + (t || "(log is empty)"));
 }
 const bugCopy = async (btn, label) => {
   let done = "Copied! Paste it to Claude";

@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
-## Weak model only for the layout step
+## Bug report hides your time zone
 
 12 Nov 2026 (06:18 UTC) · Changed
+
+The bug report no longer includes your time zone. Its date is shown in UTC.
+
+**What you'll see:** Copy bug report has no Pacific/Auckland line
+
+- Remove time zone from the bug report
+
+## Weak model only for the layout step
+
+12 Nov 2026 (06:18 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/5b7abb2)
 
 The smallest Gemini model now only does the quick layout step. Reading the member list and bills never use it, so lists are not left half empty.
 
