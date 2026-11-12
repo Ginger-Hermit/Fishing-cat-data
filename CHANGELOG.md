@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Home button renamed
+
+12 Nov 2026 (04:23 UTC) · Changed
+
+The Home button now says Make a Roblox clan sheet.
+
+**What you'll see:** The big button on Home.
+
+- Home button says Make a Roblox clan sheet
+
 ## Tab renamed again
 
-12 Nov 2026 (04:22 UTC) · Changed
+12 Nov 2026 (04:22 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/3091d72)
 
 The tab is now called Roblox clan sheet.
 

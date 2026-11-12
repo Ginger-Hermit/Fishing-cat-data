@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The tab is now called Roblox clan sheet. -->
+<!-- Patch note: The Home button now says Make a Roblox clan sheet. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -78,7 +78,7 @@ button:disabled{opacity:.5}
 <div id="hometab">
 <h2 style="margin:6px 0">Pictures in, Excel out</h2>
 <p>Turn clan screenshots or a video from any Roblox game into a sheet. It also reads household bills: power, gas, water, internet, phone and more.</p>
-<button data-go="sheet">Make a clan sheet</button>
+<button data-go="sheet">Make a Roblox clan sheet</button>
 <button data-go="bill" class="tab" style="width:100%;margin-top:8px;padding:12px">Read bills</button>
 <h3 style="margin:18px 0 6px">How it works</h3>
 <ol style="margin:0;padding-left:20px;line-height:1.6"><li>Add screenshots, a video, or bill photos</li><li>The AI reads them</li><li>Download your Excel sheet</li></ol>
@@ -321,7 +321,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-y";
+const BUILD = "2026-11-12-z";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
