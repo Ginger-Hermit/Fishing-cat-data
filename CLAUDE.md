@@ -14,6 +14,7 @@ Web page: reads Roblox clan screenshots or video (any Roblox game) with an AI an
 3. Touched `parseRows`, `parsePoints`, `parseBills`, `parseNum` or `kwhFor`? Also run `node tests/rows.test.js && node tests/bills.test.js && node tests/fuzz.js 7 5000`.
 4. Commit, push. GitHub runs every test in three browsers; a red cross comes first. Changes outside `index.html` need no release.
 5. One bug per patch unless the same cause. Say what you couldn't test.
+   Fixed a bug? Add one line to `developer/BUG_LOG.md` (date, what broke, cause, fix, commit).
 6. Edit `STATUS.md` Next / Not tested only when they really change. Keep it under 50 lines.
 
 ## Saving tokens
