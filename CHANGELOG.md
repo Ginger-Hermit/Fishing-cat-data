@@ -2,6 +2,15 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Clear buttons on Post without the AI
+
+12 Nov 2026 · Changed
+
+Each file box now has a Clear button, so you can take a picked sheet or photo back out.
+
+> [!NOTE]
+> **What you'll see:** Post without the AI: a Clear button next to Excel sheet and Photo.
+
 ## Even spacing
 
 12 Nov 2026 (07:08 UTC) · Changed

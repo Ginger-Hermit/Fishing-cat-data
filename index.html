@@ -176,8 +176,8 @@ button:disabled{opacity:.5}
 <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><input type="file" id="artfile" accept="image/*" style="width:auto"><button id="artforget" type="button" class="tab">Remove</button><img id="artthumb" alt="Your saved header picture" style="display:none;height:44px;border-radius:6px;border:1px solid var(--soft)"><span id="artmsg" role="status" style="font-size:13px"></span></div>
 <div style="font-weight:600;margin:16px 0 4px">Post without the AI</div>
 <div style="font-size:13px;color:var(--muted)">Uses no AI, so no tokens. Pick a saved Excel sheet and/or a photo. With only a sheet, the table picture is drawn from it. Whatever you pick is posted.</div>
-<label for="shfile">Excel sheet</label><input type="file" id="shfile" accept=".xlsx"><div id="shsel" style="font-size:13px;color:var(--noteText)"></div>
-<label for="phfile">Photo (optional)</label><input type="file" id="phfile" accept="image/*"><div id="phsel" style="font-size:13px;color:var(--noteText)"></div>
+<label for="shfile">Excel sheet</label><div style="display:flex;gap:8px;align-items:center"><input type="file" id="shfile" accept=".xlsx"><button id="shclear" type="button" class="tab">Clear</button></div><div id="shsel" style="font-size:13px;color:var(--noteText)"></div>
+<label for="phfile">Photo (optional)</label><div style="display:flex;gap:8px;align-items:center"><input type="file" id="phfile" accept="image/*"><button id="phclear" type="button" class="tab">Clear</button></div><div id="phsel" style="font-size:13px;color:var(--noteText)"></div>
 <div style="display:flex;gap:8px;align-items:center;margin-top:8px"><button id="shpost" type="button" class="tab">Post these</button><span id="shmsg" role="status" style="font-size:13px"></span></div>
 <div style="font-size:13px;color:var(--muted);margin:12px 0 0">Nothing is posted unless you tap Post to Discord. Anyone with this link can post in your channel, so keep it private. If posting fails, turn off any ad blocker for this site or use a Private window.</div>
 </details>
@@ -390,7 +390,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-j";
+const BUILD = "2026-11-12-k";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1525,7 +1525,7 @@ async function readSheet(buf) {
   const t1 = String(val(ws.getCell(1, 1)) || ""), t2 = String(val(ws.getCell(2, 1)) || "");
   return { items, any, clan: t1.split(/\s[\u2013-]\s/)[0] || "Clan", game: t2.split("\u00b7")[0].trim() || "Roblox", date: ((t2.match(/Recorded ([^\u00b7]+)/) || [])[1] || todayText()).trim() };
 }
-[["shfile", "shsel"], ["phfile", "phsel"]].forEach(([f, m]) => { $(f).onchange = () => { const x = $(f).files[0]; $(m).textContent = x ? "\u2713 File selected: " + x.name : ""; }; });
+[["shfile", "shsel", "shclear"], ["phfile", "phsel", "phclear"]].forEach(([f, m, c]) => { $(f).onchange = () => { const x = $(f).files[0]; $(m).textContent = x ? "\u2713 File selected: " + x.name : ""; }; $(c).onclick = () => { $(f).value = ""; $(m).textContent = ""; }; });
 $("shpost").onclick = async () => {
   const xf = $("shfile").files[0], pf = $("phfile").files[0], say = (t) => { $("shmsg").textContent = t; };
   if (!xf && !pf) { say("Pick an Excel sheet or a photo first."); return; }
