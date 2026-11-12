@@ -64,6 +64,12 @@ Claude rewrote it in plain words.
 
 ## Then the website
 
+> "This spacing and the discord thingy?"
+
+The clan tab, with uneven gaps and the Discord box in the middle:
+
+![The clan tab before](https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/clan_before.png)
+
 > "I don't see a point in this, it should be upload photo/video and it fills it in"
 
 Claude had built a form. It deleted the form.
@@ -76,9 +82,27 @@ Claude asked permission to fix something. Two words fixed that.
 
 The Discord box was cut to four steps.
 
+What they were looking at, first Discord tab:
+
+![The first Discord tab](https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/discord_v1.png)
+
+What it is now:
+
+![The Discord tab now](https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/discord_now.png)
+
+
 > "Isn't this weird lol"
 
 A Remember button and a Forget button, side by side. Now one tick box.
+
+Before:
+
+![Remember my link and Forget link](https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/discord_remember_forget.png)
+
+After:
+
+![One tick box](https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/developer/images/discord_one_tick.png)
+
 
 > "looks like a bunch of shitty numbers"
 
