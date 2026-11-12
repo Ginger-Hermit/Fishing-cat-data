@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The webhook steps no longer have random capital letters. -->
+<!-- Patch note: The Discord link is now step 1 and its messages show right under the box. The webhook help folds away once a link is saved. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -190,11 +190,11 @@ button:disabled{opacity:.5}
 </div>
 <div id="discordtab" style="display:none">
 <div style="font-size:13px;color:var(--muted);margin-top:12px">Post a clan sheet, a Bills sheet, or your own files to your Discord channel.</div>
-<div style="font-weight:600;font-size:17px;margin:20px 0 8px">Your Discord link</div>
-<input id="hookbox" type="password" autocomplete="off" spellcheck="false" placeholder="https://discord.com/api/webhooks/..." style="min-height:48px;font-size:16px">
+<div style="font-weight:600;font-size:17px;margin:20px 0 8px">1. Your Discord link</div>
+<input id="hookbox" type="password" autocomplete="off" spellcheck="false" placeholder="https://discord.com/api/webhooks/..." style="min-height:48px;font-size:16px"><div id="hookchk" role="status" aria-live="polite" style="font-size:14px;margin-top:6px"></div>
 <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px"><label style="display:flex;gap:10px;align-items:center;font-weight:normal;font-size:16px;margin:0"><input type="checkbox" id="hookkeep" style="width:22px;height:22px;min-height:0;padding:0;margin:0"> Save my link on this device</label><button id="hookforget" type="button" class="tab big" style="display:none">Forget link</button><button id="hooktest" type="button" class="tab big" style="display:none">Send a test</button></div>
-<div style="font-size:13px;color:var(--muted);margin-top:6px">Untick to delete the saved copy. Anyone with this link can post in your channel, so keep it private.</div><div style="font-size:13px;color:var(--muted);margin-top:10px;line-height:1.6">A webhook is a private link that lets this page post in your channel.<br>Where to get it:<br>1. Hold your channel, then tap edit channel<br>2. Tap integrations, then webhooks, then new webhook<br>3. Tap copy webhook URL and paste it above<br>Can't see webhooks? Only Discord server admins can make them. Ask one to send you the link.</div>
-<div style="font-weight:600;font-size:17px;margin:20px 0 8px">1. What do you want to post?</div>
+<div id="hookkeepnote" style="display:none;font-size:13px;color:var(--muted);margin-top:6px">Untick to delete the saved copy.</div><details id="hookhelp" open style="margin-top:10px"><summary style="min-height:44px;display:flex;align-items:center;cursor:pointer;color:var(--link)">How do I get a link?</summary><div style="font-size:13px;color:var(--muted);line-height:1.6">A webhook is a private link that lets this page post in your channel.<br>Where to get it:<br>1. Hold your channel, then tap edit channel<br>2. Tap integrations, then webhooks, then new webhook<br>3. Tap copy webhook URL and paste it above<br>Can't see webhooks? Only Discord server admins can make them. Ask one to send you the link.<br>Keep it private. Anyone with it can post in your channel.</div></details>
+<div style="font-weight:600;font-size:17px;margin:20px 0 8px">2. What do you want to post?</div>
 <label style="display:flex;gap:12px;align-items:center;font-weight:normal;font-size:16px;margin:8px 0 0;padding:12px 14px;min-height:48px;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;background:var(--field)"><input type="radio" name="dcsrc" value="sheet" style="width:22px;height:22px;min-height:0;padding:0;margin:0;flex:none"> Latest clan sheet</label>
 <label style="display:flex;gap:12px;align-items:center;font-weight:normal;font-size:16px;margin:8px 0 0;padding:12px 14px;min-height:48px;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;background:var(--field)"><input type="radio" name="dcsrc" value="bill" style="width:22px;height:22px;min-height:0;padding:0;margin:0;flex:none"> Latest Bills</label>
 <label style="display:flex;gap:12px;align-items:center;font-weight:normal;font-size:16px;margin:8px 0 0;padding:12px 14px;min-height:48px;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;background:var(--field)"><input type="radio" name="dcsrc" value="files" style="width:22px;height:22px;min-height:0;padding:0;margin:0;flex:none"> My own files (no AI)</label>
@@ -203,16 +203,16 @@ button:disabled{opacity:.5}
 <div style="display:flex;gap:10px;flex-wrap:wrap"><label for="shfile" class="tab big" style="cursor:pointer;display:inline-flex;align-items:center;margin:0;color:var(--link)">Choose files</label><button id="shclear" type="button" class="tab big" style="display:none">Clear</button></div>
 <div id="shsel" style="font-size:14px;color:var(--noteText);margin-top:6px"></div>
 <div style="font-size:13px;color:var(--muted);margin-top:4px">Pick your Excel sheet. It is read, and the post gets a table picture and a written breakdown. The file itself is only sent if you tick the box below.</div></div>
-<div style="font-weight:600;font-size:17px;margin:20px 0 8px">2. Header picture (optional)</div>
+<div style="font-weight:600;font-size:17px;margin:20px 0 8px">3. Header picture (optional)</div>
 <input type="file" id="artfile" accept="image/*" style="display:none">
 <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><label for="artfile" class="tab big" style="cursor:pointer;display:inline-flex;align-items:center;margin:0;color:var(--link)">Choose picture</label><button id="artforget" type="button" class="tab big" style="display:none">Remove</button><img id="artthumb" alt="Your saved header picture" style="display:none;height:48px;border-radius:6px;border:1px solid var(--soft)"></div><div id="artmsg" role="status" style="font-size:14px;color:var(--noteText);margin-top:6px"></div>
 <label style="display:flex;gap:10px;align-items:center;font-weight:normal;font-size:16px;margin-top:16px"><input type="checkbox" id="hookxlsx" checked style="width:22px;height:22px;min-height:0;padding:0;margin:0"> Also attach the Excel file (leave unticked for picture and text only)</label>
-<div style="font-weight:600;font-size:17px;margin:20px 0 8px">3. Ping (optional)</div>
+<div style="font-weight:600;font-size:17px;margin:20px 0 8px">4. Ping (optional)</div>
 <select id="dcping" aria-label="Who to ping" style="min-height:48px;font-size:16px"><option value="">Don't ping anyone</option><option value="role">Ping a role (you choose which)</option></select>
 <input id="dcrole" inputmode="numeric" autocomplete="off" placeholder="Role ID, like 123456789012345678" style="display:none;min-height:48px;font-size:16px;margin-top:8px">
 <div id="dcrolehelp" style="display:none;font-size:13px;color:var(--muted);margin-top:4px">In Discord: Settings, Advanced, turn on Developer Mode. Then right-click the role and tap Copy Role ID. Paste it here. It is saved on this device.</div>
 <div style="font-size:13px;color:var(--muted);margin-top:4px">A role pings only the people who have that role.</div>
-<div style="font-weight:600;font-size:17px;margin:20px 0 8px">4. Post</div>
+<div style="font-weight:600;font-size:17px;margin:20px 0 8px">5. Post</div>
 <button id="dcgo" type="button" style="width:100%;padding:16px;font-size:18px">Post to Discord</button>
 <div id="hookmsg" role="status" aria-live="polite" style="font-size:15px;margin-top:10px"></div>
 <button id="shpost" type="button" hidden></button>
@@ -426,7 +426,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-zo";
+const BUILD = "2026-11-12-zp";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -617,7 +617,7 @@ function renderSaved() {
   const box = $("saved"); box.replaceChildren();
   (lines.length ? lines : ["Nothing saved."]).forEach(t => { const d = document.createElement("div"); d.textContent = (lines.length ? "\u2022 " : "") + t; box.appendChild(d); });
   $("keepprev").checked = lsGet("fcd_keepprev") !== "0";
-  $("hookbox").value = hookGet(); if (lsGet("fcd_hook")) $("hookkeep").checked = true;
+  $("hookbox").value = hookGet(); if (lsGet("fcd_hook")) $("hookkeep").checked = true; $("hookkeepnote").style.display = $("hookkeep").checked ? "" : "none"; $("hookhelp").open = !hookGet();
   artShow();
 }
 $("keepprev").onchange = () => { lsSet("fcd_keepprev", $("keepprev").checked ? "1" : "0"); if (!$("keepprev").checked) { try { localStorage.removeItem("fcd_prev"); } catch (e) {} } renderSaved(); };
@@ -1516,7 +1516,7 @@ const dcBreakdown = (sh, f) => {
 };
 const HOOK_RE = /^https:\/\/discord\.com\/api\/webhooks\/\d+\/[\w-]+$/;
 const setHook = (v) => { hookNow = v; try { if (v && $("hookkeep").checked) localStorage.setItem("fcd_hook", v); else localStorage.removeItem("fcd_hook"); } catch (e) {} };
-$("hookbox").onchange = () => { const v = $("hookbox").value.trim(); if (v && !HOOK_RE.test(v)) { $("hookmsg").textContent = "That doesn't look like a Discord webhook link. Copy it again."; return; } setHook(v); $("hookmsg").textContent = v ? "Ready." : "Removed."; renderSaved(); if (pv) pvDraw(); };
+$("hookbox").onchange = () => { const v = $("hookbox").value.trim(); if (v && !HOOK_RE.test(v)) { $("hookchk").textContent = "That doesn't look like a Discord webhook link. Copy it again."; return; } setHook(v); $("hookchk").textContent = v ? "Ready." : "Removed."; $("hookhelp").open = !v; renderSaved(); if (pv) pvDraw(); };
 if (lsGet("fcd_pingmode") !== "role") { try { localStorage.removeItem("fcd_pingmode"); } catch (e) {} } $("dcping").value = lsGet("fcd_pingmode") === "role" ? "role" : ""; $("dcrole").value = lsGet("fcd_pingrole") || "";
 const dcPingShow = () => { const on = $("dcping").value === "role"; $("dcrole").style.display = on ? "" : "none"; $("dcrolehelp").style.display = on ? "" : "none"; };
 dcPingShow();
@@ -1525,7 +1525,7 @@ $("dcrole").onchange = () => { const id = (($("dcrole").value.match(/\d{15,25}/)
 $("hookxlsx").checked = lsGet("fcd_hookxlsx") !== "0";
 $("hookxlsx").onchange = () => { lsSet("fcd_hookxlsx", $("hookxlsx").checked ? "1" : "0"); renderSaved(); };
 $("hookkeep").onchange = () => { setHook(HOOK_RE.test(hookGet()) ? hookGet() : ""); renderSaved(); };
-$("hookforget").onclick = () => { $("hookkeep").checked = false; setHook(""); $("hookbox").value = ""; $("hookmsg").textContent = "Forgotten."; renderSaved(); if (pv) pvDraw(); };
+$("hookforget").onclick = () => { $("hookkeep").checked = false; setHook(""); $("hookbox").value = ""; $("hookchk").textContent = "Forgotten."; $("hookhelp").open = true; renderSaved(); if (pv) pvDraw(); };
 let postBusy = false;
 const nap = (ms) => new Promise((r) => setTimeout(r, ms));
 async function dcPost(t, files) {
@@ -1679,8 +1679,8 @@ $("dcgo").onclick = () => {
 };
 $("hooktest").onclick = async () => {
   const v = $("hookbox").value.trim(); if (HOOK_RE.test(v)) setHook(v); renderSaved();
-  $("hookmsg").textContent = "Sending...";
-  try { await hookPost("Fishing Cat Data test: this link works."); $("hookmsg").textContent = "Worked. Check Discord."; } catch (e) { $("hookmsg").textContent = plain(e); }
+  $("hookchk").textContent = "Sending...";
+  try { await hookPost("Fishing Cat Data test: this link works."); $("hookchk").textContent = "Worked. Check Discord."; } catch (e) { $("hookchk").textContent = plain(e); }
 };
 function hookText(compact) {
   const pm = fixNames(prevMap, pv.rows), rows = pv.rows.filter((r) => String(r.name).trim()), f = (n) => Math.round(n).toLocaleString("en-US"), sg = (n) => (n > 0 ? "+" : n < 0 ? "-" : "") + f(Math.abs(n));

@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Tidier Discord tab
+
+12 Nov 2026 (12:19 UTC) · Changed
+
+The Discord link is now step 1 and its messages show right under the box. The webhook help folds away once a link is saved.
+
+> [!NOTE]
+> **What you'll see:** Discord tab
+
+- Numbered the link as step 1, moved link messages under the box, folded the webhook help, showed the Untick note only when ticked
+
 ## Webhook help wording
 
 12 Nov 2026 (12:17 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0bb230c)
