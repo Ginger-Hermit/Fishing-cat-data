@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The Discord tab has shorter help text. -->
+<!-- Patch note: The help text under Copy bug report is shorter. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -185,7 +185,7 @@ button:disabled{opacity:.5}
 <details id="logbox"><summary style="cursor:pointer;font-size:14px">Log: what the page did</summary>
 <pre id="console" style="background:#0d0d0d;color:#e5e7eb;border:1px solid #444;border-radius:6px;padding:10px;font-size:13px;font-family:Consolas,Menlo,monospace;line-height:1.5;white-space:pre-wrap;word-break:break-word;min-height:60px;max-height:360px;overflow:auto;resize:vertical;margin:6px 0 0"></pre>
 <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button id="copybug" type="button">Copy bug report</button><a id="ghbug" href="https://github.com/Ginger-Hermit/Fishing-cat-data/issues/new" target="_blank" rel="noopener">Report on GitHub</a></div>
-<div style="font-size:13px;color:var(--muted);margin-top:6px">Copies the page log and your browser type. Keys are removed. Pictures are not included. Nothing is sent until you paste it somewhere. Report on GitHub opens a public form with the report filled in: read it first, then send it (needs a GitHub account).</div>
+<div style="font-size:13px;color:var(--muted);margin-top:6px">Copies the log and your browser type. Keys are removed and pictures are not included. Nothing is sent until you paste it. Report on GitHub opens a public form with it filled in: read it first (needs a GitHub account).</div>
 </details>
 </div>
 <div id="discordtab" style="display:none">
@@ -428,7 +428,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-zs";
+const BUILD = "2026-11-12-zt";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };

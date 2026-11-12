@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Shorter bug report help
+
+12 Nov 2026 (12:28 UTC) · Changed
+
+The help text under Copy bug report is shorter.
+
+> [!NOTE]
+> **What you'll see:** Settings, Log
+
+- Shortened the bug report help text
+
 ## Less text on the Discord tab
 
 12 Nov 2026 (12:27 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/5ecfcbf)
