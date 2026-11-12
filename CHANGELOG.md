@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Tab renamed again
+
+12 Nov 2026 (04:22 UTC) · Changed
+
+The tab is now called Roblox clan sheet.
+
+**What you'll see:** The second tab at the top.
+
+- Roblox clans tab renamed to Roblox clan sheet
+
 ## Tab renamed
 
-12 Nov 2026 (04:21 UTC) · Changed
+12 Nov 2026 (04:21 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/5825692)
 
 The Clan sheet tab is now called Roblox clans.
 
