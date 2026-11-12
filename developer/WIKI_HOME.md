@@ -12,6 +12,17 @@ Turn Roblox clan screenshots or video, and photos of household bills, into Excel
 - **Your own AI key:** Google Gemini is the default and has a free key. Anthropic works too. OpenAI is not tested yet.
 - **Private:** no accounts and no server of ours. Pictures go only to the AI company you pick, straight from your browser.
 
+## What it looks like
+Sample data, not real people.
+
+![The home page on a phone](images/home.png)
+
+![Check your list: fix any cell before you download](images/clan-table.png)
+
+![The Excel file you get](images/clan-excel.png)
+
+![Bills: check your charges](images/bills-table.png)
+
 ## How it works
 1. You add pictures, or a short video of you scrolling the list.
 2. The AI works out the game and clan, then reads the names and points.

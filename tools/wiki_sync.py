@@ -2,6 +2,7 @@
 import re, sys, shutil
 W = sys.argv[1]
 REPO = "https://github.com/Ginger-Hermit/Fishing-cat-data/blob/main/"
+RAW = "https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/"
 LINKS = {"CHANGELOG.md": "Changelog", "STATUS.md": "Status", "README.md": "Home",
          "developer/HOW_IT_WAS_BUILT.md": "How-it-was-built", "developer/STRESS_TEST_LOG.md": "Stress-test-log",
          "developer/SECURITY.md": "Security", "developer/FAQ.md": "FAQ", "CLAUDE.md": "AI-rules"}
@@ -9,6 +10,7 @@ def fix(t):
     def f(m):
         u = m.group(1)
         if re.match(r'(https?:|#|mailto:)', u) or not re.search(r'[./]', u): return m.group(0)
+        if re.search(r'\.(png|jpe?g|gif)$', u): return "](" + RAW + u + ")"
         return "](" + (LINKS.get(u) or REPO + u) + ")"
     return re.sub(r'\]\(([^)]+)\)', f, t)
 def put(name, text): open(f"{W}/{name}.md", "w").write(fix(text).rstrip("\n") + "\n")
