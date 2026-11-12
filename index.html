@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The small print is easier to read. -->
+<!-- Patch note: The page says Roblox again. It works for clans in any Roblox game. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -52,7 +52,7 @@ button:disabled{opacity:.5}
 <div class="tabs"><button id="t0" class="tab on">Home</button><button id="t1" class="tab">Clan sheet</button><button id="t3" class="tab">Bills</button><button id="t4" class="tab">GitHub</button><button id="t5" class="tab">Settings</button></div>
 <div id="hometab">
 <h2 style="margin:6px 0">Pictures in, Excel out</h2>
-<p>Turn clan screenshots or a video from any game into a sheet. It also reads household bills: power, gas, water, internet, phone and more.</p>
+<p>Turn clan screenshots or a video from any Roblox game into a sheet. It also reads household bills: power, gas, water, internet, phone and more.</p>
 <button data-go="sheet">Make a clan sheet</button>
 <button data-go="bill" class="tab" style="width:100%;margin-top:8px;padding:12px">Read bills</button>
 <h3 style="margin:18px 0 6px">How it works</h3>
@@ -72,7 +72,7 @@ button:disabled{opacity:.5}
 <div id="remnote" style="display:none;font-size:.85em;opacity:.75">Saved only in this browser, never sent anywhere else. Don't tick this on a shared or public computer. Untick to delete it.</div>
 </div>
 <div id="sheet" style="display:none">
-<div style="font-size:13px;color:var(--muted);margin-top:10px">Turns clan screenshots or a video, from any game, into a member sheet.</div>
+<div style="font-size:13px;color:var(--muted);margin-top:10px">Turns clan screenshots or a video from any Roblox game into a member sheet.</div>
 <label for="clanbox">Clan name (optional)</label>
 <input id="clanbox" maxlength="40" autocomplete="off" placeholder="e.g. Loki. Used in the file name">
 <label>Screenshots</label>
@@ -111,7 +111,7 @@ button:disabled{opacity:.5}
 <p>The code, the update history (<a href="https://github.com/Ginger-Hermit/Fishing-cat-data/blob/main/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG</a>) and the guide (README) are on GitHub.</p>
 <div style="border:1px solid var(--soft);border-radius:8px;font-size:14px;margin:8px 0">
 <div style="padding:8px 12px;border-bottom:1px solid var(--soft);color:var(--muted)">Preview: README.md</div>
-<div style="padding:8px 12px"><b>Fishing Cat Data</b><br>Turns clan screenshots or a video, from any game, into an Excel sheet.
+<div style="padding:8px 12px"><b>Fishing Cat Data</b><br>Turns clan screenshots or a video from any Roblox game into an Excel sheet.
 <ul style="margin:8px 0 0;padding-left:18px"><li>How to use it</li><li>What you get</li><li>Features</li><li>Privacy</li><li>Known limits</li><li>Read the code (quick guide)</li></ul></div>
 </div>
 <a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener" class="tab" style="display:inline-block;text-decoration:none;margin-top:6px">Open GitHub</a>
@@ -194,7 +194,7 @@ button:disabled{opacity:.5}
 <div class="hc"><b>Legal</b>
 <ul>
 <li>For personal use only.</li>
-<li>Not connected to any game company, Anthropic, Google or OpenAI. Those are names of their owners.</li>
+<li>Not an official Roblox, Anthropic, Google or OpenAI product. Those are names of their owners.</li>
 <li>Provided as is, with no guarantees. The AI can misread names and numbers, so check your sheet.</li>
 <li>Built entirely by Claude, an AI. The author gave the ideas and tested it.</li>
 <li>Using the AI costs credit on your own account, under your own terms with the company you pick.</li>
@@ -217,7 +217,7 @@ button:disabled{opacity:.5}
 </div>
 <div id="foot" style="text-align:center;margin-top:16px;font-size:12px;color:var(--muted)">
 <a href="#" data-go="safety">Stay safe</a> &middot; <a href="#" data-go="privacy">Privacy</a> &middot; <a href="#" data-go="legal">Legal</a> &middot; <a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">GitHub</a>
-<div style="margin-top:8px">Built by Claude, an AI &middot; Personal use only &middot; Not connected to any game company, Anthropic, Google or OpenAI &middot; No guarantees</div>
+<div style="margin-top:8px">Built by Claude, an AI &middot; Personal use only &middot; Not an official Roblox, Anthropic, Google or OpenAI product &middot; No guarantees</div>
 </div>
 </div>
 <script>
@@ -234,7 +234,7 @@ let PROMPT = "";
 function buildPrompt(p) {
   const rankLine = p.ranks ? 'a rank like "#12"' : "no rank number (set rank to 0)";
   const roleLine = p.extra ? 'a column called "' + p.extra + '" (copy it exactly as shown; use "?" if unreadable or hidden)' : "a role under the name";
-  return `These images show the member list of a game clan screen.
+  return `These images show the member list of a Roblox game clan screen.
 Each row shows ${rankLine}, a username, ${roleLine} and a points number (like 52.51K, 1.307M or 507).
 Read EVERY row that is fully visible. Skip rows cut off at the top or bottom edge. Keep rows in the order shown, top first.
 Copy usernames exactly. Points: copy exactly as shown. Never guess; use "?" if unreadable.
@@ -286,7 +286,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-l";
+const BUILD = "2026-11-12-m";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -845,9 +845,9 @@ async function readScreenshots(key, images) {
 }
 
 // The AI reads the game, clan and layout from your first picture.
-const nameOf = (p) => p.game + " - " + p.clan;
+const nameOf = (p) => "Roblox - " + p.game + " - " + p.clan;
 const clean = (t, n) => (typeof t === "string" ? t : "").replace(/[\r\n"\\<>\/:*?|]/g, " ").replace(/\s+/g, " ").trim().slice(0, n);
-const SETUP_PROMPT = `These images show the member list of a game clan screen.
+const SETUP_PROMPT = `These images show the member list of a Roblox game clan screen.
 Work out how the list is laid out. Do not copy the whole list. If several images are given, use the one that shows the member list best.
 Answer with ONLY one JSON object, no other text:
 {"clan_name": "name of the clan if it is clearly visible, otherwise empty", "game_name": "name of the game if it is clearly visible, otherwise empty", "ranks_shown": true or false (is a rank number like #1 shown beside each member?), "extra_column": "the heading or label of any column besides rank, username, role and points, otherwise empty"}

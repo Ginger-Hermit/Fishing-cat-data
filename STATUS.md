@@ -1,10 +1,10 @@
 # Status
 
-Last updated: 12 Nov 2026. Page version 2026-11-12-l. Live at fishing-cat-data.pages.dev.
+Last updated: 12 Nov 2026. Page version 2026-11-12-m. Live at fishing-cat-data.pages.dev.
 `tools/release.py` keeps the two values above up to date. Keep this file under 60 lines: it is read at the start of every chat.
 
 ## What the page does
-- **Home tab** explains the page. **Clan sheet tab:** screenshots or a video of a clan member list (any game) become an Excel sheet. Two AI requests per run (layout, then rows). An earlier sheet can be added to show changes.
+- **Home tab** explains the page. **Clan sheet tab:** screenshots or a video of a Roblox clan member list (any Roblox game) become an Excel sheet. Two AI requests per run (layout, then rows). An earlier sheet can be added to show changes.
 - **Bills tab:** photos of household bills (power, gas, water, phone and more; 12 at most) become a sheet with one row per charge and a Summary tab with cost by type. One AI request. The AI only copies; the sheet does the sums.
 - Gemini is the default company (free key). Anthropic works. OpenAI is untested.
 - Record screen and the Updates tab were removed on 12 Nov. Update history is only in CHANGELOG.md. Live steps and a live Log show during a run.

@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Roblox wording back
+
+12 Nov 2026 (00:00 UTC) · Changed
+
+The page says Roblox again. It works for clans in any Roblox game.
+
+**What you'll see:** Footer and Home say any Roblox game, and files are named Roblox - game - clan.
+
+- Put Roblox back in the wording, file names and AI instructions
+- Home and Clan sheet say any Roblox game
+
 ## Clearer disclaimer
 
-12 Nov 2026 (23:59 UTC) · Changed
+12 Nov 2026 (23:59 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c18da4f)
 
 The small print is easier to read.
 

@@ -1,6 +1,6 @@
 # Fishing Cat Data
 
-Turns clan screenshots or a video, from any game, into a ready-to-use Excel sheet: Rank, Username, Role and Points, with optional week-to-week change. It also reads photos of household bills (power, gas, water, internet, phone and more) into a sheet.
+Turns clan screenshots or a video from any Roblox game into a ready-to-use Excel sheet: Rank, Username, Role and Points, with optional week-to-week change. It also reads photos of household bills (power, gas, water, internet, phone and more) into a sheet.
 
 **Built entirely by Claude, an AI.** The author gave the ideas and tested it. The AI wrote all the code, this page and the notes.
 
@@ -16,7 +16,7 @@ Turns clan screenshots or a video, from any game, into a ready-to-use Excel shee
 
 ## What you get
 
-- An Excel file named after the game and clan (or the Clan name you type), like `Gym League - Loki.xlsx`.
+- An Excel file named after the game and clan (or the Clan name you type), like `Roblox - Gym League - Loki.xlsx`.
 - **Clan Members** tab: coloured ranks and roles, plus Rank, Username, Role, Points (as shown, e.g. `52.51K`) and Points (number, e.g. `52510`). The number column is a real number, so you can sort and add it.
 - With a last sheet chosen: Previous Points, Change, % Change and a Trend arrow (new members show as "new"). These are formulas, so fixing a misread number updates them.
 - **About this sheet** tab: what each column means.
@@ -61,7 +61,7 @@ Turns clan screenshots or a video, from any game, into a ready-to-use Excel shee
 
 ## Disclaimer
 
-For personal use only. Not connected to any game company, Anthropic, Google or OpenAI. Provided as is, with no guarantees.
+For personal use only. Not an official Roblox, Anthropic, Google or OpenAI product. Provided as is, with no guarantees.
 
 ## Licence
 
@@ -108,16 +108,16 @@ Search `index.html` for any of these names to jump straight there.
 ### 3. Read one line (1 minute)
 
 ```js
-const nameOf = (p) => p.game + " - " + p.clan;
+const nameOf = (p) => "Roblox - " + p.game + " - " + p.clan;
 ```
 
 | Piece | Means |
 |---|---|
 | `const nameOf` | a helper called nameOf |
 | `(p) =>` | give it one thing, call it p |
-| `p.game + " - " + p.clan` | stick the words together |
+| `"Roblox - " + p.game + " - " + p.clan` | stick the words together |
 
-Result: `Gym League - Loki`. That's the Excel file name.
+Result: `Roblox - Gym League - Loki`. That's the Excel file name.
 
 ### 4. Cheat sheet
 
