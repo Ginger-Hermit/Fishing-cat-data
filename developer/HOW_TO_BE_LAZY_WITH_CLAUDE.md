@@ -1,121 +1,60 @@
-# How to be lazy with Claude and get it to do almost everything when making an app on GitHub
+# How to be lazy with Claude and get it to build your whole app on GitHub
 
-Written by Claude (an AI) on 12 Nov 2026, from how Fishing Cat Data was built. The owner does not code and was usually on a phone. Claude wrote every line. This is the lazy method that worked, written so you can copy it. The story of this project is in [The lazy way](THE_LAZY_WAY.md).
+**I don't code. I'm usually on my phone. Claude wrote every line of this app.** Here's the lazy recipe that worked, with the mistakes left in so you can skip them. (Written by Claude, 12 Nov 2026.)
 
-## 1. Start with a mockup, not code
-Say what you want in plain words and ask for a picture of it. Change the picture until you like it, then say "go". Fixing a picture is cheap. Fixing finished code is not.
+> **The whole job in one line:** you're the boss and the tester. Claude is the builder. Say what you want, look at a picture, say "go", send a screenshot, repeat.
 
-## 2. Make Claude write its own rules file
-Prompt: *"Create a CLAUDE.md in the repo with rules for working with me: plain words, mockups first, one bug per fix, warn before big jobs. Add a rule to read it at the start of every chat."*
-When you say "do it this way" twice, tell it to add that to the file. You will never explain anything twice.
+## The 8 lazy moves
 
-## 3. Add a status file
-Prompt: *"Create STATUS.md: what works, what's next, what is NOT tested. Update it after every change."*
-A new chat reads it and picks up where the last one stopped, so you never need a handoff. The "not tested" list stops Claude from claiming more than it knows.
+| # | Do this | Why it's lazy |
+|---|---|---|
+| 1 | **Ask for a mockup, not code.** Say "go" only when you like the picture. | Changing a picture is free. Changing finished code isn't. |
+| 2 | **Make Claude write its own rules file.** *"Create CLAUDE.md with rules for working with me: plain words, mockups first, one bug per fix, warn before big jobs. Read it every chat."* | Say "do it this way" twice and it goes in the file. You never explain twice. |
+| 3 | **Add a status file.** *"Create STATUS.md: what works, what's next, what is NOT tested."* | New chat? It reads the file. No handoffs, ever. |
+| 4 | **Let Claude do the paperwork.** A release script (version, changelog, checks) plus GitHub tests on every push. | Your only job is spotting a red cross. |
+| 5 | **Feedback = screenshots.** "Looks awful" plus a picture is enough. Say "too much info" and it simplifies. | No typing paragraphs. |
+| 6 | **Make it attack itself.** *"Try to break this like a hostile user. List what you could NOT test."* | Found a hole where a player name could fake a link in Discord. |
+| 7 | **Save tokens.** Search for the exact spot, send only changed files, warn before big jobs. | Pro limits are real. Plan big jobs for after your reset. |
+| 8 | **Be the tester.** Claude can't hold your phone or post in your real Discord. | You run it for real, send a screenshot. That's the job. |
 
-## 4. Let Claude do the paperwork
-- Ask for a release script that bumps the version, writes the changelog entry and runs the checks.
-- Ask for GitHub Actions that run the tests on every push.
-- Then a red cross on GitHub is your only job: you do not read the code, you only notice red.
+## Copy this starter prompt
+> *"I do not code. Build me [your idea] as a web page in a GitHub repo. First show me a mockup. Create CLAUDE.md (rules for how we work) and STATUS.md (what works, what's next, what's untested). After each change run tests and update STATUS.md. Warn me before anything big. Keep words plain."*
 
-## 5. Use screenshots as your whole feedback loop
-"This looks awful" plus a screenshot is enough. Say "too much info" or "so many buttons" and ask for simpler, not more options. Screenshots also catch things Claude cannot see (a stale file name, a button too small to tap).
+## The only things your hands must do
+Claude writes everything. You do the parts that need *your* logins:
 
-## 6. Make it attack its own work
-Prompt: *"Try to break this like a hostile user would. Use fake replies, bad files and weird names. Then list what you could NOT test."*
-In this project that found a hole where a player name could fake a link in a Discord post.
+1. **GitHub:** make a free account and a new repo (public is fine). Connect Claude to *only that repo*.
+2. **Safety switches:** in the repo's Settings, turn on **secret scanning** and **push protection** (blocks pushes with real-looking keys). Optional: turn on the **wiki**.
+3. **Free web host:** make a free account at any static-site host, choose **connect to GitHub**, pick the repo and main branch. Build command: **empty**. Publish folder: **the root**. Press deploy.
+4. **Done:** after about a minute you get a link. From then on, every push to main goes live by itself.
+5. **Test on your phone.** Do one real run, send Claude a screenshot.
 
-## 7. Save tokens
-Tell it to search for the exact spot instead of reading every file, to send only changed files, and to warn you before big jobs. Plan the big jobs for just after your usage reset.
+**Privacy first:** hide your email (use GitHub's private noreply address before the first push). Your host's name may show in your web address. Never commit a key. Treat Discord webhook links like passwords.
 
-## 8. Be the tester
-Claude cannot hold your phone or post in your real Discord. Run the real thing yourself and send a screenshot. That is your main job.
+**Broke?** Site not updating: wait a minute, hard-refresh, check the host's deploy page. Red cross on GitHub: a test failed, send Claude the name. Push refused: it found something that looks like a key, remove it.
 
-## The manual steps: GitHub plus a free web host
-Claude wrote all the code. These are the few things only you can do, because they need your own accounts and logins. Menu names change, so look for the same words nearby. The host is kept generic: any free static-site host that deploys from GitHub works the same way.
-
-### What you do yourself, and what Claude does
-
-| You | Claude |
-|---|---|
-| Make the accounts, sign in, approve access | Writes every file |
-| Press the connect and approve buttons | Pushes the code to GitHub |
-| Turn on repo settings | Runs the tests, fixes failures |
-| Copy your link and test it on your phone | Writes the docs and changelog |
-
-#### Part 1: GitHub (where the code lives)
-1. Make a free GitHub account.
-2. Make a new repository. Name it after the project. Public is fine for a page like this (see "Privacy" below), and a public repo gets GitHub's free tools.
-3. Link Claude to it. In Claude, connect GitHub when asked and approve access to this one repo. Pick only the repo it needs.
-4. Ask Claude to push the files. It should add `README.md`, `CLAUDE.md`, `STATUS.md` and a `LICENSE`.
-5. Turn on the safety settings: in the repo, open Settings and find the security section. Switch on **secret scanning** and **push protection**. They block pushes that contain a real-looking key.
-6. Optional: turn on the **wiki** (Settings, Features). Claude can fill it automatically from the files in the repo.
-7. If you rename the repo or your account, old links still redirect, and pushes keep working. Tell Claude the new address so it can fix the docs.
-
-#### Part 2: Put the page on the internet (a free static host)
-The page is one `index.html` file plus a few small files, with no server and no build step. Any free static host can serve it.
-1. Make a free account at the host you choose.
-2. In its dashboard, create a new site and choose **connect to GitHub** (sometimes called "import a repository").
-3. Sign in to GitHub when asked and allow the host to see **only this repo**.
-4. Pick the repo and the main branch.
-5. Settings it asks for:
-   - **Build command:** leave empty (nothing to build).
-   - **Publish folder:** the root of the repo (`/`, or leave blank).
-   - **Framework:** none.
-6. Press deploy. After about a minute you get a link. Open it on your phone.
-7. From now on every push to the main branch deploys by itself. Claude pushes, you wait about a minute, then refresh. That is the whole release process.
-8. Optional: the file `_headers` in the repo sets security rules on hosts that read it. Claude keeps it up to date. Check the host's page for your link with a "security headers" checker once.
-
-#### Part 3: Test it for real
-1. Open the live link on your own phone.
-2. Do one real run of each tab and send Claude a screenshot.
-3. Anything wrong: tell Claude, with the screenshot. Do not paste keys into the chat. If you do, delete the key and make a new one.
-
-### Privacy (decide before you publish)
-- **Your email:** GitHub can hide it. Use your private noreply address in git settings before the first push. If an early commit used your real email, ask Claude how to rewrite it, and do it before the repo is shared.
-- **Your host:** the host's name often shows in the web address. Decide whether you mind.
-- **Keys:** never commit a key. Never put one in a screenshot.
-- **Discord links:** treat them like passwords. Anyone with one can post in your channel.
-
-### When something breaks
-- **The site did not update:** wait a minute, then hard-refresh. Then check the host's deploy page for a red error.
-- **A red cross on GitHub:** a test failed. Send Claude the name of the failing check.
-- **Push refused:** push protection found something that looks like a key. Remove it, then push again.
-- **Nothing here fixes it:** use the Copy bug report button on the page and send Claude the text.
-
-## What went wrong
-- Unclear requests got the wrong thing built twice. One short question beats a wrong build.
-- Never paste secret keys into a chat. If you do, delete the key.
-- Claude can sound surer than it is. Always ask what it did not test.
-
-## What it costs, and what Free can and can't do
-Prices checked 12 Nov 2026 from public plan pages and can change. Check claude.com/pricing before you buy.
+## What it costs (checked 12 Nov 2026, prices change)
 
 | | Free | Pro | Max |
 |---|---|---|---|
-| Price | $0 | $20 a month, or $17 a month billed yearly ($200 up front) | $100 (5x Pro usage) or $200 (20x Pro usage) a month |
-| Claude chat (web, phone, desktop) | Yes, low limits | Yes, about 5x the usage of Free | More |
-| Claude Code (writes files, runs tests, pushes to GitHub for you) | **No** | **Yes** | Yes |
-| Limits | A rolling window of a few hours | A 5-hour window plus a weekly limit, shared by chat and Claude Code | Same idea, higher |
+| Price | $0 | $20 a month ($17 billed yearly) | $100 or $200 a month |
+| Chat | Yes, low limits | About 5x Free | More |
+| Claude Code (pushes, tests, fixes for you) | **No** | **Yes** | Yes |
+| Limits | Rolling window | 5-hour window plus weekly limit, shared with chat | Higher |
 
-This project was built on **Pro**. Total spend on this app is not recorded; the only known cost is the Pro plan. GitHub itself is free for a public repo like this one (check GitHub's current terms for limits).
+This app was built on **Pro**. Total spend isn't recorded; the only known cost is the plan. GitHub is free for a public repo like this.
 
-**What you can do on Free:**
-- Chat with Claude, ask for mockups, and have it write whole files. Free also has web search, file creation and code running in chat, per one plan guide.
-- Paste the file into GitHub yourself: open the repo in the browser, tap Add file, then paste or upload. No coding needed, but you do the copying.
-- Keep your rules by pasting `CLAUDE.md` and `STATUS.md` at the start of each chat (Free has no way to read them on its own).
-- GitHub's own automatic tests still run after each push, because they run on GitHub, not in Claude.
+**On Free you can:** chat, get mockups, have Claude write whole files, then paste them into GitHub yourself (Add file in the browser). Paste your rules files at the start of each chat. GitHub's own tests still run.
+**On Free you lose:** Claude pushing, testing and looking at the page for you. More copying, more babysitting, smaller jobs.
+**Go Pro when** you hit the Free limit 3+ times a week or want push-test-fix in one go. **Stay Free if** it's a few questions a week or one tiny page.
 
-**What you lose on Free:**
-- Claude can't push for you, run the tests itself or open the page in a browser to look at it. You do all the copying and checking.
-- Fewer messages, so big jobs get cut off sooner. Plan one small job per window.
-- No Claude Code, so none of the "it did everything while I watched" parts of this guide.
+Sources: [Claude plans](https://claude.com/pricing), [Claude Code pricing 2026](https://www.superblocks.com/blog/claude-code-pricing), [Is Claude Code free?](https://ai.zenken.co.jp/en/post/claude-code-free-plan-guide/), [Pro price and limits](https://sessionwatcher.com/guides/claude-pro-price)
 
-**When Pro pays for itself:** you hit the Free limit three or more times a week, or you want Claude to push, test and fix in one go. **When to stay Free:** a few questions a week, or one tiny page you'll never change.
+## What went wrong (so yours doesn't)
+- **Unclear request = wrong build.** Twice. One short question beats a wrong build.
+- **Too much on screen.** "Too much info", "so many buttons", "this seems hard to use": every time the fix was *fewer* things, not more options.
+- **Silent bugs.** Headings in the wrong place, a hidden button, a repeated version number. Found by looking, not guessing.
+- **Claude sounds surer than it is.** Always ask: *what did you not test?*
+- **Never paste a secret key in chat.** If you do, delete it.
 
-**Pro limits are real.** A 5-hour window and a weekly limit are shared by chat and Claude Code, so a long coding session uses the same pool. That's why the token-saving habits above matter.
-
-Sources: [Claude plans](https://claude.com/pricing), [Claude Code pricing 2026](https://www.superblocks.com/blog/claude-code-pricing), [Is Claude Code free?](https://ai.zenken.co.jp/en/post/claude-code-free-plan-guide/), [Claude Pro price and limits](https://sessionwatcher.com/guides/claude-pro-price), [Claude Pro guide](https://claudemarket.ai/blog/claude-pro)
-
-## Starter prompt (copy this)
-*"I do not code. Build me [your idea] as a web page in a GitHub repo. First show me a mockup. Create CLAUDE.md (rules for how we work) and STATUS.md (what works, what is next, what is untested). After each change, run tests and update STATUS.md. Before anything big, warn me. Keep words plain."*
+The full story is in [The lazy way](THE_LAZY_WAY.md).
