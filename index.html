@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Bills now has Post to Discord too, on tap only. It sends a short summary and the sheet. -->
+<!-- Patch note: The smallest Gemini model now only does the quick layout step. Reading the member list and bills never use it, so lists are not left half empty. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -375,7 +375,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-r";
+const BUILD = "2026-11-12-s";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1218,15 +1218,16 @@ function aiStats(d, secs) {
   const out = (u.candidatesTokenCount || u.output_tokens || u.completion_tokens || 0) + (u.thoughtsTokenCount || 0);
   clog("AI says: model " + (d.modelVersion || d.model || "?") + ", finished: " + (c0.finishReason || d.stop_reason || ch0.finish_reason || "?") + ", tokens: " + (nums || "not reported") + (out ? ", about " + (out / Math.max(secs, 0.1)).toFixed(0) + " tokens a second" : "") + (d.promptFeedback && d.promptFeedback.blockReason ? ", BLOCKED: " + d.promptFeedback.blockReason : ""));
 }
-const GALT = ["gemini-3.7-flash", "gemini-3.5-flash-lite"]; let gemSkip = 0, gemAt = 0; // backup model that last answered, remembered for 10 minutes
+const GALT = ["gemini-3.7-flash", "gemini-3.5-flash-lite"]; const galt = (i) => (!QUICK && GALT[i] === GALT[1] ? undefined : GALT[i]); // the weakest model may only do the quick layout step
+let gemSkip = 0, gemAt = 0; // backup model that last answered, remembered for 10 minutes
 async function postJson(url, headers, body) {
   const payload = JSON.stringify(body), nap = (ms) => new Promise((r) => setTimeout(r, ms)), baseUrl = url;
-  const off = Date.now() - gemAt < 6e5 && /generativelanguage/.test(url) && url.includes("/" + PROVIDERS.gemini.model + ":") ? gemSkip : 0;
+  const off = Date.now() - gemAt < 6e5 && /generativelanguage/.test(url) && url.includes("/" + PROVIDERS.gemini.model + ":") ? (QUICK ? gemSkip : Math.min(gemSkip, 1)) : 0;
   if (off) { url = baseUrl.replace(PROVIDERS.gemini.model, GALT[off - 1]); clog("Starting on " + GALT[off - 1] + " because " + PROVIDERS.gemini.model + " was busy a minute ago."); }
   for (let attempt = 1; ; attempt++) { // up to 3 tries when the AI is busy or the connection drops
   let res;
   const t0 = Date.now(), sec = () => ((Date.now() - t0) / 1000).toFixed(1) + "s";
-  const gAlt = GALT[attempt - 1 + off], gSwap = !!gAlt && /generativelanguage/.test(baseUrl) && baseUrl.includes("/" + PROVIDERS.gemini.model + ":") && attempt < 3;
+  const gAlt = galt(attempt - 1 + off), gSwap = !!gAlt && /generativelanguage/.test(baseUrl) && baseUrl.includes("/" + PROVIDERS.gemini.model + ":") && attempt < 3;
   clog("Request: POST " + url.replace(/^https:\/\//, "").replace(/\?.*$/, "") + ", " + Math.round(payload.length / 1024) + " KB" + (body.generationConfig ? ", settings " + JSON.stringify(body.generationConfig) : "") + (body.max_tokens ? ", max_tokens " + body.max_tokens : "") + ", online " + navigator.onLine + ", gives up after " + Math.round(aiWait / 1000) + "s");
   const beat = setInterval(() => clog("Still waiting for the AI (" + sec() + ")"), 10000);
   try { res = await fetch(url, { method: "POST", headers, body: payload, signal: AbortSignal.timeout(gSwap ? Math.min(aiWait, 75000) : aiWait) }); clearInterval(beat); clog("AI answered after " + sec() + ": HTTP " + res.status + " " + res.statusText + hdrs(res)); }
@@ -1239,7 +1240,7 @@ async function postJson(url, headers, body) {
     try { raw = await res.text(); } catch (e) {}
     try { detail = JSON.parse(raw).error.message || ""; } catch (e) {}
     clog("AI error " + res.status + ": " + detail + "\nFull error reply: " + raw.slice(0, 1500));
-    const daily = res.status === 429 && /PerDay|per day/i.test(raw), alt = GALT[attempt - 1 + off];
+    const daily = res.status === 429 && /PerDay|per day/i.test(raw), alt = galt(attempt - 1 + off);
     const canSwap = !!alt && /generativelanguage/.test(baseUrl) && baseUrl.includes("/" + PROVIDERS.gemini.model + ":");
     if (([500, 502, 503, 504].includes(res.status) || (daily && canSwap) || (res.status === 404 && url !== baseUrl)) && attempt < 3) {
       clog((daily ? "Today's free limit for this model is used up (HTTP 429)." : "The AI is busy or the backup model is gone (HTTP " + res.status + ").") + " Trying again" + (daily ? "" : " in " + attempt * 4 + "s") + " (try " + (attempt + 1) + " of 3).");

@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Weak model only for the layout step
+
+12 Nov 2026 (06:18 UTC) · Changed
+
+The smallest Gemini model now only does the quick layout step. Reading the member list and bills never use it, so lists are not left half empty.
+
+**What you'll see:** Log never shows gemini-3.5-flash-lite on the list step
+
+- Block flash-lite outside the layout step
+
 ## Post to Discord for bills
 
-12 Nov 2026 (06:16 UTC) · Changed
+12 Nov 2026 (06:16 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/e491304)
 
 Bills now has Post to Discord too, on tap only. It sends a short summary and the sheet.
 
