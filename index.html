@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The bills sheet shows fewer columns and plainer words, and the numbered steps on Home no longer break into columns. -->
+<!-- Patch note: The Home page no longer repeats the footer, the section arrows match the page and the tab row stays on one line. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -20,7 +20,7 @@ html[data-size=large] .card{zoom:1.25}
 .hc summary{cursor:pointer;font-weight:500;color:var(--link)}
 .hc ul{margin:8px 0 0;padding-left:20px;line-height:1.7}
 .hc p{margin:8px 0 0;color:var(--muted)}
-.hsec>summary{color:var(--link);border-left:4px solid var(--accent);padding-left:10px}.hsec li b{color:var(--link)}.hsafe{background:var(--noteBg);color:var(--noteText);border-radius:8px;padding:8px 12px 8px 28px}.hsafe a{color:var(--noteText);font-weight:600}
+.hsec>summary{color:var(--link);border-left:4px solid var(--accent);padding:6px 2px 6px 12px;list-style:none;display:flex;align-items:center;gap:8px}.hsec>summary::-webkit-details-marker{display:none}.hsec>summary:after{content:"\203A";margin-left:auto;font-size:1.3em;line-height:1;transition:transform .15s}.hsec[open]>summary:after{transform:rotate(90deg)}.hsec li b{color:var(--link)}.hsafe{background:var(--noteBg);color:var(--noteText);border-radius:8px;padding:8px 12px 8px 28px}.hsafe a{color:var(--noteText);font-weight:600}
 .steps{list-style:none;padding:0;margin:10px 0 0;counter-reset:s}
 .steps li{display:block;position:relative;padding-left:32px;margin:10px 0;counter-increment:s}
 .steps li:before{content:counter(s);position:absolute;left:0;top:1px;background:var(--accent);color:var(--onAccent);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600}
@@ -65,6 +65,7 @@ button:disabled{opacity:.5}
 .msg{margin-top:12px;font-size:14px;min-height:20px}
 .err{color:var(--err)}
 .tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+.tabs.main{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}.tabs.main::-webkit-scrollbar{display:none}.tabs.main .tab{flex:0 0 auto}
 .tab{width:auto;margin:0;padding:8px 12px;font-size:14px;background:var(--field);color:var(--link);border:1px solid var(--link);border-radius:6px}
 .page{font-size:15px;line-height:1.5}
 .tab.on{background:var(--accent);color:var(--onAccent)}
@@ -75,7 +76,7 @@ button:disabled{opacity:.5}
 <h1>Fishing Cat Data</h1>
 <div id="fake" style="display:none;border:2px solid var(--err);color:var(--err);background:var(--field);border-radius:8px;padding:12px 14px;margin-bottom:14px;font-weight:500">Warning: this is not the real Fishing Cat Data page. Do not paste your key here. The real page is fishing-cat-data.pages.dev</div>
 <div id="newver" role="status" style="display:none;background:var(--field);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:14px">New version ready. <a href="#" id="reloadnow">Refresh now</a></div>
-<div class="tabs"><button id="t0" class="tab on">Home</button><button id="t1" class="tab">Roblox clan sheet</button><button id="t3" class="tab">Bills</button><button id="t4" class="tab">GitHub</button><button id="t5" class="tab">Settings</button></div>
+<div class="tabs main"><button id="t0" class="tab on">Home</button><button id="t1" class="tab">Roblox clan sheet</button><button id="t3" class="tab">Bills</button><button id="t4" class="tab">GitHub</button><button id="t5" class="tab">Settings</button></div>
 <div id="hometab">
 <p style="margin:2px 0 8px;font-size:14px"><a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">Full guide on GitHub</a> &middot; <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Get my free key</a></p>
 <h2 style="margin:6px 0">Turn your Roblox clan list into a spreadsheet</h2>
@@ -83,7 +84,7 @@ button:disabled{opacity:.5}
 <button data-go="sheet">Make a Roblox clan sheet</button>
 <button data-go="bill" class="tab" style="width:100%;margin-top:8px;padding:12px">Read my bills</button>
 <div style="font-size:13px;color:var(--muted);margin-top:6px">Bills works for power, gas, water, internet and phone. Photos or PDFs.</div>
-<details open class="hsec" style="margin-top:12px"><summary style="font-weight:600;font-size:1.1em;cursor:pointer;padding:6px 0">How to use it</summary>
+<details open class="hsec" style="margin-top:12px"><summary style="font-weight:600;font-size:1.1em;cursor:pointer">How to use it</summary>
 <ol class="steps" style="margin:0;line-height:1.5">
 <li>Get a free key from Google. It works like a password that lets this page read your pictures. It takes about 1 minute. <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Get my free key</a>, then paste it in the box on the next screen.</li>
 <li>Add screenshots of your clan's member list, or a screen recording of you scrolling it slowly (about 1 second per 5 members).</li>
@@ -91,7 +92,7 @@ button:disabled{opacity:.5}
 <li>Tap <b>Make my sheet</b>. After about 20 seconds an Excel file downloads.</li>
 </ol>
 </details>
-<details class="hsec" style="margin-top:12px"><summary style="font-weight:600;font-size:1.1em;cursor:pointer;padding:6px 0">What you get</summary>
+<details class="hsec" style="margin-top:12px"><summary style="font-weight:600;font-size:1.1em;cursor:pointer">What you get</summary>
 <img src="images/clan-leaderboard.png" alt="Sample Leaderboard tab: six made-up players ranked by points gained, with gold, silver and bronze rows for the top 3" loading="lazy" width="727" height="233" style="display:block;width:100%;height:auto;border:1px solid var(--line,#ccc);border-radius:6px">
 <p style="margin:6px 0 0;font-size:14px;opacity:.75">A sample with made-up players. Yours will have your clan's names.</p>
 <ul style="margin:10px 0 0;padding-left:20px;line-height:1.6">
@@ -102,14 +103,14 @@ button:disabled{opacity:.5}
 <li><b>Bills:</b> add photos or PDFs of power, gas, water, internet or phone bills and get one row per charge, plus a summary.</li>
 </ul>
 </details>
-<details class="hsec" style="margin-top:12px"><summary style="font-weight:600;font-size:1.1em;cursor:pointer;padding:6px 0">Is it safe?</summary>
+<details class="hsec" style="margin-top:12px"><summary style="font-weight:600;font-size:1.1em;cursor:pointer">Is it safe?</summary>
 <div class="hsafe"><ul style="margin:0;padding-left:0;line-height:1.6">
 <li>Your key stays on your device. It is only saved if you tick Remember my key.</li>
 <li>Only the company you pick (Google or Anthropic) sees your pictures. Nothing is saved on this site.</li>
 </ul>
 <p style="margin:6px 0 0"><a href="#" data-go="safety">More on staying safe</a></p></div>
 </details>
-<details class="hsec" style="margin-top:12px"><summary style="font-weight:600;font-size:1.1em;cursor:pointer;padding:6px 0">Good to know</summary>
+<details class="hsec" style="margin-top:12px"><summary style="font-weight:600;font-size:1.1em;cursor:pointer">Good to know</summary>
 <ul style="margin:0;padding-left:20px;line-height:1.6">
 <li>The free Google key has a daily limit. If it runs out, wait until tomorrow.</li>
 <li>The AI reads the names and points. Check any <b>?</b> or odd spelling by hand.</li>
@@ -117,7 +118,6 @@ button:disabled{opacity:.5}
 <li>Stuck? Tap <b>Copy bug report</b> in the box that appears while it works, and send it to the person who shared this page.</li>
 </ul>
 </details>
-<p style="font-size:13px;color:var(--muted);margin-top:14px">Built entirely by Claude, an AI. Not an official Roblox, Anthropic, Google or OpenAI product. For personal use, provided as is. The full guide is on <a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">GitHub</a>.</p>
 </div>
 <div id="keybox">
 <label for="provider">AI company</label>
@@ -355,7 +355,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-v";
+const BUILD = "2026-11-12-w";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };

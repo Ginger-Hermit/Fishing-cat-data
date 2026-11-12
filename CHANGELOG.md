@@ -2,9 +2,21 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Home tidy-up
+
+12 Nov 2026 (05:28 UTC) · Changed
+
+The Home page no longer repeats the footer, the section arrows match the page and the tab row stays on one line.
+
+**What you'll see:** Open Home: one tidy row of tabs, a small arrow on each section, no repeated footer line.
+
+- Removed the repeated 'built by Claude' line on Home
+- Section headings use a small arrow instead of the browser's black triangle
+- Tab row scrolls sideways instead of wrapping
+
 ## Bills sheet simpler, Home steps line up
 
-12 Nov 2026 (05:27 UTC) · Changed
+12 Nov 2026 (05:27 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2b437c5)
 
 The bills sheet shows fewer columns and plainer words, and the numbered steps on Home no longer break into columns.
 
