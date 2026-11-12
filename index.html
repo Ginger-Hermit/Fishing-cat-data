@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Privacy text now says past runs are saved with the last sheet. -->
+<!-- Patch note: The clan preview is now titled Roblox clan preview. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -325,7 +325,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-n";
+const BUILD = "2026-11-12-o";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1222,7 +1222,7 @@ $("testgo").onclick = async () => {
     const shown = (text.match(/"members_on_screen"\s*:\s*(\d+)/) || [])[1];
     pv = { rows: rows.map(r => ({ ...r })), orig: rows.map(r => ({ ...r })), p, shown };
     pvDraw();
-    setMsg("Test read OK: " + rows.length + " rows from 1 picture (the first one only). Check the list below. If it looks right, tap Make my sheet. Nothing was downloaded.");
+    setMsg("Test read OK: " + rows.length + " rows from 1 picture (the first one only). Check the Roblox clan preview below. If it looks right, tap Make my sheet. Nothing was downloaded.");
   } catch (err) { clog("Test stopped: " + err.message); setMsg(plain(err), true); }
   finally { running = false; refresh(); }
 };
@@ -1300,7 +1300,7 @@ function pvDraw() {
   const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined) e.textContent = text; return e; };
   const pm = fixNames(prevMap, pv.rows); // same name matching as the sheet, so the preview agrees with it
   const bad = pv.rows.filter(pvBad).length, off = pv.shown && Number(pv.shown) !== pv.rows.length;
-  box.appendChild(el("div", "pvt", "Check your list"));
+  box.appendChild(el("div", "pvt", "Roblox clan preview"));
   box.appendChild(el("div", "pvd", pv.rows.length + " rows." + (bad ? " " + bad + (bad === 1 ? " needs" : " need") + " a look (orange)." : "") + (off ? " The screen says " + pv.shown + " members." : "") + " Tap a cell to fix it."));
   const here = new Set(pv.rows.map((r) => String(r.name).trim().toLowerCase())), gone = pm ? [...(pm.hist ? pm.hist.players.map(([k]) => k) : pm.keys())].filter((k) => !here.has(k)).length : 0;
   if (gone) box.appendChild(el("div", "pvd", gone + (gone === 1 ? " earlier member is" : " earlier members are") + " not in this list. They stay in the history, greyed. Scroll the video to the bottom to catch them."));
@@ -1354,7 +1354,7 @@ $("go").onclick = async () => {
     if (countOff) clog("Count check: screen says " + shown + ", read " + rows.length + ".");
     if (rows.cut) clog("The AI reply was cut off or untidy; kept the complete rows.");
     prog.stop(true);
-    setMsg("Check your list below, then tap Download sheet." + (rows.cut ? " The AI's reply was cut short, so some members may be missing. Try fewer pictures." : "") + (countOff ? " The screen says " + shown + " members, so some may be missing. Scroll slower and try again." : "") + (bad ? " Check " + bad + " row(s) marked ?." : "") + (order ? " Some ranks look out of order, so check the list." : ""));
+    setMsg("Check your Roblox clan preview below, then tap Download sheet." + (rows.cut ? " The AI's reply was cut short, so some members may be missing. Try fewer pictures." : "") + (countOff ? " The screen says " + shown + " members, so some may be missing. Scroll slower and try again." : "") + (bad ? " Check " + bad + " row(s) marked ?." : "") + (order ? " Some ranks look out of order, so check the list." : ""));
   } catch (err) {
     clog("Stopped: " + err.message);
     prog.stop(false);

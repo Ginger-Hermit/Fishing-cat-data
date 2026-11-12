@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
-## Wording catches up
+## Roblox clan preview
 
 12 Nov 2026 (05:15 UTC) · Changed
+
+The clan preview is now titled Roblox clan preview.
+
+**What you'll see:** Read a clan: the table under the message says Roblox clan preview.
+
+- Preview title and messages say Roblox clan preview
+
+## Wording catches up
+
+12 Nov 2026 (05:15 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8538575)
 
 Privacy text now says past runs are saved with the last sheet.
 
