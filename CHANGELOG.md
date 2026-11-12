@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Tidier Discord tab
 
-12 Nov 2026 (12:19 UTC) · Changed
+12 Nov 2026 (12:19 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/d88006e)
 
 The Discord link is now step 1 and its messages show right under the box. The webhook help folds away once a link is saved.
 
