@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Sections for Discord and Log
 
-12 Nov 2026 (07:12 UTC) · Changed
+12 Nov 2026 (07:12 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/62e6186)
 
 The Discord box and the Log now sit under their own small headings, split from the sheet area.
 
