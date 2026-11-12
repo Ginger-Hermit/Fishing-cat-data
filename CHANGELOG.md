@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
-## Compact clan tab
+## Hint for hidden options
 
 12 Nov 2026 (06:39 UTC) · Changed
+
+A short note tells people where Discord, last sheet and the Log are.
+
+**What you'll see:** Roblox clan sheet tab, under Make my sheet.
+
+- Added one grey line pointing to the small arrows; More options now says what is inside.
+
+## Compact clan tab
+
+12 Nov 2026 (06:39 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/de9b327)
 
 The clan tab is shorter: key, last sheet, Discord and Log are tucked into closed sections.
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The clan tab is shorter: key, last sheet, Discord and Log are tucked into closed sections. -->
+<!-- Patch note: A short note tells people where Discord, last sheet and the Log are. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -140,13 +140,14 @@ button:disabled{opacity:.5}
 <input id="files" type="file" accept="image/png,image/jpeg,image/webp,video/mp4,video/quicktime,video/webm" multiple hidden>
 <div id="list"></div>
 <button id="go" disabled>Make my sheet</button>
-<details id="moreopts" style="margin-top:10px"><summary style="cursor:pointer;font-size:14px">More options</summary>
+<details id="moreopts" style="margin-top:10px"><summary style="cursor:pointer;font-size:14px">More options (last sheet, test)</summary>
 <label>Last sheet (optional)</label>
 <div class="drop" id="prevdrop">Tap to choose an earlier sheet (.xlsx) to compare</div>
 <input id="prevfile" type="file" accept=".xlsx" hidden>
 <div id="previnfo"></div>
 <button id="testgo" type="button" class="tab" disabled style="margin-top:8px;width:100%">Test first (small read, no file)</button>
 </details>
+<div style="font-size:12px;color:var(--muted);margin-top:8px">Looking for Discord, your last sheet or the Log? They are under the small arrows (▸) on this page.</div>
 <div class="msg" id="msg" role="status" aria-live="polite"></div>
 <div class="prog" id="prog" aria-live="polite"></div>
 <div class="pv" id="preview" style="display:none"></div>
@@ -381,7 +382,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-f";
+const BUILD = "2026-11-12-g";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
