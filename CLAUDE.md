@@ -50,11 +50,11 @@ Lessons from the 11 to 12 Nov session, where most waste came from the same few h
 | Clan name box | `clanbox` |
 | Energy bills | `BILL_PROMPT`, `function parseBills`, `function parseNum`, `function kwhFor`, `KWH_RULES`, `function buildBillBook`, `billtab` |
 | Run lock and button states | `let running`, `function refresh` |
-| Video stills | `function videoFrames`, `function samePic` |
+| Video stills (4 a second; `samePic` must notice small changes, a scrolling list moves only a small patch) | `function videoFrames`, `function samePic` |
 | Picture shrinking and limits | `async function toPic`, `async function collectPictures`, `aiWait` |
 | Rows from AI reply | `function parseRows`, `function parsePoints` |
 | Excel sheet (all the clan Excel code sits together, from `readPrevious` to the end of `buildWorkbook`) | `function buildWorkbook` |
-| Excel history tabs | `function readHistory` (reads the earlier sheet), `function mergeHist` (adds today's run), `"Points history"`, `"Leaderboard"`, `"How it's worked out"` |
+| Excel history tabs | `function readHistory` (reads the earlier sheet), `function mergeHist` (adds today's run), `function fixNames` / `nameClose` (one misread letter = same player), `"Points history"`, `"Leaderboard"`, `"How it's worked out"` |
 | Changing the Excel file | Edit, then `node tests/excel-math.test.js` (builds two runs and checks every tab). Add an assert there for anything new. |
 | Messages / errors | `const setMsg`, `copyerr` |
 | Check-your-list tables (Excel look) | `function xlTable`, `function pvDraw`, `function bpDraw`, `function pvDownload`, `function bpDownload` |

@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Wording catches up
+
+12 Nov 2026 (05:15 UTC) · Changed
+
+Privacy text now says past runs are saved with the last sheet.
+
+**What you'll see:** Settings, Privacy: the last sheet line mentions past runs.
+
+- Privacy wording covers the saved history
+
 ## Test read shows the preview
 
-12 Nov 2026 (05:11 UTC) · Changed
+12 Nov 2026 (05:11 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/1ee8c75)
 
 Test read now shows the Check your list table, not just three names.
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Test read now shows the Check your list table, not just three names. -->
+<!-- Patch note: Privacy text now says past runs are saved with the last sheet. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -215,7 +215,7 @@ button:disabled{opacity:.5}
 <li>The page is locked down by the browser so it can only talk to Anthropic, Google and OpenAI. It only sends to the one you pick.</li>
 <li>Your pictures (and the stills pulled from a video) go only to the AI company you pick, straight from your browser, to be read. This page has no server of its own, so we never see them.</li>
 <li>What that company does with what you send is covered by its own policies. Free plans can have different rules, so check them.</li>
-<li>Saved on your device only: theme, text size, and the last sheet you chose (names and points). Settings has a Privacy section that lists what is saved and can delete it, or stop saving the last sheet.</li>
+<li>Saved on your device only: theme, text size, and the last sheet you chose (names, points and past runs). Settings has a Privacy section that lists what is saved and can delete it, or stop saving the last sheet.</li>
 <li>No accounts and no tracking added by this page. The page is hosted on a normal website host, which may keep normal visit records like any website host.</li>
 <li>Bills: the whole photo goes to the AI company, including your name, address and account number. The page asks the AI not to copy those, and the sheet has no place for them.</li>
 <li>The names in your pictures belong to real people. Share the sheet only with people who should see it.</li>
@@ -325,7 +325,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-m";
+const BUILD = "2026-11-12-n";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -435,7 +435,7 @@ function tinyPix(src) { const c = document.createElement("canvas"); c.width = 96
 // Same picture = almost no pixel changed a lot. (A scrolling list only changes a small patch, so an average over the whole screen would call it "same".)
 function samePic(a, b) { if (!a || !b) return false; let n = 0; for (let i = 0; i < a.length; i += 4) if (Math.abs(a[i] - b[i]) + Math.abs(a[i + 1] - b[i + 1]) + Math.abs(a[i + 2] - b[i + 2]) > 90) n++; return n < 25; }
 
-// Pull still frames from a video in the browser: looks about every second (up to 60 looks), keeps the ones that changed, at most 24 spread over the whole video.
+// Pull still frames from a video in the browser: looks about 4 times a second (up to 60 looks), keeps the ones that changed, at most 24 spread over the whole video.
 function videoFrames(file) {
   return new Promise((resolve, reject) => {
     const url = URL.createObjectURL(file);
@@ -483,7 +483,7 @@ function savedKeys() { const out = []; try { for (let i = 0; i < localStorage.le
 function renderSaved() {
   const keys = savedKeys(), lines = [];
   keys.filter(k => k.startsWith("fcd_key_")).forEach(k => { const id = k.slice(8); lines.push("AI key (" + (PROVIDERS[id] ? PROVIDERS[id].name : "other") + ")"); });
-  if (keys.includes("fcd_prev")) { let n = ""; try { n = " (" + JSON.parse(lsGet("fcd_prev")).entries.length + " members)"; } catch (e) {} lines.push("Last sheet, names and points" + n); }
+  if (keys.includes("fcd_prev")) { let n = ""; try { n = " (" + JSON.parse(lsGet("fcd_prev")).entries.length + " members)"; } catch (e) {} lines.push("Last sheet, names, points and past runs" + n); }
   if (keys.includes("fcd_clan")) lines.push("Clan name");
   if (keys.some(k => k.startsWith("fcd_model_"))) lines.push("AI model name");
   if (keys.some(k => ["fcd_theme", "fcd_size", "fcd_autoref", "fcd_provider"].includes(k))) lines.push("Look and settings");

@@ -12,7 +12,7 @@ Turns clan screenshots or a video from any Roblox game into a ready-to-use Excel
 
 1. Paste your own AI key. Google Gemini is picked first and has a free key: tap **How to get a free key**. The free key has a daily limit. Anthropic also works; OpenAI is untested.
 2. Nothing to pick. The AI works out the game and clan itself.
-3. Drop in screenshots of the member list, or a video of you scrolling it (use your device's own screen recorder).
+3. Drop in screenshots of the member list, or a video of you scrolling it (use your device's own screen recorder). For a video, scroll the whole list slowly: about 1 second per 5 members.
 4. Optional: choose last time's sheet to compare.
 5. Tap **Make my sheet**. After about 20 seconds an Excel file downloads.
 
@@ -39,7 +39,7 @@ What it looks like (sample data, not real people):
 
 ## Features
 
-- Screenshots (PNG, JPEG, WebP) or video (MP4, MOV, WEBM). From a video the page keeps the pictures that changed (up to 24), right in your browser.
+- Screenshots (PNG, JPEG, WebP) or video (MP4, MOV, WEBM). From a video the page looks about 4 times a second and keeps the pictures where the list moved (up to 24), right in your browser.
 - Remembers your last sheet on this device so you don't have to pick it again (names and points only). Tap **Remove** to forget it.
 - Themes (Auto, Light, Dark, Ocean, Forest, Berry) and **Large text**, in the **Settings** tab.
 - A GitHub link on the Home tab, where this guide lives.
