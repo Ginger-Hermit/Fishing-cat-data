@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The header, tabs and main buttons now share one colour gradient. -->
+<!-- Patch note: The Home page explains the coloured bars. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -121,6 +121,15 @@ h1:before{content:"\1F431  "}
 <li>Only the company you pick (Google or Anthropic) sees your pictures. Nothing is saved on this site.</li>
 </ul>
 <p style="margin:6px 0 0"><a href="#" data-go="safety">More on staying safe</a></p></div>
+</details>
+<details class="hsec" style="margin-top:12px"><summary style="font-weight:600;font-size:1.1em;cursor:pointer">What the colours mean</summary>
+<ul style="margin:0;padding-left:20px;line-height:1.6">
+<li><b style="color:#2f6fed">Blue</b>: your AI company and key.</li>
+<li><b style="color:#2e9d5b">Green</b>: More options (last sheet, test).</li>
+<li><b style="color:#8a4fd6">Purple</b>: posting to Discord.</li>
+<li><b style="color:#6b7280">Grey</b>: the Log, for fixing problems.</li>
+<li>The gradient banner and tabs are just the look. Tap a bar with an arrow to open it.</li>
+</ul>
 </details>
 <details class="hsec" style="margin-top:12px"><summary style="font-weight:600;font-size:1.1em;cursor:pointer">Good to know</summary>
 <ul style="margin:0;padding-left:20px;line-height:1.6">
@@ -392,7 +401,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-l";
+const BUILD = "2026-11-12-m";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };

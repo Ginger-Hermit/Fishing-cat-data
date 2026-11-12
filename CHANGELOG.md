@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
-## One look for the whole page
+## What the colours mean
 
 12 Nov 2026 (06:46 UTC) · Changed
+
+The Home page explains the coloured bars.
+
+**What you'll see:** Home tab: What the colours mean.
+
+- Added a short closed section listing what blue, green, purple and grey bars are for.
+
+## One look for the whole page
+
+12 Nov 2026 (06:46 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/001fd61)
 
 The header, tabs and main buttons now share one colour gradient.
 
