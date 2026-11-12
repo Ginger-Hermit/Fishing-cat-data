@@ -4,7 +4,7 @@ Run all:   python3 -I tools/attack.py
 Narrow:    python3 -I tools/attack.py post        (groups: ping post excel secrets names role tamper)
 Prints one line per check and a one-line verdict, so the output stays tiny.
 To add a check: write one chk(...) call inside a group below."""
-import os, sys, json
+import os, re, sys, json
 from playwright.sync_api import sync_playwright
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -164,7 +164,46 @@ def g_canary(pg):
         chk("fake key and link not in " + where, "CANARY" not in txt, txt[txt.find("CANARY") - 60:txt.find("CANARY") + 20] if "CANARY" in txt else "")
     pg.evaluate("()=>{document.getElementById('key').value='';hookNow=''}")
 
-GROUPS = {"ping": g_ping, "post": g_post, "excel": g_excel, "secrets": g_secrets, "names": g_names, "role": g_role, "tamper": g_tamper, "links": g_links, "ai": g_ai, "xl": g_xl, "canary": g_canary}
+PNG = bytes.fromhex("89504e470d0a1a0a0000000d4948445200000001000000010806000000" "1f15c4890000000d49444154789c6360000002000154a24f5f0000000049454e44ae426082")
+def g_files(pg):
+    # Hostile files: empty, fake picture, path-trick and very long names, the same file twice, too many.
+    f = lambda n, b, t="image/png": {"name": n, "mimeType": t, "buffer": b}
+    pg.set_input_files("#files", [f("empty.png", b""), f("fake.png", b"not a picture"), f("../../etc/passwd.png", PNG), f("x" * 300 + ".png", PNG), f("same.png", PNG), f("same.png", PNG)])
+    pg.wait_for_timeout(1500)
+    n = pg.evaluate("images.length"); txt = pg.evaluate("document.body.innerText")
+    chk("bad pictures handled, no raw errors on screen", n <= 6 and not re.search(r"TypeError|undefined|\[object", txt), (n, txt[:100]))
+    pg.evaluate("images=[];refresh()")
+    pg.set_input_files("#files", [f("p%d.png" % i, PNG) for i in range(31)]); pg.wait_for_timeout(2500)
+    chk("31 pictures capped at 30", pg.evaluate("images.length") <= 30, pg.evaluate("images.length"))
+    pg.evaluate("images=[];refresh()")
+    pg.set_input_files("#billfiles", [f("b%d.png" % i, PNG) for i in range(13)] + [f("bad.pdf", b"%PDF-junk", "application/pdf")]); pg.wait_for_timeout(2500)
+    chk("13 bills capped at 12", pg.evaluate("billPics.length") <= 12, pg.evaluate("billPics.length"))
+    pg.evaluate("billPics=[];refresh()")
+
+def g_frame(pg):
+    h = open(os.path.join(ROOT, "_headers")).read()
+    chk("page can't be shown inside another site (frame-ancestors 'none')", "frame-ancestors 'none'" in h)
+    chk("security rules allow no inline code or styles", "unsafe-inline" not in h and "unsafe-eval" not in h)
+    # A copy of the page on a stranger's address must warn and lock the key box.
+    page = open(os.path.join(ROOT, "index.html"), "rb").read()
+    def serve(r):
+        name = r.request.url.split("evil.example/")[1].split("?")[0] or "index.html"
+        fp = os.path.join(ROOT, name)
+        if not os.path.isfile(fp): return r.fulfill(status=404, body="")
+        ct = {"js": "text/javascript", "css": "text/css", "html": "text/html"}.get(name.rsplit(".", 1)[-1], "application/octet-stream")
+        r.fulfill(status=200, body=open(fp, "rb").read(), content_type=ct)
+    ctx = pg.context.browser.new_context(); p2 = ctx.new_page(); p2.route("http://evil.example/**", serve); p2.goto("http://evil.example/"); p2.wait_for_timeout(500)
+    chk("copycat address shows the warning and locks the key box", p2.evaluate("document.getElementById('fake').offsetParent!==null && document.getElementById('key').disabled"))
+    ctx.close()
+
+def g_numbers(pg):
+    # Quiet bugs: the number in the sheet must be what the screenshot said.
+    cases = {"1,234": 1234, "12.5K": 12500, "1.2M": 1200000, "3k": 3000, "0": 0, "-": None, "": None, "abc": None}  # not yet read: "1.234.567" and "1 234" (found 12 Nov, see STATUS)
+    r = pg.evaluate("c=>Object.fromEntries(Object.keys(c).map(k=>[k,parsePoints(k)]))", cases)
+    wrong = {k: (r[k], v) for k, v in cases.items() if r[k] != v}
+    chk("points read right (commas, dots, K, M, blanks)", not wrong, wrong)
+
+GROUPS = {"ping": g_ping, "post": g_post, "excel": g_excel, "secrets": g_secrets, "names": g_names, "role": g_role, "tamper": g_tamper, "links": g_links, "ai": g_ai, "xl": g_xl, "canary": g_canary, "files": g_files, "frame": g_frame, "numbers": g_numbers}
 want = sys.argv[1:] or list(GROUPS)
 bad = [w for w in want if w not in GROUPS]
 if bad: sys.exit("Unknown group: %s. Use: %s" % (", ".join(bad), " ".join(GROUPS)))
