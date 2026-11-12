@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Less text on the Discord tab
+
+12 Nov 2026 (12:27 UTC) · Changed
+
+The Discord tab has shorter help text.
+
+> [!NOTE]
+> **What you'll see:** Discord tab
+
+- Shortened the intro, webhook help and footer
+
 ## Simpler Discord tab
 
 12 Nov 2026 (12:25 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8bb1a01)

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The Discord tab has fewer steps. Header picture and ping moved into More options, and the webhook help links to Discord's own guide. -->
+<!-- Patch note: The Discord tab has shorter help text. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -189,11 +189,11 @@ button:disabled{opacity:.5}
 </details>
 </div>
 <div id="discordtab" style="display:none">
-<div style="font-size:13px;color:var(--muted);margin-top:12px">Post a clan sheet, a Bills sheet, or your own files to your Discord channel.</div>
+<div style="font-size:13px;color:var(--muted);margin-top:12px">Post a sheet to your Discord channel.</div>
 <div style="font-weight:600;font-size:17px;margin:20px 0 8px">1. Paste your Discord link</div>
 <input id="hookbox" type="password" autocomplete="off" spellcheck="false" placeholder="https://discord.com/api/webhooks/..." style="min-height:48px;font-size:16px"><div id="hookchk" role="status" aria-live="polite" style="font-size:14px;margin-top:6px"></div>
 <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px"><label style="display:flex;gap:10px;align-items:center;font-weight:normal;font-size:16px;margin:0"><input type="checkbox" id="hookkeep" style="width:22px;height:22px;min-height:0;padding:0;margin:0"> Save my link on this device</label><button id="hookforget" type="button" class="tab big" style="display:none">Forget link</button><button id="hooktest" type="button" class="tab big" style="display:none">Send a test</button></div>
-<div id="hookkeepnote" style="display:none;font-size:13px;color:var(--muted);margin-top:6px">Untick to delete the saved copy.</div><div style="font-size:13px;color:var(--muted);line-height:1.6;margin-top:10px">Don't have one? In Discord: Server settings, Integrations, Create webhook, then Copy webhook URL. <a href="https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks" target="_blank" rel="noopener">Discord's guide</a><br>No Create webhook button? Ask a Discord server admin to send you the link.<br>Keep it private. Anyone with it can post in your channel.</div>
+<div id="hookkeepnote" style="display:none;font-size:13px;color:var(--muted);margin-top:6px">Untick to delete the saved copy.</div><div style="font-size:13px;color:var(--muted);line-height:1.6;margin-top:10px">No link? In Discord: Server settings, Integrations, Create webhook, Copy webhook URL. <a href="https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks" target="_blank" rel="noopener">Discord's guide</a><br>Keep it private: anyone with it can post in your channel.</div>
 <div style="font-weight:600;font-size:17px;margin:20px 0 8px">2. What do you want to post?</div>
 <label style="display:flex;gap:12px;align-items:center;font-weight:normal;font-size:16px;margin:8px 0 0;padding:12px 14px;min-height:48px;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;background:var(--field)"><input type="radio" name="dcsrc" value="sheet" style="width:22px;height:22px;min-height:0;padding:0;margin:0;flex:none"> Latest clan sheet</label>
 <label style="display:flex;gap:12px;align-items:center;font-weight:normal;font-size:16px;margin:8px 0 0;padding:12px 14px;min-height:48px;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;background:var(--field)"><input type="radio" name="dcsrc" value="bill" style="width:22px;height:22px;min-height:0;padding:0;margin:0;flex:none"> Latest Bills</label>
@@ -217,7 +217,7 @@ button:disabled{opacity:.5}
 <div id="dcrolehelp" style="display:none;font-size:13px;color:var(--muted);margin-top:4px">In Discord: Settings, Advanced, turn on Developer Mode. Then right-click the role and tap Copy Role ID. Paste it here. It is saved on this device.</div>
 <div style="font-size:13px;color:var(--muted);margin-top:4px">A role pings only the people who have that role.</div>
 </details>
-<div style="font-size:13px;color:var(--muted);margin-top:12px">Nothing is posted until you tap Post to Discord. If posting fails, turn off any ad blocker for this site or use a Private window.</div>
+<div style="font-size:13px;color:var(--muted);margin-top:12px">If posting fails, turn off any ad blocker for this site or use a Private window.</div>
 </div>
 <div id="billtab" style="display:none">
 <details id="addbill" open style="margin-top:10px"><summary>Add bills</summary>
@@ -428,7 +428,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-zr";
+const BUILD = "2026-11-12-zs";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
