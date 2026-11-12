@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Tidier Discord message, no Excel on request
 
-12 Nov 2026 (07:29 UTC) · Changed
+12 Nov 2026 (07:29 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/130bfa7)
 
 The Discord message has a heading and bold numbers, and My own files now respects the Attach the Excel file tick, so you can post just the picture.
 
