@@ -51,7 +51,7 @@ Ginger does not code. Short, blunt answers. Plain words on screen.
 | Log, bug report | `clog`, `bugCopy`, `envInfo`, `aiStats` |
 | Privacy section | `renderSaved`, `wipe` |
 | New-version banner, headers | `checkUpdate`, `_headers` |
-| Tests | `tests/rows.test.js`, `bills.test.js`, `fuzz.js` (`node tests/fuzz.js 7 20000`), `excel-math.test.js` (needs `npm i exceljs@4.4.0`; add an assert for any Excel change), `browser.test.js` |
+| Tests | `tests/rows.test.js`, `bills.test.js`, `fuzz.js` (`node tests/fuzz.js 7 20000`), `excel-math.test.js` (needs `npm i exceljs@4.4.0`; add an assert for any Excel change), `browser.test.js`, `tools/attack.py` (break test with a pretend Discord, about 8 s; narrow with `post`, `ping`, `excel` or `secrets`; add a check there for each new Discord bug) |
 | Background | `developer/HOW_IT_WAS_BUILT.md`, `developer/STRESS_TEST_LOG.md` (read section 7 before calling a feature done) |
 
 ## Style on screen

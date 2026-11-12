@@ -1,0 +1,85 @@
+#!/usr/bin/env python3
+"""Break-test helper for the Discord and Excel parts. Pretend Discord, no real network, about 15 seconds.
+Run all:   python3 -I tools/attack.py
+Narrow:    python3 -I tools/attack.py post        (groups: ping post excel secrets)
+Prints one line per check and a one-line verdict, so the output stays tiny.
+To add a check: write one chk(...) call inside a group below."""
+import os, sys
+from playwright.sync_api import sync_playwright
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TOKEN = "abc-def_ghi"
+URL = "https://discord.com/api/webhooks/123456789012345678/" + TOKEN
+CORS = {"access-control-allow-origin": "*", "access-control-allow-headers": "*", "access-control-allow-methods": "*"}
+T = "## Clan\n-# x\n### What changed\nbody"
+CALL = "async t=>{try{await dcPost(t);return 'ok'}catch(e){return e.message}}"
+st = {"n": 0, "mode": "ok"}
+out = []
+
+def route(r):
+    if r.request.method == "OPTIONS": return r.fulfill(status=204, headers=CORS)
+    st["n"] += 1; n, m, code = st["n"], st["mode"], 200
+    if m == "429second" and n == 2: code = 429
+    if m == "failsecond" and n >= 2: code = 500
+    if m == "all429": code = 429
+    r.fulfill(status=code, headers=CORS, body="{}", content_type="application/json")
+
+def chk(name, ok, info=""):
+    out.append(ok); print(("PASS " if ok else "FAIL ") + name + ("" if ok else "  -> " + str(info)[:160]))
+
+def fresh(pg, mode="ok"):
+    st.update(n=0, mode=mode)
+
+def g_ping(pg):
+    pg.evaluate("localStorage.setItem('fcd_pingmode','everyone')"); pg.reload(); pg.wait_for_timeout(300)
+    v = pg.evaluate("[document.getElementById('dcping').value, localStorage.getItem('fcd_pingmode')]")
+    chk("@everyone is not remembered", v == ["", None], v)
+    pg.evaluate("localStorage.setItem('fcd_pingmode','here')"); pg.reload(); pg.wait_for_timeout(300)
+    chk("@here is not remembered", pg.evaluate("document.getElementById('dcping').value") == "")
+    pg.evaluate("localStorage.setItem('fcd_pingmode','role')"); pg.reload(); pg.wait_for_timeout(300)
+    chk("role ping is remembered", pg.evaluate("document.getElementById('dcping').value") == "role")
+    pg.evaluate("localStorage.removeItem('fcd_pingmode')"); pg.reload(); pg.wait_for_timeout(300)
+
+def g_post(pg):
+    pg.evaluate("u=>{hookNow=u}", URL)
+    fresh(pg); r = pg.evaluate("async t=>{const x=await Promise.allSettled([dcPost(t),dcPost(t)]);return x.map(y=>y.status+':'+(y.reason&&y.reason.message||''))}", T)
+    chk("double tap posts once", r[0].startswith("fulfilled") and "Already posting" in r[1] and st["n"] == 2, (r, st["n"]))
+    fresh(pg, "429second"); r = pg.evaluate(CALL, T)
+    chk("429 on message 2 is retried", r == "ok" and st["n"] == 3, (r, st["n"]))
+    fresh(pg, "failsecond"); r = pg.evaluate(CALL, T)
+    chk("half post says so", r.startswith("The picture posted, but the breakdown did not"), r)
+    fresh(pg, "all429"); r = pg.evaluate(CALL, T)
+    chk("all 429 gives a plain error", "Discord" in r and "TypeError" not in r, r)
+    fresh(pg); r = pg.evaluate(CALL, T)
+    chk("posting works again after failures", r == "ok", r)
+    pg.evaluate("hookNow=''"); r = pg.evaluate(CALL, T)
+    chk("no link gives a plain error", "link" in r.lower(), r)
+    pg.evaluate("u=>{hookNow=u}", URL)
+    r = pg.evaluate("async()=>{try{await dcPost('## C\\n### x\\n'+'line\\n'.repeat(900));return 'ok'}catch(e){return e.message}}")
+    chk("very long breakdown is cut, not failed", r == "ok", r)
+
+def g_excel(pg):
+    for name, expr in [("6 MB file refused", "new ArrayBuffer(6e6)"), ("empty file refused", "new ArrayBuffer(0)"), ("random bytes refused", "new Uint8Array(2000).map((_,i)=>i*7%256).buffer")]:
+        r = pg.evaluate("async()=>{try{await readSheet(" + expr + ");return 'ok'}catch(e){return e.message}}")
+        chk(name, r != "ok", r)  # the Post button wraps this in a plain message
+
+def g_secrets(pg):
+    pg.evaluate("u=>{hookNow=u}", URL); fresh(pg); pg.evaluate(CALL, T)
+    pg.evaluate("document.getElementById('logbox')&&0")
+    txt = pg.evaluate("document.body.innerText")
+    chk("webhook link not shown in the Log", TOKEN not in txt)
+    rep = pg.evaluate("typeof bugText==='function'?bugText():''") if pg.evaluate("typeof bugText") == "function" else ""
+    chk("webhook link not in bug report", TOKEN not in rep)
+
+GROUPS = {"ping": g_ping, "post": g_post, "excel": g_excel, "secrets": g_secrets}
+want = sys.argv[1:] or list(GROUPS)
+bad = [w for w in want if w not in GROUPS]
+if bad: sys.exit("Unknown group: %s. Use: %s" % (", ".join(bad), " ".join(GROUPS)))
+with sync_playwright() as p:
+    b = p.chromium.launch(); pg = b.new_page(); errs = []
+    pg.on("pageerror", lambda e: errs.append(str(e)[:100])); pg.route("https://discord.com/**", route)
+    pg.goto("file://" + os.path.join(ROOT, "index.html")); pg.wait_for_timeout(400)
+    for w in want: GROUPS[w](pg)
+    chk("no page errors", not errs, errs); b.close()
+print(("FAILED " if not all(out) else "ALL PASS ") + "%d/%d" % (sum(out), len(out)))
+sys.exit(0 if all(out) else 1)
