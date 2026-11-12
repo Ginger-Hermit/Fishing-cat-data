@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Webhook help on the Discord tab
 
-12 Nov 2026 (12:14 UTC) · New
+12 Nov 2026 (12:14 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6cf6ed8)
 
 New people can see what a Discord webhook is and how to get one. A wrong link now says to copy it again.
 
