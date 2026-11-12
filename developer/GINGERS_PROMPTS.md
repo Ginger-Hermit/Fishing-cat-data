@@ -6,7 +6,7 @@ The app-days prompts are first. Counts are **minimums**, from what could be foun
 
 ## The app days (9 to 11 Nov): before the website
 
-**We tried an app first. It failed.** The first version was a Windows desktop program, not a web page. It got too complicated to keep working, so the project started over as a web page on 11 Nov. These are her prompts from the app days, in order.
+**We tried an app first. It failed.** The first version was a Windows desktop program, not a web page. Ginger got bored of it: too many windows, buttons and owner codes, and every fix needed another install on her PC. So the project started over as a web page on 11 Nov. These are her prompts from the app days, in order.
 
 | Date | She said | What happened |
 |---|---|---|
