@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Calmer developer bar
 
-12 Nov 2026 (23:59 UTC) · Changed
+12 Nov 2026 (23:59 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8de4038)
 
 The developer bar is flatter and takes less space.
 
