@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Report on GitHub, filled in
+
+12 Nov 2026 (06:01 UTC) · New
+
+After a problem, one tap opens a GitHub issue with the report already filled in.
+
+**What you'll see:** When something fails, the link under the Log says 'Report this error on GitHub'. Tap it: a public GitHub form opens with the title and report filled in. Nothing is sent until you press Submit there.
+
+- Report on GitHub opens a filled-in issue form (page version, device, last 1800 characters of the Log; keys, pictures and AI replies left out)
+
 ## Safer Gemini backup models
 
-12 Nov 2026 (05:58 UTC) · Changed
+12 Nov 2026 (05:58 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/e270dc3)
 
 The busy-AI backups are now gemini-3.7-flash then gemini-3.5-flash-lite, and a backup that no longer exists is skipped.
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The busy-AI backups are now gemini-3.7-flash then gemini-3.5-flash-lite, and a backup that no longer exists is skipped. -->
+<!-- Patch note: After a problem, one tap opens a GitHub issue with the report already filled in. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -151,8 +151,8 @@ button:disabled{opacity:.5}
 <button id="copyerr" type="button" class="tab" style="display:none;margin-top:8px;width:100%;padding:12px;font-size:16px;border-color:var(--err);color:var(--err)">Copy error to send</button>
 <details id="logbox" style="margin-top:12px"><summary style="cursor:pointer;font-size:14px">Log: what the page did</summary>
 <pre id="console" style="background:#0d0d0d;color:#e5e7eb;border:1px solid #444;border-radius:6px;padding:10px;font-size:13px;font-family:Consolas,Menlo,monospace;line-height:1.5;white-space:pre-wrap;word-break:break-word;min-height:120px;max-height:360px;overflow:auto;resize:vertical;margin:6px 0 0"></pre>
-<div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button id="copybug" type="button">Copy bug report</button><a href="https://github.com/Ginger-Hermit/Fishing-cat-data/issues/new" target="_blank" rel="noopener">Report a bug on GitHub</a></div>
-<div style="font-size:12px;color:var(--muted);margin-top:6px">Copies the page log and your browser type. Keys are removed. Pictures are not included. Nothing is sent until you paste it somewhere.</div>
+<div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button id="copybug" type="button">Copy bug report</button><a id="ghbug" href="https://github.com/Ginger-Hermit/Fishing-cat-data/issues/new" target="_blank" rel="noopener">Report on GitHub</a></div>
+<div style="font-size:12px;color:var(--muted);margin-top:6px">Copies the page log and your browser type. Keys are removed. Pictures are not included. Nothing is sent until you paste it somewhere. Report on GitHub opens a public form with the report filled in: read it first, then send it (needs a GitHub account).</div>
 </details>
 <div class="hc" style="margin-top:14px;font-size:13px"><b>Your key is safe here.</b> It stays on this device and goes only to the AI company you pick. Treat it like a password. <a href="#" data-go="safety">More</a></div>
 </div>
@@ -370,7 +370,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-g";
+const BUILD = "2026-11-12-h";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -403,7 +403,7 @@ function scrub(t) { // remove the typed key and anything that looks like a key
   try { const k = document.getElementById("key").value.trim(); if (k.length >= 6) t = t.split(k).join("[key removed]"); } catch (e) {}
   return t.replace(/sk-[\w-]{8,}|AIza[\w-]{8,}/g, "[key removed]");
 }
-function clog(text) {
+function clog(text, priv) {
   let t = new Date().toLocaleTimeString();
   try { if (prog.t0) t = ((Date.now() - prog.t0) / 1000).toFixed(1) + "s"; } catch (e) {}
   const box = document.getElementById("console"), line = scrub(text), first = line.split("\n")[0];
@@ -411,10 +411,11 @@ function clog(text) {
   const row = document.createElement("span");
   if (bad) row.style.color = "#ff6b6b"; else if (warn) row.style.color = "#fbbf24";
   row.textContent = t.padStart(6) + "   " + line + "\n";
+  if (priv) row.dataset.priv = "1";
   box.appendChild(row);
   while (box.firstChild && box.childNodes.length > 1 && box.textContent.length > 80000) box.removeChild(box.firstChild);
   box.scrollTop = box.scrollHeight;
-  if (bad) { try { document.getElementById("logbox").open = true; } catch (e) {} }
+  if (bad) { try { document.getElementById("logbox").open = true; document.getElementById("ghbug").textContent = "Report this error on GitHub"; } catch (e) {} }
 }
 function envInfo() {
   const n = navigator, c = n.connection || {};
@@ -592,17 +593,24 @@ function keepKey() {
   try { if (on && $("key").value.trim()) localStorage.setItem("fcd_key_" + id, $("key").value.trim()); else localStorage.removeItem("fcd_key_" + id); } catch (e) {}
 }
 $("remember").onchange = keepKey;
+function bugReport(skipPrivate) {
+  const box = $("console"); let t = "";
+  box.childNodes.forEach((n) => { if (!(skipPrivate && n.dataset && n.dataset.priv)) t += n.textContent; });
+  return scrub("Fishing Cat Data bug report\n" + new Date().toString() + "\nError shown: " + ($("msg").className.includes("err") ? $("msg").textContent : "none") + "\nBrowser: " + navigator.userAgent + "\nCompany: " + provider() + "\n" + envInfo() + "\n\n" + (t || "(log is empty)"));
+}
 const bugCopy = async (btn, label) => {
-  let t = $("console").textContent || "(log is empty)";
-  const k = $("key").value.trim();
-  if (k) t = t.split(k).join("[key removed]");
-  t = t.replace(/sk-[\w-]{8,}|AIza[\w-]{8,}/g, "[key removed]");
-  let rep = "Fishing Cat Data bug report\n" + new Date().toString() + "\nError shown: " + ($("msg").className.includes("err") ? $("msg").textContent : "none") + "\nBrowser: " + navigator.userAgent + "\nCompany: " + provider() + "\n" + envInfo() + "\n\n" + t;
-  rep = scrub(rep);
   let done = "Copied! Paste it to Claude";
-  try { await navigator.clipboard.writeText(rep); } catch (e) { done = "Couldn't copy: select the log and copy by hand"; }
+  try { await navigator.clipboard.writeText(bugReport(false)); } catch (e) { done = "Couldn't copy: select the log and copy by hand"; }
   btn.textContent = done; setTimeout(() => { btn.textContent = label; }, 3000);
 };
+// GitHub new-issue form, filled in. Opens only when tapped. Leaves out any copy of the AI's reply.
+function issueUrl() {
+  const full = bugReport(true), cut = full.indexOf("\n\n"), head = full.slice(0, cut).slice(0, 800), log = full.slice(cut + 2);
+  const bad = log.split("\n").filter((l) => /error|failed|stopped|blocked/i.test(l)), last = bad.length ? bad[bad.length - 1].replace(/^\s*[\d.]+s?\s+/, "").slice(0, 80) : "describe it here";
+  const body = "**What were you doing?** (optional)\n\n\n**Report** (made by the page; keys, pictures and AI replies are not included)\n```\n" + head + "\n\n" + log.slice(-1800) + "\n```";
+  return "https://github.com/Ginger-Hermit/Fishing-cat-data/issues/new?title=" + encodeURIComponent("Problem: " + last) + "&body=" + encodeURIComponent(body);
+}
+$("ghbug").onclick = () => { $("ghbug").href = issueUrl(); };
 $("copybug").onclick = () => bugCopy($("copybug"), "Copy bug report");
 $("copyerr").onclick = () => bugCopy($("copyerr"), "Copy error to send");
 
@@ -1724,13 +1732,13 @@ $("billgo").onclick = async () => {
     const text = await ASKERS[id](key, modelFor(id), pics);
     prog.next();
     clog("AI replied (" + text.length + " characters).");
-    let bills; try { bills = parseBills(text); } catch (e) { clog("Reply that could not be used (first 3000 characters): " + text.slice(0, 3000)); throw e; }
+    let bills; try { bills = parseBills(text); } catch (e) { clog("Reply that could not be used (first 3000 characters): " + text.slice(0, 3000), true); throw e; }
     const lines = bills.reduce((t, b) => t + b.lines.length, 0), checks = bills.reduce((t, b) => t + b.lines.filter(l => l.check).length, 0);
     bp = { bills, orig: JSON.parse(JSON.stringify(bills)) };
     bpDraw();
     clog("Bills: " + bills.length + ", charges: " + lines + ", rows to check: " + checks + ".");
     bills.forEach((b, i) => clog("Bill " + (i + 1) + ": " + b.supplier + ", " + (b.country || "country ?") + ", " + (b.currency || "currency ?") + ", " + b.lines.length + " charge(s), days " + (b.days || "?") + ", total " + (b.total !== null && b.total !== undefined ? b.total : (b.totalShown || "?")) + ", AI notes " + (b.notes || []).length + (b.lines.some((l) => l.check) ? ", rows to check: " + b.lines.filter((l) => l.check).map((l) => l.charge + " (" + l.how + ")").join("; ") : "")));
-    if (checks) clog("Reply (first 3000 characters, because rows need checking): " + text.slice(0, 3000));
+    if (checks) clog("Reply (first 3000 characters, because rows need checking): " + text.slice(0, 3000), true);
     prog.stop(true);
     billSay("Check your charges below, then tap Download sheet." + (checks ? " " + checks + " row(s) are marked check in the sheet." : ""));
   } catch (err) {
