@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: If the AI reads a name with one wrong letter, the player is no longer split in two. -->
+<!-- Patch note: The two text tabs now match the rest of the sheet. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -325,7 +325,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-g";
+const BUILD = "2026-11-12-h";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -957,27 +957,67 @@ function buildWorkbook(EJ, rows, prev, p, when) {
     { type: "expression", priority: 10, formulae: ["AND(ISNUMBER(D4),D4<0)"], style: down }
   ] });
 
+  // Shared look for the two text tabs: title, soft intro strip, navy header, boxed rows, shaded alternate rows
+  const textSheet = (sh, title, intro, heads, widths) => {
+    widths.forEach((w, i) => { sh.getColumn(i + 1).width = w; });
+    sh.mergeCells(1, 1, 1, heads.length); sh.mergeCells(2, 1, 2, heads.length);
+    sh.getCell("A1").value = title; sh.getCell("A1").font = { bold: true, size: 16, color: { argb: NAVY } };
+    sh.getCell("A1").alignment = { vertical: "middle" }; sh.getRow(1).height = 30;
+    sh.getCell("A2").value = intro; sh.getCell("A2").font = { size: 10, color: { argb: INK } };
+    sh.getCell("A2").fill = fill("FFF5F7FA"); sh.getCell("A2").alignment = { wrapText: true, vertical: "middle", indent: 1 }; sh.getRow(2).height = 34;
+    heads.forEach((t, i) => {
+      const c = sh.getCell(4, i + 1); c.value = t; c.font = { bold: true, color: { argb: "FFFFFFFF" } }; c.fill = fill(NAVY);
+      c.alignment = { vertical: "middle", indent: 1 }; c.border = { left: LINE, right: LINE, top: LINE, bottom: { style: "medium", color: { argb: NAVY } } };
+    });
+    sh.getRow(4).height = 24;
+  };
+  const textRow = (sh, n, cells, ncols, widths, i) => {
+    let lines = 1;
+    for (let c = 1; c <= ncols; c++) {
+      const cell = sh.getCell(n, c);
+      cell.border = box; cell.alignment = { wrapText: true, vertical: "middle", indent: 1 };
+      if (i % 2) cell.fill = fill("FFF5F7FA");
+      if (c === 1) cell.font = { bold: true, color: { argb: NAVY } }; else if (!cell.font || !cell.font.color) cell.font = { color: { argb: INK } };
+      const len = typeof cells[c - 1] === "string" ? cells[c - 1].length : 60;
+      lines = Math.max(lines, Math.ceil(len / (widths[c - 1] * 1.05)));
+    }
+    sh.getRow(n).height = Math.max(21, 15 * lines + 6);
+  };
   const ab = wb.addWorksheet("About this sheet");
-  ab.getColumn(1).width = 26; ab.getColumn(2).width = 92;
-  ab.getCell("A1").value = "About this sheet"; ab.getCell("A1").font = { bold: true, size: 16, color: { argb: NAVY } };
-  ab.getCell("A2").value = "Made with Fishing Cat Data  \u00b7  what the columns in this spreadsheet mean."; ab.getCell("A2").font = { color: { argb: GREY } };
-  ["THE COLUMNS", ""].forEach((t, i) => { const c = ab.getCell(4, i + 1); c.value = t; c.font = { bold: true, color: { argb: "FFFFFFFF" } }; c.fill = fill(NAVY); });
+  const abw = [26, 92];
+  textSheet(ab, "About this sheet", "Made with Fishing Cat Data. What is in this file and what the colours mean.", ["Tab", "What it is"], abw);
   [
-    ["Leaderboard", "Who gained the most since their first run."],
     ["Clan Members", "This run's list. Fix a misread number in Points (number) and the rest updates."],
-    ["Points history", "Every run side by side."],
-    ["Change", "Points now minus the earlier sheet. Green = up, red = down."],
-    ["Trend", "▲ up, ▼ down, – same, new = not in the earlier sheet."],
+    ["Leaderboard", "Who gained the most since their first run."],
+    ["Points history", "Every run side by side, with a clan total."],
+    ["Trend", "\u25b2 up, \u25bc down, \u2013 same, new = not in the earlier sheet."],
     ["More detail", "See the How it's worked out tab."]
   ].forEach((r, i) => {
-    ab.getCell(5 + i, 1).value = r[0]; ab.getCell(5 + i, 1).font = { bold: true, color: { argb: INK } };
-    ab.getCell(5 + i, 2).value = r[1]; ab.getCell(5 + i, 2).alignment = { wrapText: true, vertical: "top" };
+    ab.getCell(5 + i, 1).value = r[0]; ab.getCell(5 + i, 2).value = r[1];
+    textRow(ab, 5 + i, r, 2, abw, i);
+  });
+  const ck = 11;
+  ab.mergeCells(ck, 1, ck, 2);
+  ab.getCell(ck, 1).value = "COLOURS"; ab.getCell(ck, 1).font = { bold: true, color: { argb: "FFFFFFFF" } }; ab.getCell(ck, 1).fill = fill(NAVY);
+  ab.getCell(ck, 1).alignment = { vertical: "middle", indent: 1 }; ab.getRow(ck).height = 24;
+  [
+    ["Green", "Went up.", "FFC6EFCE", "FF006100"],
+    ["Red", "Went down.", "FFFFC7CE", "FF9C0006"],
+    ["Gold", "Rank 1.", "FFFFF2CC", "FF7F6000"],
+    ["Silver", "Rank 2.", "FFEDEDED", "FF404040"],
+    ["Bronze", "Rank 3.", "FFFBE5D6", "FF843C0C"],
+    ["Grey", "Left the clan. Kept so the history stays.", "FFFFFFFF", "FF9A9A9A"]
+  ].forEach((r, i) => {
+    const n = ck + 1 + i;
+    ab.getCell(n, 1).value = r[0]; ab.getCell(n, 2).value = r[1];
+    ab.getCell(n, 1).fill = fill(r[2]); ab.getCell(n, 1).font = { bold: true, italic: r[0] === "Grey", color: { argb: r[3] } };
+    ab.getCell(n, 2).font = { color: { argb: INK } };
+    [1, 2].forEach((c) => { ab.getCell(n, c).border = box; ab.getCell(n, c).alignment = { vertical: "middle", indent: 1 }; });
+    ab.getRow(n).height = 21;
   });
   const hw = wb.addWorksheet("How it's worked out");
-  hw.getColumn(1).width = 22; hw.getColumn(2).width = 62; hw.getColumn(3).width = 62;
-  hw.getCell("A1").value = "How it's worked out"; hw.getCell("A1").font = { bold: true, size: 16, color: { argb: NAVY } };
-  hw.getCell("A2").value = "Plain words for each number. The examples use the top player on the Leaderboard and update with the sheet."; hw.getCell("A2").font = { color: { argb: GREY } };
-  ["Column", "What it means", "Example"].forEach((t, i) => { const c = hw.getCell(4, i + 1); c.value = t; c.font = { bold: true, color: { argb: "FFFFFFFF" } }; c.fill = fill(NAVY); });
+  const hww = [22, 62, 62];
+  textSheet(hw, "How it's worked out", "Plain words for each number. The examples use the top player on the Leaderboard and update with the sheet.", ["Column", "What it means", "Example"], hww);
   const nm = "Leaderboard!B4", fm = (a) => `TEXT(${a},"#,##0")`;
   [
     ["Change", "Points now minus points in the run before (Clan Members tab).", `IFERROR(${nm}&": "&${fm("'Clan Members'!E4")}&" now - "&${fm("'Clan Members'!F4")}&" before = "&${fm("'Clan Members'!G4")},"Needs an earlier sheet")`],
@@ -989,9 +1029,8 @@ function buildWorkbook(EJ, rows, prev, p, when) {
     ["Colours", "Green = went up. Red = went down. Grey name = left the clan (kept so the history stays).", `"Top 3 on the Leaderboard are shaded gold, silver and bronze."`]
   ].forEach((r, i) => {
     const n = 5 + i;
-    hw.getCell(n, 1).value = r[0]; hw.getCell(n, 1).font = { bold: true, color: { argb: INK } };
-    hw.getCell(n, 2).value = r[1]; hw.getCell(n, 3).value = { formula: r[2] };
-    [1, 2, 3].forEach((c) => { hw.getCell(n, c).alignment = { wrapText: true, vertical: "top" }; });
+    hw.getCell(n, 1).value = r[0]; hw.getCell(n, 2).value = r[1]; hw.getCell(n, 3).value = { formula: r[2] };
+    textRow(hw, n, [r[0], r[1], "x".repeat(70)], 3, hww, i);
   });
   return wb;
 }

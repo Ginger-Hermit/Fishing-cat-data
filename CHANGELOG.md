@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## About and How it's worked out: colours and formatting
+
+12 Nov 2026 (05:04 UTC) · Changed
+
+The two text tabs now match the rest of the sheet.
+
+**What you'll see:** Download a clan sheet and open About this sheet and How it's worked out.
+
+- Navy headers, boxed shaded rows, wrapped text
+- About has a colour key: green, red, gold, silver, bronze, grey
+
 ## Misread names count as the same player
 
-12 Nov 2026 (05:03 UTC) · Changed
+12 Nov 2026 (05:03 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0776a6a)
 
 If the AI reads a name with one wrong letter, the player is no longer split in two.
 
