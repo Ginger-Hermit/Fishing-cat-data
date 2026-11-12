@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: A video that scrolls the member list now keeps the pictures where the list moved. -->
+<!-- Patch note: Test read now shows the Check your list table, not just three names. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -325,7 +325,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-l";
+const BUILD = "2026-11-12-m";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1218,8 +1218,11 @@ $("testgo").onclick = async () => {
     const rows = parseRows(text);
     if (!rows.length) throw new Error("Test read: no member rows found. The picture may not show the member list.");
     const bad = rows.filter(r => r.name === "?" || parsePoints(r.points) === null).length;
-    const first = rows.slice(0, 3).map(r => r.name + " " + r.points + (p.extra ? " (" + r.role + ")" : "")).join(", ");
-    setMsg("Test read OK: " + rows.length + " rows from 1 picture. First: " + first + "." + (bad ? " " + bad + " unreadable." : "") + " If that looks right, tap Make my sheet. Nothing was downloaded.");
+    if (p.ranks === false) rows.forEach((r, i) => { r.rank = i + 1; });
+    const shown = (text.match(/"members_on_screen"\s*:\s*(\d+)/) || [])[1];
+    pv = { rows: rows.map(r => ({ ...r })), orig: rows.map(r => ({ ...r })), p, shown };
+    pvDraw();
+    setMsg("Test read OK: " + rows.length + " rows from 1 picture (the first one only). Check the list below. If it looks right, tap Make my sheet. Nothing was downloaded.");
   } catch (err) { clog("Test stopped: " + err.message); setMsg(plain(err), true); }
   finally { running = false; refresh(); }
 };

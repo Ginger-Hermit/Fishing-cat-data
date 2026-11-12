@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Test read shows the preview
+
+12 Nov 2026 (05:11 UTC) · Changed
+
+Test read now shows the Check your list table, not just three names.
+
+**What you'll see:** Add a picture, tap Test read: the list appears under the message.
+
+- Test read fills the Check your list table from the first picture
+
 ## Video: scrolling list no longer thrown away
 
-12 Nov 2026 (05:09 UTC) · Changed
+12 Nov 2026 (05:09 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7864975)
 
 A video that scrolls the member list now keeps the pictures where the list moved.
 

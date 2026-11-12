@@ -1,6 +1,6 @@
 # Status
 
-Last updated: 12 Nov 2026. Page version 2026-11-12-l. Live at fishing-cat-data.pages.dev.
+Last updated: 12 Nov 2026. Page version 2026-11-12-m. Live at fishing-cat-data.pages.dev.
 `tools/release.py` keeps the two values above up to date. Keep this file under 60 lines: it is read at the start of every chat.
 
 ## What the page does
