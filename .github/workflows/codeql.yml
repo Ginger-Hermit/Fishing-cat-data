@@ -1,0 +1,20 @@
+# Patch note: GitHub's free security scan (CodeQL) checks the page's code after each push to main and weekly.
+name: CodeQL
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "23 4 * * 0"
+permissions:
+  security-events: write
+  contents: read
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+          build-mode: none
+      - uses: github/codeql-action/analyze@v3
