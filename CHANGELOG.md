@@ -2,9 +2,29 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## File selected messages
+
+12 Nov 2026 (07:07 UTC) · Changed
+
+When you pick a photo or sheet to post, the page says File selected.
+
+**What you'll see:** Post to Discord (optional): green tick and the file name under each picker.
+
+- Added 'File selected: name' under the Excel sheet, Photo and Header picture pickers.
+
+## Discord picture redesign, post without AI, collapsible sections
+
+12 Nov 2026 (07:07 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8601d0e)
+
+The Discord picture matches your mockup; you can post a saved sheet and photo with no AI; the add-pictures part collapses.
+
+**What you'll see:** Post to Discord (optional): Post without the AI. Clan and Bills tabs: Add screenshots / Add bills bars.
+
+- New picture design (artwork colour background, rounded table, medals, footer). Post a saved Excel sheet and/or photo without any AI. Add screenshots and Add bills are collapsible.
+
 ## Discord: shorter message and optional Excel file
 
-12 Nov 2026 (07:04 UTC) · Changed
+12 Nov 2026 (07:04 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8601d0e)
 
 Untick Attach the Excel file to post without the download; the message is shorter when a picture goes with it.
 

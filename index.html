@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Untick Attach the Excel file to post without the download; the message is shorter when a picture goes with it. -->
+<!-- Patch note: When you pick a photo or sheet to post, the page says File selected. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -40,8 +40,8 @@ button:disabled{opacity:.5}
 .pv th{background:var(--accent);color:var(--onAccent);font-weight:500;padding:5px 6px;text-align:left}
 .pv tr.bad td{background:#FFF0D6}.pv td input{width:100%;min-width:40px;margin:0;padding:6px;border:none;border-radius:0;background:transparent;font-size:14px;color:var(--text)}
 .pv td.ro{padding:6px;white-space:nowrap}.pv .pvx{width:auto;margin:0;padding:4px 10px;border:none;background:none;color:var(--err);font-size:18px}
-#moreopts>summary,#hookblock>summary,#logbox>summary,#keydet>summary{font-size:16px!important;font-weight:600;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--field);color:var(--text,inherit);cursor:pointer}#moreopts[open]>summary,#hookblock[open]>summary,#logbox[open]>summary,#keydet[open]>summary{margin-bottom:12px}#moreopts,#hookblock,#logbox{margin-top:12px}
-#keydet>summary{border-left:6px solid #2f6fed;}#moreopts>summary{border-left:6px solid #2e9d5b;}#hookblock>summary{border-left:6px solid #8a4fd6;}#logbox>summary{border-left:6px solid #6b7280;}
+#adddet>summary,#addbill>summary,#moreopts>summary,#hookblock>summary,#logbox>summary,#keydet>summary{font-size:16px!important;font-weight:600;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--field);color:var(--text,inherit);cursor:pointer}#adddet[open]>summary,#addbill[open]>summary,#moreopts[open]>summary,#hookblock[open]>summary,#logbox[open]>summary,#keydet[open]>summary{margin-bottom:12px}#moreopts,#hookblock,#logbox{margin-top:12px}
+#keydet>summary{border-left:6px solid #2f6fed}#adddet>summary,#addbill>summary{border-left:6px solid #e08a1e}#moreopts>summary{border-left:6px solid #2e9d5b;}#hookblock>summary{border-left:6px solid #8a4fd6;}#logbox>summary{border-left:6px solid #6b7280;}
 .pv .pvb{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.pv .pvb button{margin:0;white-space:nowrap}.pv .pvb button.tab{padding:12px 14px}
 
 .xl{border:1px solid #B8BCC2;border-radius:8px;overflow:hidden;background:#fff;color:#1B1B1B;font-family:Calibri,Arial,sans-serif}
@@ -143,6 +143,7 @@ button:disabled{opacity:.5}
 <div class="hc" style="margin-top:10px;font-size:13px"><b>Your key is safe here.</b> It stays on this device and goes only to the AI company you pick. Treat it like a password. <a href="#" data-go="safety">More</a></div>
 </details></div>
 <div id="sheet" style="display:none">
+<details id="adddet" open style="margin-top:10px"><summary>Add screenshots</summary>
 <div style="font-size:13px;color:var(--muted);margin-top:10px">Turns clan screenshots or a video from any Roblox game into a member sheet.</div>
 <label for="clanbox">Clan name (optional)</label>
 <input id="clanbox" maxlength="40" autocomplete="off" placeholder="e.g. Loki. Used in the file name">
@@ -151,6 +152,7 @@ button:disabled{opacity:.5}
 <div style="font-size:13px;color:var(--muted);margin-top:6px">Using a video? Slowly scroll down the whole list. A 50-member clan takes about 10 seconds.</div>
 <input id="files" type="file" accept="image/png,image/jpeg,image/webp,video/mp4,video/quicktime,video/webm" multiple hidden>
 <div id="list"></div>
+</details>
 <button id="go" disabled>Make my sheet</button>
 <details id="moreopts" style="margin-top:10px"><summary style="cursor:pointer;font-size:14px">More options (last sheet, test)</summary>
 <label>Last sheet (optional)</label>
@@ -171,7 +173,12 @@ button:disabled{opacity:.5}
 <div style="display:flex;gap:8px;align-items:center;margin-top:6px"><button id="hookpost" type="button" class="tab">Post to Discord</button><button id="hooktest" type="button" class="tab">Test</button><button id="hookforget" type="button" class="tab">Forget</button><span id="hookmsg" role="status" style="font-size:13px"></span></div>
 <div style="font-size:13px;color:var(--muted);margin:12px 0 6px">Header picture for the Discord table (optional)</div>
 <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><input type="file" id="artfile" accept="image/*" style="width:auto"><button id="artforget" type="button" class="tab">Remove</button><img id="artthumb" alt="Your saved header picture" style="display:none;height:44px;border-radius:6px;border:1px solid var(--soft)"><span id="artmsg" role="status" style="font-size:13px"></span></div>
-<div style="font-size:13px;color:var(--muted);margin:6px 0 0">Nothing is posted unless you tap Post to Discord. Anyone with this link can post in your channel, so keep it private. If posting fails, turn off any ad blocker for this site or use a Private window.</div>
+<div style="font-weight:600;margin:16px 0 4px">Post without the AI</div>
+<div style="font-size:13px;color:var(--muted)">Uses no AI, so no tokens. Pick a saved Excel sheet and/or a photo. With only a sheet, the table picture is drawn from it. Whatever you pick is posted.</div>
+<label for="shfile">Excel sheet</label><input type="file" id="shfile" accept=".xlsx"><div id="shsel" style="font-size:13px;color:var(--noteText)"></div>
+<label for="phfile">Photo (optional)</label><input type="file" id="phfile" accept="image/*"><div id="phsel" style="font-size:13px;color:var(--noteText)"></div>
+<div style="display:flex;gap:8px;align-items:center;margin-top:8px"><button id="shpost" type="button" class="tab">Post these</button><span id="shmsg" role="status" style="font-size:13px"></span></div>
+<div style="font-size:13px;color:var(--muted);margin:12px 0 0">Nothing is posted unless you tap Post to Discord. Anyone with this link can post in your channel, so keep it private. If posting fails, turn off any ad blocker for this site or use a Private window.</div>
 </details>
 <details id="logbox" style="margin-top:12px"><summary style="cursor:pointer;font-size:14px">Log: what the page did</summary>
 <pre id="console" style="background:#0d0d0d;color:#e5e7eb;border:1px solid #444;border-radius:6px;padding:10px;font-size:13px;font-family:Consolas,Menlo,monospace;line-height:1.5;white-space:pre-wrap;word-break:break-word;min-height:120px;max-height:360px;overflow:auto;resize:vertical;margin:6px 0 0"></pre>
@@ -180,12 +187,14 @@ button:disabled{opacity:.5}
 </details>
 </div>
 <div id="billtab" style="display:none">
+<details id="addbill" open style="margin-top:10px"><summary>Add bills</summary>
 <div style="font-size:13px;color:var(--muted);margin-top:10px">Turns photos of household bills into a sheet, one row per charge, with a summary.</div>
 <div class="warnbox" style="border-color:var(--err)"><b style="color:var(--err)">Bills are private.</b> Your name, address and account number are in the photo, and the whole photo is sent to the AI company you pick. Only upload your own bills.</div>
 <label>Bill photos</label>
 <div class="drop" id="billdrop">Tap to add photos or PDFs of bills</div>
 <input id="billfiles" type="file" accept="image/png,image/jpeg,image/webp,application/pdf" multiple hidden>
 <div id="billlist"></div>
+</details>
 <button id="billgo" disabled>Make my sheet</button>
 <button id="billtest" type="button" class="tab" disabled style="margin-top:8px;width:100%">Test first (one bill, no file)</button>
 <div class="msg" id="billmsg" role="status" aria-live="polite"></div>
@@ -380,7 +389,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-g";
+const BUILD = "2026-11-12-i";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1450,7 +1459,7 @@ $("artfile").onchange = () => {
   const f = $("artfile").files[0]; if (!f) return; const u = URL.createObjectURL(f), i = new Image();
   i.onload = () => { try {
     const w = Math.min(900, i.naturalWidth), c = document.createElement("canvas"); c.width = w; c.height = Math.round(i.naturalHeight * w / i.naturalWidth);
-    c.getContext("2d").drawImage(i, 0, 0, c.width, c.height); localStorage.setItem("fcd_art", c.toDataURL("image/jpeg", 0.85)); clog("Header picture saved (" + c.width + "x" + c.height + ")."); $("artmsg").textContent = "Picture saved on this device."; renderSaved();
+    c.getContext("2d").drawImage(i, 0, 0, c.width, c.height); localStorage.setItem("fcd_art", c.toDataURL("image/jpeg", 0.85)); clog("Header picture saved (" + c.width + "x" + c.height + ")."); $("artmsg").textContent = "\u2713 File selected: " + f.name + ". Saved on this device."; renderSaved();
   } catch (e) { clog("Header picture not saved: " + (e && e.name)); $("artmsg").textContent = "Too big to keep. Try a smaller picture."; } URL.revokeObjectURL(u); $("artfile").value = ""; };
   i.onerror = () => { $("artmsg").textContent = "That picture would not open."; URL.revokeObjectURL(u); };
   i.src = u;
@@ -1458,34 +1467,82 @@ $("artfile").onchange = () => {
 $("artforget").onclick = () => { try { localStorage.removeItem("fcd_art"); } catch (e) {} $("artmsg").textContent = "Removed."; renderSaved(); };
 // rows: {c: [cell, ...], b: bold, bg: colour}; a cell is text or [text, colour]
 async function tablePic(title, sub, cols, rows) {
-  const W = 900, RH = 32, art = await artLoad(), AH = 460, cv = document.createElement("canvas"), TOP = 70, HD = 36;
+  const W = 830, RH = 50, HD = 46, PAD = 28, AH = 400, art = await artLoad(), cv = document.createElement("canvas");
   clog("Table picture: " + (art ? "with your header picture" : "no header picture saved") + ", " + rows.length + " rows.");
-  let ah = 0; if (art) ah = Math.min(AH, Math.round(art.naturalHeight * W / art.naturalWidth));
-  cv.width = W; cv.height = ah + TOP + HD + rows.length * RH + 16; const g = cv.getContext("2d");
-  g.fillStyle = "#1e1f22"; g.fillRect(0, 0, W, cv.height);
-  if (art) { const sc = W / art.naturalWidth, sh = ah / sc; g.drawImage(art, 0, (art.naturalHeight - sh) / 2, art.naturalWidth, sh, 0, 0, W, ah); }
+  let bg = [30, 31, 34], dw = 0, dh = 0;
+  if (art) {
+    try { const t = document.createElement("canvas"); t.width = t.height = 1; const tc = t.getContext("2d"); tc.drawImage(art, 2, 2, 1, 1, 0, 0, 1, 1); const d = tc.getImageData(0, 0, 1, 1).data; bg = [d[0], d[1], d[2]]; } catch (e) {}
+    const sc = Math.min((W - 2 * PAD) / art.naturalWidth, AH / art.naturalHeight); dw = Math.round(art.naturalWidth * sc); dh = Math.round(art.naturalHeight * sc);
+  }
+  const mix = (k) => "rgb(" + bg.map((v) => Math.round(v * k)).join(",") + ")", lift = (k) => "rgb(" + bg.map((v) => Math.round(v + (255 - v) * k)).join(",") + ")";
+  const top = art ? dh + 36 : 20, tableY = top + 100, TH = HD + rows.length * RH, H = tableY + TH + 64;
+  cv.width = W; cv.height = H; const g = cv.getContext("2d");
+  g.fillStyle = "rgb(" + bg.join(",") + ")"; g.fillRect(0, 0, W, H);
+  if (art) g.drawImage(art, Math.round((W - dw) / 2), 20, dw, dh);
   const FONT = "system-ui, -apple-system, Segoe UI, Roboto, sans-serif", fit = (t, w) => { t = String(t); if (g.measureText(t).width <= w) return t; while (t.length > 1 && g.measureText(t + "…").width > w) t = t.slice(0, -1); return t + "…"; };
-  g.textBaseline = "middle"; g.fillStyle = "#f2f3f5"; g.font = "bold 24px " + FONT; g.fillText(fit(title, W - 40), 20, ah + 26);
-  g.fillStyle = "#b5bac1"; g.font = "15px " + FONT; g.fillText(fit(sub, W - 40), 20, ah + 54);
-  let y = ah + TOP; g.fillStyle = "#2b2d31"; g.fillRect(0, y, W, HD);
-  const xs = []; let x = 16; cols.forEach((c) => { xs.push(x); x += c.w; });
-  const put = (t, i, yy, col, bold) => { const c = cols[i], w = c.w - 14; g.font = (bold ? "bold " : "") + "16px " + FONT; g.fillStyle = col; t = fit(t, w); g.textAlign = c.a === "r" ? "right" : "left"; g.fillText(t, c.a === "r" ? xs[i] + c.w - 14 : xs[i], yy); g.textAlign = "left"; };
-  cols.forEach((c, i) => put(c.h, i, y + HD / 2, "#b5bac1", true)); y += HD;
-  rows.forEach((r, k) => { if (r.bg) { g.fillStyle = r.bg; g.fillRect(0, y, W, RH); } else if (k % 2) { g.fillStyle = "#232428"; g.fillRect(0, y, W, RH); }
-    r.c.forEach((cell, i) => { const a = Array.isArray(cell) ? cell : [cell, "#f2f3f5"]; put(a[0], i, y + RH / 2, a[1], r.b); }); y += RH; });
+  g.textBaseline = "middle"; g.textAlign = "center"; g.fillStyle = "#ffffff"; g.font = "bold 36px " + FONT; g.fillText(fit(title, W - 60), W / 2, top + 30);
+  g.fillStyle = lift(0.7); g.font = "20px " + FONT; g.fillText(fit(sub, W - 60), W / 2, top + 72);
+  g.save(); g.beginPath(); const x0 = PAD, w0 = W - 2 * PAD, r0 = 18; g.moveTo(x0 + r0, tableY); g.arcTo(x0 + w0, tableY, x0 + w0, tableY + TH, r0); g.arcTo(x0 + w0, tableY + TH, x0, tableY + TH, r0); g.arcTo(x0, tableY + TH, x0, tableY, r0); g.arcTo(x0, tableY, x0 + w0, tableY, r0); g.closePath(); g.clip();
+  g.fillStyle = mix(0.4); g.fillRect(x0, tableY, w0, HD);
+  const xs = []; let x = x0 + 22; cols.forEach((c) => { xs.push(x); x += c.w; });
+  g.textAlign = "left";
+  const put = (t, i, yy, col, bold, size) => { const c = cols[i]; g.font = (bold ? "bold " : "") + (size || 24) + "px " + FONT; g.fillStyle = col; t = fit(t, c.w - 12); g.textAlign = c.a === "r" ? "right" : "left"; g.fillText(t, c.a === "r" ? xs[i] + c.w - 12 : xs[i], yy); g.textAlign = "left"; };
+  cols.forEach((c, i) => put(c.h, i, tableY + HD / 2, lift(0.55), true, 18));
+  rows.forEach((r, k) => { const y = tableY + HD + k * RH; g.fillStyle = r.bg || (k % 2 ? mix(0.58) : mix(0.46)); g.fillRect(x0, y, w0, RH);
+    r.c.forEach((cell, i) => { const a = Array.isArray(cell) ? cell : [cell, "#ffffff"]; put(a[0], i, y + RH / 2, a[1], a[2] || r.b, 24); }); });
+  g.restore(); g.textAlign = "center"; g.fillStyle = lift(0.45); g.font = "16px " + FONT; g.fillText("Made with Fishing Cat Data", W / 2, H - 28);
   return await new Promise((ok, no) => cv.toBlob((b) => (b ? ok(b) : no(new Error("The picture could not be drawn."))), "image/png"));
 }
-async function clanPic(rows) {
-  const pm = fixNames(prevMap, pv.rows), MAX = 80, medal = ["#ffd700", "#d0d3d8", "#cd7f32"], tint = ["#3a3420", "#2f3033", "#352a20"], sg = (n) => (n > 0 ? "+" : "-") + Math.round(Math.abs(n)).toLocaleString("en-US");
-  const out = rows.slice(0, MAX).map((r, i) => {
-    const rk = Number(String(r.rank).replace(/\D/g, "")) || i + 1, n = parsePoints(r.points), b = pm ? pm.get(String(r.name).trim().toLowerCase()) : undefined;
-    let ch = ["", "#b5bac1"]; if (pm && n !== null) { if (typeof b !== "number") ch = ["new", "#5ab0ff"]; else if (n - b > 0) ch = [sg(n - b), "#3ba55d"]; else if (n - b < 0) ch = [sg(n - b), "#ed4245"]; else ch = ["-", "#b5bac1"]; }
-    const m = rk >= 1 && rk <= 3 ? rk - 1 : -1;
-    return { c: [["#" + rk, m >= 0 ? medal[m] : "#f2f3f5"], [String(r.name), m >= 0 ? medal[m] : "#f2f3f5"], String(r.role || ""), String(r.points), ch], b: m >= 0, bg: m >= 0 ? tint[m] : "" };
-  });
-  if (rows.length > MAX) out.push({ c: ["", "+" + (rows.length - MAX) + " more in the sheet", "", "", ""] });
-  return { blob: await tablePic(pv.p.clan || "Clan", (pv.p.game || "Roblox") + " · " + todayText(), [{ h: "#", w: 70 }, { h: "Username", w: 340 }, { h: "Role", w: 190 }, { h: "Points", w: 150, a: "r" }, { h: "Change", w: 120, a: "r" }], out), name: nameOf(pv.p) + ".png" };
+const chCell = (n, b) => { const sg = (v) => (v > 0 ? "+" : "-") + Math.round(Math.abs(v)).toLocaleString("en-US"); if (typeof b !== "number") return ["new", "#7fc4ff"]; return n - b > 0 ? [sg(n - b), "#6dd47e"] : n - b < 0 ? [sg(n - b), "#ff7a7a"] : ["-", "#b9b3c4"]; };
+const subLine = (date, n, tot, d, any) => date + " · " + n + " members · " + Math.round(tot).toLocaleString("en-US") + " points" + (any ? " · " + (d >= 0 ? "+" : "-") + Math.round(Math.abs(d)).toLocaleString("en-US") + " since last run" : "");
+async function rowsPic(items, clan, sub, name) {
+  const MAX = 60, medal = ["#f5c518", "#c9c9d3", "#cd8a3c"];
+  const out = items.slice(0, MAX).map((r) => { const m = r.rk >= 1 && r.rk <= 3 ? r.rk - 1 : -1, c = m >= 0 ? medal[m] : "#ffffff";
+    return { c: [["#" + r.rk, c, true], [r.name, c, true], [r.role || "", "rgba(255,255,255,0.78)"], [String(r.points), "#ffffff"], r.ch] }; });
+  if (items.length > MAX) out.push({ c: ["", "+" + (items.length - MAX) + " more in the sheet", "", "", ""] });
+  return { blob: await tablePic((clan || "Clan") + " – Member Points", sub, [{ h: "#", w: 70 }, { h: "Username", w: 270 }, { h: "Role", w: 160 }, { h: "Points", w: 130, a: "r" }, { h: "Change", w: 100, a: "r" }], out), name };
 }
+async function clanPic(rows) {
+  const pm = fixNames(prevMap, pv.rows); let tot = 0, d = 0, any = false;
+  const items = rows.map((r, i) => { const n = parsePoints(r.points), b = pm ? pm.get(String(r.name).trim().toLowerCase()) : undefined; if (n !== null) tot += n; if (pm && n !== null && typeof b === "number") { d += n - b; any = true; }
+    return { rk: Number(String(r.rank).replace(/\D/g, "")) || i + 1, name: String(r.name), role: r.role, points: r.points, ch: pm && n !== null ? chCell(n, b) : ["", "#b9b3c4"] }; });
+  return rowsPic(items, pv.p.clan, subLine(todayText(), items.length, tot, d, any), nameOf(pv.p) + ".png");
+}
+// Read a sheet this page made (no AI): who is in it, their points, and the earlier points.
+async function readSheet(buf) {
+  await loadExcel(); if (!window.ExcelJS) throw new Error("The spreadsheet part did not load. Refresh the page.");
+  const wb = new window.ExcelJS.Workbook(); await wb.xlsx.load(buf);
+  const ws = wb.getWorksheet("Clan Members") || wb.worksheets[0]; let head = 0;
+  ws.eachRow((row, n) => { if (!head && String(row.getCell(2).value).trim() === "Username") head = n; });
+  if (!head) throw new Error("That file is not a sheet made by this page.");
+  const val = (c) => { let v = c.value; if (v && typeof v === "object" && "result" in v) v = v.result; return v; }, items = []; let any = false;
+  for (let r = head + 1; r <= ws.rowCount; r++) {
+    const name = val(ws.getCell(r, 2)), n = val(ws.getCell(r, 5)), b = val(ws.getCell(r, 6)); if (!name || typeof n !== "number") continue;
+    if (typeof b === "number") any = true;
+    items.push({ rk: Number(val(ws.getCell(r, 1))) || items.length + 1, name: String(name), role: String(val(ws.getCell(r, 3)) || ""), points: String(val(ws.getCell(r, 4)) || n), n, b: typeof b === "number" ? b : null });
+  }
+  const t1 = String(val(ws.getCell(1, 1)) || ""), t2 = String(val(ws.getCell(2, 1)) || "");
+  return { items, any, clan: t1.split(/\s[\u2013-]\s/)[0] || "Clan", game: t2.split("\u00b7")[0].trim() || "Roblox", date: ((t2.match(/Recorded ([^\u00b7]+)/) || [])[1] || todayText()).trim() };
+}
+[["shfile", "shsel"], ["phfile", "phsel"]].forEach(([f, m]) => { $(f).onchange = () => { const x = $(f).files[0]; $(m).textContent = x ? "\u2713 File selected: " + x.name : ""; }; });
+$("shpost").onclick = async () => {
+  const xf = $("shfile").files[0], pf = $("phfile").files[0], say = (t) => { $("shmsg").textContent = t; };
+  if (!xf && !pf) { say("Pick an Excel sheet or a photo first."); return; }
+  say("Posting...");
+  try {
+    const files = []; let text = "Fishing Cat Data";
+    if (xf) {
+      const sh = await readSheet(await xf.arrayBuffer()), f = (n) => Math.round(n).toLocaleString("en-US"), tot = sh.items.reduce((t, r) => t + r.n, 0);
+      text = "**" + sh.clan + "** \u00b7 " + sh.game + " \u00b7 " + sh.date + "\n" + sh.items.length + " members \u00b7 " + f(tot) + " points in total";
+      if (sh.any) { const ret = sh.items.filter((r) => r.b !== null), d = ret.reduce((t, r) => t + r.n - r.b, 0), b0 = ret.reduce((t, r) => t + r.b, 0); text += "\nSince last run: " + (d >= 0 ? "+" : "-") + f(Math.abs(d)) + (b0 ? " (" + (d >= 0 ? "+" : "") + (d / b0 * 100).toFixed(1) + "%)" : "") + " from returning members"; }
+      if (!pf) files.push(await rowsPic(sh.items.map((r) => ({ ...r, ch: sh.any ? chCell(r.n, r.b === null ? undefined : r.b) : ["", "#b5bac1"] })), sh.clan, subLine(sh.date, sh.items.length, tot, sh.items.filter((r) => r.b !== null).reduce((t, r) => t + r.n - r.b, 0), sh.any), sh.clan + ".png"));
+    }
+    if (pf) files.push({ blob: pf, name: pf.name });
+    if (xf) files.push({ blob: xf, name: xf.name });
+    const sent = await hookPost(text.slice(0, 1900), files);
+    say(files.length && !sent ? "Posted the message, but the files could not go." : "Posted.");
+  } catch (err) { clog("Stopped: " + why(err)); say(plain(err)); }
+};
 async function billPic(bills) {
   const out = [], MAX = 60;
   bills.forEach((b) => { const cur = b.currency ? b.currency + " " : "";
@@ -1493,7 +1550,7 @@ async function billPic(bills) {
     b.lines.forEach((l) => out.push({ c: [String(l.charge || l.type), l.amount !== null && l.amount !== undefined ? cur + Number(l.amount).toFixed(2) : String(l.amountShown || "")] }));
     if (b.total !== null && b.total !== undefined) out.push({ c: ["Total on the bill", cur + b.total], b: true }); });
   if (out.length > MAX) { const n = out.length - MAX; out.length = MAX; out.push({ c: ["+" + n + " more rows in the sheet", ""] }); }
-  return { blob: await tablePic("Bills", todayText(), [{ h: "Charge", w: 620 }, { h: "Amount", w: 250, a: "r" }], out), name: "Bills.png" };
+  return { blob: await tablePic("Bills", todayText(), [{ h: "Charge", w: 470 }, { h: "Amount", w: 200, a: "r" }], out), name: "Bills.png" };
 }
 $("hookpost").onclick = () => {
   const bills = $("hookblock").parentElement.id === "billtab", have = bills ? bp : pv;
