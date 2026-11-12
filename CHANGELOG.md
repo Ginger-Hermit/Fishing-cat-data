@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Video reads the whole list
+
+12 Nov 2026 (23:37 UTC) · Changed
+
+A short scrolling video no longer stops at the first rows.
+
+> [!NOTE]
+> **What you'll see:** Clan tab, video
+
+- The AI is told to read every picture to the last one.
+
 ## Misread names keep the earlier spelling
 
-12 Nov 2026 (23:23 UTC) · Changed
+12 Nov 2026 (23:23 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/f7d2c5c)
 
 If the AI misreads a name (like l for 1), the sheet keeps the spelling from earlier runs
 
