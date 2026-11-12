@@ -1,5 +1,5 @@
 // Patch note: saves phone pictures of every tab (newest iPhone in Safari's engine, newest Pixel in Chrome; light, dark, big text).
-// GitHub keeps them 30 days: Actions -> Check -> the run -> phone-pictures. By hand: node tests/pictures.js (writes to pictures/).
+// GitHub keeps them 7 days: Actions -> Check -> the run -> phone-pictures. By hand: node tests/pictures.js (writes to pictures/).
 const fs = require("fs"), path = require("path"), pw = require("playwright");
 const URL = "file://" + path.resolve(__dirname, "..", "index.html"), OUT = path.resolve(__dirname, "..", "pictures");
 const newest = (re) => Object.keys(pw.devices).filter((k) => re.test(k)).sort((a, b) => parseInt(a.replace(/\D/g, "")) - parseInt(b.replace(/\D/g, ""))).pop();

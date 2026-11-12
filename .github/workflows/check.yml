@@ -36,7 +36,7 @@ jobs:
         with:
           name: phone-pictures
           path: pictures/
-          retention-days: 30
+          retention-days: 7
   excel:
     runs-on: ubuntu-latest
     timeout-minutes: 15
