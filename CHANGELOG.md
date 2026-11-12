@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Colour stripes on section bars
+
+12 Nov 2026 (06:41 UTC) · Changed
+
+Each closed section has its own colour stripe.
+
+**What you'll see:** Clan tab: blue key, green More options, purple Discord, grey Log.
+
+- Added a thin colour stripe to the left of each section bar.
+
 ## Easier to read menus
 
-12 Nov 2026 (06:40 UTC) · Changed
+12 Nov 2026 (06:40 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/1abad8d)
 
 The closed sections now look like clear buttons.
 
