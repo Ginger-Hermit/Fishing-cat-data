@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Bug report button by the stills
+
+12 Nov 2026 (23:48 UTC) · Changed
+
+The developer stills now have their own Copy bug report button.
+
+> [!NOTE]
+> **What you'll see:** Developer stills, below the Log
+
+- Added a Copy bug report button under the stills heading.
+
 ## Warns about reused videos
 
-12 Nov 2026 (23:47 UTC) · New
+12 Nov 2026 (23:47 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/b71dfc7)
 
 Picking a video you already turned into a sheet shows 'Already used' with the date.
 
