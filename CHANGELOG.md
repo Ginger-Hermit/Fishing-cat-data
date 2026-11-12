@@ -4,11 +4,12 @@ Newest first. The page itself shows only the newest 5.
 
 ## File selected messages
 
-12 Nov 2026 (07:07 UTC) · Changed
+12 Nov 2026 (07:07 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/cbd0e891f40ce1ee31c783e63b1155069d46f99a)
 
 When you pick a photo or sheet to post, the page says File selected.
 
-**What you'll see:** Post to Discord (optional): green tick and the file name under each picker.
+> [!NOTE]
+> **What you'll see:** Post to Discord (optional): green tick and the file name under each picker.
 
 - Added 'File selected: name' under the Excel sheet, Photo and Header picture pickers.
 
@@ -18,7 +19,8 @@ When you pick a photo or sheet to post, the page says File selected.
 
 The Discord picture matches your mockup; you can post a saved sheet and photo with no AI; the add-pictures part collapses.
 
-**What you'll see:** Post to Discord (optional): Post without the AI. Clan and Bills tabs: Add screenshots / Add bills bars.
+> [!NOTE]
+> **What you'll see:** Post to Discord (optional): Post without the AI. Clan and Bills tabs: Add screenshots / Add bills bars.
 
 - New picture design (artwork colour background, rounded table, medals, footer). Post a saved Excel sheet and/or photo without any AI. Add screenshots and Add bills are collapsible.
 
@@ -28,7 +30,8 @@ The Discord picture matches your mockup; you can post a saved sheet and photo wi
 
 Untick Attach the Excel file to post without the download; the message is shorter when a picture goes with it.
 
-**What you'll see:** Post to Discord (optional) box: Attach the Excel file tick box.
+> [!NOTE]
+> **What you'll see:** Post to Discord (optional) box: Attach the Excel file tick box.
 
 - Optional Excel attachment (remembered). With the picture, the message drops the top-gains and drops lists since the picture shows Change.
 
@@ -38,7 +41,8 @@ Untick Attach the Excel file to post without the download; the message is shorte
 
 After you pick a header picture, a small preview and 'Picture saved' stay in the Discord box.
 
-**What you'll see:** Open Post to Discord (optional): small picture next to Remove.
+> [!NOTE]
+> **What you'll see:** Open Post to Discord (optional): small picture next to Remove.
 
 - Added a thumbnail and a clear saved message, also shown when you come back later.
 
@@ -48,7 +52,8 @@ After you pick a header picture, a small preview and 'Picture saved' stay in the
 
 The Discord box has its own Post to Discord button.
 
-**What you'll see:** Open Post to Discord (optional): Post to Discord, Test, Forget.
+> [!TIP]
+> **What you'll see:** Open Post to Discord (optional): Post to Discord, Test, Forget.
 
 - Post button added next to Test. It posts the current list; if there is none it says Make a list first.
 
@@ -58,7 +63,8 @@ The Discord box has its own Post to Discord button.
 
 The video tip reads naturally.
 
-**What you'll see:** Clan tab under the screenshot box.
+> [!NOTE]
+> **What you'll see:** Clan tab under the screenshot box.
 
 - Reworded the video tip again.
 
@@ -68,7 +74,8 @@ The video tip reads naturally.
 
 The video tip is one short sentence.
 
-**What you'll see:** Clan tab under the screenshot box.
+> [!NOTE]
+> **What you'll see:** Clan tab under the screenshot box.
 
 - Reworded the video scrolling tip.
 
@@ -78,7 +85,8 @@ The video tip is one short sentence.
 
 The 'Your key is safe here' note sits under the key box, not in the middle of the page.
 
-**What you'll see:** Clan tab and Bills: note under the key box.
+> [!NOTE]
+> **What you'll see:** Clan tab and Bills: note under the key box.
 
 - Moved the key safety note into the key section.
 
@@ -88,7 +96,8 @@ The 'Your key is safe here' note sits under the key box, not in the middle of th
 
 The gold, silver and bronze ranks and the Owner and Coach colours are back in the sheet.
 
-**What you'll see:** Make a sheet: top 3 ranks and roles are coloured again.
+> [!NOTE]
+> **What you'll see:** Make a sheet: top 3 ranks and roles are coloured again.
 
 - Undid the fewer-colours change.
 
@@ -98,7 +107,8 @@ The gold, silver and bronze ranks and the Owner and Coach colours are back in th
 
 The sheet and preview only use colour for up, down, left the clan and check this.
 
-**What you'll see:** Make a sheet: no gold, silver, bronze or role colours.
+> [!NOTE]
+> **What you'll see:** Make a sheet: no gold, silver, bronze or role colours.
 
 - Removed rank medal colours and Owner/Coach colours from the sheet and preview; the About tab colour key lists only what is left.
 
@@ -108,7 +118,8 @@ The sheet and preview only use colour for up, down, left the clan and check this
 
 After a read there are fewer lines of small print above the preview.
 
-**What you'll see:** Run a Test or a sheet: short message, one note, then the preview.
+> [!NOTE]
+> **What you'll see:** Run a Test or a sheet: short message, one note, then the preview.
 
 - Shorter Test OK message, shorter earlier-members note, and the 'Looking for Discord' hint hides while a preview is showing.
 
@@ -118,7 +129,8 @@ After a read there are fewer lines of small print above the preview.
 
 The page asks before it opens another website.
 
-**What you'll see:** Tap any link to GitHub or Google: a box says which site and asks Open it?
+> [!NOTE]
+> **What you'll see:** Tap any link to GitHub or Google: a box says which site and asks Open it?
 
 - All links to other websites now ask first, naming the site.
 
@@ -128,7 +140,8 @@ The page asks before it opens another website.
 
 The two links at the top say where they go and use the page's link colour.
 
-**What you'll see:** Top of the Home tab.
+> [!NOTE]
+> **What you'll see:** Top of the Home tab.
 
 - Renamed to Guide on GitHub and Free key from Google (opens Google); bold, link colour.
 
@@ -138,7 +151,8 @@ The two links at the top say where they go and use the page's link colour.
 
 Stay safe, Privacy, Legal and GitHub links are bigger and in colour.
 
-**What you'll see:** Bottom of every tab.
+> [!NOTE]
+> **What you'll see:** Bottom of every tab.
 
 - Footer links now use the link colour, bold, 15px with more space to tap.
 
@@ -148,7 +162,8 @@ Stay safe, Privacy, Legal and GitHub links are bigger and in colour.
 
 The Stay safe page is one short box plus one More detail box.
 
-**What you'll see:** Stay safe: six short points, and all the extra detail under More detail.
+> [!NOTE]
+> **What you'll see:** Stay safe: six short points, and all the extra detail under More detail.
 
 - Merged the two top boxes and the six detail boxes into one short list and a single closed More detail section.
 
@@ -158,7 +173,8 @@ The Stay safe page is one short box plus one More detail box.
 
 The GitHub tab shows a small preview card for each link.
 
-**What you'll see:** GitHub tab: three cards (project, guide, update history).
+> [!NOTE]
+> **What you'll see:** GitHub tab: three cards (project, guide, update history).
 
 - Replaced the two buttons with three preview cards. No new website is contacted: the previews are written into the page.
 
@@ -168,7 +184,8 @@ The GitHub tab shows a small preview card for each link.
 
 The Stay safe page is easier to follow.
 
-**What you'll see:** Stay safe: open one box and the others close.
+> [!NOTE]
+> **What you'll see:** Stay safe: open one box and the others close.
 
 - Fixed 'The 5 big ones' (it listed six), clearer intro line, and only one detail box stays open at a time.
 
@@ -178,7 +195,8 @@ The Stay safe page is easier to follow.
 
 The Read the guide button is on the GitHub tab.
 
-**What you'll see:** GitHub tab.
+> [!NOTE]
+> **What you'll see:** GitHub tab.
 
 - Moved the Read the guide button from the Safety page to the GitHub tab.
 
@@ -188,7 +206,8 @@ The Read the guide button is on the GitHub tab.
 
 Grey help words are darker and a bit bigger. The GitHub tab is simpler.
 
-**What you'll see:** Any grey help line; the GitHub tab.
+> [!NOTE]
+> **What you'll see:** Any grey help line; the GitHub tab.
 
 - Darker grey in all themes, 12px help text now 13px, removed the fake README preview, added a Read the guide button.
 
@@ -198,7 +217,8 @@ Grey help words are darker and a bit bigger. The GitHub tab is simpler.
 
 Settings is split into clear boxes.
 
-**What you'll see:** Settings tab: Look, Updates, Privacy, and a closed AI model box.
+> [!NOTE]
+> **What you'll see:** Settings tab: Look, Updates, Privacy, and a closed AI model box.
 
 - Grouped Settings into boxes with bold headings; AI model is closed until opened.
 
@@ -208,7 +228,8 @@ Settings is split into clear boxes.
 
 No gradients. Flat, calm colours with a colour stripe on each bar.
 
-**What you'll see:** Whole page.
+> [!NOTE]
+> **What you'll see:** Whole page.
 
 - Removed all gradients and the banner. Page looks as before, with the bars keeping their colour stripe.
 
@@ -218,7 +239,8 @@ No gradients. Flat, calm colours with a colour stripe on each bar.
 
 The banner is just the name now.
 
-**What you'll see:** Top of the page.
+> [!NOTE]
+> **What you'll see:** Top of the page.
 
 - Removed the cat emoji.
 
@@ -228,7 +250,8 @@ The banner is just the name now.
 
 The Home page explains the coloured bars.
 
-**What you'll see:** Home tab: What the colours mean.
+> [!NOTE]
+> **What you'll see:** Home tab: What the colours mean.
 
 - Added a short closed section listing what blue, green, purple and grey bars are for.
 
@@ -238,7 +261,8 @@ The Home page explains the coloured bars.
 
 The header, tabs and main buttons now share one colour gradient.
 
-**What you'll see:** Open the page: gradient banner, pill tabs, gradient Make my sheet.
+> [!NOTE]
+> **What you'll see:** Open the page: gradient banner, pill tabs, gradient Make my sheet.
 
 - Gradient banner and pill tabs, soft page background, rounded card, tighter spacing. Each theme has its own second colour.
 
@@ -248,7 +272,8 @@ The header, tabs and main buttons now share one colour gradient.
 
 A run made earlier today no longer wipes out Change, % Change and Trend.
 
-**What you'll see:** Make two sheets on the same day: Previous Points shows the last earlier day, not today's first run.
+> [!NOTE]
+> **What you'll see:** Make two sheets on the same day: Previous Points shows the last earlier day, not today's first run.
 
 - If the last sheet was made today, the page compares with the last earlier day in its history. Also applied to the remembered last sheet.
 
@@ -258,7 +283,8 @@ A run made earlier today no longer wipes out Change, % Change and Trend.
 
 The section bars now fade from colour to calm.
 
-**What you'll see:** Clan tab: blue, green, purple and grey bars.
+> [!NOTE]
+> **What you'll see:** Clan tab: blue, green, purple and grey bars.
 
 - Soft colour gradient behind each section heading, same stripe colours.
 
@@ -268,7 +294,8 @@ The section bars now fade from colour to calm.
 
 Each closed section has its own colour stripe.
 
-**What you'll see:** Clan tab: blue key, green More options, purple Discord, grey Log.
+> [!NOTE]
+> **What you'll see:** Clan tab: blue key, green More options, purple Discord, grey Log.
 
 - Added a thin colour stripe to the left of each section bar.
 
@@ -278,7 +305,8 @@ Each closed section has its own colour stripe.
 
 The closed sections now look like clear buttons.
 
-**What you'll see:** Clan tab: More options, Post to Discord, Log, AI company and key.
+> [!NOTE]
+> **What you'll see:** Clan tab: More options, Post to Discord, Log, AI company and key.
 
 - Bigger bold headings with a border; one grey help line in the Discord section instead of three.
 
@@ -288,7 +316,8 @@ The closed sections now look like clear buttons.
 
 A short note tells people where Discord, last sheet and the Log are.
 
-**What you'll see:** Roblox clan sheet tab, under Make my sheet.
+> [!NOTE]
+> **What you'll see:** Roblox clan sheet tab, under Make my sheet.
 
 - Added one grey line pointing to the small arrows; More options now says what is inside.
 
@@ -298,7 +327,8 @@ A short note tells people where Discord, last sheet and the Log are.
 
 The clan tab is shorter: key, last sheet, Discord and Log are tucked into closed sections.
 
-**What you'll see:** Roblox clan sheet tab: clan name, screenshots, Make my sheet. Everything else is under small arrows.
+> [!NOTE]
+> **What you'll see:** Roblox clan sheet tab: clan name, screenshots, Make my sheet. Everything else is under small arrows.
 
 - AI key box closes once a key is saved. Last sheet and Test first moved under More options. Discord link and header picture moved under Post to Discord (optional).
 
@@ -308,7 +338,8 @@ The clan tab is shorter: key, last sheet, Discord and Log are tucked into closed
 
 The buttons under the table no longer run off the page.
 
-**What you'll see:** Make a list: Download sheet, Add row, Post to Discord, Copy message, Reset wrap to a second line if needed.
+> [!NOTE]
+> **What you'll see:** Make a list: Download sheet, Add row, Post to Discord, Copy message, Reset wrap to a second line if needed.
 
 - Button row under the clan and Bills tables now wraps.
 
@@ -318,7 +349,8 @@ The buttons under the table no longer run off the page.
 
 The sheet you just made becomes your last sheet, so you don't pick it again.
 
-**What you'll see:** Make a sheet, then refresh or start a new list: Last sheet is already filled in.
+> [!NOTE]
+> **What you'll see:** Make a sheet, then refresh or start a new list: Last sheet is already filled in.
 
 - Download or Post to Discord keeps the new sheet (names, points, history) on this device for the next run. Not used until the next list, so this list's changes stay right.
 
@@ -328,7 +360,8 @@ The sheet you just made becomes your last sheet, so you don't pick it again.
 
 If the AI can't tell the game, the page uses the last game it recognised instead of 'Game'.
 
-**What you'll see:** Run a clan with one screenshot where the game isn't clear.
+> [!NOTE]
+> **What you'll see:** Run a clan with one screenshot where the game isn't clear.
 
 - Last recognised game is kept on this device and used when the AI gives none. Listed under Privacy.
 
@@ -338,7 +371,8 @@ If the AI can't tell the game, the page uses the last game it recognised instead
 
 The page warns that ad blockers can stop Discord posts.
 
-**What you'll see:** Settings under the Discord link; also the error if Discord can't be reached.
+> [!NOTE]
+> **What you'll see:** Settings under the Discord link; also the error if Discord can't be reached.
 
 - Added an ad blocker and privacy shield note to the Discord help line and the error message.
 
@@ -348,7 +382,8 @@ The page warns that ad blockers can stop Discord posts.
 
 The Log and bug report now show what happened with Discord.
 
-**What you'll see:** Post to Discord, then open Log.
+> [!NOTE]
+> **What you'll see:** Post to Discord, then open Log.
 
 - Log lines for: files sent and sizes, header picture used or not, Discord's answer and reason. The link is never written.
 
@@ -358,7 +393,8 @@ The Log and bug report now show what happened with Discord.
 
 If Discord can't be reached, the page says so in plain words.
 
-**What you'll see:** Settings: Test with a bad link or ad blocker on.
+> [!NOTE]
+> **What you'll see:** Settings: Test with a bad link or ad blocker on.
 
 - Discord network failures now show 'Could not reach Discord' and write the real reason in the Log.
 
@@ -368,7 +404,8 @@ If Discord can't be reached, the page says so in plain words.
 
 Post to Discord now also sends a picture of the table, with your header artwork on top.
 
-**What you'll see:** Settings: pick a header picture once. Then tap Post to Discord on a clan list or Bills.
+> [!TIP]
+> **What you'll see:** Settings: pick a header picture once. Then tap Post to Discord on a clan list or Bills.
 
 - Page draws the table on a canvas (no AI, no package) and posts it with the message and the .xlsx. Clan: rank, name, role, points, change with gold, silver and bronze. Bills: simple charges table.
 
@@ -378,7 +415,8 @@ Post to Discord now also sends a picture of the table, with your header artwork 
 
 The Discord post and Copy message now say what changed: total change, who went up or down, top 5 gains, drops, new and missing members.
 
-**What you'll see:** Copy message on a clan preview
+> [!NOTE]
+> **What you'll see:** Copy message on a clan preview
 
 - Longer change summary for Discord
 
@@ -388,7 +426,8 @@ The Discord post and Copy message now say what changed: total change, who went u
 
 The Discord link box moved from Settings to the Roblox clan sheet and Bills tabs.
 
-**What you'll see:** Discord link box under the preview on both tabs
+> [!NOTE]
+> **What you'll see:** Discord link box under the preview on both tabs
 
 - Move Discord link box to the clan and bills tabs
 
@@ -398,7 +437,8 @@ The Discord link box moved from Settings to the Roblox clan sheet and Bills tabs
 
 If the AI misreads g as q (or 0/o, 1/i/l), the player is matched to their old row instead of showing up twice.
 
-**What you'll see:** Leaderboard has no duplicate player
+> [!NOTE]
+> **What you'll see:** Leaderboard has no duplicate player
 
 - Fold look-alike letters in name matching
 
@@ -408,7 +448,8 @@ If the AI misreads g as q (or 0/o, 1/i/l), the player is matched to their old ro
 
 The AI is now allowed to recognise the Roblox game from how the screen looks, so the sheet says the real game name instead of Game.
 
-**What you'll see:** Sheet title shows the game name
+> [!NOTE]
+> **What you'll see:** Sheet title shows the game name
 
 - Looser game_name wording in the layout prompt
 
@@ -418,7 +459,8 @@ The AI is now allowed to recognise the Roblox game from how the screen looks, so
 
 The bug report no longer includes your time zone. Its date is shown in UTC.
 
-**What you'll see:** Copy bug report has no Pacific/Auckland line
+> [!NOTE]
+> **What you'll see:** Copy bug report has no Pacific/Auckland line
 
 - Remove time zone from the bug report
 
@@ -428,7 +470,8 @@ The bug report no longer includes your time zone. Its date is shown in UTC.
 
 The smallest Gemini model now only does the quick layout step. Reading the member list and bills never use it, so lists are not left half empty.
 
-**What you'll see:** Log never shows gemini-3.5-flash-lite on the list step
+> [!NOTE]
+> **What you'll see:** Log never shows gemini-3.5-flash-lite on the list step
 
 - Block flash-lite outside the layout step
 
@@ -438,7 +481,8 @@ The smallest Gemini model now only does the quick layout step. Reading the membe
 
 Bills now has Post to Discord too, on tap only. It sends a short summary and the sheet.
 
-**What you'll see:** Bills preview: Post to Discord
+> [!NOTE]
+> **What you'll see:** Bills preview: Post to Discord
 
 - Discord posting on Bills
 
@@ -448,7 +492,8 @@ Bills now has Post to Discord too, on tap only. It sends a short summary and the
 
 Post to Discord now shows on every clan sheet. With no saved link it asks you to paste one.
 
-**What you'll see:** Clan preview: Post to Discord
+> [!NOTE]
+> **What you'll see:** Clan preview: Post to Discord
 
 - Ask for the Discord link on the clan preview
 
@@ -458,7 +503,8 @@ Post to Discord now shows on every clan sheet. With no saved link it asks you to
 
 The Discord link is forgotten when you close the page unless you tick Remember my link. A Forget button clears it.
 
-**What you'll see:** Settings: Remember my link and Forget
+> [!NOTE]
+> **What you'll see:** Settings: Remember my link and Forget
 
 - Discord link kept in memory only by default
 
@@ -468,7 +514,8 @@ The Discord link is forgotten when you close the page unless you tick Remember m
 
 After a backup model answers, the next steps start on it for 10 minutes instead of waiting on the busy one again.
 
-**What you'll see:** Log says Starting on gemini-3.7-flash
+> [!NOTE]
+> **What you'll see:** Log says Starting on gemini-3.7-flash
 
 - Remember the Gemini model that last answered
 
@@ -478,7 +525,8 @@ After a backup model answers, the next steps start on it for 10 minutes instead 
 
 Optional Discord link in Settings. After a clan read, Post to Discord sends a short summary and the sheet. Copy message copies the summary.
 
-**What you'll see:** Settings has Discord link, clan preview has Post to Discord and Copy message
+> [!TIP]
+> **What you'll see:** Settings has Discord link, clan preview has Post to Discord and Copy message
 
 - Discord webhook posting, on tap only
 
@@ -488,7 +536,8 @@ Optional Discord link in Settings. After a clan read, Post to Discord sends a sh
 
 If Google is slow, the page tries a backup model after 75s instead of waiting 3 minutes.
 
-**What you'll see:** Log says Too slow. Switching
+> [!NOTE]
+> **What you'll see:** Log says Too slow. Switching
 
 - Timeout now swaps to the backup Gemini model
 
@@ -498,7 +547,8 @@ If Google is slow, the page tries a backup model after 75s instead of waiting 3 
 
 The Points history tab shows its title and how-to-read box in full instead of cutting them off.
 
-**What you'll see:** Open Points history in the clan Excel file: title complete, how-to-read box fully visible, no frozen column splitting it.
+> [!NOTE]
+> **What you'll see:** Open Points history in the clan Excel file: title complete, how-to-read box fully visible, no frozen column splitting it.
 
 - Points history: how-to-read box and title fit the runs, only the top rows are frozen
 - Bills Summary: no frozen column splitting the how-to-read box
@@ -509,7 +559,8 @@ The Points history tab shows its title and how-to-read box in full instead of cu
 
 The Bills Summary tab columns are wide enough to read again.
 
-**What you'll see:** Open a bills sheet: Summary columns are wide, nothing is cut off and the how-to-read box shows in full.
+> [!NOTE]
+> **What you'll see:** Open a bills sheet: Summary columns are wide, nothing is cut off and the how-to-read box shows in full.
 
 - Summary bill columns set to 46 wide (they had dropped to the default narrow width)
 - Taller how-to-read box
@@ -520,7 +571,8 @@ The Bills Summary tab columns are wide enough to read again.
 
 Bills where the AI wrote the price rate (c/unit, c/day) as the unit now still turn into kWh instead of being flagged.
 
-**What you'll see:** A bill like the Genesis one no longer shows 'check: can't turn c/unit into kWh' on its usage rows.
+> [!NOTE]
+> **What you'll see:** A bill like the Genesis one no longer shows 'check: can't turn c/unit into kWh' on its usage rows.
 
 - Units like c/unit, c/day and c/kWh are read by the part after the slash
 - The AI is told to give the unit of the quantity, not the price rate
@@ -531,7 +583,8 @@ Bills where the AI wrote the price rate (c/unit, c/day) as the unit now still tu
 
 When Google's free daily limit for a model is used up, the page switches to a backup model, or says plainly when it resets.
 
-**What you'll see:** A 429 'per day' error now shows 'Switching to gemini-3.7-flash' in the Log, or a plain message with the reset time.
+> [!NOTE]
+> **What you'll see:** A 429 'per day' error now shows 'Switching to gemini-3.7-flash' in the Log, or a plain message with the reset time.
 
 - Daily free-limit errors (429) switch to a backup Gemini model or show a clear message with the reset time
 
@@ -541,7 +594,8 @@ When Google's free daily limit for a model is used up, the page switches to a ba
 
 After a problem, one tap opens a GitHub issue with the report already filled in.
 
-**What you'll see:** When something fails, the link under the Log says 'Report this error on GitHub'. Tap it: a public GitHub form opens with the title and report filled in. Nothing is sent until you press Submit there.
+> [!TIP]
+> **What you'll see:** When something fails, the link under the Log says 'Report this error on GitHub'. Tap it: a public GitHub form opens with the title and report filled in. Nothing is sent until you press Submit there.
 
 - Report on GitHub opens a filled-in issue form (page version, device, last 1800 characters of the Log; keys, pictures and AI replies left out)
 
@@ -551,7 +605,8 @@ After a problem, one tap opens a GitHub issue with the report already filled in.
 
 The busy-AI backups are now gemini-3.7-flash then gemini-3.5-flash-lite, and a backup that no longer exists is skipped.
 
-**What you'll see:** Log shows which model each retry uses.
+> [!NOTE]
+> **What you'll see:** Log shows which model each retry uses.
 
 - Backup models changed to 3.7 flash then 3.5 flash-lite; a missing backup model moves on to the next
 
@@ -561,7 +616,8 @@ The busy-AI backups are now gemini-3.7-flash then gemini-3.5-flash-lite, and a b
 
 When Google says gemini-3.8-flash is overloaded, the retries now use older Gemini models, which are usually less busy.
 
-**What you'll see:** Log shows 'Switching to gemini-3.7-flash for the next try.' after a busy error.
+> [!NOTE]
+> **What you'll see:** Log shows 'Switching to gemini-3.7-flash for the next try.' after a busy error.
 
 - Busy Gemini retries switch to gemini-3.7-flash, then gemini-3.6-flash
 
@@ -571,7 +627,8 @@ When Google says gemini-3.8-flash is overloaded, the retries now use older Gemin
 
 When Google (or another AI company) says it is busy, the page waits a few seconds and tries again, up to 3 times, instead of failing at once.
 
-**What you'll see:** A busy AI now shows 'The AI is busy... Trying again' in the Log and usually works on the second try.
+> [!NOTE]
+> **What you'll see:** A busy AI now shows 'The AI is busy... Trying again' in the Log and usually works on the second try.
 
 - Automatic retries (3 tries) on busy-AI errors (500, 502, 503, 504) and dropped connections
 
@@ -581,7 +638,8 @@ When Google (or another AI company) says it is busy, the page waits a few second
 
 Bill reads to Google Gemini now have a size cap and ask for JSON only, so a stuck reply can't run for minutes.
 
-**What you'll see:** Make a bills sheet with Gemini: it should answer in well under a minute, or stop with a clear message.
+> [!NOTE]
+> **What you'll see:** Make a bills sheet with Gemini: it should answer in well under a minute, or stop with a clear message.
 
 - Gemini bill requests capped at 8192 tokens and set to JSON-only
 
@@ -591,7 +649,8 @@ Bill reads to Google Gemini now have a size cap and ask for JSON only, so a stuc
 
 The Log now catches and shows page errors, blocked requests, failed loads and browser warnings, with errors in red.
 
-**What you'll see:** Any error or failure appears in red in the black Log, and the Log opens by itself when one happens.
+> [!NOTE]
+> **What you'll see:** Any error or failure appears in red in the black Log, and the Log opens by itself when one happens.
 
 - Page errors, security-rule blocks, failed file loads and console errors and warnings are recorded
 - Errors red, warnings amber, Log opens on an error
@@ -602,7 +661,8 @@ The Log now catches and shows page errors, blocked requests, failed loads and br
 
 The Log now looks like a live console: dark, easy-to-read text that scrolls to the newest line.
 
-**What you'll see:** Run a sheet and watch the Log: black box, newest line always visible, drag the corner to make it taller.
+> [!NOTE]
+> **What you'll see:** Run a sheet and watch the Log: black box, newest line always visible, drag the corner to make it taller.
 
 - Log box is dark with monospace text, scrolls to the newest line, can be resized
 
@@ -612,7 +672,8 @@ The Log now looks like a live console: dark, easy-to-read text that scrolls to t
 
 The Log and bug report now record timings, sizes, AI token counts and error details so slow or failed runs can be diagnosed.
 
-**What you'll see:** Run a bill or clan sheet, then Copy bug report: it now has a device block, photo sizes, what was sent, how long the AI took and how many tokens it used.
+> [!NOTE]
+> **What you'll see:** Run a bill or clan sheet, then Copy bug report: it now has a device block, photo sizes, what was sent, how long the AI took and how many tokens it used.
 
 - Log shows photo sizes, request size, AI settings, HTTP status, AI token counts and tokens a second
 - Failed runs log the full error reply and the code location
@@ -624,7 +685,8 @@ The Log and bug report now record timings, sizes, AI token counts and error deta
 
 The bills Excel file now opens on a Summary that a new person can follow.
 
-**What you'll see:** Make a bills sheet and open it: Summary is the first tab, in sections (About the bill, Does it add up?, Energy used, Cost by type, In plain words).
+> [!NOTE]
+> **What you'll see:** Make a bills sheet and open it: Summary is the first tab, in sections (About the bill, Does it add up?, Energy used, Cost by type, In plain words).
 
 - Summary is now the first tab, in labelled sections
 - New row 'Same as the bill?' says Yes or No: check the charges
@@ -637,7 +699,8 @@ The bills Excel file now opens on a Summary that a new person can follow.
 
 The tick lists on Stay safe and Privacy now read as normal sentences.
 
-**What you'll see:** Open Stay safe and Privacy: ticks on the left, each sentence in one block, bold words and links inline.
+> [!NOTE]
+> **What you'll see:** Open Stay safe and Privacy: ticks on the left, each sentence in one block, bold words and links inline.
 
 - Fixed bold words and links breaking out of the tick lists
 - Privacy list now uses the same tick style as Stay safe, with a ! on the two warnings
@@ -648,7 +711,8 @@ The tick lists on Stay safe and Privacy now read as normal sentences.
 
 Stay safe now says plainly what happens to your pictures and key, and the Bills tab has a Test button like the clan tab.
 
-**What you'll see:** Stay safe: a panel at the top with ticks. Bills tab: a Test first button under Make my sheet.
+> [!NOTE]
+> **What you'll see:** Stay safe: a panel at the top with ticks. Bills tab: a Test first button under Make my sheet.
 
 - Stay safe: panel saying pictures go straight to the AI company, there is no server of ours, nothing is tracked
 - Stay safe and Help sections use the same small arrows as Home
@@ -661,7 +725,8 @@ Stay safe now says plainly what happens to your pictures and key, and the Bills 
 
 The Home page no longer repeats the footer, the section arrows match the page and the tab row stays on one line.
 
-**What you'll see:** Open Home: one tidy row of tabs, a small arrow on each section, no repeated footer line.
+> [!NOTE]
+> **What you'll see:** Open Home: one tidy row of tabs, a small arrow on each section, no repeated footer line.
 
 - Removed the repeated 'built by Claude' line on Home
 - Section headings use a small arrow instead of the browser's black triangle
@@ -673,7 +738,8 @@ The Home page no longer repeats the footer, the section arrows match the page an
 
 The bills sheet shows fewer columns and plainer words, and the numbered steps on Home no longer break into columns.
 
-**What you'll see:** Home: the steps read as sentences. Bills sheet: fewer columns, and the Summary names each note.
+> [!NOTE]
+> **What you'll see:** Home: the steps read as sentences. Bills sheet: fewer columns, and the Summary names each note.
 
 - Home steps keep links and bold words in the sentence
 - Bills tab hides the repeated and printed columns (still there, unhide to see)
@@ -686,7 +752,8 @@ The bills sheet shows fewer columns and plainer words, and the numbered steps on
 
 The Home page now uses the theme colour for headings, steps and the safety box.
 
-**What you'll see:** Open Home in any theme: section headings have a coloured bar, the steps are numbered circles and the safety part is tinted.
+> [!NOTE]
+> **What you'll see:** Open Home in any theme: section headings have a coloured bar, the steps are numbered circles and the safety part is tinted.
 
 - Coloured section headings and numbered steps on Home
 - Safety section tinted, follows the chosen theme
@@ -697,7 +764,8 @@ The Home page now uses the theme colour for headings, steps and the safety box.
 
 The Home page sections now open and close, with a link to the full guide and the free key at the top.
 
-**What you'll see:** Open the page: tap a heading on Home to open or close it.
+> [!NOTE]
+> **What you'll see:** Open the page: tap a heading on Home to open or close it.
 
 - Home sections collapse (How to use it open by default)
 - Links to the GitHub guide and the free key sit at the top
@@ -708,7 +776,8 @@ The Home page sections now open and close, with a link to the full guide and the
 
 The Home page now has a shortened copy of the README: how to use it, what you get, safety and limits.
 
-**What you'll see:** Open the page: Home lists the steps, what is in the sheet, safety and good to know.
+> [!NOTE]
+> **What you'll see:** Open the page: Home lists the steps, what is in the sheet, safety and good to know.
 
 - Home: how to use it, what you get, is it safe, good to know, link to the full guide
 
@@ -718,7 +787,8 @@ The Home page now has a shortened copy of the README: how to use it, what you ge
 
 The bills Excel file now has colours and explains itself at the top of both tabs.
 
-**What you'll see:** Make a bills sheet: each bill has its own row colour, green means worked out by the sheet, and a How to read strip sits at the top.
+> [!NOTE]
+> **What you'll see:** Make a bills sheet: each bill has its own row colour, green means worked out by the sheet, and a How to read strip sits at the top.
 
 - How to read strip with a colour key on Bills and Summary
 - Rows shaded per bill, plain column names, printed vs number columns marked
@@ -730,7 +800,8 @@ The bills Excel file now has colours and explains itself at the top of both tabs
 
 The Home page now explains the page in plain words for people who have never seen it.
 
-**What you'll see:** Open the page: Home says what it does, what you need, what you get and whether it is safe.
+> [!NOTE]
+> **What you'll see:** Open the page: Home says what it does, what you need, what you get and whether it is safe.
 
 - Home rewritten in plain words
 - New sample picture: the Leaderboard tab
@@ -741,7 +812,8 @@ The Home page now explains the page in plain words for people who have never see
 
 The Bills tab now takes PDF bills as well as photos.
 
-**What you'll see:** Bills tab: tap the box, choose a PDF bill, then Make my sheet.
+> [!TIP]
+> **What you'll see:** Bills tab: tap the box, choose a PDF bill, then Make my sheet.
 
 - PDF bills accepted (up to 8 MB each) with Gemini or Anthropic; OpenAI says it can't read PDFs
 
@@ -751,7 +823,8 @@ The Bills tab now takes PDF bills as well as photos.
 
 The clan preview is now titled Roblox clan preview.
 
-**What you'll see:** Read a clan: the table under the message says Roblox clan preview.
+> [!NOTE]
+> **What you'll see:** Read a clan: the table under the message says Roblox clan preview.
 
 - Preview title and messages say Roblox clan preview
 
@@ -761,7 +834,8 @@ The clan preview is now titled Roblox clan preview.
 
 Privacy text now says past runs are saved with the last sheet.
 
-**What you'll see:** Settings, Privacy: the last sheet line mentions past runs.
+> [!NOTE]
+> **What you'll see:** Settings, Privacy: the last sheet line mentions past runs.
 
 - Privacy wording covers the saved history
 
@@ -771,7 +845,8 @@ Privacy text now says past runs are saved with the last sheet.
 
 Test read now shows the Check your list table, not just three names.
 
-**What you'll see:** Add a picture, tap Test read: the list appears under the message.
+> [!NOTE]
+> **What you'll see:** Add a picture, tap Test read: the list appears under the message.
 
 - Test read fills the Check your list table from the first picture
 
@@ -781,7 +856,8 @@ Test read now shows the Check your list table, not just three names.
 
 A video that scrolls the member list now keeps the pictures where the list moved.
 
-**What you'll see:** Upload a short scrolling video of the clan list: the Log should say more than 1 picture was sent and all members are read.
+> [!NOTE]
+> **What you'll see:** Upload a short scrolling video of the clan list: the Log should say more than 1 picture was sent and all members are read.
 
 - Picture comparison now notices small changes, so scrolled frames are no longer dropped as repeats
 
@@ -791,7 +867,8 @@ A video that scrolls the member list now keeps the pictures where the list moved
 
 The Check your list preview now treats a misread name as the same player, and says who is missing.
 
-**What you'll see:** Run a clan read with an earlier sheet and look at Check your list.
+> [!NOTE]
+> **What you'll see:** Run a clan read with an earlier sheet and look at Check your list.
 
 - Preview uses the same name matching as the Excel file
 - A line shows how many earlier members are not in this list
@@ -802,7 +879,8 @@ The Check your list preview now treats a misread name as the same player, and sa
 
 A quick scroll through the member list no longer skips members.
 
-**What you'll see:** Upload a short scrolling video of the clan list: every member should be read.
+> [!NOTE]
+> **What you'll see:** Upload a short scrolling video of the clan list: every member should be read.
 
 - Video pictures taken 4 a second (was 1), at least 8; repeats still dropped
 
@@ -812,7 +890,8 @@ A quick scroll through the member list no longer skips members.
 
 Gemini now uses light thinking for every read, not just the first step.
 
-**What you'll see:** Run a clan read and check the Log for how many seconds the AI took.
+> [!NOTE]
+> **What you'll see:** Run a clan read and check the Log for how many seconds the AI took.
 
 - Gemini asked for light thinking on the member read and on bills
 
@@ -822,7 +901,8 @@ Gemini now uses light thinking for every read, not just the first step.
 
 The two text tabs now match the rest of the sheet.
 
-**What you'll see:** Download a clan sheet and open About this sheet and How it's worked out.
+> [!NOTE]
+> **What you'll see:** Download a clan sheet and open About this sheet and How it's worked out.
 
 - Navy headers, boxed shaded rows, wrapped text
 - About has a colour key: green, red, gold, silver, bronze, grey
@@ -833,7 +913,8 @@ The two text tabs now match the rest of the sheet.
 
 If the AI reads a name with one wrong letter, the player is no longer split in two.
 
-**What you'll see:** Run a clan with an earlier sheet: a player the AI spelled slightly differently keeps their history.
+> [!NOTE]
+> **What you'll see:** Run a clan with an earlier sheet: a player the AI spelled slightly differently keeps their history.
 
 - A name that differs by one letter (6+ letters) from a missing earlier name is matched to it
 
@@ -843,7 +924,8 @@ If the AI reads a name with one wrong letter, the player is no longer split in t
 
 The clan tab now says how long to record.
 
-**What you'll see:** Open the Clan sheet tab: a grey line under the upload box.
+> [!NOTE]
+> **What you'll see:** Open the Clan sheet tab: a grey line under the upload box.
 
 - Tip: scroll the whole list slowly, about 1 second per 5 members
 
@@ -853,7 +935,8 @@ The clan tab now says how long to record.
 
 The two history tabs now look like the main sheet and explain themselves at the top.
 
-**What you'll see:** Download a clan sheet and open the Leaderboard and Points history tabs.
+> [!NOTE]
+> **What you'll see:** Download a clan sheet and open the Leaderboard and Points history tabs.
 
 - How to read line with a colour key at the top of both tabs
 - Gold, silver, bronze for the top 3, green and red for gains, grey for players who left
@@ -865,7 +948,8 @@ The two history tabs now look like the main sheet and explain themselves at the 
 
 The clan sheet opens on Clan Members again, and history now starts from your earlier sheet.
 
-**What you'll see:** Download a clan sheet with an earlier sheet chosen: Clan Members is the first tab and the Leaderboard shows points gained.
+> [!NOTE]
+> **What you'll see:** Download a clan sheet with an earlier sheet chosen: Clan Members is the first tab and the Leaderboard shows points gained.
 
 - Clan Members is the first tab, Leaderboard second
 - An earlier sheet with no history now becomes the first history column
@@ -879,7 +963,8 @@ The clan sheet opens on Clan Members again, and history now starts from your ear
 
 The clan sheet now keeps history instead of only showing the last change.
 
-**What you'll see:** Download a clan sheet: there are new Leaderboard, Points history and How it's worked out tabs. Choose last week's sheet as the earlier sheet and the history carries on.
+> [!TIP]
+> **What you'll see:** Download a clan sheet: there are new Leaderboard, Points history and How it's worked out tabs. Choose last week's sheet as the earlier sheet and the history carries on.
 
 - Leaderboard tab ranked by points gained, with best run and average per day
 - Points history tab with one column per run and a clan total
@@ -892,7 +977,8 @@ The clan sheet now keeps history instead of only showing the last change.
 
 The first step no longer holds up the run.
 
-**What you'll see:** Working out the game now gives up after 20 seconds and carries on.
+> [!NOTE]
+> **What you'll see:** Working out the game now gives up after 20 seconds and carries on.
 
 - First step asks Gemini for light thinking
 - First step waits 20 seconds at most, then uses the usual layout
@@ -903,7 +989,8 @@ The first step no longer holds up the run.
 
 Home now shows a sample of the sheet you get.
 
-**What you'll see:** Home tab, under the two buttons: What you get.
+> [!TIP]
+> **What you'll see:** Home tab, under the two buttons: What you get.
 
 - Sample sheet picture on the Home tab
 
@@ -913,7 +1000,8 @@ Home now shows a sample of the sheet you get.
 
 The Home button now says Make a Roblox clan sheet.
 
-**What you'll see:** The big button on Home.
+> [!NOTE]
+> **What you'll see:** The big button on Home.
 
 - Home button says Make a Roblox clan sheet
 
@@ -923,7 +1011,8 @@ The Home button now says Make a Roblox clan sheet.
 
 The tab is now called Roblox clan sheet.
 
-**What you'll see:** The second tab at the top.
+> [!NOTE]
+> **What you'll see:** The second tab at the top.
 
 - Roblox clans tab renamed to Roblox clan sheet
 
@@ -933,7 +1022,8 @@ The tab is now called Roblox clan sheet.
 
 The Clan sheet tab is now called Roblox clans.
 
-**What you'll see:** The second tab at the top.
+> [!NOTE]
+> **What you'll see:** The second tab at the top.
 
 - Clan sheet tab renamed to Roblox clans
 
@@ -943,7 +1033,8 @@ The Clan sheet tab is now called Roblox clans.
 
 The Log now shows what is slow.
 
-**What you'll see:** Log lines: size sent, still waiting every 10s, time to answer.
+> [!NOTE]
+> **What you'll see:** Log lines: size sent, still waiting every 10s, time to answer.
 
 - Log shows size sent and a wait counter
 
@@ -953,7 +1044,8 @@ The Log now shows what is slow.
 
 Closed holes found in a break test.
 
-**What you'll see:** Nothing visible; the page is just safer.
+> [!NOTE]
+> **What you'll see:** Nothing visible; the page is just safer.
 
 - A huge junk AI reply can no longer freeze the page
 - Your key is now hidden everywhere in the Log and bug report
@@ -965,7 +1057,8 @@ Closed holes found in a break test.
 
 The privacy note no longer names the web host.
 
-**What you'll see:** Privacy page: says the page is hosted on a normal website host.
+> [!NOTE]
+> **What you'll see:** Privacy page: says the page is hosted on a normal website host.
 
 - Reworded the hosting line in the privacy page
 
@@ -975,7 +1068,8 @@ The privacy note no longer names the web host.
 
 Settings now shows what is saved on your device and lets you delete it or stop saving your last sheet.
 
-**What you'll see:** Settings tab: a Privacy section lists what is saved, with Forget my key and Delete everything saved.
+> [!TIP]
+> **What you'll see:** Settings tab: a Privacy section lists what is saved, with Forget my key and Delete everything saved.
 
 - New Privacy section in Settings: what is saved, a Remember my last sheet switch, Forget my key, Delete everything saved
 - Delete buttons need a second tap, and nothing is sent anywhere
@@ -986,7 +1080,8 @@ Settings now shows what is saved on your device and lets you delete it or stop s
 
 Bills now show the check table first, and Download sheet makes the file.
 
-**What you'll see:** Bills: after reading, the table shows and nothing downloads until you tap Download sheet.
+> [!NOTE]
+> **What you'll see:** Bills: after reading, the table shows and nothing downloads until you tap Download sheet.
 
 - Fixed: the Bills sheet downloaded straight away and the Download sheet button did nothing
 
@@ -996,7 +1091,8 @@ Bills now show the check table first, and Download sheet makes the file.
 
 The selected cell shows a clean green outline.
 
-**What you'll see:** Tap a cell in the check table: green outline only.
+> [!NOTE]
+> **What you'll see:** Tap a cell in the check table: green outline only.
 
 - Removed the black focus ring inside preview cells
 
@@ -1006,7 +1102,8 @@ The selected cell shows a clean green outline.
 
 The check tables now look like the Excel sheet, so you can see what you will get.
 
-**What you'll see:** After a read, the table has a green Excel bar, a cell box, column letters, row numbers and sheet tabs.
+> [!NOTE]
+> **What you'll see:** After a read, the table has a green Excel bar, a cell box, column letters, row numbers and sheet tabs.
 
 - Clan and Bills previews look like Excel, with the real column order and the calculated Change, % and Trend
 
@@ -1016,7 +1113,8 @@ The check tables now look like the Excel sheet, so you can see what you will get
 
 After the AI reads your bills, you can fix charges and amounts in a table before the sheet is made.
 
-**What you'll see:** Bills: tap Make my sheet, check the table (it says if the charges match the bill total), fix cells, then tap Download sheet.
+> [!TIP]
+> **What you'll see:** Bills: tap Make my sheet, check the table (it says if the charges match the bill total), fix cells, then tap Download sheet.
 
 - New table after reading bills: fix type, charge and amount, add or delete a charge, or Reset
 - Shows whether the charges add up to the total printed on the bill
@@ -1027,7 +1125,8 @@ After the AI reads your bills, you can fix charges and amounts in a table before
 
 The check table is easier to read.
 
-**What you'll see:** Roles are no longer cut off and the buttons sit on one line.
+> [!NOTE]
+> **What you'll see:** Roles are no longer cut off and the buttons sit on one line.
 
 - Wider role and name cells, one-line buttons, 'needs' wording
 
@@ -1037,7 +1136,8 @@ The check table is easier to read.
 
 After the AI reads the clan list, you can fix names and points in a table before the sheet is made.
 
-**What you'll see:** Clan sheet: tap Make my sheet, check the table (orange rows need a look), fix cells, then tap Download sheet.
+> [!TIP]
+> **What you'll see:** Clan sheet: tap Make my sheet, check the table (orange rows need a look), fix cells, then tap Download sheet.
 
 - New table after reading: fix names, roles and points, add or delete rows, or Reset
 - Shows if the screen member count differs from rows read
@@ -1049,7 +1149,8 @@ After the AI reads the clan list, you can fix names and points in a table before
 
 The page says Roblox again. It works for clans in any Roblox game.
 
-**What you'll see:** Footer and Home say any Roblox game, and files are named Roblox - game - clan.
+> [!NOTE]
+> **What you'll see:** Footer and Home say any Roblox game, and files are named Roblox - game - clan.
 
 - Put Roblox back in the wording, file names and AI instructions
 - Home and Clan sheet say any Roblox game
@@ -1060,7 +1161,8 @@ The page says Roblox again. It works for clans in any Roblox game.
 
 The small print is easier to read.
 
-**What you'll see:** Footer and Stay safe say: Not connected to any game company, Anthropic, Google or OpenAI.
+> [!NOTE]
+> **What you'll see:** Footer and Stay safe say: Not connected to any game company, Anthropic, Google or OpenAI.
 
 - Reworded the not-official line
 
@@ -1070,7 +1172,8 @@ The small print is easier to read.
 
 The page no longer says Roblox. Files are named after the game and clan, and the notes say any game.
 
-**What you'll see:** Make a clan sheet: the file is named like Gym League - Loki.xlsx, with no Roblox in front.
+> [!NOTE]
+> **What you'll see:** Make a clan sheet: the file is named like Gym League - Loki.xlsx, with no Roblox in front.
 
 - Clan files are named game - clan, without the word Roblox
 - On-screen text and the AI's instructions say any game
@@ -1082,7 +1185,8 @@ The page no longer says Roblox. Files are named after the game and clan, and the
 
 The live steps and the log are bigger and clearer.
 
-**What you'll see:** Tap Make my sheet: the current step is bold, finished steps have a tick, and the log shows seconds since you started.
+> [!NOTE]
+> **What you'll see:** Tap Make my sheet: the current step is bold, finished steps have a tick, and the log shows seconds since you started.
 
 - Steps: bigger text, current step bold, ticks for finished steps
 - Log: normal readable font, and seconds since the run started instead of the clock time
@@ -1093,7 +1197,8 @@ The live steps and the log are bigger and clearer.
 
 The log opens by itself when you tap Make my sheet and shows each step as it happens, on both tabs.
 
-**What you'll see:** Tap Make my sheet on Clan sheet or Bills: the Log box opens under the button and fills line by line.
+> [!NOTE]
+> **What you'll see:** Tap Make my sheet on Clan sheet or Bills: the Log box opens under the button and fills line by line.
 
 - Log box now appears on Bills too, and opens automatically during a run
 - Each step is written to the log as it starts
@@ -1104,7 +1209,8 @@ The log opens by itself when you tap Make my sheet and shows each step as it hap
 
 While a sheet is being made, the page shows each step and a timer.
 
-**What you'll see:** Tap Make my sheet: ticks appear under the button as each step finishes, with seconds counting.
+> [!TIP]
+> **What you'll see:** Tap Make my sheet: ticks appear under the button as each step finishes, with seconds counting.
 
 - Live steps and a timer under the button on Clan sheet and Bills
 
@@ -1114,7 +1220,8 @@ While a sheet is being made, the page shows each step and a timer.
 
 The Updates tab is gone. The update history now lives on GitHub only.
 
-**What you'll see:** The tab bar has no Updates tab. The GitHub tab links to the CHANGELOG.
+> [!NOTE]
+> **What you'll see:** The tab bar has no Updates tab. The GitHub tab links to the CHANGELOG.
 
 - Removed the Updates tab and its list
 - GitHub tab links to the update history
@@ -1125,7 +1232,8 @@ The Updates tab is gone. The update history now lives on GitHub only.
 
 The Summary tab now shows the cost of each bill type, so water, phone and internet bills show up.
 
-**What you'll see:** Bills tab, make a sheet, open Summary: a Cost by type block sits under the main rows.
+> [!NOTE]
+> **What you'll see:** Bills tab, make a sheet, open Summary: a Cost by type block sits under the main rows.
 
 - Summary: new Cost by type block (Electricity, Gas, Water, Phone and so on) worked out by the sheet
 - Bill type words are cleaned to letters only before they go in a formula
@@ -1136,7 +1244,8 @@ The Summary tab now shows the cost of each bill type, so water, phone and intern
 
 The Bills tab now reads any household bill, not just power and gas.
 
-**What you'll see:** Bills tab: add a water, phone or internet bill photo. Its rows show Water, Phone and so on, with no kWh.
+> [!NOTE]
+> **What you'll see:** Bills tab: add a water, phone or internet bill photo. Its rows show Water, Phone and so on, with no kWh.
 
 - Bills tab and Home button now say Bills and cover water, internet, phone, rates and insurance
 - Non-energy charges get their own type and are never turned into kWh
@@ -1148,7 +1257,8 @@ The Bills tab now reads any household bill, not just power and gas.
 
 A Home tab now opens first and explains the page for new people.
 
-**What you'll see:** Open the page: Home shows first, with buttons to Clan sheet and Energy bills.
+> [!TIP]
+> **What you'll see:** Open the page: Home shows first, with buttons to Clan sheet and Energy bills.
 
 - New Home tab with what it does, how it works and what you need
 - Tabs renamed: Games is now Clan sheet, Bills is now Energy bills
@@ -1159,7 +1269,8 @@ A Home tab now opens first and explains the page for new people.
 
 The Record screen button is gone. It only worked in some PC browsers and was never tested in a real run. Record with your own device and upload the video instead.
 
-**What you'll see:** No Record screen button on the Games tab.
+> [!NOTE]
+> **What you'll see:** No Record screen button on the Games tab.
 
 - Record screen button and its pop-up window removed
 - Screenshots and video upload work as before
@@ -1171,7 +1282,8 @@ The Record screen button is gone. It only worked in some PC browsers and was nev
 
 The two tools are now called Games and Bills, which says what they are for.
 
-**What you'll see:** The first two tabs, and a grey line under each.
+> [!NOTE]
+> **What you'll see:** The first two tabs, and a grey line under each.
 
 - Clan sheet tab is now Games
 - Energy bills tab is now Bills
@@ -1183,7 +1295,8 @@ The two tools are now called Games and Bills, which says what they are for.
 
 A second tool on the page. Add photos of power or gas bills and get a sheet of every charge, with usage turned into kWh so bills from different countries can be compared.
 
-**What you'll see:** A new Energy bills tab next to Clan sheet.
+> [!TIP]
+> **What you'll see:** A new Energy bills tab next to Clan sheet.
 
 - New Energy bills tab: one row per charge, with supplier, dates, usage, unit, amount and currency
 - Usage is turned into kWh by the sheet: MJ, GJ, therms, and gas in m3 or CCF using the factors printed on the bill
@@ -1199,7 +1312,8 @@ A second tool on the page. Add photos of power or gas bills and get a sheet of e
 
 A second round of attacks: 30 big screenshots at once, 5 videos at once, an AI that never answers, switching company mid-run, 50 runs in a row. The weak spots were fixed.
 
-**What you'll see:** Big batches of screenshots work. A stuck run ends with a message instead of waiting forever.
+> [!NOTE]
+> **What you'll see:** Big batches of screenshots work. A stuck run ends with a message instead of waiting forever.
 
 - Screenshots are saved smaller before sending (JPEG, 2000 px at most), so 30 phone screenshots fit
 - A picture that can't be opened is named before anything is sent
@@ -1215,7 +1329,8 @@ A second round of attacks: 30 big screenshots at once, 5 videos at once, an AI t
 
 The page was attacked with about 50 kinds of bad input: broken AI replies, odd keys, junk files, tampered saved settings. Everything that gave a wrong sheet or a confusing message was fixed.
 
-**What you'll see:** Fewer failed runs, and plainer red messages when something does fail.
+> [!NOTE]
+> **What you'll see:** Fewer failed runs, and plainer red messages when something does fail.
 
 - Odd AI replies (extra text, nested or wrapped lists) are still read
 - Names, roles and points are cleaned: no hidden characters, no huge values
@@ -1230,7 +1345,8 @@ The page was attacked with about 50 kinds of bad input: broken AI replies, odd k
 
 The big Excel part now loads only when you add pictures, so the page opens much faster. Videos are read once per run. Leftover code was removed.
 
-**What you'll see:** No visible change. The page opens quicker, most of all on phones.
+> [!NOTE]
+> **What you'll see:** No visible change. The page opens quicker, most of all on phones.
 
 - Excel part (863 KB) loads when needed, not on every visit
 - Videos are read once per run, not twice
@@ -1244,7 +1360,8 @@ The big Excel part now loads only when you add pictures, so the page opens much 
 
 The page now shows the 5 newest updates. The full history moved to GitHub, with nothing removed.
 
-**What you'll see:** A link under the Updates list: Older updates on GitHub.
+> [!NOTE]
+> **What you'll see:** A link under the Updates list: Older updates on GitHub.
 
 - Full update history is in CHANGELOG.md on GitHub
 - Updates tab shows the newest 5
@@ -1256,7 +1373,8 @@ The page now shows the 5 newest updates. The full history moved to GitHub, with 
 
 A full check of the code found five bugs. Long videos lost the end of the list, some videos made the page wait forever, a cut-off AI reply lost every row, and the sheet date could be a day out.
 
-**What you'll see:** Long videos give fuller sheets. Bad videos show a red message instead of hanging.
+> [!NOTE]
+> **What you'll see:** Long videos give fuller sheets. Bad videos show a red message instead of hanging.
 
 - Videos: pictures are taken from the whole video, not just the start
 - Videos that can't be read show an error instead of hanging
@@ -1271,7 +1389,8 @@ A full check of the code found five bugs. Long videos lost the end of the list, 
 
 The GitHub tab shows a small preview of the guide and what it covers.
 
-**What you'll see:** The box on the GitHub tab.
+> [!TIP]
+> **What you'll see:** The box on the GitHub tab.
 
 - Preview box listing the guide sections
 - Full README guide restored and updated for Gemini first
@@ -1282,7 +1401,8 @@ The GitHub tab shows a small preview of the guide and what it covers.
 
 The Help tab is now a GitHub tab. It has a short summary and a link. The guide is the README on GitHub.
 
-**What you'll see:** The fourth tab, next to Settings.
+> [!NOTE]
+> **What you'll see:** The fourth tab, next to Settings.
 
 - Help tab replaced by GitHub tab
 - Old help sections removed
@@ -1294,7 +1414,8 @@ The Help tab is now a GitHub tab. It has a short summary and a link. The guide i
 
 The Help tab now shows one guide, from README.md, with no repeated steps.
 
-**What you'll see:** Top of the Help tab.
+> [!NOTE]
+> **What you'll see:** Top of the Help tab.
 
 - Duplicate How to use steps removed
 - Guide comes from README.md only
@@ -1305,7 +1426,8 @@ The Help tab now shows one guide, from README.md, with no repeated steps.
 
 A grey line says the free Gemini key has a daily limit. The Help tab now shows the guide from README.md.
 
-**What you'll see:** Under the key box, and the top of the Help tab.
+> [!TIP]
+> **What you'll see:** Under the key box, and the top of the Help tab.
 
 - Daily limit line under the key box
 - Help tab loads README.md
@@ -1317,7 +1439,8 @@ A grey line says the free Gemini key has a daily limit. The Help tab now shows t
 
 Google Gemini is now the default company. A free key link sits under the key box.
 
-**What you'll see:** Company list starts with Google Gemini. Link appears when Gemini is picked.
+> [!NOTE]
+> **What you'll see:** Company list starts with Google Gemini. Link appears when Gemini is picked.
 
 - Gemini moved to the top of the company list
 - Free key link (Google AI Studio) under the key box
@@ -1329,7 +1452,8 @@ Google Gemini is now the default company. A free key link sits under the key box
 
 Two leftover bits of old code were deleted. Nothing changes on screen.
 
-**What you'll see:** No visible change.
+> [!NOTE]
+> **What you'll see:** No visible change.
 
 - Unused profile list removed
 - Unused 'Old app' label code removed
@@ -1340,7 +1464,8 @@ Two leftover bits of old code were deleted. Nothing changes on screen.
 
 The Updates list is shorter: small steps are merged into bigger ones, each has a tag, and counts are gone.
 
-**What you'll see:** Fewer lines, a New / Changed / Fixed tag on each, time shows when you hover.
+> [!NOTE]
+> **What you'll see:** Fewer lines, a New / Changed / Fixed tag on each, time shows when you hover.
 
 - Old entries merged into 9 bigger ones
 - Tags: New, Changed, Fixed
@@ -1352,7 +1477,8 @@ The Updates list is shorter: small steps are merged into bigger ones, each has a
 
 The log is on the first tab, and Updates are grouped by day with code links.
 
-**What you'll see:** A Log line under the buttons that opens by itself on errors. Day headings and View code changes links in Updates.
+> [!TIP]
+> **What you'll see:** A Log line under the buttons that opens by itself on errors. Day headings and View code changes links in Updates.
 
 - Copy bug report is inside the Log
 - Developer tab removed
@@ -1364,7 +1490,8 @@ The log is on the first tab, and Updates are grouped by day with code links.
 
 You can pick Google Gemini or OpenAI as well as Anthropic. Gemini is tested; OpenAI is not.
 
-**What you'll see:** An AI company box above the key box. Gemini shows no warning.
+> [!TIP]
+> **What you'll see:** An AI company box above the key box. Gemini shows no warning.
 
 - AI model (advanced) box in Settings
 - Browser lock allows Google and OpenAI
@@ -1376,7 +1503,8 @@ You can pick Google Gemini or OpenAI as well as Anthropic. Gemini is tested; Ope
 
 On a PC you can record your screen in the page. A small pop-up window shows what's captured and has Stop. Not tested in a real run.
 
-**What you'll see:** A Record screen (PC) button, a Clan name box, a big red Copy error button, and record status under the button.
+> [!TIP]
+> **What you'll see:** A Record screen (PC) button, a Clan name box, a big red Copy error button, and record status under the button.
 
 - Pop-up works in Chrome, Edge and Opera only
 - Skips repeated pictures, up to 30
@@ -1390,7 +1518,8 @@ On a PC you can record your screen in the page. A small pop-up window shows what
 
 No profile list and no Add a game. The AI reads the game, clan and columns from your pictures.
 
-**What you'll see:** Just upload and tap Make my sheet. Works for any Roblox game with a clan.
+> [!NOTE]
+> **What you'll see:** Just upload and tap Make my sheet. Works for any Roblox game with a clan.
 
 - Profile box removed
 - One small extra AI read before the sheet
@@ -1402,7 +1531,8 @@ No profile list and no Add a game. The AI reads the game, clan and columns from 
 
 Errors say what is wrong, and one tap copies a report you can send.
 
-**What you'll see:** A red Copy error to send button under any red message. Specific messages for a bad key, no credit, or a busy AI.
+> [!TIP]
+> **What you'll see:** A red Copy error to send button under any red message. Specific messages for a bad key, no credit, or a busy AI.
 
 - Keys are removed from the copy
 - Warns about ? rows and ranks out of order
@@ -1414,7 +1544,8 @@ Errors say what is wrong, and one tap copies a report you can send.
 
 The page says when there is a new version, and you can tick a box to keep your key.
 
-**What you'll see:** A small banner with Refresh, a Settings switch for auto refresh, and a Remember my key tick box (off by default).
+> [!TIP]
+> **What you'll see:** A small banner with Refresh, a Settings switch for auto refresh, and a Remember my key tick box (off by default).
 
 - Checks every 5 minutes
 - Key is saved only in this browser
@@ -1426,7 +1557,8 @@ The page says when there is a new version, and you can tick a box to keep your k
 
 Safety locks, a Stay safe guide, Privacy and Legal pages, and a tidy footer. The page says plainly that Claude wrote it.
 
-**What you'll see:** A Your key is safe here card, a footer on every page, a Clear button for picked files, a red warning on a wrong address.
+> [!TIP]
+> **What you'll see:** A Your key is safe here card, a footer on every page, a Clear button for picked files, a red warning on a wrong address.
 
 - Browser only allowed to talk to the AI companies
 - 20 file limit
@@ -1439,7 +1571,8 @@ Safety locks, a Stay safe guide, Privacy and Legal pages, and a tidy footer. The
 
 You get a nice Excel file, and an earlier sheet can be chosen to show who went up or down.
 
-**What you'll see:** Striped rows, filter, green and red Change cells, Season Info and Summary boxes. A green Last sheet box.
+> [!TIP]
+> **What you'll see:** Striped rows, filter, green and red Change cells, Season Info and Summary boxes. A green Last sheet box.
 
 - Points are real numbers (52.51K becomes 52510)
 - Previous Points, Change, % Change and Trend
@@ -1451,7 +1584,8 @@ You get a nice Excel file, and an earlier sheet can be chosen to show who went u
 
 The first version of the page: screenshots, one game, Anthropic only. Video support was added the same day.
 
-**What you'll see:** Drop screenshots or a video and get a sheet.
+> [!TIP]
+> **What you'll see:** Drop screenshots or a video and get a sheet.
 
 - Screenshots, Loki profile, Anthropic only
 - Video: MP4, MOV, WEBM, up to 12 frames
