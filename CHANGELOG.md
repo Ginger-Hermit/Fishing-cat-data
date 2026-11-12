@@ -8,6 +8,8 @@ Newest first. The page itself shows only the newest 5.
 
 A damaged saved last sheet is ignored instead of breaking the next sheet; negative points stay numbers in the backup CSV.
 
+[code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7f62508add099deeddcec8b9400d67917ce06375)
+
 > [!NOTE]
 > **What you'll see:** Clan tab: make a sheet as usual; nothing looks different.
 
