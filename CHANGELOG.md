@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Simpler Discord tab, one file picker
 
-12 Nov 2026 (07:21 UTC) · Changed
+12 Nov 2026 (07:21 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/5c66d6c)
 
 One file box takes your Excel sheet and/or photo; fewer buttons; a wrong file gives a plain message.
 
