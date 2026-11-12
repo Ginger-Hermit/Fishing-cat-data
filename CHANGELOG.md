@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Bill units from price rates
+
+12 Nov 2026 (06:04 UTC) · Changed
+
+Bills where the AI wrote the price rate (c/unit, c/day) as the unit now still turn into kWh instead of being flagged.
+
+**What you'll see:** A bill like the Genesis one no longer shows 'check: can't turn c/unit into kWh' on its usage rows.
+
+- Units like c/unit, c/day and c/kWh are read by the part after the slash
+- The AI is told to give the unit of the quantity, not the price rate
+
 ## Gemini daily limit handled
 
-12 Nov 2026 (06:03 UTC) · Changed
+12 Nov 2026 (06:03 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/31a57cc)
 
 When Google's free daily limit for a model is used up, the page switches to a backup model, or says plainly when it resets.
 

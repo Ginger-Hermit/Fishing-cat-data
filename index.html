@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: When Google's free daily limit for a model is used up, the page switches to a backup model, or says plainly when it resets. -->
+<!-- Patch note: Bills where the AI wrote the price rate (c/unit, c/day) as the unit now still turn into kWh instead of being flagged. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -370,7 +370,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-i";
+const BUILD = "2026-11-12-j";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1487,7 +1487,7 @@ Answer with ONLY one JSON object, no other text:
 "period_days": "number of days the bill covers, only if printed",
 "estimated": true or false (does the bill say a reading is estimated?),
 "total_due": "the total amount due, as printed",
-"lines": [{"energy": "electricity" or "gas" or "other", "kind": "only for a bill that is not electricity or gas: one word such as water, internet, phone, rates, insurance, waste or other; otherwise empty", "charge": "name of the charge as printed", "used": "quantity as printed, number only", "unit": "unit as printed, e.g. kWh, MJ, m3, therms, CCF, days", "kwh_printed": "the kWh figure for this line, if the bill prints one and the unit is not already kWh", "calorific_value": "if printed", "correction_factor": "if printed", "therm_factor": "the BTU or therm factor, if printed", "amount": "money amount for this line as printed, with a minus sign if it is a credit or discount"}],
+"lines": [{"energy": "electricity" or "gas" or "other", "kind": "only for a bill that is not electricity or gas: one word such as water, internet, phone, rates, insurance, waste or other; otherwise empty", "charge": "name of the charge as printed", "used": "quantity as printed, number only", "unit": "unit of the quantity used, as printed, e.g. kWh, MJ, m3, therms, CCF, days. Not the price rate (never c/kWh, c/unit or c/day)", "kwh_printed": "the kWh figure for this line, if the bill prints one and the unit is not already kWh", "calorific_value": "if printed", "correction_factor": "if printed", "therm_factor": "the BTU or therm factor, if printed", "amount": "money amount for this line as printed, with a minus sign if it is a credit or discount"}],
 "notes": ["up to 4 short plain sentences about what this bill shows: what kind of bill it is, which charge is the biggest, any discount and its deadline, any estimated reading. No advice. No sums of your own."]
 }]}
 List every charge line, including daily or fixed charges, discounts, taxes and levies. Do not list payments, opening balances or the total as lines.`;
@@ -1506,7 +1506,7 @@ function parseNum(v, mark) {
 const KWH_RULES = { kwh: ["", "as shown"], wh: ["/1000", "Wh ÷ 1000"], mwh: ["*1000", "MWh × 1000"], mj: ["/3.6", "MJ ÷ 3.6"], gj: ["*1000/3.6", "GJ × 1000 ÷ 3.6"], therms: ["*29.3071", "therms × 29.3071"], therm: ["*29.3071", "therms × 29.3071"] };
 const NOT_ENERGY = ["", "day", "days", "month", "months", "each", "kw", "kva", "tag", "tage", "monat", "jour", "jours", "mois", "dia", "dias", "d\u00edas", "mes", "giorni", "dag", "dagen"];
 function kwhFor(line, mark) {
-  const u = tidy(line.unit, 14).toLowerCase().replace(/[\s.]/g, "").replace("³", "3");
+  const u = tidy(line.unit, 14).toLowerCase().replace(/[\s.]/g, "").replace("³", "3").replace(/^(c|p|ct|cts|cents?|pence|[$€£¢]|nzd|aud|usd|gbp|eur)\//, ""); // a price rate like c/unit or c/day: use the unit after the slash
   const printed = parseNum(line.kwh_printed, mark), cv = parseNum(line.calorific_value, mark), cf = parseNum(line.correction_factor, mark), tf = parseNum(line.therm_factor, mark);
   if (KWH_RULES[u]) return { add: KWH_RULES[u][0], how: KWH_RULES[u][1] };
   if ((u === "units" || u === "unit") && line.energy === "electricity") return { add: "", how: "units = kWh" };

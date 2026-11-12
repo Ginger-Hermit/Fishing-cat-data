@@ -10,6 +10,7 @@ A.equal(parseNum("98,60"),98.6);A.equal(parseNum("1,180"),1180);A.equal(parseNum
 A.equal(parseNum(""),null);A.equal(parseNum("n/a"),null);A.equal(parseNum(null),null);A.equal(parseNum({}),null);A.equal(parseNum("1.2.3"),null);A.equal(parseNum(507),507);
 // units
 A.deepEqual(kwhFor({unit:"kWh"}),{add:"",how:"as shown"});A.equal(kwhFor({unit:"MJ"}).add,"/3.6");A.equal(kwhFor({unit:"Therms"}).add,"*29.3071");
+A.equal(kwhFor({unit:"c/unit",energy:"electricity"}).how,"units = kWh");A.equal(kwhFor({unit:"c/day",energy:"electricity"}).how,"");A.equal(kwhFor({unit:"$/MJ"}).add,"/3.6");
 A.equal(kwhFor({unit:"m³",calorific_value:"39.1",correction_factor:"1.02264"}).add,"*1.02264*39.1/3.6");
 A.equal(kwhFor({unit:"m3",kwh_printed:"1122.06",calorific_value:"39.5"}).value,1122.06);
 A.equal(kwhFor({unit:"m3"}).check,true);A.equal(kwhFor({unit:"CCF",therm_factor:"1.051"}).add,"*1.051*29.3071");A.equal(kwhFor({unit:"CCF"}).check,true);
