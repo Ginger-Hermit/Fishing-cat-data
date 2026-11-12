@@ -55,6 +55,8 @@ Lessons from the 11 to 12 Nov session, where most waste came from the same few h
 | Rows from AI reply | `function parseRows`, `function parsePoints` |
 | Excel sheet | `function buildWorkbook` |
 | Messages / errors | `const setMsg`, `copyerr` |
+| Check-your-list tables (Excel look) | `function xlTable`, `function pvDraw`, `function bpDraw`, `function pvDownload`, `function bpDownload` |
+| Privacy section in Settings | `function renderSaved`, `function wipe` |
 | Log box + bug report | `id="logbox"`, `const bugCopy`, `function clog` |
 | Release paperwork (version, logs, patch note) | `tools/release.py` |
 | Tabs | `function showTab` |
@@ -63,6 +65,7 @@ Lessons from the 11 to 12 Nov session, where most waste came from the same few h
 | Row reading test | `tests/rows.test.js` (run `node tests/rows.test.js`, no install needed) |
 | Bill reading test | `tests/bills.test.js` (run `node tests/bills.test.js`) |
 | Fuzz test | `tests/fuzz.js` (run `node tests/fuzz.js 7 20000`; run it after any change to the reading code) |
+| How the whole page was built, step by step | `developer/HOW_IT_WAS_BUILT.md` |
 | Stress test write-up and lessons | `developer/STRESS_TEST_LOG.md` (read section 7 before calling a feature done) |
 | Three-browser test | `tests/browser.test.js` (Chrome, Firefox, Safari engine with a pretend AI; runs on GitHub after every push, see the Actions tab) |
 | Excel maths test | `tests/excel-math.test.js` (needs `npm install exceljs@4.4.0`) |

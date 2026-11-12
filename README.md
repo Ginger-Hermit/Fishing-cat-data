@@ -56,6 +56,7 @@ Turns clan screenshots or a video from any Roblox game into a ready-to-use Excel
 - Each change gets an entry in `UPDATE_LOG` in `index.html`.
 - `python3 tests/check.py` is the auto check. GitHub runs it after every push, along with the other tests, including `tests/browser.test.js` in Chrome, Firefox and Safari's engine.
 - Hosted on Cloudflare Pages. Every push to `main` publishes automatically after about a minute.
+- [developer/HOW_IT_WAS_BUILT.md](developer/HOW_IT_WAS_BUILT.md): how the whole page was built, step by step, in plain words.
 - [developer/STRESS_TEST_LOG.md](developer/STRESS_TEST_LOG.md): how the page was stress tested and broken on purpose, what was found, and lessons for future projects.
 - `node tests/rows.test.js` and `node tests/bills.test.js` check how AI replies are read. `node tests/fuzz.js` throws thousands of scrambled replies at the same code. Full history of changes: [CHANGELOG.md](CHANGELOG.md).
 

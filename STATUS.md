@@ -7,11 +7,11 @@ Last updated: 12 Nov 2026. Page version 2026-11-12-t. Live at fishing-cat-data.p
 - **Home tab** explains the page. **Clan sheet tab:** screenshots or a video of a Roblox clan member list (any Roblox game) become an Excel sheet. Two AI requests per run (layout, then rows). An earlier sheet can be added to show changes.
 - **Bills tab:** photos of household bills (power, gas, water, phone and more; 12 at most) become a sheet with one row per charge and a Summary tab with cost by type. One AI request. The AI only copies; the sheet does the sums.
 - Gemini is the default company (free key). Anthropic works. OpenAI is untested.
-- Record screen and the Updates tab were removed on 12 Nov. Update history is only in CHANGELOG.md. Live steps and a live Log show during a run.
+- Record screen and the Updates tab were removed on 12 Nov. Update history is only in CHANGELOG.md. Live steps and a live Log show during a run. After a read, an Excel-style table lets you fix cells before Download sheet (both tabs). Settings has a Privacy section (see and delete what is saved).
 
 ## Next
 - Ginger: one real run of each tab on the live site (real clan video, real bill photo), then a screenshot. Nothing since 11 Nov has been run with a real AI.
-- Offered, not approved: one AI request per clan run instead of two; shorter AI replies; a results table on the page to fix misreads before download; Cloudflare preview addresses instead of pushing straight to live.
+- Offered, not approved: one AI request per clan run instead of two; shorter AI replies; PDF bills; compare with the last bill; Cloudflare preview addresses instead of pushing straight to live.
 
 ## Tested
 - GitHub runs everything after each push: `check.py`, row tests, bill tests, fuzz (5,000 cases), and `tests/browser.test.js` in Chrome, Firefox and Safari's engine with a pretend AI. A red cross there means fix it first.
