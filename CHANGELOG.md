@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Faster first step
+
+12 Nov 2026 (04:27 UTC) · Changed
+
+The first step no longer holds up the run.
+
+**What you'll see:** Working out the game now gives up after 20 seconds and carries on.
+
+- First step asks Gemini for light thinking
+- First step waits 20 seconds at most, then uses the usual layout
+
 ## Sample on Home
 
-12 Nov 2026 (04:25 UTC) · New
+12 Nov 2026 (04:25 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/43fddac)
 
 Home now shows a sample of the sheet you get.
 

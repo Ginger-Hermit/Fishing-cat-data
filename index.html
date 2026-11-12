@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Home now shows a sample of the sheet you get. -->
+<!-- Patch note: The first step no longer holds up the run. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -324,7 +324,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-a";
+const BUILD = "2026-11-12-b";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -855,7 +855,7 @@ async function collectPictures(images) {
   return pics;
 }
 
-let aiWait = 180000;
+let aiWait = 180000, QUICK = false; // QUICK: the small first step asks Gemini for light thinking
 async function postJson(url, headers, body) {
   let res;
   const payload = JSON.stringify(body), t0 = Date.now();
@@ -897,7 +897,7 @@ const ASKERS = {
     const parts = pics.map(p => ({ inline_data: { mime_type: p.type, data: p.data } }));
     parts.push({ text: PROMPT });
     const d = await postJson("https://generativelanguage.googleapis.com/v1beta/models/" + encodeURIComponent(model) + ":generateContent",
-      { "content-type": "application/json", "x-goog-api-key": key }, { contents: [{ parts }] });
+      { "content-type": "application/json", "x-goog-api-key": key }, QUICK ? { contents: [{ parts }], generationConfig: { thinkingConfig: { thinkingLevel: "low" } } } : { contents: [{ parts }] });
     const first = (d.candidates || [])[0];
     return ((first && first.content && first.content.parts) || []).map(p => p.text || "").join("\n");
   },
@@ -933,7 +933,11 @@ async function pickProfile(key) {
   PROMPT = SETUP_PROMPT;
   const L = images.length, pick = [...new Set([images[0], images[L >> 1], images[L - 1]])];
   const all = await collectPictures(pick), pics = [...new Set([all[0], all[all.length >> 1], all[all.length - 1]])];
-  const text = await ASKERS[provider()](key, modelFor(provider()), pics);
+  // This step only finds the game and layout: 20 seconds at most, then carry on with the usual layout.
+  let text = ""; const wait = aiWait; aiWait = Math.min(aiWait, 20000); QUICK = true;
+  try { text = await ASKERS[provider()](key, modelFor(provider()), pics); }
+  catch (e) { if (!/took too long|turned the pictures down/.test(e.message)) throw e; clog("Game not worked out in time. Carrying on with the usual layout."); }
+  finally { aiWait = wait; QUICK = false; }
   let r = {};
   try { r = JSON.parse(text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1)) || {}; } catch (e) { clog("Layout not read; using the usual layout."); }
   const p = { clan: clean($("clanbox").value, 40) || clean(r.clan_name, 40) || "Clan", game: clean(r.game_name, 40) || "Game", ranks: r.ranks_shown !== false && r.ranks_shown !== "false", extra: clean(r.extra_column, 30) };
