@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Developer update line
 
-12 Nov 2026 (23:45 UTC) · New
+12 Nov 2026 (23:45 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2abdd42)
 
 With ?dev, a line at the top shows this page's version, the live version, and a countdown to the next check.
 
