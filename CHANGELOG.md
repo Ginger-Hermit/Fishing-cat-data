@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Bigger Discord buttons, clear options back
+
+12 Nov 2026 (07:23 UTC) · Changed
+
+Discord tab has bigger buttons and choices, Choose files and Choose picture buttons, and Clear, Remove and Forget link show when there is something to clear.
+
+> [!NOTE]
+> **What you'll see:** Discord tab.
+
+- Large option cards and buttons; Clear, Remove and Forget link visible when needed; old file names no longer shown.
+
 ## Log and bug report on the Discord tab
 
 12 Nov 2026 (07:21 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/683e11e)

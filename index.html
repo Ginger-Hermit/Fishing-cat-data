@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The Log and Copy bug report box now also shows at the bottom of the Discord tab. -->
+<!-- Patch note: Discord tab has bigger buttons and choices, Choose files and Choose picture buttons, and Clear, Remove and Forget link show when there is something to clear. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -70,6 +70,7 @@ button:disabled{opacity:.5}
 .err{color:var(--err)}
 .tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
 .tabs.main{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}.tabs.main::-webkit-scrollbar{display:none}.tabs.main .tab{flex:0 0 auto}
+.tab.big{box-sizing:border-box;padding:10px 18px!important;font-size:16px!important;min-height:48px}
 .tab{width:auto;margin:0;padding:8px 12px;font-size:14px;background:var(--field);color:var(--link);border:1px solid var(--link);border-radius:6px}
 .page{font-size:15px;line-height:1.5}
 .tab.on{background:var(--accent);color:var(--onAccent)}
@@ -188,23 +189,27 @@ button:disabled{opacity:.5}
 </details>
 </div>
 <div id="discordtab" style="display:none">
-<div style="font-weight:600;margin:16px 0 6px;margin-top:12px">Discord link</div>
-<input id="hookbox" type="password" autocomplete="off" spellcheck="false" placeholder="https://discord.com/api/webhooks/...">
-<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px"><label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin:0"><input type="checkbox" id="hookkeep" style="width:auto;margin:0"> Remember my link</label><button id="hooktest" type="button" class="tab" style="display:none">Send a test</button><button id="hookforget" type="button" class="tab" style="display:none">Forget link</button></div>
+<div style="font-size:13px;color:var(--muted);margin-top:12px">Post a clan sheet, a Bills sheet, or your own files to your Discord channel.</div>
+<div style="font-weight:600;font-size:17px;margin:20px 0 8px">Your Discord link</div>
+<input id="hookbox" type="password" autocomplete="off" spellcheck="false" placeholder="https://discord.com/api/webhooks/..." style="min-height:48px;font-size:16px">
+<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px"><label style="display:flex;gap:10px;align-items:center;font-weight:normal;font-size:16px;margin:0"><input type="checkbox" id="hookkeep" style="width:22px;height:22px;min-height:0;padding:0;margin:0"> Remember my link</label><button id="hookforget" type="button" class="tab big">Forget link</button><button id="hooktest" type="button" class="tab big" style="display:none">Send a test</button></div>
 <div style="font-size:13px;color:var(--muted);margin-top:6px">Anyone with this link can post in your channel, so keep it private.</div>
-<div style="font-weight:600;margin:16px 0 6px">1. What to post</div>
-<label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin:4px 0"><input type="radio" name="dcsrc" value="sheet" style="width:auto;margin:0"> Latest clan sheet</label>
-<label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin:4px 0"><input type="radio" name="dcsrc" value="bill" style="width:auto;margin:0"> Latest Bills</label>
-<label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin:4px 0"><input type="radio" name="dcsrc" value="files" style="width:auto;margin:0"> Files from my device (no AI)</label>
-<div id="dcfiles" style="display:none;margin-top:6px">
-<label for="shfile" style="margin-top:0">Pick your Excel sheet and/or a photo</label><div style="display:flex;gap:8px;align-items:center"><input type="file" id="shfile" accept=".xlsx,image/*" multiple style="flex:1;min-width:0"><button id="shclear" type="button" class="tab" style="display:none">Clear</button></div><div id="shsel" style="font-size:13px;color:var(--noteText)"></div>
-<div style="font-size:13px;color:var(--muted)">Pick both at once if you like. With only a sheet, the table picture is drawn from it.</div></div>
-<div style="font-weight:600;margin:16px 0 6px">2. Header picture (optional)</div>
-<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><input type="file" id="artfile" accept="image/*" style="flex:1;min-width:0"><button id="artforget" type="button" class="tab" style="display:none">Remove</button><img id="artthumb" alt="Your saved header picture" style="display:none;height:44px;border-radius:6px;border:1px solid var(--soft)"></div><div id="artmsg" role="status" style="font-size:13px;color:var(--noteText)"></div>
-<label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin-top:12px"><input type="checkbox" id="hookxlsx" checked style="width:auto;margin:0"> Attach the Excel file</label>
-<div style="font-weight:600;margin:16px 0 6px">3. Post</div>
-<button id="dcgo" type="button" style="width:100%;padding:14px;font-size:16px">Post to Discord</button>
-<div id="hookmsg" role="status" aria-live="polite" style="font-size:14px;margin-top:8px"></div>
+<div style="font-weight:600;font-size:17px;margin:20px 0 8px">1. What do you want to post?</div>
+<label style="display:flex;gap:12px;align-items:center;font-weight:normal;font-size:16px;margin:8px 0 0;padding:12px 14px;min-height:48px;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;background:var(--field)"><input type="radio" name="dcsrc" value="sheet" style="width:22px;height:22px;min-height:0;padding:0;margin:0;flex:none"> Latest clan sheet</label>
+<label style="display:flex;gap:12px;align-items:center;font-weight:normal;font-size:16px;margin:8px 0 0;padding:12px 14px;min-height:48px;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;background:var(--field)"><input type="radio" name="dcsrc" value="bill" style="width:22px;height:22px;min-height:0;padding:0;margin:0;flex:none"> Latest Bills</label>
+<label style="display:flex;gap:12px;align-items:center;font-weight:normal;font-size:16px;margin:8px 0 0;padding:12px 14px;min-height:48px;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;background:var(--field)"><input type="radio" name="dcsrc" value="files" style="width:22px;height:22px;min-height:0;padding:0;margin:0;flex:none"> My own files (no AI)</label>
+<div id="dcfiles" style="display:none;margin-top:10px">
+<input type="file" id="shfile" accept=".xlsx,image/*" multiple style="display:none">
+<div style="display:flex;gap:10px;flex-wrap:wrap"><label for="shfile" class="tab big" style="cursor:pointer;display:inline-flex;align-items:center;margin:0;color:var(--link)">Choose files</label><button id="shclear" type="button" class="tab big" style="display:none">Clear</button></div>
+<div id="shsel" style="font-size:14px;color:var(--noteText);margin-top:6px"></div>
+<div style="font-size:13px;color:var(--muted);margin-top:4px">An Excel sheet (.xlsx), a picture, or both.</div></div>
+<div style="font-weight:600;font-size:17px;margin:20px 0 8px">2. Header picture (optional)</div>
+<input type="file" id="artfile" accept="image/*" style="display:none">
+<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><label for="artfile" class="tab big" style="cursor:pointer;display:inline-flex;align-items:center;margin:0;color:var(--link)">Choose picture</label><button id="artforget" type="button" class="tab big" style="display:none">Remove</button><img id="artthumb" alt="Your saved header picture" style="display:none;height:48px;border-radius:6px;border:1px solid var(--soft)"></div><div id="artmsg" role="status" style="font-size:14px;color:var(--noteText);margin-top:6px"></div>
+<label style="display:flex;gap:10px;align-items:center;font-weight:normal;font-size:16px;margin-top:16px"><input type="checkbox" id="hookxlsx" checked style="width:22px;height:22px;min-height:0;padding:0;margin:0"> Attach the Excel file</label>
+<div style="font-weight:600;font-size:17px;margin:20px 0 8px">3. Post</div>
+<button id="dcgo" type="button" style="width:100%;padding:16px;font-size:18px">Post to Discord</button>
+<div id="hookmsg" role="status" aria-live="polite" style="font-size:15px;margin-top:10px"></div>
 <button id="shpost" type="button" hidden></button>
 <div style="font-size:13px;color:var(--muted);margin-top:12px">Nothing is posted until you tap Post to Discord. If posting fails, turn off any ad blocker for this site or use a Private window.</div>
 </div>
@@ -416,7 +421,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-u";
+const BUILD = "2026-11-12-v";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1481,7 +1486,7 @@ async function hookPost(text, file) {
   return fileSent;
 }
 // ---- Table picture for Discord: drawn on a canvas here, no AI, no package ----
-function artShow() { const d = lsGet("fcd_art"), t = $("artthumb"); t.style.display = d ? "" : "none"; if (d) t.src = d; if (d && !$("artmsg").textContent) $("artmsg").textContent = "Picture saved on this device."; }
+function artShow() { const d = lsGet("fcd_art"), t = $("artthumb"); $("artforget").style.display = d ? "" : "none"; if (!d) $("artmsg").textContent = "No picture saved."; t.style.display = d ? "" : "none"; if (d) t.src = d; if (d && !$("artmsg").textContent) $("artmsg").textContent = "Picture saved on this device."; }
 const artLoad = () => new Promise((ok) => { const d = lsGet("fcd_art"); if (!d) return ok(null); const i = new Image(); i.onload = () => ok(i); i.onerror = () => ok(null); i.src = d; });
 $("artfile").onchange = () => {
   const f = $("artfile").files[0]; if (!f) return; const u = URL.createObjectURL(f), i = new Image();
@@ -1492,7 +1497,7 @@ $("artfile").onchange = () => {
   i.onerror = () => { $("artmsg").textContent = "That picture would not open."; URL.revokeObjectURL(u); };
   i.src = u;
 };
-$("artforget").onclick = () => { try { localStorage.removeItem("fcd_art"); } catch (e) {} $("artmsg").textContent = "Removed."; renderSaved(); };
+$("artforget").onclick = () => { try { localStorage.removeItem("fcd_art"); } catch (e) {} $("artmsg").textContent = "Removed."; renderSaved(); artShow(); $("artmsg").textContent = "Removed."; };
 // rows: {c: [cell, ...], b: bold, bg: colour}; a cell is text or [text, colour]
 async function tablePic(title, sub, cols, rows) {
   const W = 830, RH = 50, HD = 46, PAD = 28, AH = 400, art = await artLoad(), cv = document.createElement("canvas");
@@ -1552,7 +1557,7 @@ async function readSheet(buf) {
   const t1 = String(val(ws.getCell(1, 1)) || ""), t2 = String(val(ws.getCell(2, 1)) || "");
   return { items, any, clan: t1.split(/\s[\u2013-]\s/)[0] || "Clan", game: t2.split("\u00b7")[0].trim() || "Roblox", date: ((t2.match(/Recorded ([^\u00b7]+)/) || [])[1] || todayText()).trim() };
 }
-const dcPick = () => { const fs = [...$("shfile").files]; $("shsel").textContent = fs.length ? "\u2713 " + fs.map((f) => f.name).join(", ") : ""; };
+const dcPick = () => { const fs = [...$("shfile").files]; $("shsel").textContent = fs.length ? "\u2713 " + fs.map((f) => f.name).join(", ") : "No files chosen."; $("shclear").style.display = fs.length ? "" : "none"; };
 $("shfile").onchange = dcPick; $("shclear").onclick = () => { $("shfile").value = ""; dcPick(); };
 $("shpost").onclick = async () => {
   const fl = [...$("shfile").files], xf = fl.find((f) => /\.xlsx$/i.test(f.name)), pf = fl.find((f) => /^image\//.test(f.type) || /\.(png|jpe?g|webp|gif)$/i.test(f.name)), say = (t) => { $("hookmsg").textContent = t; };
