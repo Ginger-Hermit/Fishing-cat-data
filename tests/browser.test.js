@@ -144,6 +144,33 @@ async function runCase(page, flow, kind) {
     check("security: giant junk reply cannot freeze the page", sec.ms < 3000, Math.round(sec.ms) + "ms");
     check("security: no prototype pollution", !sec.poll);
     check("no page errors", pageErrors.length === 0, pageErrors.slice(0, 2).join(" ; "));
+    if (name === "webkit") {
+      // iPhone 15 in Safari's engine: clan read with dot and space thousands marks, light and dark
+      const dev = { ...pw.devices["iPhone 15"] }; delete dev.defaultBrowserType;
+      for (const scheme of ["light", "dark"]) {
+        const ctx = await browser.newContext({ ...dev, colorScheme: scheme }), ip = await ctx.newPage(), ipErr = [];
+        ip.on("pageerror", e => ipErr.push(String(e)));
+        await ip.goto(URL);
+        const r = await ip.evaluate(async (L) => {
+          HTMLAnchorElement.prototype.click = function () {};
+          const R = '[{"rank":1,"name":"Ann","role":"Owner","points":"1.234.567"},{"rank":2,"name":"Bo","role":"Member","points":"987 654"}]';
+          let n = 0; window.fetch = () => Promise.resolve({ ok: true, status: 200, json: async () => ({ candidates: [{ content: { parts: [{ text: n++ === 0 ? L : R }] } }] }) });
+          const c = document.createElement("canvas"); c.width = c.height = 80; c.getContext("2d").fillRect(0, 0, 20, 20);
+          images = [new File([await new Promise(r => c.toBlob(r, "image/png"))], "p.png", { type: "image/png" })];
+          showTab("sheet"); document.getElementById("provider").value = "gemini"; applyProvider(true);
+          document.getElementById("key").value = "AIzaTESTKEY123456"; refresh(); document.getElementById("go").click();
+          const box = document.getElementById("msg");
+          for (let k = 0; k < 400; k++) { await new Promise(r => setTimeout(r, 25)); if (box.textContent && !/^Reading/.test(box.textContent)) break; }
+          const wide = []; for (const t of ["home", "sheet", "bill", "settings"]) { showTab(t); await new Promise(r => setTimeout(r, 10)); if (document.documentElement.scrollWidth > innerWidth) wide.push(t); }
+          return { pts: pv && pv.rows.map(x => String(parsePoints(x.points))).join(","), wide, err: box.className.includes("err"), msg: box.textContent };
+        }, LAYOUT);
+        check("iPhone " + scheme + ": clan read works", !r.err, r.msg);
+        check("iPhone " + scheme + ": dotted and spaced points read in full", r.pts === "1234567,987654", r.pts);
+        check("iPhone " + scheme + ": nothing scrolls sideways", r.wide.length === 0, r.wide.join(","));
+        check("iPhone " + scheme + ": no page errors", ipErr.length === 0, ipErr.slice(0, 2).join(" ; "));
+        await ctx.close();
+      }
+    }
     await browser.close();
     console.log(name + ": done");
   }
