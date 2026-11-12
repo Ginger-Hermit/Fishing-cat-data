@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Video: scrolling list no longer thrown away
+
+12 Nov 2026 (05:09 UTC) · Changed
+
+A video that scrolls the member list now keeps the pictures where the list moved.
+
+**What you'll see:** Upload a short scrolling video of the clan list: the Log should say more than 1 picture was sent and all members are read.
+
+- Picture comparison now notices small changes, so scrolled frames are no longer dropped as repeats
+
 ## Preview matches the sheet
 
-12 Nov 2026 (05:08 UTC) · Changed
+12 Nov 2026 (05:08 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7cbd1fa)
 
 The Check your list preview now treats a misread name as the same player, and says who is missing.
 
