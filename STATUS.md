@@ -1,6 +1,6 @@
 # Status
 
-Last updated: 12 Nov 2026. Page version 2026-11-12-h. Live at fishing-cat-data.pages.dev.
+Last updated: 12 Nov 2026. Page version 2026-11-12-i. Live at fishing-cat-data.pages.dev.
 `tools/release.py` keeps the version and date up to date. Keep this file under 50 lines.
 
 ## What the page does
@@ -24,6 +24,7 @@ GitHub runs `check.py`, row, bill and fuzz tests, and the page in Chrome, Firefo
 - A real phone by eye. The live `_headers` security header. "Remember my key" beyond one sighting.
 
 ## Known limits
+- Gemini free tier: only 20 requests a day per model (12 Nov, error 429). Every retry and every clan run (2 requests) counts. A busy-model retry or a daily-limit 429 now moves to the next backup model.
 - Clan: all pictures go in one request; accuracy may drop past about 20.
 - Bills: a cut-off AI reply loses the run. Gas in m3 or CCF without printed factors is flagged, not converted. No currency conversion.
 - Label contrast about 4.2 to 1 in Light and Ocean (target 4.5).

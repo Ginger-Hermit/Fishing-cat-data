@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Gemini daily limit handled
+
+12 Nov 2026 (06:03 UTC) · Changed
+
+When Google's free daily limit for a model is used up, the page switches to a backup model, or says plainly when it resets.
+
+**What you'll see:** A 429 'per day' error now shows 'Switching to gemini-3.7-flash' in the Log, or a plain message with the reset time.
+
+- Daily free-limit errors (429) switch to a backup Gemini model or show a clear message with the reset time
+
 ## Report on GitHub, filled in
 
-12 Nov 2026 (06:01 UTC) · New
+12 Nov 2026 (06:01 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/44c6db3)
 
 After a problem, one tap opens a GitHub issue with the report already filled in.
 
