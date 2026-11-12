@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
-## Log shows Discord steps
+## Ad blocker note for Discord
 
 12 Nov 2026 (06:34 UTC) · Changed
+
+The page warns that ad blockers can stop Discord posts.
+
+**What you'll see:** Settings under the Discord link; also the error if Discord can't be reached.
+
+- Added an ad blocker and privacy shield note to the Discord help line and the error message.
+
+## Log shows Discord steps
+
+12 Nov 2026 (06:34 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/f8e703e)
 
 The Log and bug report now show what happened with Discord.
 
