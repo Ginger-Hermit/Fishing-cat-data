@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Bills Summary column widths
+
+12 Nov 2026 (06:06 UTC) · Changed
+
+The Bills Summary tab columns are wide enough to read again.
+
+**What you'll see:** Open a bills sheet: Summary columns are wide, nothing is cut off and the how-to-read box shows in full.
+
+- Summary bill columns set to 46 wide (they had dropped to the default narrow width)
+- Taller how-to-read box
+
 ## Bill units from price rates
 
-12 Nov 2026 (06:04 UTC) · Changed
+12 Nov 2026 (06:04 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/55b728d)
 
 Bills where the AI wrote the price rate (c/unit, c/day) as the unit now still turn into kWh instead of being flagged.
 

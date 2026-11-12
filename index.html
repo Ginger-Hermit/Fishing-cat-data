@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Bills where the AI wrote the price rate (c/unit, c/day) as the unit now still turn into kWh instead of being flagged. -->
+<!-- Patch note: The Bills Summary tab columns are wide enough to read again. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -370,7 +370,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-j";
+const BUILD = "2026-11-12-k";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1590,8 +1590,9 @@ function buildBillBook(EJ, bills, when) {
   ws.autoFilter = `A3:O${n}`;
   // Summary (first tab): one column per bill, in sections. Numbers are formulas; the plain words come from the AI.
   sm.getColumn(1).width = 40;
+  bills.forEach((b, i) => { sm.getColumn(i + 2).width = 46; });
   title(sm, "Summary", "");
-  strip(sm, colL(1 + bills.length), [["How to read  ", NAVY, 1], ["One column per bill. This tab is the answer; the Bills tab lists every charge.\n"], ["White", INK, 1], [" = copied from the bill.   "], ["Green", GRN, 1], [" = worked out by the sheet (fix a number on the Bills tab and it updates).   "], ["Blue", "FF2F5597", 1], [" = plain-words notes written by the AI. Check them, they do not update.   Money is never converted between currencies."]], 52);
+  strip(sm, colL(1 + bills.length), [["How to read  ", NAVY, 1], ["One column per bill. This tab is the answer; the Bills tab lists every charge.\n"], ["White", INK, 1], [" = copied from the bill.   "], ["Green", GRN, 1], [" = worked out by the sheet (fix a number on the Bills tab and it updates).   "], ["Blue", "FF2F5597", 1], [" = plain-words notes written by the AI. Check them, they do not update.   Money is never converted between currencies."]], 84);
   sm.getRow(3).height = 8;
   const S = "'Bills'!", R = {}, MONEY = "#,##0.00", KWH = "#,##0.0";
   let r = 4;
