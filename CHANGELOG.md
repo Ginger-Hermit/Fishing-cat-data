@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Even gaps and Discord hint
 
-12 Nov 2026 (07:16 UTC) · Changed
+12 Nov 2026 (07:16 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/d57265f)
 
 Same gap above every bar on the clan tab; the hint no longer points to Discord under an arrow.
 
