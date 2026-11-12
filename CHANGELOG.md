@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Safer Discord posting
 
-12 Nov 2026 (10:38 UTC) · Changed
+12 Nov 2026 (10:38 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/1980862)
 
 Four Discord problems are fixed: the ping everyone choice is no longer remembered, a double tap can't post twice, a failed second message tells you the picture went but the breakdown did not (and retries once if Discord says slow down), and huge Excel files are refused.
 
