@@ -10,6 +10,7 @@ Last updated: 12 Nov 2026. Page version 2026-11-12-x. Live at fishing-cat-data.p
 - Record screen and the Updates tab were removed on 12 Nov. Update history is only in CHANGELOG.md. Live steps and a live Log show during a run. After a read, an Excel-style table lets you fix cells before Download sheet (both tabs). Settings has a Privacy section (see and delete what is saved).
 
 ## Next
+- **Next chat starts here:** build **Post to Discord** (details below). Also offered, not built: preview tabs for Leaderboard and Points history; one AI request per clan run (would save ~20s on Gemini).
 - Ginger: one real run of each tab on the live site (real clan video, real bill photo), then a screenshot. Nothing since 11 Nov has been run with a real AI.
 - **Clan history tabs built 12 Nov** (Clan Members stays first, then Leaderboard, Points history, How it's worked out). History is carried forward by `readHistory` from the earlier sheet; no AI. An earlier sheet with no history becomes the first column. A third run on one day replaces that day's column. Earlier months fold into one column (last run of that month); first-run points are kept in hidden Leaderboard columns H to J. Season Info box removed, Clan Summary now at K3. About tab shortened (wording guessed, the sample file is not in the repo). Not checked by eye in real Excel (tested with LibreOffice only).
 - **Approved by Ginger 12 Nov, not built: Post to Discord (webhook).** Next to build. First check that Discord takes a file posted from a web page (CORS); if not, post the message only.
@@ -25,6 +26,7 @@ Last updated: 12 Nov 2026. Page version 2026-11-12-x. Live at fishing-cat-data.p
 - Stress and fuzz results, with numbers: `developer/STRESS_TEST_LOG.md`.
 
 ## Not tested
+- Real Excel by eye for the new tabs and the bills sheet. The bills Test button. PDF bills with a real AI.
 - Any real AI call since 11 Nov, including the whole Bills tab and re-saving pictures as JPEG before sending.
 - A real phone by eye (widths were simulated).
 - OpenAI. The live security header (`_headers`). "Remember my key" beyond one sighting.
