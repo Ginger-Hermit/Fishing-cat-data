@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Fair baseline for same-day runs
+
+12 Nov 2026 (06:45 UTC) · Changed
+
+A run made earlier today no longer wipes out Change, % Change and Trend.
+
+**What you'll see:** Make two sheets on the same day: Previous Points shows the last earlier day, not today's first run.
+
+- If the last sheet was made today, the page compares with the last earlier day in its history. Also applied to the remembered last sheet.
+
 ## Gradient on section bars
 
-12 Nov 2026 (06:41 UTC) · Changed
+12 Nov 2026 (06:41 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f99bd6)
 
 The section bars now fade from colour to calm.
 

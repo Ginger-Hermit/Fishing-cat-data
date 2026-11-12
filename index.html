@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The section bars now fade from colour to calm. -->
+<!-- Patch note: A run made earlier today no longer wipes out Change, % Change and Trend. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -383,7 +383,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-j";
+const BUILD = "2026-11-12-k";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -706,6 +706,16 @@ async function readPrevious(EJ, buf) {
     if (name && typeof pts === "number") { const k = String(name).trim().toLowerCase(); map.set(k, pts); names.set(k, String(name).trim()); }
   }
   map.hist = readHistory(wb, ws, map, names);
+  return dayBase(map);
+}
+// A sheet made earlier today is not a fair baseline (a re-run would compare with itself): use the last earlier day instead.
+function dayBase(map) {
+  const hh = map.hist, t = new Date(), today = Date.UTC(t.getFullYear(), t.getMonth(), t.getDate());
+  if (hh && hh.dates.length > 1 && hh.dates[hh.dates.length - 1] === today) {
+    const col = hh.dates.length - 2, m2 = new Map();
+    hh.players.forEach(([k, e]) => { if (e && typeof e.vals[col] === "number") m2.set(k, e.vals[col]); });
+    if (m2.size) { m2.hist = hh; return m2; }
+  }
   return map;
 }
 
@@ -1179,7 +1189,7 @@ function adoptPending() { if (!pendingPrev) return; prevMap = pendingPrev.m; pre
 try {
   const d = JSON.parse(localStorage.getItem("fcd_prev"));
   if (d && Array.isArray(d.entries) && d.entries.every(e => typeof e[0] === "string" && typeof e[1] === "number")) {
-    prevMap = new Map(d.entries); prevMap.hist = d.hist || null; prevName = String(d.name || "last sheet");
+    prevMap = new Map(d.entries); prevMap.hist = d.hist || null; prevMap = dayBase(prevMap); prevName = String(d.name || "last sheet");
   }
 } catch (e) {}
 showPrev();
