@@ -144,10 +144,10 @@ async function runCase(page, flow, kind) {
     check("security: giant junk reply cannot freeze the page", sec.ms < 3000, Math.round(sec.ms) + "ms");
     check("security: no prototype pollution", !sec.poll);
     check("no page errors", pageErrors.length === 0, pageErrors.slice(0, 2).join(" ; "));
-    if (name === "webkit") {
-      // newest iPhone in Safari's engine: clan read with dot and space thousands marks, light and dark
-      const phone = Object.keys(pw.devices).filter(k => /^iPhone \d+$/.test(k)).sort((x, y) => parseInt(x.slice(7)) - parseInt(y.slice(7))).pop();
-      const dev = { ...pw.devices[phone] }; delete dev.defaultBrowserType; console.log("webkit: testing as " + phone);
+    if (name === "webkit" || name === "chromium") {
+      // newest iPhone in Safari, newest Pixel in Chrome's engine: clan read with dot and space thousands marks, light and dark
+      const phone = Object.keys(pw.devices).filter(k => (name === "webkit" ? /^iPhone \d+$/ : /^Pixel \d+$/).test(k)).sort((x, y) => parseInt(x.replace(/\D/g, "")) - parseInt(y.replace(/\D/g, ""))).pop();
+      const dev = { ...pw.devices[phone] }; delete dev.defaultBrowserType; console.log(name + ": testing as " + phone);
       for (const scheme of ["light", "dark"]) {
         const ctx = await browser.newContext({ ...dev, colorScheme: scheme }), ip = await ctx.newPage(), ipErr = [];
         ip.on("pageerror", e => ipErr.push(String(e)));

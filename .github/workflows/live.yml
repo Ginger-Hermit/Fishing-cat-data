@@ -1,8 +1,8 @@
-# Patch note: weekly live-site check; never fails (so no emails), writes the result to developer/LIVE_CHECK_LOG.md.
+# Patch note: daily live-site check; never fails (so no emails), writes the result to developer/LIVE_CHECK_LOG.md.
 name: Live site
 on:
   schedule:
-    - cron: "17 5 * * 1"
+    - cron: "17 5 * * *"
   workflow_dispatch:
 permissions:
   contents: write
