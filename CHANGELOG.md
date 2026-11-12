@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Cut-off bill reply keeps what was read
+
+12 Nov 2026 (12:22 UTC) · Changed
+
+If the AI reply stops halfway, the complete charges are kept instead of losing the whole bill run.
+
+> [!NOTE]
+> **What you'll see:** Bills tab; the Log says when it happened
+
+- parseBills closes a cut-off reply at the last complete charge.
+
 ## Tidier Discord tab
 
 12 Nov 2026 (12:19 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/d88006e)

@@ -38,4 +38,8 @@ b=parseBills(JSON.stringify({bills:[{supplier:"Spark New Zealand Trading Ltd",co
 {energy:"other",kind:"phone",charge:"Text Service",used:"2",unit:"texts",amount:"$0.40"}]}]}));
 A.equal(b[0].lines.length,7);A.ok(b[0].lines.every(l=>!l.check&&l.type==="Phone"));A.equal(b[0].total,139.69);A.equal(b[0].days,30);
 A.equal(Math.round(b[0].lines.reduce((t,l)=>t+l.amount,0)*100)/100,139.69);
+// Cut-off reply: keep the complete charges, drop the half-written one.
+{const full=JSON.stringify({bills:[{supplier:"A",decimal_mark:".",lines:[{energy:"other",kind:"water",charge:"W1",amount:"5"},{energy:"other",kind:"water",charge:"W2",amount:"6"}]},{supplier:"B",lines:[{energy:"other",kind:"water",charge:"W3",amount:"7"}]}]});
+const c=parseBills(full.slice(0,full.indexOf("W2")+6));A.ok(c.cut);A.equal(c.length,1);A.equal(c[0].lines.length,1);
+const c2=parseBills(full.slice(0,full.indexOf("W3")-5));A.ok(c2.cut);A.equal(c2[0].lines.length,2);A.ok(!parseBills(full).cut);}
 console.log("bill tests ok");

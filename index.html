@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The Discord link is now step 1 and its messages show right under the box. The webhook help folds away once a link is saved. -->
+<!-- Patch note: If the AI reply stops halfway, the complete charges are kept instead of losing the whole bill run. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -426,7 +426,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-zp";
+const BUILD = "2026-11-12-zq";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1865,8 +1865,8 @@ function kwhFor(line, mark) {
 }
 function parseBills(text) {
   text = String(text ?? "").slice(0, 100000);
-  let d = null;
-  try { d = JSON.parse(text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1)); } catch (e) {}
+  let d = null, cut = false;
+  try { d = JSON.parse(text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1)); } catch (e) { d = closeCut(text.slice(text.indexOf("{"))); cut = !!d; }
   const list = d && (Array.isArray(d.bills) ? d.bills : [d]);
   const bills = (list || []).filter(b => b && typeof b === "object" && Array.isArray(b.lines)).slice(0, 12).map(b => {
     const mark = b.decimal_mark === "," || b.decimal_mark === "." ? b.decimal_mark : "";
@@ -1887,7 +1887,24 @@ function parseBills(text) {
     return { supplier: tidy(b.supplier, 50) || "Not read", country: tidy(b.country, 30), currency: tidy(b.currency, 6).toUpperCase(), billDate: tidy(b.bill_date, 30), dueDate: tidy(b.due_date, 30), days: parseNum(b.period_days, mark), estimated: b.estimated === true ? "Yes" : b.estimated === false ? "No" : "", totalShown: tidy(b.total_due, 30), total: parseNum(b.total_due, mark), lines, notes: (Array.isArray(b.notes) ? b.notes : []).map(n => tidy(n, 220)).filter(Boolean).slice(0, 4) };
   }).filter(b => b.lines.length);
   if (!bills.length) throw new Error("The AI did not find any bill charges. Try a clearer, straight-on photo of the whole bill.");
+  bills.cut = cut;
   return bills;
+}
+// A cut-off reply: keep everything up to the last complete "}" and close what is still open.
+function closeCut(t) {
+  for (let end = t.lastIndexOf("}"), n = 0; end > 0 && n < 200; end = t.lastIndexOf("}", end - 1), n++) {
+    const s = t.slice(0, end + 1), open = []; let q = false;
+    for (let i = 0; i < s.length; i++) {
+      const c = s[i];
+      if (q) { if (c === "\\") i++; else if (c === '"') q = false; }
+      else if (c === '"') q = true;
+      else if (c === "{" || c === "[") open.push(c === "{" ? "}" : "]");
+      else if (c === "}" || c === "]") open.pop();
+    }
+    if (q) continue;
+    try { return JSON.parse(s + open.reverse().join("")); } catch (e) {}
+  }
+  return null;
 }
 function buildBillBook(EJ, bills, when) {
   const wb = new EJ.Workbook();
@@ -2104,6 +2121,7 @@ $("billgo").onclick = async () => {
     prog.next();
     clog("AI replied (" + text.length + " characters).");
     let bills; try { bills = parseBills(text); } catch (e) { clog("Reply that could not be used (first 3000 characters): " + text.slice(0, 3000), true); throw e; }
+    if (bills.cut) clog("The AI reply was cut off; kept every complete charge. Check the last bill against the paper.");
     const lines = bills.reduce((t, b) => t + b.lines.length, 0), checks = bills.reduce((t, b) => t + b.lines.filter(l => l.check).length, 0);
     bp = { bills, orig: JSON.parse(JSON.stringify(bills)) };
     bpDraw();
