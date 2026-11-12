@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Bullet points in the Discord breakdown
 
-12 Nov 2026 (07:35 UTC) · Changed
+12 Nov 2026 (07:35 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0db833c)
 
 The written breakdown in the Discord post now uses short bullet points under each tab name.
 
