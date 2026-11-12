@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Clear Discord error
+
+12 Nov 2026 (06:33 UTC) · Changed
+
+If Discord can't be reached, the page says so in plain words.
+
+**What you'll see:** Settings: Test with a bad link or ad blocker on.
+
+- Discord network failures now show 'Could not reach Discord' and write the real reason in the Log.
+
 ## Table picture for Discord posts
 
-12 Nov 2026 (06:31 UTC) · New
+12 Nov 2026 (06:31 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/94abc40)
 
 Post to Discord now also sends a picture of the table, with your header artwork on top.
 
