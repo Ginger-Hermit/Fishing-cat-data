@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Video: take more pictures of a short scroll
+
+12 Nov 2026 (05:07 UTC) · Changed
+
+A quick scroll through the member list no longer skips members.
+
+**What you'll see:** Upload a short scrolling video of the clan list: every member should be read.
+
+- Video pictures taken 4 a second (was 1), at least 8; repeats still dropped
+
 ## Faster Gemini reads
 
-12 Nov 2026 (05:05 UTC) · Changed
+12 Nov 2026 (05:05 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/da894dc)
 
 Gemini now uses light thinking for every read, not just the first step.
 

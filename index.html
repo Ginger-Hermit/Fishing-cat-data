@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Gemini now uses light thinking for every read, not just the first step. -->
+<!-- Patch note: A quick scroll through the member list no longer skips members. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -325,7 +325,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-i";
+const BUILD = "2026-11-12-j";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -447,7 +447,7 @@ function videoFrames(file) {
       try {
         const d = v.duration;
         if (!Number.isFinite(d) || !v.videoWidth) throw new Error("This video could not be read. Try an MP4 recording, or use screenshots.");
-        const n = Math.min(60, Math.max(2, Math.ceil(d)));
+        const n = Math.min(60, Math.max(8, Math.ceil(d * 4))); // 4 a second: a quick scroll must not skip rows (repeats are dropped below)
         const scale = Math.min(1, 1280 / v.videoWidth);
         const canvas = document.createElement("canvas");
         canvas.width = Math.round(v.videoWidth * scale);
