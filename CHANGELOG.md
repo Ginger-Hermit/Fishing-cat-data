@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Version numbers
 
-12 Nov 2026 (23:55 UTC) · Changed
+12 Nov 2026 (23:55 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6cc1be1)
 
 Versions are now simple numbers like 1.1.1 instead of date and letters.
 
