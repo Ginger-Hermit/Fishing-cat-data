@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Hint at the top of the clan tab
 
-12 Nov 2026 (07:17 UTC) · Changed
+12 Nov 2026 (07:17 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7bb4637)
 
 The tip about More options, Log and the Discord tab is now a coloured note at the top.
 
