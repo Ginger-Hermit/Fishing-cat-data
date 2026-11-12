@@ -1,4 +1,4 @@
-// Patch note: A short scrolling video no longer stops at the first rows.
+// Patch note: Test read on a video now reads every still, not just the first, so scrolled members are not lost.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -72,7 +72,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-zza";
+const BUILD = "2026-11-12-zzb";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1074,11 +1074,11 @@ async function pickProfile(key) {
 $("testgo").onclick = async () => {
   const key = $("key").value.trim();
   running = true; refresh();
-  setMsg("Test read: looking at 1 picture... about 20 seconds.");
+  setMsg("Test read: looking at the first file... about 20 seconds.");
   try {
     const p = await pickProfile(key);
     PROMPT = buildPrompt(p);
-    const pics = (await collectPictures([images[0]])).slice(0, 1);
+    const pics = await collectPictures([images[0]]); // a video: all its stills, or the scrolled rows are lost
     const text = await ASKERS[provider()](key, modelFor(provider()), pics);
     const rows = parseRows(text);
     if (!rows.length) throw new Error("Test read: no member rows found. The picture may not show the member list.");
@@ -1087,7 +1087,7 @@ $("testgo").onclick = async () => {
     const shown = (text.match(/"members_on_screen"\s*:\s*(\d+)/) || [])[1];
     adoptPending(); pv = { rows: rows.map(r => ({ ...r })), orig: rows.map(r => ({ ...r })), p, shown };
     pvDraw();
-    setMsg("Test OK: " + rows.length + " rows from 1 picture. Nothing was downloaded.");
+    setMsg("Test OK: " + rows.length + " rows from the first file. Nothing was downloaded.");
   } catch (err) { clog("Test stopped: " + err.message); setMsg(plain(err), true); }
   finally { running = false; refresh(); }
 };

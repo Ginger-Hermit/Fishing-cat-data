@@ -10,4 +10,4 @@ Older bugs: `BREAK_REPORT_2026-11-12.md` and `STRESS_TEST_LOG.md`.
 - 2026-11-13: Video missed new clan members (3 of 8+ dropped). Cause: tiny 96x54 compare called a scrolled clan panel the same picture, and 4 looks a second skipped fast scrolls. Fix: 192x108 compare, stricter threshold, 8 looks a second.
 - 2026-11-13: Video missed new clan members. Cause: 96x54 compare called a scrolled clan panel the same picture; 4 looks a second skipped fast scrolls. Fix: 192x108 compare, stricter threshold, 8 looks a second.
 - 2026-11-13: Deathgold1198 became Deathgoldl198 in every tab. Cause: fixNames renamed the history to today's misread. Fix: today's row takes the earlier spelling.
-- 12 Nov: clan video (4 s scroll) gave 5 of 11 members. Likely cause: AI read only the first stills. Fix: prompt says read every picture to the last.
+- 12 Nov: clan video gave 5 of 11 members. Cause: Test read sent only the first still of the video. Fix: Test read sends all stills of a video.

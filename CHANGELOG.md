@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Test read takes the whole video
+
+12 Nov 2026 (23:38 UTC) · Changed
+
+Test read on a video now reads every still, not just the first, so scrolled members are not lost.
+
+> [!NOTE]
+> **What you'll see:** Clan tab, Test read
+
+- Test read sends all stills of a video.
+
 ## Video reads the whole list
 
-12 Nov 2026 (23:37 UTC) · Changed
+12 Nov 2026 (23:37 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c02983b)
 
 A short scrolling video no longer stops at the first rows.
 
