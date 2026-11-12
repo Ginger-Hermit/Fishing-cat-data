@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## One look for the whole page
+
+12 Nov 2026 (06:46 UTC) · Changed
+
+The header, tabs and main buttons now share one colour gradient.
+
+**What you'll see:** Open the page: gradient banner, pill tabs, gradient Make my sheet.
+
+- Gradient banner and pill tabs, soft page background, rounded card, tighter spacing. Each theme has its own second colour.
+
 ## Fair baseline for same-day runs
 
-12 Nov 2026 (06:45 UTC) · Changed
+12 Nov 2026 (06:45 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/b985f84)
 
 A run made earlier today no longer wipes out Change, % Change and Trend.
 

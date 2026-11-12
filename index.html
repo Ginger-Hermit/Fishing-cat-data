@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: A run made earlier today no longer wipes out Change, % Change and Trend. -->
+<!-- Patch note: The header, tabs and main buttons now share one colour gradient. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -72,6 +72,15 @@ button:disabled{opacity:.5}
 .tab{width:auto;margin:0;padding:8px 12px;font-size:14px;background:var(--field);color:var(--link);border:1px solid var(--link);border-radius:6px}
 .page{font-size:15px;line-height:1.5}
 .tab.on{background:var(--accent);color:var(--onAccent)}
+:root{--accent2:#7C4DD8}
+html[data-theme=dark]{--accent2:#7B61D6}html[data-theme=ocean]{--accent2:#14A3A0}html[data-theme=forest]{--accent2:#3E9C6C}html[data-theme=berry]{--accent2:#D0527A}
+body{background:linear-gradient(160deg,var(--bg),color-mix(in srgb,var(--accent2) 14%,var(--bg)));min-height:100vh}
+.card{border-radius:16px;box-shadow:0 6px 24px rgba(31,56,100,.14);padding:0 18px 16px;overflow:hidden;margin:20px auto}
+h1{margin:0 -18px 12px;padding:16px 18px;font-size:22px;font-weight:600;color:var(--onAccent);background:linear-gradient(90deg,var(--accent),var(--accent2))}
+h1:before{content:"\1F431  "}
+.tabs{margin:0 0 10px}label{margin:10px 0 3px}
+.tab{border-radius:999px;padding:8px 14px}
+.tab.on,#go,#billgo,.pvb button:first-child{background:linear-gradient(90deg,var(--accent),var(--accent2));border-color:transparent}
 </style>
 </head>
 <body>
@@ -383,7 +392,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-k";
+const BUILD = "2026-11-12-l";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
