@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Sample on Home
+
+12 Nov 2026 (04:25 UTC) · New
+
+Home now shows a sample of the sheet you get.
+
+**What you'll see:** Home tab, under the two buttons: What you get.
+
+- Sample sheet picture on the Home tab
+
 ## Home button renamed
 
-12 Nov 2026 (04:23 UTC) · Changed
+12 Nov 2026 (04:23 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/220c166)
 
 The Home button now says Make a Roblox clan sheet.
 
