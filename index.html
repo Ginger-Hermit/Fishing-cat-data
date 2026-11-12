@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The gold, silver and bronze ranks and the Owner and Coach colours are back in the sheet. -->
+<!-- Patch note: The 'Your key is safe here' note sits under the key box, not in the middle of the page. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -140,6 +140,7 @@ button:disabled{opacity:.5}
 <input id="key" type="password" placeholder="Paste key here" autocomplete="off" spellcheck="false" autocapitalize="off" data-lpignore="true" data-1p-ignore="true">
 <label class="rem" style="display:flex;gap:8px;align-items:center;margin-top:6px;font-weight:normal"><input type="checkbox" id="remember" style="width:auto;margin:0"> Remember my key on this device</label>
 <div id="remnote" style="display:none;font-size:.85em;opacity:.75">Saved only in this browser, never sent anywhere else. Don't tick this on a shared or public computer. Untick to delete it.</div>
+<div class="hc" style="margin-top:10px;font-size:13px"><b>Your key is safe here.</b> It stays on this device and goes only to the AI company you pick. Treat it like a password. <a href="#" data-go="safety">More</a></div>
 </details></div>
 <div id="sheet" style="display:none">
 <div style="font-size:13px;color:var(--muted);margin-top:10px">Turns clan screenshots or a video from any Roblox game into a member sheet.</div>
@@ -176,7 +177,6 @@ button:disabled{opacity:.5}
 <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button id="copybug" type="button">Copy bug report</button><a id="ghbug" href="https://github.com/Ginger-Hermit/Fishing-cat-data/issues/new" target="_blank" rel="noopener">Report on GitHub</a></div>
 <div style="font-size:13px;color:var(--muted);margin-top:6px">Copies the page log and your browser type. Keys are removed. Pictures are not included. Nothing is sent until you paste it somewhere. Report on GitHub opens a public form with the report filled in: read it first, then send it (needs a GitHub account).</div>
 </details>
-<div class="hc" style="margin-top:14px;font-size:13px"><b>Your key is safe here.</b> It stays on this device and goes only to the AI company you pick. Treat it like a password. <a href="#" data-go="safety">More</a></div>
 </div>
 <div id="billtab" style="display:none">
 <div style="font-size:13px;color:var(--muted);margin-top:10px">Turns photos of household bills into a sheet, one row per charge, with a summary.</div>
@@ -379,7 +379,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-a";
+const BUILD = "2026-11-12-b";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };

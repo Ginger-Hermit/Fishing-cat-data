@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
-## Sheet colours back
+## Key note moved next to the key
 
 12 Nov 2026 (06:58 UTC) · Changed
+
+The 'Your key is safe here' note sits under the key box, not in the middle of the page.
+
+**What you'll see:** Clan tab and Bills: note under the key box.
+
+- Moved the key safety note into the key section.
+
+## Sheet colours back
+
+12 Nov 2026 (06:58 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/e561115)
 
 The gold, silver and bronze ranks and the Owner and Coach colours are back in the sheet.
 
