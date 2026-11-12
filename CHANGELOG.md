@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Table picture for Discord posts
+
+12 Nov 2026 (06:31 UTC) · New
+
+Post to Discord now also sends a picture of the table, with your header artwork on top.
+
+**What you'll see:** Settings: pick a header picture once. Then tap Post to Discord on a clan list or Bills.
+
+- Page draws the table on a canvas (no AI, no package) and posts it with the message and the .xlsx. Clan: rank, name, role, points, change with gold, silver and bronze. Bills: simple charges table.
+
 ## Detailed Discord summary
 
-12 Nov 2026 (06:25 UTC) · Changed
+12 Nov 2026 (06:25 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/950ccfc)
 
 The Discord post and Copy message now say what changed: total change, who went up or down, top 5 gains, drops, new and missing members.
 
