@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
-## Discord link not saved by default
+## Post to Discord always shown
 
 12 Nov 2026 (06:15 UTC) · Changed
+
+Post to Discord now shows on every clan sheet. With no saved link it asks you to paste one.
+
+**What you'll see:** Clan preview: Post to Discord
+
+- Ask for the Discord link on the clan preview
+
+## Discord link not saved by default
+
+12 Nov 2026 (06:15 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/bb2a83f)
 
 The Discord link is forgotten when you close the page unless you tick Remember my link. A Forget button clears it.
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The Discord link is forgotten when you close the page unless you tick Remember my link. A Forget button clears it. -->
+<!-- Patch note: Post to Discord now shows on every clan sheet. With no saved link it asks you to paste one. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -375,7 +375,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-p";
+const BUILD = "2026-11-12-q";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1487,10 +1487,14 @@ function pvDraw() {
   const bt = el("div", "pvb"), mk = (id, text, fn) => { const b = el("button", "tab", text); b.type = "button"; if (id) b.id = id; b.onclick = fn; bt.appendChild(b); return b; };
   const dl = mk("pvgo", "Download sheet", pvDownload); dl.classList.remove("tab");
   mk("pvadd", "Add row", () => { const last = Number(pv.rows.length ? pv.rows[pv.rows.length - 1].rank : 0); pv.rows.push({ rank: (Number.isFinite(last) ? last : pv.rows.length) + 1, name: "", role: "", points: "" }); pvDraw(); });
-  if (HOOK_RE.test(hookGet())) mk("pvpost", "Post to Discord", pvPost);
+  const ask = el("div", "pvd"), inp = document.createElement("input"), sendBtn = el("button", "tab", "Send"); ask.style.display = "none"; sendBtn.type = "button";
+  inp.type = "password"; inp.autocomplete = "off"; inp.placeholder = "Paste your Discord link"; inp.setAttribute("aria-label", "Discord link");
+  sendBtn.onclick = () => { const v = inp.value.trim(); if (!HOOK_RE.test(v)) { setMsg("That is not a Discord link.", true); return; } setHook(v); $("hookbox").value = v; pvPost(); };
+  ask.append(inp, sendBtn, el("div", "", "Used for this visit only. Tick Remember my link in Settings to keep it."));
+  mk("pvpost", "Post to Discord", () => { if (HOOK_RE.test(hookGet())) return pvPost(); ask.style.display = ask.style.display ? "" : "none"; });
   mk("pvcopy", "Copy message", async () => { try { await navigator.clipboard.writeText(hookText()); setMsg("Message copied."); } catch (e) { setMsg("Couldn't copy. Select the message and copy it by hand.", true); } });
   mk("pvreset", "Reset", () => { pv.rows = pv.orig.map(r => ({ ...r })); pvDraw(); });
-  box.appendChild(bt);
+  box.appendChild(bt); box.appendChild(ask);
 }
 $("go").onclick = async () => {
   const key = $("key").value.trim();
