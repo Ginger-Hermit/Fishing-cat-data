@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Even spacing
+
+12 Nov 2026 (07:08 UTC) · Changed
+
+Gaps between the bars are the same and the empty message areas no longer leave a big gap.
+
+> [!NOTE]
+> **What you'll see:** Clan and Bills tabs: bars evenly spaced.
+
+- Empty message and progress areas take no space; bars use one gap.
+
 ## File selected messages
 
 12 Nov 2026 (07:07 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/cbd0e891f40ce1ee31c783e63b1155069d46f99a)

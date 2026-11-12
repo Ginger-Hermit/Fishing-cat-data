@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: When you pick a photo or sheet to post, the page says File selected. -->
+<!-- Patch note: Gaps between the bars are the same and the empty message areas no longer leave a big gap. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -65,7 +65,8 @@ button:disabled{opacity:.5}
 .prog div{color:var(--muted)}
 .prog .dn{color:var(--text)}
 .prog .now{color:var(--text);font-weight:500}
-.msg{margin-top:12px;font-size:14px;min-height:20px}
+.msg{margin-top:12px;font-size:14px}.msg:empty,.prog:empty{display:none;margin:0}
+#adddet,#moreopts,#hookblock,#logbox,#keydet{margin:12px 0 0}#go,#billgo{margin-top:12px}
 .err{color:var(--err)}
 .tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
 .tabs.main{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}.tabs.main::-webkit-scrollbar{display:none}.tabs.main .tab{flex:0 0 auto}
@@ -161,7 +162,7 @@ button:disabled{opacity:.5}
 <div id="previnfo"></div>
 <button id="testgo" type="button" class="tab" disabled style="margin-top:8px;width:100%">Test first (small read, no file)</button>
 </details>
-<div id="opthint" style="font-size:13px;color:var(--muted);margin-top:8px">Looking for Discord, your last sheet or the Log? They are under the small arrows (▸) on this page.</div>
+<div id="opthint" style="font-size:13px;color:var(--muted);margin:8px 0 0">Looking for Discord, your last sheet or the Log? They are under the small arrows (▸) on this page.</div>
 <div class="msg" id="msg" role="status" aria-live="polite"></div>
 <div class="prog" id="prog" aria-live="polite"></div>
 <div class="pv" id="preview" style="display:none"></div>
@@ -389,7 +390,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-i";
+const BUILD = "2026-11-12-j";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
