@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: After a read there are fewer lines of small print above the preview. -->
+<!-- Patch note: The gold, silver and bronze ranks and the Owner and Coach colours are back in the sheet. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -379,7 +379,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-y";
+const BUILD = "2026-11-12-a";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };

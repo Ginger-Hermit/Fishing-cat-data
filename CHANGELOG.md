@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Sheet colours back
+
+12 Nov 2026 (06:58 UTC) · Changed
+
+The gold, silver and bronze ranks and the Owner and Coach colours are back in the sheet.
+
+**What you'll see:** Make a sheet: top 3 ranks and roles are coloured again.
+
+- Undid the fewer-colours change.
+
 ## Fewer colours
 
-12 Nov 2026 (06:57 UTC) · Changed
+12 Nov 2026 (06:57 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/e3cbef6)
 
 The sheet and preview only use colour for up, down, left the clan and check this.
 
