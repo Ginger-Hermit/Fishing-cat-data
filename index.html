@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Grey help words are darker and a bit bigger. The GitHub tab is simpler. -->
+<!-- Patch note: The Read the guide button is on the GitHub tab. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -194,7 +194,7 @@ button:disabled{opacity:.5}
 <div id="helptab" class="page" style="display:none">
 <div class="hc"><b>GitHub</b>
 <p>The code, the update history (<a href="https://github.com/Ginger-Hermit/Fishing-cat-data/blob/main/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG</a>) and the guide (README) are on GitHub.</p>
-<a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener" class="tab" style="display:inline-block;text-decoration:none;margin-top:6px">Open GitHub</a>
+<a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener" class="tab" style="display:inline-block;text-decoration:none;margin-top:6px">Open GitHub</a> <a href="https://github.com/Ginger-Hermit/Fishing-cat-data/wiki" target="_blank" rel="noopener" class="tab" style="display:inline-block;text-decoration:none;margin-top:6px">Read the guide</a>
 </div>
 </div>
 <div id="safetytab" class="page" style="display:none">
@@ -204,7 +204,7 @@ button:disabled{opacity:.5}
 <li>Your pictures go straight from your browser to the AI company you picked. They don't pass through any computer of ours.</li>
 <li>There is no server of ours. This is one web page, so there is nowhere for us to keep your pictures, your sheets or your key.</li>
 <li>Your key is only saved if you tick <b>Remember my key</b>, and then only in this browser. Untick it to delete it.</li>
-<li>Settings lists everything saved on your device and lets you delete it: <a href="#" data-go="privacy">see what is saved</a> <a href="https://github.com/Ginger-Hermit/Fishing-cat-data/wiki" target="_blank" rel="noopener" class="tab" style="display:inline-block;text-decoration:none;margin-top:6px">Read the guide</a>.</li>
+<li>Settings lists everything saved on your device and lets you delete it: <a href="#" data-go="privacy">see what is saved</a>.</li>
 <li>Anyone can read the code that does all this. It is public on <a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">GitHub</a>.</li>
 <li class="no">We never ask for your password, your email, your name or any payment details.</li>
 <li class="no">No ads, no tracking, and nothing is shared with anyone else.</li>
@@ -388,7 +388,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-q";
+const BUILD = "2026-11-12-r";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
