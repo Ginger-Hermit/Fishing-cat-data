@@ -154,3 +154,5 @@ button:disabled{opacity:.5}
 :is([data-d="flex"],#_#_#_){display:flex}
 :is([data-d="inline-flex"],#_#_#_){display:inline-flex}
 :is([data-d="none"],#_#_#_){display:none}
+
+#devpics img.devpic{width:160px;max-width:45%;margin:4px;border:1px solid #8884}

@@ -1,4 +1,4 @@
-// Patch note: Test read on a video now reads every still, not just the first, so scrolled members are not lost.
+// Patch note: Add ?dev to the address to see each still sent to the AI and its raw reply.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -72,7 +72,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-zzb";
+const BUILD = "2026-11-12-zzc";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -938,6 +938,16 @@ function pdfPart(f) {
 }
 // Pictures made from each file are kept, so a file is only read once per run.
 const picCache = new WeakMap();
+// Developer mode: add ?dev to the address. Shows each still sent to the AI and the AI's raw reply.
+const DEV = new URLSearchParams(location.search).has("dev");
+function devPics(pics) {
+  if (!DEV) return;
+  let d = document.getElementById("devpics");
+  if (!d) { d = document.createElement("details"); d.id = "devpics"; d.open = true; document.getElementById("logbox").after(d); }
+  d.replaceChildren(Object.assign(document.createElement("summary"), { textContent: "Developer: " + pics.length + " stills sent" }));
+  pics.forEach((x, i) => { if (!x.type.startsWith("image/")) return; const im = new Image(); im.src = "data:" + x.type + ";base64," + x.data; im.alt = "Still " + (i + 1); im.className = "devpic"; d.appendChild(im); });
+}
+const devReply = (text) => { if (DEV) clog("Developer, raw AI reply:\n" + String(text).slice(0, 20000), true); };
 async function collectPictures(images) {
   const pics = [];
   for (const f of images) {
@@ -947,6 +957,7 @@ async function collectPictures(images) {
   if (pics.length > 100) throw new Error("Too many pictures (" + pics.length + "). The most is 100. Use one video, or fewer screenshots.");
   try { const by = {}; pics.forEach((x) => { by[x.type] = by[x.type] || [0, 0]; by[x.type][0]++; by[x.type][1] += Math.round(x.data.length * 0.75 / 1024); }); clog("Ready to send: " + Object.keys(by).map((k) => by[k][0] + " x " + k + " (" + by[k][1] + " KB)").join(", ")); } catch (e) {}
   if (pics.reduce((t, x) => t + x.data.length, 0) > 18e6) throw new Error("These pictures are too big to send in one go. Use fewer pictures or a shorter video.");
+  devPics(pics);
   return pics;
 }
 
@@ -1039,7 +1050,9 @@ const ASKERS = {
 async function readScreenshots(key, images) {
   const id = provider(), model = modelFor(id);
   clog("Using " + PROVIDERS[id].name + " (" + model + ").");
-  return ASKERS[id](key, model, await collectPictures(images));
+  const text = await ASKERS[id](key, model, await collectPictures(images));
+  devReply(text);
+  return text;
 }
 
 // The AI reads the game, clan and layout from your first picture.
@@ -1080,6 +1093,7 @@ $("testgo").onclick = async () => {
     PROMPT = buildPrompt(p);
     const pics = await collectPictures([images[0]]); // a video: all its stills, or the scrolled rows are lost
     const text = await ASKERS[provider()](key, modelFor(provider()), pics);
+    devReply(text);
     const rows = parseRows(text);
     if (!rows.length) throw new Error("Test read: no member rows found. The picture may not show the member list.");
     const bad = rows.filter(r => r.name === "?" || parsePoints(r.points) === null).length;

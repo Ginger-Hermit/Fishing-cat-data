@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Developer mode
+
+12 Nov 2026 (23:42 UTC) · New
+
+Add ?dev to the address to see each still sent to the AI and its raw reply.
+
+> [!TIP]
+> **What you'll see:** fishing-cat-data.pages.dev/?dev
+
+- Developer mode: stills sent and raw AI reply.
+
 ## Test read takes the whole video
 
 12 Nov 2026 (23:38 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/929fa05)
