@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Safer Gemini backup models
+
+12 Nov 2026 (05:58 UTC) · Changed
+
+The busy-AI backups are now gemini-3.7-flash then gemini-3.5-flash-lite, and a backup that no longer exists is skipped.
+
+**What you'll see:** Log shows which model each retry uses.
+
+- Backup models changed to 3.7 flash then 3.5 flash-lite; a missing backup model moves on to the next
+
 ## Switch Gemini model when busy
 
-12 Nov 2026 (05:55 UTC) · Changed
+12 Nov 2026 (05:55 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/82e9e37)
 
 When Google says gemini-3.8-flash is overloaded, the retries now use older Gemini models, which are usually less busy.
 

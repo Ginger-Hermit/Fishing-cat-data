@@ -1,6 +1,6 @@
 # Status
 
-Last updated: 12 Nov 2026. Page version 2026-11-12-f. Live at fishing-cat-data.pages.dev.
+Last updated: 12 Nov 2026. Page version 2026-11-12-g. Live at fishing-cat-data.pages.dev.
 `tools/release.py` keeps the version and date up to date. Keep this file under 50 lines.
 
 ## What the page does
@@ -10,7 +10,7 @@ Last updated: 12 Nov 2026. Page version 2026-11-12-f. Live at fishing-cat-data.p
 - The Log and "Copy bug report" are detailed: timings, sizes, AI token counts, errors.
 
 ## Next
-- **Bills slow on Gemini = Google overload** (12 Nov: 503 "high demand" after 54s on gemini-3.8-flash). Built: 3 tries, and the 2nd and 3rd switch to gemini-3.7-flash then gemini-3.6-flash. Not tested with real Gemini. If it still fails often, consider making 3.7 the default.
+- **Bills slow on Gemini = Google overload** (12 Nov: 503 "high demand" after 54s on gemini-3.8-flash). Built: 3 tries, and the 2nd and 3rd switch to gemini-3.7-flash then gemini-3.5-flash-lite (a missing backup model, 404, also moves on to the next). Not tested with real Gemini. If it still fails often, consider making 3.7 the default.
 - **Post to Discord (approved 12 Nov, not built).** First check that Discord takes a file from a web page (CORS), else post the message only. Settings box "Discord webhook link" + Test (stored in browser as `fcd_hook`, shown and deletable in Privacy, scrubbed from Log and bug report, only `https://discord.com/api/webhooks/...`). After a clan read: **Post to Discord** (preview: clan, date, top 3 gained, total, new players; built by the page, no AI; message plus .xlsx; on tap only; never on Bills) and **Copy message**. Needs `https://discord.com` in `_headers`, a Stay safe line, "nothing leaves your PC" wording updated. Never ask for the webhook link.
 - Ginger: one real run of each tab on the live site, then a screenshot.
 - Offered, not approved: one AI request per clan run (saves ~20s on Gemini); PDF-bill and compare-with-last-bill ideas; preview tabs for Leaderboard and Points history.
