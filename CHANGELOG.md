@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Simpler Discord tab, one file picker
+
+12 Nov 2026 (07:21 UTC) · Changed
+
+One file box takes your Excel sheet and/or photo; fewer buttons; a wrong file gives a plain message.
+
+> [!NOTE]
+> **What you'll see:** Discord tab: link, Remember tick, What to post, one Browse box, Post to Discord.
+
+- Merged the two pickers into one that sorts files by type; hid Send a test, Forget, Clear and Remove (Settings still clears saved data).
+
 ## What the site does, on Home
 
 12 Nov 2026 (07:20 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2fe8212)
