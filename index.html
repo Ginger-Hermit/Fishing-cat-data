@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The Read the guide button is on the GitHub tab. -->
+<!-- Patch note: The Stay safe page is easier to follow. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -209,9 +209,9 @@ button:disabled{opacity:.5}
 <li class="no">We never ask for your password, your email, your name or any payment details.</li>
 <li class="no">No ads, no tracking, and nothing is shared with anyone else.</li>
 </ul>
-<p style="margin-top:10px">The rest of this page is the detail, in plain words. You don't have to read it to use the page safely: the first three points cover most of it.</p>
+<p style="margin-top:10px">The boxes below are the detail. You don't have to read them to use the page safely. Tap one to open it; opening another closes it.</p>
 </div>
-<div class="hc"><b>The 5 big ones</b>
+<div class="hc"><b>Six rules to remember</b>
 <ul>
 <li>Your AI key is a password. Never send it to anyone or paste it anywhere but the first box.</li>
 <li>The "How to get a free key" link opens Google AI Studio in a new tab.</li>
@@ -388,7 +388,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-r";
+const BUILD = "2026-11-12-s";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1942,6 +1942,8 @@ $("billgo").onclick = async () => {
   }
 };
 $("keydet").open = !$("key").value.trim();
+const safeBoxes = document.querySelectorAll("#safetytab details.hc");
+safeBoxes.forEach((d) => d.addEventListener("toggle", () => { if (d.open) safeBoxes.forEach((o) => { if (o !== d) o.open = false; }); }));
 </script>
 </body>
 </html>

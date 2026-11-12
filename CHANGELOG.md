@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Tidier Stay safe page
+
+12 Nov 2026 (06:51 UTC) · Changed
+
+The Stay safe page is easier to follow.
+
+**What you'll see:** Stay safe: open one box and the others close.
+
+- Fixed 'The 5 big ones' (it listed six), clearer intro line, and only one detail box stays open at a time.
+
 ## Fix guide button place
 
-12 Nov 2026 (06:50 UTC) · Changed
+12 Nov 2026 (06:50 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f52fd8)
 
 The Read the guide button is on the GitHub tab.
 
