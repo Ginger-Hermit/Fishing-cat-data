@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Retry when the AI is busy
+
+12 Nov 2026 (05:51 UTC) · Changed
+
+When Google (or another AI company) says it is busy, the page waits a few seconds and tries again, up to 3 times, instead of failing at once.
+
+**What you'll see:** A busy AI now shows 'The AI is busy... Trying again' in the Log and usually works on the second try.
+
+- Automatic retries (3 tries) on busy-AI errors (500, 502, 503, 504) and dropped connections
+
 ## Stop Gemini bills running away
 
-12 Nov 2026 (05:49 UTC) · Changed
+12 Nov 2026 (05:49 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/d863d8c)
 
 Bill reads to Google Gemini now have a size cap and ask for JSON only, so a stuck reply can't run for minutes.
 
