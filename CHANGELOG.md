@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Tidier Settings
+
+12 Nov 2026 (06:49 UTC) · Changed
+
+Settings is split into clear boxes.
+
+**What you'll see:** Settings tab: Look, Updates, Privacy, and a closed AI model box.
+
+- Grouped Settings into boxes with bold headings; AI model is closed until opened.
+
 ## Back to a calm look
 
-12 Nov 2026 (06:48 UTC) · Changed
+12 Nov 2026 (06:48 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2ad8fd8)
 
 No gradients. Flat, calm colours with a colour stripe on each bar.
 

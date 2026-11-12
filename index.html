@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: No gradients. Flat, calm colours with a colour stripe on each bar. -->
+<!-- Patch note: Settings is split into clear boxes. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -301,24 +301,25 @@ button:disabled{opacity:.5}
 </ul></div>
 </div>
 <div id="settingstab" style="display:none">
-<div style="font-size:13px;color:var(--muted);margin-bottom:6px">Theme</div>
+<div class="hc"><div style="font-weight:600;margin-bottom:8px">Look</div><div style="font-size:13px;color:var(--muted);margin-bottom:6px">Theme</div>
 <div class="tabs" id="themeBtns"></div>
 <div style="font-size:13px;color:var(--muted);margin-bottom:6px">Text size</div>
-<div class="tabs" id="sizeBtns"></div>
-<div style="font-size:13px;color:var(--muted);margin:14px 0 6px">Updates</div>
+<div class="tabs" id="sizeBtns" style="margin-bottom:0"></div></div>
+<div class="hc"><div style="font-weight:600;margin-bottom:8px">Updates</div>
 <label style="display:flex;gap:8px;align-items:center;font-weight:normal"><input type="checkbox" id="autoref" style="width:auto;margin:0"> Refresh automatically when there is an update</label>
-<div style="font-size:12px;color:var(--muted);margin:4px 0 0">Only refreshes when no files are picked. Off: you get a banner instead.</div>
-<div style="font-size:13px;color:var(--muted);margin:14px 0 6px">Privacy</div>
+<div style="font-size:12px;color:var(--muted);margin:4px 0 0">Only refreshes when no files are picked. Off: you get a banner instead.</div></div>
+<div class="hc"><div style="font-weight:600;margin-bottom:8px">Privacy</div>
 <div style="font-size:14px;margin-bottom:6px">Saved on this device:</div>
 <div id="saved" style="font-size:14px;line-height:1.6"></div>
 <label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin-top:8px"><input type="checkbox" id="keepprev" style="width:auto;margin:0"> Remember my last sheet</label>
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button id="wipekey" type="button" class="tab">Forget my key</button><button id="wipeall" type="button" class="tab" style="border-color:var(--err);color:var(--err)">Delete everything saved</button></div>
 <div id="wipemsg" role="status" style="font-size:13px;margin-top:6px"></div>
-<div style="font-size:12px;color:var(--muted);margin:4px 0 0">These buttons only clear this device. Nothing is sent anywhere. <a href="#" data-go="privacy">Privacy page</a></div>
-<div style="font-size:13px;color:var(--muted);margin:14px 0 6px">AI model (advanced)</div>
+<div style="font-size:12px;color:var(--muted);margin:4px 0 0">These buttons only clear this device. Nothing is sent anywhere. <a href="#" data-go="privacy">Privacy page</a></div></div>
+<details class="hc"><summary>AI model (advanced)</summary>
 <input id="modelbox" autocomplete="off" spellcheck="false">
 <div style="font-size:12px;color:var(--muted);margin:6px 0 10px">Leave empty to use the built-in one. Only change it if an error says the model is gone. It is kept for the company chosen on the first tab.</div>
 <div style="font-size:12px;color:var(--muted)">Saved on this device only.</div>
+</details>
 </div>
 <div id="foot" style="text-align:center;margin-top:16px;font-size:12px;color:var(--muted)">
 <a href="#" data-go="safety">Stay safe</a> &middot; <a href="#" data-go="privacy">Privacy</a> &middot; <a href="#" data-go="legal">Legal</a> &middot; <a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">GitHub</a>
@@ -392,7 +393,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-o";
+const BUILD = "2026-11-12-p";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
