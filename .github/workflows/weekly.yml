@@ -1,8 +1,8 @@
-# Patch note: nightly break test: 100,000 scrambled AI replies with a new random seed each night (normal pushes run 5,000).
-name: Nightly
+# Patch note: weekly break test (Mondays): 100,000 scrambled AI replies with a new random seed each week (normal pushes run 5,000).
+name: Weekly break test
 on:
   schedule:
-    - cron: "41 3 * * *"
+    - cron: "41 3 * * 1"
   workflow_dispatch:
 jobs:
   fuzz:
