@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Post to Discord button in the Discord box
+
+12 Nov 2026 (07:01 UTC) · New
+
+The Discord box has its own Post to Discord button.
+
+**What you'll see:** Open Post to Discord (optional): Post to Discord, Test, Forget.
+
+- Post button added next to Test. It posts the current list; if there is none it says Make a list first.
+
 ## Plainer video tip
 
-12 Nov 2026 (07:00 UTC) · Changed
+12 Nov 2026 (07:00 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2c50fb5)
 
 The video tip reads naturally.
 
