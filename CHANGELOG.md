@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Discord post breaks down every tab
 
-12 Nov 2026 (07:34 UTC) · Changed
+12 Nov 2026 (07:34 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c250686)
 
 The Discord message now reads the whole Excel file and explains Clan Members, Leaderboard and Points history in plain sentences.
 
