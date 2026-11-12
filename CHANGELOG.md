@@ -2,6 +2,28 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## What the site does, on Home
+
+12 Nov 2026 (07:20 UTC) · Changed
+
+Home now explains what Fishing Cat Data is, what it can do and what it can't.
+
+> [!NOTE]
+> **What you'll see:** Top of Home, above the buttons.
+
+- Added a short intro with What it can do and What it can't do.
+
+## Intro above the key
+
+12 Nov 2026 (07:19 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/78882e3)
+
+The clan and Bills tabs start with a short paragraph about what the page does, and the tip sits above the AI key box.
+
+> [!NOTE]
+> **What you'll see:** Top of the clan and Bills tabs.
+
+- Added an intro paragraph and moved the green tip above the key box.
+
 ## Simpler Discord tab
 
 12 Nov 2026 (07:18 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c369598)

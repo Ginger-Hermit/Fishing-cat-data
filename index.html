@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The Discord tab is now three steps: pick what to post, optional header picture, one Post button. -->
+<!-- Patch note: Home now explains what Fishing Cat Data is, what it can do and what it can't. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -83,8 +83,22 @@ button:disabled{opacity:.5}
 <div class="tabs main"><button id="t0" class="tab on">Home</button><button id="t1" class="tab">Roblox clan sheet</button><button id="t3" class="tab">Bills</button><button id="t6" class="tab">Discord</button><button id="t4" class="tab">GitHub</button><button id="t5" class="tab">Settings</button></div>
 <div id="hometab">
 <p style="margin:2px 0 8px;font-size:14px"><a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">Guide on GitHub</a> &middot; <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Free key from Google (opens Google)</a></p>
-<h2 style="margin:6px 0">Turn your Roblox clan list into a spreadsheet</h2>
-<p>Take screenshots of your clan's member list. This page reads them and gives you a spreadsheet file. Nobody has to type anything.</p>
+<h2 style="margin:6px 0">Fishing Cat Data turns screenshots into spreadsheets</h2>
+<p>Take screenshots (or a screen recording) of your Roblox clan's member list, or photos of a bill. An AI reads them and gives you an Excel file. Nobody has to type anything.</p>
+<div style="font-weight:600;margin-top:10px">What it can do</div>
+<ul style="margin:4px 0 0;padding-left:20px;line-height:1.5;font-size:14px">
+<li>Make a clan sheet for any Roblox game and show who gained points since last time.</li>
+<li>Turn power, gas, water, internet and phone bills into one row per charge, plus a summary.</li>
+<li>Post the result to your Discord channel, with a table picture.</li>
+<li>It's free to use. You bring your own AI key (a free one works).</li>
+</ul>
+<div style="font-weight:600;margin-top:10px">What it can't do</div>
+<ul style="margin:4px 0 0;padding-left:20px;line-height:1.5;font-size:14px">
+<li>It doesn't connect to Roblox or log in anywhere. It only reads the pictures you give it.</li>
+<li>The AI can misread a name or number, so give the sheet a quick look.</li>
+<li>It has no accounts and keeps nothing online. Your history lives in the Excel file you keep.</li>
+<li>It isn't financial advice, and it isn't an official Roblox, Google or Anthropic product.</li>
+</ul>
 <button data-go="sheet">Make a Roblox clan sheet</button>
 <button data-go="bill" class="tab" style="width:100%;margin-top:8px;padding:12px">Read my bills</button>
 <div style="font-size:13px;color:var(--muted);margin-top:6px">Bills works for power, gas, water, internet and phone. Photos or PDFs.</div>
@@ -132,6 +146,8 @@ button:disabled{opacity:.5}
 </ul>
 </details>
 </div>
+<div id="introbox" style="display:none"><p id="introtxt" style="font-size:14px;color:var(--muted);margin:10px 0 0"></p><div id="opthint" style="background:var(--noteBg);color:var(--noteText);border-radius:8px;padding:10px 12px;margin:10px 0 0;font-size:14px">Looking for your last sheet or the Log? They are under the small arrows (▸). Discord posting has its own tab.</div>
+</div>
 <div id="keybox"><details id="keydet" open><summary style="cursor:pointer;font-size:14px;font-weight:600">AI company and key</summary>
 <label for="provider">AI company</label>
 <select id="provider"><option value="gemini">Google Gemini</option><option value="anthropic">Anthropic (Claude)</option><option value="openai">OpenAI (untested)</option></select>
@@ -144,9 +160,7 @@ button:disabled{opacity:.5}
 <div class="hc" style="margin-top:10px;font-size:13px"><b>Your key is safe here.</b> It stays on this device and goes only to the AI company you pick. Treat it like a password. <a href="#" data-go="safety">More</a></div>
 </details></div>
 <div id="sheet" style="display:none">
-<div id="opthint" style="background:var(--noteBg);color:var(--noteText);border-radius:8px;padding:10px 12px;margin:10px 0 0;font-size:14px">Looking for your last sheet or the Log? They are under the small arrows (▸). Discord posting has its own tab.</div>
 <details id="adddet" open style="margin-top:10px"><summary>Add screenshots</summary>
-<div style="font-size:13px;color:var(--muted);margin-top:10px">Turns clan screenshots or a video from any Roblox game into a member sheet.</div>
 <label for="clanbox">Clan name (optional)</label>
 <input id="clanbox" maxlength="40" autocomplete="off" placeholder="e.g. Loki. Used in the file name">
 <label>Screenshots</label>
@@ -366,6 +380,7 @@ function showTab(which) {
   if (which === "sheet" || which === "bill") { const t = document.getElementById(which === "bill" ? "billtab" : "sheet"); t.appendChild(document.getElementById("logbox")); lastKind = which; }
   if (which === "discord") { const r = document.querySelector('input[name=dcsrc]:checked'); if (!r) document.querySelector('input[name=dcsrc][value='+(pv ? "sheet" : bp ? "bill" : "files")+']').checked = true; dcShow(); }
   if (which === "settings") { renderSaved(); $("wipemsg").textContent = ""; }
+  { const ib = document.getElementById("introbox"), on = which === "sheet" || which === "bill"; ib.style.display = on ? "" : "none"; if (on) { document.getElementById("introtxt").textContent = which === "bill" ? "Turns photos of household bills (any kind, any country) into a sheet with a summary. Pick your AI company and key, add your bills, and download the Excel file." : "Turns screenshots or a video of your Roblox clan list (any Roblox game) into an Excel sheet. Pick your AI company and key, add your screenshots, and tap Make my sheet. Each new sheet is compared with your last one to show who gained points."; document.getElementById("opthint").style.display = which === "bill" || pv ? "none" : ""; } }
   document.getElementById("keybox").style.display = which === "sheet" || which === "bill" ? "" : "none";
 }
 document.querySelector(".tabs").setAttribute("role", "tablist");
@@ -401,7 +416,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-q";
+const BUILD = "2026-11-12-s";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
