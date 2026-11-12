@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Look-alike names count as one player
+
+12 Nov 2026 (06:22 UTC) · Changed
+
+If the AI misreads g as q (or 0/o, 1/i/l), the player is matched to their old row instead of showing up twice.
+
+**What you'll see:** Leaderboard has no duplicate player
+
+- Fold look-alike letters in name matching
+
 ## Better game name read
 
-12 Nov 2026 (06:21 UTC) · Changed
+12 Nov 2026 (06:21 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c9845f7)
 
 The AI is now allowed to recognise the Roblox game from how the screen looks, so the sheet says the real game name instead of Game.
 

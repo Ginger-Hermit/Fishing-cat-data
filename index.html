@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The AI is now allowed to recognise the Roblox game from how the screen looks, so the sheet says the real game name instead of Game. -->
+<!-- Patch note: If the AI misreads g as q (or 0/o, 1/i/l), the player is matched to their old row instead of showing up twice. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -375,7 +375,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-u";
+const BUILD = "2026-11-12-v";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -735,6 +735,8 @@ function readHistory(wb, ws, map, names) {
 // One letter misread by the AI (healthles / Healthies) = same player. Only for names of 6+ letters, and only when the match is unique.
 function nameClose(a, b) {
   if (a.length < 6 || b.length < 6 || Math.abs(a.length - b.length) > 1) return false;
+  const fold = (t) => t.replace(/q/g, "g").replace(/0/g, "o").replace(/[1i]/g, "l"); // letters the AI mixes up (pogger195 / poqqer195)
+  if (a.length === b.length && fold(a) === fold(b)) return true;
   let i = 0; while (i < a.length && i < b.length && a[i] === b[i]) i++;
   if (a.length === b.length) return a.slice(i + 1) === b.slice(i + 1);
   const [x, y] = a.length > b.length ? [a, b] : [b, a];
