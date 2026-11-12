@@ -1,14 +1,14 @@
 # The prompts Ginger really used
 
-Ginger doesn't code. Every line of this app was written by Claude, an AI, from short messages like these, often typed on a phone. This page is the real thing: what she said, when, and what it caused. Spelling is fixed. Her words are left as she wrote them.
+Ginger doesn't code. Every line of this app was written by Claude, an AI, from short messages like these, often typed on a phone. This page is the real thing: what Ginger said, when, and what it caused. Spelling is fixed. Their words are left as written.
 
-The app-days prompts are first. Counts are **minimums**, from what could be found in her saved chats (9 Nov to 12 Nov 2026). Nothing older survives.
+The app-days prompts are first. Counts are **minimums**, from what could be found in their saved chats (9 Nov to 12 Nov 2026). Nothing older survives.
 
 ## The app days (9 to 11 Nov): before the website
 
-**We tried an app first. It failed.** The first version was a Windows desktop program, not a web page. Ginger got bored of it: too many windows, buttons and owner codes, and every fix needed another install on her PC. So the project started over as a web page on 11 Nov. These are her prompts from the app days, in order.
+**We tried an app first. It failed.** The first version was a Windows desktop program, not a web page. Ginger got bored of it: too many windows, buttons and owner codes, and every fix needed another install on their PC. So the project started over as a web page on 11 Nov. These are their prompts from the app days, in order.
 
-| Date | She said | What happened |
+| Date | Ginger said | What happened |
 |---|---|---|
 | 9 Nov | "Can we redo the owner shit and make it simpler, I keep losing it" | A password replaced the key file. |
 | 9 Nov | "Fuck it this is too annoying, lets do how it was before, no owner shit and password" | All owner signing was removed. Fingerprint only. |
@@ -37,9 +37,9 @@ The app-days prompts are first. Counts are **minimums**, from what could be foun
 | 11 Nov | "can we remove that nifty popup thingy" | The web page's host popup led to a host move. |
 | 11 Nov | "I don't see a point in this, it should be upload photo/video and it fills it in" | The set-up form was dropped. |
 
-## How often she said the same thing
+## How often Ginger said the same thing
 
-| She kept saying | Times (at least) | Examples |
+| Ginger kept saying | Times (at least) | Examples |
 |---|---|---|
 | Make it simpler, or remove it | 21 | "just remove the whole profile thingy lol" · "So many buttons" |
 | It looks ugly, awful, boring or weird | 14 | "These are UGLY, update again please too!!!" · "Borning!" |
@@ -50,10 +50,10 @@ The app-days prompts are first. Counts are **minimums**, from what could be foun
 
 About 75 repeats. Most happened because a new chat started blank. It asked for the files again and forgot "mockup first". What fixed it: `CLAUDE.md` and `STATUS.md` in the repo, which every new chat loads by itself (11 to 12 Nov).
 
-## Her prompts, by what they did
+## Prompts, by what they did
 
 ### Simplify
-| Date | She said | What happened |
+| Date | Ginger said | What happened |
 |---|---|---|
 | 9 Nov | "Can we redo the owner shit and make it simpler, I keep losing it" | A password replaced the key file. |
 | 9 Nov | "Fuck it this is too annoying, lets do how it was before" | All owner signing was removed. Fingerprint only. |
@@ -65,7 +65,7 @@ About 75 repeats. Most happened because a new chat started blank. It asked for t
 | 12 Nov | "So many buttons. Couldn't we simplify it?" | The Discord box was cut to four steps. |
 
 ### Looks
-| Date | She said | What happened |
+| Date | Ginger said | What happened |
 |---|---|---|
 | 9 Nov | "This needs updating too, too old looking" | View code redesigned. |
 | 9 Nov | "This mega ugly." | Update log regrouped by day. |
@@ -76,16 +76,16 @@ About 75 repeats. Most happened because a new chat started blank. It asked for t
 | 12 Nov | "Borning!" | The lazy guide got a story. |
 
 ### Fix it, don't ask
-| Date | She said | What happened |
+| Date | Ginger said | What happened |
 |---|---|---|
 | 10 Nov | "Refresh and clear button don't work lol" | Both fixed. |
-| 11 Nov | "fixy dumbo" | Claude had asked permission for a fix she'd already asked for. |
+| 11 Nov | "fixy dumbo" | Claude had asked permission for a fix they'd already asked for. |
 | 12 Nov | "do it fucker" | Said when Claude asked before writing a note. It did it. |
 | 12 Nov | "Ugh I meant in a discord paragraph" | A short correction, not a long re-explain. |
 
-## Her shorthand (a glossary Claude was given)
+## Ginger's shorthand (a glossary Claude was given)
 
-| She says | Claude reads it as |
+| Ginger says | Claude reads it as |
 |---|---|
 | lol | Not angry. "This is a bit silly, please fix." |
 | Jeez | You took too long. Just do it. |

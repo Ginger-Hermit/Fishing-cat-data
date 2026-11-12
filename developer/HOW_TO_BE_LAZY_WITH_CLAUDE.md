@@ -9,7 +9,7 @@ It started with a boring chore. A Roblox clan leader scrolls the member list and
 
 - **Day 1 (11 Nov):** a first working page that read screenshots into a sheet. Then came the first stress test: fake AI replies, bad pictures, weird numbers. About 20 weak spots turned up, all fixed. None were security holes; they were "wrong sheet" and "confusing message" problems.
 - **The first host showed a popup,** so the page moved to a different free host, deployed straight from GitHub. The fix took one chat.
-- **The AI bill worry:** the owner didn't want to spend her own credit, so the page switched to a free Google AI key. It worked first time.
+- **The AI bill worry:** the owner didn't want to spend their own credit, so the page switched to a free Google AI key. It worked first time.
 - **Day 2 (12 Nov):** a Bills tab (photos of bills become a sheet), a Home page, a calmer look after "this looks tacky" (no gradients, no emoji), and an Excel file that keeps history week to week.
 - **Then Discord:** post the result to a channel with a picture of the table and the Loki poster on top. The first version was crowded ("too much info", "so many buttons", "this seems hard to use"), so it was cut down three times, then split into its own tab.
 - **Last:** a breakdown message with green and red lines, an optional role ping, a break-and-security report, and these guides.

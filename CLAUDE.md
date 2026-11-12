@@ -25,7 +25,7 @@ Ginger does not code. Short, blunt answers. Plain words on screen.
 - Warn before big jobs (stress test, full review, new feature).
 - Small wording or colour changes don't need the strongest model. Say so.
 - Long chat? Tell Ginger to start a new one. Nothing is lost.
-- Do not sleep and wait for GitHub tests after a push: say they are running; Ginger sees a red cross. Check only if she asks.
+- Do not sleep and wait for GitHub tests after a push: say they are running; Ginger sees a red cross. Check only if Ginger asks.
 - Layout fixes: render once (LibreOffice to one small PNG), look at only the changed tab. No second render unless it looks wrong.
 - Do not read screenshots twice, and do not re-check files already shown in the chat.
 - Bugs: ask for the Copy bug report text first (the Log has timings, sizes, AI token counts, errors). Don't guess.
@@ -35,7 +35,7 @@ Ginger does not code. Short, blunt answers. Plain words on screen.
 - Keep the AI safety notice and the wrong-address warning.
 - Bills: the AI copies, the sheet calculates. No AI sums or conversions. No fields for name, address or account numbers.
 - Never ask for the key. If one is pasted, tell Ginger to delete it now.
-- Nothing leaves the PC except to the AI company she picked. No new packages (only `exceljs.bare.min.js`, loaded by `loadExcel`).
+- Nothing leaves the PC except to the AI company Ginger picked. No new packages (only `exceljs.bare.min.js`, loaded by `loadExcel`).
 
 ## Where things are (grep `index.html`)
 | What | Search |
@@ -58,7 +58,7 @@ Ginger does not code. Short, blunt answers. Plain words on screen.
 Clean and calm. No big coloured blocks, no boxes in boxes. Buttons 1 to 3 words, one grey help line at most. No jargon. Check light, dark and big-text themes.
 
 ## Working with Ginger
-- Mockups first for anything new on screen; build only what she approves.
+- Mockups first for anything new on screen; build only what Ginger approves.
 - New big feature? First ask if the basic sheet works in a real run.
 - Bad or bloated idea: say so in one line, offer a cheaper way.
 - Fails twice: stop, suggest a simpler version or dropping it.

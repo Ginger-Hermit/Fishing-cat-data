@@ -3,7 +3,7 @@
 Written 12 Nov 2026 for a later session. Read this and STATUS.md only. Lessons come from `STRESS_TEST_LOG.md` (sections 5, 7, 9.7) and `SECURITY.md`.
 
 ## 0. Mindset: how an experienced attacker thinks
-Not "does it work?" but "what does it trust, and who controls that?" The page has no server, so nobody can hack a database. The prize is always one of four things: **Ginger's AI key**, **her Discord link**, **a lie in the sheet** (wrong numbers that look right), or **spam in her channel**. Work backwards from those four.
+Not "does it work?" but "what does it trust, and who controls that?" The page has no server, so nobody can hack a database. The prize is always one of four things: **Ginger's AI key**, **their Discord link**, **a lie in the sheet** (wrong numbers that look right), or **spam in their channel**. Work backwards from those four.
 
 Rules that decide where to dig first:
 1. Everything that comes from outside is hostile: AI replies, uploaded files, file names, names inside pictures, localStorage, the Discord link, pasted text.
@@ -56,7 +56,7 @@ Out: AI company, discord.com, GitHub links, Excel download, clipboard (Copy erro
 | 6 | Write results into STRESS_TEST_LOG (new section: round 5) and STATUS | low | no |
 | 7 | Real run: one Gemini run each tab, one Discord post to a test channel, Excel on a phone | small real cost | **yes** |
 
-Stop rules: after step 2 and after step 4, report counts (cases run, found, fixed) in 3 lines. If the same fix fails twice, stop and say so. If a look change is needed, show a mockup first. Never post to her real channel and never use her key in tests. Warn before step 5 and 7.
+Stop rules: after step 2 and after step 4, report counts (cases run, found, fixed) in 3 lines. If the same fix fails twice, stop and say so. If a look change is needed, show a mockup first. Never post to the real channel and never use the real key in tests. Warn before step 5 and 7.
 
 ## 6. Pass marks
 - Zero canary hits anywhere.

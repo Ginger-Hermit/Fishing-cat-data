@@ -13,8 +13,8 @@ Rules set from the start, and kept:
 
 ## 2. The loop used for every change
 
-1. **Ginger says what she wants** in plain words, often from a phone.
-2. **Mockup first** for anything new on screen: a quick picture, then she approves or changes it. Nothing is built until it is approved.
+1. **Ginger says what they want** in plain words, often from a phone.
+2. **Mockup first** for anything new on screen: a quick picture, then Ginger approves or changes it. Nothing is built until it is approved.
 3. **Small edits.** Each edit is a find-and-replace that must match exactly one place. A backup of `index.html` is kept outside the repo first. No whole-file rewrites.
 4. **One release command**: `python3 tools/release.py ...` raises the version, writes the CHANGELOG entry, updates STATUS.md and runs `tests/check.py`.
 5. **Tests** (see section 5).
@@ -55,7 +55,7 @@ All checks pass on GitHub: the code check, row and bill tests, fuzz (5,000 cases
 ## 4. Decisions worth knowing
 
 - **Mockups first** stopped the build of things Ginger did not want. Several screens were drawn and rejected before any code was written (a four-screen wizard, a one-screen form, a table, then the Excel-look table that was finally built).
-- **Wording mistake, fixed:** the page was briefly changed to say "any game" after Ginger asked for other clan games. She meant any Roblox game. It was put back the same day. Lesson: ask one short question when a wording change could mean two things.
+- **Wording mistake, fixed:** the page was briefly changed to say "any game" after Ginger asked for other clan games. Ginger meant any Roblox game. It was put back the same day. Lesson: ask one short question when a wording change could mean two things.
 - **Errors do not report themselves.** The page cannot send errors anywhere, by design. A red "Copy error to send" button copies a report (keys removed) that the user pastes into a chat or a GitHub issue.
 - **Hosting and privacy.** The page is plain files on a normal web host. The host can see that someone opened the site and which files they asked for (and the page asks for `version.txt` every 5 minutes), as any web host can. It never receives the key, pictures, bills or sheets, because those go straight from the browser to the AI company the person picked. How long the host keeps its own logs was not checked.
 - **People control what is saved.** Settings has a Privacy section: it lists what is stored on the device (never the values), stops saving the last sheet, forgets the key, or deletes everything. Delete buttons need a second tap.
