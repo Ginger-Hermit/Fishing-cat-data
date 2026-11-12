@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Break-test helper for the Discord and Excel parts. Pretend Discord, no real network, about 15 seconds.
 Run all:   python3 -I tools/attack.py
-Narrow:    python3 -I tools/attack.py post        (groups: ping post excel secrets names role)
+Narrow:    python3 -I tools/attack.py post        (groups: ping post excel secrets names role tamper)
 Prints one line per check and a one-line verdict, so the output stays tiny.
 To add a check: write one chk(...) call inside a group below."""
 import os, sys, json
@@ -100,7 +100,17 @@ def g_role(pg):
     chk("role ping goes on the first message only", r == "ok" and first.get("content", "").startswith("<@&123456789012345678>") and not second.get("content", "").startswith("<@&") and first["allowed_mentions"]["roles"] == ["123456789012345678"] and second["allowed_mentions"]["roles"] == [], (r, first.get("allowed_mentions"), second.get("allowed_mentions")))
     pg.evaluate("document.getElementById('dcping').value=''")
 
-GROUPS = {"ping": g_ping, "post": g_post, "excel": g_excel, "secrets": g_secrets, "names": g_names, "role": g_role}
+def g_tamper(pg):
+    # A broken or booby-trapped saved setting must not break the page or run code.
+    js = """() => { const bad = '<img src=x onerror="window.pwned=1">', keys = ['fcd_art','fcd_autoref','fcd_clan','fcd_game','fcd_hook','fcd_hookxlsx','fcd_justupdated','fcd_keepprev','fcd_key_gemini','fcd_model_gemini','fcd_pingmode','fcd_pingrole','fcd_provider','fcd_theme','fcd_size'];
+      keys.forEach(k => localStorage.setItem(k, bad)); }"""
+    for prev in ['{"entries":"x"}', '{"entries":[["Ann",5]],"hist":"junk"}', '{"entries":[["Ann",5]],"hist":{"runs":5,"rows":null}}', '{"entries":[["__proto__",1]],"name":"<b>x</b>"}', 'not json']:
+        pg.evaluate(js); pg.evaluate("p => localStorage.setItem('fcd_prev', p)", prev); pg.reload(); pg.wait_for_timeout(300)
+        ok = pg.evaluate("() => { for (const b of document.querySelectorAll('.tabs.main .tab')) b.click(); return !window.pwned && document.body.innerText.length > 200 }")
+        chk("tampered settings, last sheet " + prev[:30], ok, "page broke or ran code")
+    pg.evaluate("localStorage.clear()"); pg.reload(); pg.wait_for_timeout(300)
+
+GROUPS = {"ping": g_ping, "post": g_post, "excel": g_excel, "secrets": g_secrets, "names": g_names, "role": g_role, "tamper": g_tamper}
 want = sys.argv[1:] or list(GROUPS)
 bad = [w for w in want if w not in GROUPS]
 if bad: sys.exit("Unknown group: %s. Use: %s" % (", ".join(bad), " ".join(GROUPS)))
