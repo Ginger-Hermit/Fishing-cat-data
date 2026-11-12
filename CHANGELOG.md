@@ -2,9 +2,21 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Security fixes
+
+12 Nov 2026 (00:35 UTC) · Changed
+
+Closed holes found in a break test.
+
+**What you'll see:** Nothing visible; the page is just safer.
+
+- A huge junk AI reply can no longer freeze the page
+- Your key is now hidden everywhere in the Log and bug report
+- Odd model names and tab-started sheet cells are blocked
+
 ## Hosting wording
 
-12 Nov 2026 (00:20 UTC) · Changed
+12 Nov 2026 (00:20 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/b9c8580)
 
 The privacy note no longer names the web host.
 

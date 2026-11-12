@@ -132,6 +132,17 @@ async function runCase(page, flow, kind) {
     await page.fill('#preview input[aria-label="Username, row 1"]', "Zed");
     const typed = await page.evaluate(() => [pv.rows[0].name, document.querySelector("#preview .xlfv").textContent]);
     check("preview: real typing reaches the data and the formula bar", typed[0] === "Zed" && typed[1] === "Zed", typed.join("|"));
+    const sec = await page.evaluate(() => {
+      const o = {}; $("key").value = "MYSECRETKEY987654"; clog("bad request for MYSECRETKEY987654"); o.log = $("console").textContent.includes("MYSECRETKEY");
+      localStorage.setItem("fcd_model_gemini", "../../evil?x="); o.model = modelFor("gemini"); localStorage.removeItem("fcd_model_gemini");
+      o.csv = toCsv([{ rank: 1, name: "\t=1+1", role: "\r=2", points: "=3" }]);
+      const t0 = performance.now(); try { parseRows("[".repeat(99000)); parseBills("{".repeat(99000)); parseRows('[{"name":"a","points":"1"},'.repeat(20000)); } catch (e) {} o.ms = performance.now() - t0;
+      try { parseRows('[{"__proto__":{"polluted":1},"name":"a","points":"1"}]'); } catch (e) {} o.poll = ({}).polluted; $("key").value = ""; return o; });
+    check("security: key never reaches the log", !sec.log);
+    check("security: odd model name from storage is ignored", /^[\w.\-]+$/.test(sec.model) && !sec.model.includes(".."), sec.model);
+    check("security: sheet file neutralises formulas starting with tab or CR", !/"[\t\r]/.test(sec.csv), JSON.stringify(sec.csv));
+    check("security: giant junk reply cannot freeze the page", sec.ms < 3000, Math.round(sec.ms) + "ms");
+    check("security: no prototype pollution", !sec.poll);
     check("no page errors", pageErrors.length === 0, pageErrors.slice(0, 2).join(" ; "));
     await browser.close();
     console.log(name + ": done");

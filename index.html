@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The privacy note no longer names the web host. -->
+<!-- Patch note: Closed holes found in a break test. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -321,7 +321,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-u";
+const BUILD = "2026-11-12-v";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -349,11 +349,16 @@ async function checkUpdate() {
 }
 if (location.protocol.startsWith("http")) { checkUpdate(); setInterval(checkUpdate, 5 * 60 * 1000); }
 // Console: a plain list of what the page did. Nothing here is sent anywhere.
+function scrub(t) { // remove the typed key and anything that looks like a key
+  t = String(t);
+  try { const k = document.getElementById("key").value.trim(); if (k.length >= 6) t = t.split(k).join("[key removed]"); } catch (e) {}
+  return t.replace(/sk-[\w-]{8,}|AIza[\w-]{8,}/g, "[key removed]");
+}
 function clog(text) {
   let t = new Date().toLocaleTimeString();
   try { if (prog.t0) t = Math.round((Date.now() - prog.t0) / 1000) + "s"; } catch (e) {}
   const box = document.getElementById("console");
-  box.textContent += (box.textContent ? "\n" : "") + t.padStart(4) + "   " + String(text).replace(/sk-[\w-]{8,}|AIza[\w-]{8,}/g, "[key removed]");
+  box.textContent += (box.textContent ? "\n" : "") + t.padStart(4) + "   " + scrub(text);
   if (box.textContent.length > 30000) box.textContent = box.textContent.slice(-20000);
 }
 let images = [];
@@ -496,7 +501,7 @@ renderSaved();
 $("key").oninput = () => { refresh(); if ($("remember").checked) keepKey(); };
 
 function provider() { return $("provider").value; }
-function modelFor(id) { return (lsGet("fcd_model_" + id) || "").trim() || PROVIDERS[id].model; }
+function modelFor(id) { const m = (lsGet("fcd_model_" + id) || "").trim(); return /^[\w.\-]{1,80}$/.test(m) ? m : PROVIDERS[id].model; } // odd characters could change the web address
 function applyProvider(clearKey) {
   const id = provider(), p = PROVIDERS[id];
   $("keylabel").textContent = "Your AI key (" + p.name + ")";
@@ -522,7 +527,8 @@ const bugCopy = async (btn, label) => {
   const k = $("key").value.trim();
   if (k) t = t.split(k).join("[key removed]");
   t = t.replace(/sk-[\w-]{8,}|AIza[\w-]{8,}/g, "[key removed]");
-  const rep = "Fishing Cat Data bug report\n" + new Date().toString() + "\nError shown: " + ($("msg").className.includes("err") ? $("msg").textContent : "none") + "\nBrowser: " + navigator.userAgent + "\nCompany: " + provider() + "\n\n" + t;
+  let rep = "Fishing Cat Data bug report\n" + new Date().toString() + "\nError shown: " + ($("msg").className.includes("err") ? $("msg").textContent : "none") + "\nBrowser: " + navigator.userAgent + "\nCompany: " + provider() + "\n\n" + t;
+  rep = scrub(rep);
   let done = "Copied! Paste it to Claude";
   try { await navigator.clipboard.writeText(rep); } catch (e) { done = "Couldn't copy: select the log and copy by hand"; }
   btn.textContent = done; setTimeout(() => { btn.textContent = label; }, 3000);
@@ -551,8 +557,9 @@ const REAL_HOST = "fishing-cat-data.pages.dev";
 // Tidy one value from the AI: text or number only, no hidden characters, not too long.
 const tidy = (v, n) => (typeof v === "string" || typeof v === "number") ? String(v).replace(/[\u0000-\u001f\u007f]/g, " ").trim().slice(0, n) : "";
 function parseRows(text) {
+  text = String(text ?? "").slice(0, 100000); // real replies are small; a giant one must not freeze the page
   let rows, cut = false;
-  try { rows = JSON.parse(text.match(/\[[\s\S]*\]/)[0]).flat(2); }
+  try { rows = JSON.parse(text.slice(text.indexOf("["), text.lastIndexOf("]") + 1)).flat(2); }
   catch (e) {
     // Reply was cut off or untidy: keep every complete row. It was cut off if no "]" follows the last row.
     rows = []; let end = 0;
@@ -813,7 +820,7 @@ showPrev();
 
 function toCsv(rows) {
   // A leading ' stops Excel treating a name like =SUM(...) as a formula.
-  const esc = (v) => '"' + String(v ?? "").replace(/^([=+\-@])/, "'$1").replace(/"/g, '""') + '"';
+  const esc = (v) => '"' + String(v ?? "").replace(/^([=+\-@\t\r])/, "'$1").replace(/"/g, '""') + '"';
   const lines = ["Rank,Name,Role,Points"];
   rows.forEach(r => lines.push([r.rank, r.name, r.role, r.points].map(esc).join(",")));
   return lines.join("\n");
@@ -922,7 +929,7 @@ async function pickProfile(key) {
   const all = await collectPictures(pick), pics = [...new Set([all[0], all[all.length >> 1], all[all.length - 1]])];
   const text = await ASKERS[provider()](key, modelFor(provider()), pics);
   let r = {};
-  try { r = JSON.parse(text.match(/\{[\s\S]*\}/)[0]) || {}; } catch (e) { clog("Layout not read; using the usual layout."); }
+  try { r = JSON.parse(text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1)) || {}; } catch (e) { clog("Layout not read; using the usual layout."); }
   const p = { clan: clean($("clanbox").value, 40) || clean(r.clan_name, 40) || "Clan", game: clean(r.game_name, 40) || "Game", ranks: r.ranks_shown !== false && r.ranks_shown !== "false", extra: clean(r.extra_column, 30) };
   clog("Auto layout: " + nameOf(p) + ", ranks " + (p.ranks ? "shown" : "not shown") + ", extra column " + (p.extra || "none") + ".");
   return p;
@@ -1127,8 +1134,9 @@ function kwhFor(line, mark) {
   return { how: "check: can't turn " + (tidy(line.unit, 14) || "this unit") + " into kWh", check: true };
 }
 function parseBills(text) {
+  text = String(text ?? "").slice(0, 100000);
   let d = null;
-  try { d = JSON.parse(text.match(/\{[\s\S]*\}/)[0]); } catch (e) {}
+  try { d = JSON.parse(text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1)); } catch (e) {}
   const list = d && (Array.isArray(d.bills) ? d.bills : [d]);
   const bills = (list || []).filter(b => b && typeof b === "object" && Array.isArray(b.lines)).slice(0, 12).map(b => {
     const mark = b.decimal_mark === "," || b.decimal_mark === "." ? b.decimal_mark : "";
