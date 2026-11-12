@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The Discord message has a heading and bold numbers, and My own files now respects the Attach the Excel file tick, so you can post just the picture. -->
+<!-- Patch note: The Discord message now shows average points, up, down, same and new counts, top gains, biggest drops and new members. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -421,7 +421,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-y";
+const BUILD = "2026-11-12-z";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1466,6 +1466,18 @@ function xlTable(o) {
 let pv = null;
 const pvBad = (r) => /\?/.test(String(r.name)) || !String(r.name).trim() || parsePoints(r.points) === null;
 const dcHead = (clan, game, date, n, tot) => "## " + clan + " \u00b7 " + game + "\n-# " + date + "\n**" + n + "** members \u00b7 **" + tot + "** points";
+const dcStats = (items, f, any) => {
+  const sg = (d) => (d >= 0 ? "+" : "-") + f(Math.abs(d)), pc = (d, b) => (b ? " (" + (d > 0 ? "+" : "") + (d / b * 100).toFixed(1) + "%)" : "");
+  let t = "\nAverage **" + f(items.reduce((a, x) => a + x.n, 0) / Math.max(items.length, 1)) + "** points each";
+  if (!any) return t;
+  const ret = items.filter((x) => x.b !== null), fresh = items.filter((x) => x.b === null), d = ret.reduce((a, x) => a + x.n - x.b, 0), b0 = ret.reduce((a, x) => a + x.b, 0);
+  const up = ret.filter((x) => x.n > x.b).sort((x, y) => (y.n - y.b) - (x.n - x.b)), dn = ret.filter((x) => x.n < x.b).sort((x, y) => (x.n - x.b) - (y.n - y.b));
+  t += "\n**" + sg(d) + pc(d, b0) + "** since last run (returning members)\nUp " + up.length + " \u00b7 Down " + dn.length + " \u00b7 Same " + (ret.length - up.length - dn.length) + " \u00b7 New " + fresh.length;
+  if (up.length) t += "\n**Top gains**\n" + up.slice(0, 5).map((x, i) => (i + 1) + ". " + x.name + " " + sg(x.n - x.b) + pc(x.n - x.b, x.b)).join("\n");
+  if (dn.length) t += "\n**Biggest drops:** " + dn.slice(0, 3).map((x) => x.name + " " + sg(x.n - x.b)).join(", ");
+  if (fresh.length) t += "\n**New:** " + fresh.slice(0, 10).map((x) => x.name).join(", ") + (fresh.length > 10 ? " and " + (fresh.length - 10) + " more" : "");
+  return t;
+};
 const HOOK_RE = /^https:\/\/discord\.com\/api\/webhooks\/\d+\/[\w-]+$/;
 const setHook = (v) => { hookNow = v; try { if (v && $("hookkeep").checked) localStorage.setItem("fcd_hook", v); else localStorage.removeItem("fcd_hook"); } catch (e) {} };
 $("hookbox").onchange = () => { const v = $("hookbox").value.trim(); if (v && !HOOK_RE.test(v)) { $("hookmsg").textContent = "That is not a Discord link."; return; } setHook(v); $("hookmsg").textContent = v ? "Ready." : "Removed."; renderSaved(); if (pv) pvDraw(); };
@@ -1569,7 +1581,7 @@ $("shpost").onclick = async () => {
     if (xf) {
       const sh = await readSheet(await xf.arrayBuffer()).catch(() => { throw new Error("That Excel file could not be read. Use a sheet this page made."); }), f = (n) => Math.round(n).toLocaleString("en-US"), tot = sh.items.reduce((t, r) => t + r.n, 0);
       text = dcHead(sh.clan, sh.game, sh.date, sh.items.length, f(tot));
-      if (sh.any) { const ret = sh.items.filter((r) => r.b !== null), d = ret.reduce((t, r) => t + r.n - r.b, 0), b0 = ret.reduce((t, r) => t + r.b, 0); text += "\n**" + (d >= 0 ? "+" : "-") + f(Math.abs(d)) + (b0 ? " (" + (d >= 0 ? "+" : "") + (d / b0 * 100).toFixed(1) + "%)" : "") + "** since last run (returning members)"; }
+      text += dcStats(sh.items, f, sh.any);
       if (!pf) files.push(await rowsPic(sh.items.map((r) => ({ ...r, ch: sh.any ? chCell(r.n, r.b === null ? undefined : r.b) : ["", "#b5bac1"] })), sh.clan, subLine(sh.date, sh.items.length, tot, sh.items.filter((r) => r.b !== null).reduce((t, r) => t + r.n - r.b, 0), sh.any), sh.clan + ".png"));
     }
     if (pf) files.push({ blob: pf, name: pf.name });
@@ -1631,7 +1643,7 @@ async function pvPost() {
     let file = null;
     if (window.ExcelJS) { const buf = await buildWorkbook(window.ExcelJS, rows, prevMap, pv.p, todayText()).xlsx.writeBuffer(), fname = nameOf(pv.p) + ".xlsx"; if ($("hookxlsx").checked) file = { blob: new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), name: fname }; await keepMade(buf, fname); }
     const pic = await clanPic(rows).catch((e) => { clog("Table picture skipped: " + why(e)); return null; });
-    const sent = await hookPost(hookText(!!pic), [pic, file].filter(Boolean));
+    const sent = await hookPost(hookText(false), [pic, file].filter(Boolean));
     setMsg(sent ? "Posted to Discord." : "Posted to Discord. The sheet file could not go, so use Download sheet.");
   } catch (err) { clog("Stopped: " + why(err)); setMsg(plain(err), true); }
 }

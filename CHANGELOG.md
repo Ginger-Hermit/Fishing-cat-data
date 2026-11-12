@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Discord post breaks down the stats
+
+12 Nov 2026 (07:30 UTC) · Changed
+
+The Discord message now shows average points, up, down, same and new counts, top gains, biggest drops and new members.
+
+> [!NOTE]
+> **What you'll see:** Post a sheet to Discord: the message under the picture has the full breakdown.
+
+- Added a stats breakdown to the message for posted sheets (own files and just-made sheets).
+
 ## Tidier Discord message, no Excel on request
 
 12 Nov 2026 (07:29 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/130bfa7)
