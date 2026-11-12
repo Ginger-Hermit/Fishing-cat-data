@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Footer links easier to see
+
+12 Nov 2026 (06:53 UTC) · Changed
+
+Stay safe, Privacy, Legal and GitHub links are bigger and in colour.
+
+**What you'll see:** Bottom of every tab.
+
+- Footer links now use the link colour, bold, 15px with more space to tap.
+
 ## Cleaner Stay safe page
 
-12 Nov 2026 (06:52 UTC) · Changed
+12 Nov 2026 (06:52 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2ac2398)
 
 The Stay safe page is one short box plus one More detail box.
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The Stay safe page is one short box plus one More detail box. -->
+<!-- Patch note: Stay safe, Privacy, Legal and GitHub links are bigger and in colour. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -13,7 +13,7 @@ html[data-theme=forest]{--bg:#EEF3EC;--text:#1A2A1C;--muted:#4B604C;--accent:#2F
 html[data-theme=berry]{--bg:#F6EEF3;--text:#2A1B26;--muted:#664F5F;--accent:#8A2D63;--link:#8A2D63;--line:#B096A6;--soft:#E6D5DF;--noteBg:#F3DDE8;--noteText:#7A1F52}
 html[data-size=large] .card{zoom:1.25}
 .warnbox{border:1px solid var(--line);background:var(--field);border-radius:8px;padding:10px 12px;font-size:14px;margin-top:8px}
-#foot a{color:inherit}
+#foot a{color:var(--link);font-size:15px;font-weight:600;padding:6px 6px;display:inline-block}
 .hc a{color:var(--link)}
 .ok{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--noteBg);color:var(--noteText);border-radius:8px;padding:12px 14px;margin-top:8px;font-size:15px;font-weight:500}
 .hc{background:var(--field);border:1px solid var(--soft);border-radius:10px;padding:12px 14px;margin-bottom:10px}
@@ -379,7 +379,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-u";
+const BUILD = "2026-11-12-v";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
