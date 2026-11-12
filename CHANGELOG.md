@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Discord post in two messages
+
+12 Nov 2026 (07:42 UTC) · Changed
+
+The picture comes first, right under the heading, and the written breakdown follows as a second message with less empty space.
+
+> [!NOTE]
+> **What you'll see:** Discord: message 1 is the heading and picture, message 2 is the breakdown. A ping only goes on message 1.
+
+- Split the post in two; removed extra blank lines; long breakdowns get their own full message.
+
 ## Ping a Discord role
 
 12 Nov 2026 (07:41 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/87f0d00)

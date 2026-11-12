@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: On the Discord tab you can pick Ping a role, paste your own role ID, and posts ping only that role. -->
+<!-- Patch note: The picture comes first, right under the heading, and the written breakdown follows as a second message with less empty space. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -426,7 +426,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-zf";
+const BUILD = "2026-11-12-zg";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1477,25 +1477,24 @@ const dcBreakdown = (sh, f) => {
   const blk = (sign, lines, total) => "\n```diff\n" + lines.map((l) => sign + " " + l).join("\n") + (total > lines.length ? "\n  and " + (total - lines.length) + " more (see the file)" : "") + "\n```";
   let t = "## " + sh.clan + " \u00b7 " + sh.game + "\n-# " + sh.date + " \u00b7 " + n + " members \u00b7 " + f(tot) + " points";
   const roles = {}; it.forEach((x) => { const k = x.role || "No role"; roles[k] = (roles[k] || 0) + 1; });
-  t += "\n\n### Clan Members\n- " + Object.entries(roles).sort((x, y) => y[1] - x[1]).map(([k, c]) => c + " " + k + (c > 1 ? (/(s|x|ch|sh)$/i.test(k) ? "es" : "s") : "")).join(", ") + "\n- About " + f(tot / Math.max(n, 1)) + " points each";
+  t += "\n### Clan Members\n- " + Object.entries(roles).sort((x, y) => y[1] - x[1]).map(([k, c]) => c + " " + k + (c > 1 ? (/(s|x|ch|sh)$/i.test(k) ? "es" : "s") : "")).join(", ") + "\n- About " + f(tot / Math.max(n, 1)) + " points each";
   if (sh.any) {
     const ret = it.filter((x) => x.b !== null), fresh = it.filter((x) => x.b === null), d = ret.reduce((a, x) => a + x.n - x.b, 0), b0 = ret.reduce((a, x) => a + x.b, 0);
     const up = ret.filter((x) => x.n > x.b).sort((x, y) => (y.n - y.b) - (x.n - x.b)), dn = ret.filter((x) => x.n < x.b).sort((x, y) => (x.n - x.b) - (y.n - y.b)), same = ret.length - up.length - dn.length;
     const line = (x) => x.name + ": " + f(x.b) + " \u2192 " + f(x.n) + " (" + sg(x.n - x.b) + ")";
-    t += "\n\n### What changed\n**Whole clan: " + sg(d) + " points" + pc(d, b0) + "**";
-    if (up.length) t += "\n\n**Went up (" + up.length + ")**" + blk("+", up.slice(0, 10).map(line), up.length);
-    if (dn.length) t += "\n\n**Went down (" + dn.length + ")**" + blk("-", dn.slice(0, 10).map(line), dn.length);
-    if (same) t += "\n\n**No change (" + same + ")**";
-    if (fresh.length) t += "\n\n**New (" + fresh.length + ")**" + blk("+", fresh.slice(0, 10).map((x) => x.name + ": " + f(x.n) + " points"), fresh.length);
+    t += "\n### What changed\n**Whole clan: " + sg(d) + " points" + pc(d, b0) + "**";
+    if (up.length) t += "\n**Went up (" + up.length + ")**" + blk("+", up.slice(0, 10).map(line), up.length);
+    if (dn.length) t += "\n**Went down (" + dn.length + ")**" + blk("-", dn.slice(0, 10).map(line), dn.length);
+    if (same) t += "\n**No change (" + same + ")**";
+    if (fresh.length) t += "\n**New (" + fresh.length + ")**" + blk("+", fresh.slice(0, 10).map((x) => x.name + ": " + f(x.n) + " points"), fresh.length);
   }
   const h = sh.hist;
   if (h && h.dates.length > 1) {
     const K = h.dates.length, totals = h.dates.map((_, k) => h.list.reduce((a, e) => a + (e.vals[k] || 0), 0));
-    t += "\n\n### Points history\n- " + K + " runs saved, " + dt(h.dates[0]) + " to " + dt(h.dates[K - 1]) + "\n- Clan total: " + f(totals[0]) + " \u2192 " + f(totals[K - 1]);
+    t += "\n### Points history\n- " + K + " runs saved, " + dt(h.dates[0]) + " to " + dt(h.dates[K - 1]) + "\n- Clan total: " + f(totals[0]) + " \u2192 " + f(totals[K - 1]);
     const left = h.list.filter((e) => e.vals[K - 1] === null && e.vals.some((x) => x !== null)).map((e) => e.name);
-    if (left.length) t += "\n\n**Left the clan (" + left.length + ")**" + blk("-", left.slice(0, 10), left.length);
+    if (left.length) t += "\n**Left the clan (" + left.length + ")**" + blk("-", left.slice(0, 10), left.length);
   }
-  if (t.length > 1900) t = t.slice(0, t.lastIndexOf("\n", 1880)) + "\n-# (cut short, the rest is in the file)";
   return t;
 };
 const HOOK_RE = /^https:\/\/discord\.com\/api\/webhooks\/\d+\/[\w-]+$/;
@@ -1510,8 +1509,15 @@ $("hookxlsx").checked = lsGet("fcd_hookxlsx") !== "0";
 $("hookxlsx").onchange = () => { lsSet("fcd_hookxlsx", $("hookxlsx").checked ? "1" : "0"); renderSaved(); };
 $("hookkeep").onchange = () => { setHook(HOOK_RE.test(hookGet()) ? hookGet() : ""); renderSaved(); };
 $("hookforget").onclick = () => { $("hookkeep").checked = false; setHook(""); $("hookbox").value = ""; $("hookmsg").textContent = "Forgotten."; renderSaved(); if (pv) pvDraw(); };
-async function hookPost(text, file) {
-  const url = hookGet(), pg = $("dcping").value, rid = (($("dcrole").value.match(/\d{15,25}/) || [])[0]), body = { content: (pg === "role" ? (rid ? "<@&" + rid + ">\n" : "") : pg ? "@" + pg + "\n" : "") + text, allowed_mentions: pg === "role" ? { parse: [], roles: rid ? [rid] : [] } : { parse: pg ? ["everyone"] : [] } };
+async function dcPost(t, files) {
+  const i = t.indexOf("\n### "); let head = i > 0 ? t.slice(0, i) : t, body = i > 0 ? t.slice(i + 1) : "";
+  if (body.length > 1900) body = body.slice(0, body.lastIndexOf("\n", 1850)) + "\n-# (cut short, the rest is in the file)";
+  const sent = await hookPost(head.slice(0, 1900), files);
+  if (body) await hookPost(body, undefined, true);
+  return sent;
+}
+async function hookPost(text, file, quiet) {
+  const url = hookGet(), pg = quiet ? "" : $("dcping").value, rid = (($("dcrole").value.match(/\d{15,25}/) || [])[0]), body = { content: (pg === "role" ? (rid ? "<@&" + rid + ">\n" : "") : pg ? "@" + pg + "\n" : "") + text, allowed_mentions: pg === "role" ? { parse: [], roles: rid ? [rid] : [] } : { parse: pg ? ["everyone"] : [] } };
   if (pg === "role" && !rid) throw new Error("Enter the role ID first (or pick Don't ping anyone).");
   if (!HOOK_RE.test(url)) throw new Error("Add your Discord link in Settings first.");
   const send = (body) => fetch(url + "?wait=true", { method: "POST", body, signal: AbortSignal.timeout(30000) }).catch((e) => { clog("Discord: could not reach it (" + (e && e.name) + ": " + (e && e.message) + ")."); throw e; });
@@ -1615,7 +1621,7 @@ $("shpost").onclick = async () => {
     }
     if (pf) files.push({ blob: pf, name: pf.name });
     if (xf && $("hookxlsx").checked) files.push({ blob: xf, name: xf.name });
-    const sent = await hookPost(text.slice(0, 1900), files);
+    const sent = await dcPost(text, files);
     say(files.length && !sent ? "Posted the message, but the files could not go." : "Posted.");
   } catch (err) { clog("Stopped: " + why(err)); say(plain(err)); }
 };
@@ -1672,7 +1678,7 @@ async function pvPost() {
     let file = null, txt = hookText(false);
     if (window.ExcelJS) { const buf = await buildWorkbook(window.ExcelJS, rows, prevMap, pv.p, todayText()).xlsx.writeBuffer(), fname = nameOf(pv.p) + ".xlsx"; if ($("hookxlsx").checked) file = { blob: new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), name: fname }; await keepMade(buf, fname); try { txt = dcBreakdown(await readSheet(buf), (n) => Math.round(n).toLocaleString("en-US")); } catch (e) { clog("Breakdown skipped: " + why(e)); } }
     const pic = await clanPic(rows).catch((e) => { clog("Table picture skipped: " + why(e)); return null; });
-    const sent = await hookPost(txt, [pic, file].filter(Boolean));
+    const sent = await dcPost(txt, [pic, file].filter(Boolean));
     setMsg(sent ? "Posted to Discord." : "Posted to Discord. The sheet file could not go, so use Download sheet.");
   } catch (err) { clog("Stopped: " + why(err)); setMsg(plain(err), true); }
 }
