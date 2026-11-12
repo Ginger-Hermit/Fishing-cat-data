@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Discord link on the clan and bills tabs
+
+12 Nov 2026 (06:23 UTC) · Changed
+
+The Discord link box moved from Settings to the Roblox clan sheet and Bills tabs.
+
+**What you'll see:** Discord link box under the preview on both tabs
+
+- Move Discord link box to the clan and bills tabs
+
 ## Look-alike names count as one player
 
-12 Nov 2026 (06:22 UTC) · Changed
+12 Nov 2026 (06:22 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/63730e9)
 
 If the AI misreads g as q (or 0/o, 1/i/l), the player is matched to their old row instead of showing up twice.
 

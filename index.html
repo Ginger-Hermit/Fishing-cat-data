@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: If the AI misreads g as q (or 0/o, 1/i/l), the player is matched to their old row instead of showing up twice. -->
+<!-- Patch note: The Discord link box moved from Settings to the Roblox clan sheet and Bills tabs. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -149,6 +149,12 @@ button:disabled{opacity:.5}
 <div class="prog" id="prog" aria-live="polite"></div>
 <div class="pv" id="preview" style="display:none"></div>
 <button id="copyerr" type="button" class="tab" style="display:none;margin-top:8px;width:100%;padding:12px;font-size:16px;border-color:var(--err);color:var(--err)">Copy error to send</button>
+<div id="hookblock" style="margin:12px 0"><div style="font-size:13px;color:var(--muted);margin:0 0 6px">Discord link (optional)</div>
+<input id="hookbox" type="password" autocomplete="off" spellcheck="false" placeholder="https://discord.com/api/webhooks/...">
+<label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin-top:6px"><input type="checkbox" id="hookkeep" style="width:auto;margin:0"> Remember my link</label>
+<div style="display:flex;gap:8px;align-items:center;margin-top:6px"><button id="hooktest" type="button" class="tab">Test</button><button id="hookforget" type="button" class="tab">Forget</button><span id="hookmsg" role="status" style="font-size:13px"></span></div>
+<div style="font-size:12px;color:var(--muted);margin:6px 0 0">Adds a Post to Discord button to your sheet. Nothing is posted unless you tap it. Not remembered unless you tick the box: it is gone when you close the page. Anyone with this link can post in your channel, so keep it private.</div>
+</div>
 <details id="logbox" style="margin-top:12px"><summary style="cursor:pointer;font-size:14px">Log: what the page did</summary>
 <pre id="console" style="background:#0d0d0d;color:#e5e7eb;border:1px solid #444;border-radius:6px;padding:10px;font-size:13px;font-family:Consolas,Menlo,monospace;line-height:1.5;white-space:pre-wrap;word-break:break-word;min-height:120px;max-height:360px;overflow:auto;resize:vertical;margin:6px 0 0"></pre>
 <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button id="copybug" type="button">Copy bug report</button><a id="ghbug" href="https://github.com/Ginger-Hermit/Fishing-cat-data/issues/new" target="_blank" rel="noopener">Report on GitHub</a></div>
@@ -293,11 +299,6 @@ button:disabled{opacity:.5}
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button id="wipekey" type="button" class="tab">Forget my key</button><button id="wipeall" type="button" class="tab" style="border-color:var(--err);color:var(--err)">Delete everything saved</button></div>
 <div id="wipemsg" role="status" style="font-size:13px;margin-top:6px"></div>
 <div style="font-size:12px;color:var(--muted);margin:4px 0 0">These buttons only clear this device. Nothing is sent anywhere. <a href="#" data-go="privacy">Privacy page</a></div>
-<div style="font-size:13px;color:var(--muted);margin:14px 0 6px">Discord link (optional)</div>
-<input id="hookbox" type="password" autocomplete="off" spellcheck="false" placeholder="https://discord.com/api/webhooks/...">
-<label style="display:flex;gap:8px;align-items:center;font-weight:normal;margin-top:6px"><input type="checkbox" id="hookkeep" style="width:auto;margin:0"> Remember my link</label>
-<div style="display:flex;gap:8px;align-items:center;margin-top:6px"><button id="hooktest" type="button" class="tab">Test</button><button id="hookforget" type="button" class="tab">Forget</button><span id="hookmsg" role="status" style="font-size:13px"></span></div>
-<div style="font-size:12px;color:var(--muted);margin:6px 0 0">Adds a Post to Discord button to your clan sheet. Nothing is posted unless you tap it. Not remembered unless you tick the box: it is gone when you close the page. Anyone with this link can post in your channel, so keep it private.</div>
 <div style="font-size:13px;color:var(--muted);margin:14px 0 6px">AI model (advanced)</div>
 <input id="modelbox" autocomplete="off" spellcheck="false">
 <div style="font-size:12px;color:var(--muted);margin:6px 0 10px">Leave empty to use the built-in one. Only change it if an error says the model is gone. It is kept for the company chosen on the first tab.</div>
@@ -339,7 +340,7 @@ function showTab(which) {
     const b = btn[k] && document.getElementById(btn[k]);
     if (b) { b.classList.toggle("on", k === which); b.setAttribute("aria-selected", k === which); }
   }
-  if (which === "sheet" || which === "bill") document.getElementById(which === "bill" ? "billtab" : "sheet").appendChild(document.getElementById("logbox"));
+  if (which === "sheet" || which === "bill") { const t = document.getElementById(which === "bill" ? "billtab" : "sheet"); t.appendChild(document.getElementById("hookblock")); t.appendChild(document.getElementById("logbox")); }
   if (which === "settings") { renderSaved(); $("wipemsg").textContent = ""; }
   document.getElementById("keybox").style.display = which === "sheet" || which === "bill" ? "" : "none";
 }
@@ -375,7 +376,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "2026-11-12-v";
+const BUILD = "2026-11-12-w";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
