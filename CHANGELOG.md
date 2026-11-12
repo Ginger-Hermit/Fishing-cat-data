@@ -2,9 +2,19 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## No emoji in the banner
+
+12 Nov 2026 (06:47 UTC) · Changed
+
+The banner is just the name now.
+
+**What you'll see:** Top of the page.
+
+- Removed the cat emoji.
+
 ## What the colours mean
 
-12 Nov 2026 (06:46 UTC) · Changed
+12 Nov 2026 (06:46 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/4c50b1c)
 
 The Home page explains the coloured bars.
 
