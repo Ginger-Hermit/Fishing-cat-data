@@ -11,7 +11,7 @@ The colour guide in the Discord post is a short bullet list.
 > [!NOTE]
 > **What you'll see:** Post to Discord
 
-- Colour guide bullets
+- Colour guide bullets [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/9a1eb48)
 
 ## Colour guide in the Discord post
 
