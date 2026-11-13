@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Colours for Discord
 
-13 Nov 2026 (07:45 UTC) · New
+13 Nov 2026 (07:45 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/3be9d7e)
 
 Discord tab: pick a colour for names that didn't change (PC only).
 
