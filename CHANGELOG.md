@@ -2,7 +2,7 @@
 
 Newest first. The page itself shows only the newest 5.
 
-## Easier samples
+## Easier samples [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/144f5f4e1b4009b6135f3b93e670198f3ceae826)
 
 13 Nov 2026 (05:50 UTC) · Changed
 
