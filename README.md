@@ -1,29 +1,24 @@
+<div align="center">
+
 # Fishing Cat Data
+
+**Roblox clan lists and household bills → tidy Excel sheets.**
 
 [![Live](https://img.shields.io/badge/live-fishing--cat--data.pages.dev-2ea44f)](https://fishing-cat-data.pages.dev)
 ![Free](https://img.shields.io/badge/price-free-blue)
 ![Built by AI](https://img.shields.io/badge/built%20by-Claude-purple)
 ![Excel](https://img.shields.io/badge/output-Excel-217346)
 
+[**Open the site**](https://fishing-cat-data.pages.dev) · [Wiki](https://github.com/Ginger-Hermit/Fishing-cat-data/wiki) · [Update history](CHANGELOG.md)
+
+<img src="images/clan-members.png" alt="A clan sheet made by Fishing Cat Data" width="520">
+
+</div>
+
 Turns clan screenshots or a video from any Roblox game into a ready-to-use Excel sheet: Rank, Username, Role and Points, with optional week-to-week change. It also reads photos of household bills (power, gas, water, internet, phone and more) into a sheet.
 
-**Built entirely by Claude, an AI.** The author gave the ideas and tested it. The AI wrote all the code, this page and the notes.
-
-- **Use it:** https://fishing-cat-data.pages.dev
-- **Wiki:** https://github.com/Ginger-Hermit/Fishing-cat-data/wiki (status, changelog, security, FAQ)
-- **Update history:** [CHANGELOG.md](CHANGELOG.md)
-
-<img src="images/clan-members.png" alt="A clan sheet made by Fishing Cat Data" width="500">
-
-## How it works
-```mermaid
-flowchart LR
-  A[Screenshots, video or bill photos] --> B[Your AI key]
-  B --> C[AI reads the rows]
-  C --> D[You check and fix the table]
-  D --> E[Excel sheet]
-  E -. optional .-> F[Post to Discord]
-```
+> [!NOTE]
+> **Built entirely by Claude, an AI.** The author gave the ideas and tested it.
 
 ## How to use it
 > [!TIP]
@@ -35,7 +30,18 @@ flowchart LR
 >
 > To post to Discord, open the **Discord** tab, paste a webhook link (a private link for your channel; [Discord's guide](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks) shows how to make one), pick what to post and tap **Post to Discord**. Header picture and role ping are under **More options**.
 
-## What you get
+## How it works
+```mermaid
+flowchart LR
+  A[Screenshots, video or bill photos] --> B[Your AI key]
+  B --> C[AI reads the rows]
+  C --> D[You check and fix the table]
+  D --> E[Excel sheet]
+  E -. optional .-> F[Post to Discord]
+```
+
+<details>
+<summary><b>What you get</b> (tabs and columns)</summary>
 
 - An Excel file named after the game and clan (or the **Clan name** you type), like `Roblox - Gym League - Loki.xlsx`.
 - **Clan Members** tab: coloured ranks and roles, plus **Rank**, **Username**, **Role**, **Points** (as shown, e.g. `52.51K`) and **Points** (number, e.g. `52510`). The number column is a real number, so you can sort and add it.
@@ -46,7 +52,10 @@ flowchart LR
 - **Help** tab: what each word, tab and colour means, with the maths step by step.
 - Anyone who appears in more than one picture is listed once.
 
-## Features
+</details>
+
+<details>
+<summary><b>All features</b></summary>
 
 - Screenshots (PNG, JPEG, WebP) or video (MP4, MOV, WEBM). From a video the page looks about 4 times a second and keeps the pictures where the list moved (up to 24), right in your browser.
 - Remembers your last sheet on this device so you don't have to pick it again (names and points only). Tap **Remove** to forget it.
@@ -58,6 +67,8 @@ flowchart LR
 - The update history is in [CHANGELOG.md](CHANGELOG.md), one plain-English entry per change.
 - Live steps with a timer under **Make my sheet**, and a **Log** box that opens by itself during a run on both tabs, with a **Copy bug report** button. A red **Copy error** button shows under any error.
 - Optional **Clan name** box, optional **Remember my key**, and a banner when a new version is out.
+
+</details>
 
 ## Privacy
 > [!NOTE]
@@ -75,18 +86,15 @@ flowchart LR
 > - Rate limits and other AI errors show as a general "The AI said no" message.
 > - Not tested with screen readers or keyboard-only use.
 
-## Disclaimer
+## Legal
 > [!CAUTION]
 > For personal use only. Not an official Roblox, Anthropic, Google or OpenAI product. Provided as is, with no guarantees.
-
-## Licence
-
-All rights reserved. You can use the site and read the code, but not copy, re-host, change or sell it. Full terms are in [LICENSE](LICENSE).
+>
+> All rights reserved. You can use the site and read the code, but not copy, re-host, change or sell it. Full terms are in [LICENSE](LICENSE).
 
 <details>
 <summary><b>For developers</b> (tests, code guide)</summary>
 
-## For developers
 
 - Plain static site: `index.html` (what's on screen), `app.js` (all the code), `style.css` (the look) and `exceljs.bare.min.js` ([ExcelJS](https://github.com/exceljs/exceljs) 4.4.0, used to make and read `.xlsx`). No build step.
 - The AI models are listed in `PROVIDERS` near the top of the script (`MODEL` is the Anthropic default). If a model is retired, change it there.
