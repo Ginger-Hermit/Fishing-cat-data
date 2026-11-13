@@ -74,7 +74,7 @@ All rights reserved. You can use the site and read the code, but not copy, re-ho
 - `python3 tests/check.py` is the auto check. GitHub runs it after every push, along with the other tests, including `tests/browser.test.js` in Chrome, Firefox and Safari's engine.
 - Every push to `main` publishes automatically after about a minute.
 - [developer/HOW_TO_BE_LAZY_WITH_CLAUDE.md](developer/HOW_TO_BE_LAZY_WITH_CLAUDE.md): a copyable guide to getting Claude to do almost everything when you make an app on GitHub, including the manual setup steps, costs and Free vs Pro.
-- [developer/THE_LAZY_WAY.md](developer/THE_LAZY_WAY.md): how a non-coder got Claude to build all of this, the lazy way, including what went wrong.
+- [developer/HOW_TO_BE_LAZY_WITH_CLAUDE.md](developer/HOW_TO_BE_LAZY_WITH_CLAUDE.md): how a non-coder got Claude to build all of this, the lazy way, including what went wrong.
 - [developer/HOW_IT_WAS_BUILT.md](developer/HOW_IT_WAS_BUILT.md): how the whole page was built, step by step, in plain words.
 - [developer/STRESS_TEST_LOG.md](developer/STRESS_TEST_LOG.md): how the page was stress tested and broken on purpose, what was found, and lessons for future projects.
 - `node tests/rows.test.js` and `node tests/bills.test.js` check how AI replies are read. `node tests/fuzz.js` throws thousands of scrambled replies at the same code. Full history of changes: [CHANGELOG.md](CHANGELOG.md).

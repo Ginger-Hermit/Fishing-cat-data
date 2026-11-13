@@ -4,7 +4,7 @@ W = sys.argv[1]
 REPO = "https://github.com/Ginger-Hermit/Fishing-cat-data/blob/main/"
 RAW = "https://raw.githubusercontent.com/Ginger-Hermit/Fishing-cat-data/main/"
 LINKS = {"CHANGELOG.md": "Changelog", "STATUS.md": "Status", "README.md": "Home",
-         "developer/HOW_IT_WAS_BUILT.md": "How-it-was-built", "developer/THE_LAZY_WAY.md": "The-lazy-way", "developer/HOW_TO_BE_LAZY_WITH_CLAUDE.md": "How-to-be-lazy-with-Claude", "developer/STRESS_TEST_LOG.md": "Stress-test-log",
+         "developer/HOW_IT_WAS_BUILT.md": "How-it-was-built", "developer/HOW_TO_BE_LAZY_WITH_CLAUDE.md": "How-to-be-lazy-with-Claude", "developer/STRESS_TEST_LOG.md": "Stress-test-log",
          "developer/SECURITY.md": "Security", "developer/BUG_LOG.md": "Bug-log", "developer/LIVE_CHECK_LOG.md": "Live-checks", "developer/FAQ.md": "FAQ", "CLAUDE.md": "AI-rules"}
 def fix(t):
     def f(m):
@@ -33,7 +33,7 @@ home = open("developer/WIKI_HOME.md").read()
 status = "**Next**\n" + block("STATUS.md", "Next") + "\n\n**Not tested yet**\n" + block("STATUS.md", "Not tested")
 put("Home", home.replace("{{STATUS}}", status).replace("{{LATEST}}", latest()))
 whole("STATUS.md", "Status"); whole("CHANGELOG.md", "Changelog")
-whole("developer/HOW_IT_WAS_BUILT.md", "How-it-was-built"); whole("developer/THE_LAZY_WAY.md", "The-lazy-way"); whole("developer/HOW_TO_BE_LAZY_WITH_CLAUDE.md", "How-to-be-lazy-with-Claude"); whole("developer/STRESS_TEST_LOG.md", "Stress-test-log")
+whole("developer/HOW_IT_WAS_BUILT.md", "How-it-was-built"); whole("developer/HOW_TO_BE_LAZY_WITH_CLAUDE.md", "How-to-be-lazy-with-Claude"); whole("developer/STRESS_TEST_LOG.md", "Stress-test-log")
 whole("developer/WIKI_USING.md", "Using-it"); whole("developer/WIKI_DEV.md", "Developers"); whole("developer/SECURITY.md", "Security"); whole("developer/FAQ.md", "FAQ")
 whole("developer/BUG_LOG.md", "Bug-log")
 if os.path.exists("developer/LIVE_CHECK_LOG.md"): whole("developer/LIVE_CHECK_LOG.md", "Live-checks")
