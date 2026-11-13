@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Tidier Discord links
+
+13 Nov 2026 (06:49 UTC) · Changed
+
+Links show as short words; website link can be switched off
+
+> [!NOTE]
+> **What you'll see:** Discord tab
+
+- 'Full sheet' and 'Fishing Cat Data' are clickable words; 'Add a link to this website' box is back
+
 ## Compare with the last sheet [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/fa47d39af64eb84bf376711e9fbe4577091739b9)
 
 13 Nov 2026 (06:45 UTC) · Changed
