@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Colour guide removed
+
+13 Nov 2026 (07:41 UTC) · Changed
+
+The Discord message no longer ends with a colour guide.
+
+> [!NOTE]
+> **What you'll see:** Post to Discord
+
+- Removed colour guide from Discord message
+
 ## No change names in white
 
 13 Nov 2026 (07:35 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8df3bbb)
