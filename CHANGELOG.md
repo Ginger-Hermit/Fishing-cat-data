@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5. · [code](https://github.
 
 ## Simpler Discord tab
 
-13 Nov 2026 (01:08 UTC) · Changed
+13 Nov 2026 (01:08 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/07922d4)
 
 No More options fold; picture and ping sit above Post; shorter text
 
