@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Log shows only when something breaks
 
-13 Nov 2026 (05:32 UTC) · Changed
+13 Nov 2026 (05:32 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/a2c2627)
 
 Less clutter: the log stays hidden until there is an error
 
