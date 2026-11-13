@@ -11,7 +11,7 @@ No change names in the Discord post are blue (easier to read than yellow).
 > [!NOTE]
 > **What you'll see:** Post to Discord
 
-- ansi blue; colour guide updated
+- ansi blue; colour guide updated [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/907224c)
 
 ## No change box shows yellow again
 
