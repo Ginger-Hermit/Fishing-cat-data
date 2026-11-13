@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## How to read line in the Discord post
+
+13 Nov 2026 (07:28 UTC) · New
+
+The Discord post ends with a small line explaining Went up, No change, New and Points history.
+
+> [!TIP]
+> **What you'll see:** Post to Discord
+
+- How to read line in hookText
+
 ## Calmer What changed and fuller Points history
 
-13 Nov 2026 (07:28 UTC) · Changed
+13 Nov 2026 (07:28 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/5252dab)
 
 Discord post: Whole clan and Points history sit beside a grey bar; history adds biggest climber, who went up every run and who left.
 

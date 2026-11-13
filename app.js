@@ -1,4 +1,4 @@
-// Patch note: Discord post: Whole clan and Points history sit beside a grey bar; history adds biggest climber, who went up every run and who left.
+// Patch note: The Discord post ends with a small line explaining Went up, No change, New and Points history.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -102,7 +102,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.67";
+const BUILD = "1.1.68";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1266,6 +1266,7 @@ const dcBreakdown = (sh, f) => {
     const left = h.list.filter((e) => e.vals[K - 1] === null && e.vals.some((x) => x !== null)).map((e) => e.name);
     t += "\n> Left the clan: " + (left.length ? left.slice(0, 30).map(dcMd).join(", ") + (left.length > 30 ? " and " + (left.length - 30) + " more" : "") : "none");
   }
+  if (sh.any) t += "\n-# How to read: Went up = more points than the last sheet. No change = same points. New = not in the last sheet." + (h && h.dates.length > 1 ? " Points history = every saved run, first to last." : "");
   return t;
 };
 const HOOK_RE = /^https:\/\/discord\.com\/api\/webhooks\/\d+\/[\w-]+$/;
