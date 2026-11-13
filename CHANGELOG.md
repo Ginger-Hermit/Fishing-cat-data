@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5. · [code](https://github.
 
 ## Tidier tabs
 
-13 Nov 2026 (00:59 UTC) · Changed
+13 Nov 2026 (00:59 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/468d510)
 
 Small layout fixes: arrows match, more space, no repeated Bills line
 
