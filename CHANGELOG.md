@@ -11,7 +11,7 @@ Sheet names use normal time, like 'Loki - 13 Nov 2026 2.05pm.xlsx'.
 > [!NOTE]
 > **What you'll see:** Clan sheet file name
 
-- File name time is 12-hour with am/pm.
+- File name time is 12-hour with am/pm. [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/37d9b79c3ae30432097ad2dd6f2c5365e67ec7c9)
 
 ## Time in sheet names
 
