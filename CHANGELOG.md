@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## No change names easier to read
+
+13 Nov 2026 (07:34 UTC) · Changed
+
+In Discord, the No change list is now bright cyan instead of dark blue.
+
+> [!NOTE]
+> **What you'll see:** Post to Discord
+
+- No change names use bright cyan
+
 ## PC-only colour note
 
-13 Nov 2026 (07:33 UTC) · Changed
+13 Nov 2026 (07:33 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/3621e64)
 
 The colour guide says blue shows on PC only.
 
