@@ -1,0 +1,19 @@
+name: Game events
+on:
+  schedule:
+    - cron: "7 17 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 events/check.py
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      - run: |
+          git diff --quiet events/seen.json && exit 0
+          git config user.name "events-bot"; git config user.email "events-bot@users.noreply.github.com"
+          git add events/seen.json; git commit -m "Events: remember posted"; git pull --rebase -q; git push
