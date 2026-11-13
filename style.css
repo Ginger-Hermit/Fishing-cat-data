@@ -185,3 +185,5 @@ html:not([data-theme=dark])[data-btn=orange]{--accent:#A84A00;--link:#A84A00}htm
 
 .artsample{display:block;width:100%;max-width:260px;height:auto;margin-top:6px;border-radius:8px}
 .tabs.main .tab:not(.on){border-color:var(--soft)}
+details#keydet>summary,details#adddet>summary,details#addbill>summary,details#hookblock>summary{border-top:0;border-right:0;border-bottom:0;border-left-width:3px;border-radius:0;background:none}
+details#moreopts>summary,details#logbox>summary{border:0!important;background:none;padding:6px 2px;font-size:14px!important;font-weight:400;color:var(--muted,#667)}
