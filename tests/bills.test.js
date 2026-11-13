@@ -42,4 +42,11 @@ A.equal(Math.round(b[0].lines.reduce((t,l)=>t+l.amount,0)*100)/100,139.69);
 {const full=JSON.stringify({bills:[{supplier:"A",decimal_mark:".",lines:[{energy:"other",kind:"water",charge:"W1",amount:"5"},{energy:"other",kind:"water",charge:"W2",amount:"6"}]},{supplier:"B",lines:[{energy:"other",kind:"water",charge:"W3",amount:"7"}]}]});
 const c=parseBills(full.slice(0,full.indexOf("W2")+6));A.ok(c.cut);A.equal(c.length,1);A.equal(c[0].lines.length,1);
 const c2=parseBills(full.slice(0,full.indexOf("W3")-5));A.ok(c2.cut);A.equal(c2[0].lines.length,2);A.ok(!parseBills(full).cut);}
+A.equal(parseNum("1 234,56"),1234.56);A.equal(parseNum("€ 12 345.00"),12345);
+A.equal(parseNum("1.234.567"),1234567);A.equal(parseNum("1.234.567,89"),1234567.89);A.equal(parseNum("1,234.56"),1234.56);
+A.equal(parseNum("USD -12.50"),-12.5);A.equal(parseNum("-$5.00"),-5);A.equal(parseNum("Jan-Mar 12.50"),12.5);
+A.equal(parseNum("1'234.50"),1234.5);A.equal(parseNum("1’234’567"),1234567);
+// Tricky amounts from real bill styles. Add a line when a new style breaks: [text, number style or "", expected].
+for (const [t,k,want] of [["1 234,56","",1234.56],["1.234.567","",1234567],["1.234.567,89","",1234567.89],["USD -12.50","",-12.5],["1'234.50","",1234.5],["€1.234,56","",1234.56],["$1,234.56","",1234.56],["(45.00)","",-45],["45.00 CR","",-45],["45.00-","",-45],["Jan-Mar 12.50","",12.5],["1,5 kWh","",1.5],["-NZ$ 0,07",",",-0.07]]) A.equal(parseNum(t,k||undefined),want,"tricky amount: "+t);
+A.equal(kwhFor({unit:"p per kWh"}).how,"as shown");A.equal(kwhFor({unit:"pence per day"}).how,"");
 console.log("bill tests ok");

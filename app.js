@@ -95,7 +95,7 @@ document.getElementById("expire").onchange = () => { lsSet("fcd_expire", documen
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.9";
+const BUILD = "1.1.14";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -411,7 +411,7 @@ function parseRows(text) {
 
 // Excel: turn "52.51K" into 52510, read an earlier sheet, build the new one.
 function parsePoints(t) {
-  let u = String(t ?? "").trim().replace(/,/g, "");
+  let u = String(t ?? "").trim().replace(/^(\d+),(\d{1,2})\s*([KkMmBbTt])$/, "$1.$2$3").replace(/,/g, "").replace(/^\+\s*/, "").replace(/\s*(pts?|points?)\.?$/i, "");
   if (/^\d{1,3}(?:[.\s\u00a0\u202f']\d{3})+$/.test(u)) u = u.replace(/\D/g, ""); // 1.234.567, 1 234, 1'234 = thousands marks
   const m = u.match(/^(\d+(?:\.\d+)?|\.\d+)\s*([KkMmBbTt]?)$/);
   if (!m) return null;
@@ -1573,11 +1573,11 @@ Answer with ONLY one JSON object, no other text:
 List every charge line, including daily or fixed charges, discounts, taxes and levies. Do not list payments, opening balances or the total as lines.`;
 // Read a number as printed. mark is the bill's decimal mark ("." or ","). Credits (cr, minus, brackets) are negative.
 function parseNum(v, mark) {
-  const s = tidy(v, 30), m = s.match(/\d[\d.,]*|[.,]\d+/);
+  const s = tidy(v, 30).replace(/(\d)[ \u00a0\u202f'\u2019](?=\d{3}(?!\d))/g, "$1"), m = s.match(/\d[\d.,]*|[.,]\d+/);
   if (!m) return null;
-  const neg = /^\(.*\)$/.test(s) || /(^|[^a-z])cr\b/i.test(s) || /[-−]/.test(s.replace(/[\d.,\s]+.*$/, "")) || /[-−]\s*$/.test(s);
+  const neg = /^\(.*\)$/.test(s) || /(^|[^a-z])cr\b/i.test(s) || /(^|[^a-z])[-−]\D{0,5}$/i.test(s.slice(0, m.index)) || /[-−]\s*$/.test(s);
   let t = m[0].replace(/[.,]+$/, "");
-  if (mark !== "," && mark !== ".") mark = t.lastIndexOf(",") > t.lastIndexOf(".") && (t.includes(".") || /,\d{1,2}$/.test(t)) ? "," : ".";
+  if (mark !== "," && mark !== ".") mark = /^\d{1,3}(\.\d{3}){2,}(,\d+)?$/.test(t) || t.lastIndexOf(",") > t.lastIndexOf(".") && (t.includes(".") || /,\d{1,2}$/.test(t)) ? "," : ".";
   t = mark === "," ? t.replace(/\./g, "").replace(",", ".") : t.replace(/,/g, "");
   if (!/^(\d+(\.\d+)?|\.\d+)$/.test(t)) return null;
   return (neg ? -1 : 1) * parseFloat(t);
@@ -1586,7 +1586,7 @@ function parseNum(v, mark) {
 const KWH_RULES = { kwh: ["", "as shown"], wh: ["/1000", "Wh ÷ 1000"], mwh: ["*1000", "MWh × 1000"], mj: ["/3.6", "MJ ÷ 3.6"], gj: ["*1000/3.6", "GJ × 1000 ÷ 3.6"], therms: ["*29.3071", "therms × 29.3071"], therm: ["*29.3071", "therms × 29.3071"] };
 const NOT_ENERGY = ["", "day", "days", "month", "months", "each", "kw", "kva", "tag", "tage", "monat", "jour", "jours", "mois", "dia", "dias", "d\u00edas", "mes", "giorni", "dag", "dagen"];
 function kwhFor(line, mark) {
-  const u = tidy(line.unit, 14).toLowerCase().replace(/[\s.]/g, "").replace("³", "3").replace(/^(c|p|ct|cts|cents?|pence|[$€£¢]|nzd|aud|usd|gbp|eur)\//, ""); // a price rate like c/unit or c/day: use the unit after the slash
+  const u = tidy(line.unit, 14).toLowerCase().replace(/[\s.]/g, "").replace("³", "3").replace(/^(c|p|ct|cts|cents?|pence|[$€£¢]|nzd|aud|usd|gbp|eur)(\/|per)/, ""); // a price rate like c/unit or c/day: use the unit after the slash
   const printed = parseNum(line.kwh_printed, mark), cv = parseNum(line.calorific_value, mark), cf = parseNum(line.correction_factor, mark), tf = parseNum(line.therm_factor, mark);
   if (KWH_RULES[u]) return { add: KWH_RULES[u][0], how: KWH_RULES[u][1] };
   if ((u === "units" || u === "unit") && line.energy === "electricity") return { add: "", how: "units = kWh" };

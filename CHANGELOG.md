@@ -23,6 +23,82 @@ Home now has a short directory of pages, each with its own colour on the tab and
 > **What you'll see:** Home and Roblox clan sheet tabs
 
 - Added a page directory with per-page colours, wrapped the tab row, folded the can and can't do lists, merged key notes, numbered clan steps, enlarged the Remember my key tick box and the key link
+## Bill rates written with per
+
+13 Nov 2026 (00:46 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c69bccf)
+
+p per kWh is understood like p/kWh
+
+> [!NOTE]
+> **What you'll see:** Bills tab
+
+- kwhFor accepts per as well as /
+
+## Clan points with + or pts
+
+13 Nov 2026 (00:45 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/a46d580)
+
++1,234 and 1.2k pts are no longer blank
+
+> [!NOTE]
+> **What you'll see:** Clan sheet
+
+- parsePoints drops a leading + and a trailing pts/points
+
+## Clan points like 1,5K
+
+13 Nov 2026 (00:45 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/31689be)
+
+1,5K now reads as 1500, not 15000
+
+> [!NOTE]
+> **What you'll see:** Clan sheet
+
+- parsePoints treats a comma before K/M/B/T as a decimal
+
+## Swiss bill amounts
+
+13 Nov 2026 (00:41 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/16f9a35)
+
+Amounts like 1'234.50 are read correctly
+
+> [!NOTE]
+> **What you'll see:** Bills tab
+
+- parseNum joins digit groups split by apostrophes; tricky-amounts test list added
+
+## Bill credits after a word
+
+13 Nov 2026 (00:41 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/ffd0aa3)
+
+USD -12.50 now counts as a credit
+
+> [!NOTE]
+> **What you'll see:** Bills tab
+
+- parseNum finds a minus anywhere before the number
+
+## Bill amounts with dots
+
+13 Nov 2026 (00:26 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/1b77f15)
+
+Amounts like 1.234.567 are no longer left blank
+
+> [!NOTE]
+> **What you'll see:** Bills tab
+
+- parseNum treats repeated 3-digit dot groups as thousands
+
+## Bill amounts with spaces
+
+13 Nov 2026 (00:25 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6f518ba)
+
+Amounts like 1 234,56 are read correctly
+
+> [!NOTE]
+> **What you'll see:** Bills tab
+
+- parseNum joins digit groups split by spaces
 
 ## 12-hour time in sheet names
 

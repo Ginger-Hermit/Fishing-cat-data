@@ -130,19 +130,20 @@
 <input type="file" id="shfile" accept=".xlsx,image/*" multiple data-d="none">
 <div class="s46" data-d="flex"><label for="shfile" class="s47 tab big" data-d="inline-flex">Choose files</label><button id="shclear" type="button" class="tab big" data-d="none">Clear</button></div>
 <div id="shsel" class="s48"></div>
-<div class="s49">Pick your Excel sheet. It is read, and the post gets a table picture and a written breakdown. The file itself is only sent if you tick the box below.</div></div>
+<div class="s49">Pick an Excel sheet or pictures. It is read, and the post gets a table picture and a written breakdown. The file itself is only sent if you tick the box below.</div></div>
+<label class="s56" data-d="flex"><input type="checkbox" id="hookxlsx" class="s42"> Also attach the Excel file</label>
 <button id="dcgo" type="button" class="s50">Post to Discord</button>
 <div id="hookmsg" role="status" aria-live="polite" class="s51"></div>
 <button id="shpost" type="button" hidden></button>
-<details id="dcmore" class="s52"><summary class="s53" data-d="flex">More options</summary>
+<details id="dcmore" class="s52"><summary class="s53" data-d="flex"><span class="s53a" aria-hidden="true">▸</span>More options</summary>
 <div class="s37">Header picture (optional)</div>
 <input type="file" id="artfile" accept="image/*" data-d="none">
 <div class="s54" data-d="flex"><label for="artfile" class="s47 tab big" data-d="inline-flex">Choose picture</label><button id="artforget" type="button" class="tab big" data-d="none">Remove</button><img id="artthumb" alt="Your saved header picture" class="s55" data-d="none"></div><div id="artmsg" role="status" class="s48"></div>
-<label class="s56" data-d="flex"><input type="checkbox" id="hookxlsx" checked class="s42"> Also attach the Excel file (leave unticked for picture and text only)</label>
+
 <div class="s37">Ping (optional)</div>
 <select id="dcping" aria-label="Who to ping" class="s38"><option value="">Don't ping anyone</option><option value="role">Ping a role (you choose which)</option></select>
 <input id="dcrole" inputmode="numeric" autocomplete="off" placeholder="Role ID, like 123456789012345678" class="s57" data-d="none">
-<div id="dcrolehelp" class="s49" data-d="none">In Discord: Settings, Advanced, turn on Developer Mode. Then right-click the role and tap Copy Role ID. Paste it here. It is saved on this device.</div>
+<div id="dcrolehelp" class="s49" data-d="none">In Discord: Settings, Advanced, turn on Developer Mode. Then long-press (phone) or right-click the role and tap Copy Role ID. Paste it here. It is saved on this device.</div>
 <div class="s49">A role pings only the people who have that role.</div>
 </details>
 <div class="s36">If posting fails, turn off any ad blocker for this site or use a Private window.</div>
@@ -237,7 +238,7 @@
 <div class="hc"><b>Privacy</b>
 <ul class="facts">
 <li>Your AI key stays in this browser. It is only kept if you tick Remember my key, and it is never sent anywhere except the AI company you pick.</li>
-<li>The page is locked down by the browser so it can only talk to Anthropic, Google and OpenAI (and Discord). It only sends to the AI company you pick. Discord is used only if you add a Discord link in Settings and tap Post to Discord. That sends the clan name, points summary and sheet to your channel.</li>
+<li>The page is locked down by the browser so it can only talk to Anthropic, Google and OpenAI (and Discord). It only sends to the AI company you pick. Discord is used only if you add a Discord link on the Discord tab and tap Post to Discord. That sends the clan name, points summary and sheet to your channel.</li>
 <li>Your pictures (and the stills pulled from a video) go only to the AI company you pick, straight from your browser, to be read. This page has no server of its own, so we never see them.</li>
 <li>What that company does with what you send is covered by its own policies. Free plans can have different rules, so check them.</li>
 <li>Saved on your device only: theme, text size, and the last sheet you chose (names, points and past runs). Settings has a Privacy section that lists what is saved and can delete it, or stop saving the last sheet.</li>

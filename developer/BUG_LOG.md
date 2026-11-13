@@ -14,3 +14,10 @@ Older bugs: `BREAK_REPORT_2026-11-12.md` and `STRESS_TEST_LOG.md`.
 - 12 Nov 2026: clan names misread (Deathgold1198 as Deathgoldl198, rakha_112233 as rakha..112233). Cause: prompt too loose. Fix: stricter username rule in buildPrompt. Commit 95d4423.
 - 12 Nov 2026: correct new name (rakha_112233) replaced by the wrong one from the earlier sheet (rakha..112233). Cause: fixNames always kept the earlier spelling. Fix: keep the new one when the earlier is not a valid Roblox name. Commit 13811fc.
 - 13 Nov 2026: GitHub Check was red for about 8 commits, so nothing went live. Cause: the Excel test copies named functions out of app.js and missed the new okName const. Fix: the test now copies that line too. Commit d68c3e7.
+- 13 Nov 2026: Bills read 1 234,56 as 1. Cause: parseNum stopped at the space. Fix: join space-split digit groups.
+- 13 Nov 2026: Bills left 1.234.567 blank. Cause: parseNum guessed dot = decimal. Fix: repeated 3-digit dot groups mean thousands.
+- 13 Nov 2026: USD -12.50 read as +12.50. Cause: minus check stopped at the first space. Fix: look at all text before the number.
+- 13 Nov 2026: 1'234.50 read as 1. Cause: apostrophe separator not known. Fix: treat it like a space.
+- 13 Nov 2026: 1,5K read as 15000. Cause: commas always removed. Fix: comma + 1-2 digits + K/M/B/T is a decimal.
+- 13 Nov 2026: +1,234 and 12,345 pts left blank. Cause: extras not stripped. Fix: drop them.
+- 13 Nov 2026: p per kWh flagged as unknown unit. Cause: only / was understood. Fix: accept per.

@@ -170,3 +170,5 @@ button:disabled{opacity:.5}
 #keyhelp{display:inline-block;padding:6px 0}
 html[data-read=easy] body,html[data-read=easy] :is(button,input,select,textarea){font-family:Verdana,Tahoma,Arial,sans-serif;letter-spacing:.06em;word-spacing:.12em}
 html[data-read=easy] body{line-height:1.6}
+#artmsg{color:var(--muted)}
+.s53a{display:inline-block;margin-right:8px;transition:transform .15s}#dcmore[open] .s53a{transform:rotate(90deg)}
