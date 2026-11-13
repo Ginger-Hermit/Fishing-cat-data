@@ -2,6 +2,12 @@
 
 Plain facts about what Fishing Cat Data does with your data.
 
+> [!NOTE]
+> **In short**
+> - Pictures go only to the AI company you pick.
+> - No server of our own, no tracking, no ads.
+> - Your key stays in your browser, and only if you tick **Remember my key**.
+
 ## What leaves your device
 - Your pictures or video stills go to **one AI company only: the one you pick** (Anthropic, Google Gemini or OpenAI), under that company's terms.
 - Your AI key goes to that same company so it can do the read. It goes nowhere else.

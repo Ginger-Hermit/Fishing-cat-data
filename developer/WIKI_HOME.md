@@ -1,9 +1,16 @@
+<div align="center">
+
 # Fishing Cat Data
 
-Turn Roblox clan screenshots or video, and photos of household bills, into Excel sheets. An AI reads the pictures and the page makes the sheet.
+**Roblox clan lists and household bills → tidy Excel sheets.**
 
-- **Use it:** https://fishing-cat-data.pages.dev
-- **Code:** https://github.com/Ginger-Hermit/Fishing-cat-data
+[![Live](https://img.shields.io/badge/live-fishing--cat--data.pages.dev-2ea44f)](https://fishing-cat-data.pages.dev)
+![Free](https://img.shields.io/badge/price-free-blue)
+![Built by AI](https://img.shields.io/badge/built%20by-Claude-purple)
+
+[**Open the site**](https://fishing-cat-data.pages.dev) · [Code](https://github.com/Ginger-Hermit/Fishing-cat-data)
+
+</div>
 
 ## At a glance
 - **Clan sheet:** screenshots or a video of a Roblox clan member list (any Roblox game) become a sheet with Rank, Username, Role and Points. Add last week's sheet to see the change.
