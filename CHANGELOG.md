@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Zoom sample pictures
+
+13 Nov 2026 (06:32 UTC) · New
+
+Tap a sample sheet picture to open it full size.
+
+> [!TIP]
+> **What you'll see:** Home, What you get
+
+- Sample pictures open full size when tapped
+
 ## Last sheet box shows what's in it [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6c9f908226df15f261243819a52ed839898d7ed6)
 
 13 Nov 2026 (06:31 UTC) · Changed
