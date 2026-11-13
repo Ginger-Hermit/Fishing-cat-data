@@ -9,14 +9,14 @@ Turns clan screenshots or a video from any Roblox game into a ready-to-use Excel
 - **Update history:** [CHANGELOG.md](CHANGELOG.md)
 
 ## How to use it
-
-1. Paste your own AI key. Google Gemini is picked first and has a free key: tap **How to get a free key**. The free key has a daily limit. Anthropic also works; OpenAI is untested.
-2. Nothing to pick. The AI works out the game and clan itself.
-3. Drop in screenshots of the member list, or a video of you scrolling it (use your device's own screen recorder). For a video, scroll the whole list slowly: about 1 second per 5 members.
-4. Optional: choose last time's sheet to compare.
-5. Tap **Make my sheet**. After about 20 seconds an Excel file downloads.
-
-To post to Discord, open the **Discord** tab, paste a webhook link (a private link for your channel; [Discord's guide](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks) shows how to make one), pick what to post and tap **Post to Discord**. Header picture and role ping are under **More options**.
+> [!TIP]
+> 1. Paste your own AI key. Google Gemini is picked first and has a free key: tap **How to get a free key**. The free key has a daily limit. Anthropic also works; OpenAI is untested.
+> 2. Nothing to pick. The AI works out the game and clan itself.
+> 3. Drop in screenshots of the member list, or a video of you scrolling it (use your device's own screen recorder). For a video, scroll the whole list slowly: about 1 second per 5 members.
+> 4. Optional: choose last time's sheet to compare.
+> 5. Tap **Make my sheet**. After about 20 seconds an Excel file downloads.
+>
+> To post to Discord, open the **Discord** tab, paste a webhook link (a private link for your channel; [Discord's guide](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks) shows how to make one), pick what to post and tap **Post to Discord**. Header picture and role ping are under **More options**.
 
 ## What you get
 
@@ -43,24 +43,24 @@ To post to Discord, open the **Discord** tab, paste a webhook link (a private li
 - Optional **Clan name** box, optional **Remember my key**, and a banner when a new version is out.
 
 ## Privacy
-
-- Your key is only saved if you tick **Remember my key**, and then only in your own browser. Untick to delete it.
-- Pictures go only to the AI company you pick, straight from your browser. There is no server of our own and no tracking.
-- Theme, text size and the last sheet are stored on your device only.
-- Your Discord link is only saved if you tick **Save my link on this device**. Posts go only to that link.
+> [!NOTE]
+> - Your key is only saved if you tick **Remember my key**, and then only in your own browser. Untick to delete it.
+> - Pictures go only to the AI company you pick, straight from your browser. There is no server of our own and no tracking.
+> - Theme, text size and the last sheet are stored on your device only.
+> - Your Discord link is only saved if you tick **Save my link on this device**. Posts go only to that link.
 
 ## Known limits
-
-- **OpenAI is not tested yet** and may not work. Anthropic and Google Gemini have been tested.
-- A real run of the **Clan name** box is not tested yet.
-- A long video skips more of the list, so keep videos short or use screenshots. Rows cut off at the top or bottom edge are skipped.
-- The AI reads the names and points, so check any `?` or odd spelling by hand.
-- Rate limits and other AI errors show as a general "The AI said no" message.
-- Not tested with screen readers or keyboard-only use.
+> [!WARNING]
+> - **OpenAI is not tested yet** and may not work. Anthropic and Google Gemini have been tested.
+> - A real run of the **Clan name** box is not tested yet.
+> - A long video skips more of the list, so keep videos short or use screenshots. Rows cut off at the top or bottom edge are skipped.
+> - The AI reads the names and points, so check any `?` or odd spelling by hand.
+> - Rate limits and other AI errors show as a general "The AI said no" message.
+> - Not tested with screen readers or keyboard-only use.
 
 ## Disclaimer
-
-For personal use only. Not an official Roblox, Anthropic, Google or OpenAI product. Provided as is, with no guarantees.
+> [!CAUTION]
+> For personal use only. Not an official Roblox, Anthropic, Google or OpenAI product. Provided as is, with no guarantees.
 
 ## Licence
 
