@@ -184,3 +184,4 @@ html:not([data-theme=dark])[data-btn=red]{--accent:#A3222B;--link:#A3222B}html[d
 html:not([data-theme=dark])[data-btn=orange]{--accent:#A84A00;--link:#A84A00}html[data-theme=dark][data-btn=orange]{--accent:#A84A00;--link:#FFB070}
 
 .artsample{display:block;width:100%;max-width:260px;height:auto;margin-top:6px;border-radius:8px}
+.tabs.main .tab:not(.on){border-color:var(--soft)}
