@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Zoom has a Close button
+
+13 Nov 2026 (06:37 UTC) · Changed
+
+Sample pictures now zoom on the page with a Close button instead of opening a new tab.
+
+> [!NOTE]
+> **What you'll see:** Home, What you get
+
+- Zoom opens on the page; Close, Esc or tapping outside closes it
+
 ## Last sheet keeps everyone [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/ad3af291fe8af8fe18ba61e95ae0eedbb5f7656d)
 
 13 Nov 2026 (06:36 UTC) · Changed

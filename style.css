@@ -201,3 +201,5 @@ details#moreopts>summary{background:var(--field);border-left:3px solid var(--c-s
 :is(#settingstab .s69,#_#_#_){font-size:1.15em;margin-bottom:6px}
 :is(#settingstab .s70,#_#_#_){margin:14px 0 6px;font-weight:600;opacity:.8}
 #previnfo ul{margin:4px 0 0;padding-left:20px;font-weight:400}#previnfo li ul{margin:0;padding-left:18px}#previnfo .warn{color:#a35a00}@media (prefers-color-scheme:dark){#previnfo .warn{color:#f0a640}}
+
+.zoombox{position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.85);overflow:auto;padding:56px 8px 8px}.zoombox img{display:block;width:200%;max-width:none;height:auto;background:#fff}.zoomx{position:fixed;top:8px;right:8px;z-index:1000;font-size:18px;padding:8px 16px;border-radius:8px;border:0;background:#fff;color:#111;cursor:pointer}

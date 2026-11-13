@@ -1,4 +1,4 @@
-// Patch note: A sheet made earlier today was saved with only some players, so the next run showed most people as new.
+// Patch note: Sample pictures now zoom on the page with a Close button instead of opening a new tab.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -102,7 +102,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.44";
+const BUILD = "1.1.45";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1934,5 +1934,5 @@ document.addEventListener("click", (e) => {
   b.checked = lsGet("fcd_showlog") === "1"; if (b.checked) l.hidden = false;
   b.onchange = () => { lsSet("fcd_showlog", b.checked ? "1" : "0"); l.hidden = !b.checked; }; })();
 
-document.querySelectorAll(".xlimg").forEach(i => { i.title = "Tap to zoom"; i.onclick = () => window.open(i.src, "_blank", "noopener"); });
+document.querySelectorAll(".xlimg").forEach(i => { i.title = "Tap to zoom"; i.onclick = () => { const z = document.createElement("div"); z.className = "zoombox"; const c = document.createElement("button"); c.type = "button"; c.className = "zoomx"; c.textContent = "Close"; const im = document.createElement("img"); im.src = i.src; im.alt = i.alt; z.append(c, im); const shut = () => { z.remove(); document.removeEventListener("keydown", esc); }; const esc = (e) => { if (e.key === "Escape") shut(); }; c.onclick = shut; z.onclick = (e) => { if (e.target === z) shut(); }; document.addEventListener("keydown", esc); document.body.append(z); c.focus(); }; });
 document.querySelectorAll(".xlgal button").forEach(b => { b.onclick = () => { const g = b.closest(".xlgal"); g.querySelector("img").src = b.dataset.src; g.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b)); }; });
