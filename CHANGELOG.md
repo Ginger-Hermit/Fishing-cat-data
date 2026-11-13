@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Bill amounts with dots
 
-13 Nov 2026 (00:26 UTC) · Changed
+13 Nov 2026 (00:26 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/1b77f15)
 
 Amounts like 1.234.567 are no longer left blank
 
