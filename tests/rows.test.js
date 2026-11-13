@@ -10,6 +10,7 @@ A.equal(r.length,2);A.equal(r.cut,true);
 A.throws(()=>parseRows("sorry, no"));
 r=parseRows('[{"name":"x","points":"3"}]');A.equal(r[0].rank,"");
 A.equal(parsePoints("52.51K"),52510);A.equal(parsePoints("1.307M"),1307000);A.equal(parsePoints("?"),null);
+A.equal(parsePoints("1,5K"),1500);A.equal(parsePoints("2,25M"),2250000);A.equal(parsePoints("12,345"),12345);
 console.log("unit tests ok");
 r=parseRows('note [1]. [{"rank":1,"name":"a","points":"1"}]');A.equal(r.length,1);A.equal(r.cut,false);
 r=parseRows('[[{"rank":1,"name":"a","points":"1"}]]');A.equal(r.length,1);A.equal(r.cut,false);

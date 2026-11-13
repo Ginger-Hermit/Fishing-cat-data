@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Clan points like 1,5K
+
+13 Nov 2026 (00:45 UTC) · Changed
+
+1,5K now reads as 1500, not 15000
+
+> [!NOTE]
+> **What you'll see:** Clan sheet
+
+- parsePoints treats a comma before K/M/B/T as a decimal
+
 ## Swiss bill amounts
 
 13 Nov 2026 (00:41 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/16f9a35)

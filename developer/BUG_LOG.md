@@ -18,3 +18,4 @@ Older bugs: `BREAK_REPORT_2026-11-12.md` and `STRESS_TEST_LOG.md`.
 - 13 Nov 2026: Bills left 1.234.567 blank. Cause: parseNum guessed dot = decimal. Fix: repeated 3-digit dot groups mean thousands.
 - 13 Nov 2026: USD -12.50 read as +12.50. Cause: minus check stopped at the first space. Fix: look at all text before the number.
 - 13 Nov 2026: 1'234.50 read as 1. Cause: apostrophe separator not known. Fix: treat it like a space.
+- 13 Nov 2026: 1,5K read as 15000. Cause: commas always removed. Fix: comma + 1-2 digits + K/M/B/T is a decimal.
