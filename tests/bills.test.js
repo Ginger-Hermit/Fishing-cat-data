@@ -42,4 +42,5 @@ A.equal(Math.round(b[0].lines.reduce((t,l)=>t+l.amount,0)*100)/100,139.69);
 {const full=JSON.stringify({bills:[{supplier:"A",decimal_mark:".",lines:[{energy:"other",kind:"water",charge:"W1",amount:"5"},{energy:"other",kind:"water",charge:"W2",amount:"6"}]},{supplier:"B",lines:[{energy:"other",kind:"water",charge:"W3",amount:"7"}]}]});
 const c=parseBills(full.slice(0,full.indexOf("W2")+6));A.ok(c.cut);A.equal(c.length,1);A.equal(c[0].lines.length,1);
 const c2=parseBills(full.slice(0,full.indexOf("W3")-5));A.ok(c2.cut);A.equal(c2[0].lines.length,2);A.ok(!parseBills(full).cut);}
+A.equal(parseNum("1 234,56"),1234.56);A.equal(parseNum("€ 12 345.00"),12345);
 console.log("bill tests ok");

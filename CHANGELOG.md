@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Bill amounts with spaces
+
+13 Nov 2026 (00:25 UTC) · Changed
+
+Amounts like 1 234,56 are read correctly
+
+> [!NOTE]
+> **What you'll see:** Bills tab
+
+- parseNum joins digit groups split by spaces
+
 ## 12-hour time in sheet names
 
-13 Nov 2026 (00:02 UTC) · Changed
+13 Nov 2026 (00:02 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/81b5b01)
 
 Sheet names use normal time, like 'Loki - 13 Nov 2026 2.05pm.xlsx'.
 
