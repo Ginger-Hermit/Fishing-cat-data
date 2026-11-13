@@ -1,4 +1,4 @@
-// Patch note: 1,5K now reads as 1500, not 15000
+// Patch note: +1,234 and 1.2k pts are no longer blank
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -72,7 +72,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.12";
+const BUILD = "1.1.13";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -388,7 +388,7 @@ function parseRows(text) {
 
 // Excel: turn "52.51K" into 52510, read an earlier sheet, build the new one.
 function parsePoints(t) {
-  let u = String(t ?? "").trim().replace(/^(\d+),(\d{1,2})\s*([KkMmBbTt])$/, "$1.$2$3").replace(/,/g, "");
+  let u = String(t ?? "").trim().replace(/^(\d+),(\d{1,2})\s*([KkMmBbTt])$/, "$1.$2$3").replace(/,/g, "").replace(/^\+\s*/, "").replace(/\s*(pts?|points?)\.?$/i, "");
   if (/^\d{1,3}(?:[.\s\u00a0\u202f']\d{3})+$/.test(u)) u = u.replace(/\D/g, ""); // 1.234.567, 1 234, 1'234 = thousands marks
   const m = u.match(/^(\d+(?:\.\d+)?|\.\d+)\s*([KkMmBbTt]?)$/);
   if (!m) return null;

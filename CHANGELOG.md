@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
-## Clan points like 1,5K
+## Clan points with + or pts
 
 13 Nov 2026 (00:45 UTC) · Changed
+
++1,234 and 1.2k pts are no longer blank
+
+> [!NOTE]
+> **What you'll see:** Clan sheet
+
+- parsePoints drops a leading + and a trailing pts/points
+
+## Clan points like 1,5K
+
+13 Nov 2026 (00:45 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/31689be)
 
 1,5K now reads as 1500, not 15000
 
