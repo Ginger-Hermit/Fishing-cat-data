@@ -1,4 +1,4 @@
-// Patch note: Your Google Sheet link was cut off the end of long Discord messages. It now sits near the top.
+// Patch note: A second run on the same day now compares with the sheet you just made, not yesterday's.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -102,7 +102,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.49";
+const BUILD = "1.1.50";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -463,7 +463,7 @@ async function readPrevious(EJ, buf) {
 // A sheet made earlier today is not a fair baseline (a re-run would compare with itself): use the last earlier day instead.
 function dayBase(map) {
   const hh = map.hist, t = new Date(), today = Date.UTC(t.getFullYear(), t.getMonth(), t.getDate());
-  if (hh && hh.dates.length > 1 && hh.dates[hh.dates.length - 1] === today) {
+  if (false) { // 13 Nov: always compare with the last sheet, even one made earlier today
     const col = hh.dates.length - 2, m2 = new Map();
     hh.players.forEach(([k, e]) => { if (e && typeof e.vals[col] === "number") m2.set(k, e.vals[col]); });
     if (m2.size) { m2.hist = hh; const w = weekBase(m2, hh.dates[col], today); w.full = map; w.from = hh.dates[col]; return w; }

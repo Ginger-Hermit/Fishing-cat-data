@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Compare with the last sheet
+
+13 Nov 2026 (06:45 UTC) · Changed
+
+A second run on the same day now compares with the sheet you just made, not yesterday's.
+
+> [!NOTE]
+> **What you'll see:** Clan, Change column
+
+- Same-day runs compare with the last sheet
+
 ## Sheet link always posts [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/61e583b1e000e412f69a9f6208f1bc90afafd9af)
 
 13 Nov 2026 (06:44 UTC) · Changed
