@@ -2,6 +2,18 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Discord tab fixes that didn't stick
+
+13 Nov 2026 (00:50 UTC) · Changed
+
+Attach box now really starts unticked; No picture saved is grey
+
+> [!NOTE]
+> **What you'll see:** Discord tab
+
+- Attach box unticked unless you ticked it before
+- No picture saved in grey
+
 ## Discord tab tidy-up
 
 13 Nov 2026 (00:49 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6d52087)

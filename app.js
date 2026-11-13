@@ -1,4 +1,4 @@
-// Patch note: Excel attach box sits above Post and starts unticked; clearer help text; More options has an arrow
+// Patch note: Attach box now really starts unticked; No picture saved is grey
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -95,7 +95,7 @@ document.getElementById("expire").onchange = () => { lsSet("fcd_expire", documen
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.15";
+const BUILD = "1.1.16";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1256,7 +1256,7 @@ const dcPingShow = () => { const on = $("dcping").value === "role"; if (on) $("d
 dcPingShow();
 $("dcping").onchange = () => { dcPingShow(); const v = $("dcping").value; if (v === "role") lsSet("fcd_pingmode", v); else try { localStorage.removeItem("fcd_pingmode"); } catch (e) {} };
 $("dcrole").onchange = () => { const id = (($("dcrole").value.match(/\d{15,25}/) || [])[0]) || ""; $("dcrole").value = id; if (id) lsSet("fcd_pingrole", id); else try { localStorage.removeItem("fcd_pingrole"); } catch (e) {} };
-$("hookxlsx").checked = lsGet("fcd_hookxlsx") !== "0";
+$("hookxlsx").checked = lsGet("fcd_hookxlsx") === "1";
 $("hookxlsx").onchange = () => { lsSet("fcd_hookxlsx", $("hookxlsx").checked ? "1" : "0"); renderSaved(); };
 $("hookkeep").onchange = () => { setHook(HOOK_RE.test(hookGet()) ? hookGet() : ""); renderSaved(); };
 $("hookforget").onclick = () => { $("hookkeep").checked = false; setHook(""); $("hookbox").value = ""; $("hookchk").textContent = "Forgotten."; renderSaved(); if (pv) pvDraw(); };
