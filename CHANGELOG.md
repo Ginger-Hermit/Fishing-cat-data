@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Clearer Discord tab
+
+13 Nov 2026 (05:51 UTC) · Changed
+
+Discord tab is easier to follow
+
+> [!NOTE]
+> **What you'll see:** Post to Discord tab
+
+- Example post shows before your first sheet; bigger post picture; Excel tick moved up; role steps hidden under How do I get this?; website link always added
+
 ## Easier samples [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/144f5f4e1b4009b6135f3b93e670198f3ceae826)
 
 13 Nov 2026 (05:50 UTC) · Changed

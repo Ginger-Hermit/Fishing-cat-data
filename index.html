@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Sample sheets are bigger and simpler -->
+<!-- Patch note: Discord tab is easier to follow -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -133,18 +133,17 @@
 <div id="dcmore">
 <div class="s37">Header picture (optional)</div>
 <input type="file" id="artfile" accept="image/*" data-d="none">
-<div class="s54" data-d="flex"><label for="artfile" class="s47 tab big" data-d="inline-flex">Choose picture</label><button id="artforget" type="button" class="tab big" data-d="none">Remove</button><img id="artthumb" alt="Your saved header picture" class="s55" data-d="none"></div><div id="artmsg" role="status" class="s48"></div><div class="s48">How your posts look:</div><img id="artsample" alt="Example of a Discord post picture" class="artsample">
+<div class="s54" data-d="flex"><label for="artfile" class="s47 tab big" data-d="inline-flex">Choose picture</label><button id="artforget" type="button" class="tab big" data-d="none">Remove</button><img id="artthumb" alt="Your saved header picture" class="s55" data-d="none"></div><div id="artmsg" role="status" class="s48"></div><div class="s48">How your posts look:</div><img id="artsample" alt="Example of a Discord post picture" class="artsample"><label class="s56" data-d="flex"><input type="checkbox" id="hookxlsx" class="s42"> Also attach the Excel file</label>
 
 <div class="s37">Ping (optional)</div>
 <select id="dcping" aria-label="Who to ping" class="s38"><option value="">Don't ping anyone</option><option value="role">Ping a role (you choose which)</option></select>
 <input id="dcrole" inputmode="numeric" autocomplete="off" placeholder="Role ID, like 123456789012345678" class="s57" data-d="none">
-<ul id="dcrolehelp" class="s49 tips" data-d="none"><li>In Discord: Settings, Advanced, turn on Developer Mode.</li><li>Long-press (phone) or right-click the role, tap Copy Role ID.</li><li>Paste it here. It is saved on this device.</li></ul>
+<details id="dcrolehelp" data-d="none"><summary>How do I get this?</summary><ul class="s49 tips"><li>In Discord: Settings, Advanced, turn on Developer Mode.</li><li>Long-press (phone) or right-click the role, tap Copy Role ID.</li><li>Paste it here. It is saved on this device.</li></ul></details>
 <ul class="s49 tips"><li>A role pings only the people who have that role.</li></ul>
-<label class="s56" data-d="flex"><input type="checkbox" id="hookxlsx" class="s42"> Also attach the Excel file</label>
 <div class="s37">Sheet link (optional)</div>
 <input id="sheetlink" type="url" autocomplete="off" spellcheck="false" placeholder="https://docs.google.com/spreadsheets/..." class="s38"><div id="sheetlinkchk" class="s49">Google Sheets or OneDrive only. Anyone in the channel can open it.</div>
 <label class="s56" data-d="flex"><input type="checkbox" id="sheetlinkkeep" class="s42"> Remember this link</label>
-<label class="s56" data-d="flex"><input type="checkbox" id="sitelink" class="s42"> Add a link to this website</label>
+<label class="s56" data-d="none"><input type="checkbox" id="sitelink" class="s42"> Add a link to this website</label>
 <details id="dcprev" open><summary class="s31">What the post looks like</summary><div id="dcprevbox" class="dcprev"></div></details>
 <button id="dcgo" type="button" class="s50">Post to Discord</button>
 <div id="hookmsg" role="status" aria-live="polite" class="s51"></div>
