@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Clearer Discord link help
 
-13 Nov 2026 (07:00 UTC) · Changed
+13 Nov 2026 (07:00 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/ed721d71902c81ebe7e5370f049eca0884e824a1)
 
 The 'No link?' steps are easier to follow
 
