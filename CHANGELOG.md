@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
+## Model names link
+
+13 Nov 2026 (01:05 UTC) · New
+
+Settings links to the AI company's list of model names
+
+> [!TIP]
+> **What you'll see:** Settings, AI model (advanced)
+
+- Link to the model list of the company you picked
+
 ## Tidier tabs
 
 13 Nov 2026 (00:59 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/468d510)

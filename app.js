@@ -1,12 +1,12 @@
-// Patch note: Small layout fixes: arrows match, more space, no repeated Bills line
+// Patch note: Settings links to the AI company's list of model names
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
 // Anthropic is tested. Gemini and OpenAI are not. Names can be changed under Settings.
 const PROVIDERS = {
-  anthropic: { name: "Anthropic", model: MODEL, tested: true },
-  gemini: { name: "Google Gemini", model: "gemini-3.8-flash", tested: true },
-  openai: { name: "OpenAI", model: "gpt-5.5", tested: false }
+  anthropic: { name: "Anthropic", model: MODEL, tested: true, list: "https://docs.anthropic.com/en/docs/about-claude/models" },
+  gemini: { name: "Google Gemini", model: "gemini-3.8-flash", tested: true, list: "https://ai.google.dev/gemini-api/docs/models" },
+  openai: { name: "OpenAI", model: "gpt-5.5", tested: false, list: "https://platform.openai.com/docs/models" }
 };
 function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
 const LOOK_KEYS = ["fcd_theme", "fcd_size", "fcd_read", "fcd_nosave", "fcd_expire"];
@@ -95,7 +95,7 @@ document.getElementById("expire").onchange = () => { lsSet("fcd_expire", documen
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.17";
+const BUILD = "1.1.18";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -322,7 +322,7 @@ function applyProvider(clearKey) {
   $("keyhelp").style.display = id === "gemini" ? "inline-block" : "none";
   $("keylimit").style.display = id === "gemini" ? "block" : "none";
   $("untested").style.display = p.tested ? "none" : "block";
-  $("modelbox").placeholder = p.model;
+  $("modelbox").placeholder = p.model; $("modellist").href = p.list; $("modellist").textContent = "See " + p.name + " model names";
   $("modelbox").value = lsGet("fcd_model_" + id) || "";
   lsSet("fcd_provider", id);
   const kept = lsGet("fcd_key_" + id);
