@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Real sample sheets
+
+13 Nov 2026 (05:56 UTC) · Changed
+
+Samples now show every Excel tab exactly
+
+> [!NOTE]
+> **What you'll see:** Home, Roblox clan and Bills tabs
+
+- Sample pictures are made from the real Excel file with made-up data; tap the tabs under the picture to switch
+
 ## Clearer Discord tab [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/b35f5180414c3e23fed670713095638f74dc627a)
 
 13 Nov 2026 (05:51 UTC) · Changed
