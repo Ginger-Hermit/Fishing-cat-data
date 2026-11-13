@@ -2,7 +2,7 @@
 
 Newest first. The page itself shows only the newest 5.
 
-## Safer sheet link, tidier ping help
+## Safer sheet link, tidier ping help [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/09b1dd55810130f1fa1b86e2cc7e832d078be7e8)
 
 13 Nov 2026 (05:46 UTC) · Changed
 
