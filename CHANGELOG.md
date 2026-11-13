@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Show the log setting
 
-13 Nov 2026 (05:33 UTC) · New
+13 Nov 2026 (05:33 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/dced555)
 
 You can keep the log always visible
 
