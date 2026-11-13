@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Tidier Discord post
+
+13 Nov 2026 (06:59 UTC) · Changed
+
+Clan post is easier to read
+
+> [!NOTE]
+> **What you'll see:** Discord post
+
+- Grey lines between sections; member roles as sub points, smallest group first; No change lists the names; Points history section removed (it's in the sheet)
+
 ## Tidier Discord links
 
 13 Nov 2026 (06:49 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8b681bf3fc2fc5745c8455612c58f535fe5d7fe9)
