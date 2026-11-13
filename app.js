@@ -1,4 +1,4 @@
-// Patch note: The Discord message no longer ends with a colour guide.
+// Patch note: The Discord message no longer has a Left the clan line.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -102,7 +102,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.76";
+const BUILD = "1.1.77";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1264,7 +1264,6 @@ const dcBreakdown = (sh, f) => {
     const steady = K > 2 ? h.list.filter((e) => e.vals.every((x, k) => x !== null && (k === 0 || x > e.vals[k - 1]))).map((e) => e.name) : [];
     if (steady.length) t += "\n> Up every run: **" + steady.slice(0, 5).map(dcMd).join(", ") + "**" + (steady.length > 5 ? " and " + (steady.length - 5) + " more" : "");
     const left = h.list.filter((e) => e.vals[K - 1] === null && e.vals.some((x) => x !== null)).map((e) => e.name);
-    t += "\n> Left the clan: " + (left.length ? left.slice(0, 30).map(dcMd).join(", ") + (left.length > 30 ? " and " + (left.length - 30) + " more" : "") : "none");
   }
   return t;
 };
