@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## No Left the clan line
 
-13 Nov 2026 (07:42 UTC) · Changed
+13 Nov 2026 (07:42 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/df34060)
 
 The Discord message no longer has a Left the clan line.
 
