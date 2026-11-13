@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Earlier sheet tips
+
+13 Nov 2026 (07:21 UTC) · New
+
+Three short tips under the earlier-sheet box so the history doesn't get mixed up.
+
+> [!TIP]
+> **What you'll see:** Clan sheet, More
+
+- Tips list under prevdrop
+
 ## Warns about an earlier sheet from another clan
 
-13 Nov 2026 (07:16 UTC) · New
+13 Nov 2026 (07:16 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/ddcd43b)
 
 If the earlier sheet is for a different clan, the page says so and leaves it out, so histories don't mix.
 
