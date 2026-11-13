@@ -1,4 +1,4 @@
-// Patch note: In Discord, the No change list is now bright cyan instead of dark blue.
+// Patch note: In Discord, the No change list is now plain white so it is easy to read.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -102,7 +102,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.74";
+const BUILD = "1.1.75";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1251,7 +1251,7 @@ const dcBreakdown = (sh, f) => {
     t += "\n### What changed\n> Whole clan: **" + sg(d) + " points**" + pc(d, b0) + "\n";
     if (up.length) t += "\n**Went up (" + up.length + ")**" + blk("+", up.slice(0, 30).map(line), up.length);
     if (dn.length) t += "\n**Went down (" + dn.length + ")**" + blk("-", dn.slice(0, 30).map(line), dn.length);
-    if (same) { const sm = ret.filter((x) => x.n === x.b); t += "\n**No change (" + same + ")** \u00b7 same points as last time" + "\n```ansi\n" + sm.slice(0, 30).map((x) => "\u001b[1;36m" + dcCode(x.name)).join("\n") + (same > 30 ? "\nand " + (same - 30) + " more" : "") + "\n```"; }
+    if (same) { const sm = ret.filter((x) => x.n === x.b); t += "\n**No change (" + same + ")** \u00b7 same points as last time" + "\n```ansi\n" + sm.slice(0, 30).map((x) => dcCode(x.name)).join("\n") + (same > 30 ? "\nand " + (same - 30) + " more" : "") + "\n```"; }
     if (fresh.length) t += "\n**New (" + fresh.length + ")**" + blk("+", fresh.slice(0, 30).map((x) => x.name + ": " + f(x.n) + " points"), fresh.length);
   }
   const h = sh.hist;
@@ -1266,7 +1266,7 @@ const dcBreakdown = (sh, f) => {
     const left = h.list.filter((e) => e.vals[K - 1] === null && e.vals.some((x) => x !== null)).map((e) => e.name);
     t += "\n> Left the clan: " + (left.length ? left.slice(0, 30).map(dcMd).join(", ") + (left.length > 30 ? " and " + (left.length - 30) + " more" : "") : "none");
   }
-  if (sh.any) t += "\n-# Colour guide\n-# \u2022 Green = went up or new\n-# \u2022 Red = went down\n-# \u2022 Cyan = same points as the last sheet\n-# Colours show on PC only; phones show it plain.";
+  if (sh.any) t += "\n-# Colour guide\n-# \u2022 Green = went up or new\n-# \u2022 Red = went down\n-# \u2022 White = same points as the last sheet\n-# Colours show on PC only; phones show it plain.";
   return t;
 };
 const HOOK_RE = /^https:\/\/discord\.com\/api\/webhooks\/\d+\/[\w-]+$/;
