@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Bill rates written with per
 
-13 Nov 2026 (00:46 UTC) · Changed
+13 Nov 2026 (00:46 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c69bccf)
 
 p per kWh is understood like p/kWh
 
