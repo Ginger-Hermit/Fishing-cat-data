@@ -11,7 +11,7 @@ Clan sheets now include the time, like 'Loki - 13 Nov 2026 14.05.xlsx'.
 > [!NOTE]
 > **What you'll see:** Clan sheet file name
 
-- Added hour and minute to the file name.
+- Added hour and minute to the file name. [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/1dc31c82468a56b37927b1f4c8e97e12932545b6)
 
 ## Sheets named by clan and date
 
