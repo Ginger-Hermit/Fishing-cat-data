@@ -4,7 +4,7 @@ let EJ; try { EJ = require("exceljs"); } catch (e) { console.error("Run once: np
 const html = "<script>" + fs.readFileSync(path.join(__dirname, "..", "app.js"), "utf8") + "</script>";
 const js = html.match(/<script>([\s\S]*)<\/script>/)[1];
 const grab = (name) => { const i = js.indexOf(name); let d = 0, j = js.indexOf("{", i); for (; j < js.length; j++) { if (js[j] === "{") d++; if (js[j] === "}" && !--d) break; } return js.slice(i, j + 1); };
-const { parsePoints, buildWorkbook, readPrevious, nameClose } = new Function(["function parsePoints", "function buildWorkbook", "function readPrevious", "function zipCheck", "function readHistory", "function colL", "function mergeHist", "function nameClose", "function fixNames", "function dayBase"].map(grab).join("\n").replace("function readPrevious", "async function readPrevious") + "\nreturn {parsePoints, buildWorkbook, readPrevious, nameClose};")();
+const { parsePoints, buildWorkbook, readPrevious, nameClose } = new Function(js.match(/^const okName = .*$/m)[0] + "\n" + ["function parsePoints", "function buildWorkbook", "function readPrevious", "function zipCheck", "function readHistory", "function colL", "function mergeHist", "function nameClose", "function fixNames", "function dayBase"].map(grab).join("\n").replace("function readPrevious", "async function readPrevious") + "\nreturn {parsePoints, buildWorkbook, readPrevious, nameClose};")();
 
 for (const [t, n] of [["52.51K", 52510], ["1K", 1000], ["507", 507], ["1.2M", 1200000], ["16.6k", 16600]]) assert.strictEqual(parsePoints(t), n, t);
 assert.strictEqual(parsePoints("?"), null);
