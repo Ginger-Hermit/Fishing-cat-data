@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Page directory and calmer clan tab
 
-13 Nov 2026 (00:36 UTC) · Changed
+13 Nov 2026 (00:36 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/1263e06)
 
 Home now has a short directory of pages, each with its own colour on the tab and side bars. The clan tab has fewer notes and bigger tick boxes, and the tabs no longer get cut off.
 
