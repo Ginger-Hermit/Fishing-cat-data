@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
-## Points history plain again
+## Points history in a grey box
 
 13 Nov 2026 (07:26 UTC) · Changed
+
+Points history in the Discord post sits in a plain dark grey box.
+
+> [!NOTE]
+> **What you'll see:** Post to Discord
+
+- Points history as a plain code block
+
+## Points history plain again
+
+13 Nov 2026 (07:26 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/ba0ae86)
 
 Points history in the Discord post is plain bullet points again; less colour.
 
