@@ -11,7 +11,7 @@ The Discord post ends with a small line explaining Went up, No change, New and P
 > [!TIP]
 > **What you'll see:** Post to Discord
 
-- How to read line in hookText
+- How to read line in hookText [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7e73ac1)
 
 ## Calmer What changed and fuller Points history
 
