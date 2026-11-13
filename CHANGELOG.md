@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Discord tab tidy-up
 
-13 Nov 2026 (00:49 UTC) · Changed
+13 Nov 2026 (00:49 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6d52087)
 
 Excel attach box sits above Post and starts unticked; clearer help text; More options has an arrow
 
