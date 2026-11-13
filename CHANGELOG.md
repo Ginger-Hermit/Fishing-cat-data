@@ -2,7 +2,7 @@
 
 Newest first. The page itself shows only the newest 5.
 
-## Discord steps as a list
+## Discord steps as a list [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2dfebb74ea59a600fafdeac19a5c48ae2c9d04fb)
 
 13 Nov 2026 (06:43 UTC) · Changed
 
