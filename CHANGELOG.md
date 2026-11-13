@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## No change names in a yellow box
+
+13 Nov 2026 (07:23 UTC) · Changed
+
+The Discord post shows who had no change in a yellow-text box.
+
+> [!NOTE]
+> **What you'll see:** Post to Discord
+
+- No change list as a fix code block
+
 ## No change names as bullet points
 
-13 Nov 2026 (07:22 UTC) · Changed
+13 Nov 2026 (07:22 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/35cae5f)
 
 The Discord post lists who had no change as bullet points.
 
