@@ -3,7 +3,7 @@
 const path = require("path");
 const pw = require("playwright");
 const URL = "file://" + path.resolve(__dirname, "..", "index.html");
-const MUST = { t1: ["#key"], t3: ["summary(Add bills)"], t6: ["#hookbox", "#dcgo"], t5: ["#autoref"] };
+const MUST = { t1: ["#key"], t3: ["summary(2. Add bills)"], t6: ["#hookbox", "#dcgo"], t5: ["#autoref"] };
 (async () => {
   const browser = await pw.chromium.launch(), bad = [];
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
