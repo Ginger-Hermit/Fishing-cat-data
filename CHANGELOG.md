@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## 12-hour time in sheet names
+
+13 Nov 2026 (00:02 UTC) · Changed
+
+Sheet names use normal time, like 'Loki - 13 Nov 2026 2.05pm.xlsx'.
+
+> [!NOTE]
+> **What you'll see:** Clan sheet file name
+
+- File name time is 12-hour with am/pm.
+
 ## Time in sheet names
 
-13 Nov 2026 (00:01 UTC) · Changed
+13 Nov 2026 (00:01 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/3105b8b)
 
 Clan sheets now include the time, like 'Loki - 13 Nov 2026 14.05.xlsx'.
 
