@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Tidier Settings
+
+13 Nov 2026 (05:57 UTC) · Changed
+
+Settings has no boxes, just clear sections
+
+> [!NOTE]
+> **What you'll see:** Settings
+
+- Removed the boxes around each section; lines between them; bolder labels
+
 ## Real sample sheets [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/82d1a3e925ae76cb34214efbe0b562c4c9c2c291)
 
 13 Nov 2026 (05:56 UTC) · Changed
