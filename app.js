@@ -1,4 +1,4 @@
-// Patch note: Sample pictures now zoom on the page with a Close button instead of opening a new tab.
+// Patch note: Post to Discord under a sheet now takes you to the Discord tab with that sheet picked.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -102,7 +102,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.45";
+const BUILD = "1.1.46";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1447,6 +1447,8 @@ $("sheetlink").oninput = () => { const v = $("sheetlink").value.trim(); $("sheet
 $("sheetlinkkeep").onchange = keepLink;
 const dcShow = () => { const v = document.querySelector("input[name=dcsrc]:checked").value; $("dcfiles").style.display = v === "files" ? "" : "none"; dcPrev(); };
 document.querySelectorAll("input[name=dcsrc]").forEach((r) => { r.onchange = dcShow; });
+// Post to Discord buttons open the Discord tab with this sheet picked.
+function goDiscord(src) { const r = document.querySelector("input[name=dcsrc][value=" + src + "]"); if (r) { r.checked = true; r.dispatchEvent(new Event("change", { bubbles: true })); } showTab("discord"); window.scrollTo(0, 0); }
 $("dcgo").onclick = () => {
   const v = document.querySelector("input[name=dcsrc]:checked").value, say = (t) => { $("hookmsg").textContent = t; };
   say("");
@@ -1550,7 +1552,7 @@ function pvDraw() {
   inp.type = "password"; inp.autocomplete = "off"; inp.placeholder = "Paste your Discord link"; inp.setAttribute("aria-label", "Discord link");
   sendBtn.onclick = () => { const v = inp.value.trim(); if (!HOOK_RE.test(v)) { setMsg("That doesn't look like a Discord webhook link. Copy it again.", true); return; } setHook(v); $("hookbox").value = v; pvPost(); };
   ask.append(inp, sendBtn, el("div", "", "Used for this visit only. Tick Remember my link in Settings to keep it."));
-  mk("pvpost", "Post to Discord", () => { if (HOOK_RE.test(hookGet())) return pvPost(); ask.style.display = ask.style.display ? "" : "none"; });
+  mk("pvpost", "Post to Discord", () => goDiscord("sheet"));
   mk("pvshare", "Share", () => shareRun(pvPost, setMsg));
   mk("pvcopy", "Copy message", async () => { try { await navigator.clipboard.writeText(hookText() + linkLine()); setMsg("Message copied."); } catch (e) { setMsg("Couldn't copy. Select the message and copy it by hand.", true); } });
   mk("pvreset", "Reset", () => { pv.rows = pv.orig.map(r => ({ ...r })); pvDraw(); });
@@ -1852,7 +1854,7 @@ function bpDraw() {
   ask.style.cssText = "display:none;flex-basis:100%"; sendBtn.type = "button"; hk.type = "button"; inp.type = "password"; inp.autocomplete = "off"; inp.placeholder = "Paste your Discord link"; inp.setAttribute("aria-label", "Discord link");
   sendBtn.onclick = () => { const v = inp.value.trim(); if (!HOOK_RE.test(v)) { billSay("That doesn't look like a Discord webhook link. Copy it again.", true); return; } setHook(v); $("hookbox").value = v; bpPost(); };
   ask.append(inp, sendBtn, mkEl("div", "", "Used for this visit only. Bills can show private details, so check the table first."));
-  hk.onclick = () => { if (HOOK_RE.test(hookGet())) return bpPost(); ask.style.display = ask.style.display ? "" : "none"; };
+  hk.onclick = () => goDiscord("bill");
   bt.appendChild(hk); bt.appendChild(ask);
   bp.bills.forEach((b, bi) => {
     const add = mkEl("button", "tab", bp.bills.length > 1 ? "Add to bill " + (bi + 1) : "Add charge"); add.type = "button";

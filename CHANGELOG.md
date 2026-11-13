@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Discord button opens Discord tab
+
+13 Nov 2026 (06:42 UTC) · Changed
+
+Post to Discord under a sheet now takes you to the Discord tab with that sheet picked.
+
+> [!NOTE]
+> **What you'll see:** Clan and Bills, Post to Discord
+
+- Post to Discord opens the Discord tab
+
 ## Zoom has a Close button [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6c49060225350d07db4f67e462a35f450d099ce9)
 
 13 Nov 2026 (06:37 UTC) · Changed
