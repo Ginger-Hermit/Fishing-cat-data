@@ -12,7 +12,7 @@ Web page: reads Roblox clan screenshots or video (any Roblox game) with an AI an
 2. Run `python3 tools/release.py --title ... --tag New|Changed --meaning ... --see ... --change ...` once. It does the version, CHANGELOG, patch note, STATUS and `tests/check.py`. Never by hand.
    After pushing, put the new commit hash on that entry as a `[code](.../commit/HASH)` link in CHANGELOG.md (release.py only fills the previous entry), then push again.
 3. Touched `parseRows`, `parsePoints`, `parseBills`, `parseNum` or `kwhFor`? Also run `node tests/rows.test.js && node tests/bills.test.js && node tests/fuzz.js 7 5000`.
-4. Commit, push. GitHub runs every test in three browsers; a red cross comes first. Changes outside `index.html` and `app.js` need no release.
+4. Commit, push to `main` without asking (Ginger said so, 13 Nov). GitHub runs every test in three browsers; a red cross comes first. Changes outside `index.html` and `app.js` need no release.
 5. One bug per patch unless the same cause. Say what you couldn't test.
    Fixed a bug? Add one line to `developer/BUG_LOG.md` (date, what broke, cause, fix, commit).
 6. Edit `STATUS.md` Next / Not tested only when they really change. Keep it under 50 lines.
