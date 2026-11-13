@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Earlier sheet tips in a yellow box
+
+13 Nov 2026 (07:21 UTC) · Changed
+
+The earlier-sheet tips sit in a yellow box so they stand out.
+
+> [!NOTE]
+> **What you'll see:** Clan sheet, More
+
+- tipbox style
+
 ## Earlier sheet tips
 
-13 Nov 2026 (07:21 UTC) · New
+13 Nov 2026 (07:21 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2789bf8)
 
 Three short tips under the earlier-sheet box so the history doesn't get mixed up.
 

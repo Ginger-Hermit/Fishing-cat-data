@@ -210,3 +210,6 @@ button.zoomx{width:auto;left:auto;margin:0;box-shadow:0 2px 8px rgba(0,0,0,.4)}
 .dcsteps li::before{content:counter(st);display:inline-block;width:1.4em;height:1.4em;line-height:1.4em;border-radius:50%;background:var(--c-discord);color:#fff;text-align:center;font-size:.8em;margin-right:8px}
 .dcsteps a{color:var(--c-discord);font-weight:600;text-decoration:none}
 .dcwarn{color:#B45309;font-size:.9em;margin-top:6px}html[data-theme=dark] .dcwarn{color:#F5B454}
+.tipbox{background:#fff6d6;color:#5a4400;border-radius:8px;padding:8px 12px 8px 28px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tipbox{background:#3a3110;color:#f3e3a6}}
+:root[data-theme="dark"] .tipbox{background:#3a3110;color:#f3e3a6}
