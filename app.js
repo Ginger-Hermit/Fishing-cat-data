@@ -1,4 +1,4 @@
-// Patch note: The Discord message looks like it did before 1.1.52.
+// Patch note: Posting a sheet to Discord shows the Points history part again.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -102,7 +102,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.55";
+const BUILD = "1.1.56";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1389,8 +1389,9 @@ async function readSheet(buf) {
     items.push({ rk: Number(val(ws.getCell(r, 1))) || items.length + 1, name: String(name), role: String(val(ws.getCell(r, 3)) || ""), points: String(val(ws.getCell(r, 4)) || n), n, b: typeof b === "number" ? b : null });
   }
   let hist = null; const hs = wb.getWorksheet("Points history");
-  if (hs) { const dates = []; for (let c = 3; c <= Math.min(hs.columnCount, 400); c++) { const v = val(hs.getCell(3, c)); if (v instanceof Date) dates.push(v); else break; }
-    const list = []; for (let r = 4; r <= Math.min(hs.rowCount, 5000); r += 2) { const nm = val(hs.getCell(r, 1)); if (!nm) break; list.push({ name: String(nm), vals: dates.map((_, k) => { const v = val(hs.getCell(r, 3 + k)); return typeof v === "number" ? v : null; }) }); }
+  if (hs) { const dates = []; let c0 = 3; while (c0 < 8 && !(val(hs.getCell(3, c0)) instanceof Date)) c0++; for (let c = c0; c <= Math.min(hs.columnCount, 400); c++) { const v = val(hs.getCell(3, c)); if (v instanceof Date) dates.push(v); else break; }
+    const nc = typeof val(hs.getCell(4, 1)) === "number" ? 2 : 1, step = nc === 2 ? 1 : 2; // new tab: #, Player, ..., dates; old tab: name rows two apart
+    const list = []; for (let r = 4; r <= Math.min(hs.rowCount, 5000); r += step) { const nm = val(hs.getCell(r, nc)); if (!nm) break; list.push({ name: String(nm), vals: dates.map((_, k) => { const v = val(hs.getCell(r, c0 + k)); return typeof v === "number" ? v : null; }) }); }
     if (dates.length && list.length) hist = { dates, list }; }
   const t1 = String(val(ws.getCell(1, 1)) || ""), t2 = String(val(ws.getCell(2, 1)) || "");
   return { items, any, hist, clan: t1.split(/\s[\u2013-]\s/)[0] || "Clan", game: t2.split("\u00b7")[0].trim() || "Roblox", date: ((t2.match(/Recorded ([^\u00b7]+)/) || [])[1] || todayText()).trim() };

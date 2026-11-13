@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Discord post shows Points history again
+
+13 Nov 2026 (07:13 UTC) · Changed
+
+Posting a sheet to Discord shows the Points history part again.
+
+> [!NOTE]
+> **What you'll see:** Post to Discord
+
+- readSheet reads the new one-row-per-player Points history tab
+
 ## Discord post back to the old look
 
-13 Nov 2026 (07:08 UTC) · Changed
+13 Nov 2026 (07:08 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/890ba5f)
 
 The Discord message looks like it did before 1.1.52.
 
