@@ -16,6 +16,8 @@ Turns clan screenshots or a video from any Roblox game into a ready-to-use Excel
 4. Optional: choose last time's sheet to compare.
 5. Tap **Make my sheet**. After about 20 seconds an Excel file downloads.
 
+To post to Discord, open the **Discord** tab, paste a webhook link (a private link for your channel; [Discord's guide](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks) shows how to make one), pick what to post and tap **Post to Discord**. Header picture and role ping are under **More options**.
+
 ## What you get
 
 - An Excel file named after the game and clan (or the **Clan name** you type), like `Roblox - Gym League - Loki.xlsx`.
@@ -35,6 +37,7 @@ Turns clan screenshots or a video from any Roblox game into a ready-to-use Excel
 - A GitHub link on the Home tab, where this guide lives.
 - **Home tab** that explains what the page does, then **Roblox clan sheet** and **Bills** tabs for the two tools.
 - **Bills tab:** add photos of household bills (power, gas, water, internet, phone and more) and get a sheet with one row per charge and a **Summary** tab. Usage is turned into kWh (from MJ, therms, or gas volume using the factors printed on the bill) so bills can be compared. Money is kept in the bill's own currency. Bills are private: the whole photo goes to the AI company you pick, so only upload your own.
+- **Discord tab:** posts a clan sheet, a Bills sheet or your own files to a Discord channel through a webhook link you paste: a table picture, a written breakdown, an optional Excel file and an optional role ping. No AI is used.
 - The update history is in [CHANGELOG.md](CHANGELOG.md), one plain-English entry per change.
 - Live steps with a timer under **Make my sheet**, and a **Log** box that opens by itself during a run on both tabs, with a **Copy bug report** button. A red **Copy error** button shows under any error.
 - Optional **Clan name** box, optional **Remember my key**, and a banner when a new version is out.
@@ -44,6 +47,7 @@ Turns clan screenshots or a video from any Roblox game into a ready-to-use Excel
 - Your key is only saved if you tick **Remember my key**, and then only in your own browser. Untick to delete it.
 - Pictures go only to the AI company you pick, straight from your browser. There is no server of our own and no tracking.
 - Theme, text size and the last sheet are stored on your device only.
+- Your Discord link is only saved if you tick **Save my link on this device**. Posts go only to that link.
 
 ## Known limits
 

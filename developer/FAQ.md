@@ -35,3 +35,9 @@ Built for Gym League clans, and it also works for other Roblox games.
 
 ## Is it free to copy or reuse?
 No. See the licence in the repo. Use the official site only.
+
+## How do I get a Discord webhook link?
+In Discord: Server settings, Integrations, Create webhook, Copy webhook URL. [Discord's guide](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks) has the details. If you can't see it, ask a Discord server admin to send you the link. Keep it private: anyone with it can post in your channel.
+
+## Posting to Discord fails
+Check you copied the whole link. Turn off any ad blocker for this site, or use a Private window.
