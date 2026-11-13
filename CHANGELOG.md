@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Points history plain again
+
+13 Nov 2026 (07:26 UTC) · Changed
+
+Points history in the Discord post is plain bullet points again; less colour.
+
+> [!NOTE]
+> **What you'll see:** Post to Discord
+
+- Points history back to bullets
+
 ## Roles as bullet points
 
-13 Nov 2026 (07:25 UTC) · Changed
+13 Nov 2026 (07:25 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/52831a9)
 
 The Discord post lists each role on its own line, fewest first.
 
