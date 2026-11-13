@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## No change names as bullet points
+
+13 Nov 2026 (07:22 UTC) · Changed
+
+The Discord post lists who had no change as bullet points.
+
+> [!NOTE]
+> **What you'll see:** Post to Discord
+
+- No change list in hookText
+
 ## Earlier sheet tips in a yellow box
 
-13 Nov 2026 (07:21 UTC) · Changed
+13 Nov 2026 (07:21 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0fb931f)
 
 The earlier-sheet tips sit in a yellow box so they stand out.
 
