@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Discord tab shows what the post will look like, and can add a Google Sheets or OneDrive link -->
+<!-- Patch note: Sheet links with odd symbols are refused; ping help is a bullet list -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -139,8 +139,8 @@
 <div class="s37">Ping (optional)</div>
 <select id="dcping" aria-label="Who to ping" class="s38"><option value="">Don't ping anyone</option><option value="role">Ping a role (you choose which)</option></select>
 <input id="dcrole" inputmode="numeric" autocomplete="off" placeholder="Role ID, like 123456789012345678" class="s57" data-d="none">
-<div id="dcrolehelp" class="s49" data-d="none">In Discord: Settings, Advanced, turn on Developer Mode. Then long-press (phone) or right-click the role and tap Copy Role ID. Paste it here. It is saved on this device.</div>
-<div class="s49">A role pings only the people who have that role.</div>
+<ul id="dcrolehelp" class="s49 tips" data-d="none"><li>In Discord: Settings, Advanced, turn on Developer Mode.</li><li>Long-press (phone) or right-click the role, tap Copy Role ID.</li><li>Paste it here. It is saved on this device.</li></ul>
+<ul class="s49 tips"><li>A role pings only the people who have that role.</li></ul>
 <label class="s56" data-d="flex"><input type="checkbox" id="hookxlsx" class="s42"> Also attach the Excel file</label>
 <div class="s37">Sheet link (optional)</div>
 <input id="sheetlink" type="url" autocomplete="off" spellcheck="false" placeholder="https://docs.google.com/spreadsheets/..." class="s38"><div id="sheetlinkchk" class="s49">Google Sheets or OneDrive only. Anyone in the channel can open it.</div>

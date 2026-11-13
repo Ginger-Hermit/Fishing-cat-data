@@ -1,4 +1,4 @@
-// Patch note: Discord tab shows what the post will look like, and can add a Google Sheets or OneDrive link
+// Patch note: Sheet links with odd symbols are refused; ping help is a bullet list
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -102,7 +102,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.35";
+const BUILD = "1.1.36";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1411,7 +1411,7 @@ async function billPic(bills) {
   if (out.length > MAX) { const n = out.length - MAX; out.length = MAX; out.push({ c: ["+" + n + " more rows in the sheet", ""] }); }
   return { blob: await tablePic("Bills", todayText(), [{ h: "Charge", w: 470 }, { h: "Amount", w: 200, a: "r" }], out), name: "Bills.png" };
 }
-const SHEET_RE = /^https:\/\/(docs\.google\.com\/spreadsheets\/|onedrive\.live\.com\/|1drv\.ms\/|[\w-]+\.sharepoint\.com\/)[^\s<>()]*$/;
+const SHEET_RE = /^https:\/\/(docs\.google\.com\/spreadsheets\/|onedrive\.live\.com\/|1drv\.ms\/|[\w-]+\.sharepoint\.com\/)[\w\-.~/?#=&%+!$,;:]*$/;
 function linkLine() { const v = ($("sheetlink").value || "").trim(); return SHEET_RE.test(v) ? "\n\ud83d\udcca Full sheet: " + v : ""; }
 function dcPrev() {
   const box = $("dcprevbox"), r = document.querySelector("input[name=dcsrc]:checked"), v = r ? r.value : "";
@@ -1422,7 +1422,7 @@ function dcPrev() {
   for (const ln of (hookText(false) + linkLine()).split("\n")) {
     if (ln.startsWith("```")) { if (code) code = null; else { code = document.createElement("pre"); box.appendChild(code); } continue; }
     if (code) { code.textContent += (code.textContent ? "\n" : "") + ln; continue; }
-    const d = document.createElement("div"), h = /^#{1,3} /.test(ln), t = ln.replace(/^#{1,3} /, "").replace(/^- /, "\u2022 ");
+    const d = document.createElement("div"), h = /^#{1,3} /.test(ln), t = ln.replace(/^#{1,3} /, "").replace(/^- /, "\u2022 ").replace(/\\(.)/g, "$1");
     d.className = h ? "dch" : ""; t.split("**").forEach((p, i) => { if (i % 2) { const b = document.createElement("b"); b.textContent = p; d.appendChild(b); } else d.appendChild(document.createTextNode(p)); });
     box.appendChild(d);
   }

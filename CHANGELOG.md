@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Safer sheet link, tidier ping help
+
+13 Nov 2026 (05:46 UTC) · Changed
+
+Sheet links with odd symbols are refused; ping help is a bullet list
+
+> [!NOTE]
+> **What you'll see:** Discord tab
+
+- Tighter link check, bullets, preview shows names cleanly
+
 ## Post preview and sheet link [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/66e347fc557424e9e4612b1cd6b89af47aa69f81)
 
 13 Nov 2026 (05:43 UTC) · New
