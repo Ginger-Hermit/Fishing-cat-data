@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
-## Bill credits after a word
+## Swiss bill amounts
 
 13 Nov 2026 (00:41 UTC) · Changed
+
+Amounts like 1'234.50 are read correctly
+
+> [!NOTE]
+> **What you'll see:** Bills tab
+
+- parseNum joins digit groups split by apostrophes; tricky-amounts test list added
+
+## Bill credits after a word
+
+13 Nov 2026 (00:41 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/ffd0aa3)
 
 USD -12.50 now counts as a credit
 
