@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
-## Sheets named by clan and date
+## Time in sheet names
 
 13 Nov 2026 (00:01 UTC) · Changed
+
+Clan sheets now include the time, like 'Loki - 13 Nov 2026 14.05.xlsx'.
+
+> [!NOTE]
+> **What you'll see:** Clan sheet file name
+
+- Added hour and minute to the file name.
+
+## Sheets named by clan and date
+
+13 Nov 2026 (00:01 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/4b13ca0)
 
 Clan sheets now download as, for example, 'Loki - 13 Nov 2026.xlsx'.
 

@@ -1,4 +1,4 @@
-// Patch note: Clan sheets now download as, for example, 'Loki - 13 Nov 2026.xlsx'.
+// Patch note: Clan sheets now include the time, like 'Loki - 13 Nov 2026 14.05.xlsx'.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -72,7 +72,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.5";
+const BUILD = "1.1.6";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1102,7 +1102,7 @@ async function readScreenshots(key, images) {
 }
 
 // The AI reads the game, clan and layout from your first picture.
-const nameOf = (p) => p.clan + " - " + new Date().toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+const nameOf = (p) => { const d = new Date(); return p.clan + " - " + d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) + " " + String(d.getHours()).padStart(2, "0") + "." + String(d.getMinutes()).padStart(2, "0"); };
 const clean = (t, n) => (typeof t === "string" ? t : "").replace(/[\r\n"\\<>\/:*?|]/g, " ").replace(/\s+/g, " ").trim().slice(0, n);
 const SETUP_PROMPT = `These images show the member list of a Roblox game clan screen.
 Work out how the list is laid out. Do not copy the whole list. If several images are given, use the one that shows the member list best.
