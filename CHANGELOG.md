@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Discord lists more names
+
+13 Nov 2026 (06:43 UTC) · Changed
+
+Discord message lists up to 30 names per group, not 10.
+
+> [!NOTE]
+> **What you'll see:** Post to Discord
+
+- Up to 30 names per group in the Discord message
+
 ## Discord steps as a list [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2dfebb74ea59a600fafdeac19a5c48ae2c9d04fb)
 
 13 Nov 2026 (06:43 UTC) · Changed
