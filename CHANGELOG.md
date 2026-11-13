@@ -11,7 +11,7 @@ Clan sheets now download as, for example, 'Loki - 13 Nov 2026.xlsx'.
 > [!NOTE]
 > **What you'll see:** Clan sheet file name
 
-- File name is clan name and today's date.
+- File name is clan name and today's date. [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/56d9441e8336e513b7543816a2f97765c430c853)
 
 ## Foldable developer bar
 
