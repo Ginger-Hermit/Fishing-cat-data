@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
+## Shorter Stay safe
+
+13 Nov 2026 (01:12 UTC) · Changed
+
+Stay safe is a short list with small folds for details
+
+> [!NOTE]
+> **What you'll see:** Stay safe
+
+- Five-line summary, details in five small folds, about half the words
+
 ## Button colour
 
 13 Nov 2026 (01:10 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7998e76)
