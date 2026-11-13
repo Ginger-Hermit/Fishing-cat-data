@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Sheets named by clan and date
+
+13 Nov 2026 (00:01 UTC) · Changed
+
+Clan sheets now download as, for example, 'Loki - 13 Nov 2026.xlsx'.
+
+> [!NOTE]
+> **What you'll see:** Clan sheet file name
+
+- File name is clan name and today's date.
+
 ## Foldable developer bar
 
 12 Nov 2026 (23:59 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/645a6cb)
