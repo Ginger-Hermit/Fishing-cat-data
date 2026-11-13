@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Colour guide removed
 
-13 Nov 2026 (07:41 UTC) · Changed
+13 Nov 2026 (07:41 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6cd420b)
 
 The Discord message no longer ends with a colour guide.
 
