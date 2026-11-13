@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Discord post back to the old look
+
+13 Nov 2026 (07:08 UTC) · Changed
+
+The Discord message looks like it did before 1.1.52.
+
+> [!NOTE]
+> **What you'll see:** Post to Discord
+
+- Undid the 1.1.52 Discord message layout
+
 ## Sample pictures fit the screen
 
 13 Nov 2026 (07:02 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/e83549fbbaffd63d07ce877b614679613293d965)

@@ -1,4 +1,4 @@
-// Patch note: Tapped sample pictures no longer fill the whole screen
+// Patch note: The Discord message looks like it did before 1.1.52.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -102,7 +102,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.54";
+const BUILD = "1.1.55";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1232,24 +1232,25 @@ const dcCode = (v) => String(v ?? "").replace(/[\r\n]+/g, " ").replace(/`/g, "'"
 const dcHead = (clan, game, date, n, tot) => "## " + dcMd(clan) + " \u00b7 " + dcMd(game) + "\n-# " + date + "\n**" + n + "** members \u00b7 **" + tot + "** points";
 const dcBreakdown = (sh, f) => {
   const it = sh.items, n = it.length, tot = it.reduce((a, x) => a + x.n, 0), sg = (d) => (d >= 0 ? "+" : "-") + f(Math.abs(d)), pc = (d, b) => (b ? " (" + (d > 0 ? "+" : "") + (d / b * 100).toFixed(1) + "%)" : "");
+  const dt = (d) => d.toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
   const blk = (sign, lines, total) => "\n```diff\n" + lines.map((l) => sign + " " + dcCode(l)).join("\n") + (total > lines.length ? "\n  and " + (total - lines.length) + " more (see the file)" : "") + "\n```";
   let t = "## " + dcMd(sh.clan) + " \u00b7 " + dcMd(sh.game) + "\n-# " + dcMd(sh.date) + " \u00b7 " + n + " members \u00b7 " + f(tot) + " points";
   const roles = {}; it.forEach((x) => { const k = x.role || "No role"; roles[k] = (roles[k] || 0) + 1; });
-  const HR = "\n-# \u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501";
-  t += HR + "\n### Clan Members\n- " + n + " members" + Object.entries(roles).sort((x, y) => x[1] - y[1]).map(([k, c]) => "\n  - " + c + " " + dcMd(k) + (c > 1 ? (/(s|x|ch|sh)$/i.test(k) ? "es" : "s") : "")).join("") + "\n- About " + f(tot / Math.max(n, 1)) + " points each";
+  t += "\n### Clan Members\n- " + Object.entries(roles).sort((x, y) => y[1] - x[1]).map(([k, c]) => c + " " + dcMd(k) + (c > 1 ? (/(s|x|ch|sh)$/i.test(k) ? "es" : "s") : "")).join(", ") + "\n- About " + f(tot / Math.max(n, 1)) + " points each";
   if (sh.any) {
     const ret = it.filter((x) => x.b !== null), fresh = it.filter((x) => x.b === null), d = ret.reduce((a, x) => a + x.n - x.b, 0), b0 = ret.reduce((a, x) => a + x.b, 0);
     const up = ret.filter((x) => x.n > x.b).sort((x, y) => (y.n - y.b) - (x.n - x.b)), dn = ret.filter((x) => x.n < x.b).sort((x, y) => (x.n - x.b) - (y.n - y.b)), same = ret.length - up.length - dn.length;
     const line = (x) => x.name + ": " + f(x.b) + " \u2192 " + f(x.n) + " (" + sg(x.n - x.b) + ")";
-    t += HR + "\n### What changed\nWhole clan: " + sg(d) + " points" + pc(d, b0) + "\n";
+    t += "\n### What changed\n**Whole clan: " + sg(d) + " points" + pc(d, b0) + "**";
     if (up.length) t += "\n**Went up (" + up.length + ")**" + blk("+", up.slice(0, 30).map(line), up.length);
     if (dn.length) t += "\n**Went down (" + dn.length + ")**" + blk("-", dn.slice(0, 30).map(line), dn.length);
-    if (same) t += "\n-# No change: " + ret.filter((x) => x.n === x.b).slice(0, 30).map((x) => dcMd(x.name)).join(", ") + (same > 30 ? " and " + (same - 30) + " more" : "") + "\n";
+    if (same) t += "\n**No change (" + same + ")**";
     if (fresh.length) t += "\n**New (" + fresh.length + ")**" + blk("+", fresh.slice(0, 30).map((x) => x.name + ": " + f(x.n) + " points"), fresh.length);
   }
   const h = sh.hist;
   if (h && h.dates.length > 1) {
-    const K = h.dates.length;
+    const K = h.dates.length, totals = h.dates.map((_, k) => h.list.reduce((a, e) => a + (e.vals[k] || 0), 0));
+    t += "\n### Points history\n- " + K + " runs saved, " + dt(h.dates[0]) + " to " + dt(h.dates[K - 1]) + "\n- Clan total: " + f(totals[0]) + " \u2192 " + f(totals[K - 1]);
     const left = h.list.filter((e) => e.vals[K - 1] === null && e.vals.some((x) => x !== null)).map((e) => e.name);
     if (left.length) t += "\n**Left the clan (" + left.length + ")**" + blk("-", left.slice(0, 30), left.length);
   }
