@@ -11,7 +11,7 @@ The how-to-read line is now a colour guide: green, red, yellow.
 > [!NOTE]
 > **What you'll see:** Post to Discord
 
-- Colour guide line
+- Colour guide line [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/f0bb725)
 
 ## How to read line in the Discord post
 
