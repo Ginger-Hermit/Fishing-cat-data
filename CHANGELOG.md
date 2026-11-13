@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Swiss bill amounts
 
-13 Nov 2026 (00:41 UTC) · Changed
+13 Nov 2026 (00:41 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/16f9a35)
 
 Amounts like 1'234.50 are read correctly
 
