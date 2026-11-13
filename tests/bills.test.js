@@ -44,4 +44,5 @@ const c=parseBills(full.slice(0,full.indexOf("W2")+6));A.ok(c.cut);A.equal(c.len
 const c2=parseBills(full.slice(0,full.indexOf("W3")-5));A.ok(c2.cut);A.equal(c2[0].lines.length,2);A.ok(!parseBills(full).cut);}
 A.equal(parseNum("1 234,56"),1234.56);A.equal(parseNum("€ 12 345.00"),12345);
 A.equal(parseNum("1.234.567"),1234567);A.equal(parseNum("1.234.567,89"),1234567.89);A.equal(parseNum("1,234.56"),1234.56);
+A.equal(parseNum("USD -12.50"),-12.5);A.equal(parseNum("-$5.00"),-5);A.equal(parseNum("Jan-Mar 12.50"),12.5);
 console.log("bill tests ok");

@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Bill credits after a word
+
+13 Nov 2026 (00:41 UTC) · Changed
+
+USD -12.50 now counts as a credit
+
+> [!NOTE]
+> **What you'll see:** Bills tab
+
+- parseNum finds a minus anywhere before the number
+
 ## Bill amounts with dots
 
 13 Nov 2026 (00:26 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/1b77f15)

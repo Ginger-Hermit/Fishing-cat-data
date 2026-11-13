@@ -16,3 +16,4 @@ Older bugs: `BREAK_REPORT_2026-11-12.md` and `STRESS_TEST_LOG.md`.
 - 13 Nov 2026: GitHub Check was red for about 8 commits, so nothing went live. Cause: the Excel test copies named functions out of app.js and missed the new okName const. Fix: the test now copies that line too. Commit d68c3e7.
 - 13 Nov 2026: Bills read 1 234,56 as 1. Cause: parseNum stopped at the space. Fix: join space-split digit groups.
 - 13 Nov 2026: Bills left 1.234.567 blank. Cause: parseNum guessed dot = decimal. Fix: repeated 3-digit dot groups mean thousands.
+- 13 Nov 2026: USD -12.50 read as +12.50. Cause: minus check stopped at the first space. Fix: look at all text before the number.
