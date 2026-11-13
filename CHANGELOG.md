@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Easier samples
+
+13 Nov 2026 (05:50 UTC) · Changed
+
+Sample sheets are bigger and simpler
+
+> [!NOTE]
+> **What you'll see:** Home, Roblox clan and Bills tabs
+
+- Home sample shows 4 clear columns; Roblox and Bills tabs have a See a sample button; removed the page colour note
+
 ## Website link on Discord posts [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/131be99439ddfe6a4795221592ab42b754cdb9a9)
 
 13 Nov 2026 (05:48 UTC) · New

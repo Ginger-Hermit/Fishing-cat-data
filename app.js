@@ -1,4 +1,4 @@
-// Patch note: Clan posts can end with a link to this website; tick box to turn it off
+// Patch note: Sample sheets are bigger and simpler
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -51,7 +51,7 @@ function showTab(which) {
   if (which === "sheet" || which === "bill") { const t = document.getElementById(which === "bill" ? "billtab" : "sheet"); t.appendChild(document.getElementById("logbox")); lastKind = which; }
   if (which === "discord") { setTimeout(dcPrev); const r = document.querySelector('input[name=dcsrc]:checked'); if (!r) document.querySelector('input[name=dcsrc][value='+(pv ? "sheet" : bp ? "bill" : "files")+']').checked = true; dcShow(); }
   if (which === "settings") { renderSaved(); $("wipemsg").textContent = ""; }
-  { const ib = document.getElementById("introbox"), on = which === "sheet" || which === "bill"; ib.style.display = on ? "" : "none"; if (on) { document.getElementById("introtxt").textContent = which === "bill" ? "Turns photos of household bills into a sheet with a summary." : "Turns screenshots or a video of your Roblox clan list into an Excel sheet."; } }
+  { const ib = document.getElementById("introbox"), on = which === "sheet" || which === "bill"; ib.style.display = on ? "" : "none"; if (on) { document.getElementById("sampclan").hidden = which === "bill"; document.getElementById("sampbill").hidden = which !== "bill"; document.getElementById("introtxt").textContent = which === "bill" ? "Turns photos of household bills into a sheet with a summary." : "Turns screenshots or a video of your Roblox clan list into an Excel sheet."; } }
   document.getElementById("keybox").style.display = which === "sheet" || which === "bill" ? "" : "none";
 }
 document.querySelector(".tabs").setAttribute("role", "tablist");
@@ -102,7 +102,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.37";
+const BUILD = "1.1.38";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
