@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Sheet link always posts
+
+13 Nov 2026 (06:44 UTC) · Changed
+
+Your Google Sheet link was cut off the end of long Discord messages. It now sits near the top.
+
+> [!NOTE]
+> **What you'll see:** Post to Discord
+
+- Sheet link moved to the top of the Discord message
+
 ## Discord lists more names [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/5712ae50702c78c517645caddbb45b36ad0f7ff4)
 
 13 Nov 2026 (06:43 UTC) · Changed
