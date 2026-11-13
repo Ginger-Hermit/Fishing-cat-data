@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
-## No change names in blue
+## PC-only colour note
 
 13 Nov 2026 (07:33 UTC) · Changed
+
+The colour guide says blue shows on PC only.
+
+> [!NOTE]
+> **What you'll see:** Post to Discord
+
+- Note under colour guide
+
+## No change names in blue
+
+13 Nov 2026 (07:33 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/3d2a4fe)
 
 No change names in the Discord post are blue (easier to read than yellow).
 
