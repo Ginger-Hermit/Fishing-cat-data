@@ -1,4 +1,4 @@
-// Patch note: Points history in the Discord post sits in a plain dark grey box.
+// Patch note: Discord post: Whole clan and Points history sit beside a grey bar; history adds biggest climber, who went up every run and who left.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -102,7 +102,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.66";
+const BUILD = "1.1.67";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1248,7 +1248,7 @@ const dcBreakdown = (sh, f) => {
     const ret = it.filter((x) => x.b !== null), fresh = it.filter((x) => x.b === null), d = ret.reduce((a, x) => a + x.n - x.b, 0), b0 = ret.reduce((a, x) => a + x.b, 0);
     const up = ret.filter((x) => x.n > x.b).sort((x, y) => (y.n - y.b) - (x.n - x.b)), dn = ret.filter((x) => x.n < x.b).sort((x, y) => (x.n - x.b) - (y.n - y.b)), same = ret.length - up.length - dn.length;
     const line = (x) => x.name + ": " + f(x.b) + " \u2192 " + f(x.n) + " (" + sg(x.n - x.b) + ")";
-    t += "\n### What changed\n**Whole clan: " + sg(d) + " points" + pc(d, b0) + "**";
+    t += "\n### What changed\n> Whole clan: **" + sg(d) + " points**" + pc(d, b0) + "\n";
     if (up.length) t += "\n**Went up (" + up.length + ")**" + blk("+", up.slice(0, 30).map(line), up.length);
     if (dn.length) t += "\n**Went down (" + dn.length + ")**" + blk("-", dn.slice(0, 30).map(line), dn.length);
     if (same) { const sm = ret.filter((x) => x.n === x.b); t += "\n**No change (" + same + ")** \u00b7 same points as last time" + "\n```fix\n" + sm.slice(0, 30).map((x) => dcCode(x.name)).join("\n") + (same > 30 ? "\nand " + (same - 30) + " more" : "") + "\n```"; }
@@ -1257,9 +1257,14 @@ const dcBreakdown = (sh, f) => {
   const h = sh.hist;
   if (h && h.dates.length > 1) {
     const K = h.dates.length, totals = h.dates.map((_, k) => h.list.reduce((a, e) => a + (e.vals[k] || 0), 0));
-    t += "\n### Points history\n```\n" + K + " runs saved, " + dt(h.dates[0]) + " to " + dt(h.dates[K - 1]) + "\nClan total: " + f(totals[0]) + " \u2192 " + f(totals[K - 1]) + "\n```";
+    t += "\n### Points history\n> " + K + " runs saved, " + dt(h.dates[0]) + " to " + dt(h.dates[K - 1]) + "\n> Clan total: **" + f(totals[0]) + " \u2192 " + f(totals[K - 1]) + "** (" + sg(totals[K - 1] - totals[0]) + ")";
+    const gain = (e) => { const v = e.vals.filter((x) => x !== null); return v.length > 1 ? v[v.length - 1] - v[0] : null; };
+    const best = h.list.map((e) => [e.name, gain(e)]).filter((x) => x[1] > 0).sort((a, b) => b[1] - a[1])[0];
+    if (best) t += "\n> Biggest climber: **" + dcMd(best[0]) + "** " + sg(best[1]);
+    const steady = K > 2 ? h.list.filter((e) => e.vals.every((x, k) => x !== null && (k === 0 || x > e.vals[k - 1]))).map((e) => e.name) : [];
+    if (steady.length) t += "\n> Up every run: **" + steady.slice(0, 5).map(dcMd).join(", ") + "**" + (steady.length > 5 ? " and " + (steady.length - 5) + " more" : "");
     const left = h.list.filter((e) => e.vals[K - 1] === null && e.vals.some((x) => x !== null)).map((e) => e.name);
-    if (left.length) t += "\n**Left the clan (" + left.length + ")**" + blk("-", left.slice(0, 30), left.length);
+    t += "\n> Left the clan: " + (left.length ? left.slice(0, 30).map(dcMd).join(", ") + (left.length > 30 ? " and " + (left.length - 30) + " more" : "") : "none");
   }
   return t;
 };

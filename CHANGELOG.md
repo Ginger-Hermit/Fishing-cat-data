@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Calmer What changed and fuller Points history
+
+13 Nov 2026 (07:28 UTC) · Changed
+
+Discord post: Whole clan and Points history sit beside a grey bar; history adds biggest climber, who went up every run and who left.
+
+> [!NOTE]
+> **What you'll see:** Post to Discord
+
+- Quote-bar lines in hookText; history stats
+
 ## Points history in a grey box
 
-13 Nov 2026 (07:26 UTC) · Changed
+13 Nov 2026 (07:26 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/293e5ea)
 
 Points history in the Discord post sits in a plain dark grey box.
 
