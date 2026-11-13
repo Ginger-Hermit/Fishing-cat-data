@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Sample pictures fit the screen
 
-13 Nov 2026 (07:02 UTC) · Changed
+13 Nov 2026 (07:02 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/e83549fbbaffd63d07ce877b614679613293d965)
 
 Tapped sample pictures no longer fill the whole screen
 
