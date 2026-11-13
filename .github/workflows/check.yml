@@ -40,7 +40,7 @@ jobs:
       - name: Phone pictures (every tab, newest iPhone and Pixel, light, dark, big text)
         if: always() && matrix.b == 'webkit'
         run: node tests/pictures.js
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always() && matrix.b == 'webkit'
         with:
           name: phone-pictures
