@@ -1,4 +1,4 @@
-// Patch note: The Discord message no longer has a Left the clan line.
+// Patch note: Discord tab: pick a colour for names that didn't change (PC only).
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -102,7 +102,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.77";
+const BUILD = "1.1.78";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1251,7 +1251,7 @@ const dcBreakdown = (sh, f) => {
     t += "\n### What changed\n> Whole clan: **" + sg(d) + " points**" + pc(d, b0) + "\n";
     if (up.length) t += "\n**Went up (" + up.length + ")**" + blk("+", up.slice(0, 30).map(line), up.length);
     if (dn.length) t += "\n**Went down (" + dn.length + ")**" + blk("-", dn.slice(0, 30).map(line), dn.length);
-    if (same) { const sm = ret.filter((x) => x.n === x.b); t += "\n**No change (" + same + ")** \u00b7 same points as last time" + "\n```ansi\n" + sm.slice(0, 30).map((x) => dcCode(x.name)).join("\n") + (same > 30 ? "\nand " + (same - 30) + " more" : "") + "\n```"; }
+    if (same) { const sm = ret.filter((x) => x.n === x.b); t += "\n**No change (" + same + ")** \u00b7 same points as last time" + "\n```ansi\n" + sm.slice(0, 30).map((x) => dcCol() + dcCode(x.name)).join("\n") + (same > 30 ? "\nand " + (same - 30) + " more" : "") + "\n```"; }
     if (fresh.length) t += "\n**New (" + fresh.length + ")**" + blk("+", fresh.slice(0, 30).map((x) => x.name + ": " + f(x.n) + " points"), fresh.length);
   }
   const h = sh.hist;
@@ -1952,3 +1952,6 @@ document.addEventListener("click", (e) => {
 
 document.querySelectorAll(".xlimg").forEach(i => { i.title = "Tap to zoom"; i.onclick = () => { const z = document.createElement("div"); z.className = "zoombox"; const c = document.createElement("button"); c.type = "button"; c.className = "zoomx"; c.textContent = "Close"; const im = document.createElement("img"); im.src = i.src; im.alt = i.alt; z.append(c, im); const shut = () => { z.remove(); document.removeEventListener("keydown", esc); }; const esc = (e) => { if (e.key === "Escape") shut(); }; c.onclick = shut; z.onclick = (e) => { if (e.target === z) shut(); }; document.addEventListener("keydown", esc); document.body.append(z); c.focus(); }; });
 document.querySelectorAll(".xlgal button").forEach(b => { b.onclick = () => { const g = b.closest(".xlgal"); g.querySelector("img").src = b.dataset.src; g.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b)); }; });
+
+function dcCol() { const c = lsGet("fcd_dccol") || ""; return /^3[3-6]$/.test(c) ? "\u001b[1;" + c + "m" : ""; }
+(function () { const c = lsGet("fcd_dccol") || ""; document.querySelectorAll('input[name="dccol"]').forEach((r) => { r.checked = r.value === c; r.onchange = () => lsSet("fcd_dccol", r.value); }); })();

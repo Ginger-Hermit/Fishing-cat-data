@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Colours for Discord
+
+13 Nov 2026 (07:45 UTC) · New
+
+Discord tab: pick a colour for names that didn't change (PC only).
+
+> [!TIP]
+> **What you'll see:** Discord tab, Colours
+
+- Colour choice for No change names
+
 ## No Left the clan line
 
 13 Nov 2026 (07:42 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/df34060)

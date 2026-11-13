@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The Discord message no longer has a Left the clan line. -->
+<!-- Patch note: Discord tab: pick a colour for names that didn't change (PC only). -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -138,6 +138,7 @@
 
 <div class="s37">Ping (optional)</div>
 <select id="dcping" aria-label="Who to ping" class="s38"><option value="">Don't ping anyone</option><option value="role">Ping a role (you choose which)</option></select>
+<details class="hc" id="dccol"><summary>Colours (PC only)</summary><p>Colour for names that didn't change. Phones always show white.</p><label class="s44" data-d="flex"><input type="radio" name="dccol" value="" class="s45"> White (works everywhere)<span class="dcsamp c0">Kiviix · pogger195</span></label><label class="s44" data-d="flex"><input type="radio" name="dccol" value="34" class="s45"> Blue<span class="dcsamp c34">Kiviix · pogger195</span></label><label class="s44" data-d="flex"><input type="radio" name="dccol" value="33" class="s45"> Yellow<span class="dcsamp c33">Kiviix · pogger195</span></label><label class="s44" data-d="flex"><input type="radio" name="dccol" value="35" class="s45"> Pink<span class="dcsamp c35">Kiviix · pogger195</span></label><label class="s44" data-d="flex"><input type="radio" name="dccol" value="36" class="s45"> Cyan<span class="dcsamp c36">Kiviix · pogger195</span></label></details>
 <input id="dcrole" inputmode="numeric" autocomplete="off" placeholder="Role ID, like 123456789012345678" class="s57" data-d="none">
 <details id="dcrolehelp" data-d="none"><summary>How do I get this?</summary><ul class="s49 tips"><li>In Discord: Settings, Advanced, turn on Developer Mode.</li><li>Long-press (phone) or right-click the role, tap Copy Role ID.</li><li>Paste it here. It is saved on this device.</li></ul></details>
 <ul class="s49 tips"><li>A role pings only the people who have that role.</li></ul>
