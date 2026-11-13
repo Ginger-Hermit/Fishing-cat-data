@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Colour guide in the Discord post
+
+13 Nov 2026 (07:29 UTC) · Changed
+
+The how-to-read line is now a colour guide: green, red, yellow.
+
+> [!NOTE]
+> **What you'll see:** Post to Discord
+
+- Colour guide line
+
 ## How to read line in the Discord post
 
-13 Nov 2026 (07:28 UTC) · New
+13 Nov 2026 (07:28 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/e66c04a)
 
 The Discord post ends with a small line explaining Went up, No change, New and Points history.
 
