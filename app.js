@@ -1,4 +1,4 @@
-// Patch note: Sheet links with odd symbols are refused; ping help is a bullet list
+// Patch note: Clan posts can end with a link to this website; tick box to turn it off
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -102,7 +102,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.36";
+const BUILD = "1.1.37";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1412,7 +1412,9 @@ async function billPic(bills) {
   return { blob: await tablePic("Bills", todayText(), [{ h: "Charge", w: 470 }, { h: "Amount", w: 200, a: "r" }], out), name: "Bills.png" };
 }
 const SHEET_RE = /^https:\/\/(docs\.google\.com\/spreadsheets\/|onedrive\.live\.com\/|1drv\.ms\/|[\w-]+\.sharepoint\.com\/)[\w\-.~/?#=&%+!$,;:]*$/;
-function linkLine() { const v = ($("sheetlink").value || "").trim(); return SHEET_RE.test(v) ? "\n\ud83d\udcca Full sheet: " + v : ""; }
+function linkLine() { const v = ($("sheetlink").value || "").trim(); return (SHEET_RE.test(v) ? "\n\ud83d\udcca Full sheet: " + v : "") + ($("sitelink").checked ? "\nMade with Fishing Cat Data: <https://fishing-cat-data.pages.dev>" : ""); }
+$("sitelink").checked = lsGet("fcd_sitelink") !== "0";
+$("sitelink").onchange = () => { try { lsSet("fcd_sitelink", $("sitelink").checked ? "1" : "0"); } catch (e) {} dcPrev(); };
 function dcPrev() {
   const box = $("dcprevbox"), r = document.querySelector("input[name=dcsrc]:checked"), v = r ? r.value : "";
   $("dcprev").style.display = v === "sheet" ? "" : "none"; box.replaceChildren();

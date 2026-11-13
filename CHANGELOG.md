@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Website link on Discord posts
+
+13 Nov 2026 (05:48 UTC) · New
+
+Clan posts can end with a link to this website; tick box to turn it off
+
+> [!TIP]
+> **What you'll see:** Discord tab
+
+- Add a link to this website toggle
+
 ## Safer sheet link, tidier ping help [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/09b1dd55810130f1fa1b86e2cc7e832d078be7e8)
 
 13 Nov 2026 (05:46 UTC) · Changed
