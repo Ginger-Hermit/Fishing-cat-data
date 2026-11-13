@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Reusing a video no longer looks like an error -->
+<!-- Patch note: Less clutter: the log stays hidden until there is an error -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -110,7 +110,7 @@
 <div class="prog" id="prog" aria-live="polite"></div>
 <div class="pv" id="preview" data-d="none"></div>
 <button id="copyerr" type="button" class="s33 tab" data-d="none">Copy error to send</button>
-<details id="logbox"><summary class="s31">Log: what the page did</summary>
+<details id="logbox" hidden><summary class="s31">What happened</summary>
 <pre id="console" class="s34"></pre>
 <div class="s35" data-d="flex"><button id="copybug" type="button">Copy bug report</button><a id="ghbug" href="https://github.com/Ginger-Hermit/Fishing-cat-data/issues/new" target="_blank" rel="noopener">Report on GitHub</a></div>
 <div class="s8">Copies the log, without keys or pictures. Report on GitHub opens a public form: read it first.</div>

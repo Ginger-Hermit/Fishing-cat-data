@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Log shows only when something breaks
+
+13 Nov 2026 (05:32 UTC) · Changed
+
+Less clutter: the log stays hidden until there is an error
+
+> [!NOTE]
+> **What you'll see:** Bottom of each tab
+
+- Log hidden until an error, then it opens by itself; renamed What happened
+
 ## Used-video note is calm
 
 13 Nov 2026 (05:29 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/9ee054d)
