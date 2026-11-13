@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Roles as bullet points
+
+13 Nov 2026 (07:25 UTC) · Changed
+
+The Discord post lists each role on its own line, fewest first.
+
+> [!NOTE]
+> **What you'll see:** Post to Discord
+
+- Clan Members roles as bullets
+
 ## Points history in a box
 
-13 Nov 2026 (07:24 UTC) · Changed
+13 Nov 2026 (07:24 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/48c77d2)
 
 The Discord post shows Points history in a coloured box.
 
