@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: After the Friday reset, Change no longer shows everyone dropping: last week's points count as 0. Empty boxes show a dash. -->
+<!-- Patch note: Key help link for every AI company, shorter safety text, picture count in plain words -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -81,12 +81,12 @@
 <label for="provider">AI company</label>
 <select id="provider"><option value="gemini">Google Gemini</option><option value="anthropic">Anthropic (Claude)</option><option value="openai">OpenAI (untested)</option></select>
 <div id="untested" class="warnbox" data-d="none">Heads up: this one has not been tested yet. It might not work. If it fails, tap the big Copy error button under the red message and send it to the author.</div>
-<label for="key" id="keylabel">Your AI key (Google Gemini)</label> <a id="keyhelp" href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" class="s25">How to get a free key</a>
+<label for="key" id="keylabel">Your AI key (Google Gemini)</label> <a id="keyhelp" href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" class="s25">Get a free key</a>
 <input id="key" type="password" placeholder="Paste key here" autocomplete="off" spellcheck="false" autocapitalize="off" data-lpignore="true" data-1p-ignore="true">
 <label class="s26 rem" data-d="flex"><input type="checkbox" id="remember" class="s27"> Remember my key on this device</label>
-<div id="remnote" class="s28" data-d="none">Saved only in this browser, never sent anywhere else. Don't tick this on a shared or public computer. Untick to delete it.</div>
+<div id="remnote" class="s28" data-d="none">Don't tick on a shared computer. Untick to delete it.</div>
 <div id="keylimit" class="keynote" data-d="none">The free key has a daily limit. If it runs out, wait until the next day.</div>
-<div class="keynote"><b>Your key is safe here.</b> It stays on this device and goes only to the AI company you pick. Treat it like a password. <a href="#" data-go="safety">More</a></div>
+<div class="keynote">Your key stays on this device and goes only to the AI company you pick. <a href="#" data-go="safety">More</a></div>
 </details></div>
 <div id="sheet" data-d="none">
 <details id="adddet" open class="s30"><summary>2. Add screenshots</summary>

@@ -1,4 +1,4 @@
-// Patch note: After the Friday reset, Change no longer shows everyone dropping: last week's points count as 0. Empty boxes show a dash.
+// Patch note: Key help link for every AI company, shorter safety text, picture count in plain words
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -102,7 +102,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.26";
+const BUILD = "1.1.27";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -194,7 +194,7 @@ function showCount(id, n, clear) {
   if (!n) { box.className = ""; box.replaceChildren(); return; }
   box.className = "ok";
   const span = document.createElement("span");
-  span.textContent = "\u2713 " + n + " file(s) ready";
+  span.textContent = "\u2713 " + n + (n === 1 ? " picture ready" : " pictures ready");
   const b = document.createElement("button");
   b.className = "tab"; b.textContent = "Clear"; b.onclick = clear;
   box.replaceChildren(span, b);
@@ -326,7 +326,9 @@ function modelFor(id) { const m = (lsGet("fcd_model_" + id) || "").trim(); retur
 function applyProvider(clearKey) {
   const id = provider(), p = PROVIDERS[id];
   $("keylabel").textContent = "Your AI key (" + p.name + ")";
-  $("keyhelp").style.display = id === "gemini" ? "inline-block" : "none";
+  const kh = $("keyhelp"), kl = {gemini: ["https://aistudio.google.com/app/apikey", "Get a free key"], anthropic: ["https://console.anthropic.com/settings/keys", "Get a key"], openai: ["https://platform.openai.com/api-keys", "Get a key"]}[id];
+  kh.style.display = kl ? "inline-block" : "none";
+  if (kl) { kh.href = kl[0]; kh.textContent = kl[1]; }
   $("keylimit").style.display = id === "gemini" ? "block" : "none";
   $("untested").style.display = p.tested ? "none" : "block";
   $("modelbox").placeholder = p.model; $("modellist").href = p.list; $("modellist").textContent = "See " + p.name + " model names";

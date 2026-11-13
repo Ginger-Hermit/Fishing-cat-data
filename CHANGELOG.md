@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Easier key section
+
+13 Nov 2026 (05:26 UTC) · Changed
+
+Key help link for every AI company, shorter safety text, picture count in plain words
+
+> [!NOTE]
+> **What you'll see:** Roblox clan sheet tab, step 1
+
+- Get a key link for Anthropic and OpenAI too; two safety notes cut to one line each; '1 picture ready'
+
 ## New week starts from 0
 [code](https://github.com/ginger-hermit/fishing-cat-data/commit/2256d85)
 
