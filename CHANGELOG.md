@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Used-video note is calm
+
+13 Nov 2026 (05:29 UTC) · Changed
+
+Reusing a video no longer looks like an error
+
+> [!NOTE]
+> **What you'll see:** Roblox clan sheet tab, add a video
+
+- Used-before note in normal colour, no Copy error button, replaced when you press Read
+
 ## Easier key section
 
 13 Nov 2026 (05:26 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6e84052)
