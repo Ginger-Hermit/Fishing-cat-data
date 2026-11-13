@@ -22,3 +22,4 @@ Older bugs: `BREAK_REPORT_2026-11-12.md` and `STRESS_TEST_LOG.md`.
 - 13 Nov 2026: +1,234 and 12,345 pts left blank. Cause: extras not stripped. Fix: drop them.
 - 13 Nov 2026: p per kWh flagged as unknown unit. Cause: only / was understood. Fix: accept per.
 - 13 Nov 2026: example post picture showed broken. Cause: drawn before the page finished starting (artUrl not ready). Fix: draw it a moment later. Commit cf01ecd.
+- 13 Nov 2026: after the weekly reset everyone showed a big drop. Cause: compared with last week's total. Fix: earlier sheet from before the reset counts as 0 (weekBase).

@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## New week starts from 0
+
+13 Nov 2026 (05:23 UTC) · Changed
+
+After the Friday reset, Change no longer shows everyone dropping: last week's points count as 0. Empty boxes show a dash.
+
+> [!NOTE]
+> **What you'll see:** Make a clan sheet after the reset with last week's sheet added: Change shows this week's points.
+
+- dayBase/weekBase: earlier sheet from before the reset counts as 0; dashes in empty Top 10 and Clan Summary boxes.
+
 ## Top 10 tab, clearer Points history, one Help tab
 [code](https://github.com/ginger-hermit/fishing-cat-data/commit/6270007)
 

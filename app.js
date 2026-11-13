@@ -1,4 +1,4 @@
-// Patch note: The clan sheet now has a Top 10 tab (this month and each week), a simpler Points history (one row per player) and one Help tab with the maths step by step. Settings has a Points reset day (Friday).
+// Patch note: After the Friday reset, Change no longer shows everyone dropping: last week's points count as 0. Empty boxes show a dash.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -102,7 +102,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.25";
+const BUILD = "1.1.26";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -463,9 +463,15 @@ function dayBase(map) {
   if (hh && hh.dates.length > 1 && hh.dates[hh.dates.length - 1] === today) {
     const col = hh.dates.length - 2, m2 = new Map();
     hh.players.forEach(([k, e]) => { if (e && typeof e.vals[col] === "number") m2.set(k, e.vals[col]); });
-    if (m2.size) { m2.hist = hh; return m2; }
+    if (m2.size) { m2.hist = hh; return weekBase(m2, hh.dates[col], today); }
   }
-  return map;
+  return hh && hh.dates.length ? weekBase(map, hh.dates[hh.dates.length - 1], today) : map;
+}
+// After the points reset, last week's totals are not a fair baseline: everyone starts the week from 0.
+function weekBase(map, base, today) {
+  const R = typeof resetDay === "function" ? resetDay() : 5;
+  if (weekStart(base, R) >= weekStart(today, R)) return map;
+  const z = new Map([...map].map(([k]) => [k, 0])); z.hist = map.hist; return z;
 }
 
 // Carries the Points history tab of the earlier sheet forward (no AI). Old sheets without it start a one-run history.
@@ -700,13 +706,13 @@ function buildWorkbook(EJ, rows, prev, p, when) {
   head("K3:M3", "Clan Summary");
   line(4, "Members", { formula: `COUNTIF(${B},"<>(not read)")` }, "0", "FFDDEBF7", "People in this read.");
   line(5, "Total Points", { formula: `SUM(${E})` }, "#,##0", "FFDDEBF7", "Everyone's points added up.");
-  line(6, "Average Points", { formula: `IFERROR(AVERAGE(${E}),"")` }, "#,##0", "FFDDEBF7", "Total points \u00f7 members.");
-  line(7, "Total Change (returning)", { formula: `IF(COUNT(${G})=0,"",SUM(${G}))` }, "\\+#,##0;\\-#,##0;0", "FFE2EFDA", "Points gained since last read (old members only).");
-  line(8, "Total % Change (returning)", { formula: `IF(OR(COUNT(${G})=0,SUM(${F})=0),"",SUM(${G})/SUM(${F}))` }, "\\+0.0%;\\-0.0%;0.0%", "FFE2EFDA", "That gain as a % of last read's total.");
-  line(9, "Members Up", { formula: `IF(COUNT(${G})=0,"",COUNTIF(${G},">0"))` }, "0", "FFE2EFDA", "How many went up.");
-  line(10, "Members Down", { formula: `IF(COUNT(${G})=0,"",COUNTIF(${G},"<0"))` }, "0", "FFFCE4D6", "How many went down.");
-  line(11, "Top Gainer", { formula: `IF(COUNT(${G})=0,"",IF(MAX(${G})<=0,"Nobody",INDEX(${B},MATCH(MAX(${G}),${G},0))))` }, "@", "FFE2EFDA", "Biggest gain this read.");
-  line(12, "Biggest Drop", { formula: `IF(COUNT(${G})=0,"",IF(MIN(${G})>=0,"Nobody",INDEX(${B},MATCH(MIN(${G}),${G},0))))` }, "@", "FFFCE4D6", "Biggest drop this read.");
+  line(6, "Average Points", { formula: `IFERROR(AVERAGE(${E}),"\u2013")` }, "#,##0", "FFDDEBF7", "Total points \u00f7 members.");
+  line(7, "Total Change (returning)", { formula: `IF(COUNT(${G})=0,"\u2013",SUM(${G}))` }, "\\+#,##0;\\-#,##0;0", "FFE2EFDA", "Points gained since last read (old members only).");
+  line(8, "Total % Change (returning)", { formula: `IF(OR(COUNT(${G})=0,SUM(${F})=0),"\u2013",SUM(${G})/SUM(${F}))` }, "\\+0.0%;\\-0.0%;0.0%", "FFE2EFDA", "That gain as a % of last read's total.");
+  line(9, "Members Up", { formula: `IF(COUNT(${G})=0,"\u2013",COUNTIF(${G},">0"))` }, "0", "FFE2EFDA", "How many went up.");
+  line(10, "Members Down", { formula: `IF(COUNT(${G})=0,"\u2013",COUNTIF(${G},"<0"))` }, "0", "FFFCE4D6", "How many went down.");
+  line(11, "Top Gainer", { formula: `IF(COUNT(${G})=0,"\u2013",IF(MAX(${G})<=0,"Nobody",INDEX(${B},MATCH(MAX(${G}),${G},0))))` }, "@", "FFE2EFDA", "Biggest gain this read.");
+  line(12, "Biggest Drop", { formula: `IF(COUNT(${G})=0,"\u2013",IF(MIN(${G})>=0,"Nobody",INDEX(${B},MATCH(MIN(${G}),${G},0))))` }, "@", "FFFCE4D6", "Biggest drop this read.");
   ws.getCell("K13").value = "Change values appear from the second week on. New members are left out of the change totals.";
   ws.getCell("K13").font = { italic: true, size: 9, color: { argb: GREY } }; ws.mergeCells("K13:M15"); ws.getCell("K13").alignment = { wrapText: true, vertical: "top" };
   ["L7", "L8"].forEach((a) => {
@@ -793,7 +799,7 @@ function buildWorkbook(EJ, rows, prev, p, when) {
     for (let i = 0; i < 10; i++) {
       const r = 6 + i, it = list[i], a = top.getCell(r, c0), n = top.getCell(r, c0 + 1), v = top.getCell(r, c0 + 2);
       [a, n, v].forEach((x) => { x.border = box; });
-      if (!it) continue;
+      if (!it) { [a, n, v].forEach((x) => { x.value = "\u2013"; x.font = { color: { argb: "FFBFBFBF" } }; x.alignment = { horizontal: x === n ? "left" : "center" }; }); continue; }
       a.value = i + 1; n.value = it[0]; v.value = it[1]; v.numFmt = "#,##0"; a.alignment = { horizontal: "center" };
       medal(a, i); medal(n, i);
     }
