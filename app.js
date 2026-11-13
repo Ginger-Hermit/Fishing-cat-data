@@ -1,4 +1,4 @@
-// Patch note: The Discord post shows who had no change in a yellow-text box.
+// Patch note: The Discord post says No change means same points as last time.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -102,7 +102,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.61";
+const BUILD = "1.1.62";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1251,7 +1251,7 @@ const dcBreakdown = (sh, f) => {
     t += "\n### What changed\n**Whole clan: " + sg(d) + " points" + pc(d, b0) + "**";
     if (up.length) t += "\n**Went up (" + up.length + ")**" + blk("+", up.slice(0, 30).map(line), up.length);
     if (dn.length) t += "\n**Went down (" + dn.length + ")**" + blk("-", dn.slice(0, 30).map(line), dn.length);
-    if (same) { const sm = ret.filter((x) => x.n === x.b); t += "\n**No change (" + same + ")**" + "\n```fix\n" + sm.slice(0, 30).map((x) => dcCode(x.name)).join("\n") + (same > 30 ? "\nand " + (same - 30) + " more" : "") + "\n```"; }
+    if (same) { const sm = ret.filter((x) => x.n === x.b); t += "\n**No change (" + same + ")** \u00b7 same points as last time" + "\n```fix\n" + sm.slice(0, 30).map((x) => dcCode(x.name)).join("\n") + (same > 30 ? "\nand " + (same - 30) + " more" : "") + "\n```"; }
     if (fresh.length) t += "\n**New (" + fresh.length + ")**" + blk("+", fresh.slice(0, 30).map((x) => x.name + ": " + f(x.n) + " points"), fresh.length);
   }
   const h = sh.hist;

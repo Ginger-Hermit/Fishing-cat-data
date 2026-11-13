@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## No change explained
+
+13 Nov 2026 (07:24 UTC) · Changed
+
+The Discord post says No change means same points as last time.
+
+> [!NOTE]
+> **What you'll see:** Post to Discord
+
+- No change heading note
+
 ## No change names in a yellow box
 
-13 Nov 2026 (07:23 UTC) · Changed
+13 Nov 2026 (07:23 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/f021d32)
 
 The Discord post shows who had no change in a yellow-text box.
 
