@@ -1,4 +1,4 @@
-// Patch note: A second run on the same day now compares with the sheet you just made, not yesterday's.
+// Patch note: Sheet and site links show as short words, not long addresses
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -102,7 +102,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.50";
+const BUILD = "1.1.52";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1426,8 +1426,8 @@ async function billPic(bills) {
 const SHEET_RE = /^https:\/\/(docs\.google\.com\/spreadsheets\/|onedrive\.live\.com\/|1drv\.ms\/|[\w-]+\.sharepoint\.com\/)[\w\-.~/?#=&%+!$,;:]*$/;
 // The sheet link goes in the first part of the message, which is never cut short.
 function withLink(t) { const l = linkLine(), i = t.indexOf("\n### "); return i > 0 ? t.slice(0, i) + l + t.slice(i) : t + l; }
-function linkLine() { const v = ($("sheetlink").value || "").trim(); return (SHEET_RE.test(v) ? "\n\ud83d\udcca Full sheet: " + v : "") + ($("sitelink").checked ? "\nMade with Fishing Cat Data: <https://fishing-cat-data.pages.dev>" : ""); }
-$("sitelink").checked = true;
+function linkLine() { const v = ($("sheetlink").value || "").trim(); return (SHEET_RE.test(v) ? "\n\ud83d\udcca [Full sheet](<" + v + ">)" : "") + ($("sitelink").checked ? "\nMade with [Fishing Cat Data](<https://fishing-cat-data.pages.dev>)" : ""); }
+try { $("sitelink").checked = lsGet("fcd_sitelink") !== "0"; } catch (e) { $("sitelink").checked = true; }
 $("sitelink").onchange = () => { try { lsSet("fcd_sitelink", $("sitelink").checked ? "1" : "0"); } catch (e) {} dcPrev(); };
 function dcPrev() {
   const box = $("dcprevbox"), r = document.querySelector("input[name=dcsrc]:checked"), v = r ? r.value : "";
