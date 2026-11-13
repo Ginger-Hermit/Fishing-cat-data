@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
+## Button colour
+
+13 Nov 2026 (01:10 UTC) · New
+
+Settings, Look: pick a button colour
+
+> [!TIP]
+> **What you'll see:** Settings, Look
+
+- Six button colours, all readable in light and dark
+
 ## Simpler Discord tab
 
 13 Nov 2026 (01:08 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/07922d4)

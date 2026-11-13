@@ -177,3 +177,8 @@ html[data-read=easy] body{line-height:1.6}
 .hc summary:before,.hsec>summary:before{content:"\25B8"}
 .hc[open]>summary:before,.hsec[open]>summary:before{content:"\25BE"}
 #console:empty{display:none}
+html:not([data-theme=dark])[data-btn=blue]{--accent:#1F4FA8;--link:#1F4FA8}html[data-theme=dark][data-btn=blue]{--accent:#2F5BB0;--link:#8FB0F0}
+html:not([data-theme=dark])[data-btn=green]{--accent:#1E6B3A;--link:#1E6B3A}html[data-theme=dark][data-btn=green]{--accent:#237A45;--link:#7FD69A}
+html:not([data-theme=dark])[data-btn=purple]{--accent:#5B3A9E;--link:#5B3A9E}html[data-theme=dark][data-btn=purple]{--accent:#6A48B8;--link:#B9A0F0}
+html:not([data-theme=dark])[data-btn=red]{--accent:#A3222B;--link:#A3222B}html[data-theme=dark][data-btn=red]{--accent:#B02A35;--link:#FF9A9A}
+html:not([data-theme=dark])[data-btn=orange]{--accent:#A84A00;--link:#A84A00}html[data-theme=dark][data-btn=orange]{--accent:#A84A00;--link:#FFB070}

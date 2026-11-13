@@ -1,4 +1,4 @@
-// Patch note: No More options fold; picture and ping sit above Post; shorter text
+// Patch note: Settings, Look: pick a button colour
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -9,7 +9,7 @@ const PROVIDERS = {
   openai: { name: "OpenAI", model: "gpt-5.5", tested: false, list: "https://platform.openai.com/docs/models" }
 };
 function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
-const LOOK_KEYS = ["fcd_theme", "fcd_size", "fcd_read", "fcd_nosave", "fcd_expire"];
+const LOOK_KEYS = ["fcd_theme", "fcd_size", "fcd_read", "fcd_btn", "fcd_nosave", "fcd_expire"];
 const isSecret = (k) => /^fcd_key_/.test(k) || k === "fcd_hook";
 function lsSet(k, v) {
   if (lsGet("fcd_nosave") === "1" && !LOOK_KEYS.includes(k)) return;
@@ -70,6 +70,7 @@ showTab("home");
 const THEMES = [["auto", "Auto"], ["light", "Light"], ["dark", "Dark"], ["ocean", "Ocean"], ["forest", "Forest"], ["berry", "Berry"]];
 const SIZES = [["normal", "Normal"], ["large", "Large"]];
 const READS = [["normal", "Normal"], ["easy", "Easier"]];
+const BTNS = [["theme", "Theme's own"], ["blue", "Blue"], ["green", "Green"], ["purple", "Purple"], ["red", "Red"], ["orange", "Orange"]];
 function loadSetting(k, list, d) {
   const v = lsGet(k);
   return list.some(x => x[0] === v) ? v : d;
@@ -77,12 +78,14 @@ function loadSetting(k, list, d) {
 let theme = loadSetting("fcd_theme", THEMES, "auto");
 let size = loadSetting("fcd_size", SIZES, "normal");
 let read = loadSetting("fcd_read", READS, "normal");
+let btn = loadSetting("fcd_btn", BTNS, "theme");
 function applyLook() {
   const dark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
   document.documentElement.dataset.theme = theme === "auto" ? (dark ? "dark" : "light") : theme;
   document.documentElement.dataset.size = size;
   document.documentElement.dataset.read = read;
-  for (const [box, list, cur] of [["themeBtns", THEMES, theme], ["sizeBtns", SIZES, size], ["readBtns", READS, read]]) {
+  document.documentElement.dataset.btn = btn;
+  for (const [box, list, cur] of [["themeBtns", THEMES, theme], ["sizeBtns", SIZES, size], ["readBtns", READS, read], ["btnBtns", BTNS, btn]]) {
     document.getElementById(box).innerHTML = list.map(x => `<button class="tab${x[0] === cur ? " on" : ""}" data-v="${x[0]}">${x[1]}</button>`).join("");
   }
 }
@@ -92,10 +95,11 @@ document.getElementById("nosave").checked = lsGet("fcd_nosave") === "1";
 document.getElementById("nosave").onchange = () => { lsSet("fcd_nosave", document.getElementById("nosave").checked ? "1" : "0"); if (document.getElementById("nosave").checked) wipe("private"); renderSaved(); };
 document.getElementById("expire").value = lsGet("fcd_expire") || "7";
 document.getElementById("expire").onchange = () => { lsSet("fcd_expire", document.getElementById("expire").value); expireCheck(); renderSaved(); };
+document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { btn = v; lsSet("fcd_btn", v); applyLook(); } };
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.19";
+const BUILD = "1.1.20";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -293,7 +297,7 @@ function renderSaved() {
   if (keys.includes("fcd_hook")) lines.push("Discord link");
   if (keys.includes("fcd_art")) lines.push("Discord header picture");
   if (keys.some(k => k.startsWith("fcd_model_"))) lines.push("AI model name");
-  if (keys.some(k => ["fcd_theme", "fcd_size", "fcd_read", "fcd_nosave", "fcd_expire", "fcd_autoref", "fcd_provider", "fcd_hookxlsx", "fcd_pingmode", "fcd_pingrole"].includes(k))) lines.push("Look and settings");
+  if (keys.some(k => ["fcd_theme", "fcd_size", "fcd_read", "fcd_btn", "fcd_nosave", "fcd_expire", "fcd_autoref", "fcd_provider", "fcd_hookxlsx", "fcd_pingmode", "fcd_pingrole"].includes(k))) lines.push("Look and settings");
   const box = $("saved"); box.replaceChildren();
   (lines.length ? lines : ["Nothing saved."]).forEach(t => { const d = document.createElement("div"); d.textContent = (lines.length ? "\u2022 " : "") + t; box.appendChild(d); });
   $("keepprev").checked = lsGet("fcd_keepprev") !== "0";
