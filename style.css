@@ -34,7 +34,7 @@ button:disabled{opacity:.85}
 .pv .pvx{width:auto;margin:0;padding:4px 10px;border:none;background:none;color:var(--err);font-size:18px}
 #adddet>summary,#addbill>summary,#moreopts>summary,#hookblock>summary,#logbox>summary,#keydet>summary{font-size:16px!important;font-weight:600;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--field);color:var(--text,inherit);cursor:pointer}#adddet[open]>summary,#addbill[open]>summary,#moreopts[open]>summary,#hookblock[open]>summary,#logbox[open]>summary,#keydet[open]>summary{margin-bottom:12px}#moreopts,#hookblock,#logbox{margin-top:12px}
 #keydet>summary,#adddet>summary,#moreopts>summary,#logbox>summary{border-left:6px solid var(--c-sheet)}#addbill>summary,#billtab #logbox>summary{border-left:6px solid var(--c-bill)}#hookblock>summary,#dcmore>summary,#discordtab #logbox>summary{border-left:6px solid var(--c-discord)}
-.pv .pvb{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.pv .pvb button{margin:0;white-space:nowrap}.pv .pvb button.tab{padding:12px 14px}
+.pv .pvb{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:10px}.pv .pvb button:not(.tab){grid-column:1/-1}.pv .pvb button{margin:0;white-space:nowrap}.pv .pvb button.tab{padding:12px 14px}
 
 .xl{border:1px solid #B8BCC2;border-radius:8px;overflow:hidden;background:#fff;color:#1B1B1B;font-family:Calibri,Arial,sans-serif}
 .xlbar{background:#217346;color:#fff;padding:8px 12px;display:flex;justify-content:space-between;font-size:14px;gap:8px}.xlbar b{font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}

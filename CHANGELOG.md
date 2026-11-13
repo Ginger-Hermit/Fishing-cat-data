@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Sample shown, tidier buttons
+
+13 Nov 2026 (05:40 UTC) · Changed
+
+Home shows the sample sheet straight away; buttons under the preview sit in an even grid
+
+> [!NOTE]
+> **What you'll see:** Home, and the preview after a read
+
+- What you get open, button grid
+
 ## Drop files into Last sheet [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8ceb99ed4179751c3c5a377fdac1dd1f00687a3f)
 
 13 Nov 2026 (05:39 UTC) · New
