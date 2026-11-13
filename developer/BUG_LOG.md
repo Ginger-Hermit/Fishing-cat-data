@@ -27,3 +27,4 @@ Older bugs: `BREAK_TEST_PLAN.md` (appendix) and `STRESS_TEST_LOG.md`.
 - 13 Nov 2026: Google Sheet link missing from Discord post. Cause: link was at the end of the message body, which is cut at 1900 characters. Fix: link goes in the first part. (61e583b1e000e412f69a9f6208f1bc90afafd9af)
 - 13 Nov 2026: tapped sample pictures filled the whole screen; zoom view forced width 100%; fit inside window instead; e83549f
 - 13 Nov: Discord post lost Points history. Cause: readSheet still read the old Points history layout. Fix: find date and name columns. Commit: see 1.1.56
+- 13 Nov: CHANGELOG.md doubled on every push (54 MB). Cause: my link script used find()=-1 at the last entry and re-appended the file. Fix: rebuilt from 890ba5f plus each release's entry.
