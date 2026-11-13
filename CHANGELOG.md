@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Drop files into Last sheet
+
+13 Nov 2026 (05:39 UTC) · New
+
+You can drag an earlier sheet onto the Last sheet box; the screenshot box says it takes videos
+
+> [!TIP]
+> **What you'll see:** Roblox clan sheet, More
+
+- Drag and drop for Last sheet
+
 ## Easier-to-read grey text [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/e5e4aa04ffed72feb00c1bc3903d8fe97e2fa7ea)
 
 13 Nov 2026 (05:38 UTC) · Changed

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Grey text and switched-off buttons are darker and clearer -->
+<!-- Patch note: You can drag an earlier sheet onto the Last sheet box; the screenshot box says it takes videos -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -93,7 +93,7 @@
 <label for="clanbox">Clan name (optional)</label>
 <input id="clanbox" maxlength="40" autocomplete="off" placeholder="e.g. Loki. Used in the file name">
 <label>Screenshots</label>
-<div class="drop" id="drop">Drop screenshots here, or tap to choose</div>
+<div class="drop" id="drop">Drop screenshots or a video here, or tap to choose</div>
 <div class="s8">Using a video? Slowly scroll down the whole list. A 50-member clan takes about 10 seconds.</div>
 <input id="files" type="file" accept="image/png,image/jpeg,image/webp,video/mp4,video/quicktime,video/webm" multiple hidden>
 <div id="list"></div>
@@ -101,7 +101,7 @@
 <button id="go" disabled>Make my sheet</button>
 <details id="moreopts"><summary class="s31">More<span class="mli">Add last sheet (for history)</span><span class="mli">Test run (small read, no file)</span></summary>
 <label>Last sheet (optional)</label>
-<div class="drop" id="prevdrop">Tap to choose an earlier sheet (.xlsx) to compare</div>
+<div class="drop" id="prevdrop">Drop an earlier sheet (.xlsx) here, or tap to choose</div>
 <input id="prevfile" type="file" accept=".xlsx" hidden>
 <div id="previnfo"></div>
 <button id="testgo" type="button" class="s32 tab" disabled>Test first (small read, no file)</button>
