@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5. · [code](https://github.
 
 ## Model names link
 
-13 Nov 2026 (01:05 UTC) · New
+13 Nov 2026 (01:05 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/92805c9)
 
 Settings links to the AI company's list of model names
 
