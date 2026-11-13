@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
-## Colour guide in the Discord post
+## Colour guide as bullet points
 
 13 Nov 2026 (07:29 UTC) · Changed
+
+The colour guide in the Discord post is a short bullet list.
+
+> [!NOTE]
+> **What you'll see:** Post to Discord
+
+- Colour guide bullets
+
+## Colour guide in the Discord post
+
+13 Nov 2026 (07:29 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/b7c6691)
 
 The how-to-read line is now a colour guide: green, red, yellow.
 
