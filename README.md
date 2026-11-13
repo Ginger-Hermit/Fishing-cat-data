@@ -1,5 +1,10 @@
 # Fishing Cat Data
 
+[![Live](https://img.shields.io/badge/live-fishing--cat--data.pages.dev-2ea44f)](https://fishing-cat-data.pages.dev)
+![Free](https://img.shields.io/badge/price-free-blue)
+![Built by AI](https://img.shields.io/badge/built%20by-Claude-purple)
+![Excel](https://img.shields.io/badge/output-Excel-217346)
+
 Turns clan screenshots or a video from any Roblox game into a ready-to-use Excel sheet: Rank, Username, Role and Points, with optional week-to-week change. It also reads photos of household bills (power, gas, water, internet, phone and more) into a sheet.
 
 **Built entirely by Claude, an AI.** The author gave the ideas and tested it. The AI wrote all the code, this page and the notes.
@@ -7,6 +12,18 @@ Turns clan screenshots or a video from any Roblox game into a ready-to-use Excel
 - **Use it:** https://fishing-cat-data.pages.dev
 - **Wiki:** https://github.com/Ginger-Hermit/Fishing-cat-data/wiki (status, changelog, security, FAQ)
 - **Update history:** [CHANGELOG.md](CHANGELOG.md)
+
+<img src="images/clan-members.png" alt="A clan sheet made by Fishing Cat Data" width="500">
+
+## How it works
+```mermaid
+flowchart LR
+  A[Screenshots, video or bill photos] --> B[Your AI key]
+  B --> C[AI reads the rows]
+  C --> D[You check and fix the table]
+  D --> E[Excel sheet]
+  E -. optional .-> F[Post to Discord]
+```
 
 ## How to use it
 > [!TIP]
@@ -65,6 +82,9 @@ Turns clan screenshots or a video from any Roblox game into a ready-to-use Excel
 ## Licence
 
 All rights reserved. You can use the site and read the code, but not copy, re-host, change or sell it. Full terms are in [LICENSE](LICENSE).
+
+<details>
+<summary><b>For developers</b> (tests, code guide)</summary>
 
 ## For developers
 
@@ -164,6 +184,8 @@ Result: `Roblox - Gym League - Loki`. That's the Excel file name.
 Paste the lines into any AI chat and ask: "what does this do, in plain words?"
 
 Reading a commit on GitHub: **green = added, red = removed.**
+
+</details>
 
 ## Want to learn this yourself?
 
