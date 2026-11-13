@@ -182,3 +182,5 @@ html:not([data-theme=dark])[data-btn=green]{--accent:#1E6B3A;--link:#1E6B3A}html
 html:not([data-theme=dark])[data-btn=purple]{--accent:#5B3A9E;--link:#5B3A9E}html[data-theme=dark][data-btn=purple]{--accent:#6A48B8;--link:#B9A0F0}
 html:not([data-theme=dark])[data-btn=red]{--accent:#A3222B;--link:#A3222B}html[data-theme=dark][data-btn=red]{--accent:#B02A35;--link:#FF9A9A}
 html:not([data-theme=dark])[data-btn=orange]{--accent:#A84A00;--link:#A84A00}html[data-theme=dark][data-btn=orange]{--accent:#A84A00;--link:#FFB070}
+
+.artsample{display:block;width:100%;max-width:260px;height:auto;margin-top:6px;border-radius:8px}

@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
+## Header picture sample
+
+13 Nov 2026 (01:17 UTC) · New
+
+Settings shows a small example of how your Discord post picture looks, with your header picture on top.
+
+> [!TIP]
+> **What you'll see:** Settings, Header picture
+
+- Example post picture under Header picture
+
 ## Shorter Stay safe
 
 13 Nov 2026 (01:12 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8a8957f)
