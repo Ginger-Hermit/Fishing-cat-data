@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
-## No change explained
+## Points history in a box
 
 13 Nov 2026 (07:24 UTC) · Changed
+
+The Discord post shows Points history in a coloured box.
+
+> [!NOTE]
+> **What you'll see:** Post to Discord
+
+- Points history as a yaml code block
+
+## No change explained
+
+13 Nov 2026 (07:24 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/97da886)
 
 The Discord post says No change means same points as last time.
 
