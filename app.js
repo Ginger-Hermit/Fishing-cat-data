@@ -1,4 +1,4 @@
-// Patch note: The example post picture on the Discord tab now shows instead of a broken picture.
+// Patch note: The clan sheet now has a Top 10 tab (this month and each week), a simpler Points history (one row per player) and one Help tab with the maths step by step. Settings has a Points reset day (Friday).
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -9,7 +9,7 @@ const PROVIDERS = {
   openai: { name: "OpenAI", model: "gpt-5.5", tested: false, list: "https://platform.openai.com/docs/models" }
 };
 function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
-const LOOK_KEYS = ["fcd_theme", "fcd_size", "fcd_read", "fcd_btn", "fcd_nosave", "fcd_expire"];
+const LOOK_KEYS = ["fcd_theme", "fcd_size", "fcd_read", "fcd_btn", "fcd_nosave", "fcd_expire", "fcd_reset"];
 const isSecret = (k) => /^fcd_key_/.test(k) || k === "fcd_hook";
 function lsSet(k, v) {
   if (lsGet("fcd_nosave") === "1" && !LOOK_KEYS.includes(k)) return;
@@ -93,13 +93,16 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 document.getElementById("nosave").checked = lsGet("fcd_nosave") === "1";
 document.getElementById("nosave").onchange = () => { lsSet("fcd_nosave", document.getElementById("nosave").checked ? "1" : "0"); if (document.getElementById("nosave").checked) wipe("private"); renderSaved(); };
+document.getElementById("resetday").value = lsGet("fcd_reset") || "5";
+document.getElementById("resetday").onchange = () => { lsSet("fcd_reset", document.getElementById("resetday").value); renderSaved(); };
+const resetDay = () => { const v = Number(lsGet("fcd_reset") || 5); return v >= 0 && v <= 6 ? v : 5; };
 document.getElementById("expire").value = lsGet("fcd_expire") || "7";
 document.getElementById("expire").onchange = () => { lsSet("fcd_expire", document.getElementById("expire").value); expireCheck(); renderSaved(); };
 document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { btn = v; lsSet("fcd_btn", v); applyLook(); } };
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.24";
+const BUILD = "1.1.25";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -297,7 +300,7 @@ function renderSaved() {
   if (keys.includes("fcd_hook")) lines.push("Discord link");
   if (keys.includes("fcd_art")) lines.push("Discord header picture");
   if (keys.some(k => k.startsWith("fcd_model_"))) lines.push("AI model name");
-  if (keys.some(k => ["fcd_theme", "fcd_size", "fcd_read", "fcd_btn", "fcd_nosave", "fcd_expire", "fcd_autoref", "fcd_provider", "fcd_hookxlsx", "fcd_pingmode", "fcd_pingrole"].includes(k))) lines.push("Look and settings");
+  if (keys.some(k => ["fcd_theme", "fcd_size", "fcd_read", "fcd_btn", "fcd_nosave", "fcd_expire", "fcd_reset", "fcd_autoref", "fcd_provider", "fcd_hookxlsx", "fcd_pingmode", "fcd_pingrole"].includes(k))) lines.push("Look and settings");
   const box = $("saved"); box.replaceChildren();
   (lines.length ? lines : ["Nothing saved."]).forEach(t => { const d = document.createElement("div"); d.textContent = (lines.length ? "\u2022 " : "") + t; box.appendChild(d); });
   $("keepprev").checked = lsGet("fcd_keepprev") !== "0";
@@ -472,8 +475,17 @@ function readHistory(wb, ws, map, names) {
   let dates = [], players = new Map();
   const hs = wb.getWorksheet("Points history");
   if (hs) {
-    for (let c = 3; c <= Math.min(hs.columnCount, 400); c++) { const v = dv(hs.getCell(3, c)); if (v instanceof Date) dates.push(day(v)); else break; }
-    for (let r = 4; dates.length && r <= Math.min(hs.rowCount, 5000); r++) {
+    // New layout (13 Nov): #, Player, This week, Change, then one column per read, one row per player.
+    if (String(dv(hs.getCell(3, 2))).trim() === "Player") {
+      for (let c = 5; c <= Math.min(hs.columnCount, 400); c++) { const v = dv(hs.getCell(3, c)); if (v instanceof Date) dates.push(day(v)); else break; }
+      for (let r = 4; dates.length && r <= Math.min(hs.rowCount, 5000); r++) {
+        const name = dv(hs.getCell(r, 2));
+        if (!name || String(name) === "Clan total") continue;
+        players.set(String(name).trim().toLowerCase(), { name: String(name).trim(), vals: dates.map((_, i) => { const v = dv(hs.getCell(r, 5 + i)); return typeof v === "number" ? v : null; }) });
+      }
+    } else for (let c = 3; c <= Math.min(hs.columnCount, 400); c++) { const v = dv(hs.getCell(3, c)); if (v instanceof Date) dates.push(day(v)); else break; }
+    // Old layout: Points and Gain rows under each name.
+    for (let r = 4; dates.length && !players.size && String(dv(hs.getCell(3, 2))).trim() !== "Player" && r <= Math.min(hs.rowCount, 5000); r++) {
       if (String(dv(hs.getCell(r, 2))) !== "Points") continue;
       const name = dv(hs.getCell(r, 1));
       if (!name || String(name) === "Clan total") continue;
@@ -490,7 +502,7 @@ function readHistory(wb, ws, map, names) {
     if (!e) { e = { name: names.get(k), vals: dates.map(() => null) }; players.set(k, e); }
     e.vals[li] = pts;
   });
-  const lbs = wb.getWorksheet("Leaderboard");
+  const lbs = wb.getWorksheet("Leaderboard"); // sheets made before 13 Nov
   if (lbs) for (let r = 4; r <= Math.min(lbs.rowCount, 5000); r++) {
     const e = players.get(String(dv(lbs.getCell(r, 2)) ?? "").trim().toLowerCase()), d = dv(lbs.getCell(r, 8)), v = dv(lbs.getCell(r, 9));
     if (e && d instanceof Date && typeof v === "number") e.start = [day(d), v];
@@ -535,10 +547,12 @@ function fixNames(prev, rows) {
   return prev;
 }
 
+// Start of the points week (UTC day number) for a reset day R (0 = Sunday, 5 = Friday), midnight on the device clock.
+function weekStart(d, R) { return d - ((new Date(d).getUTCDay() - R + 7) % 7) * 864e5; }
 function colL(n) { let t = ""; while (n > 0) { const m = (n - 1) % 26; t = String.fromCharCode(65 + m) + t; n = Math.floor((n - 1) / 26); } return t; }
 
 // Adds today's run to the earlier history (same day twice = replace that column).
-function mergeHist(prev, rows) {
+function mergeHist(prev, rows, R = 5) {
   const n = new Date(), today = Date.UTC(n.getFullYear(), n.getMonth(), n.getDate());
   // An earlier sheet with no history (old sheet, or one saved before this update) becomes the first column.
   const h = prev && (prev.hist || { dates: [today], players: [...prev].map(([k, v]) => [k, { name: k, vals: [v] }]) });
@@ -556,8 +570,8 @@ function mergeHist(prev, rows) {
     e.name = String(r.name).trim(); e.vals[col] = num;
   });
   pl.forEach((e) => { if (!e.start) { const i = e.vals.findIndex((v) => v !== null); if (i >= 0) e.start = [dates[i], e.vals[i]]; } });
-  // Earlier months fold into one column: the last run of that month.
-  const mk = (d) => { const x = new Date(d); return x.getUTCFullYear() * 12 + x.getUTCMonth(); };
+  // Earlier weeks fold into one column: the last read before the reset (the week score).
+  const mk = (d) => weekStart(d, R);
   for (let i = dates.length - 2; i >= 0; i--) {
     if (mk(dates[i]) < mk(today) && mk(dates[i]) === mk(dates[i + 1])) {
       pl.forEach((e) => { if (e.vals[i + 1] === null) e.vals[i + 1] = e.vals[i]; e.vals.splice(i, 1); });
@@ -571,7 +585,7 @@ function mergeHist(prev, rows) {
     const first = e.start ? e.start[1] : null, last = e.vals[li];
     return { name: e.name, vals: e.vals, fi, li, first, last, since: e.start ? e.start[0] : dates[fi], gained: first === null ? 0 : last - first, here: e.vals[N - 1] !== null };
   }).filter((e) => e.first !== null && e.last !== null);
-  list.sort((a, b) => (b.here - a.here) || (b.gained - a.gained) || (b.last - a.last));
+  list.sort((a, b) => (b.here - a.here) || (b.last - a.last));
   return { dates, list };
 }
 
@@ -582,10 +596,11 @@ function buildWorkbook(EJ, rows, prev, p, when) {
   const NAVY = "FF1F3864", INK = "FF1F2937", GREY = "FF7F7F7F";
   const fill = (c) => ({ type: "pattern", pattern: "solid", fgColor: { argb: c } });
   const ws = wb.addWorksheet("Clan Members", { views: [{ state: "frozen", ySplit: 3 }] });
-  const lb = wb.addWorksheet("Leaderboard", { views: [{ state: "frozen", ySplit: 3 }] });
-  [11, 26, 18, 24, 22, 19, 14, 15, 12, 3, 29, 22].forEach((w, i) => { ws.getColumn(i + 1).width = w; });
+  [11, 26, 18, 24, 22, 19, 14, 15, 12, 3, 29, 14, 44].forEach((w, i) => { ws.getColumn(i + 1).width = w; });
   ws.mergeCells("A1:I1");
-  ws.mergeCells("A2:I2");
+  ws.mergeCells("A2:C2");
+  ws.getColumn(4).hidden = true; ws.getColumn(9).hidden = true; // as-shown text and arrows: kept for old tools, hidden to keep it calm
+  [["E2", "Top 3", "FFFFE699", "FF000000"], ["F2", "Went up", "FFC6EFCE", "FF006100"], ["G2", "Went down", "FFFFC7CE", "FF9C0006"], ["H2", "\u2013 = new", "FFF2F2F2", "FF595959"]].forEach(([a, t, bg, fg]) => { const c = ws.getCell(a); c.value = t; c.fill = fill(bg); c.font = { bold: true, size: 9, color: { argb: fg } }; c.alignment = { horizontal: "center", vertical: "middle" }; });
   ws.getCell("A1").value = p.clan + " \u2013 Member Points";
   ws.getCell("A1").font = { bold: true, size: 16, color: { argb: NAVY } };
   ws.getCell("A2").value = p.game + "   \u00b7   Recorded " + when + "   \u00b7   " + rows.length + " members read";
@@ -616,14 +631,14 @@ function buildWorkbook(EJ, rows, prev, p, when) {
     e.numFmt = "#,##0"; e.font = { bold: true, color: { argb: INK } };
     const f = ws.getCell(n, 6);
     const before = prev && prev.get(String(r.name).trim().toLowerCase());
-    if (before !== undefined && before !== false) f.value = before;
+    if (before !== undefined && before !== false) f.value = before; else if (prev) f.value = "\u2013";
     f.numFmt = "#,##0"; f.font = { color: { argb: GREY } };
-    ws.getCell(n, 7).value = { formula: `IF(OR(F${n}="",E${n}=""),"",E${n}-F${n})` };
+    ws.getCell(n, 7).value = { formula: `IF(AND(ISNUMBER(F${n}),ISNUMBER(E${n})),E${n}-F${n},"\u2013")` };
     ws.getCell(n, 7).numFmt = "\\+#,##0;\\-#,##0;0";
-    ws.getCell(n, 8).value = { formula: `IF(OR(F${n}="",E${n}="",F${n}=0),"",E${n}/F${n}-1)` };
+    ws.getCell(n, 8).value = { formula: `IF(AND(ISNUMBER(F${n}),ISNUMBER(E${n}),F${n}<>0),E${n}/F${n}-1,"\u2013")` };
     ws.getCell(n, 8).numFmt = "\\+0.0%;\\-0.0%;0.0%";
     const arrows = `IF(G${n}>0,"\u25b2",IF(G${n}<0,"\u25bc","\u2013"))`;
-    ws.getCell(n, 9).value = { formula: prev ? `IF(G${n}="",IF(AND(E${n}<>"",F${n}=""),"new",""),${arrows})` : `IF(G${n}="","",${arrows})` };
+    ws.getCell(n, 9).value = { formula: `IF(ISNUMBER(G${n}),${arrows},IF(AND(ISNUMBER(E${n}),F${n}="\u2013"),"new",""))` };
   });
   const last = rows.length + 3;
   const LINE = { style: "thin", color: { argb: "FFD0D5DD" } };
@@ -636,7 +651,7 @@ function buildWorkbook(EJ, rows, prev, p, when) {
     h.alignment = { horizontal: "center", vertical: "middle", wrapText: true };
     h.border = { left: LINE, right: LINE, top: LINE, bottom: { style: "medium", color: { argb: NAVY } } };
   }
-  const aligns = ["center", "left", "left", "right", "right", "right", "center", "center", "center"];
+  const aligns = ["center", "left", "left", "right", "right", "right", "right", "right", "center"];
   for (let n = 4; n <= last; n++) {
     ws.getRow(n).height = 19.5;
     for (let c = 1; c <= 9; c++) {
@@ -669,11 +684,12 @@ function buildWorkbook(EJ, rows, prev, p, when) {
     c.alignment = { horizontal: "center", vertical: "middle" };
     const row = Number(a.slice(1));
     ws.getRow(row).height = 24;
-    ["K", "L"].forEach((col) => { ws.getCell(col + row).border = { left: LINE, right: LINE, top: LINE, bottom: { style: "medium", color: { argb: NAVY } } }; });
+    ["K", "L", "M"].forEach((col) => { ws.getCell(col + row).border = { left: LINE, right: LINE, top: LINE, bottom: { style: "medium", color: { argb: NAVY } } }; });
   };
-  const line = (row, label, value, fmt) => {
-    const k = ws.getCell("K" + row), l = ws.getCell("L" + row);
-    k.value = label; k.font = { bold: true, size: 10, color: { argb: INK } }; k.fill = fill("FFF5F7FA");
+  const line = (row, label, value, fmt, tint, say) => {
+    const k = ws.getCell("K" + row), l = ws.getCell("L" + row), m = ws.getCell("M" + row);
+    k.value = label; k.font = { bold: true, size: 10, color: { argb: INK } }; k.fill = fill(tint);
+    m.value = say; m.font = { italic: true, size: 9, color: { argb: GREY } }; m.alignment = { vertical: "middle", indent: 1 }; m.border = box;
     k.alignment = { horizontal: "left", vertical: "middle", indent: 1 };
     if (value !== undefined && value !== null) l.value = value;
     if (fmt) l.numFmt = fmt;
@@ -681,18 +697,18 @@ function buildWorkbook(EJ, rows, prev, p, when) {
     k.border = box; l.border = box;
     ws.getRow(row).height = 19.5;
   };
-  head("K3:L3", "Clan Summary");
-  line(4, "Members", { formula: `COUNTIF(${B},"<>(not read)")` }, "0");
-  line(5, "Total Points", { formula: `SUM(${E})` }, "#,##0");
-  line(6, "Average Points", { formula: `IFERROR(AVERAGE(${E}),"")` }, "#,##0");
-  line(7, "Total Change (returning)", { formula: `IF(COUNT(${G})=0,"",SUM(${G}))` }, "\\+#,##0;\\-#,##0;0");
-  line(8, "Total % Change (returning)", { formula: `IF(OR(COUNT(${G})=0,SUM(${F})=0),"",SUM(${G})/SUM(${F}))` }, "\\+0.0%;\\-0.0%;0.0%");
-  line(9, "Members Up", { formula: `IF(COUNT(${G})=0,"",COUNTIF(${G},">0"))` }, "0");
-  line(10, "Members Down", { formula: `IF(COUNT(${G})=0,"",COUNTIF(${G},"<0"))` }, "0");
-  line(11, "Top Gainer", { formula: `IF(COUNT(${G})=0,"",IF(MAX(${G})<=0,"",INDEX(${B},MATCH(MAX(${G}),${G},0))))` }, "@");
-  line(12, "Biggest Drop", { formula: `IF(COUNT(${G})=0,"",IF(MIN(${G})>=0,"",INDEX(${B},MATCH(MIN(${G}),${G},0))))` }, "@");
+  head("K3:M3", "Clan Summary");
+  line(4, "Members", { formula: `COUNTIF(${B},"<>(not read)")` }, "0", "FFDDEBF7", "People in this read.");
+  line(5, "Total Points", { formula: `SUM(${E})` }, "#,##0", "FFDDEBF7", "Everyone's points added up.");
+  line(6, "Average Points", { formula: `IFERROR(AVERAGE(${E}),"")` }, "#,##0", "FFDDEBF7", "Total points \u00f7 members.");
+  line(7, "Total Change (returning)", { formula: `IF(COUNT(${G})=0,"",SUM(${G}))` }, "\\+#,##0;\\-#,##0;0", "FFE2EFDA", "Points gained since last read (old members only).");
+  line(8, "Total % Change (returning)", { formula: `IF(OR(COUNT(${G})=0,SUM(${F})=0),"",SUM(${G})/SUM(${F}))` }, "\\+0.0%;\\-0.0%;0.0%", "FFE2EFDA", "That gain as a % of last read's total.");
+  line(9, "Members Up", { formula: `IF(COUNT(${G})=0,"",COUNTIF(${G},">0"))` }, "0", "FFE2EFDA", "How many went up.");
+  line(10, "Members Down", { formula: `IF(COUNT(${G})=0,"",COUNTIF(${G},"<0"))` }, "0", "FFFCE4D6", "How many went down.");
+  line(11, "Top Gainer", { formula: `IF(COUNT(${G})=0,"",IF(MAX(${G})<=0,"Nobody",INDEX(${B},MATCH(MAX(${G}),${G},0))))` }, "@", "FFE2EFDA", "Biggest gain this read.");
+  line(12, "Biggest Drop", { formula: `IF(COUNT(${G})=0,"",IF(MIN(${G})>=0,"Nobody",INDEX(${B},MATCH(MIN(${G}),${G},0))))` }, "@", "FFFCE4D6", "Biggest drop this read.");
   ws.getCell("K13").value = "Change values appear from the second week on. New members are left out of the change totals.";
-  ws.getCell("K13").font = { italic: true, size: 9, color: { argb: GREY } };
+  ws.getCell("K13").font = { italic: true, size: 9, color: { argb: GREY } }; ws.mergeCells("K13:M15"); ws.getCell("K13").alignment = { wrapText: true, vertical: "top" };
   ["L7", "L8"].forEach((a) => {
     const rr = a.slice(1);
     ws.addConditionalFormatting({ ref: a, rules: [
@@ -700,196 +716,161 @@ function buildWorkbook(EJ, rows, prev, p, when) {
       { type: "expression", priority: 6, formulae: [`AND(ISNUMBER($L$${rr}),$L$${rr}<0)`], style: down }
     ] });
   });
-  // Points history + Leaderboard (no AI: old numbers come from the earlier sheet, Excel does the sums)
-  const H = mergeHist(prev, rows), N = H.dates.length, LC = colL(2 + N), HS = "'Points history'!";
-  const hs = wb.addWorksheet("Points history", { views: [{ state: "frozen", ySplit: 3 }] }); // rows only: a frozen column would cut the how-to-read box in half
-  hs.getColumn(1).width = 26; hs.getColumn(2).width = 9;
-  hs.getCell("A1").value = p.clan + " \u2013 Points history"; hs.getCell("A1").font = { bold: true, size: 16, color: { argb: NAVY } };
+  // Top 10, Points history and Help (no AI: old numbers come from the earlier sheet)
+  const R = Number.isInteger(p.reset) ? p.reset : 5, DN = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][R];
+  const H = mergeHist(prev, rows, R), N = H.dates.length, GRN = "FF006100", RED = "FF9C0006", SOFT = "FFF5F7FA", BLUE = "FFDDEBF7";
   const KEY = (parts) => ({ richText: parts.map(([text, c, b]) => ({ text, font: { size: 10, bold: !!b, color: { argb: c || INK } } })) });
-  const GRN = "FF006100", RED = "FF9C0006", SOFT = "FFF5F7FA";
-  const KC = Math.max(5, 2 + N), KW = 35 + 14 * (KC - 2); // the box stops at the last run, so nothing runs off screen
-  hs.mergeCells(`A1:${colL(KC)}1`);
-  hs.mergeCells(`A2:${colL(KC)}2`);
-  hs.getCell("A2").value = KEY([["How to read  ", NAVY, 1], ["Each column is one run. The bold number is the points that day. The small number under it is what was gained since the run before.\n"], ["Green = went up", GRN, 1], ["     "], ["Red = went down", RED, 1], ["     "], ["Gold, silver, bronze = top 3 gainers", "FF7F6000", 1], ["     "], ["Grey = left the clan", GREY, 1], ["     Earlier months show their last run only."]]);
-  hs.getCell("A2").alignment = { wrapText: true, vertical: "middle", indent: 1 }; hs.getCell("A2").fill = fill(SOFT); hs.getRow(2).height = Math.max(48, (Math.ceil(135 / KW) + Math.ceil(170 / KW)) * 14 + 12); hs.getRow(1).height = 30;
-  hs.getCell("A1").alignment = { vertical: "middle" };
-  ["Username", ""].forEach((t, i) => { const c = hs.getCell(3, i + 1); c.value = t; c.font = { bold: true, color: { argb: "FFFFFFFF" } }; c.fill = fill(NAVY); });
-  H.dates.forEach((d, i) => {
-    hs.getColumn(3 + i).width = 14;
-    const c = hs.getCell(3, 3 + i);
-    c.value = new Date(d); c.numFmt = "d\\ mmm\\ yy"; c.font = { bold: true, color: { argb: "FFFFFFFF" } }; c.fill = fill(NAVY); c.alignment = { horizontal: "center" };
-  });
+  const WH = { bold: true, color: { argb: "FFFFFFFF" } };
+  const medal = (c, i) => { const m = rankLook[i + 1]; if (m) { c.fill = fill(m[0]); c.font = { bold: true, color: { argb: m[1] } }; } };
+  const nf = (n) => Number(n).toLocaleString("en-GB", { maximumFractionDigits: 0 });
+  const top = wb.addWorksheet("Top 10", { views: [{ state: "frozen", ySplit: 3 }] });
+  const hs = wb.addWorksheet("Points history", { views: [{ state: "frozen", ySplit: 3 }] }); // rows only: no frozen column line
+  // Points history: one row per player, best first
+  const LC = colL(4 + N), PC = colL(3 + N), HW = colL(Math.max(8, 4 + N));
+  [6, 24, 13, 12].forEach((w, i) => { hs.getColumn(i + 1).width = w; });
+  hs.mergeCells(`A1:${HW}1`); hs.mergeCells(`A2:${HW}2`);
+  hs.getCell("A1").value = p.clan + " – Points history"; hs.getCell("A1").font = { bold: true, size: 16, color: { argb: NAVY } }; hs.getRow(1).height = 30;
+  hs.getCell("A2").value = KEY([["• Sorted by this week. Change = since the last read. Older reads on the right.\n"], ["• "], ["Green = went up", GRN, 1], ["   "], ["Red = went down", RED, 1], ["   "], ["Grey = left the clan", GREY, 1], ["   – = not in that read.\n• The page reads this tab next time, so keep it."]]);
+  hs.getCell("A2").alignment = { wrapText: true, vertical: "middle", indent: 1 }; hs.getCell("A2").fill = fill(BLUE); hs.getRow(2).height = 52;
+  const navyHead = (c, t) => { c.value = t; c.font = WH; c.fill = fill(NAVY); c.alignment = { horizontal: "center", vertical: "middle" }; c.border = box; };
+  ["#", "Player", "This week", "Change"].forEach((t, i) => navyHead(hs.getCell(3, i + 1), t));
+  H.dates.forEach((d, i) => { hs.getColumn(5 + i).width = 12; const c = hs.getCell(3, 5 + i); navyHead(c, new Date(d)); c.numFmt = "d\\ mmm"; });
   hs.getRow(3).height = 24;
-  const hrow = (i) => 4 + 2 * i;
+  let rank = 0;
   H.list.forEach((e, i) => {
-    const r = hrow(i);
-    hs.mergeCells(r, 1, r + 1, 1);
-    hs.getCell(r, 1).value = e.name; hs.getCell(r, 1).font = { bold: true, italic: !e.here, color: { argb: e.here ? INK : GREY } };
-    hs.getCell(r, 1).alignment = { vertical: "middle", indent: 1 };
-    const med = e.here && e.gained > 0 && rankLook[i + 1];
-    if (med) { hs.getCell(r, 1).fill = fill(med[0]); hs.getCell(r, 1).font = { bold: true, color: { argb: med[1] } }; }
-    for (let c = 1; c <= 2 + N; c++) for (const rr of [r, r + 1]) { const x = hs.getCell(rr, c); x.border = box; if (i % 2 && !(c === 1 && med)) x.fill = fill(SOFT); }
-    hs.getRow(r).height = 18; hs.getRow(r + 1).height = 15;
-    hs.getCell(r, 2).value = "Points"; hs.getCell(r, 2).font = { size: 9, color: { argb: GREY } };
-    hs.getCell(r + 1, 2).value = "Gain"; hs.getCell(r + 1, 2).font = { size: 9, color: { argb: GREY } };
-    e.vals.forEach((v, k) => {
-      const c = hs.getCell(r, 3 + k);
-      if (v !== null) c.value = v;
-      c.numFmt = "#,##0"; c.font = { bold: true, color: { argb: INK } }; c.alignment = { horizontal: "right" };
-      const g = hs.getCell(r + 1, 3 + k);
-      if (k > 0) g.value = { formula: `IF(OR(${colL(2 + k)}${r}="",${colL(3 + k)}${r}=""),"",${colL(3 + k)}${r}-${colL(2 + k)}${r})` };
-      g.numFmt = "\\+#,##0;\\-#,##0;0"; g.font = { size: 9, color: { argb: GREY } }; g.alignment = { horizontal: "right" };
-    });
+    const r = 4 + i, a = hs.getCell(r, 1), b = hs.getCell(r, 2), w = hs.getCell(r, 3), ch = hs.getCell(r, 4);
+    if (e.here) a.value = ++rank;
+    b.value = e.name;
+    w.value = { formula: `IF(ISNUMBER(${LC}${r}),${LC}${r},"–")`, result: e.here ? e.vals[N - 1] : "–" };
+    const pv = N > 1 ? e.vals[N - 2] : null;
+    ch.value = N > 1 ? { formula: `IF(AND(ISNUMBER(${LC}${r}),ISNUMBER(${PC}${r})),${LC}${r}-${PC}${r},IF(ISNUMBER(${LC}${r}),"new","–"))`, result: e.here ? (pv === null ? "new" : e.vals[N - 1] - pv) : "–" } : "–";
+    w.numFmt = "#,##0"; ch.numFmt = "\\+#,##0;\\-#,##0;0";
+    e.vals.forEach((v, k) => { const c = hs.getCell(r, 5 + k); c.value = v === null ? "–" : v; c.numFmt = "#,##0"; c.font = { color: { argb: v === null ? "FFBFBFBF" : GREY } }; });
+    for (let c = 1; c <= 4 + N; c++) { const x = hs.getCell(r, c); x.border = box; x.alignment = { horizontal: c === 2 ? "left" : c === 1 ? "center" : "right", vertical: "middle", indent: c === 2 ? 1 : 0 }; if (i % 2) x.fill = fill(SOFT); }
+    a.font = { bold: true, color: { argb: GREY } }; w.font = { bold: true, color: { argb: e.here ? INK : GREY } }; ch.font = { color: { argb: GREY } };
+    b.font = e.here ? { bold: rank <= 3, color: { argb: INK } } : { italic: true, color: { argb: GREY } };
+    if (e.here && rank <= 3) { medal(a, rank - 1); medal(b, rank - 1); }
+    hs.getRow(r).height = 19.5;
   });
-  const tr = hrow(H.list.length), lastH = tr - 1;
-  hs.getCell(tr, 1).value = "Clan total"; hs.getCell(tr, 2).value = "Points"; hs.getCell(tr + 1, 2).value = "Gain";
-  for (let k = 0; k < N; k++) {
-    const cl = colL(3 + k);
-    const t = hs.getCell(tr, 3 + k);
-    t.value = { formula: `SUMIF($B$4:$B$${lastH},"Points",${cl}$4:${cl}$${lastH})` }; t.numFmt = "#,##0"; t.font = { bold: true, color: { argb: NAVY } };
-    if (k > 0) { const g = hs.getCell(tr + 1, 3 + k); g.value = { formula: `${cl}${tr}-${colL(2 + k)}${tr}` }; g.numFmt = "\\+#,##0;\\-#,##0;0"; g.font = { size: 9, color: { argb: GREY } }; }
+  const tr = 4 + H.list.length;
+  hs.getCell(tr, 2).value = "Clan total";
+  for (let c = 3; c <= 4 + N; c++) {
+    const L = colL(c), x = hs.getCell(tr, c);
+    if (c !== 4) x.value = { formula: `SUM(${L}4:${L}${tr - 1})` };
+    else x.value = N > 1 ? { formula: `IF(COUNT(${PC}4:${PC}${tr - 1})=0,"–",SUMPRODUCT(ISNUMBER(${PC}4:${PC}${tr - 1})*ISNUMBER(${LC}4:${LC}${tr - 1}),${LC}4:${LC}${tr - 1}-0)-SUMPRODUCT(ISNUMBER(${PC}4:${PC}${tr - 1})*ISNUMBER(${LC}4:${LC}${tr - 1}),${PC}4:${PC}${tr - 1}-0))` } : "–";
+    x.numFmt = c === 4 ? "\\+#,##0;\\-#,##0;0" : "#,##0"; x.alignment = { horizontal: "right" };
   }
-  hs.getCell(tr, 1).font = { bold: true, color: { argb: NAVY } }; hs.getCell(tr, 1).alignment = { indent: 1 };
-  for (let c = 1; c <= 2 + N; c++) {
-    hs.getCell(tr, c).border = { left: LINE, right: LINE, bottom: LINE, top: { style: "medium", color: { argb: NAVY } } }; hs.getCell(tr + 1, c).border = box;
-    hs.getCell(tr, c).fill = fill("FFE8EDF5"); hs.getCell(tr + 1, c).fill = fill("FFE8EDF5");
-    hs.getCell(3, c).border = { left: LINE, right: LINE, top: LINE, bottom: { style: "medium", color: { argb: NAVY } } };
-  }
-  hs.getCell(tr, 2).font = { size: 9, color: { argb: GREY } }; hs.getCell(tr + 1, 2).font = { size: 9, color: { argb: GREY } };
-  hs.addConditionalFormatting({ ref: `C4:${LC}${tr + 1}`, rules: [
-    { type: "expression", priority: 7, formulae: ['AND($B4="Gain",ISNUMBER(C4),C4>0)'], style: up },
-    { type: "expression", priority: 8, formulae: ['AND($B4="Gain",ISNUMBER(C4),C4<0)'], style: down }
+  for (let c = 1; c <= 4 + N; c++) { const x = hs.getCell(tr, c); x.font = { bold: true, color: { argb: NAVY } }; x.fill = fill("FFE8EDF5"); x.border = { left: LINE, right: LINE, bottom: LINE, top: { style: "medium", color: { argb: NAVY } } }; }
+  hs.addConditionalFormatting({ ref: `D4:D${tr}`, rules: [
+    { type: "expression", priority: 7, formulae: ["AND(ISNUMBER(D4),D4>0)"], style: up },
+    { type: "expression", priority: 8, formulae: ["AND(ISNUMBER(D4),D4<0)"], style: down }
   ] });
 
-  lb.getColumn(1).width = 8; lb.getColumn(2).width = 26;
-  [14, 20, 14, 17, 14, 14].forEach((w, i) => { lb.getColumn(3 + i).width = w; });
-  lb.getColumn(9).hidden = true; lb.getColumn(10).hidden = true;
-  lb.mergeCells("A1:H1"); lb.mergeCells("A2:H2");
-  lb.getCell("A1").value = p.clan + " \u2013 Leaderboard"; lb.getCell("A1").font = { bold: true, size: 16, color: { argb: NAVY } };
-  lb.getCell("A2").value = KEY([["How to read  ", NAVY, 1], ["Ranked by points gained since each player's first run (" + N + (N === 1 ? " run" : " runs") + " so far). Now = points today. Best run = biggest jump between two runs. Avg / day = gained per day.\n"], ["Green = went up", GRN, 1], ["     "], ["Red = went down", RED, 1], ["     "], ["Gold, silver, bronze = top 3", "FF7F6000", 1], ["     "], ["Grey = left the clan", GREY, 1]]);
-  lb.getCell("A2").alignment = { wrapText: true, vertical: "middle", indent: 1 }; lb.getCell("A2").fill = fill(SOFT); lb.getRow(2).height = 48;
-  lb.getCell("A1").alignment = { vertical: "middle" };
-  lb.getRow(1).height = 30;
-  ["#", "Username", "Now", "Gained (all time)", "Best run", "Best run date", "Avg / day", "Since", "Started at", "Last seen"].forEach((h, i) => {
-    const c = lb.getCell(3, i + 1);
-    c.value = h; c.font = { bold: true, color: { argb: "FFFFFFFF" } }; c.fill = fill(NAVY);
-    c.alignment = { horizontal: "center", vertical: "middle", wrapText: true };
-    c.border = { left: LINE, right: LINE, top: LINE, bottom: { style: "medium", color: { argb: NAVY } } };
-  });
-  lb.getRow(3).height = 30;
-  lb.getCell("J2").value = { formula: `MAX(${HS}C3:${LC}3)` }; lb.getCell("J2").numFmt = "d\\ mmm\\ yy";
-  H.list.forEach((e, i) => {
-    const n = 4 + i, r = hrow(i), P = `${HS}C${r}:${LC}${r}`, G = `${HS}C${r + 1}:${LC}${r + 1}`;
-    const rk = lb.getCell(n, 1); rk.value = i + 1;
-    const look = e.here && rankLook[i + 1];
-    rk.font = { bold: true, color: { argb: look ? look[1] : GREY } };
-    if (look) rk.fill = fill(look[0]);
-    lb.getCell(n, 2).value = e.name;
-    lb.getCell(n, 3).value = { formula: `IFERROR(LOOKUP(2,1/(${P}<>""),${P}),"")` };
-    lb.getCell(n, 4).value = { formula: `IF(OR(C${n}="",I${n}=""),"",C${n}-I${n})` };
-    lb.getCell(n, 5).value = { formula: `IF(COUNT(${G})=0,"",MAX(${G}))` };
-    lb.getCell(n, 6).value = { formula: `IF(COUNT(${G})=0,"",INDEX(${HS}$C$3:$${LC}$3,MATCH(MAX(${G}),${G},0)))` };
-    lb.getCell(n, 7).value = { formula: `IFERROR(IF(OR(C${n}="",I${n}=""),"",(C${n}-I${n})/(J${n}-H${n})),"")` };
-    // Answers are also saved in the file so phone previews show them without recalculating.
-    const gs = e.vals.map((v, k) => (k > 0 && v !== null && e.vals[k - 1] !== null ? v - e.vals[k - 1] : null)), best = gs.reduce((m, g) => (g !== null && (m === null || g > m) ? g : m), null), days = (H.dates[e.li] - e.since) / 864e5;
-    [e.last, e.gained, best === null ? "" : best, best === null ? "" : new Date(H.dates[gs.indexOf(best)]), days > 0 ? e.gained / days : ""].forEach((v, k) => { lb.getCell(n, 3 + k).value = Object.assign(lb.getCell(n, 3 + k).value, { result: v }); });
-    lb.getCell(n, 8).value = new Date(e.since);
-    lb.getCell(n, 9).value = e.first;
-    lb.getCell(n, 10).value = new Date(H.dates[e.li]);
-    lb.getCell(n, 3).numFmt = "#,##0"; lb.getCell(n, 4).numFmt = "\\+#,##0;\\-#,##0;0"; lb.getCell(n, 5).numFmt = "\\+#,##0;\\-#,##0;0";
-    lb.getCell(n, 6).numFmt = "d\\ mmm\\ yy"; lb.getCell(n, 7).numFmt = "#,##0"; lb.getCell(n, 8).numFmt = "d\\ mmm\\ yy"; lb.getCell(n, 9).numFmt = "#,##0"; lb.getCell(n, 10).numFmt = "d\\ mmm\\ yy";
-    lb.getRow(n).height = 19.5;
-    for (let c = 1; c <= 8; c++) {
-      const cell = lb.getCell(n, c);
-      cell.border = box;
-      cell.alignment = { horizontal: c === 2 ? "left" : c === 1 ? "center" : "right", vertical: "middle", indent: c === 2 ? 1 : 0 };
-      if (c > 1) cell.font = { bold: c === 3 || c === 4, italic: !e.here, color: { argb: e.here ? INK : "FF9A9A9A" } };
-      if (i % 2 && c > 1) cell.fill = fill(SOFT);
-      if (c === 2 && look) { cell.fill = fill(look[0]); cell.font = { bold: true, color: { argb: look[1] } }; }
+  // Top 10: this month (purple) then each week (green, newest first); past months one line each
+  const mon = (d) => { const x = new Date(d); return x.getUTCFullYear() * 12 + x.getUTCMonth(); };
+  const weeks = [];
+  H.dates.forEach((d, i) => { const w = weekStart(d, R); let o = weeks[weeks.length - 1]; if (!o || o.w !== w) { o = { w, cols: [] }; weeks.push(o); } o.cols.push(i); });
+  const score = (e, o) => { for (let j = o.cols.length - 1; j >= 0; j--) if (e.vals[o.cols[j]] !== null) return e.vals[o.cols[j]]; return null; };
+  const ranked = (get) => H.list.map((e) => [e.name, get(e)]).filter((x) => x[1] !== null).sort((a, b) => b[1] - a[1]);
+  const monthOf = (m) => ranked((e) => { let s = null; weeks.forEach((o) => { if (mon(o.w) === m) { const v = score(e, o); if (v !== null) s = (s || 0) + v; } }); return s; });
+  const curM = mon(weeks[weeks.length - 1].w);
+  const mName = (m) => new Date(Date.UTC(Math.floor(m / 12), m % 12, 1)).toLocaleString("en-GB", { month: "long", year: "numeric", timeZone: "UTC" });
+  const dS = (d) => new Date(d).toLocaleString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
+  const thisMonth = monthOf(curM);
+  const blocks = [["This month: " + mName(curM), thisMonth, "FF7030A0"]];
+  weeks.filter((o) => mon(o.w) === curM).reverse().forEach((o) => blocks.push(["Week " + dS(o.w) + " – " + dS(o.w + 6 * 864e5), ranked((e) => score(e, o)), "FF2E7D4F"]));
+  const TW = colL(Math.max(4 * blocks.length - 1, 8));
+  top.mergeCells(`A1:${TW}1`); top.mergeCells(`A2:${TW}2`);
+  top.getCell("A1").value = p.clan + " – Top 10"; top.getCell("A1").font = { bold: true, size: 16, color: { argb: NAVY } }; top.getRow(1).height = 30;
+  top.getCell("A2").value = KEY([["• "], ["Purple", "FF7030A0", 1], [" = this month: every week score added up.\n• "], ["Green", "FF2E7D4F", 1], [" = each week, newest on the left. Week score = last read before " + DN + "'s reset.\n• Gold, silver, bronze = top 3. Whole clan = everyone added up. Past months are one line each at the bottom."]]);
+  top.getCell("A2").alignment = { wrapText: true, vertical: "middle", indent: 1 }; top.getCell("A2").fill = fill(BLUE); top.getRow(2).height = 52;
+  blocks.forEach(([t, list, col], b) => {
+    const c0 = 1 + 4 * b;
+    [5, 22, 13].forEach((w, i) => { top.getColumn(c0 + i).width = w; }); if (b) top.getColumn(c0 - 1).width = 3;
+    top.mergeCells(4, c0, 4, c0 + 2);
+    const h = top.getCell(4, c0); h.value = t; h.font = WH; h.fill = fill(col); h.alignment = { horizontal: "center", vertical: "middle" };
+    ["#", "Player", "Points"].forEach((x, i) => { const c = top.getCell(5, c0 + i); c.value = x; c.font = { bold: true, color: { argb: col } }; c.border = box; c.alignment = { horizontal: i === 1 ? "left" : "center" }; });
+    for (let i = 0; i < 10; i++) {
+      const r = 6 + i, it = list[i], a = top.getCell(r, c0), n = top.getCell(r, c0 + 1), v = top.getCell(r, c0 + 2);
+      [a, n, v].forEach((x) => { x.border = box; });
+      if (!it) continue;
+      a.value = i + 1; n.value = it[0]; v.value = it[1]; v.numFmt = "#,##0"; a.alignment = { horizontal: "center" };
+      medal(a, i); medal(n, i);
     }
+    const n = top.getCell(16, c0 + 1), v = top.getCell(16, c0 + 2);
+    n.value = "Whole clan"; v.value = list.reduce((s, x) => s + x[1], 0); v.numFmt = "#,##0";
+    [top.getCell(16, c0), n, v].forEach((x) => { x.font = { bold: true, color: { argb: col } }; x.border = { top: { style: "medium", color: { argb: col } }, bottom: LINE }; });
   });
-  const lastL = 3 + H.list.length;
-  lb.autoFilter = `A3:H${lastL}`;
-  lb.addConditionalFormatting({ ref: `D4:E${lastL}`, rules: [
-    { type: "expression", priority: 9, formulae: ["AND(ISNUMBER(D4),D4>0)"], style: up },
-    { type: "expression", priority: 10, formulae: ["AND(ISNUMBER(D4),D4<0)"], style: down }
-  ] });
-
-  // Shared look for the two text tabs: title, soft intro strip, navy header, boxed rows, shaded alternate rows
-  const textSheet = (sh, title, intro, heads, widths) => {
-    widths.forEach((w, i) => { sh.getColumn(i + 1).width = w; });
-    sh.mergeCells(1, 1, 1, heads.length); sh.mergeCells(2, 1, 2, heads.length);
-    sh.getCell("A1").value = title; sh.getCell("A1").font = { bold: true, size: 16, color: { argb: NAVY } };
-    sh.getCell("A1").alignment = { vertical: "middle" }; sh.getRow(1).height = 30;
-    sh.getCell("A2").value = intro; sh.getCell("A2").font = { size: 10, color: { argb: INK } };
-    sh.getCell("A2").fill = fill("FFF5F7FA"); sh.getCell("A2").alignment = { wrapText: true, vertical: "middle", indent: 1 }; sh.getRow(2).height = 34;
-    heads.forEach((t, i) => {
-      const c = sh.getCell(4, i + 1); c.value = t; c.font = { bold: true, color: { argb: "FFFFFFFF" } }; c.fill = fill(NAVY);
-      c.alignment = { vertical: "middle", indent: 1 }; c.border = { left: LINE, right: LINE, top: LINE, bottom: { style: "medium", color: { argb: NAVY } } };
+  top.getRow(4).height = 22;
+  const past = [...new Set(weeks.map((o) => mon(o.w)))].filter((m) => m !== curM).reverse();
+  if (past.length) {
+    top.getCell("A18").value = "Past months"; top.getCell("A18").font = { bold: true, size: 13, color: { argb: NAVY } };
+    past.forEach((m, i) => {
+      const L = monthOf(m), r = 19 + i, x = top.getCell(r, 1);
+      top.mergeCells(r, 1, r, Math.max(4 * blocks.length - 1, 8));
+      const pl = ["1st", "2nd", "3rd"].map((t, k) => (L[k] ? [[t + " ", "FF7F6000", 1], [L[k][0] + " " + nf(L[k][1]) + "   "]] : [])).flat();
+      x.value = KEY([[mName(m) + "   ", NAVY, 1], ...pl, ["Whole clan " + nf(L.reduce((s, y) => s + y[1], 0)), GREY]]);
+      if (i % 2) x.fill = fill(SOFT);
     });
-    sh.getRow(4).height = 24;
+  }
+
+  // Help: one tab for words, tabs, maths and colours
+  const hp = wb.addWorksheet("Help");
+  [20, 62, 20].forEach((w, i) => { hp.getColumn(i + 1).width = w; });
+  hp.getCell("A1").value = "Help"; hp.getCell("A1").font = { bold: true, size: 18, color: { argb: NAVY } }; hp.getRow(1).height = 30;
+  hp.mergeCells("A2:C2");
+  hp.getCell("A2").value = KEY([["• Points reset every " + DN + ", so each week starts from 0.\n• Gold, silver, bronze = top 3. "], ["Green = went up.", GRN, 1], [" "], ["Red = went down.", RED, 1], [" Grey = left the clan.\n• Made with Fishing Cat Data."]]);
+  hp.getCell("A2").alignment = { wrapText: true, vertical: "middle", indent: 1 }; hp.getCell("A2").fill = fill(BLUE); hp.getRow(2).height = 52;
+  let hr = 4;
+  const sw = (v, bg, fg) => ({ v, bg, fg });
+  const section = (title, col, heads, list) => {
+    hp.getCell(hr, 1).value = title; hp.getCell(hr, 1).font = { bold: true, size: 14, color: { argb: NAVY } }; hp.getRow(hr).height = 24; hr++;
+    heads.forEach((t, i) => { const c = hp.getCell(hr, i + 1); c.value = t; c.fill = fill(col); c.font = WH; c.border = box; c.alignment = { vertical: "middle", indent: 1 }; });
+    hp.getRow(hr).height = 22; hr++;
+    list.forEach((x) => {
+      x.forEach((v, k) => {
+        const c = hp.getCell(hr, k + 1);
+        if (v && typeof v === "object") { c.value = v.v; c.fill = fill(v.bg); c.font = { bold: true, color: { argb: v.fg } }; c.alignment = { horizontal: k ? "center" : "left", vertical: "middle", indent: k ? 0 : 1 }; }
+        else { c.value = v; c.font = k ? { color: { argb: INK } } : { bold: true, color: { argb: col } }; c.alignment = { wrapText: true, vertical: "middle", indent: 1 }; }
+        c.border = box;
+      });
+      hp.getRow(hr).height = Math.max(22, 16 * Math.max(...x.map((v) => (typeof v === "string" ? v.split("\n").length : 1))) + 6); hr++;
+    });
+    hr++;
   };
-  const textRow = (sh, n, cells, ncols, widths, i) => {
-    let lines = 1;
-    for (let c = 1; c <= ncols; c++) {
-      const cell = sh.getCell(n, c);
-      cell.border = box; cell.alignment = { wrapText: true, vertical: "middle", indent: 1 };
-      if (i % 2) cell.fill = fill("FFF5F7FA");
-      if (c === 1) cell.font = { bold: true, color: { argb: NAVY } }; else if (!cell.font || !cell.font.color) cell.font = { color: { argb: INK } };
-      const len = typeof cells[c - 1] === "string" ? cells[c - 1].length : 60;
-      lines = Math.max(lines, Math.ceil(len / (widths[c - 1] * 1.05)));
-    }
-    sh.getRow(n).height = Math.max(21, 15 * lines + 6);
-  };
-  const ab = wb.addWorksheet("About this sheet");
-  const abw = [26, 92];
-  textSheet(ab, "About this sheet", "Made with Fishing Cat Data. What is in this file and what the colours mean.", ["Tab", "What it is"], abw);
-  [
-    ["Clan Members", "This run's list. Fix a misread number in Points (number) and the rest updates."],
-    ["Leaderboard", "Who gained the most since their first run."],
-    ["Points history", "Every run side by side, with a clan total."],
-    ["Trend", "\u25b2 up, \u25bc down, \u2013 same, new = not in the earlier sheet."],
-    ["More detail", "See the How it's worked out tab."]
-  ].forEach((r, i) => {
-    ab.getCell(5 + i, 1).value = r[0]; ab.getCell(5 + i, 2).value = r[1];
-    textRow(ab, 5 + i, r, 2, abw, i);
-  });
-  const ck = 11;
-  ab.mergeCells(ck, 1, ck, 2);
-  ab.getCell(ck, 1).value = "COLOURS"; ab.getCell(ck, 1).font = { bold: true, color: { argb: "FFFFFFFF" } }; ab.getCell(ck, 1).fill = fill(NAVY);
-  ab.getCell(ck, 1).alignment = { vertical: "middle", indent: 1 }; ab.getRow(ck).height = 24;
-  [
-    ["Green", "Went up.", "FFC6EFCE", "FF006100"],
-    ["Red", "Went down.", "FFFFC7CE", "FF9C0006"],
-    ["Gold", "Rank 1.", "FFFFF2CC", "FF7F6000"],
-    ["Silver", "Rank 2.", "FFEDEDED", "FF404040"],
-    ["Bronze", "Rank 3.", "FFFBE5D6", "FF843C0C"],
-    ["Grey", "Left the clan. Kept so the history stays.", "FFFFFFFF", "FF9A9A9A"]
-  ].forEach((r, i) => {
-    const n = ck + 1 + i;
-    ab.getCell(n, 1).value = r[0]; ab.getCell(n, 2).value = r[1];
-    ab.getCell(n, 1).fill = fill(r[2]); ab.getCell(n, 1).font = { bold: true, italic: r[0] === "Grey", color: { argb: r[3] } };
-    ab.getCell(n, 2).font = { color: { argb: INK } };
-    [1, 2].forEach((c) => { ab.getCell(n, c).border = box; ab.getCell(n, c).alignment = { vertical: "middle", indent: 1 }; });
-    ab.getRow(n).height = 21;
-  });
-  const hw = wb.addWorksheet("How it's worked out");
-  const hww = [22, 62, 62];
-  textSheet(hw, "How it's worked out", "Plain words for each number. The examples use the top player on the Leaderboard and update with the sheet.", ["Column", "What it means", "Example"], hww);
-  const nm = "Leaderboard!B4", fm = (a) => `TEXT(${a},"#,##0")`;
-  [
-    ["Change", "Points now minus points in the run before (Clan Members tab).", `IFERROR(${nm}&": "&${fm("'Clan Members'!E4")}&" now - "&${fm("'Clan Members'!F4")}&" before = "&${fm("'Clan Members'!G4")},"Needs an earlier sheet")`],
-    ["% Change", "Change divided by the points in the run before.", `IFERROR(${nm}&": "&${fm("'Clan Members'!G4")}&" / "&${fm("'Clan Members'!F4")}&" = "&TEXT('Clan Members'!H4,"0.0%"),"Needs an earlier sheet")`],
-    ["Gained (all time)", "Points now minus the points the player had in their first run. Players who left show their last known points.", `IFERROR(${nm}&": "&${fm("Leaderboard!C4")}&" now - "&${fm("Leaderboard!I4")}&" at the start = "&${fm("Leaderboard!D4")},"")`],
-    ["Best run", "The biggest gain between two runs in a row.", `IFERROR(${nm}&": best was "&${fm("Leaderboard!E4")}&" on "&TEXT(Leaderboard!F4,"d mmm yy"),"Needs two runs")`],
-    ["Avg / day", "Gained divided by the days between their first and last run.", `IFERROR(${nm}&": "&${fm("Leaderboard!D4")}&" over "&(Leaderboard!J4-Leaderboard!H4)&" days = "&${fm("Leaderboard!G4")}&" a day","Needs two runs on different days")`],
-    ["Clan total", "All members' points added up for each run (Points history tab). The line under it is the clan's gain.", `"Latest run: "&${fm(`${HS}${LC}${tr}`)}`],
-    ["Colours", "Green = went up. Red = went down. Grey name = left the clan (kept so the history stays).", `"Top 3 on the Leaderboard are shaded gold, silver and bronze."`]
-  ].forEach((r, i) => {
-    const n = 5 + i;
-    hw.getCell(n, 1).value = r[0]; hw.getCell(n, 2).value = r[1]; hw.getCell(n, 3).value = { formula: r[2] };
-    textRow(hw, n, [r[0], r[1], "x".repeat(70)], 3, hww, i);
-  });
+  const ex = H.list.find((e) => e.here) || H.list[0], exNow = ex ? ex.vals[N - 1] : null, exPrev = ex && N > 1 ? ex.vals[N - 2] : null;
+  const exMonth = ex && thisMonth.find((x) => x[0] === ex.name), here = H.list.filter((e) => e.here), tot = here.reduce((s, e) => s + e.vals[N - 1], 0);
+  const dif = exNow !== null && exPrev !== null && exPrev !== undefined ? exNow - exPrev : null, sg = (n) => (n > 0 ? "+" : n < 0 ? "−" : "") + nf(Math.abs(n));
+  const pct = dif !== null && exPrev ? (dif / exPrev) * 100 : null, upc = (n) => (n > 0 ? ["FFC6EFCE", GRN] : n < 0 ? ["FFFFC7CE", RED] : ["FFFFFFFF", INK]);
+  const nm = ex ? ex.name : "Player";
+  section("What the words mean", "FF5B4BA0", ["Word", "What it means"], [
+    ["Change", "How many points since the last read."],
+    ["Week score", "Your points at the last read before " + DN + "'s reset."],
+    ["Month score", "All your week scores in that month added up."],
+    ["Top 10", "The 10 best each week and each month (Top 10 tab)."],
+    ["Clan total", "Everyone's points added up."]
+  ]);
+  section("Your tabs", "FF2E7D4F", ["Tab", "What it is"], [
+    ["Clan Members", "This read's list. Fix a wrong number here."],
+    ["Top 10", "Best 10 each week and this month. Past months as one line."],
+    ["Points history", "Every read side by side. Keep this tab: the page reads it next time."]
+  ]);
+  section("How the maths works", "FFC55A11", ["What", "Step by step (" + nm + ")", "Looks like"], [
+    dif === null ? ["Change", "• Needs an earlier sheet to compare with.", sw("–", "FFFFFFFF", GREY)]
+      : ["Change", "• " + nm + "'s points now: " + nf(exNow) + "\n• Take away last read: " + nf(exPrev) + "\n• = " + sg(dif), sw(sg(dif), ...upc(dif))],
+    pct === null ? ["% Change", "• Needs an earlier sheet to compare with.", sw("–", "FFFFFFFF", GREY)]
+      : ["% Change", "• Take the change: " + sg(dif) + "\n• Divide by last read: " + nf(exPrev) + "\n• = " + (pct >= 0 ? "+" : "−") + Math.abs(pct).toFixed(1) + "%", sw((pct >= 0 ? "+" : "−") + Math.abs(pct).toFixed(1) + "%", ...upc(pct))],
+    ["Week score", "• Points reset every " + DN + "\n• Your last read before the reset is your week score", sw(nf(exNow || 0), "FFDDEBF7", NAVY)],
+    ["Month score", "• Add up all your week scores in the month\n• " + nm + " this month: " + nf(exMonth ? exMonth[1] : 0), sw(nf(exMonth ? exMonth[1] : 0), "FFEDE4F5", "FF7030A0")],
+    ["Clan total", "• Add up everyone's points: " + nf(tot), sw(nf(tot), "FFE8EDF5", NAVY)],
+    ["Average", "• Clan total ÷ number of members\n• " + nf(tot) + " ÷ " + here.length + " = " + nf(here.length ? tot / here.length : 0), sw(nf(here.length ? tot / here.length : 0), "FFE8EDF5", NAVY)],
+    ["Rank", "• Most points = 1st, next = 2nd, and so on", sw("1st " + nm, "FFFFF2CC", "FF7F6000")]
+  ]);
+  section("Colours", NAVY, ["Colour", "What it means"], [
+    [sw("Gold", "FFFFF2CC", "FF7F6000"), "1st place"], [sw("Silver", "FFEDEDED", "FF404040"), "2nd place"], [sw("Bronze", "FFFBE5D6", "FF843C0C"), "3rd place"],
+    [sw("Green", "FFC6EFCE", GRN), "Went up"], [sw("Red", "FFFFC7CE", RED), "Went down"], [sw("Grey name", "FFFFFFFF", GREY), "Left the clan (kept so the history stays)"],
+    [sw("–", "FFFFFFFF", "FFBFBFBF"), "Not in that read, or nothing to compare yet"]
+  ]);
   return wb;
 }
 
@@ -1461,7 +1442,7 @@ async function pvPost() {
     setMsg("Posting to Discord...");
     await loadExcel();
     let file = null, txt = hookText(false);
-    if (window.ExcelJS) { const buf = await buildWorkbook(window.ExcelJS, rows, prevMap, pv.p, todayText()).xlsx.writeBuffer(), fname = nameOf(pv.p) + ".xlsx"; if ($("hookxlsx").checked) file = { blob: new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), name: fname }; await keepMade(buf, fname); try { txt = dcBreakdown(await readSheet(buf), (n) => Math.round(n).toLocaleString("en-US")); } catch (e) { clog("Breakdown skipped: " + why(e)); } }
+    if (window.ExcelJS) { const buf = await buildWorkbook(window.ExcelJS, rows, prevMap, Object.assign({}, pv.p, { reset: resetDay() }), todayText()).xlsx.writeBuffer(), fname = nameOf(pv.p) + ".xlsx"; if ($("hookxlsx").checked) file = { blob: new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), name: fname }; await keepMade(buf, fname); try { txt = dcBreakdown(await readSheet(buf), (n) => Math.round(n).toLocaleString("en-US")); } catch (e) { clog("Breakdown skipped: " + why(e)); } }
     const pic = await clanPic(rows).catch((e) => { clog("Table picture skipped: " + why(e)); return null; });
     const sent = await dcPost(txt, [pic, file].filter(Boolean));
     setMsg(sent ? "Posted to Discord." : "Posted to Discord. The sheet file could not go, so use Download sheet.");
@@ -1471,7 +1452,7 @@ async function makeSheet(rows, p) {
   let blob, ext = ".xlsx";
   await loadExcel();
   if (window.ExcelJS) {
-    const wb = buildWorkbook(window.ExcelJS, rows, prevMap, p, todayText()), buf = await wb.xlsx.writeBuffer();
+    const wb = buildWorkbook(window.ExcelJS, rows, prevMap, Object.assign({}, p, { reset: resetDay() }), todayText()), buf = await wb.xlsx.writeBuffer();
     blob = new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
     await keepMade(buf, nameOf(p) + ".xlsx");
   } else {

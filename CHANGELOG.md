@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Top 10 tab, clearer Points history, one Help tab
+
+13 Nov 2026 (05:17 UTC) · New
+
+The clan sheet now has a Top 10 tab (this month and each week), a simpler Points history (one row per player) and one Help tab with the maths step by step. Settings has a Points reset day (Friday).
+
+> [!TIP]
+> **What you'll see:** Make a clan sheet with an earlier sheet, then open the Top 10, Points history and Help tabs.
+
+- Leaderboard, About and How it's worked out replaced by Top 10 and Help; Points history one row per player; old sheets still load; reset day in Settings.
+
 ## Sample picture fix
 
 13 Nov 2026 (01:22 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/cf01ecd)

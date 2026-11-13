@@ -23,10 +23,10 @@ To post to Discord, open the **Discord** tab, paste a webhook link (a private li
 - An Excel file named after the game and clan (or the **Clan name** you type), like `Roblox - Gym League - Loki.xlsx`.
 - **Clan Members** tab: coloured ranks and roles, plus **Rank**, **Username**, **Role**, **Points** (as shown, e.g. `52.51K`) and **Points** (number, e.g. `52510`). The number column is a real number, so you can sort and add it.
 - With a last sheet chosen: **Previous Points**, **Change**, **% Change** and a **Trend** arrow (new members show as "new"). These are formulas, so fixing a misread number updates them.
-- **Leaderboard** tab (with an earlier sheet): players ranked by points gained since their first run, with best run and average per day. Gold, silver and bronze for the top 3; players who left are greyed.
+- **Top 10** tab (with an earlier sheet): best 10 this month (week scores added up) and each week; past months one line each.
 - **Points history** tab: one column per run with the gain under each number and a clan total. It is carried forward from the earlier sheet you choose, with no extra AI use. Earlier months fold into one column.
 - A name the AI reads with one wrong letter (6+ letters) counts as the same player as before.
-- **About this sheet** and **How it's worked out** tabs: what each tab and colour means, with worked examples.
+- **Help** tab: what each word, tab and colour means, with the maths step by step.
 - Anyone who appears in more than one picture is listed once.
 
 ## Features
