@@ -3,8 +3,8 @@
 Newest first. The page itself shows only the newest 5. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 ## Discord tab fixes that didn't stick
- · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-13 Nov 2026 (00:50 UTC) · Changed
+
+13 Nov 2026 (00:50 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 Attach box now really starts unticked; No picture saved is grey · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
