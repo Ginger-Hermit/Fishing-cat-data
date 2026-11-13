@@ -1,4 +1,4 @@
-// Patch note: Tap a sample sheet picture to open it full size.
+// Patch note: A sheet made earlier today was saved with only some players, so the next run showed most people as new.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -102,7 +102,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.43";
+const BUILD = "1.1.44";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -924,7 +924,7 @@ $("prevfile").onchange = async (e) => {
     if (!window.ExcelJS) throw new Error("The spreadsheet part did not load. Refresh the page.");
     prevMap = await readPrevious(window.ExcelJS, await f.arrayBuffer());
     prevName = f.name; pendingPrev = null;
-    if (lsGet("fcd_keepprev") !== "0") try { lsSet("fcd_prev", JSON.stringify({ name: prevName, entries: [...prevMap], hist: prevMap.hist })); } catch (e) {}
+    if (lsGet("fcd_keepprev") !== "0") try { lsSet("fcd_prev", JSON.stringify({ name: prevName, entries: [...(prevMap.full || prevMap)], hist: prevMap.hist })); } catch (e) {}
     showPrev();
     clog("Last sheet read: " + prevMap.size + " members.");
   } catch (err) {
@@ -938,8 +938,8 @@ $("prevfile").onchange = async (e) => {
 let pendingPrev = null;
 async function keepMade(buf, name) {
   try { await loadExcel(); const m = await readPrevious(window.ExcelJS, buf); pendingPrev = { m, name };
-    if (lsGet("fcd_keepprev") !== "0") lsSet("fcd_prev", JSON.stringify({ name, entries: [...m], hist: m.hist }));
-    clog("Kept this sheet as your last sheet for next time (" + m.size + " members)."); } catch (e) { clog("Could not keep this sheet as the last one: " + (e && e.message)); }
+    if (lsGet("fcd_keepprev") !== "0") lsSet("fcd_prev", JSON.stringify({ name, entries: [...(m.full || m)], hist: m.hist }));
+    clog("Kept this sheet as your last sheet for next time (" + (m.full || m).size + " members)."); } catch (e) { clog("Could not keep this sheet as the last one: " + (e && e.message)); }
 }
 function adoptPending() { if (!pendingPrev) return; prevMap = pendingPrev.m; prevName = pendingPrev.name; pendingPrev = null; showPrev(); }
 // Remember the last sheet on this device (names and points only), so it does not need picking again.
