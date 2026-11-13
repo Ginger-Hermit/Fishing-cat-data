@@ -2,6 +2,22 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Discord tab tidy-up
+
+13 Nov 2026 (00:49 UTC) · Changed
+
+Excel attach box sits above Post and starts unticked; clearer help text; More options has an arrow
+
+> [!NOTE]
+> **What you'll see:** Discord tab
+
+- Attach box moved above Post to Discord, unticked
+- No picture saved in grey
+- File picker text mentions pictures
+- Role ID help says long-press on phone
+- Stay safe says the Discord link is on the Discord tab
+- More options arrow
+
 ## Easier reading and privacy switches
 
 13 Nov 2026 (00:44 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/e19dce0)

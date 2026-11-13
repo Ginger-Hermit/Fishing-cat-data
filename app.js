@@ -1,4 +1,4 @@
-// Patch note: Settings has an Easier reading option with wider spacing, a Don't save anything switch for shared computers, and a choice of how long a saved key or Discord link is kept. New free checks test the keyboard and the privacy switches.
+// Patch note: Excel attach box sits above Post and starts unticked; clearer help text; More options has an arrow
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -95,7 +95,7 @@ document.getElementById("expire").onchange = () => { lsSet("fcd_expire", documen
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.14";
+const BUILD = "1.1.15";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
