@@ -1,4 +1,4 @@
-// Patch note: Less clutter: the log stays hidden until there is an error
+// Patch note: You can keep the log always visible
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -9,7 +9,7 @@ const PROVIDERS = {
   openai: { name: "OpenAI", model: "gpt-5.5", tested: false, list: "https://platform.openai.com/docs/models" }
 };
 function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
-const LOOK_KEYS = ["fcd_theme", "fcd_size", "fcd_read", "fcd_btn", "fcd_nosave", "fcd_expire", "fcd_reset"];
+const LOOK_KEYS = ["fcd_theme", "fcd_size", "fcd_read", "fcd_btn", "fcd_nosave", "fcd_expire", "fcd_reset", "fcd_showlog"];
 const isSecret = (k) => /^fcd_key_/.test(k) || k === "fcd_hook";
 function lsSet(k, v) {
   if (lsGet("fcd_nosave") === "1" && !LOOK_KEYS.includes(k)) return;
@@ -102,7 +102,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.29";
+const BUILD = "1.1.30";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1890,3 +1890,7 @@ document.addEventListener("click", (e) => {
   e.preventDefault();
   if (confirm("This opens " + u.host + " in a new tab. Open it?")) window.open(u.href, "_blank", "noopener,noreferrer");
 });
+
+(function () { const b = document.getElementById("showlog"), l = document.getElementById("logbox"); if (!b || !l) return;
+  b.checked = lsGet("fcd_showlog") === "1"; if (b.checked) l.hidden = false;
+  b.onchange = () => { lsSet("fcd_showlog", b.checked ? "1" : "0"); l.hidden = !b.checked; }; })();

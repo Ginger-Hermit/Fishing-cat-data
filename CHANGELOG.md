@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Show the log setting
+
+13 Nov 2026 (05:33 UTC) · New
+
+You can keep the log always visible
+
+> [!TIP]
+> **What you'll see:** Settings, Look
+
+- New tick box: Always show the log (What happened)
+
 ## Log shows only when something breaks
 
 13 Nov 2026 (05:32 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/a2c2627)
