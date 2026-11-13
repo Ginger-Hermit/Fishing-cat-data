@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Home now has a short directory of pages, each with its own colour on the tab and side bars. The clan tab has fewer notes and bigger tick boxes, and the tabs no longer get cut off. -->
+<!-- Patch note: Settings has an Easier reading option with wider spacing, a Don't save anything switch for shared computers, and a choice of how long a saved key or Discord link is kept. New free checks test the keyboard and the privacy switches. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -262,7 +262,10 @@
 <div class="hc"><div class="s69">Look</div><div class="s70">Theme</div>
 <div class="tabs" id="themeBtns"></div>
 <div class="s70">Text size</div>
-<div class="s71 tabs" id="sizeBtns"></div></div>
+<div class="s71 tabs" id="sizeBtns"></div>
+<div class="s70">Reading</div>
+<div class="s71 tabs" id="readBtns"></div>
+<div class="s73">Easier: wider spacing between letters and words, and a plainer font.</div></div>
 <div class="hc"><div class="s69">Updates</div>
 <label class="s72" data-d="flex"><input type="checkbox" id="autoref" class="s27"> Refresh automatically when there is an update</label>
 <div class="s73">Only refreshes when no files are picked. Off: you get a banner instead.</div></div>
@@ -270,6 +273,10 @@
 <div class="s74">Saved on this device:</div>
 <div id="saved" class="s75"></div>
 <label class="s76" data-d="flex"><input type="checkbox" id="keepprev" class="s27"> Remember my last sheet</label>
+<label class="s76" data-d="flex"><input type="checkbox" id="nosave" class="s27"> Don't save anything</label>
+<div class="s73">For shared computers. Nothing is remembered, even if you tick Remember.</div>
+<div class="s70">Forget my saved key and link after</div>
+<select id="expire" aria-label="Forget my saved key and link after"><option value="7">7 days</option><option value="30">30 days</option><option value="never">Never</option></select>
 <div class="s77" data-d="flex"><button id="wipekey" type="button" class="tab">Forget my key</button><button id="wipeall" type="button" class="s78 tab">Delete everything saved</button></div>
 <div id="wipemsg" role="status" class="s65"></div>
 <div class="s73">These buttons only clear this device. Nothing is sent anywhere. <a href="#" data-go="privacy">Privacy page</a></div></div>

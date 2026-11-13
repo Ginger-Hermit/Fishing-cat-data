@@ -168,3 +168,5 @@ button:disabled{opacity:.5}
 .keynote{font-size:13px;color:var(--muted);line-height:1.5;margin:8px 0 0}
 #t1{border-bottom:3px solid var(--c-sheet)}#t3{border-bottom:3px solid var(--c-bill)}#t6{border-bottom:3px solid var(--c-discord)}#t5{border-bottom:3px solid var(--c-settings)}
 #keyhelp{display:inline-block;padding:6px 0}
+html[data-read=easy] body,html[data-read=easy] :is(button,input,select,textarea){font-family:Verdana,Tahoma,Arial,sans-serif;letter-spacing:.06em;word-spacing:.12em}
+html[data-read=easy] body{line-height:1.6}

@@ -33,6 +33,10 @@ jobs:
       - run: BROWSERS=${{ matrix.b }} node tests/browser.test.js
       - if: matrix.b == 'chromium'
         run: node tests/a11y.test.js
+      - if: matrix.b == 'chromium'
+        run: node tests/keys.test.js
+      - if: matrix.b == 'chromium'
+        run: node tests/privacy.test.js
       - name: Phone pictures (every tab, newest iPhone and Pixel, light, dark, big text)
         if: always() && matrix.b == 'webkit'
         run: node tests/pictures.js

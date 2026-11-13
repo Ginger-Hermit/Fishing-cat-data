@@ -30,6 +30,13 @@ const THEMES = ["light", "dark", "ocean", "forest", "berry"];
     const w = await big.evaluate(() => document.documentElement.scrollWidth - innerWidth);
     if (w > 0) seen.set("big " + id, "big text/" + id + ": scrolls sideways by " + w + "px");
   }
+  // easier reading (wider spacing) must not push anything sideways either
+  await big.evaluate(() => localStorage.setItem("fcd_read", "easy")); await big.reload();
+  for (const id of await big.$$eval(".tabs.main .tab", (b) => b.map((x) => x.id))) {
+    await big.click("#" + id); await big.waitForTimeout(150);
+    const w = await big.evaluate(() => document.documentElement.scrollWidth - innerWidth);
+    if (w > 0) seen.set("easy " + id, "easier reading/" + id + ": scrolls sideways by " + w + "px");
+  }
   await browser.close();
   for (const s of seen.values()) console.log("FAIL " + s.slice(0, 220));
   console.log(seen.size ? seen.size + " problem(s)." : "PASS no serious problems in " + THEMES.length + " themes.");

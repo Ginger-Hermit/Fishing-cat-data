@@ -1,4 +1,4 @@
-// Patch note: Home now has a short directory of pages, each with its own colour on the tab and side bars. The clan tab has fewer notes and bigger tick boxes, and the tabs no longer get cut off.
+// Patch note: Settings has an Easier reading option with wider spacing, a Don't save anything switch for shared computers, and a choice of how long a saved key or Discord link is kept. New free checks test the keyboard and the privacy switches.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -9,7 +9,22 @@ const PROVIDERS = {
   openai: { name: "OpenAI", model: "gpt-5.5", tested: false }
 };
 function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
-function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+const LOOK_KEYS = ["fcd_theme", "fcd_size", "fcd_read", "fcd_nosave", "fcd_expire"];
+const isSecret = (k) => /^fcd_key_/.test(k) || k === "fcd_hook";
+function lsSet(k, v) {
+  if (lsGet("fcd_nosave") === "1" && !LOOK_KEYS.includes(k)) return;
+  try { localStorage.setItem(k, v); if (isSecret(k)) localStorage.setItem("fcd_stamp", String(Date.now())); } catch (e) {}
+}
+// Saved keys and links forget themselves after the time chosen in Settings (7 days unless changed).
+function expireCheck() {
+  try {
+    const d = lsGet("fcd_expire") || "7", keys = Object.keys(localStorage).filter(isSecret), st = Number(lsGet("fcd_stamp"));
+    if (!keys.length) { localStorage.removeItem("fcd_stamp"); return; }
+    if (!st) { try { localStorage.setItem("fcd_stamp", String(Date.now())); } catch (e) {} return; }
+    if (d !== "never" && Date.now() - st > Number(d) * 864e5) keys.concat("fcd_stamp").forEach((k) => localStorage.removeItem(k));
+  } catch (e) {}
+}
+expireCheck();
 let PROMPT = "";
 function buildPrompt(p) {
   const rankLine = p.ranks ? 'a rank like "#12"' : "no rank number (set rank to 0)";
@@ -54,25 +69,33 @@ showTab("home");
 // Settings: theme and text size, remembered on this device only (never the key).
 const THEMES = [["auto", "Auto"], ["light", "Light"], ["dark", "Dark"], ["ocean", "Ocean"], ["forest", "Forest"], ["berry", "Berry"]];
 const SIZES = [["normal", "Normal"], ["large", "Large"]];
+const READS = [["normal", "Normal"], ["easy", "Easier"]];
 function loadSetting(k, list, d) {
   const v = lsGet(k);
   return list.some(x => x[0] === v) ? v : d;
 }
 let theme = loadSetting("fcd_theme", THEMES, "auto");
 let size = loadSetting("fcd_size", SIZES, "normal");
+let read = loadSetting("fcd_read", READS, "normal");
 function applyLook() {
   const dark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
   document.documentElement.dataset.theme = theme === "auto" ? (dark ? "dark" : "light") : theme;
   document.documentElement.dataset.size = size;
-  for (const [box, list, cur] of [["themeBtns", THEMES, theme], ["sizeBtns", SIZES, size]]) {
+  document.documentElement.dataset.read = read;
+  for (const [box, list, cur] of [["themeBtns", THEMES, theme], ["sizeBtns", SIZES, size], ["readBtns", READS, read]]) {
     document.getElementById(box).innerHTML = list.map(x => `<button class="tab${x[0] === cur ? " on" : ""}" data-v="${x[0]}">${x[1]}</button>`).join("");
   }
 }
 document.getElementById("themeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { theme = v; lsSet("fcd_theme", v); applyLook(); } };
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
+document.getElementById("nosave").checked = lsGet("fcd_nosave") === "1";
+document.getElementById("nosave").onchange = () => { lsSet("fcd_nosave", document.getElementById("nosave").checked ? "1" : "0"); if (document.getElementById("nosave").checked) wipe("private"); renderSaved(); };
+document.getElementById("expire").value = lsGet("fcd_expire") || "7";
+document.getElementById("expire").onchange = () => { lsSet("fcd_expire", document.getElementById("expire").value); expireCheck(); renderSaved(); };
+document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.8";
+const BUILD = "1.1.9";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -270,7 +293,7 @@ function renderSaved() {
   if (keys.includes("fcd_hook")) lines.push("Discord link");
   if (keys.includes("fcd_art")) lines.push("Discord header picture");
   if (keys.some(k => k.startsWith("fcd_model_"))) lines.push("AI model name");
-  if (keys.some(k => ["fcd_theme", "fcd_size", "fcd_autoref", "fcd_provider", "fcd_hookxlsx", "fcd_pingmode", "fcd_pingrole"].includes(k))) lines.push("Look and settings");
+  if (keys.some(k => ["fcd_theme", "fcd_size", "fcd_read", "fcd_nosave", "fcd_expire", "fcd_autoref", "fcd_provider", "fcd_hookxlsx", "fcd_pingmode", "fcd_pingrole"].includes(k))) lines.push("Look and settings");
   const box = $("saved"); box.replaceChildren();
   (lines.length ? lines : ["Nothing saved."]).forEach(t => { const d = document.createElement("div"); d.textContent = (lines.length ? "\u2022 " : "") + t; box.appendChild(d); });
   $("keepprev").checked = lsGet("fcd_keepprev") !== "0";
@@ -279,11 +302,11 @@ function renderSaved() {
 }
 $("keepprev").onchange = () => { lsSet("fcd_keepprev", $("keepprev").checked ? "1" : "0"); if (!$("keepprev").checked) { try { localStorage.removeItem("fcd_prev"); } catch (e) {} } renderSaved(); };
 function wipe(what) {
-  try { savedKeys().filter(k => what === "all" || k.startsWith("fcd_key_")).forEach(k => localStorage.removeItem(k)); } catch (e) {}
+  try { savedKeys().filter(k => (what === "all" && k !== "fcd_nosave" && k !== "fcd_expire") || (what === "private" && !LOOK_KEYS.includes(k)) || k.startsWith("fcd_key_")).forEach(k => localStorage.removeItem(k)); } catch (e) {}
   $("key").value = ""; $("remember").checked = false;
-  if (what === "all") { hookNow = ""; prevMap = null; prevName = ""; showPrev(); $("clanbox").value = ""; }
+  if (what !== "key") { hookNow = ""; prevMap = null; prevName = ""; showPrev(); $("clanbox").value = ""; }
   refresh(); renderSaved();
-  $("wipemsg").textContent = what === "all" ? "Everything saved on this device was deleted." : "Your key was forgotten.";
+  $("wipemsg").textContent = what !== "key" ? "Everything saved on this device was deleted." : "Your key was forgotten.";
 }
 const confirmTap = (id, label, fn) => { let t = 0; $(id).onclick = () => { if (t) { clearTimeout(t); t = 0; $(id).textContent = label; fn(); return; } $(id).textContent = "Tap again to confirm"; t = setTimeout(() => { t = 0; $(id).textContent = label; }, 4000); }; };
 confirmTap("wipekey", "Forget my key", () => wipe("key"));
@@ -310,7 +333,7 @@ function applyProvider(clearKey) {
 function keepKey() {
   const id = provider(), on = $("remember").checked;
   $("remnote").style.display = on ? "block" : "none";
-  try { if (on && $("key").value.trim()) localStorage.setItem("fcd_key_" + id, $("key").value.trim()); else localStorage.removeItem("fcd_key_" + id); } catch (e) {}
+  try { if (on && $("key").value.trim()) lsSet("fcd_key_" + id, $("key").value.trim()); else localStorage.removeItem("fcd_key_" + id); } catch (e) {}
 }
 $("remember").onchange = keepKey;
 function bugReport(skipPrivate) {
@@ -893,7 +916,7 @@ $("prevfile").onchange = async (e) => {
     if (!window.ExcelJS) throw new Error("The spreadsheet part did not load. Refresh the page.");
     prevMap = await readPrevious(window.ExcelJS, await f.arrayBuffer());
     prevName = f.name; pendingPrev = null;
-    if (lsGet("fcd_keepprev") !== "0") try { localStorage.setItem("fcd_prev", JSON.stringify({ name: prevName, entries: [...prevMap], hist: prevMap.hist })); } catch (e) {}
+    if (lsGet("fcd_keepprev") !== "0") try { lsSet("fcd_prev", JSON.stringify({ name: prevName, entries: [...prevMap], hist: prevMap.hist })); } catch (e) {}
     showPrev();
     clog("Last sheet read: " + prevMap.size + " members.");
   } catch (err) {
@@ -907,7 +930,7 @@ $("prevfile").onchange = async (e) => {
 let pendingPrev = null;
 async function keepMade(buf, name) {
   try { await loadExcel(); const m = await readPrevious(window.ExcelJS, buf); pendingPrev = { m, name };
-    if (lsGet("fcd_keepprev") !== "0") localStorage.setItem("fcd_prev", JSON.stringify({ name, entries: [...m], hist: m.hist }));
+    if (lsGet("fcd_keepprev") !== "0") lsSet("fcd_prev", JSON.stringify({ name, entries: [...m], hist: m.hist }));
     clog("Kept this sheet as your last sheet for next time (" + m.size + " members)."); } catch (e) { clog("Could not keep this sheet as the last one: " + (e && e.message)); }
 }
 function adoptPending() { if (!pendingPrev) return; prevMap = pendingPrev.m; prevName = pendingPrev.name; pendingPrev = null; showPrev(); }
@@ -1226,7 +1249,7 @@ const dcBreakdown = (sh, f) => {
   return t;
 };
 const HOOK_RE = /^https:\/\/discord\.com\/api\/webhooks\/\d+\/[\w-]+$/;
-const setHook = (v) => { hookNow = v; try { if (v && $("hookkeep").checked) localStorage.setItem("fcd_hook", v); else localStorage.removeItem("fcd_hook"); } catch (e) {} };
+const setHook = (v) => { hookNow = v; try { if (v && $("hookkeep").checked) lsSet("fcd_hook", v); else localStorage.removeItem("fcd_hook"); } catch (e) {} };
 $("hookbox").onchange = () => { const v = $("hookbox").value.trim(); if (v && !HOOK_RE.test(v)) { $("hookchk").textContent = "That doesn't look like a Discord webhook link. Copy it again."; return; } setHook(v); $("hookchk").textContent = v ? "Ready." : "Removed."; renderSaved(); if (pv) pvDraw(); };
 if (lsGet("fcd_pingmode") !== "role") { try { localStorage.removeItem("fcd_pingmode"); } catch (e) {} } $("dcping").value = lsGet("fcd_pingmode") === "role" ? "role" : ""; $("dcrole").value = lsGet("fcd_pingrole") || "";
 const dcPingShow = () => { const on = $("dcping").value === "role"; if (on) $("dcmore").open = true; $("dcrole").style.display = on ? "" : "none"; $("dcrolehelp").style.display = on ? "" : "none"; };
@@ -1280,7 +1303,7 @@ $("artfile").onchange = () => {
   const f = $("artfile").files[0]; if (!f) return; const u = URL.createObjectURL(f), i = new Image();
   i.onload = () => { try {
     const w = Math.min(900, i.naturalWidth), c = document.createElement("canvas"); c.width = w; c.height = Math.round(i.naturalHeight * w / i.naturalWidth);
-    c.getContext("2d").drawImage(i, 0, 0, c.width, c.height); localStorage.setItem("fcd_art", c.toDataURL("image/jpeg", 0.85)); clog("Header picture saved (" + c.width + "x" + c.height + ")."); $("artmsg").textContent = "\u2713 File selected: " + f.name + ". Saved on this device."; renderSaved();
+    c.getContext("2d").drawImage(i, 0, 0, c.width, c.height); lsSet("fcd_art", c.toDataURL("image/jpeg", 0.85)); clog("Header picture saved (" + c.width + "x" + c.height + ")."); $("artmsg").textContent = "\u2713 File selected: " + f.name + ". Saved on this device."; renderSaved();
   } catch (e) { clog("Header picture not saved: " + (e && e.name)); $("artmsg").textContent = "Too big to keep. Try a smaller picture."; } URL.revokeObjectURL(u); $("artfile").value = ""; };
   i.onerror = () => { $("artmsg").textContent = "That picture would not open."; URL.revokeObjectURL(u); };
   i.src = u;
