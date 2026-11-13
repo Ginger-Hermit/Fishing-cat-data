@@ -1,4 +1,4 @@
-// Patch note: A Share button next to Post to Discord opens your phone's share menu with the post picture. On a PC it saves the picture.
+// Patch note: The example post picture on the Discord tab now shows instead of a broken picture.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -99,7 +99,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.23";
+const BUILD = "1.1.24";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1313,8 +1313,8 @@ async function hookSend(text, file, quiet) {
   return fileSent;
 }
 // ---- Table picture for Discord: drawn on a canvas here, no AI, no package ----
-function artShow() { const d = lsGet("fcd_art"), t = $("artthumb"); $("artforget").style.display = d ? "" : "none"; if (!d) $("artmsg").textContent = "No picture saved."; t.style.display = d ? "" : "none"; if (d) t.src = d; if (d && !$("artmsg").textContent) $("artmsg").textContent = "Picture saved on this device."; artSample(); }
-let artUrl = "";
+function artShow() { setTimeout(artSample, 0); const d = lsGet("fcd_art"), t = $("artthumb"); $("artforget").style.display = d ? "" : "none"; if (!d) $("artmsg").textContent = "No picture saved."; t.style.display = d ? "" : "none"; if (d) t.src = d; if (d && !$("artmsg").textContent) $("artmsg").textContent = "Picture saved on this device."; }
+var artUrl = "";
 async function artSample() { try { const r = [["Ann", "Leader", "223.8K", "+6,590"], ["Bo", "Officer", "207K", "+1,440"], ["Cat", "Member", "93.4K", "+410"], ["Dee", "Member", "5.7K", "new"]].map((x, i) => ({ rk: i + 1, name: x[0], role: x[1], points: x[2], ch: [x[3], x[3] === "new" ? "#7cc4ff" : "#57d17a"] })); const p = await rowsPic(r, "Your clan", "Example · 4 members", "x.png"); if (artUrl) URL.revokeObjectURL(artUrl); artUrl = URL.createObjectURL(p.blob); $("artsample").src = artUrl; } catch (e) {} }
 const artLoad = () => new Promise((ok) => { const d = lsGet("fcd_art"); if (!d) return ok(null); const i = new Image(); i.onload = () => ok(i); i.onerror = () => ok(null); i.src = d; });
 $("artfile").onchange = () => {

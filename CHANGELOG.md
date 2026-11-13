@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Sample picture fix
+
+13 Nov 2026 (01:22 UTC) · Changed
+
+The example post picture on the Discord tab now shows instead of a broken picture.
+
+> [!NOTE]
+> **What you'll see:** Discord tab, Header picture
+
+- Example picture drawn after the page starts
+
 ## Share button
 
 13 Nov 2026 (01:21 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/f3d4372)
