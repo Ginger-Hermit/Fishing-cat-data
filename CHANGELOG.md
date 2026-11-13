@@ -1,10 +1,10 @@
 # Fishing Cat Data: every update
 
-Newest first. The page itself shows only the newest 5. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+Newest first. The page itself shows only the newest 5.
 
 ## Header picture sample
 
-13 Nov 2026 (01:17 UTC) · New
+13 Nov 2026 (01:17 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/58735f3)
 
 Settings shows a small example of how your Discord post picture looks, with your header picture on top.
 
