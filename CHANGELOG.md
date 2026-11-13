@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Warns about an earlier sheet from another clan
+
+13 Nov 2026 (07:16 UTC) · New
+
+If the earlier sheet is for a different clan, the page says so and leaves it out, so histories don't mix.
+
+> [!TIP]
+> **What you'll see:** Clan sheet, earlier sheet
+
+- clanCheck compares the earlier sheet's file name with the clan read
+
 ## Discord post shows Points history again
 
-13 Nov 2026 (07:13 UTC) · Changed
+13 Nov 2026 (07:13 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/f7bacfe)
 
 Posting a sheet to Discord shows the Points history part again.
 

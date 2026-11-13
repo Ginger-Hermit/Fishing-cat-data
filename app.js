@@ -1,4 +1,4 @@
-// Patch note: Posting a sheet to Discord shows the Points history part again.
+// Patch note: If the earlier sheet is for a different clan, the page says so and leaves it out, so histories don't mix.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -102,7 +102,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.56";
+const BUILD = "1.1.57";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -941,6 +941,13 @@ async function keepMade(buf, name) {
     if (lsGet("fcd_keepprev") !== "0") lsSet("fcd_prev", JSON.stringify({ name, entries: [...(m.full || m)], hist: m.hist }));
     clog("Kept this sheet as your last sheet for next time (" + (m.full || m).size + " members)."); } catch (e) { clog("Could not keep this sheet as the last one: " + (e && e.message)); }
 }
+// Earlier sheet from a different clan (its file name starts with the clan): leave it out so histories don't mix.
+function clanCheck(p) {
+  if (!prevMap || !p || !p.clan) return; const nm = prevName.replace(/\.xlsx$/i, ""), cut = nm.indexOf(" - "); if (cut < 1) return;
+  const was = nm.slice(0, cut).trim(), now = String(p.clan).trim(); if (was.toLowerCase() === now.toLowerCase()) return;
+  prevMap = null; prevName = ""; try { localStorage.removeItem("fcd_prev"); } catch (e) {} showPrev();
+  const msg = "That earlier sheet is for " + was + ", not " + now + ". Its history won't be mixed in."; const w = document.createElement("span"); w.className = "warn"; w.textContent = msg; $("previnfo").replaceChildren(w); clog(msg);
+}
 function adoptPending() { if (!pendingPrev) return; prevMap = pendingPrev.m; prevName = pendingPrev.name; pendingPrev = null; showPrev(); }
 // Remember the last sheet on this device (names and points only), so it does not need picking again.
 try {
@@ -1176,7 +1183,7 @@ $("testgo").onclick = async () => {
     const bad = rows.filter(r => r.name === "?" || parsePoints(r.points) === null).length;
     if (p.ranks === false) rows.forEach((r, i) => { r.rank = i + 1; });
     const shown = (text.match(/"members_on_screen"\s*:\s*(\d+)/) || [])[1];
-    adoptPending(); pv = { rows: rows.map(r => ({ ...r })), orig: rows.map(r => ({ ...r })), p, shown };
+    adoptPending(); clanCheck(p); pv = { rows: rows.map(r => ({ ...r })), orig: rows.map(r => ({ ...r })), p, shown };
     pvDraw();
     setMsg("Test OK: " + rows.length + " rows from the first file. Nothing was downloaded.");
   } catch (err) { clog("Test stopped: " + err.message); setMsg(plain(err), true); }
@@ -1582,7 +1589,7 @@ $("go").onclick = async () => {
     const shown = (text.match(/"members_on_screen"\s*:\s*(\d+)/) || [])[1];
     clog("Found " + rows.length + " unique row(s).");
     if (!rows.length) throw new Error("No member rows were found. The pictures may not show the member list.");
-    adoptPending(); pv = { rows: rows.map(r => ({ ...r })), orig: rows.map(r => ({ ...r })), p, shown };
+    adoptPending(); clanCheck(p); pv = { rows: rows.map(r => ({ ...r })), orig: rows.map(r => ({ ...r })), p, shown };
     pvDraw();
     const bad = rows.filter(r => r.name === "?" || parsePoints(r.points) === null).length;
     let last = 0, order = false;
