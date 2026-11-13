@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Cleaner Roblox tab
+
+13 Nov 2026 (05:36 UTC) · Changed
+
+Steps have round number badges, key shows saved, More lists what is inside
+
+> [!NOTE]
+> **What you'll see:** Roblox clan sheet tab
+
+- Step badges, key saved tick, More as bullet list
+
 ## Show the log setting
 
 13 Nov 2026 (05:33 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/dced555)

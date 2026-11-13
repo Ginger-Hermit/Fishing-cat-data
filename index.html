@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: You can keep the log always visible -->
+<!-- Patch note: Steps have round number badges, key shows saved, More lists what is inside -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -77,7 +77,7 @@
 </div>
 <div id="introbox" data-d="none"><p id="introtxt" class="s22"></p>
 </div>
-<div id="keybox"><details id="keydet" open><summary class="s24">1. AI company and key</summary>
+<div id="keybox"><details id="keydet" open><summary class="s24"><span class="stepn">1</span>AI key <span id="keyok" class="keyok"></span></summary>
 <label for="provider">AI company</label>
 <select id="provider"><option value="gemini">Google Gemini</option><option value="anthropic">Anthropic (Claude)</option><option value="openai">OpenAI (untested)</option></select>
 <div id="untested" class="warnbox" data-d="none">Heads up: this one has not been tested yet. It might not work. If it fails, tap the big Copy error button under the red message and send it to the author.</div>
@@ -89,7 +89,7 @@
 <div class="keynote">Your key stays on this device and goes only to the AI company you pick. <a href="#" data-go="safety">More</a></div>
 </details></div>
 <div id="sheet" data-d="none">
-<details id="adddet" open class="s30"><summary>2. Add screenshots</summary>
+<details id="adddet" open class="s30"><summary><span class="stepn">2</span>Add screenshots</summary>
 <label for="clanbox">Clan name (optional)</label>
 <input id="clanbox" maxlength="40" autocomplete="off" placeholder="e.g. Loki. Used in the file name">
 <label>Screenshots</label>
@@ -99,7 +99,7 @@
 <div id="list"></div>
 </details>
 <button id="go" disabled>Make my sheet</button>
-<details id="moreopts"><summary class="s31">More options (last sheet, test)</summary>
+<details id="moreopts"><summary class="s31">More<span class="mli">Add last sheet (for history)</span><span class="mli">Test run (small read, no file)</span></summary>
 <label>Last sheet (optional)</label>
 <div class="drop" id="prevdrop">Tap to choose an earlier sheet (.xlsx) to compare</div>
 <input id="prevfile" type="file" accept=".xlsx" hidden>
@@ -148,7 +148,7 @@
 </div>
 </div>
 <div id="billtab" data-d="none">
-<details id="addbill" open class="s30"><summary>2. Add bills</summary>
+<details id="addbill" open class="s30"><summary><span class="stepn">2</span>Add bills</summary>
 <div class="s59 warnbox"><b class="s60">Bills are private.</b> Your name, address and account number are in the photo, and the whole photo is sent to the AI company you pick. Only upload your own bills.</div>
 <label>Bill photos</label>
 <div class="drop" id="billdrop">Tap to add photos or PDFs of bills</div>

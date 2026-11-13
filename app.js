@@ -1,4 +1,4 @@
-// Patch note: You can keep the log always visible
+// Patch note: Steps have round number badges, key shows saved, More lists what is inside
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -102,7 +102,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.30";
+const BUILD = "1.1.31";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -319,7 +319,7 @@ const confirmTap = (id, label, fn) => { let t = 0; $(id).onclick = () => { if (t
 confirmTap("wipekey", "Forget my key", () => wipe("key"));
 confirmTap("wipeall", "Delete everything saved", () => wipe("all"));
 renderSaved();
-$("key").oninput = () => { refresh(); if ($("remember").checked) keepKey(); };
+$("key").oninput = () => { keyOk(); refresh(); if ($("remember").checked) keepKey(); };
 
 function provider() { return $("provider").value; }
 function modelFor(id) { const m = (lsGet("fcd_model_" + id) || "").trim(); return /^[\w.\-]{1,80}$/.test(m) ? m : PROVIDERS[id].model; } // odd characters could change the web address
@@ -1882,6 +1882,8 @@ $("billgo").onclick = async () => {
   }
 };
 $("keydet").open = !$("key").value.trim();
+function keyOk() { $("keyok").textContent = $("key").value.trim() ? "\u2713 ready" : ""; }
+keyOk();
 // Ask before opening any other website.
 document.addEventListener("click", (e) => {
   const a = e.target.closest && e.target.closest("a[href]"); if (!a || a.dataset.go) return;

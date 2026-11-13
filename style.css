@@ -190,3 +190,6 @@ details#moreopts>summary,details#logbox>summary{border:0!important;background:no
 details#keydet>summary,details#adddet>summary,details#addbill>summary,details#hookblock>summary{background:var(--field);border-radius:0 8px 8px 0;font-size:17px!important;margin-top:18px}
 details#moreopts>summary{background:var(--field);border-left:3px solid var(--c-sheet)!important;border-radius:0 8px 8px 0;font-size:17px!important;font-weight:600;color:inherit;padding:12px 14px;margin-top:18px}
 #msg{overflow-wrap:anywhere}
+.stepn{display:inline-flex;width:22px;height:22px;border-radius:50%;background:var(--field);color:var(--link);font-size:13px;font-weight:700;align-items:center;justify-content:center;margin-right:8px;flex:none}
+.keyok{color:#2a8a4a;font-weight:400;font-size:14px;margin-left:8px}
+#moreopts>summary{flex-wrap:wrap}.mli{display:list-item;list-style:disc inside;width:100%;font-weight:400;opacity:.8;padding-left:6px}#moreopts[open] .mli{display:none}
