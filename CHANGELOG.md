@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Page directory and calmer clan tab
+
+13 Nov 2026 (00:36 UTC) · Changed
+
+Home now has a short directory of pages, each with its own colour on the tab and side bars. The clan tab has fewer notes and bigger tick boxes, and the tabs no longer get cut off.
+
+> [!NOTE]
+> **What you'll see:** Home and Roblox clan sheet tabs
+
+- Added a page directory with per-page colours, wrapped the tab row, folded the can and can't do lists, merged key notes, numbered clan steps, enlarged the Remember my key tick box and the key link
+
 ## 12-hour time in sheet names
 
-13 Nov 2026 (00:02 UTC) · Changed
+13 Nov 2026 (00:02 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/81b5b01)
 
 Sheet names use normal time, like 'Loki - 13 Nov 2026 2.05pm.xlsx'.
 

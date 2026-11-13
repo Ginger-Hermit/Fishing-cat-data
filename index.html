@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Sheet names use normal time, like 'Loki - 13 Nov 2026 2.05pm.xlsx'. -->
+<!-- Patch note: Home now has a short directory of pages, each with its own colour on the tab and side bars. The clan tab has fewer notes and bigger tick boxes, and the tabs no longer get cut off. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -14,9 +14,17 @@
 <div id="newver" role="status" class="s2" data-d="none">New version ready. <a href="#" id="reloadnow">Refresh now</a></div>
 <div class="tabs main"><button id="t0" class="tab on">Home</button><button id="t1" class="tab">Roblox clan sheet</button><button id="t3" class="tab">Bills</button><button id="t6" class="tab">Discord</button><button id="t4" class="tab">GitHub</button><button id="t5" class="tab">Settings</button></div>
 <div id="hometab">
-<p class="s3"><a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">Guide on GitHub</a> &middot; <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Free key from Google (opens Google)</a></p>
-<h2 class="s4">Fishing Cat Data turns screenshots into spreadsheets</h2>
-<p>Take screenshots (or a screen recording) of your Roblox clan's member list, or photos of a bill. An AI reads them and gives you an Excel file. Nobody has to type anything.</p>
+<h2 class="s4">Turn screenshots into spreadsheets</h2>
+<p>Take screenshots of your Roblox clan list, or photos of a bill. An AI reads them and gives you an Excel file.</p>
+<div class="dir">
+<a href="#" data-go="sheet" class="dcard dc-sheet"><b>Roblox clan sheet</b><span>Clan screenshots into an Excel sheet.</span></a>
+<a href="#" data-go="bill" class="dcard dc-bill"><b>Bills</b><span>Photos of bills into a sheet.</span></a>
+<a href="#" data-go="discord" class="dcard dc-discord"><b>Discord</b><span>Post a sheet to your channel.</span></a>
+<a href="#" data-go="settings" class="dcard dc-settings"><b>Settings</b><span>Theme, text size, what is saved.</span></a>
+<a href="#" data-go="help" class="dcard dc-help"><b>GitHub</b><span>The guide, code and update history.</span></a>
+</div>
+<div class="hc colbox">Each page has its own colour. You see it on the tab and the side bars, so you always know where you are.</div>
+<details class="s9 hsec"><summary class="s10">What it can and can't do</summary>
 <div class="s5">What it can do</div>
 <ul class="s6">
 <li>Make a clan sheet for any Roblox game and show who gained points since last time.</li>
@@ -31,10 +39,8 @@
 <li>It has no accounts and keeps nothing online. Your history lives in the Excel file you keep.</li>
 <li>It isn't financial advice, and it isn't an official Roblox, Google or Anthropic product.</li>
 </ul>
-<button data-go="sheet">Make a Roblox clan sheet</button>
-<button data-go="bill" class="s7 tab">Read my bills</button>
-<div class="s8">Bills works for power, gas, water, internet and phone. Photos or PDFs.</div>
-<details open class="s9 hsec"><summary class="s10">How to use it</summary>
+</details>
+<details class="s9 hsec"><summary class="s10">How to use it</summary>
 <ol class="s11 steps">
 <li>Get a free key from Google. It works like a password that lets this page read your pictures. It takes about 1 minute. <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Get my free key</a>, then paste it in the box on the next screen.</li>
 <li>Add screenshots of your clan's member list, or a screen recording of you scrolling it slowly (about 1 second per 5 members).</li>
@@ -60,15 +66,6 @@
 </ul>
 <p class="s16"><a href="#" data-go="safety">More on staying safe</a></p></div>
 </details>
-<details class="s9 hsec"><summary class="s10">What the colours mean</summary>
-<ul class="s17">
-<li><b class="s18">Blue</b>: your AI company and key.</li>
-<li><b class="s19">Green</b>: More options (last sheet, test).</li>
-<li><b class="s20">Purple</b>: posting to Discord.</li>
-<li><b class="s21">Grey</b>: the Log, for fixing problems.</li>
-<li>Tap a bar with an arrow to open it.</li>
-</ul>
-</details>
 <details class="s9 hsec"><summary class="s10">Good to know</summary>
 <ul class="s17">
 <li>The free Google key has a daily limit. If it runs out, wait until tomorrow.</li>
@@ -78,21 +75,21 @@
 </ul>
 </details>
 </div>
-<div id="introbox" data-d="none"><p id="introtxt" class="s22"></p><div id="opthint" class="s23">Looking for your last sheet or the Log? They are under the small arrows (▸). Discord posting has its own tab.</div>
+<div id="introbox" data-d="none"><p id="introtxt" class="s22"></p>
 </div>
-<div id="keybox"><details id="keydet" open><summary class="s24">AI company and key</summary>
+<div id="keybox"><details id="keydet" open><summary class="s24">1. AI company and key</summary>
 <label for="provider">AI company</label>
 <select id="provider"><option value="gemini">Google Gemini</option><option value="anthropic">Anthropic (Claude)</option><option value="openai">OpenAI (untested)</option></select>
 <div id="untested" class="warnbox" data-d="none">Heads up: this one has not been tested yet. It might not work. If it fails, tap the big Copy error button under the red message and send it to the author.</div>
 <label for="key" id="keylabel">Your AI key (Google Gemini)</label> <a id="keyhelp" href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" class="s25">How to get a free key</a>
-<div id="keylimit" class="note" data-d="none">The free key has a daily limit. If it runs out, wait until the next day.</div>
 <input id="key" type="password" placeholder="Paste key here" autocomplete="off" spellcheck="false" autocapitalize="off" data-lpignore="true" data-1p-ignore="true">
 <label class="s26 rem" data-d="flex"><input type="checkbox" id="remember" class="s27"> Remember my key on this device</label>
 <div id="remnote" class="s28" data-d="none">Saved only in this browser, never sent anywhere else. Don't tick this on a shared or public computer. Untick to delete it.</div>
-<div class="s29 hc"><b>Your key is safe here.</b> It stays on this device and goes only to the AI company you pick. Treat it like a password. <a href="#" data-go="safety">More</a></div>
+<div id="keylimit" class="keynote" data-d="none">The free key has a daily limit. If it runs out, wait until the next day.</div>
+<div class="keynote"><b>Your key is safe here.</b> It stays on this device and goes only to the AI company you pick. Treat it like a password. <a href="#" data-go="safety">More</a></div>
 </details></div>
 <div id="sheet" data-d="none">
-<details id="adddet" open class="s30"><summary>Add screenshots</summary>
+<details id="adddet" open class="s30"><summary>2. Add screenshots</summary>
 <label for="clanbox">Clan name (optional)</label>
 <input id="clanbox" maxlength="40" autocomplete="off" placeholder="e.g. Loki. Used in the file name">
 <label>Screenshots</label>

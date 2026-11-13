@@ -1,4 +1,4 @@
-// Patch note: Sheet names use normal time, like 'Loki - 13 Nov 2026 2.05pm.xlsx'.
+// Patch note: Home now has a short directory of pages, each with its own colour on the tab and side bars. The clan tab has fewer notes and bigger tick boxes, and the tabs no longer get cut off.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -36,7 +36,7 @@ function showTab(which) {
   if (which === "sheet" || which === "bill") { const t = document.getElementById(which === "bill" ? "billtab" : "sheet"); t.appendChild(document.getElementById("logbox")); lastKind = which; }
   if (which === "discord") { const r = document.querySelector('input[name=dcsrc]:checked'); if (!r) document.querySelector('input[name=dcsrc][value='+(pv ? "sheet" : bp ? "bill" : "files")+']').checked = true; dcShow(); }
   if (which === "settings") { renderSaved(); $("wipemsg").textContent = ""; }
-  { const ib = document.getElementById("introbox"), on = which === "sheet" || which === "bill"; ib.style.display = on ? "" : "none"; if (on) { document.getElementById("introtxt").textContent = which === "bill" ? "Turns photos of household bills (any kind, any country) into a sheet with a summary. Pick your AI company and key, add your bills, and download the Excel file." : "Turns screenshots or a video of your Roblox clan list (any Roblox game) into an Excel sheet. Pick your AI company and key, add your screenshots, and tap Make my sheet. Each new sheet is compared with your last one to show who gained points."; document.getElementById("opthint").style.display = which === "bill" || pv ? "none" : ""; } }
+  { const ib = document.getElementById("introbox"), on = which === "sheet" || which === "bill"; ib.style.display = on ? "" : "none"; if (on) { document.getElementById("introtxt").textContent = which === "bill" ? "Turns photos of household bills into a sheet with a summary." : "Turns screenshots or a video of your Roblox clan list into an Excel sheet."; } }
   document.getElementById("keybox").style.display = which === "sheet" || which === "bill" ? "" : "none";
 }
 document.querySelector(".tabs").setAttribute("role", "tablist");
@@ -72,7 +72,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.7";
+const BUILD = "1.1.8";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -296,7 +296,7 @@ function modelFor(id) { const m = (lsGet("fcd_model_" + id) || "").trim(); retur
 function applyProvider(clearKey) {
   const id = provider(), p = PROVIDERS[id];
   $("keylabel").textContent = "Your AI key (" + p.name + ")";
-  $("keyhelp").style.display = id === "gemini" ? "inline" : "none";
+  $("keyhelp").style.display = id === "gemini" ? "inline-block" : "none";
   $("keylimit").style.display = id === "gemini" ? "block" : "none";
   $("untested").style.display = p.tested ? "none" : "block";
   $("modelbox").placeholder = p.model;
@@ -1451,7 +1451,7 @@ async function pvDownload() {
   } catch (err) { clog("Stopped: " + why(err)); setMsg(plain(err), true); }
 }
 function pvDraw() {
-  $("opthint").style.display = pv ? "none" : "";
+  
   const box = $("preview");
   box.replaceChildren();
   box.style.display = pv ? "" : "none";
