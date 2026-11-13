@@ -11,7 +11,7 @@ The colour guide says blue shows on PC only.
 > [!NOTE]
 > **What you'll see:** Post to Discord
 
-- Note under colour guide
+- Note under colour guide [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/f06ac60)
 
 ## No change names in blue
 
