@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Bill amounts with dots
+
+13 Nov 2026 (00:26 UTC) · Changed
+
+Amounts like 1.234.567 are no longer left blank
+
+> [!NOTE]
+> **What you'll see:** Bills tab
+
+- parseNum treats repeated 3-digit dot groups as thousands
+
 ## Bill amounts with spaces
 
-13 Nov 2026 (00:25 UTC) · Changed
+13 Nov 2026 (00:25 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6f518ba)
 
 Amounts like 1 234,56 are read correctly
 

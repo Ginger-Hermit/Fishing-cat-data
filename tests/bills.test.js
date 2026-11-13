@@ -43,4 +43,5 @@ A.equal(Math.round(b[0].lines.reduce((t,l)=>t+l.amount,0)*100)/100,139.69);
 const c=parseBills(full.slice(0,full.indexOf("W2")+6));A.ok(c.cut);A.equal(c.length,1);A.equal(c[0].lines.length,1);
 const c2=parseBills(full.slice(0,full.indexOf("W3")-5));A.ok(c2.cut);A.equal(c2[0].lines.length,2);A.ok(!parseBills(full).cut);}
 A.equal(parseNum("1 234,56"),1234.56);A.equal(parseNum("€ 12 345.00"),12345);
+A.equal(parseNum("1.234.567"),1234567);A.equal(parseNum("1.234.567,89"),1234567.89);A.equal(parseNum("1,234.56"),1234.56);
 console.log("bill tests ok");

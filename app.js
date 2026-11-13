@@ -1,4 +1,4 @@
-// Patch note: Amounts like 1 234,56 are read correctly
+// Patch note: Amounts like 1.234.567 are no longer left blank
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -72,7 +72,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.8";
+const BUILD = "1.1.9";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1554,7 +1554,7 @@ function parseNum(v, mark) {
   if (!m) return null;
   const neg = /^\(.*\)$/.test(s) || /(^|[^a-z])cr\b/i.test(s) || /[-−]/.test(s.replace(/[\d.,\s]+.*$/, "")) || /[-−]\s*$/.test(s);
   let t = m[0].replace(/[.,]+$/, "");
-  if (mark !== "," && mark !== ".") mark = t.lastIndexOf(",") > t.lastIndexOf(".") && (t.includes(".") || /,\d{1,2}$/.test(t)) ? "," : ".";
+  if (mark !== "," && mark !== ".") mark = /^\d{1,3}(\.\d{3}){2,}(,\d+)?$/.test(t) || t.lastIndexOf(",") > t.lastIndexOf(".") && (t.includes(".") || /,\d{1,2}$/.test(t)) ? "," : ".";
   t = mark === "," ? t.replace(/\./g, "").replace(",", ".") : t.replace(/,/g, "");
   if (!/^(\d+(\.\d+)?|\.\d+)$/.test(t)) return null;
   return (neg ? -1 : 1) * parseFloat(t);
