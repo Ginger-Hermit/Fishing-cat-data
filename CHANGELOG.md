@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## No change box shows yellow again
+
+13 Nov 2026 (07:30 UTC) · Changed
+
+The No change names in the Discord post are yellow again (on PC; phones show no colour).
+
+> [!NOTE]
+> **What you'll see:** Post to Discord
+
+- No change block uses ansi yellow
+
 ## Colour guide as bullet points
 
-13 Nov 2026 (07:29 UTC) · Changed
+13 Nov 2026 (07:29 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/97af864)
 
 The colour guide in the Discord post is a short bullet list.
 
