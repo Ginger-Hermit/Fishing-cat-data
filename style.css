@@ -25,7 +25,7 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 4px}
 input,select{color:var(--text);width:100%;box-sizing:border-box;padding:10px;border:1px solid var(--line);border-radius:6px;font-size:15px;background:var(--field)}
 .drop{background:var(--field);border:2px dashed var(--line);border-radius:8px;padding:18px;text-align:center;color:var(--muted);margin-top:4px;cursor:pointer}
 button{width:100%;margin-top:14px;padding:14px;background:var(--accent);color:var(--onAccent);border:0;border-radius:8px;font-size:17px;font-weight:500;cursor:pointer}
-button:disabled{opacity:.5}
+button:disabled{opacity:.7}
 .note{background:var(--noteBg);color:var(--noteText);border-radius:6px;padding:10px 12px;font-size:13px;margin-top:12px}
 .pv{margin-top:14px}.pv .pvt{font-size:17px;font-weight:500}.pv .pvd{color:var(--muted);margin:2px 0 8px;font-size:14px}
 .pv table{border-collapse:collapse;min-width:420px;width:100%}.pv th,.pv td{border:1px solid var(--soft);padding:0;font-size:14px}
@@ -171,4 +171,10 @@ button:disabled{opacity:.5}
 html[data-read=easy] body,html[data-read=easy] :is(button,input,select,textarea){font-family:Verdana,Tahoma,Arial,sans-serif;letter-spacing:.06em;word-spacing:.12em}
 html[data-read=easy] body{line-height:1.6}
 :is(#artmsg,#_#_#_#_){color:var(--muted)}
-.s53a{display:inline-block;margin-right:8px;transition:transform .15s}#dcmore[open] .s53a{transform:rotate(90deg)}
+#dcmore>summary:before{content:"\25B8";margin-right:8px}#dcmore[open]>summary:before{content:"\25BE"}
+:is(.s70,#_#_#_){margin-top:12px}
+.hc summary:after,.hsec>summary:after{content:none}
+.hc summary:before,.hsec>summary:before{content:"\25B8"}
+.hc[open]>summary:before,.hsec[open]>summary:before{content:"\25BE"}
+#dcmore>:not(summary){margin-left:14px;max-width:calc(100% - 14px);box-sizing:border-box}
+#console:empty{display:none}

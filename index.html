@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Attach box now really starts unticked; No picture saved is grey -->
+<!-- Patch note: Small layout fixes: arrows match, more space, no repeated Bills line -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -135,7 +135,7 @@
 <button id="dcgo" type="button" class="s50">Post to Discord</button>
 <div id="hookmsg" role="status" aria-live="polite" class="s51"></div>
 <button id="shpost" type="button" hidden></button>
-<details id="dcmore" class="s52"><summary class="s53" data-d="flex"><span class="s53a" aria-hidden="true">▸</span>More options</summary>
+<details id="dcmore" class="s52"><summary class="s53" data-d="flex">More options</summary>
 <div class="s37">Header picture (optional)</div>
 <input type="file" id="artfile" accept="image/*" data-d="none">
 <div class="s54" data-d="flex"><label for="artfile" class="s47 tab big" data-d="inline-flex">Choose picture</label><button id="artforget" type="button" class="tab big" data-d="none">Remove</button><img id="artthumb" alt="Your saved header picture" class="s55" data-d="none"></div><div id="artmsg" role="status" class="s48"></div>
@@ -149,8 +149,7 @@
 <div class="s36">If posting fails, turn off any ad blocker for this site or use a Private window.</div>
 </div>
 <div id="billtab" data-d="none">
-<details id="addbill" open class="s30"><summary>Add bills</summary>
-<div class="s58">Turns photos of household bills into a sheet, one row per charge, with a summary.</div>
+<details id="addbill" open class="s30"><summary>2. Add bills</summary>
 <div class="s59 warnbox"><b class="s60">Bills are private.</b> Your name, address and account number are in the photo, and the whole photo is sent to the AI company you pick. Only upload your own bills.</div>
 <label>Bill photos</label>
 <div class="drop" id="billdrop">Tap to add photos or PDFs of bills</div>

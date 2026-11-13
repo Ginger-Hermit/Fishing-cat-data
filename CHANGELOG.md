@@ -2,6 +2,22 @@
 
 Newest first. The page itself shows only the newest 5. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
+## Tidier tabs
+
+13 Nov 2026 (00:59 UTC) · Changed
+
+Small layout fixes: arrows match, more space, no repeated Bills line
+
+> [!NOTE]
+> **What you'll see:** Home, Bills, Discord, Settings
+
+- All fold-out arrows on the left and the same size
+- Bills: 2. Add bills, repeated line removed
+- Settings: more space between groups
+- Discord: More options items indented
+- Empty Log box hidden
+- Greyed-out buttons easier to read
+
 ## Discord tab fixes that didn't stick
 
 13 Nov 2026 (00:50 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
