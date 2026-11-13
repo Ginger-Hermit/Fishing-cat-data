@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Discord steps as a list
+
+13 Nov 2026 (06:43 UTC) · Changed
+
+The steps for getting a Discord link are now a bullet list.
+
+> [!NOTE]
+> **What you'll see:** Discord tab
+
+- Discord link steps shown as bullets
+
 ## Discord button opens Discord tab [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/59b30d229dac9f27cf088d80b5abd9f392117b76)
 
 13 Nov 2026 (06:42 UTC) · Changed
