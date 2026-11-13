@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Easier reading and privacy switches
 
-13 Nov 2026 (00:44 UTC) · New
+13 Nov 2026 (00:44 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/e19dce0)
 
 Settings has an Easier reading option with wider spacing, a Don't save anything switch for shared computers, and a choice of how long a saved key or Discord link is kept. New free checks test the keyboard and the privacy switches.
 
