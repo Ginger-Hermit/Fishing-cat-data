@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Share button
+
+13 Nov 2026 (01:21 UTC) · New
+
+A Share button next to Post to Discord opens your phone's share menu with the post picture. On a PC it saves the picture.
+
+> [!TIP]
+> **What you'll see:** Roblox clan sheet, after a read
+
+- Share button for the clan picture
+
 ## Header picture sample
 
 13 Nov 2026 (01:17 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/58735f3)

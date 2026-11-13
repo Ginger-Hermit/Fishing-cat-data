@@ -1,4 +1,4 @@
-// Patch note: Settings shows a small example of how your Discord post picture looks, with your header picture on top.
+// Patch note: A Share button next to Post to Discord opens your phone's share menu with the post picture. On a PC it saves the picture.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -99,7 +99,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.22";
+const BUILD = "1.1.23";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1265,8 +1265,20 @@ $("hookxlsx").onchange = () => { lsSet("fcd_hookxlsx", $("hookxlsx").checked ? "
 $("hookkeep").onchange = () => { setHook(HOOK_RE.test(hookGet()) ? hookGet() : ""); renderSaved(); };
 $("hookforget").onclick = () => { $("hookkeep").checked = false; setHook(""); $("hookbox").value = ""; $("hookchk").textContent = "Forgotten."; renderSaved(); if (pv) pvDraw(); };
 let postBusy = false;
+let shareMode = false, shareSaid = "";
+async function shareFiles(files) {
+  const pics = files.filter((f) => f && /\.png$/i.test(f.name)).map((f) => new File([f.blob], f.name, { type: "image/png" }));
+  if (!pics.length) return "No picture to share.";
+  if (navigator.canShare && navigator.canShare({ files: pics })) {
+    try { await navigator.share({ files: pics }); return "Shared."; } catch (e) { return e && e.name === "AbortError" ? "Not shared." : "Couldn't share. Try again."; }
+  }
+  const a = document.createElement("a"), u = URL.createObjectURL(pics[0]); a.href = u; a.download = pics[0].name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 5000);
+  return "Picture saved. Share it from your files.";
+}
+async function shareRun(fn, say) { if (shareMode) return; shareMode = true; shareSaid = ""; try { await fn(); } finally { shareMode = false; } if (shareSaid) say(shareSaid); }
 const nap = (ms) => new Promise((r) => setTimeout(r, ms));
 async function dcPost(t, files) {
+  if (shareMode) { shareSaid = await shareFiles(files); throw new Error(shareSaid); }
   if (postBusy) throw new Error("Already posting. Wait a moment.");
   postBusy = true;
   try {
@@ -1513,6 +1525,7 @@ function pvDraw() {
   sendBtn.onclick = () => { const v = inp.value.trim(); if (!HOOK_RE.test(v)) { setMsg("That doesn't look like a Discord webhook link. Copy it again.", true); return; } setHook(v); $("hookbox").value = v; pvPost(); };
   ask.append(inp, sendBtn, el("div", "", "Used for this visit only. Tick Remember my link in Settings to keep it."));
   mk("pvpost", "Post to Discord", () => { if (HOOK_RE.test(hookGet())) return pvPost(); ask.style.display = ask.style.display ? "" : "none"; });
+  mk("pvshare", "Share", () => shareRun(pvPost, setMsg));
   mk("pvcopy", "Copy message", async () => { try { await navigator.clipboard.writeText(hookText()); setMsg("Message copied."); } catch (e) { setMsg("Couldn't copy. Select the message and copy it by hand.", true); } });
   mk("pvreset", "Reset", () => { pv.rows = pv.orig.map(r => ({ ...r })); pvDraw(); });
   box.appendChild(bt); box.appendChild(ask);
