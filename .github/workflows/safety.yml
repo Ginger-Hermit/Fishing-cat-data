@@ -1,0 +1,26 @@
+# Patch note: leak scan on every push; dead link check weekly. Silent when fine, red cross when not.
+name: Safety
+on:
+  push:
+  schedule:
+    - cron: "37 4 * * 3"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  leaks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scan for leaked keys
+        run: docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:v8.21.2 dir /repo --redact
+  links:
+    if: github.event_name != 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check for dead links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --no-progress --exclude-loopback '*.html' '*.md'
+          fail: true
