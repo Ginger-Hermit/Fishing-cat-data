@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Bill rates written with per
+
+13 Nov 2026 (00:46 UTC) · Changed
+
+p per kWh is understood like p/kWh
+
+> [!NOTE]
+> **What you'll see:** Bills tab
+
+- kwhFor accepts per as well as /
+
 ## Clan points with + or pts
 
-13 Nov 2026 (00:45 UTC) · Changed
+13 Nov 2026 (00:45 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/a46d580)
 
 +1,234 and 1.2k pts are no longer blank
 

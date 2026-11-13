@@ -20,3 +20,4 @@ Older bugs: `BREAK_REPORT_2026-11-12.md` and `STRESS_TEST_LOG.md`.
 - 13 Nov 2026: 1'234.50 read as 1. Cause: apostrophe separator not known. Fix: treat it like a space.
 - 13 Nov 2026: 1,5K read as 15000. Cause: commas always removed. Fix: comma + 1-2 digits + K/M/B/T is a decimal.
 - 13 Nov 2026: +1,234 and 12,345 pts left blank. Cause: extras not stripped. Fix: drop them.
+- 13 Nov 2026: p per kWh flagged as unknown unit. Cause: only / was understood. Fix: accept per.

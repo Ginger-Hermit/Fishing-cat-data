@@ -1,4 +1,4 @@
-// Patch note: +1,234 and 1.2k pts are no longer blank
+// Patch note: p per kWh is understood like p/kWh
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -72,7 +72,7 @@ document.getElementById("themeBtns").onclick = (e) => { const v = e.target.datas
 document.getElementById("sizeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { size = v; lsSet("fcd_size", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.13";
+const BUILD = "1.1.14";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1563,7 +1563,7 @@ function parseNum(v, mark) {
 const KWH_RULES = { kwh: ["", "as shown"], wh: ["/1000", "Wh ÷ 1000"], mwh: ["*1000", "MWh × 1000"], mj: ["/3.6", "MJ ÷ 3.6"], gj: ["*1000/3.6", "GJ × 1000 ÷ 3.6"], therms: ["*29.3071", "therms × 29.3071"], therm: ["*29.3071", "therms × 29.3071"] };
 const NOT_ENERGY = ["", "day", "days", "month", "months", "each", "kw", "kva", "tag", "tage", "monat", "jour", "jours", "mois", "dia", "dias", "d\u00edas", "mes", "giorni", "dag", "dagen"];
 function kwhFor(line, mark) {
-  const u = tidy(line.unit, 14).toLowerCase().replace(/[\s.]/g, "").replace("³", "3").replace(/^(c|p|ct|cts|cents?|pence|[$€£¢]|nzd|aud|usd|gbp|eur)\//, ""); // a price rate like c/unit or c/day: use the unit after the slash
+  const u = tidy(line.unit, 14).toLowerCase().replace(/[\s.]/g, "").replace("³", "3").replace(/^(c|p|ct|cts|cents?|pence|[$€£¢]|nzd|aud|usd|gbp|eur)(\/|per)/, ""); // a price rate like c/unit or c/day: use the unit after the slash
   const printed = parseNum(line.kwh_printed, mark), cv = parseNum(line.calorific_value, mark), cf = parseNum(line.correction_factor, mark), tf = parseNum(line.therm_factor, mark);
   if (KWH_RULES[u]) return { add: KWH_RULES[u][0], how: KWH_RULES[u][1] };
   if ((u === "units" || u === "unit") && line.energy === "electricity") return { add: "", how: "units = kWh" };
