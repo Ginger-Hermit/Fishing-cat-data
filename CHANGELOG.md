@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Clearer Discord link help
+
+13 Nov 2026 (07:00 UTC) · Changed
+
+The 'No link?' steps are easier to follow
+
+> [!NOTE]
+> **What you'll see:** Discord tab
+
+- Steps in a purple box with numbers; safety note in amber
+
 ## Tidier Discord post
 
 13 Nov 2026 (06:59 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/e664c4f3ec554f6d1a8589aae8d802b34af4028b)
