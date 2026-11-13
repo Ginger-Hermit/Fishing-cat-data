@@ -23,4 +23,4 @@ Older bugs: `BREAK_TEST_PLAN.md` (appendix) and `STRESS_TEST_LOG.md`.
 - 13 Nov 2026: p per kWh flagged as unknown unit. Cause: only / was understood. Fix: accept per.
 - 13 Nov 2026: example post picture showed broken. Cause: drawn before the page finished starting (artUrl not ready). Fix: draw it a moment later. Commit cf01ecd.
 - 13 Nov 2026: after the weekly reset everyone showed a big drop. Cause: compared with last week's total. Fix: earlier sheet from before the reset counts as 0 (weekBase).
-- 13 Nov 2026: second run the same day compared with only 1 player. Cause: saved last sheet was the cut-down same-day baseline, not the full sheet. Fix: save the full sheet.
+- 13 Nov 2026: second run the same day compared with only 1 player. Cause: saved last sheet was the cut-down same-day baseline, not the full sheet. Fix: save the full sheet. (ad3af291fe8af8fe18ba61e95ae0eedbb5f7656d)
