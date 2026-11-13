@@ -49,13 +49,13 @@
 </ol>
 </details>
 <details class="s9 hsec"><summary class="s10">What you get</summary>
-<img src="images/clan-leaderboard.png" alt="Sample Leaderboard tab: six made-up players ranked by points gained, with gold, silver and bronze rows for the top 3" loading="lazy" width="727" height="233" class="s12" data-d="block">
+<img src="images/clan-leaderboard.png" alt="Sample clan sheet: made-up players ranked by points, with gold, silver and bronze rows for the top 3" loading="lazy" width="727" height="233" class="s12" data-d="block">
 <p class="s13">A sample with made-up players. Yours will have your clan's names.</p>
 <ul class="s14">
 <li><b>Clan Members:</b> everyone's rank, role and points, with the change since last time.</li>
-<li><b>Leaderboard:</b> who gained the most, with gold, silver and bronze for the top 3.</li>
-<li><b>Points history:</b> one column per week, with a clan total.</li>
-<li><b>About</b> and <b>How it's worked out:</b> what every tab and colour means.</li>
+<li><b>Top 10:</b> the best 10 this month and each week, with gold, silver and bronze for the top 3.</li>
+<li><b>Points history:</b> one row per player, every read side by side, with a clan total.</li>
+<li><b>Help:</b> what every word, tab and colour means, with the maths step by step.</li>
 <li><b>Bills:</b> add photos or PDFs of power, gas, water, internet or phone bills and get one row per charge, plus a summary.</li>
 </ul>
 </details>
@@ -246,6 +246,9 @@
 <div class="hc"><div class="s69">Updates</div>
 <label class="s72" data-d="flex"><input type="checkbox" id="autoref" class="s27"> Refresh automatically when there is an update</label>
 <div class="s73">Only refreshes when no files are picked. Off: you get a banner instead.</div></div>
+<div class="hc"><div class="s69">Clan sheet</div><div class="s70">Points reset day</div>
+<select id="resetday" aria-label="Points reset day"><option value="1">Monday</option><option value="2">Tuesday</option><option value="3">Wednesday</option><option value="4">Thursday</option><option value="5">Friday</option><option value="6">Saturday</option><option value="0">Sunday</option></select>
+<div class="s73">Week scores use the last read before midnight on this day, on this device's clock. Saved on this device.</div></div>
 <div class="hc"><div class="s69">Privacy</div>
 <div class="s74">Saved on this device:</div>
 <div id="saved" class="s75"></div>
