@@ -2,9 +2,20 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## No change names in blue
+
+13 Nov 2026 (07:33 UTC) · Changed
+
+No change names in the Discord post are blue (easier to read than yellow).
+
+> [!NOTE]
+> **What you'll see:** Post to Discord
+
+- ansi blue; colour guide updated
+
 ## No change box shows yellow again
 
-13 Nov 2026 (07:30 UTC) · Changed
+13 Nov 2026 (07:30 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/ed6e498)
 
 The No change names in the Discord post are yellow again (on PC; phones show no colour).
 
