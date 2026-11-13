@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Home shows the sample sheet straight away; buttons under the preview sit in an even grid -->
+<!-- Patch note: Discord tab shows what the post will look like, and can add a Google Sheets or OneDrive link -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -142,6 +142,10 @@
 <div id="dcrolehelp" class="s49" data-d="none">In Discord: Settings, Advanced, turn on Developer Mode. Then long-press (phone) or right-click the role and tap Copy Role ID. Paste it here. It is saved on this device.</div>
 <div class="s49">A role pings only the people who have that role.</div>
 <label class="s56" data-d="flex"><input type="checkbox" id="hookxlsx" class="s42"> Also attach the Excel file</label>
+<div class="s37">Sheet link (optional)</div>
+<input id="sheetlink" type="url" autocomplete="off" spellcheck="false" placeholder="https://docs.google.com/spreadsheets/..." class="s38"><div id="sheetlinkchk" class="s49">Google Sheets or OneDrive only. Anyone in the channel can open it.</div>
+<label class="s56" data-d="flex"><input type="checkbox" id="sheetlinkkeep" class="s42"> Remember this link</label>
+<details id="dcprev" open><summary class="s31">What the post looks like</summary><div id="dcprevbox" class="dcprev"></div></details>
 <button id="dcgo" type="button" class="s50">Post to Discord</button>
 <div id="hookmsg" role="status" aria-live="polite" class="s51"></div>
 <button id="shpost" type="button" hidden></button>

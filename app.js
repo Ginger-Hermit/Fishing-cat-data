@@ -1,4 +1,4 @@
-// Patch note: Home shows the sample sheet straight away; buttons under the preview sit in an even grid
+// Patch note: Discord tab shows what the post will look like, and can add a Google Sheets or OneDrive link
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -49,7 +49,7 @@ function showTab(which) {
   }
   if (which === "discord") document.getElementById("discordtab").appendChild(document.getElementById("logbox"));
   if (which === "sheet" || which === "bill") { const t = document.getElementById(which === "bill" ? "billtab" : "sheet"); t.appendChild(document.getElementById("logbox")); lastKind = which; }
-  if (which === "discord") { const r = document.querySelector('input[name=dcsrc]:checked'); if (!r) document.querySelector('input[name=dcsrc][value='+(pv ? "sheet" : bp ? "bill" : "files")+']').checked = true; dcShow(); }
+  if (which === "discord") { setTimeout(dcPrev); const r = document.querySelector('input[name=dcsrc]:checked'); if (!r) document.querySelector('input[name=dcsrc][value='+(pv ? "sheet" : bp ? "bill" : "files")+']').checked = true; dcShow(); }
   if (which === "settings") { renderSaved(); $("wipemsg").textContent = ""; }
   { const ib = document.getElementById("introbox"), on = which === "sheet" || which === "bill"; ib.style.display = on ? "" : "none"; if (on) { document.getElementById("introtxt").textContent = which === "bill" ? "Turns photos of household bills into a sheet with a summary." : "Turns screenshots or a video of your Roblox clan list into an Excel sheet."; } }
   document.getElementById("keybox").style.display = which === "sheet" || which === "bill" ? "" : "none";
@@ -102,7 +102,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.34";
+const BUILD = "1.1.35";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -298,6 +298,7 @@ function renderSaved() {
   if (keys.includes("fcd_clan")) lines.push("Clan name");
   if (keys.includes("fcd_game")) lines.push("Game name");
   if (keys.includes("fcd_hook")) lines.push("Discord link");
+  if (keys.includes("fcd_sheetlink")) lines.push("Sheet link");
   if (keys.includes("fcd_art")) lines.push("Discord header picture");
   if (keys.some(k => k.startsWith("fcd_model_"))) lines.push("AI model name");
   if (keys.some(k => ["fcd_theme", "fcd_size", "fcd_read", "fcd_btn", "fcd_nosave", "fcd_expire", "fcd_reset", "fcd_autoref", "fcd_provider", "fcd_hookxlsx", "fcd_pingmode", "fcd_pingrole"].includes(k))) lines.push("Look and settings");
@@ -1410,7 +1411,27 @@ async function billPic(bills) {
   if (out.length > MAX) { const n = out.length - MAX; out.length = MAX; out.push({ c: ["+" + n + " more rows in the sheet", ""] }); }
   return { blob: await tablePic("Bills", todayText(), [{ h: "Charge", w: 470 }, { h: "Amount", w: 200, a: "r" }], out), name: "Bills.png" };
 }
-const dcShow = () => { const v = document.querySelector("input[name=dcsrc]:checked").value; $("dcfiles").style.display = v === "files" ? "" : "none"; };
+const SHEET_RE = /^https:\/\/(docs\.google\.com\/spreadsheets\/|onedrive\.live\.com\/|1drv\.ms\/|[\w-]+\.sharepoint\.com\/)[^\s<>()]*$/;
+function linkLine() { const v = ($("sheetlink").value || "").trim(); return SHEET_RE.test(v) ? "\n\ud83d\udcca Full sheet: " + v : ""; }
+function dcPrev() {
+  const box = $("dcprevbox"), r = document.querySelector("input[name=dcsrc]:checked"), v = r ? r.value : "";
+  $("dcprev").style.display = v === "sheet" ? "" : "none"; box.replaceChildren();
+  if (v !== "sheet") return;
+  if (!pv) { box.textContent = "Make a clan sheet first, then the post shows here."; return; }
+  let code = null;
+  for (const ln of (hookText(false) + linkLine()).split("\n")) {
+    if (ln.startsWith("```")) { if (code) code = null; else { code = document.createElement("pre"); box.appendChild(code); } continue; }
+    if (code) { code.textContent += (code.textContent ? "\n" : "") + ln; continue; }
+    const d = document.createElement("div"), h = /^#{1,3} /.test(ln), t = ln.replace(/^#{1,3} /, "").replace(/^- /, "\u2022 ");
+    d.className = h ? "dch" : ""; t.split("**").forEach((p, i) => { if (i % 2) { const b = document.createElement("b"); b.textContent = p; d.appendChild(b); } else d.appendChild(document.createTextNode(p)); });
+    box.appendChild(d);
+  }
+}
+$("sheetlink").value = lsGet("fcd_sheetlink") || ""; $("sheetlinkkeep").checked = !!lsGet("fcd_sheetlink");
+const keepLink = () => { const v = $("sheetlink").value.trim(); try { if ($("sheetlinkkeep").checked && SHEET_RE.test(v)) lsSet("fcd_sheetlink", v); else localStorage.removeItem("fcd_sheetlink"); } catch (e) {} renderSaved(); };
+$("sheetlink").oninput = () => { const v = $("sheetlink").value.trim(); $("sheetlinkchk").textContent = v && !SHEET_RE.test(v) ? "That isn't a Google Sheets or OneDrive link, so it won't be posted." : "Google Sheets or OneDrive only. Anyone in the channel can open it."; keepLink(); dcPrev(); };
+$("sheetlinkkeep").onchange = keepLink;
+const dcShow = () => { const v = document.querySelector("input[name=dcsrc]:checked").value; $("dcfiles").style.display = v === "files" ? "" : "none"; dcPrev(); };
 document.querySelectorAll("input[name=dcsrc]").forEach((r) => { r.onchange = dcShow; });
 $("dcgo").onclick = () => {
   const v = document.querySelector("input[name=dcsrc]:checked").value, say = (t) => { $("hookmsg").textContent = t; };
@@ -1451,7 +1472,7 @@ async function pvPost() {
   try {
     setMsg("Posting to Discord...");
     await loadExcel();
-    let file = null, txt = hookText(false);
+    let file = null, txt = hookText(false) + linkLine();
     if (window.ExcelJS) { const buf = await buildWorkbook(window.ExcelJS, rows, prevMap, Object.assign({}, pv.p, { reset: resetDay() }), todayText()).xlsx.writeBuffer(), fname = nameOf(pv.p) + ".xlsx"; if ($("hookxlsx").checked) file = { blob: new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), name: fname }; await keepMade(buf, fname); try { txt = dcBreakdown(await readSheet(buf), (n) => Math.round(n).toLocaleString("en-US")); } catch (e) { clog("Breakdown skipped: " + why(e)); } }
     const pic = await clanPic(rows).catch((e) => { clog("Table picture skipped: " + why(e)); return null; });
     const sent = await dcPost(txt, [pic, file].filter(Boolean));
@@ -1517,7 +1538,7 @@ function pvDraw() {
   ask.append(inp, sendBtn, el("div", "", "Used for this visit only. Tick Remember my link in Settings to keep it."));
   mk("pvpost", "Post to Discord", () => { if (HOOK_RE.test(hookGet())) return pvPost(); ask.style.display = ask.style.display ? "" : "none"; });
   mk("pvshare", "Share", () => shareRun(pvPost, setMsg));
-  mk("pvcopy", "Copy message", async () => { try { await navigator.clipboard.writeText(hookText()); setMsg("Message copied."); } catch (e) { setMsg("Couldn't copy. Select the message and copy it by hand.", true); } });
+  mk("pvcopy", "Copy message", async () => { try { await navigator.clipboard.writeText(hookText() + linkLine()); setMsg("Message copied."); } catch (e) { setMsg("Couldn't copy. Select the message and copy it by hand.", true); } });
   mk("pvreset", "Reset", () => { pv.rows = pv.orig.map(r => ({ ...r })); pvDraw(); });
   box.appendChild(bt); box.appendChild(ask);
 }

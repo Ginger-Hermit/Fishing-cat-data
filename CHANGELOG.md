@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Post preview and sheet link
+
+13 Nov 2026 (05:43 UTC) · New
+
+Discord tab shows what the post will look like, and can add a Google Sheets or OneDrive link
+
+> [!TIP]
+> **What you'll see:** Discord tab
+
+- Post preview, sheet link box
+
 ## Sample shown, tidier buttons [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/a2e40e739592c6f8b7ac870e73faaf32f7f99fe2)
 
 13 Nov 2026 (05:40 UTC) · Changed
