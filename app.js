@@ -1,4 +1,4 @@
-// Patch note: Settings has no boxes, just clear sections
+// Patch note: The Last sheet box lists the clan, when it was made, members, points and top player, and warns when changes count from an earlier day.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -102,7 +102,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.41";
+const BUILD = "1.1.42";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -457,7 +457,7 @@ async function readPrevious(EJ, buf) {
     if (pts && typeof pts === "object" && "result" in pts) pts = pts.result;
     if (name && typeof pts === "number") { const k = String(name).trim().toLowerCase(); map.set(k, pts); names.set(k, String(name).trim()); }
   }
-  map.hist = readHistory(wb, ws, map, names);
+  map.hist = readHistory(wb, ws, map, names); map.names = names;
   return dayBase(map);
 }
 // A sheet made earlier today is not a fair baseline (a re-run would compare with itself): use the last earlier day instead.
@@ -466,7 +466,7 @@ function dayBase(map) {
   if (hh && hh.dates.length > 1 && hh.dates[hh.dates.length - 1] === today) {
     const col = hh.dates.length - 2, m2 = new Map();
     hh.players.forEach(([k, e]) => { if (e && typeof e.vals[col] === "number") m2.set(k, e.vals[col]); });
-    if (m2.size) { m2.hist = hh; return weekBase(m2, hh.dates[col], today); }
+    if (m2.size) { m2.hist = hh; const w = weekBase(m2, hh.dates[col], today); w.full = map; w.from = hh.dates[col]; return w; }
   }
   return hh && hh.dates.length ? weekBase(map, hh.dates[hh.dates.length - 1], today) : map;
 }
@@ -888,8 +888,20 @@ function showPrev() {
   const box = $("previnfo");
   if (!prevMap) { box.className = ""; box.replaceChildren(); $("prevdrop").textContent = "Drop an earlier sheet (.xlsx) here, or tap to choose"; return; }
   box.className = "ok";
-  const span = document.createElement("span");
-  span.textContent = "\u2713 Last sheet ready: " + prevName + " \u00b7 " + prevMap.size + " members";
+  const span = document.createElement("span"), full = prevMap.full || prevMap;
+  const nm = prevName.replace(/\.xlsx$/i, ""), cut = nm.indexOf(" - ");
+  const head = document.createElement("b"); head.textContent = "\u2713 Last sheet: " + (cut > 0 ? nm.slice(0, cut) : nm);
+  const ul = document.createElement("ul"), li = (t, c) => { const e = document.createElement("li"); e.textContent = t; if (c) e.className = c; ul.append(e); return e; };
+  if (cut > 0) li("Made " + nm.slice(cut + 3));
+  let tot = 0, top = null; full.forEach((v, k) => { tot += v; if (!top || v > top[1]) top = [k, v]; });
+  li(full.size + (full.size === 1 ? " member" : " members") + " \u00b7 " + tot.toLocaleString() + " points");
+  if (top) li("Top: " + ((full.names && full.names.get(top[0])) || top[0]) + " " + top[1].toLocaleString());
+  if (prevMap.from) {
+    const w = li("\u26a0 You already made a sheet today", "warn"), sub = document.createElement("ul"), d = new Date(prevMap.from);
+    for (const t of ["Changes count from the one before: " + d.getUTCDate() + " " + d.toLocaleString("en-GB", { month: "short", timeZone: "UTC" }), "That sheet had " + prevMap.size + (prevMap.size === 1 ? " member" : " members")]) { const e = document.createElement("li"); e.textContent = t; sub.append(e); }
+    w.append(sub);
+  }
+  span.append(head, ul);
   const b = document.createElement("button");
   b.className = "tab"; b.textContent = "Remove";
   b.onclick = () => { prevMap = null; prevName = ""; try { localStorage.removeItem("fcd_prev"); } catch (e) {} showPrev(); };

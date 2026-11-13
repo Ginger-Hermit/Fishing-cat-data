@@ -200,3 +200,4 @@ details#moreopts>summary{background:var(--field);border-left:3px solid var(--c-s
 :is(#settingstab .hc:last-child,#_#_#_){border-bottom:0}
 :is(#settingstab .s69,#_#_#_){font-size:1.15em;margin-bottom:6px}
 :is(#settingstab .s70,#_#_#_){margin:14px 0 6px;font-weight:600;opacity:.8}
+#previnfo ul{margin:4px 0 0;padding-left:20px;font-weight:400}#previnfo li ul{margin:0;padding-left:18px}#previnfo .warn{color:#a35a00}@media (prefers-color-scheme:dark){#previnfo .warn{color:#f0a640}}
