@@ -2,6 +2,19 @@
 
 Newest first. The page itself shows only the newest 5. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
+## Simpler Discord tab
+
+13 Nov 2026 (01:08 UTC) · Changed
+
+No More options fold; picture and ping sit above Post; shorter text
+
+> [!NOTE]
+> **What you'll see:** Discord tab
+
+- More options removed, its items shown directly above Post
+- Ad blocker tip only in the error message
+- Shorter file and bug report notes
+
 ## Model names link
 
 13 Nov 2026 (01:05 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/92805c9)

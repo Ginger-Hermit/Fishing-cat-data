@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Settings links to the AI company's list of model names -->
+<!-- Patch note: No More options fold; picture and ping sit above Post; shorter text -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -113,7 +113,7 @@
 <details id="logbox"><summary class="s31">Log: what the page did</summary>
 <pre id="console" class="s34"></pre>
 <div class="s35" data-d="flex"><button id="copybug" type="button">Copy bug report</button><a id="ghbug" href="https://github.com/Ginger-Hermit/Fishing-cat-data/issues/new" target="_blank" rel="noopener">Report on GitHub</a></div>
-<div class="s8">Copies the log and your browser type. Keys are removed and pictures are not included. Nothing is sent until you paste it. Report on GitHub opens a public form with it filled in: read it first (needs a GitHub account).</div>
+<div class="s8">Copies the log, without keys or pictures. Report on GitHub opens a public form: read it first.</div>
 </details>
 </div>
 <div id="discordtab" data-d="none">
@@ -130,12 +130,8 @@
 <input type="file" id="shfile" accept=".xlsx,image/*" multiple data-d="none">
 <div class="s46" data-d="flex"><label for="shfile" class="s47 tab big" data-d="inline-flex">Choose files</label><button id="shclear" type="button" class="tab big" data-d="none">Clear</button></div>
 <div id="shsel" class="s48"></div>
-<div class="s49">Pick an Excel sheet or pictures. It is read, and the post gets a table picture and a written breakdown. The file itself is only sent if you tick the box below.</div></div>
-<label class="s56" data-d="flex"><input type="checkbox" id="hookxlsx" class="s42"> Also attach the Excel file</label>
-<button id="dcgo" type="button" class="s50">Post to Discord</button>
-<div id="hookmsg" role="status" aria-live="polite" class="s51"></div>
-<button id="shpost" type="button" hidden></button>
-<details id="dcmore" class="s52"><summary class="s53" data-d="flex">More options</summary>
+<div class="s49">An Excel sheet or pictures.</div></div>
+<div id="dcmore">
 <div class="s37">Header picture (optional)</div>
 <input type="file" id="artfile" accept="image/*" data-d="none">
 <div class="s54" data-d="flex"><label for="artfile" class="s47 tab big" data-d="inline-flex">Choose picture</label><button id="artforget" type="button" class="tab big" data-d="none">Remove</button><img id="artthumb" alt="Your saved header picture" class="s55" data-d="none"></div><div id="artmsg" role="status" class="s48"></div>
@@ -145,8 +141,11 @@
 <input id="dcrole" inputmode="numeric" autocomplete="off" placeholder="Role ID, like 123456789012345678" class="s57" data-d="none">
 <div id="dcrolehelp" class="s49" data-d="none">In Discord: Settings, Advanced, turn on Developer Mode. Then long-press (phone) or right-click the role and tap Copy Role ID. Paste it here. It is saved on this device.</div>
 <div class="s49">A role pings only the people who have that role.</div>
-</details>
-<div class="s36">If posting fails, turn off any ad blocker for this site or use a Private window.</div>
+<label class="s56" data-d="flex"><input type="checkbox" id="hookxlsx" class="s42"> Also attach the Excel file</label>
+<button id="dcgo" type="button" class="s50">Post to Discord</button>
+<div id="hookmsg" role="status" aria-live="polite" class="s51"></div>
+<button id="shpost" type="button" hidden></button>
+</div>
 </div>
 <div id="billtab" data-d="none">
 <details id="addbill" open class="s30"><summary>2. Add bills</summary>

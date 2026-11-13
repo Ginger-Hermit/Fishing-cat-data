@@ -171,10 +171,9 @@ button:disabled{opacity:.7}
 html[data-read=easy] body,html[data-read=easy] :is(button,input,select,textarea){font-family:Verdana,Tahoma,Arial,sans-serif;letter-spacing:.06em;word-spacing:.12em}
 html[data-read=easy] body{line-height:1.6}
 :is(#artmsg,#_#_#_#_){color:var(--muted)}
-#dcmore>summary:before{content:"\25B8";margin-right:8px}#dcmore[open]>summary:before{content:"\25BE"}
+
 :is(.s70,#_#_#_){margin-top:12px}
 .hc summary:after,.hsec>summary:after{content:none}
 .hc summary:before,.hsec>summary:before{content:"\25B8"}
 .hc[open]>summary:before,.hsec[open]>summary:before{content:"\25BE"}
-#dcmore>:not(summary){margin-left:14px;max-width:calc(100% - 14px);box-sizing:border-box}
 #console:empty{display:none}
