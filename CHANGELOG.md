@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.94] - 2026-11-14 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.93...v1.1.94)
+
+### Added
+
+- **Name after the clan** · New optional box sets the words after the clan name in the Discord post and sheet, e.g. Loki · Gym League.
+
 ## [1.1.93] - 2026-11-14 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.92...v1.1.93)
 
 ### Fixed

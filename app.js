@@ -1,4 +1,4 @@
-// Patch note: A sheet made twice from the same screenshots showed no changes; now it compares with the day before.
+// Patch note: New optional box sets the words after the clan name, e.g. Loki · Gym League.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -101,7 +101,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.93";
+const BUILD = "1.1.94";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -287,6 +287,8 @@ $("drop").ondragover = (e) => e.preventDefault();
 $("drop").ondrop = (e) => { e.preventDefault(); addFiles(e.dataTransfer.files); };
 $("clanbox").value = lsGet("fcd_clan") || "";
 $("clanbox").oninput = () => lsSet("fcd_clan", clean($("clanbox").value, 40));
+$("gamebox").value = lsGet("fcd_gamex") || "";
+$("gamebox").oninput = () => lsSet("fcd_gamex", clean($("gamebox").value, 40));
 // Privacy: see and clear what is saved on this device. Values are never shown or sent anywhere.
 function savedKeys() { const out = []; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith("fcd_")) out.push(k); } } catch (e) {} return out; }
 let hookNow = ""; const hookGet = () => hookNow || lsGet("fcd_hook") || "";
@@ -296,6 +298,7 @@ function renderSaved() {
   if (keys.includes("fcd_prev")) { let n = ""; try { n = " (" + JSON.parse(lsGet("fcd_prev")).entries.length + " members)"; } catch (e) {} lines.push("Last sheet, names, points and past runs" + n); }
   if (keys.includes("fcd_clan")) lines.push("Clan name");
   if (keys.includes("fcd_game")) lines.push("Game name");
+  if (keys.includes("fcd_gamex")) lines.push("Name after the clan");
   if (keys.includes("fcd_hook")) lines.push("Discord link");
   if (keys.includes("fcd_sheetlink")) lines.push("Sheet link");
   if (keys.includes("fcd_art")) lines.push("Discord header picture");
@@ -311,7 +314,7 @@ $("keepprev").onchange = () => { lsSet("fcd_keepprev", $("keepprev").checked ? "
 function wipe(what) {
   try { savedKeys().filter(k => (what === "all" && k !== "fcd_nosave" && k !== "fcd_expire") || (what === "private" && !LOOK_KEYS.includes(k)) || k.startsWith("fcd_key_")).forEach(k => localStorage.removeItem(k)); } catch (e) {}
   $("key").value = ""; $("remember").checked = false;
-  if (what !== "key") { hookNow = ""; prevMap = null; prevName = ""; showPrev(); $("clanbox").value = ""; }
+  if (what !== "key") { hookNow = ""; prevMap = null; prevName = ""; showPrev(); $("clanbox").value = ""; $("gamebox").value = ""; }
   refresh(); renderSaved();
   $("wipemsg").textContent = what !== "key" ? "Everything saved on this device was deleted." : "Your key was forgotten.";
 }
@@ -1186,7 +1189,7 @@ async function pickProfile(key) {
   finally { aiWait = wait; QUICK = false; }
   let r = {};
   try { r = JSON.parse(text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1)) || {}; } catch (e) { clog("Layout not read; using the usual layout."); }
-  const p = { clan: clean($("clanbox").value, 40) || clean(r.clan_name, 40) || "Clan", game: clean(r.game_name, 40) || lsGet("fcd_game") || "Game", ranks: r.ranks_shown !== false && r.ranks_shown !== "false", extra: clean(r.extra_column, 30), season: clean(r.clan_points, 20), crank: clean(r.clan_rank, 10).replace(/^#/, "") };
+  const p = { clan: clean($("clanbox").value, 40) || clean(r.clan_name, 40) || "Clan", game: clean($("gamebox").value, 40) || clean(r.game_name, 40) || lsGet("fcd_game") || "Game", ranks: r.ranks_shown !== false && r.ranks_shown !== "false", extra: clean(r.extra_column, 30), season: clean(r.clan_points, 20), crank: clean(r.clan_rank, 10).replace(/^#/, "") };
   if (clean(r.game_name, 40)) lsSet("fcd_game", p.game);
   clog("Auto layout: " + nameOf(p) + ", ranks " + (p.ranks ? "shown" : "not shown") + ", extra column " + (p.extra || "none") + ".");
   return p;
@@ -1430,7 +1433,7 @@ async function readSheet(buf) {
     const list = []; for (let r = 4; r <= Math.min(hs.rowCount, 5000); r += step) { const nm = val(hs.getCell(r, nc)); if (/^(Season points|Clan rank)$/.test(String(nm))) { const lv = dates.map((_, k) => val(hs.getCell(r, c0 + k))).reverse().find((x) => typeof x === "number"); if (lv !== undefined) (/S/.test(nm) ? (sx.season = Math.round(lv).toLocaleString("en-US")) : (sx.crank = String(lv))); continue; } if (!nm || nm === "Clan total") continue; list.push({ name: String(nm), vals: dates.map((_, k) => { const v = val(hs.getCell(r, c0 + k)); return typeof v === "number" ? v : null; }) }); }
     if (dates.length && list.length) hist = { dates, list }; }
   const t1 = String(val(ws.getCell(1, 1)) || ""), t2 = String(val(ws.getCell(2, 1)) || "");
-  return { items, any, hist, sx, clan: t1.split(/\s[\u2013-]\s/)[0] || "Clan", game: t2.split("\u00b7")[0].trim() || "Roblox", date: ((t2.match(/Recorded ([^\u00b7]+)/) || [])[1] || todayText()).trim() };
+  return { items, any, hist, sx, clan: t1.split(/\s[\u2013-]\s/)[0] || "Clan", game: clean($("gamebox").value, 40) || t2.split("\u00b7")[0].trim() || "Roblox", date: ((t2.match(/Recorded ([^\u00b7]+)/) || [])[1] || todayText()).trim() };
 }
 const dcPick = () => { const fs = [...$("shfile").files]; $("shsel").textContent = fs.length ? "\u2713 " + fs.map((f) => f.name).join(", ") : "No files chosen."; $("shclear").style.display = fs.length ? "" : "none"; fileShow(); };
 $("shfile").onchange = dcPick; $("shclear").onclick = () => { $("shfile").value = ""; dcPick(); };
