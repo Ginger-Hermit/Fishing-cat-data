@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.101] - 2026-11-14 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.100...v1.1.101)
+
+### Changed
+
+- **Clearer Discord warning** · The Discord tab now says what to do when no clan sheet was made since the page loaded
+
 ## [1.1.100] - 2026-11-14 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.99...v1.1.100)
 
 ### Removed

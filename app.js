@@ -1,4 +1,4 @@
-// Patch note: Mistral is gone again because its free plan gives no key
+// Patch note: The Discord tab now says what to do when no clan sheet was made since the page loaded
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -101,7 +101,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.100";
+const BUILD = "1.1.101";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1521,7 +1521,7 @@ $("dcgo").onclick = () => {
   say("");
   if (v === "files") { $("shpost").click(); return; }
   if (v === "bill") { if (!bp) { say("Read your bills first (Bills tab)."); return; } bpPost(); return; }
-  if (!pv) { say("Make a clan sheet first (Roblox clan sheet tab)."); return; }
+  if (!pv) { say("No clan sheet since the page loaded. Make one, or pick My own files above and choose your saved sheet."); return; }
   pvPost();
 };
 $("hooktest").onclick = async () => {
