@@ -2017,5 +2017,4 @@ document.querySelectorAll(".xlimg").forEach(i => { i.title = "Tap to zoom"; i.on
 document.querySelectorAll(".xlgal button").forEach(b => { b.onclick = () => { const g = b.closest(".xlgal"); g.querySelector("img").src = b.dataset.src; g.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b)); }; });
 
 function dcPv() { const c = lsGet("fcd_dccol") || "", e = $("dcpvsame"); if (e) e.className = /^3[3-6]$/.test(c) ? "c" + c : "c0"; }
-function dcCol() { const c = lsGet("fcd_dccol") || ""; return /^3[3-6]$/.test(c) ? "\u001b[1;" + c + "m" : ""; }
 (function () { const c = lsGet("fcd_dccol") || ""; document.querySelectorAll('input[name="dccol"]').forEach((r) => { r.checked = r.value === c; r.onchange = () => { lsSet("fcd_dccol", r.value); dcPv(); }; }); dcPv(); })();
