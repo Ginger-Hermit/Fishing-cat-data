@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## Longer bills on Claude
 
-14 Nov 2026 (05:26 UTC) · Changed
+14 Nov 2026 (05:26 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7553a0b)
 
 Big bills read with Claude no longer lose their last charges
 
