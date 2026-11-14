@@ -244,16 +244,16 @@ Updates up to 1.1.80 have no version number, so they are grouped by day.
 - **Home page colours** · The Home page now uses the theme colour for headings, steps and the safety box.
 - **Home sections fold up, links at the top** · The Home page sections now open and close, with a link to the full guide and the free key at the top.
 - **Home page carries a short version of the guide** · The Home page now has a shortened copy of the README: how to use it, what you get, safety and limits.
-- **Bills sheet** · colours, how to read, tidy layout · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f):
+- **Bills sheet** · colours, how to read, tidy layout:
 - **New Home page for newcomers** · The Home page now explains the page in plain words for people who have never seen it.
 - **Roblox clan preview ·** ·
 - **Wording catches up** ·
 - **Test read shows the preview** · Test read now shows the Check your list table, not just three names.
-- **Video** · scrolling list no longer thrown away · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f):
+- **Video** · scrolling list no longer thrown away:
 - **Preview matches the sheet** ·
 - **Video** · take more pictures of a short scroll:
 - **Faster Gemini reads** · Gemini now uses light thinking for every read, not just the first step.
-- **About and How it's worked out** · colours and formatting · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f):
+- **About and How it's worked out** · colours and formatting:
 - **Misread names count as the same player ·** ·
 - **Video recording tip** ·
 - **Leaderboard and Points history** · colours and a How to read line: The two history tabs now look like the main sheet and explain themselves at the top.
