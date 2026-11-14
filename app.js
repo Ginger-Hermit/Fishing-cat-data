@@ -1,4 +1,4 @@
-// Patch note: New optional box sets the words after the clan name, e.g. Loki · Gym League.
+// Patch note: Making a sheet twice right after the weekly reset no longer compares with last week's points.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -101,7 +101,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.94";
+const BUILD = "1.1.95";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -613,7 +613,8 @@ function sameRunBase(prev, rows) {
   const hh = prev && (prev.hist || (prev.full && prev.full.hist)); if (!hh || hh.dates.length < 2) return prev;
   const norm = (n) => String(n).trim().toLowerCase();
   if (!rows.every((r) => { const v = parsePoints(r.points), b = prev.get(norm(r.name)); return v !== null && b === v; })) return prev;
-  const col = hh.dates.length - 2, m2 = new Map();
+  const col = hh.dates.length - 2, m2 = new Map(), R = resetDay();
+  if (weekStart(hh.dates[col], R) < weekStart(hh.dates[col + 1], R)) return prev; // day before was last week: points reset since
   hh.players.forEach(([k, e]) => { if (e && typeof e.vals[col] === "number") m2.set(k, e.vals[col]); });
   if (!m2.size) return prev;
   clog("Same points as last sheet, so comparing with " + new Date(hh.dates[col]).toDateString() + ".");
@@ -1440,7 +1441,8 @@ $("shfile").onchange = dcPick; $("shclear").onclick = () => { $("shfile").value 
 // Same points as last run (same screenshots twice)? Compare with the day before in Points history instead.
 function sameDayFix(sh) {
   const h = sh.hist; if (!h || h.dates.length < 2 || sh.items.some((r) => r.b === null || r.b !== r.n)) return sh;
-  const k = h.dates.length - 2, m = new Map(h.list.map((e) => [e.name.toLowerCase(), e.vals[k]]));
+  const k = h.dates.length - 2, R = resetDay(); if (weekStart(h.dates[k], R) < weekStart(h.dates[k + 1], R)) return sh;
+  const m = new Map(h.list.map((e) => [e.name.toLowerCase(), e.vals[k]]));
   clog("Same points as last run, so comparing with " + new Date(h.dates[k]).toDateString() + ".");
   return { ...sh, any: true, items: sh.items.map((r) => { const v = m.get(r.name.toLowerCase()); return { ...r, b: typeof v === "number" ? v : null }; }) };
 }

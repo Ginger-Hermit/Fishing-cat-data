@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.95] - 2026-11-14 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.94...v1.1.95)
+
+### Fixed
+
+- **No false drops after the weekly reset** · Making a sheet twice right after the weekly reset no longer compares with last week's points.
+
 ## [1.1.94] - 2026-11-14 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.93...v1.1.94)
 
 ### Added
