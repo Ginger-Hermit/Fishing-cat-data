@@ -4,7 +4,7 @@ Newest first. The page itself shows only the newest 5.
 
 ## OpenAI removed
 
-14 Nov 2026 (05:28 UTC) · Changed
+14 Nov 2026 (05:28 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/ff2aebf)
 
 Only Google Gemini and Anthropic are offered now
 
