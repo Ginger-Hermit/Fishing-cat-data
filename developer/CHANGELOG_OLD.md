@@ -2,7 +2,12 @@
 
 Newer ones are in [CHANGELOG.md](../CHANGELOG.md).
 
-## Simpler Discord tab
+Tap a day to open it.
+
+<details>
+<summary><b>13 Nov 2026</b> · 17 updates</summary>
+
+### Simpler Discord tab
 
 13 Nov 2026 (01:08 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/07922d4)
 
@@ -15,7 +20,7 @@ No More options fold; picture and ping sit above Post; shorter text
 - Ad blocker tip only in the error message
 - Shorter file and bug report notes
 
-## Model names link
+### Model names link
 
 13 Nov 2026 (01:05 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/92805c9)
 
@@ -26,7 +31,7 @@ Settings links to the AI company's list of model names
 
 - Link to the model list of the company you picked
 
-## Tidier tabs
+### Tidier tabs
 
 13 Nov 2026 (00:59 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/468d510)
 
@@ -42,7 +47,7 @@ Small layout fixes: arrows match, more space, no repeated Bills line
 - Empty Log box hidden
 - Greyed-out buttons easier to read
 
-## Discord tab fixes that didn't stick
+### Discord tab fixes that didn't stick
 
 13 Nov 2026 (00:50 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -54,7 +59,7 @@ Attach box now really starts unticked; No picture saved is grey · [code](https:
 - Attach box unticked unless you ticked it before
 - No picture saved in grey · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Discord tab tidy-up
+### Discord tab tidy-up
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 13 Nov 2026 (00:49 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6d52087)
 
@@ -70,7 +75,7 @@ Excel attach box sits above Post and starts unticked; clearer help text; More op
 - Stay safe says the Discord link is on the Discord tab · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - More options arrow
 
-## Easier reading and privacy switches · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Easier reading and privacy switches · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 13 Nov 2026 (00:44 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/e19dce0)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -81,7 +86,7 @@ Settings has an Easier reading option with wider spacing, a Don't save anything 
 
 - Added Reading Normal or Easier, Don't save anything, expiry of saved key and link (7 days by default), keyboard and privacy tests on GitHub · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Page directory and calmer clan tab
+### Page directory and calmer clan tab
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 13 Nov 2026 (00:36 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/1263e06)
 
@@ -91,7 +96,8 @@ Home now has a short directory of pages, each with its own colour on the tab and
 > **What you'll see:** Home and Roblox clan sheet tabs · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 - Added a page directory with per-page colours, wrapped the tab row, folded the can and can't do lists, merged key notes, numbered clan steps, enlarged the Remember my key tick box and the key link
-## Bill rates written with per · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+### Bill rates written with per · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 13 Nov 2026 (00:46 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c69bccf)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -102,7 +108,7 @@ p per kWh is understood like p/kWh
 
 - kwhFor accepts per as well as / · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Clan points with + or pts
+### Clan points with + or pts
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 13 Nov 2026 (00:45 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/a46d580)
 
@@ -113,7 +119,8 @@ p per kWh is understood like p/kWh
 
 - parsePoints drops a leading + and a trailing pts/points
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Clan points like 1,5K
+
+### Clan points like 1,5K
 
 13 Nov 2026 (00:45 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/31689be) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -124,7 +131,7 @@ p per kWh is understood like p/kWh
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - parsePoints treats a comma before K/M/B/T as a decimal
 
-## Swiss bill amounts · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Swiss bill amounts · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 13 Nov 2026 (00:41 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/16f9a35)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -135,7 +142,7 @@ Amounts like 1'234.50 are read correctly
 
 - parseNum joins digit groups split by apostrophes; tricky-amounts test list added · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Bill credits after a word
+### Bill credits after a word
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 13 Nov 2026 (00:41 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/ffd0aa3)
 
@@ -146,7 +153,8 @@ USD -12.50 now counts as a credit · [code](https://github.com/Ginger-Hermit/Fis
 
 - parseNum finds a minus anywhere before the number
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Bill amounts with dots
+
+### Bill amounts with dots
 
 13 Nov 2026 (00:26 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/1b77f15) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -157,7 +165,7 @@ Amounts like 1.234.567 are no longer left blank
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - parseNum treats repeated 3-digit dot groups as thousands
 
-## Bill amounts with spaces · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Bill amounts with spaces · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 13 Nov 2026 (00:25 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6f518ba)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -168,7 +176,7 @@ Amounts like 1 234,56 are read correctly
 
 - parseNum joins digit groups split by spaces · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## 12-hour time in sheet names
+### 12-hour time in sheet names
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 13 Nov 2026 (00:02 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/81b5b01)
 
@@ -179,7 +187,8 @@ Sheet names use normal time, like 'Loki - 13 Nov 2026 2.05pm.xlsx'. · [code](ht
 
 - File name time is 12-hour with am/pm. [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/37d9b79c3ae30432097ad2dd6f2c5365e67ec7c9)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Time in sheet names
+
+### Time in sheet names
 
 13 Nov 2026 (00:01 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/3105b8b) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -190,7 +199,7 @@ Clan sheets now include the time, like 'Loki - 13 Nov 2026 14.05.xlsx'.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Added hour and minute to the file name. [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/1dc31c82468a56b37927b1f4c8e97e12932545b6)
 
-## Sheets named by clan and date · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Sheets named by clan and date · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 13 Nov 2026 (00:01 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/4b13ca0)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -201,7 +210,12 @@ Clan sheets now download as, for example, 'Loki - 13 Nov 2026.xlsx'.
 
 - File name is clan name and today's date. [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/56d9441e8336e513b7543816a2f97765c430c853) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Foldable developer bar
+</details>
+
+<details>
+<summary><b>12 Nov 2026</b> · 170 updates</summary>
+
+### Foldable developer bar
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (23:59 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/645a6cb)
 
@@ -212,7 +226,8 @@ Tap the developer bar to fold it down to one line. · [code](https://github.com/
 
 - Developer bar folds to one line; the page remembers your choice.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Calmer developer bar
+
+### Calmer developer bar
 
 12 Nov 2026 (23:59 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8de4038) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -223,7 +238,7 @@ The developer bar is flatter and takes less space.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Developer bar is one slim box: status and version on top, one grey line of details below.
 
-## Earlier wrong names no longer stick · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Earlier wrong names no longer stick · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (23:57 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/3238c7b)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -234,7 +249,7 @@ If an earlier sheet had an impossible name (like dots), the new correct spelling
 
 - fixNames keeps the new spelling when the earlier one is not a valid Roblox name. [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/13811fc969f83dc10deeef5fed43dd80ac89da50) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Version numbers
+### Version numbers
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (23:55 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6cc1be1)
 
@@ -245,7 +260,8 @@ Versions are now simple numbers like 1.1.1 instead of date and letters. · [code
 
 - Page version is now a number (1.1.x). Each update adds 1 to the last number.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Nicer developer bar
+
+### Nicer developer bar
 
 12 Nov 2026 (23:53 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/09400f4) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -256,7 +272,7 @@ The developer bar at the top is easier to read and shows more.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Developer bar shows status, page and live version, last checked, check speed and page age, in the page colours.
 
-## Tidier developer bar · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Tidier developer bar · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (23:51 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/fbfee6a)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -267,7 +283,7 @@ The developer line at the top is easier to read, with a Get button when a new ve
 
 - Developer bar reworded and spaced out. [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/25c794fda871d9ca965df0c5847d066b09bcf145) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## AI flags names it is unsure of
+### AI flags names it is unsure of
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (23:50 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8c75155)
 
@@ -278,7 +294,8 @@ Names the AI isn't sure about show orange in the table so you can check them. ·
 
 - AI marks unsure names; the table counts them as needing a look. [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/31ce75984c921dfebfac0c656c33656e57457670)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Better name reading
+
+### Better name reading
 
 12 Nov 2026 (23:49 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0b338e9) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -289,7 +306,7 @@ The AI is told to copy names letter by letter: 1 vs l, and underscores not dots.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Stricter username rule in the AI instructions. [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/95d4423edc94a60a2289e21dac8dcb3a77056862)
 
-## Bug report button by the stills · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Bug report button by the stills · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (23:48 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6e06b83)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -300,7 +317,7 @@ The developer stills now have their own Copy bug report button.
 
 - Added a Copy bug report button under the stills heading. [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/18ced806a939df75299c1df84910a6b30e33e096) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Warns about reused videos
+### Warns about reused videos
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (23:47 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/b71dfc7)
 
@@ -311,7 +328,8 @@ Picking a video you already turned into a sheet shows 'Already used' with the da
 
 - Remembers used videos (name, size, date only) on this device. [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/501f309386921fc667536f6a13f399cfe6ffa569)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Developer update line
+
+### Developer update line
 
 12 Nov 2026 (23:45 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2abdd42) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -322,7 +340,7 @@ With ?dev, a line at the top shows this page's version, the live version, and a 
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Developer mode: version line with check countdown.
 
-## Developer mode · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Developer mode · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (23:42 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0b15645)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -333,7 +351,7 @@ Add ?dev to the address to see each still sent to the AI and its raw reply.
 
 - Developer mode: stills sent and raw AI reply. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Test read takes the whole video
+### Test read takes the whole video
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (23:38 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/929fa05)
 
@@ -344,7 +362,8 @@ Test read on a video now reads every still, not just the first, so scrolled memb
 
 - Test read sends all stills of a video.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Video reads the whole list
+
+### Video reads the whole list
 
 12 Nov 2026 (23:37 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c02983b) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -355,7 +374,7 @@ A short scrolling video no longer stops at the first rows.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - The AI is told to read every picture to the last one.
 
-## Misread names keep the earlier spelling · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Misread names keep the earlier spelling · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (23:23 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/f7d2c5c)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -366,7 +385,7 @@ If the AI misreads a name (like l for 1), the sheet keeps the spelling from earl
 
 - fixNames now corrects today's row to the earlier name instead of renaming the history · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Video reads catch every clan member
+### Video reads catch every clan member
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (23:07 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/cb94eed)
 
@@ -377,7 +396,8 @@ Quick scroll videos no longer drop the bottom of the list · [code](https://gith
 
 - Video stills are taken 8 times a second and a small scrolling list counts as a new picture
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Points with dots or spaces
+
+### Points with dots or spaces
 
 12 Nov 2026 (12:58 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/88454da) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -388,7 +408,7 @@ Points written like 1.234.567 or 1 234 now read as numbers instead of blank.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - parsePoints treats dot, space or apostrophe thousands marks as separators
 
-## Safer saved sheet and CSV · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Safer saved sheet and CSV · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (12:52 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/1b018fe)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -401,7 +421,8 @@ A damaged saved last sheet is ignored instead of breaking the next sheet; negati
 
 - okHist checks saved history shape; toCsv leaves numbers unquoted
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Page styles moved to their own file
+
+### Page styles moved to their own file
 
 12 Nov 2026 (12:41 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c272914) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -412,7 +433,7 @@ All page styles now live in style.css, so the browser refuses any styles sneaked
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Moved the style block and 155 inline styles into style.css; _headers no longer allows inline styles.
 
-## Page code moved to its own file · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Page code moved to its own file · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (12:31 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2999a40)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -423,7 +444,7 @@ The page's code now lives in app.js, so the browser refuses any code sneaked int
 
 - Moved the script out of index.html into app.js; _headers no longer allows inline scripts. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Shorter bug report help
+### Shorter bug report help
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (12:28 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/a417f9b)
 
@@ -434,7 +455,8 @@ The help text under Copy bug report is shorter. · [code](https://github.com/Gin
 
 - Shortened the bug report help text
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Less text on the Discord tab
+
+### Less text on the Discord tab
 
 12 Nov 2026 (12:27 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/5ecfcbf) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -445,7 +467,7 @@ The Discord tab has shorter help text.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Shortened the intro, webhook help and footer
 
-## Simpler Discord tab · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Simpler Discord tab · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (12:25 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8bb1a01)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -456,7 +478,7 @@ The Discord tab has fewer steps. Header picture and ping moved into More options
 
 - Link is step 1 with a short webhook line and Discord guide link, header picture and ping moved into More options, added a Stay safe line for support.discord.com · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Cut-off bill reply keeps what was read
+### Cut-off bill reply keeps what was read
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (12:22 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/089a57c)
 
@@ -467,7 +489,8 @@ If the AI reply stops halfway, the complete charges are kept instead of losing t
 
 - parseBills closes a cut-off reply at the last complete charge.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Tidier Discord tab
+
+### Tidier Discord tab
 
 12 Nov 2026 (12:19 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/d88006e) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -478,7 +501,7 @@ The Discord link is now step 1 and its messages show right under the box. The we
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Numbered the link as step 1, moved link messages under the box, folded the webhook help, showed the Untick note only when ticked
 
-## Webhook help wording · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Webhook help wording · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (12:17 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0bb230c)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -489,7 +512,7 @@ The webhook steps no longer have random capital letters.
 
 - Lowercased the step words in the webhook help · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Webhook help on the Discord tab
+### Webhook help on the Discord tab
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (12:14 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6cf6ed8)
 
@@ -500,7 +523,8 @@ New people can see what a Discord webhook is and how to get one. A wrong link no
 
 - Added short webhook steps under the link box and clearer wrong-link message
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Ping box readable by screen readers
+
+### Ping box readable by screen readers
 
 12 Nov 2026 (12:12 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8904e69) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -511,7 +535,7 @@ The Discord ping picker now has a name screen readers can say.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Added a label to the ping picker; new readability test runs on GitHub.
 
-## Zip bomb guard, risky-code scanner · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Zip bomb guard, risky-code scanner · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (10:58 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/e949de3)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -522,7 +546,7 @@ A booby-trapped Excel file is refused instead of freezing the page; the update c
 
 - zipCheck before every Excel open; column loops capped at 400; version fetch timeout; tests/check.py scans for risky patterns · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Safer Discord posting, clearer grey text
+### Safer Discord posting, clearer grey text
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (10:51 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2289668)
 
@@ -533,7 +557,8 @@ A slow upload no longer posts twice, a busy Discord gets one more try, and grey 
 
 - Timeout stops instead of resending; 429 retry on the first message; long-message cut guard; darker muted colour
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Safe names in Discord posts
+
+### Safe names in Discord posts
 
 12 Nov 2026 (10:48 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/45186ff) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -544,7 +569,7 @@ A player or bill name can no longer turn into a fake link or break the Discord m
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Names, roles, clan, game and bill text are escaped before posting
 
-## No ping everyone · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### No ping everyone · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (10:42 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/231ff87)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -555,7 +580,7 @@ The Discord ping choice no longer has @here or @everyone, so the whole channel c
 
 - Removed the @here and @everyone options and their code. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Safer Discord posting
+### Safer Discord posting
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (10:38 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/1980862)
 
@@ -566,7 +591,8 @@ Four Discord problems are fixed: the ping everyone choice is no longer remembere
 
 - Only the role ping is remembered; Post blocked while posting; one retry on Discord's slow-down; Excel files over 5 MB or 5000 rows are cut off.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Discord post in two messages
+
+### Discord post in two messages
 
 12 Nov 2026 (07:42 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/afa5f12) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -577,7 +603,7 @@ The picture comes first, right under the heading, and the written breakdown foll
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Split the post in two; removed extra blank lines; long breakdowns get their own full message.
 
-## Ping a Discord role · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Ping a Discord role · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (07:41 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/87f0d00)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -588,7 +614,7 @@ On the Discord tab you can pick Ping a role, paste your own role ID, and posts p
 
 - Role pings use the role ID you paste (saved on this device); nobody else gets pinged. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Green and red lines in the Discord post
+### Green and red lines in the Discord post
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (07:40 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7eb1f08)
 
@@ -599,7 +625,8 @@ Who went up shows green and who went down shows red in the Discord post. · [cod
 
 - Lists use Discord's diff colours: plus lines green, minus lines red.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Optional ping on Discord posts
+
+### Optional ping on Discord posts
 
 12 Nov 2026 (07:38 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/43d6eec) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -611,7 +638,8 @@ Pick Ping @here or Ping @everyone on the Discord tab; the default pings nobody.
 - Added a ping choice (off by default).
 - Fixed plurals in the role line.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Discord breakdown with headers and per-person changes
+
+### Discord breakdown with headers and per-person changes
 
 12 Nov 2026 (07:38 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/43d6eec) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -622,7 +650,7 @@ The Discord message has headers and lists each person's old points, new points a
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Per-person lines like Kiviix: 136,630 to 155,240 (+18,610); lists show 10 then and N more.
 
-## Bullet points in the Discord breakdown · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Bullet points in the Discord breakdown · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (07:35 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0db833c)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -633,7 +661,7 @@ The written breakdown in the Discord post now uses short bullet points under eac
 
 - Turned the sentences into bullets. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Discord post breaks down every tab
+### Discord post breaks down every tab
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (07:34 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c250686)
 
@@ -644,7 +672,8 @@ The Discord message now reads the whole Excel file and explains Clan Members, Le
 
 - Reads the Points history tab; message lists roles, top points, gains, drops, new and left members, clan total per run.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Discord post breaks down the stats
+
+### Discord post breaks down the stats
 
 12 Nov 2026 (07:30 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0747fba) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -655,7 +684,7 @@ The Discord message now shows average points, up, down, same and new counts, top
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Added a stats breakdown to the message for posted sheets (own files and just-made sheets).
 
-## Tidier Discord message, no Excel on request · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Tidier Discord message, no Excel on request · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (07:29 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/130bfa7)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -667,7 +696,7 @@ The Discord message has a heading and bold numbers, and My own files now respect
 - New message layout (heading, date line, bold totals and change). · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Picked Excel files are only attached when the tick is on; the picture is drawn from them either way.
 
-## Discord posts can't ping anyone · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Discord posts can't ping anyone · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (07:27 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/3d2381b)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -678,7 +707,7 @@ A name like @everyone in a sheet can no longer ping your whole Discord server.
 
 - Posts now tell Discord to ignore mentions. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## One tick for the Discord link
+### One tick for the Discord link
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (07:26 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/73f759a)
 
@@ -689,7 +718,8 @@ Removed the Forget link button; the tick now says Save my link on this device an
 
 - Hid Forget link; renamed the tick; added a one-line hint.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Bigger Discord buttons, clear options back
+
+### Bigger Discord buttons, clear options back
 
 12 Nov 2026 (07:23 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/be59c53) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -700,7 +730,7 @@ Discord tab has bigger buttons and choices, Choose files and Choose picture butt
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Large option cards and buttons; Clear, Remove and Forget link visible when needed; old file names no longer shown.
 
-## Log and bug report on the Discord tab · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Log and bug report on the Discord tab · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (07:21 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/683e11e)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -711,7 +741,7 @@ The Log and Copy bug report box now also shows at the bottom of the Discord tab.
 
 - Log box follows you to the Discord tab; it opens by itself on an error. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Simpler Discord tab, one file picker
+### Simpler Discord tab, one file picker
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (07:21 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/5c66d6c)
 
@@ -722,7 +752,8 @@ One file box takes your Excel sheet and/or photo; fewer buttons; a wrong file gi
 
 - Merged the two pickers into one that sorts files by type; hid Send a test, Forget, Clear and Remove (Settings still clears saved data).
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## What the site does, on Home
+
+### What the site does, on Home
 
 12 Nov 2026 (07:20 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2fe8212) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -733,7 +764,7 @@ Home now explains what Fishing Cat Data is, what it can do and what it can't.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Added a short intro with What it can do and What it can't do.
 
-## Intro above the key · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Intro above the key · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (07:19 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/78882e3)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -744,7 +775,7 @@ The clan and Bills tabs start with a short paragraph about what the page does, a
 
 - Added an intro paragraph and moved the green tip above the key box. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Simpler Discord tab
+### Simpler Discord tab
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (07:18 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c369598)
 
@@ -755,7 +786,8 @@ The Discord tab is now three steps: pick what to post, optional header picture, 
 
 - Replaced the two posting boxes with one flow and one button; errors show under the button.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Hint at the top of the clan tab
+
+### Hint at the top of the clan tab
 
 12 Nov 2026 (07:17 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7bb4637) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -766,7 +798,7 @@ The tip about More options, Log and the Discord tab is now a coloured note at th
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Moved the hint from under the bars to the top and gave it a colour.
 
-## Even gaps and Discord hint · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Even gaps and Discord hint · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (07:16 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/d57265f)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -777,7 +809,7 @@ Same gap above every bar on the clan tab; the hint no longer points to Discord u
 
 - Removed two odd gap settings; shortened the empty Log; made file pickers shrink to fit. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Discord has its own tab
+### Discord has its own tab
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (07:14 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/1c9aa43)
 
@@ -789,7 +821,7 @@ Posting to Discord now lives in its own Discord tab, so the sheet tabs are less 
 - Moved the Discord box and Post without the AI to a Discord tab.
 - Errors from posting show in the Discord tab. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Remove stray headings
+### Remove stray headings
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (07:14 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/b885d54)
 
@@ -800,7 +832,8 @@ Took out the two headings added last update; they ended up in the wrong place. �
 
 - Removed the Share to Discord and Problems? headings.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Sections for Discord and Log
+
+### Sections for Discord and Log
 
 12 Nov 2026 (07:12 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/62e6186) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -811,7 +844,7 @@ The Discord box and the Log now sit under their own small headings, split from t
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Added two headings with a divider line (Share to Discord, Problems?).
 
-## Clear buttons on Post without the AI · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Clear buttons on Post without the AI · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (07:15 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/47cafb8)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -822,7 +855,7 @@ Each file box now has a Clear button, so you can take a picked sheet or photo ba
 
 - Clear button under each file picker; it empties the pick and the green tick. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Even spacing
+### Even spacing
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (07:08 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/da8d26a)
 
@@ -833,7 +866,8 @@ Gaps between the bars are the same and the empty message areas no longer leave a
 
 - Empty message and progress areas take no space; bars use one gap.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## File selected messages
+
+### File selected messages
 
 12 Nov 2026 (07:07 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/cbd0e891f40ce1ee31c783e63b1155069d46f99a) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -844,7 +878,7 @@ When you pick a photo or sheet to post, the page says File selected.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Added 'File selected: name' under the Excel sheet, Photo and Header picture pickers.
 
-## Discord picture redesign, post without AI, collapsible sections · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Discord picture redesign, post without AI, collapsible sections · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (07:07 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8601d0e)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -855,7 +889,7 @@ The Discord picture matches your mockup; you can post a saved sheet and photo wi
 
 - New picture design (artwork colour background, rounded table, medals, footer). Post a saved Excel sheet and/or photo without any AI. Add screenshots and Add bills are collapsible. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Discord: shorter message and optional Excel file
+### Discord: shorter message and optional Excel file
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (07:04 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8601d0e)
 
@@ -866,7 +900,8 @@ Untick Attach the Excel file to post without the download; the message is shorte
 
 - Optional Excel attachment (remembered). With the picture, the message drops the top-gains and drops lists since the picture shows Change.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Header picture shows it is saved
+
+### Header picture shows it is saved
 
 12 Nov 2026 (07:03 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0bde9c2) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -877,7 +912,7 @@ After you pick a header picture, a small preview and 'Picture saved' stay in the
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Added a thumbnail and a clear saved message, also shown when you come back later.
 
-## Post to Discord button in the Discord box · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Post to Discord button in the Discord box · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (07:01 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/f8548b7)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -888,7 +923,7 @@ The Discord box has its own Post to Discord button.
 
 - Post button added next to Test. It posts the current list; if there is none it says Make a list first. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Plainer video tip
+### Plainer video tip
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (07:00 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2c50fb5)
 
@@ -899,7 +934,8 @@ The video tip reads naturally. · [code](https://github.com/Ginger-Hermit/Fishin
 
 - Reworded the video tip again.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Simpler video tip
+
+### Simpler video tip
 
 12 Nov 2026 (06:59 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7b87251) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -910,7 +946,7 @@ The video tip is one short sentence.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Reworded the video scrolling tip.
 
-## Key note moved next to the key · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Key note moved next to the key · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (06:58 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/44f2624)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -921,7 +957,7 @@ The 'Your key is safe here' note sits under the key box, not in the middle of th
 
 - Moved the key safety note into the key section. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Sheet colours back
+### Sheet colours back
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (06:58 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/e561115)
 
@@ -932,7 +968,8 @@ The gold, silver and bronze ranks and the Owner and Coach colours are back in th
 
 - Undid the fewer-colours change.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Fewer colours
+
+### Fewer colours
 
 12 Nov 2026 (06:57 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/e3cbef6) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -943,7 +980,7 @@ The sheet and preview only use colour for up, down, left the clan and check this
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Removed rank medal colours and Owner/Coach colours from the sheet and preview; the About tab colour key lists only what is left.
 
-## Less clutter after a read · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Less clutter after a read · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (06:56 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/694e7ec)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -954,7 +991,7 @@ After a read there are fewer lines of small print above the preview.
 
 - Shorter Test OK message, shorter earlier-members note, and the 'Looking for Discord' hint hides while a preview is showing. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Ask before opening links
+### Ask before opening links
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (06:54 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/08709a4)
 
@@ -965,7 +1002,8 @@ The page asks before it opens another website. · [code](https://github.com/Ging
 
 - All links to other websites now ask first, naming the site.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Clearer links at the top of Home
+
+### Clearer links at the top of Home
 
 12 Nov 2026 (06:54 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0e226e9) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -976,7 +1014,7 @@ The two links at the top say where they go and use the page's link colour.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Renamed to Guide on GitHub and Free key from Google (opens Google); bold, link colour.
 
-## Footer links easier to see · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Footer links easier to see · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (06:53 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7423f10)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -987,7 +1025,7 @@ Stay safe, Privacy, Legal and GitHub links are bigger and in colour.
 
 - Footer links now use the link colour, bold, 15px with more space to tap. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Cleaner Stay safe page
+### Cleaner Stay safe page
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (06:52 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2ac2398)
 
@@ -998,7 +1036,8 @@ The Stay safe page is one short box plus one More detail box. · [code](https://
 
 - Merged the two top boxes and the six detail boxes into one short list and a single closed More detail section.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Link cards on the GitHub tab
+
+### Link cards on the GitHub tab
 
 12 Nov 2026 (06:51 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/1610b22) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1009,7 +1048,7 @@ The GitHub tab shows a small preview card for each link.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Replaced the two buttons with three preview cards. No new website is contacted: the previews are written into the page.
 
-## Tidier Stay safe page · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Tidier Stay safe page · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (06:51 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/4615b26)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -1020,7 +1059,7 @@ The Stay safe page is easier to follow.
 
 - Fixed 'The 5 big ones' (it listed six), clearer intro line, and only one detail box stays open at a time. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Fix guide button place
+### Fix guide button place
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (06:50 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f52fd8)
 
@@ -1031,7 +1070,8 @@ The Read the guide button is on the GitHub tab. · [code](https://github.com/Gin
 
 - Moved the Read the guide button from the Safety page to the GitHub tab.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Easier to read grey text, simpler GitHub tab
+
+### Easier to read grey text, simpler GitHub tab
 
 12 Nov 2026 (06:49 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/daa25d9) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1042,7 +1082,7 @@ Grey help words are darker and a bit bigger. The GitHub tab is simpler.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Darker grey in all themes, 12px help text now 13px, removed the fake README preview, added a Read the guide button.
 
-## Tidier Settings · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Tidier Settings · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (06:49 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/dc0af66)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -1053,7 +1093,7 @@ Settings is split into clear boxes.
 
 - Grouped Settings into boxes with bold headings; AI model is closed until opened. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Back to a calm look
+### Back to a calm look
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (06:48 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2ad8fd8)
 
@@ -1064,7 +1104,8 @@ No gradients. Flat, calm colours with a colour stripe on each bar. · [code](htt
 
 - Removed all gradients and the banner. Page looks as before, with the bars keeping their colour stripe.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## No emoji in the banner
+
+### No emoji in the banner
 
 12 Nov 2026 (06:47 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2f1742a) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1075,7 +1116,7 @@ The banner is just the name now.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Removed the cat emoji.
 
-## What the colours mean · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### What the colours mean · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (06:46 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/4c50b1c)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -1086,7 +1127,7 @@ The Home page explains the coloured bars.
 
 - Added a short closed section listing what blue, green, purple and grey bars are for. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## One look for the whole page
+### One look for the whole page
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (06:46 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/001fd61)
 
@@ -1097,7 +1138,8 @@ The header, tabs and main buttons now share one colour gradient. · [code](https
 
 - Gradient banner and pill tabs, soft page background, rounded card, tighter spacing. Each theme has its own second colour.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Fair baseline for same-day runs
+
+### Fair baseline for same-day runs
 
 12 Nov 2026 (06:45 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/b985f84) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1108,7 +1150,7 @@ A run made earlier today no longer wipes out Change, % Change and Trend.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - If the last sheet was made today, the page compares with the last earlier day in its history. Also applied to the remembered last sheet.
 
-## Gradient on section bars · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Gradient on section bars · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (06:41 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f99bd6)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -1119,7 +1161,7 @@ The section bars now fade from colour to calm.
 
 - Soft colour gradient behind each section heading, same stripe colours. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Colour stripes on section bars
+### Colour stripes on section bars
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (06:41 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/b69bb92)
 
@@ -1130,7 +1172,8 @@ Each closed section has its own colour stripe. · [code](https://github.com/Ging
 
 - Added a thin colour stripe to the left of each section bar.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Easier to read menus
+
+### Easier to read menus
 
 12 Nov 2026 (06:40 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/1abad8d) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1141,7 +1184,7 @@ The closed sections now look like clear buttons.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Bigger bold headings with a border; one grey help line in the Discord section instead of three.
 
-## Hint for hidden options · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Hint for hidden options · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (06:39 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6c8fcf1)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -1152,7 +1195,7 @@ A short note tells people where Discord, last sheet and the Log are.
 
 - Added one grey line pointing to the small arrows; More options now says what is inside. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Compact clan tab
+### Compact clan tab
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (06:39 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/de9b327)
 
@@ -1163,7 +1206,8 @@ The clan tab is shorter: key, last sheet, Discord and Log are tucked into closed
 
 - AI key box closes once a key is saved. Last sheet and Test first moved under More options. Discord link and header picture moved under Post to Discord (optional).
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Buttons wrap on small screens
+
+### Buttons wrap on small screens
 
 12 Nov 2026 (06:38 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/480ddb9) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1174,7 +1218,7 @@ The buttons under the table no longer run off the page.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Button row under the clan and Bills tables now wraps.
 
-## Last sheet kept automatically · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Last sheet kept automatically · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (06:38 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/4aaf91d)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -1185,7 +1229,7 @@ The sheet you just made becomes your last sheet, so you don't pick it again.
 
 - Download or Post to Discord keeps the new sheet (names, points, history) on this device for the next run. Not used until the next list, so this list's changes stay right. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Remember the game name
+### Remember the game name
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (06:36 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/4aaf91d)
 
@@ -1196,7 +1240,8 @@ If the AI can't tell the game, the page uses the last game it recognised instead
 
 - Last recognised game is kept on this device and used when the AI gives none. Listed under Privacy.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Ad blocker note for Discord
+
+### Ad blocker note for Discord
 
 12 Nov 2026 (06:34 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8d28a1f) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1207,7 +1252,7 @@ The page warns that ad blockers can stop Discord posts.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Added an ad blocker and privacy shield note to the Discord help line and the error message.
 
-## Log shows Discord steps · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Log shows Discord steps · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (06:34 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/f8e703e)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -1218,7 +1263,7 @@ The Log and bug report now show what happened with Discord.
 
 - Log lines for: files sent and sizes, header picture used or not, Discord's answer and reason. The link is never written. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Clear Discord error
+### Clear Discord error
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (06:33 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/a31cd1a)
 
@@ -1229,7 +1274,8 @@ If Discord can't be reached, the page says so in plain words. · [code](https://
 
 - Discord network failures now show 'Could not reach Discord' and write the real reason in the Log.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Table picture for Discord posts
+
+### Table picture for Discord posts
 
 12 Nov 2026 (06:31 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/94abc40) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1240,7 +1286,7 @@ Post to Discord now also sends a picture of the table, with your header artwork 
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Page draws the table on a canvas (no AI, no package) and posts it with the message and the .xlsx. Clan: rank, name, role, points, change with gold, silver and bronze. Bills: simple charges table.
 
-## Detailed Discord summary · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Detailed Discord summary · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (06:25 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/950ccfc)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -1251,7 +1297,7 @@ The Discord post and Copy message now say what changed: total change, who went u
 
 - Longer change summary for Discord · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Discord link on the clan and bills tabs
+### Discord link on the clan and bills tabs
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (06:23 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/b5889db)
 
@@ -1262,7 +1308,8 @@ The Discord link box moved from Settings to the Roblox clan sheet and Bills tabs
 
 - Move Discord link box to the clan and bills tabs
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Look-alike names count as one player
+
+### Look-alike names count as one player
 
 12 Nov 2026 (06:22 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/63730e9) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1273,7 +1320,7 @@ If the AI misreads g as q (or 0/o, 1/i/l), the player is matched to their old ro
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Fold look-alike letters in name matching
 
-## Better game name read · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Better game name read · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (06:21 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c9845f7)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -1284,7 +1331,7 @@ The AI is now allowed to recognise the Roblox game from how the screen looks, so
 
 - Looser game_name wording in the layout prompt · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Bug report hides your time zone
+### Bug report hides your time zone
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (06:18 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/eec3d3e)
 
@@ -1295,7 +1342,8 @@ The bug report no longer includes your time zone. Its date is shown in UTC. · [
 
 - Remove time zone from the bug report
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Weak model only for the layout step
+
+### Weak model only for the layout step
 
 12 Nov 2026 (06:18 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/5b7abb2) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1306,7 +1354,7 @@ The smallest Gemini model now only does the quick layout step. Reading the membe
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Block flash-lite outside the layout step
 
-## Post to Discord for bills · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Post to Discord for bills · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (06:16 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/e491304)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -1317,7 +1365,7 @@ Bills now has Post to Discord too, on tap only. It sends a short summary and the
 
 - Discord posting on Bills · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Post to Discord always shown
+### Post to Discord always shown
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (06:15 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c6782c6)
 
@@ -1328,7 +1376,8 @@ Post to Discord now shows on every clan sheet. With no saved link it asks you to
 
 - Ask for the Discord link on the clan preview
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Discord link not saved by default
+
+### Discord link not saved by default
 
 12 Nov 2026 (06:15 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/bb2a83f) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1339,7 +1388,7 @@ The Discord link is forgotten when you close the page unless you tick Remember m
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Discord link kept in memory only by default
 
-## Skip the busy Gemini model · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Skip the busy Gemini model · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (06:13 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/a75c7d2)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -1350,7 +1399,7 @@ After a backup model answers, the next steps start on it for 10 minutes instead 
 
 - Remember the Gemini model that last answered · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Post to Discord
+### Post to Discord
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (06:12 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6b2217a)
 
@@ -1361,7 +1410,8 @@ Optional Discord link in Settings. After a clan read, Post to Discord sends a sh
 
 - Discord webhook posting, on tap only
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Slow Gemini switches model
+
+### Slow Gemini switches model
 
 12 Nov 2026 (06:10 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/a1a19b4) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1372,7 +1422,7 @@ If Google is slow, the page tries a backup model after 75s instead of waiting 3 
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Timeout now swaps to the backup Gemini model
 
-## Clan history tab layout · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Clan history tab layout · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (06:06 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6ac51d6)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -1384,7 +1434,7 @@ The Points history tab shows its title and how-to-read box in full instead of cu
 - Points history: how-to-read box and title fit the runs, only the top rows are frozen · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Bills Summary: no frozen column splitting the how-to-read box
 
-## Bills Summary column widths · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Bills Summary column widths · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (06:06 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/3d817d9)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -1396,7 +1446,7 @@ The Bills Summary tab columns are wide enough to read again.
 - Summary bill columns set to 46 wide (they had dropped to the default narrow width) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Taller how-to-read box
 
-## Bill units from price rates · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Bill units from price rates · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (06:04 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/55b728d)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -1408,7 +1458,7 @@ Bills where the AI wrote the price rate (c/unit, c/day) as the unit now still tu
 - Units like c/unit, c/day and c/kWh are read by the part after the slash · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - The AI is told to give the unit of the quantity, not the price rate
 
-## Gemini daily limit handled · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Gemini daily limit handled · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (06:03 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/31a57cc)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -1419,7 +1469,7 @@ When Google's free daily limit for a model is used up, the page switches to a ba
 
 - Daily free-limit errors (429) switch to a backup Gemini model or show a clear message with the reset time · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Report on GitHub, filled in
+### Report on GitHub, filled in
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (06:01 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/44c6db3)
 
@@ -1430,7 +1480,8 @@ After a problem, one tap opens a GitHub issue with the report already filled in.
 
 - Report on GitHub opens a filled-in issue form (page version, device, last 1800 characters of the Log; keys, pictures and AI replies left out)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Safer Gemini backup models
+
+### Safer Gemini backup models
 
 12 Nov 2026 (05:58 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/e270dc3) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1441,7 +1492,7 @@ The busy-AI backups are now gemini-3.7-flash then gemini-3.5-flash-lite, and a b
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Backup models changed to 3.7 flash then 3.5 flash-lite; a missing backup model moves on to the next
 
-## Switch Gemini model when busy · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Switch Gemini model when busy · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (05:55 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/82e9e37)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -1452,7 +1503,7 @@ When Google says gemini-3.8-flash is overloaded, the retries now use older Gemin
 
 - Busy Gemini retries switch to gemini-3.7-flash, then gemini-3.6-flash · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Retry when the AI is busy
+### Retry when the AI is busy
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (05:51 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2f92a27)
 
@@ -1463,7 +1514,8 @@ When Google (or another AI company) says it is busy, the page waits a few second
 
 - Automatic retries (3 tries) on busy-AI errors (500, 502, 503, 504) and dropped connections
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Stop Gemini bills running away
+
+### Stop Gemini bills running away
 
 12 Nov 2026 (05:49 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/d863d8c) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1474,7 +1526,7 @@ Bill reads to Google Gemini now have a size cap and ask for JSON only, so a stuc
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Gemini bill requests capped at 8192 tokens and set to JSON-only
 
-## Console shows errors · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Console shows errors · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (05:46 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/d64a74f)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -1486,7 +1538,7 @@ The Log now catches and shows page errors, blocked requests, failed loads and br
 - Page errors, security-rule blocks, failed file loads and console errors and warnings are recorded · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Errors red, warnings amber, Log opens on an error
 
-## Black Log box · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Black Log box · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (05:46 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c5ea7c4)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -1497,7 +1549,7 @@ The Log now looks like a live console: dark, easy-to-read text that scrolls to t
 
 - Log box is dark with monospace text, scrolls to the newest line, can be resized · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Much more detailed Log
+### Much more detailed Log
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (05:41 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/f26e58c)
 
@@ -1510,7 +1562,7 @@ The Log and bug report now record timings, sizes, AI token counts and error deta
 - Failed runs log the full error reply and the code location · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Bug report starts with page version, model, screen, connection and device
 
-## Clearer bills sheet · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Clearer bills sheet · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (05:37 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c96fc6d)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -1524,7 +1576,7 @@ The bills Excel file now opens on a Summary that a new person can follow.
 - Cost by type moved up above the AI's words
 - Plainer column names on the Bills tab · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Tidier safety and privacy lists
+### Tidier safety and privacy lists
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (05:35 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/5f27f5c)
 
@@ -1536,7 +1588,7 @@ The tick lists on Stay safe and Privacy now read as normal sentences. · [code](
 - Fixed bold words and links breaking out of the tick lists
 - Privacy list now uses the same tick style as Stay safe, with a ! on the two warnings · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Stay safe page reassures, Bills gets Test first
+### Stay safe page reassures, Bills gets Test first
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (05:31 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/cac3fc3)
 
@@ -1550,7 +1602,8 @@ Stay safe now says plainly what happens to your pictures and key, and the Bills 
 - Bills: Test first (one photo, no file) fills the preview
 - Sample photos removed from the GitHub guide
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Home tidy-up
+
+### Home tidy-up
 
 12 Nov 2026 (05:28 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0f6c071) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1563,7 +1616,7 @@ The Home page no longer repeats the footer, the section arrows match the page an
 - Section headings use a small arrow instead of the browser's black triangle
 - Tab row scrolls sideways instead of wrapping · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Bills sheet simpler, Home steps line up
+### Bills sheet simpler, Home steps line up
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (05:27 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2b437c5)
 
@@ -1577,7 +1630,8 @@ The bills sheet shows fewer columns and plainer words, and the numbered steps on
 - Bill column says Bill 1, Bill 2
 - Summary: plainer row names and a name for each plain-words note
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Home page colours
+
+### Home page colours
 
 12 Nov 2026 (05:24 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/cbd527f) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1589,7 +1643,8 @@ The Home page now uses the theme colour for headings, steps and the safety box.
 - Coloured section headings and numbered steps on Home
 - Safety section tinted, follows the chosen theme
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Home sections fold up, links at the top
+
+### Home sections fold up, links at the top
 
 12 Nov 2026 (05:23 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7a53a58) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1601,7 +1656,8 @@ The Home page sections now open and close, with a link to the full guide and the
 - Home sections collapse (How to use it open by default)
 - Links to the GitHub guide and the free key sit at the top
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Home page carries a short version of the guide
+
+### Home page carries a short version of the guide
 
 12 Nov 2026 (05:22 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/a3d009e) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1612,7 +1668,7 @@ The Home page now has a shortened copy of the README: how to use it, what you ge
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Home: how to use it, what you get, is it safe, good to know, link to the full guide
 
-## Bills sheet: colours, how to read, tidy layout · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Bills sheet: colours, how to read, tidy layout · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (05:21 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/ffefa4c)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -1625,7 +1681,8 @@ The bills Excel file now has colours and explains itself at the top of both tabs
 - Rows shaded per bill, plain column names, printed vs number columns marked
 - Summary: green for worked-out rows, blue notes, wider columns
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## New Home page for newcomers
+
+### New Home page for newcomers
 
 12 Nov 2026 (05:18 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/b2d4d19) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1637,7 +1694,8 @@ The Home page now explains the page in plain words for people who have never see
 - Home rewritten in plain words
 - New sample picture: the Leaderboard tab
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Bills: PDFs
+
+### Bills: PDFs
 
 12 Nov 2026 (05:17 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/55cb71f) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1648,7 +1706,7 @@ The Bills tab now takes PDF bills as well as photos.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - PDF bills accepted (up to 8 MB each) with Gemini or Anthropic; OpenAI says it can't read PDFs
 
-## Roblox clan preview · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Roblox clan preview · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (05:15 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/f46863b)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -1659,7 +1717,7 @@ The clan preview is now titled Roblox clan preview.
 
 - Preview title and messages say Roblox clan preview · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Wording catches up
+### Wording catches up
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (05:15 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8538575)
 
@@ -1670,7 +1728,8 @@ Privacy text now says past runs are saved with the last sheet. · [code](https:/
 
 - Privacy wording covers the saved history
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Test read shows the preview
+
+### Test read shows the preview
 
 12 Nov 2026 (05:11 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/1ee8c75) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1681,7 +1740,7 @@ Test read now shows the Check your list table, not just three names.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Test read fills the Check your list table from the first picture
 
-## Video: scrolling list no longer thrown away · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Video: scrolling list no longer thrown away · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (05:09 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7864975)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -1692,7 +1751,7 @@ A video that scrolls the member list now keeps the pictures where the list moved
 
 - Picture comparison now notices small changes, so scrolled frames are no longer dropped as repeats · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Preview matches the sheet
+### Preview matches the sheet
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (05:08 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7cbd1fa)
 
@@ -1704,7 +1763,7 @@ The Check your list preview now treats a misread name as the same player, and sa
 - Preview uses the same name matching as the Excel file
 - A line shows how many earlier members are not in this list · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Video: take more pictures of a short scroll
+### Video: take more pictures of a short scroll
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (05:07 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2893086)
 
@@ -1715,7 +1774,8 @@ A quick scroll through the member list no longer skips members. · [code](https:
 
 - Video pictures taken 4 a second (was 1), at least 8; repeats still dropped
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Faster Gemini reads
+
+### Faster Gemini reads
 
 12 Nov 2026 (05:05 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/da894dc) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1726,7 +1786,7 @@ Gemini now uses light thinking for every read, not just the first step.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Gemini asked for light thinking on the member read and on bills
 
-## About and How it's worked out: colours and formatting · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### About and How it's worked out: colours and formatting · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (05:04 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/bdf0357)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -1738,7 +1798,7 @@ The two text tabs now match the rest of the sheet.
 - Navy headers, boxed shaded rows, wrapped text · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - About has a colour key: green, red, gold, silver, bronze, grey
 
-## Misread names count as the same player · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Misread names count as the same player · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (05:03 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0776a6a)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -1749,7 +1809,7 @@ If the AI reads a name with one wrong letter, the player is no longer split in t
 
 - A name that differs by one letter (6+ letters) from a missing earlier name is matched to it · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Video recording tip
+### Video recording tip
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (05:02 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7317b50)
 
@@ -1760,7 +1820,8 @@ The clan tab now says how long to record. · [code](https://github.com/Ginger-He
 
 - Tip: scroll the whole list slowly, about 1 second per 5 members
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Leaderboard and Points history: colours and a How to read line
+
+### Leaderboard and Points history: colours and a How to read line
 
 12 Nov 2026 (04:58 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/fc8ee3b) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1773,7 +1834,7 @@ The two history tabs now look like the main sheet and explain themselves at the 
 - Gold, silver, bronze for the top 3, green and red for gains, grey for players who left
 - Boxes, shaded rows and a marked Clan total row on Points history · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Clan Members tab first, history fixes
+### Clan Members tab first, history fixes
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (04:54 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7db9458)
 
@@ -1788,7 +1849,7 @@ The clan sheet opens on Clan Members again, and history now starts from your ear
 - Earlier months fold into one column
 - Empty Season Info box removed, shorter About tab · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Clan history in the Excel file
+### Clan history in the Excel file
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (04:51 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/a4436ab)
 
@@ -1802,7 +1863,8 @@ The clan sheet now keeps history instead of only showing the last change. · [co
 - How it's worked out tab with plain-words examples
 - No extra AI use: old numbers come from the earlier sheet
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Faster first step
+
+### Faster first step
 
 12 Nov 2026 (04:27 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/efa5bd2) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1814,7 +1876,8 @@ The first step no longer holds up the run.
 - First step asks Gemini for light thinking
 - First step waits 20 seconds at most, then uses the usual layout
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Sample on Home
+
+### Sample on Home
 
 12 Nov 2026 (04:25 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/43fddac) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1825,7 +1888,7 @@ Home now shows a sample of the sheet you get.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Sample sheet picture on the Home tab
 
-## Home button renamed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Home button renamed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (04:23 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/220c166)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -1836,7 +1899,7 @@ The Home button now says Make a Roblox clan sheet.
 
 - Home button says Make a Roblox clan sheet · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Tab renamed again
+### Tab renamed again
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (04:22 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/3091d72)
 
@@ -1847,7 +1910,8 @@ The tab is now called Roblox clan sheet. · [code](https://github.com/Ginger-Her
 
 - Roblox clans tab renamed to Roblox clan sheet
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Tab renamed
+
+### Tab renamed
 
 12 Nov 2026 (04:21 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/5825692) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1858,7 +1922,7 @@ The Clan sheet tab is now called Roblox clans.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Clan sheet tab renamed to Roblox clans
 
-## Log shows AI wait · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Log shows AI wait · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (04:18 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0ae1e2c)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -1869,7 +1933,7 @@ The Log now shows what is slow.
 
 - Log shows size sent and a wait counter · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Security fixes
+### Security fixes
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (00:35 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c92e4c4)
 
@@ -1882,7 +1946,7 @@ Closed holes found in a break test. · [code](https://github.com/Ginger-Hermit/F
 - Your key is now hidden everywhere in the Log and bug report · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Odd model names and tab-started sheet cells are blocked
 
-## Hosting wording · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Hosting wording · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (00:20 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/b9c8580)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -1893,7 +1957,7 @@ The privacy note no longer names the web host.
 
 - Reworded the hosting line in the privacy page · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Privacy settings
+### Privacy settings
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (00:14 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/899f9ae)
 
@@ -1905,7 +1969,7 @@ Settings now shows what is saved on your device and lets you delete it or stop s
 - New Privacy section in Settings: what is saved, a Remember my last sheet switch, Forget my key, Delete everything saved
 - Delete buttons need a second tap, and nothing is sent anywhere · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Bills download fix
+### Bills download fix
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (00:11 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/f370a93)
 
@@ -1916,7 +1980,8 @@ Bills now show the check table first, and Download sheet makes the file. · [cod
 
 - Fixed: the Bills sheet downloaded straight away and the Download sheet button did nothing
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Excel preview tidy
+
+### Excel preview tidy
 
 12 Nov 2026 (00:09 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6d812b6) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1927,7 +1992,7 @@ The selected cell shows a clean green outline.
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Removed the black focus ring inside preview cells
 
-## Excel-style preview · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Excel-style preview · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (00:09 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/4c3b562)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -1938,7 +2003,7 @@ The check tables now look like the Excel sheet, so you can see what you will get
 
 - Clan and Bills previews look like Excel, with the real column order and the calculated Change, % and Trend · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Check your charges first
+### Check your charges first
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (00:08 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/4c3b562)
 
@@ -1950,7 +2015,7 @@ After the AI reads your bills, you can fix charges and amounts in a table before
 - New table after reading bills: fix type, charge and amount, add or delete a charge, or Reset
 - Shows whether the charges add up to the total printed on the bill · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Check your list tidy
+### Check your list tidy
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (00:06 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/4c3b562)
 
@@ -1961,7 +2026,8 @@ The check table is easier to read. · [code](https://github.com/Ginger-Hermit/Fi
 
 - Wider role and name cells, one-line buttons, 'needs' wording
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Check your list first
+
+### Check your list first
 
 12 Nov 2026 (00:06 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/d3a398e) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1974,7 +2040,7 @@ After the AI reads the clan list, you can fix names and points in a table before
 - Shows if the screen member count differs from rows read
 - The sheet downloads from the table when you tap Download sheet · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Roblox wording back
+### Roblox wording back
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (00:00 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/d3a398e)
 
@@ -1986,7 +2052,7 @@ The page says Roblox again. It works for clans in any Roblox game. · [code](htt
 - Put Roblox back in the wording, file names and AI instructions
 - Home and Clan sheet say any Roblox game · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Clearer disclaimer
+### Clearer disclaimer
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (23:59 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c18da4f)
 
@@ -1997,7 +2063,8 @@ The small print is easier to read. · [code](https://github.com/Ginger-Hermit/Fi
 
 - Reworded the not-official line
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Any game naming
+
+### Any game naming
 
 12 Nov 2026 (23:58 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7ff2ada) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -2010,7 +2077,7 @@ The page no longer says Roblox. Files are named after the game and clan, and the
 - On-screen text and the AI's instructions say any game
 - Footer and Stay safe say not an official product of any game · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Easier to read
+### Easier to read
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (22:52 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/65f8ab5)
 
@@ -2022,7 +2089,7 @@ The live steps and the log are bigger and clearer. · [code](https://github.com/
 - Steps: bigger text, current step bold, ticks for finished steps
 - Log: normal readable font, and seconds since the run started instead of the clock time · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Log shows live
+### Log shows live
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (22:51 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6082274)
 
@@ -2034,7 +2101,7 @@ The log opens by itself when you tap Make my sheet and shows each step as it hap
 - Log box now appears on Bills too, and opens automatically during a run
 - Each step is written to the log as it starts · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Live steps
+### Live steps
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (22:48 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/d36a289)
 
@@ -2045,7 +2112,8 @@ While a sheet is being made, the page shows each step and a timer. · [code](htt
 
 - Live steps and a timer under the button on Clan sheet and Bills
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Updates moved to GitHub
+
+### Updates moved to GitHub
 
 12 Nov 2026 (22:37 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0402d7c) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -2057,7 +2125,8 @@ The Updates tab is gone. The update history now lives on GitHub only.
 - Removed the Updates tab and its list
 - GitHub tab links to the update history
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Bills summary by type
+
+### Bills summary by type
 
 12 Nov 2026 (22:37 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2c17d4d) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -2069,7 +2138,8 @@ The Summary tab now shows the cost of each bill type, so water, phone and intern
 - Summary: new Cost by type block (Electricity, Gas, Water, Phone and so on) worked out by the sheet
 - Bill type words are cleaned to letters only before they go in a formula
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## All household bills
+
+### All household bills
 
 12 Nov 2026 (22:35 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/b9a47fe) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -2082,7 +2152,7 @@ The Bills tab now reads any household bill, not just power and gas.
 - Non-energy charges get their own type and are never turned into kWh
 - Sheet tab renamed from Energy bills to Bills · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Home page
+### Home page
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (22:29 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/3909a1a)
 
@@ -2094,7 +2164,7 @@ A Home tab now opens first and explains the page for new people. · [code](https
 - New Home tab with what it does, how it works and what you need
 - Tabs renamed: Games is now Clan sheet, Bills is now Energy bills · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Record screen removed
+### Record screen removed
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 12 Nov 2026 (22:14 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/27bbc77)
 
@@ -2107,7 +2177,7 @@ The Record screen button is gone. It only worked in some PC browsers and was nev
 - Screenshots and video upload work as before · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - About 60 lines of code gone
 
-## Clearer tab names · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Clearer tab names · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 12 Nov 2026 (22:13 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c2138e8)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -2120,7 +2190,8 @@ The two tools are now called Games and Bills, which says what they are for.
 - Energy bills tab is now Bills
 - One grey line at the top of each says what it does
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Energy bills
+
+### Energy bills
 
 12 Nov 2026 (21:57 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/573e629) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -2137,7 +2208,12 @@ A second tool on the page. Add photos of power or gas bills and get a sheet of e
 - Every start button stays locked while any run is going, even if you type in the key box · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Fuzz test added: 675,000 scrambled replies, 3 bugs found and fixed
 
-## Stress test fixes · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+</details>
+
+<details>
+<summary><b>11 Nov 2026</b> · 21 updates</summary>
+
+### Stress test fixes · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 11 Nov 2026 (10:55 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/cf2af59)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -2154,7 +2230,7 @@ A second round of attacks: 30 big screenshots at once, 5 videos at once, an AI t
 - Keys are hidden in the Log; the Log no longer grows forever
 - CSV backup: names starting with = + - @ can't act as formulas · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Harder to break
+### Harder to break
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 11 Nov 2026 (10:49 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/ee5c215)
 
@@ -2170,7 +2246,7 @@ The page was attacked with about 50 kinds of bad input: broken AI replies, odd k
 - Plain messages for a bad key, pictures that are too big, and unreadable replies or files · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Empty files are skipped
 
-## Faster to open · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Faster to open · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 11 Nov 2026 (10:45 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7df947d)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -2185,7 +2261,7 @@ The big Excel part now loads only when you add pictures, so the page opens much 
 - One save-a-setting helper instead of three · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Repeated text and styles merged
 
-## Lighter page · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Lighter page · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 11 Nov 2026 (10:41 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/ad78132)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -2198,7 +2274,8 @@ The page now shows the 5 newest updates. The full history moved to GitHub, with 
 - Updates tab shows the newest 5
 - Old patch notes moved to GitHub too
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Bug hunt fixes
+
+### Bug hunt fixes
 
 11 Nov 2026 (10:39 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/68cef60) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -2214,7 +2291,7 @@ A full check of the code found five bugs. Long videos lost the end of the list, 
 - Unreadable names (?) are no longer merged into one row
 - Date Recorded uses your local day · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## GitHub preview
+### GitHub preview
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 11 Nov 2026 (10:36 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/63e1260)
 
@@ -2226,7 +2303,7 @@ The GitHub tab shows a small preview of the guide and what it covers. · [code](
 - Preview box listing the guide sections
 - Full README guide restored and updated for Gemini first · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## GitHub tab
+### GitHub tab
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 11 Nov 2026 (10:35 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/01d5eb4)
 
@@ -2239,7 +2316,7 @@ The Help tab is now a GitHub tab. It has a short summary and a link. The guide i
 - Old help sections removed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Link opens GitHub in a new tab
 
-## Help tab tidied · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Help tab tidied · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 11 Nov 2026 (10:33 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/40dd524)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -2251,7 +2328,7 @@ The Help tab now shows one guide, from README.md, with no repeated steps.
 - Duplicate How to use steps removed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Guide comes from README.md only
 
-## Free key limit note and guide from README · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Free key limit note and guide from README · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 11 Nov 2026 (10:30 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8029f61)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -2264,7 +2341,8 @@ A grey line says the free Gemini key has a daily limit. The Help tab now shows t
 - Help tab loads README.md
 - README.md added as the guide
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Google Gemini first
+
+### Google Gemini first
 
 11 Nov 2026 (10:28 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/3fb71fd) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -2277,7 +2355,7 @@ Google Gemini is now the default company. A free key link sits under the key box
 - Free key link (Google AI Studio) under the key box
 - Stay safe notes the link · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Old code cleared out
+### Old code cleared out
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 11 Nov 2026 (10:16 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/1fc1bbf)
 
@@ -2289,7 +2367,7 @@ Two leftover bits of old code were deleted. Nothing changes on screen. · [code]
 - Unused profile list removed
 - Unused 'Old app' label code removed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Tidier Updates
+### Tidier Updates
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 11 Nov 2026 (10:14 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/61fb1ec)
 
@@ -2302,7 +2380,7 @@ The Updates list is shorter: small steps are merged into bigger ones, each has a
 - Tags: New, Changed, Fixed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Removed the change counts and time column
 
-## Log and Updates tab · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Log and Updates tab · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 11 Nov 2026 (10:04 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2244702)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -2315,7 +2393,8 @@ The log is on the first tab, and Updates are grouped by day with code links.
 - Developer tab removed
 - Each update links to its code on GitHub
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Google Gemini and OpenAI
+
+### Google Gemini and OpenAI
 
 11 Nov 2026 (10:03 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/027f37a) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -2328,7 +2407,7 @@ You can pick Google Gemini or OpenAI as well as Anthropic. Gemini is tested; Ope
 - Browser lock allows Google and OpenAI
 - OpenAI is still untested · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Record screen and fixes
+### Record screen and fixes
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 11 Nov 2026 (10:02 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/5942d14)
 
@@ -2343,7 +2422,7 @@ On a PC you can record your screen in the page. A small pop-up window shows what
 - Layout is read from 3 pictures, not 1
 - Shorter key box and one-line footer · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Any game, no setup
+### Any game, no setup
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 11 Nov 2026 (09:47 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/d560e43)
 
@@ -2356,7 +2435,7 @@ No profile list and no Add a game. The AI reads the game, clan and columns from 
 - One small extra AI read before the sheet · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Warns if fewer members were read than the screen shows
 
-## Help when things go wrong · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+### Help when things go wrong · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 11 Nov 2026 (09:46 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/1057102)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -2369,7 +2448,8 @@ Errors say what is wrong, and one tap copies a report you can send.
 - Warns about ? rows and ranks out of order
 - Keyboard and screen-reader labels
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Banner and Remember my key
+
+### Banner and Remember my key
 
 11 Nov 2026 (09:25 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0846db5) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -2382,7 +2462,7 @@ The page says when there is a new version, and you can tick a box to keep your k
 - Key is saved only in this browser
 - Not for shared computers · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## Safety and info pages
+### Safety and info pages
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 11 Nov 2026 (08:48 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/648cdb5)
 
@@ -2396,7 +2476,8 @@ Safety locks, a Stay safe guide, Privacy and Legal pages, and a tidy footer. The
 - Key box asks password managers not to save it
 - Not an official Roblox or Anthropic product
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-## Excel sheet
+
+### Excel sheet
 
 11 Nov 2026 (08:56 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/76c0d3a) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -2409,7 +2490,7 @@ You get a nice Excel file, and an earlier sheet can be chosen to show who went u
 - Previous Points, Change, % Change and Trend
 - Last sheet is remembered on this device · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-## First web version
+### First web version
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 11 Nov 2026 (07:51 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8331ea8)
 
@@ -2422,7 +2503,12 @@ The first version of the page: screenshots, one game, Anthropic only. Video supp
 - Video: MP4, MOV, WEBM, up to 12 frames · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Same AI instructions as the desktop app, repeated names removed
 
-## Old patch notes (from the top of index.html) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+</details>
+
+<details>
+<summary><b>Date not recorded</b> · 1 updates</summary>
+
+### Old patch notes (from the top of index.html) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
 - Review fixes: long videos are read to the end, broken videos no longer hang, cut-off AI replies keep their rows, date is your local day.
 - GitHub tab shows a preview of what is on GitHub; full README guide restored. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -2458,3 +2544,6 @@ The first version of the page: screenshots, one game, Anthropic only. Video supp
 - Copy bug report button (Developer view) and Report a bug link. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Optional "Remember my key on this device" tick box.
 - Excel sheet restyled (change totals say "returning") to match the desktop version (banding, borders, filter, green/red change cells, Season Info and Summary boxes).
+
+</details>
+
