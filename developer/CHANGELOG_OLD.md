@@ -2,10 +2,10 @@
 
 Newer ones are in [CHANGELOG.md](../CHANGELOG.md).
 
-Tap a day to open it.
+Newest first. Tap a time to open it. Times are UTC.
 
 <details>
-<summary><b>13 Nov 2026</b> · 17 updates</summary>
+<summary><b>13 Nov 2026, night</b> · 17 updates</summary>
 
 ### Simpler Discord tab
 
@@ -213,7 +213,7 @@ Clan sheets now download as, for example, 'Loki - 13 Nov 2026.xlsx'.
 </details>
 
 <details>
-<summary><b>12 Nov 2026</b> · 170 updates</summary>
+<summary><b>12 Nov 2026, evening</b> · 28 updates</summary>
 
 ### Foldable developer bar
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -397,6 +397,167 @@ Quick scroll videos no longer drop the bottom of the list · [code](https://gith
 - Video stills are taken 8 times a second and a small scrolling list counts as a new picture
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
+### Clearer disclaimer
+ · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+12 Nov 2026 (23:59 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c18da4f)
+
+The small print is easier to read. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+> [!NOTE]
+> **What you'll see:** Footer and Stay safe say: Not connected to any game company, Anthropic, Google or OpenAI. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+- Reworded the not-official line
+ · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+### Any game naming
+
+12 Nov 2026 (23:58 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7ff2ada) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+The page no longer says Roblox. Files are named after the game and clan, and the notes say any game.
+ · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+> [!NOTE]
+> **What you'll see:** Make a clan sheet: the file is named like Gym League - Loki.xlsx, with no Roblox in front.
+ · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+- Clan files are named game - clan, without the word Roblox
+- On-screen text and the AI's instructions say any game
+- Footer and Stay safe say not an official product of any game · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+### Easier to read
+ · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+12 Nov 2026 (22:52 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/65f8ab5)
+
+The live steps and the log are bigger and clearer. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+> [!NOTE]
+> **What you'll see:** Tap Make my sheet: the current step is bold, finished steps have a tick, and the log shows seconds since you started. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+- Steps: bigger text, current step bold, ticks for finished steps
+- Log: normal readable font, and seconds since the run started instead of the clock time · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+### Log shows live
+ · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+12 Nov 2026 (22:51 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6082274)
+
+The log opens by itself when you tap Make my sheet and shows each step as it happens, on both tabs. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+> [!NOTE]
+> **What you'll see:** Tap Make my sheet on Clan sheet or Bills: the Log box opens under the button and fills line by line. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+- Log box now appears on Bills too, and opens automatically during a run
+- Each step is written to the log as it starts · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+### Live steps
+ · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+12 Nov 2026 (22:48 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/d36a289)
+
+While a sheet is being made, the page shows each step and a timer. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+> [!TIP]
+> **What you'll see:** Tap Make my sheet: ticks appear under the button as each step finishes, with seconds counting. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+- Live steps and a timer under the button on Clan sheet and Bills
+ · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+### Updates moved to GitHub
+
+12 Nov 2026 (22:37 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0402d7c) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+The Updates tab is gone. The update history now lives on GitHub only.
+ · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+> [!NOTE]
+> **What you'll see:** The tab bar has no Updates tab. The GitHub tab links to the CHANGELOG.
+ · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+- Removed the Updates tab and its list
+- GitHub tab links to the update history
+ · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+### Bills summary by type
+
+12 Nov 2026 (22:37 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2c17d4d) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+The Summary tab now shows the cost of each bill type, so water, phone and internet bills show up.
+ · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+> [!NOTE]
+> **What you'll see:** Bills tab, make a sheet, open Summary: a Cost by type block sits under the main rows.
+ · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+- Summary: new Cost by type block (Electricity, Gas, Water, Phone and so on) worked out by the sheet
+- Bill type words are cleaned to letters only before they go in a formula
+ · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+### All household bills
+
+12 Nov 2026 (22:35 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/b9a47fe) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+The Bills tab now reads any household bill, not just power and gas.
+ · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+> [!NOTE]
+> **What you'll see:** Bills tab: add a water, phone or internet bill photo. Its rows show Water, Phone and so on, with no kWh.
+ · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+- Bills tab and Home button now say Bills and cover water, internet, phone, rates and insurance
+- Non-energy charges get their own type and are never turned into kWh
+- Sheet tab renamed from Energy bills to Bills · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+### Home page
+ · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+12 Nov 2026 (22:29 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/3909a1a)
+
+A Home tab now opens first and explains the page for new people. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+> [!TIP]
+> **What you'll see:** Open the page: Home shows first, with buttons to Clan sheet and Energy bills. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+- New Home tab with what it does, how it works and what you need
+- Tabs renamed: Games is now Clan sheet, Bills is now Energy bills · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+### Record screen removed
+ · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+12 Nov 2026 (22:14 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/27bbc77)
+
+The Record screen button is gone. It only worked in some PC browsers and was never tested in a real run. Record with your own device and upload the video instead. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+> [!NOTE]
+> **What you'll see:** No Record screen button on the Games tab. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+- Record screen button and its pop-up window removed
+- Screenshots and video upload work as before · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+- About 60 lines of code gone
+
+### Clearer tab names · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+12 Nov 2026 (22:13 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c2138e8)
+ · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+The two tools are now called Games and Bills, which says what they are for.
+
+> [!NOTE] · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+> **What you'll see:** The first two tabs, and a grey line under each.
+
+- Clan sheet tab is now Games · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+- Energy bills tab is now Bills
+- One grey line at the top of each says what it does
+ · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+### Energy bills
+
+12 Nov 2026 (21:57 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/573e629) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+
+A second tool on the page. Add photos of power or gas bills and get a sheet of every charge, with usage turned into kWh so bills from different countries can be compared.
+ · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+> [!TIP]
+> **What you'll see:** A new Energy bills tab next to Clan sheet.
+ · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+- New Energy bills tab: one row per charge, with supplier, dates, usage, unit, amount and currency
+- Usage is turned into kWh by the sheet: MJ, GJ, therms, and gas in m3 or CCF using the factors printed on the bill
+- Summary tab: one column per bill, numbers by formula, plus a few plain lines written by the AI · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+- Bills in other number styles (98,60) and other currencies are read as printed; money is never converted
+- The first tab is now called Clan sheet; the key box is shared by both tabs
+- Every start button stays locked while any run is going, even if you type in the key box · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
+- Fuzz test added: 675,000 scrambled replies, 3 bugs found and fixed
+
+</details>
+
+<details>
+<summary><b>12 Nov 2026, afternoon</b> · 12 updates</summary>
+
 ### Points with dots or spaces
 
 12 Nov 2026 (12:58 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/88454da) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -534,6 +695,11 @@ The Discord ping picker now has a name screen readers can say.
 > **What you'll see:** Bills or clan tab, Discord box
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 - Added a label to the ping picker; new readability test runs on GitHub.
+
+</details>
+
+<details>
+<summary><b>12 Nov 2026, morning</b> · 83 updates</summary>
 
 ### Zip bomb guard, risky-code scanner · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -1481,6 +1647,11 @@ After a problem, one tap opens a GitHub issue with the report already filled in.
 - Report on GitHub opens a filled-in issue form (page version, device, last 1800 characters of the Log; keys, pictures and AI replies left out)
  · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
+</details>
+
+<details>
+<summary><b>12 Nov 2026, night</b> · 47 updates</summary>
+
 ### Safer Gemini backup models
 
 12 Nov 2026 (05:58 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/e270dc3) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
@@ -2052,166 +2223,10 @@ The page says Roblox again. It works for clans in any Roblox game. · [code](htt
 - Put Roblox back in the wording, file names and AI instructions
 - Home and Clan sheet say any Roblox game · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
-### Clearer disclaimer
- · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-12 Nov 2026 (23:59 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c18da4f)
-
-The small print is easier to read. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-
-> [!NOTE]
-> **What you'll see:** Footer and Stay safe say: Not connected to any game company, Anthropic, Google or OpenAI. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-
-- Reworded the not-official line
- · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-
-### Any game naming
-
-12 Nov 2026 (23:58 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7ff2ada) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-
-The page no longer says Roblox. Files are named after the game and clan, and the notes say any game.
- · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-> [!NOTE]
-> **What you'll see:** Make a clan sheet: the file is named like Gym League - Loki.xlsx, with no Roblox in front.
- · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-- Clan files are named game - clan, without the word Roblox
-- On-screen text and the AI's instructions say any game
-- Footer and Stay safe say not an official product of any game · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-
-### Easier to read
- · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-12 Nov 2026 (22:52 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/65f8ab5)
-
-The live steps and the log are bigger and clearer. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-
-> [!NOTE]
-> **What you'll see:** Tap Make my sheet: the current step is bold, finished steps have a tick, and the log shows seconds since you started. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-
-- Steps: bigger text, current step bold, ticks for finished steps
-- Log: normal readable font, and seconds since the run started instead of the clock time · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-
-### Log shows live
- · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-12 Nov 2026 (22:51 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/6082274)
-
-The log opens by itself when you tap Make my sheet and shows each step as it happens, on both tabs. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-
-> [!NOTE]
-> **What you'll see:** Tap Make my sheet on Clan sheet or Bills: the Log box opens under the button and fills line by line. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-
-- Log box now appears on Bills too, and opens automatically during a run
-- Each step is written to the log as it starts · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-
-### Live steps
- · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-12 Nov 2026 (22:48 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/d36a289)
-
-While a sheet is being made, the page shows each step and a timer. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-
-> [!TIP]
-> **What you'll see:** Tap Make my sheet: ticks appear under the button as each step finishes, with seconds counting. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-
-- Live steps and a timer under the button on Clan sheet and Bills
- · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-
-### Updates moved to GitHub
-
-12 Nov 2026 (22:37 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/0402d7c) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-
-The Updates tab is gone. The update history now lives on GitHub only.
- · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-> [!NOTE]
-> **What you'll see:** The tab bar has no Updates tab. The GitHub tab links to the CHANGELOG.
- · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-- Removed the Updates tab and its list
-- GitHub tab links to the update history
- · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-
-### Bills summary by type
-
-12 Nov 2026 (22:37 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/2c17d4d) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-
-The Summary tab now shows the cost of each bill type, so water, phone and internet bills show up.
- · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-> [!NOTE]
-> **What you'll see:** Bills tab, make a sheet, open Summary: a Cost by type block sits under the main rows.
- · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-- Summary: new Cost by type block (Electricity, Gas, Water, Phone and so on) worked out by the sheet
-- Bill type words are cleaned to letters only before they go in a formula
- · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-
-### All household bills
-
-12 Nov 2026 (22:35 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/b9a47fe) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-
-The Bills tab now reads any household bill, not just power and gas.
- · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-> [!NOTE]
-> **What you'll see:** Bills tab: add a water, phone or internet bill photo. Its rows show Water, Phone and so on, with no kWh.
- · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-- Bills tab and Home button now say Bills and cover water, internet, phone, rates and insurance
-- Non-energy charges get their own type and are never turned into kWh
-- Sheet tab renamed from Energy bills to Bills · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-
-### Home page
- · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-12 Nov 2026 (22:29 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/3909a1a)
-
-A Home tab now opens first and explains the page for new people. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-
-> [!TIP]
-> **What you'll see:** Open the page: Home shows first, with buttons to Clan sheet and Energy bills. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-
-- New Home tab with what it does, how it works and what you need
-- Tabs renamed: Games is now Clan sheet, Bills is now Energy bills · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-
-### Record screen removed
- · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-12 Nov 2026 (22:14 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/27bbc77)
-
-The Record screen button is gone. It only worked in some PC browsers and was never tested in a real run. Record with your own device and upload the video instead. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-
-> [!NOTE]
-> **What you'll see:** No Record screen button on the Games tab. · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-
-- Record screen button and its pop-up window removed
-- Screenshots and video upload work as before · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-- About 60 lines of code gone
-
-### Clearer tab names · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-
-12 Nov 2026 (22:13 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/c2138e8)
- · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-The two tools are now called Games and Bills, which says what they are for.
-
-> [!NOTE] · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-> **What you'll see:** The first two tabs, and a grey line under each.
-
-- Clan sheet tab is now Games · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-- Energy bills tab is now Bills
-- One grey line at the top of each says what it does
- · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-
-### Energy bills
-
-12 Nov 2026 (21:57 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/573e629) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-
-A second tool on the page. Add photos of power or gas bills and get a sheet of every charge, with usage turned into kWh so bills from different countries can be compared.
- · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-> [!TIP]
-> **What you'll see:** A new Energy bills tab next to Clan sheet.
- · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-- New Energy bills tab: one row per charge, with supplier, dates, usage, unit, amount and currency
-- Usage is turned into kWh by the sheet: MJ, GJ, therms, and gas in m3 or CCF using the factors printed on the bill
-- Summary tab: one column per bill, numbers by formula, plus a few plain lines written by the AI · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-- Bills in other number styles (98,60) and other currencies are read as printed; money is never converted
-- The first tab is now called Clan sheet; the key box is shared by both tabs
-- Every start button stays locked while any run is going, even if you type in the key box · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
-- Fuzz test added: 675,000 scrambled replies, 3 bugs found and fixed
-
 </details>
 
 <details>
-<summary><b>11 Nov 2026</b> · 21 updates</summary>
+<summary><b>11 Nov 2026, morning</b> · 21 updates</summary>
 
 ### Stress test fixes · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
@@ -2506,7 +2521,7 @@ The first version of the page: screenshots, one game, Anthropic only. Video supp
 </details>
 
 <details>
-<summary><b>Date not recorded</b> · 1 updates</summary>
+<summary><b>Date not recorded</b> · 1 update</summary>
 
 ### Old patch notes (from the top of index.html) · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb)
 
