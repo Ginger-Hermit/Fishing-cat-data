@@ -1,12 +1,12 @@
 # Status
 
-Last updated: 14 Nov 2026. Page version 1.1.79 Live at fishing-cat-data.pages.dev.
+Last updated: 14 Nov 2026. Page version 1.1.80 Live at fishing-cat-data.pages.dev.
 `tools/release.py` keeps the version and date up to date. Keep this file under 50 lines.
 
 ## What the page does
 - **Home** explains the page. **Roblox clan sheet:** screenshots or video of a clan list become an Excel sheet (two AI requests: layout, then rows). An earlier sheet adds history tabs (Leaderboard, Points history, How it's worked out), no extra AI.
 - **Bills:** photos or PDFs of household bills (12 at most) become an Excel file: Summary first (sections, "Same as the bill?" check), then every charge. One AI request. The AI only copies; the sheet does the sums.
-- Gemini is the default (free key). Anthropic works. OpenAI untested. After a read, an Excel-style table lets you fix cells before Download. Settings has Privacy (see and delete what is saved). Update history is in CHANGELOG.md only.
+- Gemini is the default (free key). Anthropic works. OpenAI removed 14 Nov. After a read, an Excel-style table lets you fix cells before Download. Settings has Privacy (see and delete what is saved). Update history is in CHANGELOG.md only.
 - The Log and "Copy bug report" are detailed: timings, sizes, AI token counts, errors.
 
 ## Next
@@ -20,7 +20,6 @@ Last updated: 14 Nov 2026. Page version 1.1.79 Live at fishing-cat-data.pages.de
 GitHub runs `check.py`, row, bill and fuzz tests, and the page in Chrome, Firefox and Safari's engine with a pretend AI after every push. Stress results: `developer/STRESS_TEST_LOG.md`.
 
 ## Not tested
-- OpenAI. (12 Nov: Ginger tested every tab on the live site with real AI.)
 - Real Excel by eye (new clan tabs, new Bills Summary): only LibreOffice.
 - A real phone by eye. The live `_headers` security header. "Remember my key" beyond one sighting.
 

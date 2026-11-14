@@ -22,7 +22,7 @@ Turns clan screenshots or a video from any Roblox game into a ready-to-use Excel
 
 ## How to use it
 > [!TIP]
-> 1. Paste your own AI key. Google Gemini is picked first and has a free key: tap **How to get a free key**. The free key has a daily limit. Anthropic also works; OpenAI is untested.
+> 1. Paste your own AI key. Google Gemini is picked first and has a free key: tap **How to get a free key**. The free key has a daily limit. Anthropic also works.
 > 2. Nothing to pick. The AI works out the game and clan itself.
 > 3. Drop in screenshots of the member list, or a video of you scrolling it (use your device's own screen recorder). For a video, scroll the whole list slowly: about 1 second per 5 members.
 > 4. Optional: choose last time's sheet to compare.
@@ -79,7 +79,6 @@ flowchart LR
 
 ## Known limits
 > [!WARNING]
-> - **OpenAI is not tested yet** and may not work. Anthropic and Google Gemini have been tested.
 > - A real run of the **Clan name** box is not tested yet.
 > - A long video skips more of the list, so keep videos short or use screenshots. Rows cut off at the top or bottom edge are skipped.
 > - The AI reads the names and points, so check any `?` or odd spelling by hand.

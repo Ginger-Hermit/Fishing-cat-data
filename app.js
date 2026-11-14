@@ -1,12 +1,11 @@
-// Patch note: Big bills read with Claude no longer lose their last charges
+// Patch note: Only Google Gemini and Anthropic are offered now
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
-// Anthropic is tested. Gemini and OpenAI are not. Names can be changed under Settings.
+// Anthropic and Gemini are tested. Names can be changed under Settings.
 const PROVIDERS = {
   anthropic: { name: "Anthropic", model: MODEL, tested: true, list: "https://docs.anthropic.com/en/docs/about-claude/models" },
-  gemini: { name: "Google Gemini", model: "gemini-3.8-flash", tested: true, list: "https://ai.google.dev/gemini-api/docs/models" },
-  openai: { name: "OpenAI", model: "gpt-5.5", tested: false, list: "https://platform.openai.com/docs/models" }
+  gemini: { name: "Google Gemini", model: "gemini-3.8-flash", tested: true, list: "https://ai.google.dev/gemini-api/docs/models" }
 };
 function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
 const LOOK_KEYS = ["fcd_theme", "fcd_size", "fcd_read", "fcd_btn", "fcd_nosave", "fcd_expire", "fcd_reset", "fcd_showlog"];
@@ -102,7 +101,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.79";
+const BUILD = "1.1.80";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -327,7 +326,7 @@ function modelFor(id) { const m = (lsGet("fcd_model_" + id) || "").trim(); retur
 function applyProvider(clearKey) {
   const id = provider(), p = PROVIDERS[id];
   $("keylabel").textContent = "Your AI key (" + p.name + ")";
-  const kh = $("keyhelp"), kl = {gemini: ["https://aistudio.google.com/app/apikey", "Get a free key"], anthropic: ["https://console.anthropic.com/settings/keys", "Get a key"], openai: ["https://platform.openai.com/api-keys", "Get a key"]}[id];
+  const kh = $("keyhelp"), kl = {gemini: ["https://aistudio.google.com/app/apikey", "Get a free key"], anthropic: ["https://console.anthropic.com/settings/keys", "Get a key"]}[id];
   kh.style.display = kl ? "inline-block" : "none";
   if (kl) { kh.href = kl[0]; kh.textContent = kl[1]; }
   $("keylimit").style.display = id === "gemini" ? "block" : "none";
@@ -367,6 +366,7 @@ $("ghbug").onclick = () => { $("ghbug").href = issueUrl(); };
 $("copybug").onclick = () => bugCopy($("copybug"), "Copy bug report");
 $("copyerr").onclick = () => bugCopy($("copyerr"), "Copy error to send");
 
+try { ["fcd_key_openai", "fcd_model_openai"].forEach(k => localStorage.removeItem(k)); } catch (e) {} // OpenAI removed 14 Nov
 const savedProvider = lsGet("fcd_provider");
 if (savedProvider && PROVIDERS[savedProvider]) $("provider").value = savedProvider;
 $("provider").onchange = () => applyProvider(true);
@@ -1119,15 +1119,6 @@ const ASKERS = {
       { "content-type": "application/json", "x-goog-api-key": key }, { contents: [{ parts }], generationConfig: PROMPT === BILL_PROMPT ? { thinkingConfig: { thinkingLevel: "low" }, maxOutputTokens: 8192, responseMimeType: "application/json" } : { thinkingConfig: { thinkingLevel: "low" } } });
     const first = (d.candidates || [])[0];
     return ((first && first.content && first.content.parts) || []).map(p => p.text || "").join("\n");
-  },
-  openai: async (key, model, pics) => {
-    if (pics.some(p => p.type === "application/pdf")) throw new Error("OpenAI can't read PDFs here. Use photos, or pick Google Gemini or Anthropic.");
-    const content = pics.map(p => ({ type: "image_url", image_url: { url: "data:" + p.type + ";base64," + p.data } }));
-    content.push({ type: "text", text: PROMPT });
-    const d = await postJson("https://api.openai.com/v1/chat/completions",
-      { "content-type": "application/json", authorization: "Bearer " + key }, { model, messages: [{ role: "user", content }] });
-    const c = d.choices && d.choices[0] && d.choices[0].message;
-    return (c && c.content) || "";
   }
 };
 

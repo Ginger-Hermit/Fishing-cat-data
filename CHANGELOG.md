@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## OpenAI removed
+
+14 Nov 2026 (05:28 UTC) · Changed
+
+Only Google Gemini and Anthropic are offered now
+
+> [!NOTE]
+> **What you'll see:** Settings: the AI list has two choices
+
+- OpenAI option, code and network permission removed; any saved OpenAI key is deleted
+
 ## Longer bills on Claude
 
 14 Nov 2026 (05:26 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/7553a0b)

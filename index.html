@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Big bills read with Claude no longer lose their last charges -->
+<!-- Patch note: Only Google Gemini and Anthropic are offered now -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -69,7 +69,6 @@
 <ul class="s17">
 <li>The free Google key has a daily limit. If it runs out, wait until tomorrow.</li>
 <li>The AI reads the names and points. Check any <b>?</b> or odd spelling by hand.</li>
-<li>OpenAI is not tested yet and may not work.</li>
 <li>Stuck? Tap <b>Copy bug report</b> in the box that appears while it works, and send it to the person who shared this page.</li>
 </ul>
 </details>
@@ -78,7 +77,7 @@
 </div>
 <div id="keybox"><details id="keydet" open><summary class="s24"><span class="stepn">1</span>AI key <span id="keyok" class="keyok"></span></summary>
 <label for="provider">AI company</label>
-<select id="provider"><option value="gemini">Google Gemini</option><option value="anthropic">Anthropic (Claude)</option><option value="openai">OpenAI (untested)</option></select>
+<select id="provider"><option value="gemini">Google Gemini</option><option value="anthropic">Anthropic (Claude)</option></select>
 <div id="untested" class="warnbox" data-d="none">Heads up: this one has not been tested yet. It might not work. If it fails, tap the big Copy error button under the red message and send it to the author.</div>
 <label for="key" id="keylabel">Your AI key (Google Gemini)</label> <a id="keyhelp" href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" class="s25">Get a free key</a>
 <input id="key" type="password" placeholder="Paste key here" autocomplete="off" spellcheck="false" autocapitalize="off" data-lpignore="true" data-1p-ignore="true">
@@ -217,7 +216,7 @@
 <div class="hc"><b>Privacy</b>
 <ul class="facts">
 <li>Your AI key stays in this browser. It is only kept if you tick Remember my key, and it is never sent anywhere except the AI company you pick.</li>
-<li>The page is locked down by the browser so it can only talk to Anthropic, Google and OpenAI (and Discord). It only sends to the AI company you pick. Discord is used only if you add a Discord link on the Discord tab and tap Post to Discord. That sends the clan name, points summary and sheet to your channel.</li>
+<li>The page is locked down by the browser so it can only talk to Anthropic and Google (and Discord). It only sends to the AI company you pick. Discord is used only if you add a Discord link on the Discord tab and tap Post to Discord. That sends the clan name, points summary and sheet to your channel.</li>
 <li>Your pictures (and the stills pulled from a video) go only to the AI company you pick, straight from your browser, to be read. This page has no server of its own, so we never see them.</li>
 <li>What that company does with what you send is covered by its own policies. Free plans can have different rules, so check them.</li>
 <li>Saved on your device only: theme, text size, and the last sheet you chose (names, points and past runs). Settings has a Privacy section that lists what is saved and can delete it, or stop saving the last sheet.</li>
@@ -234,7 +233,6 @@
 <li>Provided as is, with no guarantees. The AI can misread names and numbers, so check your sheet.</li>
 <li>Built entirely by Claude, an AI. The author gave the ideas and tested it.</li>
 <li>Using the AI costs credit on your own account, under your own terms with the company you pick.</li>
-<li>OpenAI support is not tested yet and may not work.</li>
 <li>The spreadsheet part is ExcelJS, an open-source library.</li>
 </ul></div>
 </div>
