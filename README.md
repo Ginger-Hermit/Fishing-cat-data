@@ -47,7 +47,7 @@ flowchart LR
 - **Clan Members** tab: coloured ranks and roles, plus **Rank**, **Username**, **Role**, **Points** (as shown, e.g. `52.51K`) and **Points** (number, e.g. `52510`). The number column is a real number, so you can sort and add it.
 - With a last sheet chosen: **Previous Points**, **Change**, **% Change** and a **Trend** arrow (new members show as "new"). These are formulas, so fixing a misread number updates them.
 - **Top 10** tab (with an earlier sheet): best 10 this month (week scores added up) and each week; past months one line each.
-- **Points history** tab: one column per run with the gain under each number and a clan total. It is carried forward from the earlier sheet you choose, with no extra AI use. Earlier months fold into one column.
+- **Points history** tab: one column per run with the gain under each number and a clan total. It is carried forward from the earlier sheet you choose, with no extra AI use. With only two runs saved, the Discord “Points history” line repeats “What changed”; that is expected. Earlier months fold into one column.
 - A name the AI reads with one wrong letter (6+ letters) counts as the same player as before.
 - **Help** tab: what each word, tab and colour means, with the maths step by step.
 - Anyone who appears in more than one picture is listed once.
