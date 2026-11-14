@@ -1,4 +1,4 @@
-// Patch note: Posting a saved sheet left out the season points and rank line on the picture.
+// Patch note: Posting a sheet made twice from the same screenshots showed no change; now it compares with the day before.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -101,7 +101,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.91";
+const BUILD = "1.1.92";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1423,10 +1423,17 @@ async function readSheet(buf) {
 }
 const dcPick = () => { const fs = [...$("shfile").files]; $("shsel").textContent = fs.length ? "\u2713 " + fs.map((f) => f.name).join(", ") : "No files chosen."; $("shclear").style.display = fs.length ? "" : "none"; fileShow(); };
 $("shfile").onchange = dcPick; $("shclear").onclick = () => { $("shfile").value = ""; dcPick(); };
+// Same points as last run (same screenshots twice)? Compare with the day before in Points history instead.
+function sameDayFix(sh) {
+  const h = sh.hist; if (!h || h.dates.length < 2 || sh.items.some((r) => r.b === null || r.b !== r.n)) return sh;
+  const k = h.dates.length - 2, m = new Map(h.list.map((e) => [e.name.toLowerCase(), e.vals[k]]));
+  clog("Same points as last run, so comparing with " + new Date(h.dates[k]).toDateString() + ".");
+  return { ...sh, any: true, items: sh.items.map((r) => { const v = m.get(r.name.toLowerCase()); return { ...r, b: typeof v === "number" ? v : null }; }) };
+}
 async function fileParts(xf, pf) {
   const files = []; let text = "Fishing Cat Data";
   if (xf) {
-    const sh = await readSheet(await xf.arrayBuffer()).catch(() => { throw new Error("That Excel file could not be read. Use a sheet this page made."); }), f = (n) => Math.round(n).toLocaleString("en-US"), tot = sh.items.reduce((t, r) => t + r.n, 0);
+    const sh0 = await readSheet(await xf.arrayBuffer()).catch(() => { throw new Error("That Excel file could not be read. Use a sheet this page made."); }), sh = sameDayFix(sh0), f = (n) => Math.round(n).toLocaleString("en-US"), tot = sh.items.reduce((t, r) => t + r.n, 0);
     text = dcBreakdown(sh, f);
     if (!pf) files.push(await rowsPic(sh.items.map((r) => ({ ...r, ch: sh.any ? chCell(r.n, r.b === null ? undefined : r.b) : ["", "#b5bac1"] })), sh.clan, subLine(sh.date, sh.items.length, tot, sh.items.filter((r) => r.b !== null).reduce((t, r) => t + r.n - r.b, 0), sh.any) + seasonLine(sh.sx), sh.clan + ".png"));
   }
