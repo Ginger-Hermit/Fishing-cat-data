@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.81] - 2026-11-14 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.80...v1.1.81)
+
+### Changed
+
+- **Default colour** · Discord colour choice White is now called Default, as it shows in Discord
+
 ## 2026-11-14
 
 ### Fixed
