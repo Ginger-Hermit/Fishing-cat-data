@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.96] - 2026-11-14 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.95...v1.1.96)
+
+### Changed
+
+- **Nicer link prompt** · Opening another website now asks with a page-style box instead of the browser's grey one
+
 ## [1.1.95] - 2026-11-14 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.94...v1.1.95)
 
 ### Fixed

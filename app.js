@@ -1,4 +1,4 @@
-// Patch note: Making a sheet twice right after the weekly reset no longer compares with last week's points.
+// Patch note: Opening another website now asks with a page-style box instead of the browser's grey one
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -101,7 +101,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.95";
+const BUILD = "1.1.96";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1996,8 +1996,22 @@ document.addEventListener("click", (e) => {
   let u; try { u = new URL(a.href, location.href); } catch (x) { return; }
   if (!/^https?:$/.test(u.protocol) || u.host === location.host) return;
   e.preventDefault();
-  if (confirm("This opens " + u.host + " in a new tab. Open it?")) window.open(u.href, "_blank", "noopener,noreferrer");
+  askOpen(u);
 });
+function askOpen(u) {
+  const d = document.createElement("dialog"); d.className = "askgo";
+  const h = document.createElement("h3"); h.textContent = "Open " + u.host + "?";
+  const p = document.createElement("p"); p.textContent = "It opens in a new tab. Nothing you typed here is sent.";
+  const row = document.createElement("div"); row.className = "askrow";
+  const no = document.createElement("button"); no.type = "button"; no.className = "askno"; no.textContent = "Stay";
+  const yes = document.createElement("button"); yes.type = "button"; yes.className = "askyes"; yes.textContent = "Open";
+  const close = () => { d.close(); d.remove(); };
+  no.onclick = close;
+  yes.onclick = () => { close(); window.open(u.href, "_blank", "noopener,noreferrer"); };
+  d.addEventListener("click", (e) => { if (e.target === d) close(); });
+  d.addEventListener("cancel", () => d.remove());
+  row.append(no, yes); d.append(h, p, row); document.body.appendChild(d); d.showModal(); no.focus();
+}
 
 (function () { const b = document.getElementById("showlog"), l = document.getElementById("logbox"); if (!b || !l) return;
   b.checked = lsGet("fcd_showlog") === "1"; if (b.checked) l.hidden = false;
