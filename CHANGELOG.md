@@ -6,7 +6,7 @@ Updates up to 1.1.80 have no version number, so they are grouped by day.
 
 ## 2026-11-14
 
-### Changed
+### Fixed
 
 - **Longer bills on Claude** · Big bills read with Claude no longer lose their last charges
 
@@ -33,6 +33,12 @@ Updates up to 1.1.80 have no version number, so they are grouped by day.
 - **Button colour** · Settings, Look: pick a button colour
 - **Model names link** · Settings links to the AI company's list of model names
 - **Easier reading and privacy switches ·** ·
+- **Calmer What changed and fuller Points history** · Discord post: Whole clan and Points history sit beside a grey bar; history adds biggest climber, who went up every run and who left.
+- **Discord button opens Discord tab** · Post to Discord under a sheet now takes you to the Discord tab with that sheet picked.
+- **Zoom has a Close button** · Sample pictures now zoom on the page with a Close button instead of opening a new tab.
+- **Sample shown, tidier buttons** · Home shows the sample sheet straight away; buttons under the preview sit in an even grid
+- **Easier-to-read grey text** · Grey text and switched-off buttons are darker and clearer
+- **New week starts from 0**
 
 ### Changed
 
@@ -44,7 +50,6 @@ Updates up to 1.1.80 have no version number, so they are grouped by day.
 - **No change box shows yellow again** · The No change names in the Discord post are yellow again (on PC; phones show no colour).
 - **Colour guide as bullet points** · The colour guide in the Discord post is a short bullet list.
 - **Colour guide in the Discord post** · The how-to-read line is now a colour guide: green, red, yellow.
-- **Calmer What changed and fuller Points history** · Discord post: Whole clan and Points history sit beside a grey bar; history adds biggest climber, who went up every run and who left.
 - **Points history in a grey box** · Points history in the Discord post sits in a plain dark grey box.
 - **Points history plain again** · Points history in the Discord post is plain bullet points again; less colour.
 - **Roles as bullet points** · The Discord post lists each role on its own line, fewest first.
@@ -55,33 +60,22 @@ Updates up to 1.1.80 have no version number, so they are grouped by day.
 - **Earlier sheet tips in a yellow box** · The earlier-sheet tips sit in a yellow box so they stand out.
 - **Discord post shows Points history again** · Posting a sheet to Discord shows the Points history part again.
 - **Discord post back to the old look** · The Discord message looks like it did before 1.1.52.
-- **Sample pictures fit the screen** · Tapped sample pictures no longer fill the whole screen
 - **Clearer Discord link help** · The 'No link?' steps are easier to follow
 - **Tidier Discord post** · Clan post is easier to read
 - **Tidier Discord links** · Links show as short words; website link can be switched off
 - **Compare with the last sheet** · A second run on the same day now compares with the sheet you just made, not yesterday's.
-- **Sheet link always posts** · Your Google Sheet link was cut off the end of long Discord messages. It now sits near the top.
 - **Discord lists more names** · Discord message lists up to 30 names per group, not 10.
 - **Discord steps as a list** · The steps for getting a Discord link are now a bullet list.
-- **Discord button opens Discord tab** · Post to Discord under a sheet now takes you to the Discord tab with that sheet picked.
-- **Zoom has a Close button** · Sample pictures now zoom on the page with a Close button instead of opening a new tab.
-- **Last sheet keeps everyone** · A sheet made earlier today was saved with only some players, so the next run showed most people as new.
 - **Last sheet box shows what's in it** · The Last sheet box lists the clan, when it was made, members, points and top player, and warns when changes count from an earlier day.
 - **Tidier Settings** · Settings has no boxes, just clear sections
 - **Real sample sheets** · Samples now show every Excel tab exactly
 - **Clearer Discord tab** · Discord tab is easier to follow
 - **Easier samples** · Sample sheets are bigger and simpler
 - **Safer sheet link, tidier ping help** · Sheet links with odd symbols are refused; ping help is a bullet list
-- **Sample shown, tidier buttons** · Home shows the sample sheet straight away; buttons under the preview sit in an even grid
-- **Easier-to-read grey text** · Grey text and switched-off buttons are darker and clearer
 - **Cleaner Roblox tab** · Steps have round number badges, key shows saved, More lists what is inside
-- **Log shows only when something breaks** · Less clutter: the log stays hidden until there is an error
 - **Used-video note is calm** · Reusing a video no longer looks like an error
 - **Easier key section** · Key help link for every AI company, shorter safety text, picture count in plain words
-- **New week starts from 0**
 - **Shorter Stay safe** · Stay safe is a short list with small folds for details
-- **Simpler Discord tab** · No More options fold; picture and ping sit above Post; shorter text
-- **Tidier tabs** · Small layout fixes: arrows match, more space, no repeated Bills line
 - **Discord tab tidy-up** ·
 - **Page directory and calmer clan tab** ·
 - **Bill rates written with per ·** ·
@@ -97,11 +91,17 @@ Updates up to 1.1.80 have no version number, so they are grouped by day.
 
 ### Fixed
 
+- **Sample pictures fit the screen** · Tapped sample pictures no longer fill the whole screen
+- **Sheet link always posts** · Your Google Sheet link was cut off the end of long Discord messages. It now sits near the top.
+- **Last sheet keeps everyone** · A sheet made earlier today was saved with only some players, so the next run showed most people as new.
+- **Tidier tabs** · Small layout fixes: arrows match, more space, no repeated Bills line
 - **Sample picture fix** · The example post picture on the Discord tab now shows instead of a broken picture.
 - **Discord tab fixes that didn't stick** · Attach box now really starts unticked; No picture saved is grey
 
 ### Removed
 
+- **Log shows only when something breaks** · Less clutter: the log stays hidden until there is an error
+- **Simpler Discord tab** · No More options fold; picture and ping sit above Post; shorter text
 - **Colour guide removed** · The Discord message no longer ends with a colour guide.
 - **Drop files into Last sheet** · You can drag an earlier sheet onto the Last sheet box; the screenshot box says it takes videos
 
@@ -129,16 +129,26 @@ Updates up to 1.1.80 have no version number, so they are grouped by day.
 - **Sample on Home** · Home now shows a sample of the sheet you get.
 - **Privacy settings** ·
 - **Check your charges first** ·
-- **Check your list first** · After the AI reads the clan list, you can fix names and points in a table before the sheet is made.
 - **Live steps** ·
 - **Home page** ·
 - **Energy bills** · A second tool on the page. Add photos of power or gas bills and get a sheet of every charge, with usage turned into kWh so bills from different countries can be compared.
+- **Ping box readable by screen readers** · The Discord ping picker now has a name screen readers can say.
+- **Discord breakdown with headers and per-person changes** · The Discord message has headers and lists each person's old points, new points and difference.
+- **Clear buttons on Post without the AI ·** ·
+- **Easier to read menus** · The closed sections now look like clear buttons.
+- **Buttons wrap on small screens** · The buttons under the table no longer run off the page.
+- **Discord link not saved by default** · The Discord link is forgotten when you close the page unless you tick Remember my link. A Forget button clears it.
+- **Home sections fold up, links at the top** · The Home page sections now open and close, with a link to the full guide and the free key at the top.
+- **Home page carries a short version of the guide** · The Home page now has a shortened copy of the README: how to use it, what you get, safety and limits.
+- **New Home page for newcomers** · The Home page now explains the page in plain words for people who have never seen it.
+- **Test read shows the preview** · Test read now shows the Check your list table, not just three names.
+- **Home button renamed ·** ·
+- **Bills summary by type** · The Summary tab now shows the cost of each bill type, so water, phone and internet bills show up.
 
 ### Changed
 
 - **Foldable developer bar** ·
 - **Calmer developer bar** · The developer bar is flatter and takes less space.
-- **Earlier wrong names no longer stick ·** ·
 - **Version numbers** ·
 - **Nicer developer bar** · The developer bar at the top is easier to read and shows more.
 - **Tidier developer bar ·** ·
@@ -156,7 +166,6 @@ Updates up to 1.1.80 have no version number, so they are grouped by day.
 - **Cut-off bill reply keeps what was read** ·
 - **Tidier Discord tab** · The Discord link is now step 1 and its messages show right under the box. The webhook help folds away once a link is saved.
 - **Webhook help wording ·** ·
-- **Ping box readable by screen readers** · The Discord ping picker now has a name screen readers can say.
 - **Zip bomb guard, risky-code scanner ·** ·
 - **Safer Discord posting, clearer grey text** ·
 - **Safe names in Discord posts** · A player or bill name can no longer turn into a fake link or break the Discord message.
@@ -164,14 +173,11 @@ Updates up to 1.1.80 have no version number, so they are grouped by day.
 - **Safer Discord posting** ·
 - **Discord post in two messages** · The picture comes first, right under the heading, and the written breakdown follows as a second message with less empty space.
 - **Green and red lines in the Discord post** ·
-- **Discord breakdown with headers and per-person changes** · The Discord message has headers and lists each person's old points, new points and difference.
 - **Bullet points in the Discord breakdown ·** ·
 - **Discord post breaks down every tab** ·
-- **Discord post breaks down the stats** · The Discord message now shows average points, up, down, same and new counts, top gains, biggest drops and new members.
 - **Tidier Discord message, no Excel on request ·** ·
 - **Discord posts can't ping anyone ·** ·
 - **One tick for the Discord link** ·
-- **Bigger Discord buttons, clear options back** · Discord tab has bigger buttons and choices, Choose files and Choose picture buttons, and Clear, Remove and Forget link show when there is something to clear.
 - **Simpler Discord tab, one file picker** ·
 - **What the site does, on Home** · Home now explains what Fishing Cat Data is, what it can do and what it can't.
 - **Intro above the key ·** ·
@@ -179,7 +185,6 @@ Updates up to 1.1.80 have no version number, so they are grouped by day.
 - **Hint at the top of the clan tab** · The tip about More options, Log and the Discord tab is now a coloured note at the top.
 - **Even gaps and Discord hint ·** ·
 - **Sections for Discord and Log** · The Discord box and the Log now sit under their own small headings, split from the sheet area.
-- **Clear buttons on Post without the AI ·** ·
 - **Even spacing** ·
 - **File selected messages** · When you pick a photo or sheet to post, the page says File selected.
 - **Discord picture redesign, post without AI, collapsible sections ·** ·
@@ -206,10 +211,7 @@ Updates up to 1.1.80 have no version number, so they are grouped by day.
 - **Fair baseline for same-day runs** · A run made earlier today no longer wipes out Change, % Change and Trend.
 - **Gradient on section bars ·** ·
 - **Colour stripes on section bars** ·
-- **Easier to read menus** · The closed sections now look like clear buttons.
-- **Hint for hidden options ·** ·
 - **Compact clan tab** ·
-- **Buttons wrap on small screens** · The buttons under the table no longer run off the page.
 - **Last sheet kept automatically ·** ·
 - **Remember the game name** ·
 - **Ad blocker note for Discord** · The page warns that ad blockers can stop Discord posts.
@@ -222,7 +224,6 @@ Updates up to 1.1.80 have no version number, so they are grouped by day.
 - **Weak model only for the layout step** · The smallest Gemini model now only does the quick layout step. Reading the member list and bills never use it, so lists are not left half empty.
 - **Post to Discord for bills ·** ·
 - **Post to Discord always shown** ·
-- **Discord link not saved by default** · The Discord link is forgotten when you close the page unless you tick Remember my link. A Forget button clears it.
 - **Skip the busy Gemini model ·** ·
 - **Slow Gemini switches model** · If Google is slow, the page tries a backup model after 75s instead of waiting 3 minutes.
 - **Clan history tab layout ·** ·
@@ -242,14 +243,9 @@ Updates up to 1.1.80 have no version number, so they are grouped by day.
 - **Home tidy-up** · The Home page no longer repeats the footer, the section arrows match the page and the tab row stays on one line.
 - **Bills sheet simpler, Home steps line up** ·
 - **Home page colours** · The Home page now uses the theme colour for headings, steps and the safety box.
-- **Home sections fold up, links at the top** · The Home page sections now open and close, with a link to the full guide and the free key at the top.
-- **Home page carries a short version of the guide** · The Home page now has a shortened copy of the README: how to use it, what you get, safety and limits.
 - **Bills sheet** · colours, how to read, tidy layout:
-- **New Home page for newcomers** · The Home page now explains the page in plain words for people who have never seen it.
 - **Roblox clan preview ·** ·
 - **Wording catches up** ·
-- **Test read shows the preview** · Test read now shows the Check your list table, not just three names.
-- **Video** · scrolling list no longer thrown away:
 - **Preview matches the sheet** ·
 - **Video** · take more pictures of a short scroll:
 - **Faster Gemini reads** · Gemini now uses light thinking for every read, not just the first step.
@@ -258,7 +254,6 @@ Updates up to 1.1.80 have no version number, so they are grouped by day.
 - **Video recording tip** ·
 - **Leaderboard and Points history** · colours and a How to read line: The two history tabs now look like the main sheet and explain themselves at the top.
 - **Faster first step** · The first step no longer holds up the run.
-- **Home button renamed ·** ·
 - **Tab renamed again** ·
 - **Tab renamed** · The Clan sheet tab is now called Roblox clans.
 - **Log shows AI wait ·** ·
@@ -271,13 +266,14 @@ Updates up to 1.1.80 have no version number, so they are grouped by day.
 - **Any game naming** · The page no longer says Roblox. Files are named after the game and clan, and the notes say any game.
 - **Easier to read** ·
 - **Log shows live** ·
-- **Updates moved to GitHub** · The Updates tab is gone. The update history now lives on GitHub only.
-- **Bills summary by type** · The Summary tab now shows the cost of each bill type, so water, phone and internet bills show up.
 - **All household bills** · The Bills tab now reads any household bill, not just power and gas.
 - **Clearer tab names ·** ·
 
 ### Fixed
 
+- **Check your list first** · After the AI reads the clan list, you can fix names and points in a table before the sheet is made.
+- **Earlier wrong names no longer stick ·** ·
+- **Video** · scrolling list no longer thrown away:
 - **Bug report button by the stills ·** ·
 - **Shorter bug report help** ·
 - **Log and bug report on the Discord tab ·** ·
@@ -289,6 +285,10 @@ Updates up to 1.1.80 have no version number, so they are grouped by day.
 
 ### Removed
 
+- **Discord post breaks down the stats** · The Discord message now shows average points, up, down, same and new counts, top gains, biggest drops and new members.
+- **Bigger Discord buttons, clear options back** · Discord tab has bigger buttons and choices, Choose files and Choose picture buttons, and Clear, Remove and Forget link show when there is something to clear.
+- **Hint for hidden options ·** ·
+- **Updates moved to GitHub** · The Updates tab is gone. The update history now lives on GitHub only.
 - **Remove stray headings** ·
 - **Record screen removed** ·
 
@@ -303,7 +303,6 @@ Updates up to 1.1.80 have no version number, so they are grouped by day.
 - **Free key limit note and guide from README ·** ·
 - **Log and Updates tab ·** ·
 - **Google Gemini and OpenAI** · You can pick Google Gemini or OpenAI as well as Anthropic. Gemini is tested; OpenAI is not.
-- **Help when things go wrong ·** ·
 - **Banner and Remember my key** · The page says when there is a new version, and you can tick a box to keep your key.
 - **Safety and info pages** ·
 - **Excel sheet** · You get a nice Excel file, and an earlier sheet can be chosen to show who went up or down.
@@ -323,6 +322,7 @@ Updates up to 1.1.80 have no version number, so they are grouped by day.
 
 ### Fixed
 
+- **Help when things go wrong ·** ·
 - **Stress test fixes ·** ·
 - **Bug hunt fixes** · A full check of the code found five bugs. Long videos lost the end of the list, some videos made the page wait forever, a cut-off AI reply lost every row, and the sheet date could be a day out.
 - **Record screen and fixes** ·
