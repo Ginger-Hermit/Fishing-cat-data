@@ -199,7 +199,7 @@ details#moreopts>summary{background:var(--field);border-left:3px solid var(--c-s
 :is(#settingstab .hc,#_#_#_){border:0;border-radius:0;background:none;box-shadow:none;padding:16px 2px;margin:0;border-bottom:1px solid var(--line,#ddd)}
 :is(#settingstab .hc:last-child,#_#_#_){border-bottom:0}
 :is(#settingstab .s69,#_#_#_){font-size:1.15em;margin-bottom:6px}
-:is(#settingstab .s70,#_#_#_){margin:14px 0 6px;font-weight:600;opacity:.8}
+:is(#settingstab .s70,#_#_#_){margin:14px 0 6px;font-weight:600}
 #previnfo ul{margin:4px 0 0;padding-left:20px;font-weight:400}#previnfo li ul{margin:0;padding-left:18px}#previnfo .warn{color:#a35a00}@media (prefers-color-scheme:dark){#previnfo .warn{color:#f0a640}}
 
 .zoombox{position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.85);overflow:auto;padding:56px 8px 8px}.zoombox img{display:block;margin:0 auto;width:auto;max-width:100%;max-height:calc(100vh - 72px);height:auto;background:#fff}.zoomx{position:fixed;top:8px;right:8px;z-index:1000;font-size:18px;padding:8px 16px;border-radius:8px;border:0;background:#fff;color:#111;cursor:pointer}
@@ -208,8 +208,8 @@ button.zoomx{width:auto;left:auto;margin:0;box-shadow:0 2px 8px rgba(0,0,0,.4)}
 .dcsteps{background:color-mix(in srgb,var(--c-discord) 10%,var(--field));border-left:4px solid var(--c-discord);border-radius:8px;padding:12px 14px;margin:10px 0}
 .dcsteps ol{list-style:none;counter-reset:st;padding:0;margin:8px 0}.dcsteps li{counter-increment:st;line-height:2}
 .dcsteps li::before{content:counter(st);display:inline-block;width:1.4em;height:1.4em;line-height:1.4em;border-radius:50%;background:var(--c-discord);color:#fff;text-align:center;font-size:.8em;margin-right:8px}
-.dcsteps a{color:var(--c-discord);font-weight:600;text-decoration:none}
-.dcwarn{color:#B45309;font-size:.9em;margin-top:6px}html[data-theme=dark] .dcwarn{color:#F5B454}
+.dcsteps a{color:var(--c-discord);font-weight:600;text-decoration:none}html[data-theme=dark] .dcsteps a{color:#C4B0F5}
+.dcwarn{color:#8A3B00;font-size:.9em;margin-top:6px}html[data-theme=dark] .dcwarn{color:#F5B454}
 .tipbox{background:#fff6d6;color:#5a4400;border-radius:8px;padding:8px 12px 8px 28px}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tipbox{background:#3a3110;color:#f3e3a6}}
 :root[data-theme="dark"] .tipbox{background:#3a3110;color:#f3e3a6}

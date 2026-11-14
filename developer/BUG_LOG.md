@@ -28,3 +28,4 @@ Older bugs: `BREAK_TEST_PLAN.md` (appendix) and `STRESS_TEST_LOG.md`.
 - 13 Nov 2026: tapped sample pictures filled the whole screen; zoom view forced width 100%; fit inside window instead; e83549f
 - 13 Nov: Discord post lost Points history. Cause: readSheet still read the old Points history layout. Fix: find date and name columns. Commit: see 1.1.56
 - 13 Nov: CHANGELOG.md doubled on every push (54 MB). Cause: my link script used find()=-1 at the last entry and re-appended the file. Fix: rebuilt from 890ba5f plus each release's entry.
+- 14 Nov 2026: Check failed on colour contrast (Discord warning light, Discord link dark, Settings headings in Ocean); faint colours/opacity; darker warning, lighter dark link, no opacity.
