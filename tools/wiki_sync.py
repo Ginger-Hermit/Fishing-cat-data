@@ -22,11 +22,10 @@ def block(src, head):
     m = re.search(r'(?m)^## ' + re.escape(head) + r'\n(.*?)(?=^## |\Z)', open(src).read(), re.S)
     return m.group(1).strip() if m else ""
 def latest(n=3):
-    L = open("CHANGELOG.md").read().split("\n"); out = []
-    for i, l in enumerate(L):
-        if re.match(r'^\d+ \w+ 20\d\d .*\u00b7 (New|Changed)', l):
-            nxt = next((x for x in L[i + 1:] if x.strip()), "")
-            out.append("- **" + l.split(" (")[0] + ":** " + nxt)
+    out, head = [], ""
+    for l in open("CHANGELOG.md").read().split("\n"):
+        if l.startswith("## "): head = l[3:].split(" · ")[0]
+        elif l.startswith("- ") and head: out.append("- **" + head + ":** " + re.sub(r" \(\[code\].*", "", l[2:]))
         if len(out) == n: break
     return "\n".join(out)
 home = open("developer/WIKI_HOME.md").read()

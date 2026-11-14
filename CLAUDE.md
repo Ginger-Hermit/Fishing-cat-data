@@ -9,8 +9,8 @@ Web page: reads Roblox clan screenshots or video (any Roblox game) with an AI an
 
 ## Every change to `index.html` (page) or `app.js` (all the code)
 1. `git pull` first. Find the exact spot with grep (table below), read only those lines. Small find-and-replace edits that each match once, all in one script. Backup outside the repo.
-2. Run `python3 tools/release.py --title ... --tag New|Changed --meaning ... --see ... --change ...` once. It does the version, CHANGELOG, patch note, STATUS and `tests/check.py`. Never by hand.
-   After pushing, put the new commit hash on that entry as a `[code](.../commit/HASH)` link in CHANGELOG.md (release.py only fills the previous entry), then push again.
+2. Run `python3 tools/release.py --title ... --tag New|Changed|Fixed|Removed --meaning ... --see ... --change ...` once. It does the version, CHANGELOG, patch note, STATUS and `tests/check.py`. Never by hand.
+   The tag and GitHub Release are made automatically (`.github/workflows/release.yml`). CHANGELOG.md uses Keep a Changelog: `--tag New|Changed|Fixed|Removed`, title and meaning become one short line.
 3. Touched `parseRows`, `parsePoints`, `parseBills`, `parseNum` or `kwhFor`? Also run `node tests/rows.test.js && node tests/bills.test.js && node tests/fuzz.js 7 5000`.
 4. Commit, push to `main` without asking (Ginger said so, 13 Nov). GitHub runs every test in three browsers; a red cross comes first. Changes outside `index.html` and `app.js` need no release.
 5. One bug per patch unless the same cause. Say what you couldn't test.

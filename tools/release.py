@@ -9,9 +9,9 @@ It bumps the version (version.txt, BUILD, STATUS.md), adds the entry to CHANGELO
 import argparse, datetime, json, re, subprocess, sys
 
 ap = argparse.ArgumentParser()
-ap.add_argument("--title", required=True); ap.add_argument("--tag", default="Changed", choices=["New", "Changed"])
-ap.add_argument("--meaning", required=True); ap.add_argument("--see", required=True)
-ap.add_argument("--change", action="append", required=True); ap.add_argument("--note")
+ap.add_argument("--title", required=True); ap.add_argument("--tag", default="Changed", choices=["New", "Changed", "Fixed", "Removed"])
+ap.add_argument("--meaning", required=True); ap.add_argument("--see")
+ap.add_argument("--change", action="append"); ap.add_argument("--note")
 a = ap.parse_args()
 
 now = datetime.datetime.now(datetime.timezone.utc)
@@ -39,17 +39,12 @@ lines[1] = "<!-- Patch note: %s -->" % (a.note or a.meaning)
 open("index.html", "w", encoding="utf-8").write("\n".join(lines))
 open("version.txt", "w", encoding="utf-8").write(new + "\n")
 
+# CHANGELOG.md, Keep a Changelog layout: one "## [version] - date" heading per version, short lines under Added/Changed/Fixed/Removed.
+# The heading links to a compare page (everything between two versions). .github/workflows/release.yml makes the tag and Release.
 c = open("CHANGELOG.md", encoding="utf-8").read()
 k = c.index("\n## ")
-first_end = c.index("\n", c.index("\n\n", k + 1) + 2)       # end of the newest entry's date line
-if head and "[code]" not in c[k:first_end]: c = c[:first_end] + " · [code](%s%s)" % (REPO, head + "#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f") + c[first_end:]
-block = "\n## %s\n\n%s (%s UTC) · %s\n\n%s\n\n> [!%s]\n> **What you'll see:** %s\n\n%s\n" % (
-    a.title, shown, now.strftime("%H:%M"), a.tag, a.meaning, "TIP" if a.tag == "New" else "NOTE", a.see, "\n".join("- " + x for x in a.change))
-d0 = c.find("<details open>")
-if d0 >= 0 and "<b>%s</b>" % shown not in c[d0:k]:          # new day: fold yesterday, start a new open tab
-    c = c[:d0] + "<details>" + c[d0 + len("<details open>"):]
-    k = c.index("<details>", d0) - 1
-    block = "\n<details open>\n<summary><b>%s</b> · today</summary>\n%s\n</details>\n" % (shown, block)
+kind = {"New": "Added"}.get(a.tag, a.tag)
+block = "\n## [%s] - %s · [code](%s/compare/v%s...v%s)\n\n### %s\n\n- %s: %s\n" % (new, day, REPO.rsplit("/commit/", 1)[0], old, new, kind, a.title, a.meaning)
 open("CHANGELOG.md", "w", encoding="utf-8").write(c[:k] + block + c[k:])
 
 st = open("STATUS.md", encoding="utf-8").read()

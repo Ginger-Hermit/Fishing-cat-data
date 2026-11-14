@@ -1,0 +1,22 @@
+# Makes a tag and a GitHub Release for every new version in version.txt. Notes = that version's CHANGELOG.md section.
+name: Release
+on:
+  push:
+    branches: [main]
+    paths: [version.txt]
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tag and release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          V=$(tr -d '[:space:]' < version.txt)
+          if gh release view "v$V" >/dev/null 2>&1; then echo "v$V exists"; exit 0; fi
+          awk -v v="## [$V]" 'index($0,v)==1{f=1;next} /^## /{if(f)exit} f' CHANGELOG.md > notes.md
+          [ -s notes.md ] || echo "Version $V" > notes.md
+          gh release create "v$V" --target "$GITHUB_SHA" --title "v$V" --notes-file notes.md
