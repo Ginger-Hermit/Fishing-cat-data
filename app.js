@@ -1,11 +1,12 @@
-// Patch note: When Google is busy on the rows step, retries now switch between backup and main model instead of repeating the same one
+// Patch note: You can now pick Mistral in Settings, a second free AI for reading pictures
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
 // Anthropic and Gemini are tested. Names can be changed under Settings.
 const PROVIDERS = {
   anthropic: { name: "Anthropic", model: MODEL, tested: true, list: "https://docs.anthropic.com/en/docs/about-claude/models" },
-  gemini: { name: "Google Gemini", model: "gemini-3.8-flash", tested: true, list: "https://ai.google.dev/gemini-api/docs/models" }
+  gemini: { name: "Google Gemini", model: "gemini-3.8-flash", tested: true, list: "https://ai.google.dev/gemini-api/docs/models" },
+  mistral: { name: "Mistral", model: "mistral-small-latest", tested: false, list: "https://docs.mistral.ai/getting-started/models/models_overview/" }
 };
 function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
 const LOOK_KEYS = ["fcd_theme", "fcd_size", "fcd_read", "fcd_btn", "fcd_nosave", "fcd_expire", "fcd_reset", "fcd_showlog"];
@@ -101,7 +102,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.98";
+const BUILD = "1.1.99";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -329,10 +330,11 @@ function modelFor(id) { const m = (lsGet("fcd_model_" + id) || "").trim(); retur
 function applyProvider(clearKey) {
   const id = provider(), p = PROVIDERS[id];
   $("keylabel").textContent = "Your AI key (" + p.name + ")";
-  const kh = $("keyhelp"), kl = {gemini: ["https://aistudio.google.com/app/apikey", "Get a free key"], anthropic: ["https://console.anthropic.com/settings/keys", "Get a key"]}[id];
+  const kh = $("keyhelp"), kl = {gemini: ["https://aistudio.google.com/app/apikey", "Get a free key"], anthropic: ["https://console.anthropic.com/settings/keys", "Get a key"], mistral: ["https://console.mistral.ai/api-keys", "Get a free key"]}[id];
   kh.style.display = kl ? "inline-block" : "none";
   if (kl) { kh.href = kl[0]; kh.textContent = kl[1]; }
-  $("keylimit").style.display = id === "gemini" ? "block" : "none";
+  $("keylimit").textContent = id === "mistral" ? "Mistral's free plan may use your pictures to train its AI. Fine for clan lists, not for bills." : "The free key has a daily limit. If it runs out, wait until the next day.";
+  $("keylimit").style.display = id === "gemini" || id === "mistral" ? "block" : "none";
   $("untested").style.display = p.tested ? "none" : "block";
   $("modelbox").placeholder = p.model; $("modellist").href = p.list; $("modellist").textContent = "See " + p.name + " model names";
   $("modelbox").value = lsGet("fcd_model_" + id) || "";
@@ -1156,6 +1158,15 @@ const ASKERS = {
       { "content-type": "application/json", "x-goog-api-key": key }, { contents: [{ parts }], generationConfig: PROMPT === BILL_PROMPT ? { thinkingConfig: { thinkingLevel: "low" }, maxOutputTokens: 8192, responseMimeType: "application/json" } : { thinkingConfig: { thinkingLevel: "low" } } });
     const first = (d.candidates || [])[0];
     return ((first && first.content && first.content.parts) || []).map(p => p.text || "").join("\n");
+  },
+  mistral: async (key, model, pics) => {
+    const content = pics.map(p => p.type === "application/pdf" ? { type: "document_url", document_url: "data:application/pdf;base64," + p.data } : { type: "image_url", image_url: "data:" + p.type + ";base64," + p.data });
+    content.push({ type: "text", text: PROMPT });
+    const body = { model, max_tokens: 8000, messages: [{ role: "user", content }] };
+    if (PROMPT === BILL_PROMPT) body.response_format = { type: "json_object" };
+    const d = await postJson("https://api.mistral.ai/v1/chat/completions", { "content-type": "application/json", "authorization": "Bearer " + key }, body);
+    const m = ((d.choices || [])[0] || {}).message;
+    return m && typeof m.content === "string" ? m.content : "";
   }
 };
 
