@@ -42,7 +42,7 @@ open("version.txt", "w", encoding="utf-8").write(new + "\n")
 c = open("CHANGELOG.md", encoding="utf-8").read()
 k = c.index("\n## ")
 first_end = c.index("\n", c.index("\n\n", k + 1) + 2)       # end of the newest entry's date line
-if head and "[code]" not in c[k:first_end]: c = c[:first_end] + " · [code](%s%s)" % (REPO, head) + c[first_end:]
+if head and "[code]" not in c[k:first_end]: c = c[:first_end] + " · [code](%s%s)" % (REPO, head + "#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f") + c[first_end:]
 block = "\n## %s\n\n%s (%s UTC) · %s\n\n%s\n\n> [!%s]\n> **What you'll see:** %s\n\n%s\n" % (
     a.title, shown, now.strftime("%H:%M"), a.tag, a.meaning, "TIP" if a.tag == "New" else "NOTE", a.see, "\n".join("- " + x for x in a.change))
 d0 = c.find("<details open>")
