@@ -30,3 +30,4 @@ Older bugs: `BREAK_TEST_PLAN.md` (appendix) and `STRESS_TEST_LOG.md`.
 - 13 Nov: CHANGELOG.md doubled on every push (54 MB). Cause: my link script used find()=-1 at the last entry and re-appended the file. Fix: rebuilt from 890ba5f plus each release's entry.
 - 14 Nov 2026: Check failed on colour contrast (Discord warning light, Discord link dark, Settings headings in Ocean); faint colours/opacity; darker warning, lighter dark link, no opacity.
 - 14 Nov 2026: long Claude bill replies cut off; max_tokens 8000; raised to 16000. Safety scan flagged fake test key in tools/attack.py; marked gitleaks:allow.
+- 14 Nov: Discord clan total jumped by the season points. Cause: Discord history reader counted the new Season points row as a player. Fix: stop at Clan total/Season points/Clan rank rows.
