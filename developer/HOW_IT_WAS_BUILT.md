@@ -28,7 +28,7 @@ Rules set from the start, and kept:
 - First web page: upload clan screenshots, the AI reads them, an Excel sheet downloads.
 - Settings tab (themes, text size), Help, Stay safe, Privacy and Legal pages.
 - Excel sheet: real-number points, an optional "last sheet" to show change, % change and a trend arrow.
-- More AI companies: Google Gemini (free key, now the default) and OpenAI, next to Anthropic.
+- More AI companies: Google Gemini (free key, now the default), next to Anthropic (OpenAI was added later and removed 14 Nov).
 - "Add a game" profiles were tried, then replaced by letting the AI work out the game and clan layout itself (two AI requests per run).
 - Safety: wrong-address warning, file limits, a connection limit, key kept out of logs.
 - Update banner, version check, and an optional "remember my key" box (off by default).
@@ -86,7 +86,7 @@ An earlier lesson from 11 Nov: working from a stale copy overwrote a README and 
 
 - Nothing has been run with a real AI since 11 Nov. Every test uses pretend replies, so reading accuracy on real clan videos and real bills is not proven. The first real run is next.
 - A real phone has not been checked by eye. Widths were simulated.
-- OpenAI is untested. The live security header (`_headers`) is untested.
+- The live security header (`_headers`) is untested.
 - Bills are photos only, no PDFs. The Bills preview shows 6 of the sheet's 15 columns, and the Summary tab is not previewed.
 
 ## 8. Next steps

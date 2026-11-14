@@ -55,7 +55,7 @@ If the AI's reply is cut off, the whole bills run is lost. Try fewer bills.
 <details>
 <summary><b>Which AI should I use?</b></summary>
 
-Gemini is the default and has a free key. Anthropic works. OpenAI is not tested.
+Gemini is the default and has a free key. Anthropic works. OpenAI was removed on 14 Nov.
 
 </details>
 

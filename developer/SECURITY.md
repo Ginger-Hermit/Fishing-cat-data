@@ -9,7 +9,7 @@ Plain facts about what Fishing Cat Data does with your data.
 > - Your key stays in your browser, and only if you tick **Remember my key**.
 
 ## What leaves your device
-- Your pictures or video stills go to **one AI company only: the one you pick** (Anthropic, Google Gemini or OpenAI), under that company's terms.
+- Your pictures or video stills go to **one AI company only: the one you pick** (Anthropic or Google Gemini), under that company's terms.
 - Your AI key goes to that same company so it can do the read. It goes nowhere else.
 - Nothing else is sent. The page also asks its own site for `version.txt` to see if a newer version exists.
 
@@ -18,7 +18,6 @@ The page's security header (`_headers`) only allows connections to:
 - the site itself
 - api.anthropic.com
 - generativelanguage.googleapis.com
-- api.openai.com
 - discord.com (only for Post to Discord, to the link you paste; posts ping only the role you pick, never @everyone)
 
 Anything else is blocked by the browser. A new website needs an edit to `_headers` and a mention in the on-page safety text.

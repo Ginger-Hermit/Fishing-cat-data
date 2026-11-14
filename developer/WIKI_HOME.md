@@ -17,7 +17,7 @@
 - **Bills:** photos of power, gas, water, phone and other bills become a sheet with one row per charge, plus a **Summary** tab with cost by type.
 - **Discord:** post a finished sheet to your Discord channel with a webhook link you paste. Optional.
 - **Check before you download:** after the AI reads your pictures, an Excel-style table lets you fix any cell first.
-- **Your own AI key:** Google Gemini is the default and has a free key. Anthropic works too. OpenAI is not tested yet.
+- **Your own AI key:** Google Gemini is the default and has a free key. Anthropic works too. OpenAI was removed on 14 Nov.
 - **Private:** no accounts and no server of ours. Pictures go only to the AI company you pick, straight from your browser.
 
 ## What it looks like
