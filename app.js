@@ -1,4 +1,4 @@
-// Patch note: Season points were added to the clan total in the Discord message.
+// Patch note: Picking a saved sheet or picture to post now shows the message and table picture first, with Discord's colours.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -101,7 +101,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.87";
+const BUILD = "1.1.88";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1421,20 +1421,31 @@ async function readSheet(buf) {
   const t1 = String(val(ws.getCell(1, 1)) || ""), t2 = String(val(ws.getCell(2, 1)) || "");
   return { items, any, hist, clan: t1.split(/\s[\u2013-]\s/)[0] || "Clan", game: t2.split("\u00b7")[0].trim() || "Roblox", date: ((t2.match(/Recorded ([^\u00b7]+)/) || [])[1] || todayText()).trim() };
 }
-const dcPick = () => { const fs = [...$("shfile").files]; $("shsel").textContent = fs.length ? "\u2713 " + fs.map((f) => f.name).join(", ") : "No files chosen."; $("shclear").style.display = fs.length ? "" : "none"; };
+const dcPick = () => { const fs = [...$("shfile").files]; $("shsel").textContent = fs.length ? "\u2713 " + fs.map((f) => f.name).join(", ") : "No files chosen."; $("shclear").style.display = fs.length ? "" : "none"; fileShow(); };
 $("shfile").onchange = dcPick; $("shclear").onclick = () => { $("shfile").value = ""; dcPick(); };
+async function fileParts(xf, pf) {
+  const files = []; let text = "Fishing Cat Data";
+  if (xf) {
+    const sh = await readSheet(await xf.arrayBuffer()).catch(() => { throw new Error("That Excel file could not be read. Use a sheet this page made."); }), f = (n) => Math.round(n).toLocaleString("en-US"), tot = sh.items.reduce((t, r) => t + r.n, 0);
+    text = dcBreakdown(sh, f);
+    if (!pf) files.push(await rowsPic(sh.items.map((r) => ({ ...r, ch: sh.any ? chCell(r.n, r.b === null ? undefined : r.b) : ["", "#b5bac1"] })), sh.clan, subLine(sh.date, sh.items.length, tot, sh.items.filter((r) => r.b !== null).reduce((t, r) => t + r.n - r.b, 0), sh.any), sh.clan + ".png"));
+  }
+  if (pf) files.push({ blob: pf, name: pf.name });
+  return { text, files };
+}
+let filePrev = null;
+async function fileShow() {
+  const fl = [...$("shfile").files], xf = fl.find((f) => /\.xlsx$/i.test(f.name)), pf = fl.find((f) => /^image\//.test(f.type) || /\.(png|jpe?g|webp|gif)$/i.test(f.name));
+  filePrev = null;
+  if (xf || pf) try { filePrev = await fileParts(xf, pf); } catch (err) { filePrev = { text: plain(err), files: [] }; }
+  dcPrev();
+}
 $("shpost").onclick = async () => {
   const fl = [...$("shfile").files], xf = fl.find((f) => /\.xlsx$/i.test(f.name)), pf = fl.find((f) => /^image\//.test(f.type) || /\.(png|jpe?g|webp|gif)$/i.test(f.name)), say = (t) => { $("hookmsg").textContent = t; };
   if (!xf && !pf) { say(fl.length ? "Those files are not an Excel sheet (.xlsx) or a picture." : "Pick an Excel sheet or a photo first."); return; }
   say("Posting...");
   try {
-    const files = []; let text = "Fishing Cat Data";
-    if (xf) {
-      const sh = await readSheet(await xf.arrayBuffer()).catch(() => { throw new Error("That Excel file could not be read. Use a sheet this page made."); }), f = (n) => Math.round(n).toLocaleString("en-US"), tot = sh.items.reduce((t, r) => t + r.n, 0);
-      text = dcBreakdown(sh, f);
-      if (!pf) files.push(await rowsPic(sh.items.map((r) => ({ ...r, ch: sh.any ? chCell(r.n, r.b === null ? undefined : r.b) : ["", "#b5bac1"] })), sh.clan, subLine(sh.date, sh.items.length, tot, sh.items.filter((r) => r.b !== null).reduce((t, r) => t + r.n - r.b, 0), sh.any), sh.clan + ".png"));
-    }
-    if (pf) files.push({ blob: pf, name: pf.name });
+    const { text, files } = await fileParts(xf, pf);
     if (xf && $("hookxlsx").checked) files.push({ blob: xf, name: xf.name });
     const sent = await dcPost(withLink(text), files);
     say(files.length && !sent ? "Posted the message, but the files could not go." : "Posted.");
@@ -1457,17 +1468,19 @@ try { $("sitelink").checked = lsGet("fcd_sitelink") !== "0"; } catch (e) { $("si
 $("sitelink").onchange = () => { try { lsSet("fcd_sitelink", $("sitelink").checked ? "1" : "0"); } catch (e) {} dcPrev(); };
 function dcPrev() {
   const box = $("dcprevbox"), r = document.querySelector("input[name=dcsrc]:checked"), v = r ? r.value : "";
-  $("dcprev").style.display = v === "sheet" ? "" : "none"; box.replaceChildren();
-  if (v !== "sheet") return;
-  const src = pv ? hookText(false) + linkLine() : "Example (made-up players). Yours shows here after you make a clan sheet.\n**Clan Members**\n4 members, about 21,000 points each\n**What changed**\n**Whole clan: +8,040 points**\nWent up (2)\n```\n+ Ann: 217,210 → 223,800 (+6,590)\n+ Bo: 205,560 → 207,000 (+1,440)\n```\nNew (1)\n```\n+ Dee: 5,700 points\n```";
-  let code = null;
+  const fp = v === "files" && filePrev;
+  $("dcprev").style.display = v === "sheet" || fp ? "" : "none"; box.replaceChildren();
+  if (v !== "sheet" && !fp) return;
+  const src = fp ? withLink(fp.text) : pv ? hookText(false) + linkLine() : "Example (made-up players). Yours shows here after you make a clan sheet.\n**Clan Members**\n4 members, about 21,000 points each\n**What changed**\n**Whole clan: +8,040 points**\nWent up (2)\n```\n+ Ann: 217,210 → 223,800 (+6,590)\n+ Bo: 205,560 → 207,000 (+1,440)\n```\nNew (1)\n```\n+ Dee: 5,700 points\n```";
+  let code = null, diff = false;
   for (const ln of src.split("\n")) {
-    if (ln.startsWith("```")) { if (code) code = null; else { code = document.createElement("pre"); box.appendChild(code); } continue; }
-    if (code) { code.textContent += (code.textContent ? "\n" : "") + ln; continue; }
-    const d = document.createElement("div"), h = /^#{1,3} /.test(ln), t = ln.replace(/^#{1,3} /, "").replace(/^- /, "\u2022 ").replace(/\\(.)/g, "$1");
-    d.className = h ? "dch" : ""; t.split("**").forEach((p, i) => { if (i % 2) { const b = document.createElement("b"); b.textContent = p; d.appendChild(b); } else d.appendChild(document.createTextNode(p)); });
+    if (ln.startsWith("```")) { if (code) code = null; else { code = document.createElement("pre"); diff = /diff/.test(ln); box.appendChild(code); } continue; }
+    if (code) { const sp = document.createElement("span"); sp.textContent = ln + "\n"; if (diff) sp.className = ln[0] === "+" ? "dcup" : ln[0] === "-" ? "dcdown" : ""; code.appendChild(sp); continue; }
+    const q = /^> ?/.test(ln), d = document.createElement("div"), h = /^#{1,3} /.test(ln), t = ln.replace(/^> ?/, "").replace(/^#{1,3} /, "").replace(/^- /, "\u2022 ").replace(/\\(.)/g, "$1");
+    d.className = h ? "dch" : q ? "dcq" : ""; t.split("**").forEach((p, i) => { if (i % 2) { const b = document.createElement("b"); b.textContent = p; d.appendChild(b); } else d.appendChild(document.createTextNode(p)); });
     box.appendChild(d);
   }
+  if (fp) fp.files.forEach((x) => { if (/^image\//.test(x.blob.type) || /\.png$/i.test(x.name)) { const im = document.createElement("img"); im.src = URL.createObjectURL(x.blob); im.alt = "Table picture"; im.className = "dcpic"; box.appendChild(im); } });
 }
 $("sheetlink").value = lsGet("fcd_sheetlink") || ""; $("sheetlinkkeep").checked = !!lsGet("fcd_sheetlink");
 const keepLink = () => { const v = $("sheetlink").value.trim(); try { if ($("sheetlinkkeep").checked && SHEET_RE.test(v)) lsSet("fcd_sheetlink", v); else localStorage.removeItem("fcd_sheetlink"); } catch (e) {} renderSaved(); };

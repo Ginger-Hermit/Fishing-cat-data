@@ -216,3 +216,8 @@ button.zoomx{width:auto;left:auto;margin:0;box-shadow:0 2px 8px rgba(0,0,0,.4)}
 
 .dcsamp{margin-left:auto;background:#2b2d31;border-radius:4px;padding:4px 10px;font:bold 13px monospace;white-space:nowrap}.c0{color:#dbdee1;font-weight:normal}.c34{color:#268bd2}.c33{color:#b58900}.c35{color:#d33682}.c36{color:#2aa198}
 .dcpv{background:#2b2d31;border-radius:6px;padding:8px 10px;margin:6px 0 10px;font:13px monospace}.dcpv div{display:flex;gap:10px;align-items:baseline;padding:2px 0;flex-wrap:wrap}.dcpv b{color:#f2f3f5;min-width:80px;font-family:sans-serif}.dcpv i{margin-left:auto;color:#949ba4;font:italic 12px sans-serif}.dcg{color:#4fb36f}
+
+.dcpic { display: block; max-width: 100%; height: auto; margin-top: 10px; border-radius: 8px; }
+.dcup { color: #57f287; }
+.dcdown { color: #ed4245; }
+.dcq { border-left: 4px solid #4e5058; padding-left: 10px; }
