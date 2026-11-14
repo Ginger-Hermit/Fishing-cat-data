@@ -45,6 +45,11 @@ first_end = c.index("\n", c.index("\n\n", k + 1) + 2)       # end of the newest 
 if head and "[code]" not in c[k:first_end]: c = c[:first_end] + " · [code](%s%s)" % (REPO, head) + c[first_end:]
 block = "\n## %s\n\n%s (%s UTC) · %s\n\n%s\n\n> [!%s]\n> **What you'll see:** %s\n\n%s\n" % (
     a.title, shown, now.strftime("%H:%M"), a.tag, a.meaning, "TIP" if a.tag == "New" else "NOTE", a.see, "\n".join("- " + x for x in a.change))
+d0 = c.find("<details open>")
+if d0 >= 0 and "<b>%s</b>" % shown not in c[d0:k]:          # new day: fold yesterday, start a new open tab
+    c = c[:d0] + "<details>" + c[d0 + len("<details open>"):]
+    k = c.index("<details>", d0) - 1
+    block = "\n<details open>\n<summary><b>%s</b> · today</summary>\n%s\n</details>\n" % (shown, block)
 open("CHANGELOG.md", "w", encoding="utf-8").write(c[:k] + block + c[k:])
 
 st = open("STATUS.md", encoding="utf-8").read()

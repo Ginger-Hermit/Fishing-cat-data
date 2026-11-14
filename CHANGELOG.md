@@ -2,6 +2,9 @@
 
 Newest first. The page itself shows only the newest 5.
 
+<details open>
+<summary><b>14 Nov 2026</b> · 2 updates</summary>
+
 ## OpenAI removed
 
 14 Nov 2026 (05:28 UTC) · Changed · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/ff2aebf)
@@ -23,6 +26,11 @@ Big bills read with Claude no longer lose their last charges
 > **What you'll see:** Bills tab with Claude: long bills come through whole
 
 - Claude reply limit raised from 8,000 to 16,000 tokens; fake test key marked so the safety scan stops flagging it
+
+</details>
+
+<details>
+<summary><b>13 Nov 2026</b> · 59 updates</summary>
 
 ## Colours for Discord
 
@@ -674,6 +682,8 @@ Settings, Look: pick a button colour
 > **What you'll see:** Settings, Look
 
 - Six button colours, all readable in light and dark
+
+</details>
 
 Older updates: [developer/CHANGELOG_OLD.md](developer/CHANGELOG_OLD.md) [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/737da9a)
 
