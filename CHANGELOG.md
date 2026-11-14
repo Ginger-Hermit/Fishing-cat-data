@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.89] - 2026-11-14 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.88...v1.1.89)
+
+### Changed
+
+- **Discord look for the preview** · The post preview looks like a Discord message: name, APP tag, time, code boxes.
+
 ## [1.1.88] - 2026-11-14 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.87...v1.1.88)
 
 ### Added

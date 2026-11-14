@@ -1,4 +1,4 @@
-// Patch note: Picking a saved sheet or picture to post now shows the message and table picture first, with Discord's colours.
+// Patch note: The post preview looks like a Discord message: name, APP tag, time, code boxes.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -101,7 +101,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.88";
+const BUILD = "1.1.89";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1471,6 +1471,9 @@ function dcPrev() {
   const fp = v === "files" && filePrev;
   $("dcprev").style.display = v === "sheet" || fp ? "" : "none"; box.replaceChildren();
   if (v !== "sheet" && !fp) return;
+  { const hd = document.createElement("div"), av = document.createElement("span"), nm = document.createElement("b"), tg = document.createElement("span"), tm = document.createElement("span");
+    hd.className = "dchead"; av.className = "dcav"; av.textContent = "\ud83d\udc31"; nm.textContent = "Fishing Cat Data"; tg.className = "dctag"; tg.textContent = "APP"; tm.className = "dctime"; tm.textContent = "Today at " + new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+    hd.append(av, nm, tg, tm); box.appendChild(hd); }
   const src = fp ? withLink(fp.text) : pv ? hookText(false) + linkLine() : "Example (made-up players). Yours shows here after you make a clan sheet.\n**Clan Members**\n4 members, about 21,000 points each\n**What changed**\n**Whole clan: +8,040 points**\nWent up (2)\n```\n+ Ann: 217,210 → 223,800 (+6,590)\n+ Bo: 205,560 → 207,000 (+1,440)\n```\nNew (1)\n```\n+ Dee: 5,700 points\n```";
   let code = null, diff = false;
   for (const ln of src.split("\n")) {
