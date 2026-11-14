@@ -43,7 +43,7 @@ open("version.txt", "w", encoding="utf-8").write(new + "\n")
 # The heading links to a compare page (everything between two versions). .github/workflows/release.yml makes the tag and Release.
 c = open("CHANGELOG.md", encoding="utf-8").read()
 k = c.index("\n## ")
-kind = {"New": "🟢 Added", "Changed": "🔵 Changed", "Fixed": "🟠 Fixed", "Removed": "🔴 Removed"}[a.tag]
+kind = {"New": "![Added](https://img.shields.io/badge/Added-2ea44f?style=flat-square)", "Changed": "![Changed](https://img.shields.io/badge/Changed-0969da?style=flat-square)", "Fixed": "![Fixed](https://img.shields.io/badge/Fixed-d4a72c?style=flat-square)", "Removed": "![Removed](https://img.shields.io/badge/Removed-cf222e?style=flat-square)"}[a.tag]
 block = "\n## [%s] - %s · [code](%s/compare/v%s...v%s)\n\n### %s\n\n- **%s** · %s\n" % (new, day, REPO.rsplit("/commit/", 1)[0], old, new, kind, a.title, a.meaning)
 open("CHANGELOG.md", "w", encoding="utf-8").write(c[:k] + block + c[k:])
 

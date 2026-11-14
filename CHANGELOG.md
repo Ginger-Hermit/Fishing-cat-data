@@ -1,25 +1,25 @@
 # Changelog
 
-Every change, newest first. 🟢 Added · 🔵 Changed · 🟠 Fixed · 🔴 Removed
+Every change, newest first. ![Added](https://img.shields.io/badge/Added-2ea44f?style=flat-square) · ![Changed](https://img.shields.io/badge/Changed-0969da?style=flat-square) · ![Fixed](https://img.shields.io/badge/Fixed-d4a72c?style=flat-square) · ![Removed](https://img.shields.io/badge/Removed-cf222e?style=flat-square)
 
 Layout: [Keep a Changelog](https://keepachangelog.com). Each version is also on the [Releases](https://github.com/Ginger-Hermit/Fishing-cat-data/releases) page.
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
-## 📅 2026-11-14
+## 2026-11-14
 
-### 🔵 Changed
+### ![Changed](https://img.shields.io/badge/Changed-0969da?style=flat-square)
 
 - **Longer bills on Claude** · Big bills read with Claude no longer lose their last charges
 
-### 🔴 Removed
+### ![Removed](https://img.shields.io/badge/Removed-cf222e?style=flat-square)
 
 - **OpenAI removed** · Only Google Gemini and Anthropic are offered now
 
 <details>
-<summary><b>📅 2026-11-13</b> · 76 updates</summary>
+<summary><b>2026-11-13</b> · 76 updates</summary>
 
-### 🟢 Added
+### ![Added](https://img.shields.io/badge/Added-2ea44f?style=flat-square)
 
 - **Colours for Discord** · Discord tab: pick a colour for names that didn't change (PC only).
 - **How to read line in the Discord post** · The Discord post ends with a small line explaining Went up, No change, New and Points history.
@@ -36,7 +36,7 @@ Updates up to 1.1.80 have no version number, so they are grouped by day.
 - **Model names link** · Settings links to the AI company's list of model names
 - Easier reading and privacy switches · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f): · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f)
 
-### 🔵 Changed
+### ![Changed](https://img.shields.io/badge/Changed-0969da?style=flat-square)
 
 - **No Left the clan line** · The Discord message no longer has a Left the clan line.
 - **No change names in white** · In Discord, the No change list is now plain white so it is easy to read.
@@ -97,12 +97,12 @@ Updates up to 1.1.80 have no version number, so they are grouped by day.
 - **Time in sheet names** · Clan sheets now include the time, like 'Loki - 13 Nov 2026 14.05.xlsx'.
 - Sheets named by clan and date · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f): · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f)
 
-### 🟠 Fixed
+### ![Fixed](https://img.shields.io/badge/Fixed-d4a72c?style=flat-square)
 
 - **Sample picture fix** · The example post picture on the Discord tab now shows instead of a broken picture.
 - **Discord tab fixes that didn't stick** · Attach box now really starts unticked; No picture saved is grey · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f)
 
-### 🔴 Removed
+### ![Removed](https://img.shields.io/badge/Removed-cf222e?style=flat-square)
 
 - **Colour guide removed** · The Discord message no longer ends with a colour guide.
 - Drop files into Last sheet [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8ceb99ed4179751c3c5a377fdac1dd1f00687a3f#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f): You can drag an earlier sheet onto the Last sheet box; the screenshot box says it takes videos
@@ -110,9 +110,9 @@ Updates up to 1.1.80 have no version number, so they are grouped by day.
 </details>
 
 <details>
-<summary><b>📅 2026-11-12</b> · 170 updates</summary>
+<summary><b>2026-11-12</b> · 170 updates</summary>
 
-### 🟢 Added
+### ![Added](https://img.shields.io/badge/Added-2ea44f?style=flat-square)
 
 - **AI flags names it is unsure of** · · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f)
 - **Warns about reused videos** · · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f)
@@ -136,7 +136,7 @@ Updates up to 1.1.80 have no version number, so they are grouped by day.
 - **Home page** · · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f)
 - **Energy bills** · A second tool on the page. Add photos of power or gas bills and get a sheet of every charge, with usage turned into kWh so bills from different countries can be compared.
 
-### 🔵 Changed
+### ![Changed](https://img.shields.io/badge/Changed-0969da?style=flat-square)
 
 - **Foldable developer bar** · · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f)
 - **Calmer developer bar** · The developer bar is flatter and takes less space.
@@ -278,7 +278,7 @@ Updates up to 1.1.80 have no version number, so they are grouped by day.
 - **All household bills** · The Bills tab now reads any household bill, not just power and gas.
 - Clearer tab names · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f): · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f)
 
-### 🟠 Fixed
+### ![Fixed](https://img.shields.io/badge/Fixed-d4a72c?style=flat-square)
 
 - Bug report button by the stills · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f): · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f)
 - **Shorter bug report help** · · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f)
@@ -289,7 +289,7 @@ Updates up to 1.1.80 have no version number, so they are grouped by day.
 - **Security fixes** · · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f)
 - **Bills download fix** · · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f)
 
-### 🔴 Removed
+### ![Removed](https://img.shields.io/badge/Removed-cf222e?style=flat-square)
 
 - **Remove stray headings** · · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f)
 - **Record screen removed** · · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f)
@@ -297,9 +297,9 @@ Updates up to 1.1.80 have no version number, so they are grouped by day.
 </details>
 
 <details>
-<summary><b>📅 2026-11-11</b> · 21 updates</summary>
+<summary><b>2026-11-11</b> · 21 updates</summary>
 
-### 🟢 Added
+### ![Added](https://img.shields.io/badge/Added-2ea44f?style=flat-square)
 
 - **GitHub preview** · · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f)
 - Free key limit note and guide from README · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f): · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f)
@@ -311,7 +311,7 @@ Updates up to 1.1.80 have no version number, so they are grouped by day.
 - **Excel sheet** · You get a nice Excel file, and an earlier sheet can be chosen to show who went up or down.
 - **First web version** · · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f)
 
-### 🔵 Changed
+### ![Changed](https://img.shields.io/badge/Changed-0969da?style=flat-square)
 
 - **Harder to break** · · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f)
 - Faster to open · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f): · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f)
@@ -323,7 +323,7 @@ Updates up to 1.1.80 have no version number, so they are grouped by day.
 - **Tidier Updates** · · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f)
 - **Any game, no setup** · · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f)
 
-### 🟠 Fixed
+### ![Fixed](https://img.shields.io/badge/Fixed-d4a72c?style=flat-square)
 
 - Stress test fixes · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f): · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/8f7d0eb#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28f)
 - **Bug hunt fixes** · A full check of the code found five bugs. Long videos lost the end of the list, some videos made the page wait forever, a cut-off AI reply lost every row, and the sheet date could be a day out.
