@@ -1,4 +1,4 @@
-// Patch note: The post preview looks like a Discord message: name, APP tag, time, code boxes.
+// Patch note: The post preview showed Discord's raw small-text and link codes.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -101,7 +101,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.89";
+const BUILD = "1.1.90";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1479,8 +1479,8 @@ function dcPrev() {
   for (const ln of src.split("\n")) {
     if (ln.startsWith("```")) { if (code) code = null; else { code = document.createElement("pre"); diff = /diff/.test(ln); box.appendChild(code); } continue; }
     if (code) { const sp = document.createElement("span"); sp.textContent = ln + "\n"; if (diff) sp.className = ln[0] === "+" ? "dcup" : ln[0] === "-" ? "dcdown" : ""; code.appendChild(sp); continue; }
-    const q = /^> ?/.test(ln), d = document.createElement("div"), h = /^#{1,3} /.test(ln), t = ln.replace(/^> ?/, "").replace(/^#{1,3} /, "").replace(/^- /, "\u2022 ").replace(/\\(.)/g, "$1");
-    d.className = h ? "dch" : q ? "dcq" : ""; t.split("**").forEach((p, i) => { if (i % 2) { const b = document.createElement("b"); b.textContent = p; d.appendChild(b); } else d.appendChild(document.createTextNode(p)); });
+    const q = /^> ?/.test(ln), sm = /^-# /.test(ln), d = document.createElement("div"), h = /^#{1,3} /.test(ln), t = ln.replace(/^-# /, "").replace(/\[([^\]]+)\]\(<?[^)>]+>?\)/g, "$1").replace(/^> ?/, "").replace(/^#{1,3} /, "").replace(/^- /, "\u2022 ").replace(/\\(.)/g, "$1");
+    d.className = h ? "dch" : q ? "dcq" : sm ? "dcsm" : ""; t.split("**").forEach((p, i) => { if (i % 2) { const b = document.createElement("b"); b.textContent = p; d.appendChild(b); } else d.appendChild(document.createTextNode(p)); });
     box.appendChild(d);
   }
   if (fp) fp.files.forEach((x) => { if (/^image\//.test(x.blob.type) || /\.png$/i.test(x.name)) { const im = document.createElement("img"); im.src = URL.createObjectURL(x.blob); im.alt = "Table picture"; im.className = "dcpic"; box.appendChild(im); } });
