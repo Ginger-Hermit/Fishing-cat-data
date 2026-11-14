@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.84] - 2026-11-14 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.83...v1.1.84)
+
+### Added
+
+- **Colour preview** · Colours shows a small Discord preview: what is green, white and your pick
+
 ## [1.1.83] - 2026-11-14 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.82...v1.1.83)
 
 ### Fixed
