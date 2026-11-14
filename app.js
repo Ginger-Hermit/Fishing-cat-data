@@ -1,4 +1,4 @@
-// Patch note: If the backup model stalls on the rows step, the page now goes back to the main model after 75 seconds instead of waiting 3 minutes
+// Patch note: When Google is busy on the rows step, retries now switch between backup and main model instead of repeating the same one
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -101,7 +101,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.97";
+const BUILD = "1.1.98";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1099,7 +1099,7 @@ async function postJson(url, headers, body) {
   for (let attempt = 1; ; attempt++) { // up to 3 tries when the AI is busy or the connection drops
   let res;
   const t0 = Date.now(), sec = () => ((Date.now() - t0) / 1000).toFixed(1) + "s";
-  const gAlt = galt(attempt - 1 + off) || (off && !QUICK ? PROVIDERS.gemini.model : undefined), gSwap = !!gAlt && /generativelanguage/.test(baseUrl) && baseUrl.includes("/" + PROVIDERS.gemini.model + ":") && attempt < 3;
+  const gAlt = galt(attempt - 1 + off) || (off && !QUICK ? (attempt % 2 ? PROVIDERS.gemini.model : GALT[0]) : undefined), gSwap = !!gAlt && /generativelanguage/.test(baseUrl) && baseUrl.includes("/" + PROVIDERS.gemini.model + ":") && attempt < 3;
   clog("Request: POST " + url.replace(/^https:\/\//, "").replace(/\?.*$/, "") + ", " + Math.round(payload.length / 1024) + " KB" + (body.generationConfig ? ", settings " + JSON.stringify(body.generationConfig) : "") + (body.max_tokens ? ", max_tokens " + body.max_tokens : "") + ", online " + navigator.onLine + ", gives up after " + Math.round(aiWait / 1000) + "s");
   const beat = setInterval(() => clog("Still waiting for the AI (" + sec() + ")"), 10000);
   try { res = await fetch(url, { method: "POST", headers, body: payload, signal: AbortSignal.timeout(gSwap ? Math.min(aiWait, 75000) : aiWait) }); clearInterval(beat); clog("AI answered after " + sec() + ": HTTP " + res.status + " " + res.statusText + hdrs(res)); }
@@ -1112,7 +1112,7 @@ async function postJson(url, headers, body) {
     try { raw = await res.text(); } catch (e) {}
     try { detail = JSON.parse(raw).error.message || ""; } catch (e) {}
     clog("AI error " + res.status + ": " + detail + "\nFull error reply: " + raw.slice(0, 1500));
-    const daily = res.status === 429 && /PerDay|per day/i.test(raw), alt = galt(attempt - 1 + off);
+    const daily = res.status === 429 && /PerDay|per day/i.test(raw), alt = galt(attempt - 1 + off) || (off && !QUICK ? (attempt % 2 ? PROVIDERS.gemini.model : GALT[0]) : undefined);
     const canSwap = !!alt && /generativelanguage/.test(baseUrl) && baseUrl.includes("/" + PROVIDERS.gemini.model + ":");
     if (([500, 502, 503, 504].includes(res.status) || (daily && canSwap) || (res.status === 404 && url !== baseUrl)) && attempt < 3) {
       clog((daily ? "Today's free limit for this model is used up (HTTP 429)." : "The AI is busy or the backup model is gone (HTTP " + res.status + ").") + " Trying again" + (daily ? "" : " in " + attempt * 4 + "s") + " (try " + (attempt + 1) + " of 3).");

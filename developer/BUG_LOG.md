@@ -33,3 +33,4 @@ Older bugs: `BREAK_TEST_PLAN.md` (appendix) and `STRESS_TEST_LOG.md`.
 - 14 Nov: Discord clan total jumped by the season points. Cause: Discord history reader counted the new Season points row as a player. Fix: stop at Clan total/Season points/Clan rank rows.
 - 14 Nov: Discord post showed no change. Cause: sheet re-made from same screenshots, compared with itself. Fix: compare with previous day in Points history (sameDayFix).
 - 2026-11-14: rows step hung 180s on gemini-3.7-flash, no fallback (lite barred from rows step); now falls back to main model after 75s
+- 2026-11-14: rows step got 503 three times on gemini-3.7-flash, never tried main model; now alternates 3.7 and main on each retry
