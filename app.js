@@ -1,4 +1,4 @@
-// Patch note: Colours shows a small Discord preview: what is green, white and your pick
+// Patch note: The Discord picture shows the clan's season points and rank under the date, when the screenshot shows them.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -101,7 +101,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.84";
+const BUILD = "1.1.85";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1136,7 +1136,7 @@ const clean = (t, n) => (typeof t === "string" ? t : "").replace(/[\r\n"\\<>\/:*
 const SETUP_PROMPT = `These images show the member list of a Roblox game clan screen.
 Work out how the list is laid out. Do not copy the whole list. If several images are given, use the one that shows the member list best.
 Answer with ONLY one JSON object, no other text:
-{"clan_name": "name of the clan if it is clearly visible, otherwise empty", "game_name": "name of the Roblox game, read from the screen or recognised from how the screen looks, otherwise empty", "ranks_shown": true or false (is a rank number like #1 shown beside each member?), "extra_column": "the heading or label of any column besides rank, username, role and points, otherwise empty"}
+{"clan_name": "name of the clan if it is clearly visible, otherwise empty", "game_name": "name of the Roblox game, read from the screen or recognised from how the screen looks, otherwise empty", "ranks_shown": true or false (is a rank number like #1 shown beside each member?), "extra_column": "the heading or label of any column besides rank, username, role and points, otherwise empty", "clan_points": "the clan's own season points total copied exactly as shown (e.g. 1.63M), otherwise empty", "clan_rank": "the clan's own rank number copied as shown, otherwise empty"}
 Never guess the clan name or layout; use empty text if unsure.`;
 function checkKey(key) { if (/[^\x21-\x7e]/.test(key)) throw new Error("That key has odd characters or spaces in it. Copy it again and paste it."); }
 const todayText = () => new Date().toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric" }).replace(/,/g, "");
@@ -1153,7 +1153,7 @@ async function pickProfile(key) {
   finally { aiWait = wait; QUICK = false; }
   let r = {};
   try { r = JSON.parse(text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1)) || {}; } catch (e) { clog("Layout not read; using the usual layout."); }
-  const p = { clan: clean($("clanbox").value, 40) || clean(r.clan_name, 40) || "Clan", game: clean(r.game_name, 40) || lsGet("fcd_game") || "Game", ranks: r.ranks_shown !== false && r.ranks_shown !== "false", extra: clean(r.extra_column, 30) };
+  const p = { clan: clean($("clanbox").value, 40) || clean(r.clan_name, 40) || "Clan", game: clean(r.game_name, 40) || lsGet("fcd_game") || "Game", ranks: r.ranks_shown !== false && r.ranks_shown !== "false", extra: clean(r.extra_column, 30), season: clean(r.clan_points, 20), crank: clean(r.clan_rank, 10).replace(/^#/, "") };
   if (clean(r.game_name, 40)) lsSet("fcd_game", p.game);
   clog("Auto layout: " + nameOf(p) + ", ranks " + (p.ranks ? "shown" : "not shown") + ", extra column " + (p.extra || "none") + ".");
   return p;
@@ -1343,13 +1343,13 @@ async function tablePic(title, sub, cols, rows) {
     const sc = Math.min((W - 2 * PAD) / art.naturalWidth, AH / art.naturalHeight); dw = Math.round(art.naturalWidth * sc); dh = Math.round(art.naturalHeight * sc);
   }
   const mix = (k) => "rgb(" + bg.map((v) => Math.round(v * k)).join(",") + ")", lift = (k) => "rgb(" + bg.map((v) => Math.round(v + (255 - v) * k)).join(",") + ")";
-  const top = art ? dh + 36 : 20, tableY = top + 100, TH = HD + rows.length * RH, H = tableY + TH + 64;
+  const [sub1, sub2] = String(sub).split("\n"), top = art ? dh + 36 : 20, tableY = top + 100 + (sub2 ? 34 : 0), TH = HD + rows.length * RH, H = tableY + TH + 64;
   cv.width = W; cv.height = H; const g = cv.getContext("2d");
   g.fillStyle = "rgb(" + bg.join(",") + ")"; g.fillRect(0, 0, W, H);
   if (art) g.drawImage(art, Math.round((W - dw) / 2), 20, dw, dh);
   const FONT = "system-ui, -apple-system, Segoe UI, Roboto, sans-serif", fit = (t, w) => { t = String(t); if (g.measureText(t).width <= w) return t; while (t.length > 1 && g.measureText(t + "…").width > w) t = t.slice(0, -1); return t + "…"; };
   g.textBaseline = "middle"; g.textAlign = "center"; g.fillStyle = "#ffffff"; g.font = "bold 36px " + FONT; g.fillText(fit(title, W - 60), W / 2, top + 30);
-  g.fillStyle = lift(0.7); g.font = "20px " + FONT; g.fillText(fit(sub, W - 60), W / 2, top + 72);
+  g.fillStyle = lift(0.7); g.font = "20px " + FONT; g.fillText(fit(sub1, W - 60), W / 2, top + 72); if (sub2) { g.fillStyle = "#ffffff"; g.font = "bold 22px " + FONT; g.fillText(fit(sub2, W - 60), W / 2, top + 106); }
   g.save(); g.beginPath(); const x0 = PAD, w0 = W - 2 * PAD, r0 = 18; g.moveTo(x0 + r0, tableY); g.arcTo(x0 + w0, tableY, x0 + w0, tableY + TH, r0); g.arcTo(x0 + w0, tableY + TH, x0, tableY + TH, r0); g.arcTo(x0, tableY + TH, x0, tableY, r0); g.arcTo(x0, tableY, x0 + w0, tableY, r0); g.closePath(); g.clip();
   g.fillStyle = mix(0.4); g.fillRect(x0, tableY, w0, HD);
   const xs = []; let x = x0 + 22; cols.forEach((c) => { xs.push(x); x += c.w; });
@@ -1362,6 +1362,7 @@ async function tablePic(title, sub, cols, rows) {
   return await new Promise((ok, no) => cv.toBlob((b) => (b ? ok(b) : no(new Error("The picture could not be drawn."))), "image/png"));
 }
 const chCell = (n, b) => { const sg = (v) => (v > 0 ? "+" : "-") + Math.round(Math.abs(v)).toLocaleString("en-US"); if (typeof b !== "number") return ["new", "#7fc4ff"]; return n - b > 0 ? [sg(n - b), "#6dd47e"] : n - b < 0 ? [sg(n - b), "#ff7a7a"] : ["-", "#b9b3c4"]; };
+const seasonLine = (p) => [p.season ? "Season " + p.season : "", p.crank ? "Rank #" + p.crank : ""].filter(Boolean).join(" · ").replace(/^./, (m) => "\n" + m);
 const subLine = (date, n, tot, d, any) => date + " · " + n + " members · " + Math.round(tot).toLocaleString("en-US") + " points" + (any ? " · " + (d >= 0 ? "+" : "-") + Math.round(Math.abs(d)).toLocaleString("en-US") + " since last run" : "");
 async function rowsPic(items, clan, sub, name) {
   const MAX = 60, medal = ["#f5c518", "#c9c9d3", "#cd8a3c"];
@@ -1374,7 +1375,7 @@ async function clanPic(rows) {
   const pm = fixNames(prevMap, pv.rows); let tot = 0, d = 0, any = false;
   const items = rows.map((r, i) => { const n = parsePoints(r.points), b = pm ? pm.get(String(r.name).trim().toLowerCase()) : undefined; if (n !== null) tot += n; if (pm && n !== null && typeof b === "number") { d += n - b; any = true; }
     return { rk: Number(String(r.rank).replace(/\D/g, "")) || i + 1, name: String(r.name), role: r.role, points: r.points, ch: pm && n !== null ? chCell(n, b) : ["", "#b9b3c4"] }; });
-  return rowsPic(items, pv.p.clan, subLine(todayText(), items.length, tot, d, any), nameOf(pv.p) + ".png");
+  return rowsPic(items, pv.p.clan, subLine(todayText(), items.length, tot, d, any) + seasonLine(pv.p), nameOf(pv.p) + ".png");
 }
 // Read a sheet this page made (no AI): who is in it, their points, and the earlier points.
 async function readSheet(buf) {

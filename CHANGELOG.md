@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.85] - 2026-11-14 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.84...v1.1.85)
+
+### Added
+
+- **Clan season points and rank** · The Discord picture shows the clan's season points and rank under the date, when the screenshot shows them.
+
 ## [1.1.84] - 2026-11-14 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.83...v1.1.84)
 
 ### Added
