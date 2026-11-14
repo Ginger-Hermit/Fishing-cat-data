@@ -9,6 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Fuzz (the seed is printed so a failure can be repeated)
         run: SEED=$(date +%Y%m%d); echo "seed $SEED"; node tests/fuzz.js $SEED 100000 | tail -30
