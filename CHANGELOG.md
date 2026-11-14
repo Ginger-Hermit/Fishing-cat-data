@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.97] - 2026-11-14 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.96...v1.1.97)
+
+### Fixed
+
+- **Stalled backup model** · If the backup model stalls on the rows step, the page now goes back to the main model after 75 seconds instead of waiting 3 minutes
+
 ## [1.1.96] - 2026-11-14 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.95...v1.1.96)
 
 ### Changed
