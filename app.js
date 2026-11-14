@@ -1,4 +1,4 @@
-// Patch note: The Discord picture shows the clan's season points and rank under the date, when the screenshot shows them.
+// Patch note: Points history has two coloured rows under Clan total: the clan's season points and rank for each run.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -101,7 +101,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.85";
+const BUILD = "1.1.86";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -481,7 +481,7 @@ function weekBase(map, base, today) {
 function readHistory(wb, ws, map, names) {
   const dv = (c) => { let v = c.value; if (v && typeof v === "object" && "result" in v) v = v.result; return v; };
   const day = (d) => Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
-  let dates = [], players = new Map();
+  let dates = [], players = new Map(), season = [], crank = [];
   const hs = wb.getWorksheet("Points history");
   if (hs) {
     // New layout (13 Nov): #, Player, This week, Change, then one column per read, one row per player.
@@ -489,6 +489,9 @@ function readHistory(wb, ws, map, names) {
       for (let c = 5; c <= Math.min(hs.columnCount, 400); c++) { const v = dv(hs.getCell(3, c)); if (v instanceof Date) dates.push(day(v)); else break; }
       for (let r = 4; dates.length && r <= Math.min(hs.rowCount, 5000); r++) {
         const name = dv(hs.getCell(r, 2));
+        const sv = () => dates.map((_, i) => { const v = dv(hs.getCell(r, 5 + i)); return typeof v === "number" ? v : null; });
+        if (String(name) === "Season points") { season = sv(); continue; }
+        if (String(name) === "Clan rank") { crank = sv(); continue; }
         if (!name || String(name) === "Clan total") continue;
         players.set(String(name).trim().toLowerCase(), { name: String(name).trim(), vals: dates.map((_, i) => { const v = dv(hs.getCell(r, 5 + i)); return typeof v === "number" ? v : null; }) });
       }
@@ -516,7 +519,7 @@ function readHistory(wb, ws, map, names) {
     const e = players.get(String(dv(lbs.getCell(r, 2)) ?? "").trim().toLowerCase()), d = dv(lbs.getCell(r, 8)), v = dv(lbs.getCell(r, 9));
     if (e && d instanceof Date && typeof v === "number") e.start = [day(d), v];
   }
-  return { dates, players: [...players] };
+  return { dates, players: [...players], season, crank };
 }
 
 // One letter misread by the AI (healthles / Healthies) = same player. Only for names of 6+ letters, and only when the match is unique.
@@ -561,15 +564,18 @@ function weekStart(d, R) { return d - ((new Date(d).getUTCDay() - R + 7) % 7) * 
 function colL(n) { let t = ""; while (n > 0) { const m = (n - 1) % 26; t = String.fromCharCode(65 + m) + t; n = Math.floor((n - 1) / 26); } return t; }
 
 // Adds today's run to the earlier history (same day twice = replace that column).
-function mergeHist(prev, rows, R = 5) {
+function mergeHist(prev, rows, R = 5, p) {
+  p = p || 0;
   const n = new Date(), today = Date.UTC(n.getFullYear(), n.getMonth(), n.getDate());
   // An earlier sheet with no history (old sheet, or one saved before this update) becomes the first column.
   const h = prev && (prev.hist || { dates: [today], players: [...prev].map(([k, v]) => [k, { name: k, vals: [v] }]) });
   const dates = h ? h.dates.slice() : [];
   const pl = new Map(h ? h.players.map(([k, e]) => [k, { name: e.name, vals: e.vals.slice(), start: e.start || null }]) : []);
+  const pad = (a) => dates.map((_, i) => (a && typeof a[i] === "number" ? a[i] : null)), sea = pad(h && h.season), crk = pad(h && h.crank);
   let col = dates.length - 1;
   if (col > 0 && dates[col] === today) pl.forEach((e) => { e.vals[col] = null; });
-  else { dates.push(today); col = dates.length - 1; pl.forEach((e) => e.vals.push(null)); }
+  else { dates.push(today); col = dates.length - 1; pl.forEach((e) => e.vals.push(null)); sea.push(null); crk.push(null); }
+  sea[col] = p.season ? parsePoints(p.season) : null; crk[col] = p.crank && /^\d+$/.test(p.crank) ? +p.crank : null;
   rows.forEach((r) => {
     const num = parsePoints(r.points);
     if (num === null) return;
@@ -584,6 +590,7 @@ function mergeHist(prev, rows, R = 5) {
   for (let i = dates.length - 2; i >= 0; i--) {
     if (mk(dates[i]) < mk(today) && mk(dates[i]) === mk(dates[i + 1])) {
       pl.forEach((e) => { if (e.vals[i + 1] === null) e.vals[i + 1] = e.vals[i]; e.vals.splice(i, 1); });
+      [sea, crk].forEach((a) => { if (a[i + 1] === null) a[i + 1] = a[i]; a.splice(i, 1); });
       dates.splice(i, 1);
     }
   }
@@ -595,7 +602,7 @@ function mergeHist(prev, rows, R = 5) {
     return { name: e.name, vals: e.vals, fi, li, first, last, since: e.start ? e.start[0] : dates[fi], gained: first === null ? 0 : last - first, here: e.vals[N - 1] !== null };
   }).filter((e) => e.first !== null && e.last !== null);
   list.sort((a, b) => (b.here - a.here) || (b.last - a.last));
-  return { dates, list };
+  return { dates, list, season: sea, crank: crk };
 }
 
 function buildWorkbook(EJ, rows, prev, p, when) {
@@ -727,7 +734,7 @@ function buildWorkbook(EJ, rows, prev, p, when) {
   });
   // Top 10, Points history and Help (no AI: old numbers come from the earlier sheet)
   const R = Number.isInteger(p.reset) ? p.reset : 5, DN = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][R];
-  const H = mergeHist(prev, rows, R), N = H.dates.length, GRN = "FF006100", RED = "FF9C0006", SOFT = "FFF5F7FA", BLUE = "FFDDEBF7";
+  const H = mergeHist(prev, rows, R, p), N = H.dates.length, GRN = "FF006100", RED = "FF9C0006", SOFT = "FFF5F7FA", BLUE = "FFDDEBF7";
   const KEY = (parts) => ({ richText: parts.map(([text, c, b]) => ({ text, font: { size: 10, bold: !!b, color: { argb: c || INK } } })) });
   const WH = { bold: true, color: { argb: "FFFFFFFF" } };
   const medal = (c, i) => { const m = rankLook[i + 1]; if (m) { c.fill = fill(m[0]); c.font = { bold: true, color: { argb: m[1] } }; } };
@@ -770,6 +777,21 @@ function buildWorkbook(EJ, rows, prev, p, when) {
     x.numFmt = c === 4 ? "\\+#,##0;\\-#,##0;0" : "#,##0"; x.alignment = { horizontal: "right" };
   }
   for (let c = 1; c <= 4 + N; c++) { const x = hs.getCell(tr, c); x.font = { bold: true, color: { argb: NAVY } }; x.fill = fill("FFE8EDF5"); x.border = { left: LINE, right: LINE, bottom: LINE, top: { style: "medium", color: { argb: NAVY } } }; }
+  // Clan season points and rank, one value per read (gradient colours; lower rank is better)
+  [["Season points", H.season, "#,##0", ["FFFFF4D6", "FFFFD966", "FF63BE7B"], "FFF6B26B", "FFFFE599"], ["Clan rank", H.crank, "\\#0", ["FF63BE7B", "FFFFEB84", "FFF8696B"], "FF8E7CC3", "FFD9D2E9"]].forEach(([lab, vals, nf, cs, g1, g2], j) => {
+    if (!vals.some((v) => v !== null)) return;
+    const r = tr + 1 + j;
+    hs.getCell(r, 2).value = lab;
+    for (let c = 1; c <= 4 + N; c++) { const x = hs.getCell(r, c); x.border = box; x.alignment = { horizontal: c === 2 ? "left" : "right", vertical: "middle", indent: c === 2 ? 1 : 0 }; }
+    for (let c = 1; c <= 2; c++) { const x = hs.getCell(r, c); x.font = { bold: true, color: { argb: INK } }; x.fill = { type: "gradient", gradient: "angle", degree: 0, stops: [{ position: 0, color: { argb: g1 } }, { position: 1, color: { argb: g2 } }] }; }
+    vals.forEach((v, k) => { const x = hs.getCell(r, 5 + k); x.value = v === null ? "–" : v; x.numFmt = nf; x.font = { bold: true, color: { argb: v === null ? "FFBFBFBF" : INK } }; });
+    const lv = vals[N - 1], pv = N > 1 ? vals[N - 2] : null;
+    hs.getCell(r, 3).value = lv === null ? "–" : lv; hs.getCell(r, 3).numFmt = nf; hs.getCell(r, 3).font = { bold: true, color: { argb: INK } };
+    const d = lv !== null && pv !== null ? (j ? pv - lv : lv - pv) : null, cd = hs.getCell(r, 4);
+    cd.value = d === null ? "–" : d; cd.numFmt = "\\+#,##0;\\-#,##0;0"; cd.font = { bold: true, color: { argb: d > 0 ? GRN : d < 0 ? RED : GREY } };
+    hs.addConditionalFormatting({ ref: `E${r}:${LC}${r}`, rules: [{ type: "colorScale", priority: 20 + j, cfvo: [{ type: "min" }, { type: "percentile", value: 50 }, { type: "max" }], color: cs.map((a) => ({ argb: a })) }] });
+    hs.getRow(r).height = 21;
+  });
   hs.addConditionalFormatting({ ref: `D4:D${tr}`, rules: [
     { type: "expression", priority: 7, formulae: ["AND(ISNUMBER(D4),D4>0)"], style: up },
     { type: "expression", priority: 8, formulae: ["AND(ISNUMBER(D4),D4<0)"], style: down }

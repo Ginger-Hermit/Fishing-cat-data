@@ -63,5 +63,7 @@ const prev = new Map([["ann", 80000], ["bob", 50000], ["cy", 25000]]);
   const wn = new EJ.Workbook(); await wn.xlsx.readFile(path.join(dir, "n.xlsx"));
   assert.strictEqual(wn.getWorksheet("Clan Members").getCell("F4").value, 65690, "misread name matched to earlier name");
   assert.strictEqual(wn.getWorksheet("Clan Members").getCell("B4").value, "healthles", "misread name keeps the earlier spelling");
+  { const w1 = buildWorkbook(EJ, rows, null, { clan: "S", game: "G", season: "1.63M", crank: "21" }, "today"); const b1 = await w1.xlsx.writeBuffer();
+    const pv = await readPrevious(EJ, b1); assert.deepStrictEqual([pv.hist.season.slice(-1)[0], pv.hist.crank.slice(-1)[0]], [1630000, 21], "season points and clan rank saved in Points history"); }
   console.log("All Excel maths checks passed.");
 })().catch((e) => { console.error("FAIL:", e.message); process.exit(1); });

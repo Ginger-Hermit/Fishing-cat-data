@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.86] - 2026-11-14 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.85...v1.1.86)
+
+### Added
+
+- **Season points and clan rank in Points history** · Points history has two coloured rows under Clan total: the clan's season points and rank for each run.
+
 ## [1.1.85] - 2026-11-14 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.84...v1.1.85)
 
 ### Added
