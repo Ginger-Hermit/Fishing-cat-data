@@ -1,4 +1,4 @@
-// Patch note: Posting a sheet made twice from the same screenshots showed no change; now it compares with the day before.
+// Patch note: A sheet made twice from the same screenshots showed no changes; now it compares with the day before.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -101,7 +101,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.92";
+const BUILD = "1.1.93";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -605,8 +605,19 @@ function mergeHist(prev, rows, R = 5, p) {
   return { dates, list, season: sea, crank: crk };
 }
 
+// Same screenshots twice (every player's points equal the last sheet)? Compare with the day before in Points history instead.
+function sameRunBase(prev, rows) {
+  const hh = prev && (prev.hist || (prev.full && prev.full.hist)); if (!hh || hh.dates.length < 2) return prev;
+  const norm = (n) => String(n).trim().toLowerCase();
+  if (!rows.every((r) => { const v = parsePoints(r.points), b = prev.get(norm(r.name)); return v !== null && b === v; })) return prev;
+  const col = hh.dates.length - 2, m2 = new Map();
+  hh.players.forEach(([k, e]) => { if (e && typeof e.vals[col] === "number") m2.set(k, e.vals[col]); });
+  if (!m2.size) return prev;
+  clog("Same points as last sheet, so comparing with " + new Date(hh.dates[col]).toDateString() + ".");
+  m2.hist = hh; return m2;
+}
 function buildWorkbook(EJ, rows, prev, p, when) {
-  prev = fixNames(prev, rows);
+  prev = sameRunBase(fixNames(prev, rows), rows);
   const wb = new EJ.Workbook();
   wb.calcProperties.fullCalcOnLoad = true;
   const NAVY = "FF1F3864", INK = "FF1F2937", GREY = "FF7F7F7F";

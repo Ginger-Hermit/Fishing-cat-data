@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.93] - 2026-11-14 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.92...v1.1.93)
+
+### Fixed
+
+- **Sheet made twice compares with the day before** · A sheet made twice from the same screenshots showed no changes; now it compares with the day before, like the Discord post.
+
 ## [1.1.92] - 2026-11-14 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.91...v1.1.92)
 
 ### Fixed
