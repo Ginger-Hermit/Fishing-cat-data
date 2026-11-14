@@ -2,6 +2,17 @@
 
 Newest first. The page itself shows only the newest 5.
 
+## Longer bills on Claude
+
+14 Nov 2026 (05:26 UTC) · Changed
+
+Big bills read with Claude no longer lose their last charges
+
+> [!NOTE]
+> **What you'll see:** Bills tab with Claude: long bills come through whole
+
+- Claude reply limit raised from 8,000 to 16,000 tokens; fake test key marked so the safety scan stops flagging it
+
 ## Colours for Discord
 
 13 Nov 2026 (07:45 UTC) · New · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/commit/3be9d7e)

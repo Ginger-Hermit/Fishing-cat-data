@@ -149,7 +149,7 @@ def g_xl(pg):
     chk("formula names stay plain text in the clan Excel", not r[0], r[0])
     chk("formula names stay plain text in the bills Excel", not r[1], r[1])
 
-KEY = "FCDKEY-CANARY-123456"
+KEY = "FCDKEY-CANARY-123456"  # gitleaks:allow (fake test key)
 def g_canary(pg):
     # A fake key and link must never show on screen, in the Log, the bug report or anything sent to Discord.
     link = "https://discord.com/api/webhooks/111111111111111111/CANARYLINK"
