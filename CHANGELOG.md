@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.100] - 2026-11-14 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.99...v1.1.100)
+
+### Removed
+
+- **Removed Mistral** · Mistral is gone again because its free plan gives no key
+
 ## [1.1.99] - 2026-11-14 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.98...v1.1.99)
 
 ### Added
