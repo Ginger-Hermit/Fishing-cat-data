@@ -118,7 +118,7 @@ async function checkUpdate() {
     if (!r.ok) return;
     const v = (await r.text()).trim();
     if (!/^[\w.-]{1,40}$/.test(v) || v === BUILD) return;
-    const busy = typeof images !== "undefined" && images.length > 0;
+    const busy = running || images.length > 0 || billPics.length > 0 || !!pv || !!bp; // never reload mid-run or while a checked list is on screen
     if (document.getElementById("autoref").checked && !busy) {
       lsSet("fcd_justupdated", "1");
       const nv = document.getElementById("newver"); nv.textContent = "Updating to the newest version in 3 seconds..."; nv.style.display = "block";
