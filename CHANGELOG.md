@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.103] - 2026-11-15 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.102...v1.1.103)
+
+### Changed
+
+- **Fewer repeated notices** · Repeated safety and legal lines now appear once, so pages are shorter.
+
 ## [1.1.102] - 2026-11-14 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.101...v1.1.102)
 
 ### Changed
