@@ -34,3 +34,4 @@ Older bugs: `BREAK_TEST_PLAN.md` (appendix) and `STRESS_TEST_LOG.md`.
 - 14 Nov: Discord post showed no change. Cause: sheet re-made from same screenshots, compared with itself. Fix: compare with previous day in Points history (sameDayFix).
 - 2026-11-14: rows step hung 180s on gemini-3.7-flash, no fallback (lite barred from rows step); now falls back to main model after 75s
 - 2026-11-14: rows step got 503 three times on gemini-3.7-flash, never tried main model; now alternates 3.7 and main on each retry
+- 15 Nov 2026: Check red on main for 3 pushes (site not going live). Cause: tests not updated when sameRunBase was added and the step numbers became badges. Fix: excel-math pulls in sameRunBase; keys test looks for 2Add bills.
