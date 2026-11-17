@@ -24,6 +24,9 @@ def route(r):
     if m == "429second" and n == 2: code = 429
     if m == "failsecond" and n >= 2: code = 500
     if m == "all429": code = 429
+    if m == "down": return r.abort("internetdisconnected")
+    if m == "hang": st["held"] = r; return
+    if m == "junk": return r.fulfill(status=200, headers=CORS, body="<html>oops</html>", content_type="text/html")
     r.fulfill(status=code, headers=CORS, body="{}", content_type="application/json")
 
 def chk(name, ok, info=""):
@@ -60,6 +63,22 @@ def g_post(pg):
     pg.evaluate("u=>{hookNow=u}", URL)
     r = pg.evaluate("async()=>{try{await dcPost('## C\\n### x\\n'+'line\\n'.repeat(900));return 'ok'}catch(e){return e.message}}")
     chk("very long breakdown is cut, not failed", r == "ok", r)
+
+def g_down(pg):
+    pg.evaluate("u=>{hookNow=u}", URL)
+    pg.evaluate("()=>{if(!AbortSignal._t){AbortSignal._t=AbortSignal.timeout;AbortSignal.timeout=()=>AbortSignal._t(1500)}}")
+    for m, name in (("down", "Discord unreachable"), ("hang", "Discord never answers"), ("junk", "Discord sends junk")):
+        fresh(pg, m); r = pg.evaluate(CALL, T)
+        plain = r == "ok" or ("Error" not in r and "undefined" not in r and len(r) < 300)
+        chk(name + ": plain message, no crash", plain, r)
+        fresh(pg); r = pg.evaluate(CALL, T)
+        chk(name + ": posting works again after", r == "ok", r)
+    pg.evaluate("()=>{AbortSignal.timeout=AbortSignal._t;delete AbortSignal._t}")
+    for bad in ("not-a-picture", "data:image/jpeg;base64,!!!!", "data:text/html,<script>window.pwned=1</script>", "x" * 300000):
+        pg.evaluate("v=>localStorage.setItem('fcd_art',v)", bad); fresh(pg)
+        r = pg.evaluate("async t=>{try{await dcPost(t);return 'ok'}catch(e){return e.message}}", T)
+        chk("broken header picture still posts (" + bad[:12] + ")", r == "ok" and not pg.evaluate("!!window.pwned"), r)
+    pg.evaluate("localStorage.removeItem('fcd_art')")
 
 def g_excel(pg):
     for name, expr in [("6 MB file refused", "new ArrayBuffer(6e6)"), ("empty file refused", "new ArrayBuffer(0)"), ("random bytes refused", "new Uint8Array(2000).map((_,i)=>i*7%256).buffer")]:
@@ -164,12 +183,12 @@ def g_canary(pg):
         chk("fake key and link not in " + where, "CANARY" not in txt, txt[txt.find("CANARY") - 60:txt.find("CANARY") + 20] if "CANARY" in txt else "")
     pg.evaluate("()=>{document.getElementById('key').value='';hookNow=''}")
 
-GROUPS = {"ping": g_ping, "post": g_post, "excel": g_excel, "secrets": g_secrets, "names": g_names, "role": g_role, "tamper": g_tamper, "links": g_links, "ai": g_ai, "xl": g_xl, "canary": g_canary}
+GROUPS = {"ping": g_ping, "post": g_post, "down": g_down, "excel": g_excel, "secrets": g_secrets, "names": g_names, "role": g_role, "tamper": g_tamper, "links": g_links, "ai": g_ai, "xl": g_xl, "canary": g_canary}
 want = sys.argv[1:] or list(GROUPS)
 bad = [w for w in want if w not in GROUPS]
 if bad: sys.exit("Unknown group: %s. Use: %s" % (", ".join(bad), " ".join(GROUPS)))
 with sync_playwright() as p:
-    b = p.chromium.launch(); pg = b.new_page(); errs = []
+    b = p.chromium.launch(executable_path=__import__("os").environ.get("CHROME_PATH") or None); pg = b.new_page(); errs = []
     pg.on("pageerror", lambda e: errs.append(str(e)[:100])); pg.route("https://discord.com/**", route)
     pg.goto("file://" + os.path.join(ROOT, "index.html")); pg.wait_for_timeout(400)
     for w in want: GROUPS[w](pg)

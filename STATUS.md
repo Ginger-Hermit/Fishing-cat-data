@@ -13,7 +13,7 @@ Last updated: 17 Nov 2026. Page version 1.1.108 Live at fishing-cat-data.pages.d
 - **Bills slow on Gemini = Google overload** (12 Nov: 503 "high demand" after 54s on gemini-3.8-flash). Built: 3 tries, and the 2nd and 3rd switch to gemini-3.7-flash then gemini-3.5-flash-lite (a missing backup model, 404, also moves on to the next). Not tested with real Gemini. If it still fails often, consider making 3.7 the default.
 - **Post to Discord: built 12 Nov (clan and Bills); tab simplified 13 Nov (link first, header picture and ping shown before Post (no More options), help links to Discord's guide).** Link box sits on both tabs (not saved unless "Remember my link"; never in Log or bug report; only `discord.com/api/webhooks/...`). Clan message has a detailed what-changed summary; no AI. **Table picture built 12 Nov:** canvas picture (no AI) posted with the message and .xlsx; header artwork picked once in Settings, kept in the browser only. Clan: #, Username, Role, Points, Change with gold/silver/bronze; Bills: simple charges table. Looked at in headless Chrome only. Ginger has posted to a real Discord channel several times (14 Nov).
 - **Fix first:** nothing from the 12 Nov break report (items 1 to 5 fixed). `tests/check.py` now scans for risky code patterns on every push.
-- **Later:** break-test round 2 is planned in `developer/BREAK_TEST_PLAN.md` (security first, then bad input). Not started.
+- **Break test:** 17 Nov one extra Discord batch (down, hangs, junk reply, broken header picture) in `tools/attack.py`, 49/49 pass. Ginger: no more break-test rounds.
 - Offered, not approved: one AI request per clan run (saves ~20s on Gemini); PDF-bill and compare-with-last-bill ideas; preview tabs for Leaderboard and Points history.
 
 ## Tested
