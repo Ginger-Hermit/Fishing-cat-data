@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Easier reading is one tick box, Auto button colour, log switch moved to Updates -->
+<!-- Patch note: Saved list grouped, shorter wording, OpenAI removed from footer -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -226,7 +226,7 @@
 <div class="hc"><b>Legal</b>
 <ul>
 <li>For personal use only.</li>
-<li>Not an official Roblox, Anthropic, Google or OpenAI product. Those are names of their owners.</li>
+<li>Not an official Roblox, Anthropic or Google product. Those are names of their owners.</li>
 <li>Provided as is, with no guarantees.</li>
 <li>Built entirely by Claude, an AI. The author gave the ideas and tested it.</li>
 <li>Using the AI costs credit on your own account, under your own terms with the company you pick.</li>
@@ -249,18 +249,18 @@
 <label class="s26 rem" data-d="flex"><input type="checkbox" id="showlog" class="s27"> Always show what happened</label></div>
 <div class="hc"><div class="s69">Clan sheet</div><div class="s70">Points reset day</div>
 <select id="resetday" aria-label="Points reset day"><option value="1">Monday</option><option value="2">Tuesday</option><option value="3">Wednesday</option><option value="4">Thursday</option><option value="5">Friday</option><option value="6">Saturday</option><option value="0">Sunday</option></select>
-<div class="s73">Week scores use the last read before midnight on this day, on this device's clock. Saved on this device.</div></div>
+<div class="s73">The day your clan's weekly points start again.</div></div>
 <div class="hc"><div class="s69">Privacy</div>
-<div class="s74">Saved on this device:</div>
+<div class="s74">Saved on this device only:</div>
 <div id="saved" class="s75"></div>
 <label class="s76" data-d="flex"><input type="checkbox" id="keepprev" class="s27"> Remember my last sheet</label>
 <label class="s76" data-d="flex"><input type="checkbox" id="nosave" class="s27"> Don't save anything</label>
-<div class="s73">For shared computers. Nothing is remembered, even if you tick Remember.</div>
+<div class="s73">For shared computers.</div>
 <div class="s70">Forget my saved key and link after</div>
 <select id="expire" aria-label="Forget my saved key and link after"><option value="7">7 days</option><option value="30">30 days</option><option value="never">Never</option></select>
-<div class="s77" data-d="flex"><button id="wipekey" type="button" class="tab">Forget my key</button><button id="wipeall" type="button" class="s78 tab">Delete everything saved</button></div>
+<div class="s77" data-d="flex"><button id="wipekey" type="button" class="tab">Forget my key</button><button id="wipeall" type="button" class="s78 tab">Delete everything</button></div>
 <div id="wipemsg" role="status" class="s65"></div>
-<div class="s73">These buttons only clear this device. Nothing is sent anywhere. <a href="#" data-go="privacy">Privacy page</a></div></div>
+<div class="s73">Only clears this device. <a href="#" data-go="privacy">Privacy page</a></div></div>
 <details class="hc"><summary>AI model (advanced)</summary>
 <input id="modelbox" autocomplete="off" spellcheck="false">
 <div class="s79">Leave empty to use the built-in one. Only change it if an error says the model is gone. It is kept for the company chosen on the first tab.</div>
@@ -269,7 +269,7 @@
 </div>
 <div id="foot" class="s81">
 <a href="#" data-go="safety">Stay safe</a> &middot; <a href="#" data-go="privacy">Privacy</a> &middot; <a href="#" data-go="legal">Legal</a> &middot; <a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">GitHub</a>
-<div class="s82">Built by Claude, an AI &middot; Personal use only &middot; Not an official Roblox, Anthropic, Google or OpenAI product &middot; No guarantees</div>
+<div class="s82">Built by Claude, an AI &middot; Personal use only &middot; Not an official Roblox, Anthropic or Google product &middot; No guarantees</div>
 </div>
 </div>
 <script src="app.js"></script>

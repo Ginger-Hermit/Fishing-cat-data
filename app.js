@@ -1,4 +1,4 @@
-// Patch note: Easier reading is one tick box, Auto button colour, log switch moved to Updates
+// Patch note: Saved list grouped, shorter wording, OpenAI removed from footer
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -101,7 +101,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.107";
+const BUILD = "1.1.108";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -294,19 +294,19 @@ function savedKeys() { const out = []; try { for (let i = 0; i < localStorage.le
 let hookNow = ""; const hookGet = () => hookNow || lsGet("fcd_hook") || "";
 function renderSaved() {
   const keys = savedKeys(), lines = [];
-  keys.filter(k => k.startsWith("fcd_key_")).forEach(k => { const id = k.slice(8); lines.push("AI key (" + (PROVIDERS[id] ? PROVIDERS[id].name : "other") + ")"); });
-  if (keys.includes("fcd_prev")) { let n = ""; try { n = " (" + JSON.parse(lsGet("fcd_prev")).entries.length + " members)"; } catch (e) {} lines.push("Last sheet, names, points and past runs" + n); }
-  if (keys.includes("fcd_clan")) lines.push("Clan name");
-  if (keys.includes("fcd_game")) lines.push("Game name");
-  if (keys.includes("fcd_gamex")) lines.push("Name after the clan");
-  if (keys.includes("fcd_hook")) lines.push("Discord link");
-  if (keys.includes("fcd_sheetlink")) lines.push("Sheet link");
-  if (keys.includes("fcd_art")) lines.push("Discord header picture");
-  if (keys.some(k => k.startsWith("fcd_model_"))) lines.push("AI model name");
-  if (keys.some(k => ["fcd_theme", "fcd_size", "fcd_read", "fcd_btn", "fcd_nosave", "fcd_expire", "fcd_reset", "fcd_autoref", "fcd_provider", "fcd_hookxlsx", "fcd_pingmode", "fcd_pingrole"].includes(k))) lines.push("Look and settings");
+  const has = k => keys.includes(k), ai = keys.filter(k => k.startsWith("fcd_key_")).map(k => { const id = k.slice(8); return PROVIDERS[id] ? PROVIDERS[id].name : "other"; });
+  if (ai.length) lines.push("Your AI key" + (ai.length > 1 ? "s" : "") + " (" + ai.join(", ") + ")");
+  const clan = []; if (has("fcd_prev")) { let n = ""; try { n = JSON.parse(lsGet("fcd_prev")).entries.length + " members, "; } catch (e) {} clan.push("last sheet, " + n + "names, points"); }
+  if (has("fcd_clan")) clan.push("clan name"); if (has("fcd_game") || has("fcd_gamex")) clan.push("game");
+  if (clan.length) lines.push("Clan: " + clan.join(", "));
+  const dc = []; if (has("fcd_hook")) dc.push("link"); if (has("fcd_art")) dc.push("header picture");
+  if (dc.length) lines.push("Discord: " + dc.join(" and "));
+  const other = []; if (has("fcd_sheetlink")) other.push("Sheet link"); if (keys.some(k => k.startsWith("fcd_model_"))) other.push("AI model name");
+  if (keys.some(k => ["fcd_theme", "fcd_size", "fcd_read", "fcd_btn", "fcd_nosave", "fcd_expire", "fcd_reset", "fcd_autoref", "fcd_provider", "fcd_hookxlsx", "fcd_pingmode", "fcd_pingrole", "fcd_showlog"].includes(k))) other.push("look and settings");
+  if (other.length) lines.push(other.join(", ").replace(/^./, c => c.toUpperCase()));
   const box = $("saved"); box.replaceChildren();
   (lines.length ? lines : ["Nothing saved."]).forEach(t => { const d = document.createElement("div"); d.textContent = (lines.length ? "\u2022 " : "") + t; box.appendChild(d); });
-  $("keepprev").checked = lsGet("fcd_keepprev") !== "0";
+  const ns = lsGet("fcd_nosave") === "1"; $("keepprev").checked = !ns && lsGet("fcd_keepprev") !== "0"; $("keepprev").disabled = ns;
   $("hookbox").value = hookGet(); if (lsGet("fcd_hook")) $("hookkeep").checked = true; $("hookkeepnote").style.display = $("hookkeep").checked ? "" : "none";
   artShow();
 }
@@ -320,7 +320,7 @@ function wipe(what) {
 }
 const confirmTap = (id, label, fn) => { let t = 0; $(id).onclick = () => { if (t) { clearTimeout(t); t = 0; $(id).textContent = label; fn(); return; } $(id).textContent = "Tap again to confirm"; t = setTimeout(() => { t = 0; $(id).textContent = label; }, 4000); }; };
 confirmTap("wipekey", "Forget my key", () => wipe("key"));
-confirmTap("wipeall", "Delete everything saved", () => wipe("all"));
+confirmTap("wipeall", "Delete everything", () => wipe("all"));
 renderSaved();
 $("key").oninput = () => { keyOk(); refresh(); if ($("remember").checked) keepKey(); };
 
