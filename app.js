@@ -1,4 +1,4 @@
-// Patch note: Saved list grouped, shorter wording, OpenAI removed from footer
+// Patch note: A very wide, thin header picture now saves properly
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -101,7 +101,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.108";
+const BUILD = "1.1.109";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1359,7 +1359,7 @@ const artLoad = () => new Promise((ok) => { const d = lsGet("fcd_art"); if (!d) 
 $("artfile").onchange = () => {
   const f = $("artfile").files[0]; if (!f) return; const u = URL.createObjectURL(f), i = new Image();
   i.onload = () => { try {
-    const w = Math.min(900, i.naturalWidth), c = document.createElement("canvas"); c.width = w; c.height = Math.round(i.naturalHeight * w / i.naturalWidth);
+    const w = Math.min(900, i.naturalWidth), c = document.createElement("canvas"); c.width = w; c.height = Math.max(1, Math.round(i.naturalHeight * w / i.naturalWidth));
     c.getContext("2d").drawImage(i, 0, 0, c.width, c.height); lsSet("fcd_art", c.toDataURL("image/jpeg", 0.85)); clog("Header picture saved (" + c.width + "x" + c.height + ")."); $("artmsg").textContent = "\u2713 File selected: " + f.name + ". Saved on this device."; renderSaved();
   } catch (e) { clog("Header picture not saved: " + (e && e.name)); $("artmsg").textContent = "Too big to keep. Try a smaller picture."; } URL.revokeObjectURL(u); $("artfile").value = ""; };
   i.onerror = () => { $("artmsg").textContent = "That picture would not open."; URL.revokeObjectURL(u); };

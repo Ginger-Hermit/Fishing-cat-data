@@ -89,6 +89,30 @@ def g_down(pg):
     fresh(pg); r = pg.evaluate(CALL, T)
     chk("posting works after all that", r == "ok", r)
 
+ART = """async ([kind, w, h, name]) => {
+  let blob;
+  if (kind === "img") { const c = document.createElement("canvas"); c.width = w; c.height = h; c.getContext("2d").fillRect(0, 0, w, h); blob = await new Promise(r => c.toBlob(r, "image/png")); }
+  else blob = new Blob([kind === "empty" ? "" : "not a picture"], { type: "image/png" });
+  localStorage.removeItem("fcd_art"); const inp = document.getElementById("artfile"), dt = new DataTransfer();
+  dt.items.add(new File([blob], name, { type: "image/png" })); inp.files = dt.files; inp.onchange();
+  await new Promise(r => setTimeout(r, 1500));
+  const a = localStorage.getItem("fcd_art"), msg = document.getElementById("artmsg");
+  return { saved: !!a, sane: !a || /^data:image\/jpeg;base64,./.test(a), msg: msg.textContent, html: msg.innerHTML.includes("<b") || !!window.pwned };
+}"""
+
+def g_art(pg):
+    pg.evaluate("u=>{hookNow=u}", URL)
+    cases = [("fake picture", ["text", 0, 0, "x.png"], False), ("empty file", ["empty", 0, 0, "x.png"], False),
+             ("very wide 20000x1", ["img", 20000, 1, "w.png"], None), ("very tall 900x30000", ["img", 900, 30000, "t.png"], None),
+             ("tiny 1x1", ["img", 1, 1, "s.png"], True), ("code in file name", ["img", 50, 50, "<b onmouseover=pwned=1>x.png"], True)]
+    for name, args, want in cases:
+        r = pg.evaluate(ART, args)
+        ok = r["sane"] and not r["html"] and r["msg"] != "" and (want is None or r["saved"] == want)
+        chk("header picture: " + name, ok, r)
+        fresh(pg); p = pg.evaluate(CALL, T)
+        chk("header picture: " + name + ", post still works", p == "ok", p)
+    pg.evaluate("localStorage.removeItem('fcd_art')")
+
 def g_excel(pg):
     for name, expr in [("6 MB file refused", "new ArrayBuffer(6e6)"), ("empty file refused", "new ArrayBuffer(0)"), ("random bytes refused", "new Uint8Array(2000).map((_,i)=>i*7%256).buffer")]:
         r = pg.evaluate("async()=>{try{await readSheet(" + expr + ");return 'ok'}catch(e){return e.message}}")
@@ -192,7 +216,7 @@ def g_canary(pg):
         chk("fake key and link not in " + where, "CANARY" not in txt, txt[txt.find("CANARY") - 60:txt.find("CANARY") + 20] if "CANARY" in txt else "")
     pg.evaluate("()=>{document.getElementById('key').value='';hookNow=''}")
 
-GROUPS = {"ping": g_ping, "post": g_post, "down": g_down, "excel": g_excel, "secrets": g_secrets, "names": g_names, "role": g_role, "tamper": g_tamper, "links": g_links, "ai": g_ai, "xl": g_xl, "canary": g_canary}
+GROUPS = {"ping": g_ping, "post": g_post, "down": g_down, "art": g_art, "excel": g_excel, "secrets": g_secrets, "names": g_names, "role": g_role, "tamper": g_tamper, "links": g_links, "ai": g_ai, "xl": g_xl, "canary": g_canary}
 want = sys.argv[1:] or list(GROUPS)
 bad = [w for w in want if w not in GROUPS]
 if bad: sys.exit("Unknown group: %s. Use: %s" % (", ".join(bad), " ".join(GROUPS)))

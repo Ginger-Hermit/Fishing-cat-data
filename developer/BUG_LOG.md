@@ -36,3 +36,4 @@ Older bugs: `BREAK_TEST_PLAN.md` (appendix) and `STRESS_TEST_LOG.md`.
 - 2026-11-14: rows step got 503 three times on gemini-3.7-flash, never tried main model; now alternates 3.7 and main on each retry
 - 15 Nov 2026: Check red on main for 3 pushes (site not going live). Cause: tests not updated when sameRunBase was added and the step numbers became badges. Fix: excel-math pulls in sameRunBase; keys test looks for 2Add bills.
 - 15 Nov 2026: Auto-refresh could reload the page during a bills run or while a checked list was on screen, losing it. Cause: the busy check only looked at clan screenshots. Fix: also check running, bill photos and both previews.
+- 17 Nov: very wide header picture (20000x1) saved as empty but said Saved. Cause: height rounded to 0. Fix: height at least 1. Commit: Header picture fix.
