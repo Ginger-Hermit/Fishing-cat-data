@@ -1,4 +1,4 @@
-// Patch note: Discord GitHub link now sits on its own line
+// Patch note: Easier reading is one tick box, Auto button colour, log switch moved to Updates
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -69,7 +69,7 @@ showTab("home");
 const THEMES = [["auto", "Auto"], ["light", "Light"], ["dark", "Dark"], ["ocean", "Ocean"], ["forest", "Forest"], ["berry", "Berry"]];
 const SIZES = [["normal", "Normal"], ["large", "Large"]];
 const READS = [["normal", "Normal"], ["easy", "Easier"]];
-const BTNS = [["theme", "Theme's own"], ["blue", "Blue"], ["green", "Green"], ["purple", "Purple"], ["red", "Red"], ["orange", "Orange"]];
+const BTNS = [["theme", "Auto"], ["blue", "Blue"], ["green", "Green"], ["purple", "Purple"], ["red", "Red"], ["orange", "Orange"]];
 function loadSetting(k, list, d) {
   const v = lsGet(k);
   return list.some(x => x[0] === v) ? v : d;
@@ -82,9 +82,9 @@ function applyLook() {
   const dark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
   document.documentElement.dataset.theme = theme === "auto" ? (dark ? "dark" : "light") : theme;
   document.documentElement.dataset.size = size;
-  document.documentElement.dataset.read = read;
+  document.documentElement.dataset.read = read; document.getElementById("easyread").checked = read === "easy";
   document.documentElement.dataset.btn = btn;
-  for (const [box, list, cur] of [["themeBtns", THEMES, theme], ["sizeBtns", SIZES, size], ["readBtns", READS, read], ["btnBtns", BTNS, btn]]) {
+  for (const [box, list, cur] of [["themeBtns", THEMES, theme], ["sizeBtns", SIZES, size], ["btnBtns", BTNS, btn]]) {
     document.getElementById(box).innerHTML = list.map(x => `<button class="tab${x[0] === cur ? " on" : ""}" data-v="${x[0]}">${x[1]}</button>`).join("");
   }
 }
@@ -98,10 +98,10 @@ const resetDay = () => { const v = Number(lsGet("fcd_reset") || 5); return v >= 
 document.getElementById("expire").value = lsGet("fcd_expire") || "7";
 document.getElementById("expire").onchange = () => { lsSet("fcd_expire", document.getElementById("expire").value); expireCheck(); renderSaved(); };
 document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { btn = v; lsSet("fcd_btn", v); applyLook(); } };
-document.getElementById("readBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { read = v; lsSet("fcd_read", v); applyLook(); } };
+document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.106";
+const BUILD = "1.1.107";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };

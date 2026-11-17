@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.107] - 2026-11-17 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.106...v1.1.107)
+
+### Changed
+
+- **Simpler Look settings** · Easier reading is one tick box, Auto button colour, log switch moved to Updates
+
 ## [1.1.106] - 2026-11-17 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.105...v1.1.106)
 
 ### Changed
