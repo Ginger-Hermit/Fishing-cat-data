@@ -24,6 +24,8 @@ def route(r):
     if m == "429second" and n == 2: code = 429
     if m == "failsecond" and n >= 2: code = 500
     if m == "all429": code = 429
+    if m.startswith("code"): code = int(m[4:])
+    if m == "slow": __import__("time").sleep(2)
     if m == "down": return r.abort("internetdisconnected")
     if m == "hang": st["held"] = r; return
     if m == "junk": return r.fulfill(status=200, headers=CORS, body="<html>oops</html>", content_type="text/html")
@@ -79,6 +81,13 @@ def g_down(pg):
         r = pg.evaluate("async t=>{try{await dcPost(t);return 'ok'}catch(e){return e.message}}", T)
         chk("broken header picture still posts (" + bad[:12] + ")", r == "ok" and not pg.evaluate("!!window.pwned"), r)
     pg.evaluate("localStorage.removeItem('fcd_art')")
+    for c, name in ((404, "deleted link"), (401, "refused (401)"), (403, "refused (403)"), (413, "too big")):
+        fresh(pg, "code%d" % c); r = pg.evaluate(CALL, T)
+        chk("Discord says " + name + ": plain message, tried once", r != "ok" and "Error" not in r and "undefined" not in r and st["n"] <= 2, (r, st["n"]))
+    fresh(pg, "slow"); r = pg.evaluate(CALL, T)
+    chk("slow Discord still posts", r == "ok", r)
+    fresh(pg); r = pg.evaluate(CALL, T)
+    chk("posting works after all that", r == "ok", r)
 
 def g_excel(pg):
     for name, expr in [("6 MB file refused", "new ArrayBuffer(6e6)"), ("empty file refused", "new ArrayBuffer(0)"), ("random bytes refused", "new Uint8Array(2000).map((_,i)=>i*7%256).buffer")]:
