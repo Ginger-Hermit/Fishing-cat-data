@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: A very wide, thin header picture now saves properly -->
+<!-- Patch note: Clan tab lists the video types and the picker now shows MKV files (OBS) -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -92,7 +92,9 @@
 <label>Screenshots</label>
 <div class="drop" id="drop">Drop screenshots or a video here, or tap to choose</div>
 <div class="s8">Using a video? Slowly scroll down the whole list. A 50-member clan takes about 10 seconds.</div>
-<input id="files" type="file" accept="image/png,image/jpeg,image/webp,video/mp4,video/quicktime,video/webm" multiple hidden>
+<div class="s8">Video types:</div>
+<ul class="s8 tips"><li>MP4 or MOV (works everywhere, including iPhone)</li><li>WebM or MKV (OBS; not on iPhone)</li></ul>
+<input id="files" type="file" accept="image/png,image/jpeg,image/webp,video/mp4,video/quicktime,video/webm,video/x-matroska,.mkv" multiple hidden>
 <div id="list"></div>
 </details>
 <button id="go" disabled>Make my sheet</button>
