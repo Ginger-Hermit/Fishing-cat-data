@@ -89,7 +89,7 @@ def g_down(pg):
     fresh(pg); r = pg.evaluate(CALL, T)
     chk("posting works after all that", r == "ok", r)
 
-ART = """async ([kind, w, h, name]) => {
+ART = r"""async ([kind, w, h, name]) => {
   let blob;
   if (kind === "img") { const c = document.createElement("canvas"); c.width = w; c.height = h; c.getContext("2d").fillRect(0, 0, w, h); blob = await new Promise(r => c.toBlob(r, "image/png")); }
   else blob = new Blob([kind === "empty" ? "" : "not a picture"], { type: "image/png" });
@@ -171,6 +171,22 @@ def g_links(pg):
     chk("%d tricked Discord links all refused" % len(EVIL_LINKS), not bad, bad)
     chk("real Discord link accepted", pg.evaluate("u=>HOOK_RE.test(u)", URL))
 
+def g_box(pg):
+    U = "https://discord.com/api/webhooks/123456/abcDEF_-x"
+    cases = [("spaces around", "  " + U + "  ", True), ("line break after", U + "\n", True), ("tab before", "\t" + U, True),
+             ("pasted twice", U + U, False), ("text around it", "here: " + U, False), ("thread id on end", U + "?thread_id=1", False),
+             ("http not https", U.replace("https", "http"), False), ("capital DISCORD.COM", U.replace("discord.com", "DISCORD.com"), False),
+             ("ptb.discord.com", U.replace("discord.com", "ptb.discord.com"), False), ("discordapp.com", U.replace("discord.com", "discordapp.com"), False),
+             ("very long", U + "a" * 5000, True), ("empty", "", None)]
+    res = []
+    for name, v, want in cases:
+        r = pg.evaluate("""v=>{const b=document.getElementById('hookbox');b.value='';b.onchange();b.value=v;b.onchange();return {msg:document.getElementById('hookchk').textContent,ok:HOOK_RE.test(hookGet())}}""", v)
+        res.append((name, r["ok"], r["msg"][:70]))
+        ok = r["msg"] != "" and "undefined" not in r["msg"] and (want is None or r["ok"] == want)
+        chk("link box: " + name, ok, r)
+    for x in res: print("   ", x)
+    pg.evaluate("()=>{const b=document.getElementById('hookbox');b.value='';b.onchange()}")
+
 XSS = ['<img src=x onerror="window.pwned=1">', '"><svg onload="window.pwned=1">', 'javascript:window.pwned=1', '<script>window.pwned=1</script>']
 def g_ai(pg):
     # Hostile AI replies: odd numbers, wrong shapes, prototype tricks, code in names.
@@ -216,7 +232,7 @@ def g_canary(pg):
         chk("fake key and link not in " + where, "CANARY" not in txt, txt[txt.find("CANARY") - 60:txt.find("CANARY") + 20] if "CANARY" in txt else "")
     pg.evaluate("()=>{document.getElementById('key').value='';hookNow=''}")
 
-GROUPS = {"ping": g_ping, "post": g_post, "down": g_down, "art": g_art, "excel": g_excel, "secrets": g_secrets, "names": g_names, "role": g_role, "tamper": g_tamper, "links": g_links, "ai": g_ai, "xl": g_xl, "canary": g_canary}
+GROUPS = {"ping": g_ping, "post": g_post, "down": g_down, "art": g_art, "box": g_box, "excel": g_excel, "secrets": g_secrets, "names": g_names, "role": g_role, "tamper": g_tamper, "links": g_links, "ai": g_ai, "xl": g_xl, "canary": g_canary}
 want = sys.argv[1:] or list(GROUPS)
 bad = [w for w in want if w not in GROUPS]
 if bad: sys.exit("Unknown group: %s. Use: %s" % (", ".join(bad), " ".join(GROUPS)))
