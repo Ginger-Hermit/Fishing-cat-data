@@ -1,4 +1,4 @@
-// Patch note: Clan tab lists the video types and the picker now shows MKV files (OBS)
+// Patch note: When Gemini is busy, the page now switches straight to the lite model instead of the slow 3.7 one.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -101,7 +101,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.110";
+const BUILD = "1.1.111";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1090,7 +1090,7 @@ function aiStats(d, secs) {
   const out = (u.candidatesTokenCount || u.output_tokens || u.completion_tokens || 0) + (u.thoughtsTokenCount || 0);
   clog("AI says: model " + (d.modelVersion || d.model || "?") + ", finished: " + (c0.finishReason || d.stop_reason || ch0.finish_reason || "?") + ", tokens: " + (nums || "not reported") + (out ? ", about " + (out / Math.max(secs, 0.1)).toFixed(0) + " tokens a second" : "") + (d.promptFeedback && d.promptFeedback.blockReason ? ", BLOCKED: " + d.promptFeedback.blockReason : ""));
 }
-const GALT = ["gemini-3.7-flash", "gemini-3.5-flash-lite"]; const galt = (i) => (!QUICK && GALT[i] === GALT[1] ? undefined : GALT[i]); // the weakest model may only do the quick layout step
+const GALT = ["gemini-3.5-flash-lite", "gemini-3.5-flash-lite"]; const galt = (i) => GALT[i]; // 3.7 hung on free keys (18 Nov), so the backup is lite for every step
 let gemSkip = 0, gemAt = 0; // backup model that last answered, remembered for 10 minutes
 async function postJson(url, headers, body) {
   const payload = JSON.stringify(body), nap = (ms) => new Promise((r) => setTimeout(r, ms)), baseUrl = url;
