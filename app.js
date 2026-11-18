@@ -1,4 +1,4 @@
-// Patch note: When Gemini is busy, the page now switches straight to the lite model instead of the slow 3.7 one.
+// Patch note: A short message now says when the page switches to a backup Gemini model.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -101,7 +101,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.111";
+const BUILD = "1.1.112";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1095,7 +1095,7 @@ let gemSkip = 0, gemAt = 0; // backup model that last answered, remembered for 1
 async function postJson(url, headers, body) {
   const payload = JSON.stringify(body), nap = (ms) => new Promise((r) => setTimeout(r, ms)), baseUrl = url;
   const off = Date.now() - gemAt < 6e5 && /generativelanguage/.test(url) && url.includes("/" + PROVIDERS.gemini.model + ":") ? (QUICK ? gemSkip : Math.min(gemSkip, 1)) : 0;
-  if (off) { url = baseUrl.replace(PROVIDERS.gemini.model, GALT[off - 1]); clog("Starting on " + GALT[off - 1] + " because " + PROVIDERS.gemini.model + " was busy a minute ago."); }
+  if (off) { url = baseUrl.replace(PROVIDERS.gemini.model, GALT[off - 1]); setMsg("Gemini is busy. Using a backup model (" + GALT[off - 1] + ")."); clog("Starting on " + GALT[off - 1] + " because " + PROVIDERS.gemini.model + " was busy a minute ago."); }
   for (let attempt = 1; ; attempt++) { // up to 3 tries when the AI is busy or the connection drops
   let res;
   const t0 = Date.now(), sec = () => ((Date.now() - t0) / 1000).toFixed(1) + "s";
@@ -1104,7 +1104,7 @@ async function postJson(url, headers, body) {
   const beat = setInterval(() => clog("Still waiting for the AI (" + sec() + ")"), 10000);
   try { res = await fetch(url, { method: "POST", headers, body: payload, signal: AbortSignal.timeout(gSwap ? Math.min(aiWait, 75000) : aiWait) }); clearInterval(beat); clog("AI answered after " + sec() + ": HTTP " + res.status + " " + res.statusText + hdrs(res)); }
   catch (e) { clearInterval(beat); clog("Request failed after " + sec() + ": " + (e && e.name) + ": " + (e && e.message) + ", online " + navigator.onLine);
-    if (e && e.name === "TimeoutError" && gSwap) { clog("Too slow. Switching to " + gAlt + " for the next try (try " + (attempt + 1) + " of 3)."); url = baseUrl.replace(PROVIDERS.gemini.model, gAlt); continue; }
+    if (e && e.name === "TimeoutError" && gSwap) { setMsg("Gemini is slow. Switching to a backup model (" + gAlt + ")."); clog("Too slow. Switching to " + gAlt + " for the next try (try " + (attempt + 1) + " of 3)."); url = baseUrl.replace(PROVIDERS.gemini.model, gAlt); continue; }
     if (!(e && e.name === "TimeoutError") && attempt < 3) { clog("Trying again in " + attempt * 3 + "s (try " + (attempt + 1) + " of 3)."); await nap(attempt * 3000); continue; }
     throw new Error(e && e.name === "TimeoutError" ? "The AI took too long to answer. Try again, or use fewer pictures." : "Couldn't reach the AI. Check your internet and try again."); }
   if (!res.ok) {
@@ -1116,7 +1116,7 @@ async function postJson(url, headers, body) {
     const canSwap = !!alt && /generativelanguage/.test(baseUrl) && baseUrl.includes("/" + PROVIDERS.gemini.model + ":");
     if (([500, 502, 503, 504].includes(res.status) || (daily && canSwap) || (res.status === 404 && url !== baseUrl)) && attempt < 3) {
       clog((daily ? "Today's free limit for this model is used up (HTTP 429)." : "The AI is busy or the backup model is gone (HTTP " + res.status + ").") + " Trying again" + (daily ? "" : " in " + attempt * 4 + "s") + " (try " + (attempt + 1) + " of 3).");
-      if (canSwap) { url = baseUrl.replace(PROVIDERS.gemini.model, alt); clog("Switching to " + alt + " for the next try."); }
+      if (canSwap) { url = baseUrl.replace(PROVIDERS.gemini.model, alt); setMsg("Gemini is busy. Switching to a backup model (" + alt + ")."); clog("Switching to " + alt + " for the next try."); }
       await nap(daily ? 500 : attempt * 4000); continue; }
     if (daily) { const w = (raw.match(/retry in ([0-9hms]+)/i) || [])[1]; throw new Error("Google's free plan limit for today is used up (about 20 reads a day for each model)." + (w ? " It resets in about " + w + "." : "") + " Try again later, use a different model in Settings, or use a paid key."); }
     if (/credit|quota|billing/i.test(detail)) throw new Error("Your AI account is out of credit or over its limit.");
