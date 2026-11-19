@@ -295,18 +295,6 @@ body details#keydet,body details#adddet,body details#addbill,body details#moreop
 #dcard{border:0;border-top:0;background:none;padding:0}
 #dcard .dh1{font-size:22px;font-weight:600;color:var(--text);margin:4px 0 2px}#dcard .dsub{color:var(--muted);font-size:14px;margin:0 0 6px}
 #dcard .dlab{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:22px 0 8px}
-#dcard .dcseg{display:flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--field)}
-#dcard .dcseg label{flex:1;position:relative;margin:0;padding:0;border-left:1px solid var(--line);cursor:pointer}#dcard .dcseg label:first-child{border:0}#dcard .dcseg{border:0;background:none;overflow:visible}
-#dcard .dcseg label:nth-child(-n+2){border:1px solid var(--line);background:var(--field);overflow:hidden}
-#dcard .dcseg label:nth-child(1){border-radius:6px 0 0 6px}
-#dcard .dcseg label:nth-child(2){border-radius:0 6px 6px 0;border-left:0}
-#dcard .dcseg label:nth-child(3){flex:1 0 100%;border:0}
-#dcard .dcseg label:nth-child(3) span{font-size:13px;padding:10px 4px 0;color:var(--link)}
-#dcard .dcseg label:nth-child(3):has(input:checked) span{background:none;color:var(--link);font-weight:600;text-decoration:underline}
-#dcard .dcseg input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
-#dcard .dcseg span{display:block;text-align:center;padding:11px 4px;font-size:15px;color:var(--text)}
-#dcard .dcseg label:has(input:checked) span{background:var(--accent);color:var(--onAccent);font-weight:600}
-#dcard .dcseg label:has(input:focus-visible){outline:2px solid var(--link);outline-offset:-2px}
 #dcard .dcx,#dcard #dcprev{border-top:1px solid var(--soft);margin:22px 0 0;padding:14px 0}#dcard #dcprev{margin:0;border-bottom:1px solid var(--soft)}
 #dcard .dcx[open]{border-bottom:0}
 #dcard .dcwarn{color:var(--muted)}
@@ -328,3 +316,13 @@ html[data-tint=midnight]{--bg:#000;--field:#111214;--soft:#25282C;--line:#4A4D52
 #themeBtns .sw{font-style:normal;font-size:13px;font-weight:600;width:42px;text-align:center;padding:4px 0;border:1px solid var(--line);border-radius:4px}
 .sw-auto{background:linear-gradient(90deg,#F0F2F5 50%,#14171C 50%);color:#888}.sw-light{background:#F0F2F5;color:#1B1B1B}.sw-dark{background:#14171C;color:#E8EAED}
 .sw-paper{background:#F6F1E7;color:#1C1A17}.sw-sage{background:#EAF0EA;color:#16201A}.sw-slate{background:#1E232B;color:#ECEFF4}.sw-midnight{background:#000;color:#F2F2F2}
+
+#dcard .dcopts{display:grid;gap:8px}
+#dcard .dcopts label{display:flex;gap:12px;align-items:center;position:relative;margin:0;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--field);cursor:pointer}
+#dcard .dcopts input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;cursor:pointer}
+#dcard .dcopts i{width:18px;height:18px;border-radius:50%;border:2px solid var(--line);flex:none;box-sizing:border-box}
+#dcard .dcopts label:has(input:checked){border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+#dcard .dcopts label:has(input:checked) i{border:5px solid var(--accent)}
+#dcard .dcopts b{display:block;font-weight:600;font-size:16px}
+#dcard .dcopts small{display:block;color:var(--muted);font-size:13px}
+#dcard .dcopts label:has(input:focus-visible){outline:2px solid var(--link);outline-offset:2px}

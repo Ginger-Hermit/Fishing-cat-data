@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Pick files link now reads Or send your own files -->
+<!-- Patch note: What to send is a plain list; only sheets you made show; button names the channel -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -97,9 +97,8 @@
 <input id="hookbox" type="password" autocomplete="off" spellcheck="false" placeholder="https://discord.com/api/webhooks/..." class="s38"><div id="hookchk" role="status" aria-live="polite" class="s39"></div>
 <div class="s40" data-d="flex"><label class="s41" data-d="flex"><input type="checkbox" id="hookkeep" class="s42"> Remember it</label><button id="hookforget" type="button" class="tab big" data-d="none">Remove channel</button><button id="hooktest" type="button" class="tab big" data-d="none">Send a test</button></div>
 <div id="hookkeepnote" class="s8" data-d="none">Untick to delete all saved channels.</div><details class="dcsteps"><summary>Where do I get the link?</summary><ol><li>Open your Discord server.</li><li>Server name → Server Settings.</li><li>Integrations → Webhooks → New Webhook.</li><li>Pick your channel (private ones work too) → Copy Webhook URL.</li><li>Paste it in the box above.</li></ol><a href="https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks" target="_blank" rel="noopener">Discord's guide →</a></details><div class="dcwarn">Keep it private: anyone with the link can post in your channel.</div>
-<div class="dlab">Post</div>
-<div class="dcseg"><label><input type="radio" name="dcsrc" value="sheet"><span>Clan</span></label><label><input type="radio" name="dcsrc" value="bill"><span>Bills</span></label><label><input type="radio" name="dcsrc" value="files"><span>Or send your own files</span></label></div>
-<div id="dchow" class="s8"></div>
+<div class="dlab">What to send</div>
+<div class="dcopts"><label id="dcosheet"><input type="radio" name="dcsrc" value="sheet"><i></i><span><b>Clan sheet</b><small id="dcsubsheet"></small></span></label><label id="dcobill"><input type="radio" name="dcsrc" value="bill"><i></i><span><b>Bills sheet</b><small id="dcsubbill"></small></span></label><label><input type="radio" name="dcsrc" value="files"><i></i><span><b>My own files</b><small>Excel files or pictures from your device</small></span></label></div>
 <div id="dcfiles" class="s30" data-d="none">
 <input type="file" id="shfile" accept=".xlsx,image/*" multiple data-d="none">
 <div class="s46" data-d="flex"><label for="shfile" class="s47 tab big" data-d="inline-flex">Choose files</label><button id="shclear" type="button" class="tab big" data-d="none">Clear</button></div>
