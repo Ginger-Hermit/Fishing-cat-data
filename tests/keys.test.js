@@ -28,7 +28,7 @@ const MUST = { t1: ["#key"], t3: ["summary(2Add bills)"], t6: ["#hookbox", "#dcg
     if (seen.size < 5) bad.push(id + ": only " + seen.size + " keyboard stops");
   }
   await page.click("#t0"); await page.waitForTimeout(150);
-  await page.click(".hsec > summary"); await page.waitForTimeout(100); await page.focus(".dc-bill"); await page.keyboard.press("Enter"); await page.waitForTimeout(150);
+  await page.click("details:has(.dc-bill) > summary"); await page.waitForTimeout(100); await page.focus(".dc-bill"); await page.keyboard.press("Enter"); await page.waitForTimeout(150);
   if (!(await page.isVisible("#billtab"))) bad.push("Home: Enter on the Bills card did not open Bills");
   await browser.close();
   for (const b of bad) console.log("FAIL " + b);
