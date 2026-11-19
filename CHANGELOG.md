@@ -4,11 +4,17 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
-## [1.1.141] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.140...v1.1.141)
+## [1.1.142] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.141...v1.1.142)
 
 ### Changed
 
 - **New themes: Paper, Sage, Slate, Midnight** · Replaced Ocean, Forest and Berry with four themes that never change the text colour; theme picker is now a plain list.
+
+## [1.1.141] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.140...v1.1.141)
+
+### Changed
+
+- **Left players stay 2 weeks** · Players who left stay greyed in Points history for 2 weeks, then drop off.
 
 ## [1.1.140] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.139...v1.1.140)
 
