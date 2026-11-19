@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Settings has a Developer card to sign in to Google (first step of the Google Sheet link) -->
+<!-- Patch note: Look, Updates, Clan sheet and Privacy in Settings now open and close like the rest. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -237,7 +237,7 @@
 </ul></div>
 </div>
 <div id="settingstab" data-d="none">
-<div class="hc"><div class="s69">Look</div><div class="s70">Theme</div>
+<details class="hc"><summary>Look</summary><div class="s70">Theme</div>
 <div class="tabs" id="themeBtns"></div>
 <div class="s70">Text size</div>
 <div class="s71 tabs" id="sizeBtns"></div>
@@ -245,15 +245,15 @@
 <div class="s73">Wider spacing and a plainer font.</div>
 <div class="s70">Button colour</div>
 <div class="s71 tabs" id="btnBtns"></div>
-<div class="s73">Auto = matches your theme.</div></div>
-<div class="hc"><div class="s69">Updates</div>
+<div class="s73">Auto = matches your theme.</div></details>
+<details class="hc"><summary>Updates</summary>
 <label class="s72" data-d="flex"><input type="checkbox" id="autoref" class="s27"> Refresh automatically when there is an update</label>
 <div class="s73">Only refreshes when no files are picked. Off: you get a banner instead.</div>
-<label class="s26 rem" data-d="flex"><input type="checkbox" id="showlog" class="s27"> Always show what happened</label></div>
-<div class="hc"><div class="s69">Clan sheet</div><div class="s70">Points reset day</div>
+<label class="s26 rem" data-d="flex"><input type="checkbox" id="showlog" class="s27"> Always show what happened</label></details>
+<details class="hc"><summary>Clan sheet</summary><div class="s70">Points reset day</div>
 <select id="resetday" aria-label="Points reset day"><option value="1">Monday</option><option value="2">Tuesday</option><option value="3">Wednesday</option><option value="4">Thursday</option><option value="5">Friday</option><option value="6">Saturday</option><option value="0">Sunday</option></select>
-<div class="s73">The day your clan's weekly points start again.</div></div>
-<div class="hc"><div class="s69">Privacy</div>
+<div class="s73">The day your clan's weekly points start again.</div></details>
+<details class="hc"><summary>Privacy</summary>
 <div class="s74">Saved on this device only:</div>
 <div id="saved" class="s75"></div>
 <label class="s76" data-d="flex"><input type="checkbox" id="keepprev" class="s27"> Remember my last sheet</label>
@@ -263,7 +263,7 @@
 <select id="expire" aria-label="Forget my saved key and link after"><option value="7">7 days</option><option value="30">30 days</option><option value="never">Never</option></select>
 <div class="s77" data-d="flex"><button id="wipekey" type="button" class="tab">Forget my key</button><button id="wipeall" type="button" class="s78 tab">Delete everything</button></div>
 <div id="wipemsg" role="status" class="s65"></div>
-<div class="s73">Only clears this device. <a href="#" data-go="privacy">Privacy page</a></div></div>
+<div class="s73">Only clears this device. <a href="#" data-go="privacy">Privacy page</a></div></details>
 <details class="hc" id="gdev"><summary>Developer: Google sheet</summary>
 <div class="s73">Not ready yet: this only signs you in. Making the sheet comes next.</div>
 <div class="s70">Google client ID</div>
