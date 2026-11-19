@@ -1,4 +1,4 @@
-// Patch note: Home is three plain steps, an example you can open, and one Links to all pages tab.
+// Patch note: The Discord tab looks calmer: one list, a Clan/Bills/Pick files bar, and Post stays greyed out until a link is pasted.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -101,7 +101,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.138";
+const BUILD = "1.1.139";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1518,7 +1518,10 @@ const dcShow = () => { const v = document.querySelector("input[name=dcsrc]:check
 document.querySelectorAll("input[name=dcsrc]").forEach((r) => { r.onchange = dcShow; });
 // Post to Discord buttons open the Discord tab with this sheet picked.
 function goDiscord(src) { const r = document.querySelector("input[name=dcsrc][value=" + src + "]"); if (r) { r.checked = true; r.dispatchEvent(new Event("change", { bubbles: true })); } showTab("discord"); window.scrollTo(0, 0); }
+const dcGate = () => { const ok = HOOK_RE.test($("hookbox").value.trim()) || HOOK_RE.test(hookGet()); $("dcgo").setAttribute("aria-disabled", ok ? "false" : "true"); $("dchint").textContent = ok ? "" : "Paste your channel link first."; };
+["input", "change"].forEach((e) => $("hookbox").addEventListener(e, dcGate)); $("hookforget").addEventListener("click", dcGate); $("hookkeep").addEventListener("change", dcGate); dcGate();
 $("dcgo").onclick = () => {
+  if ($("dcgo").getAttribute("aria-disabled") === "true") { $("hookmsg").textContent = "Paste your channel link first."; return; }
   const v = document.querySelector("input[name=dcsrc]:checked").value, say = (t) => { $("hookmsg").textContent = t; };
   say("");
   if (v === "files") { $("shpost").click(); return; }

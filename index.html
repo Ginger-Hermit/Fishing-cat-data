@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Home is three plain steps, an example you can open, and one Links to all pages tab. -->
+<!-- Patch note: The Discord tab looks calmer: one list, a Clan/Bills/Pick files bar, and Post stays greyed out until a link is pasted. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -90,18 +90,14 @@
 </details>
 </div>
 <div id="discordtab" data-d="none">
-<div class="hc" id="gcard"><div class="s37">Google sheet</div>
-<div id="gmsg2" role="status" class="s65">Not connected.</div>
-<div class="s77" data-d="flex"><button id="gconnect2" type="button" class="tab">Connect Google</button><button id="gout2" type="button" class="tab">Sign out</button></div></div>
 <div class="hc" id="dcard">
-<div class="s37"><span class="stn">1</span>Paste your Discord link</div>
+<h1 class="dh1">Post to Discord</h1><p class="dsub">Send your latest sheet to a channel.</p>
+<div class="dlab">Channel link</div>
 <input id="hookbox" type="password" autocomplete="off" spellcheck="false" placeholder="https://discord.com/api/webhooks/..." class="s38"><div id="hookchk" role="status" aria-live="polite" class="s39"></div>
-<div class="s40" data-d="flex"><label class="s41" data-d="flex"><input type="checkbox" id="hookkeep" class="s42"> Save my link on this device</label><button id="hookforget" type="button" class="tab big" data-d="none">Forget link</button><button id="hooktest" type="button" class="tab big" data-d="none">Send a test</button></div>
-<div id="hookkeepnote" class="s8" data-d="none">Untick to delete the saved copy.</div><details class="dcsteps"><summary>No link? Show me how</summary><b>In Discord:</b><ol><li>Server settings</li><li>Integrations</li><li>Create webhook</li><li>Copy webhook URL</li></ol><a href="https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks" target="_blank" rel="noopener">Discord's guide →</a></details><div class="dcwarn">🔒 Keep it private: anyone with it can post in your channel.</div>
-<div class="s37"><span class="stn">2</span>What do you want to post?</div>
-<label class="s44" data-d="flex"><input type="radio" name="dcsrc" value="sheet" class="s45"> Latest clan sheet</label>
-<label class="s44" data-d="flex"><input type="radio" name="dcsrc" value="bill" class="s45"> Latest Bills</label>
-<label class="s44" data-d="flex"><input type="radio" name="dcsrc" value="files" class="s45"> My own files (no AI)</label>
+<div class="s40" data-d="flex"><label class="s41" data-d="flex"><input type="checkbox" id="hookkeep" class="s42"> Remember it</label><button id="hookforget" type="button" class="tab big" data-d="none">Forget link</button><button id="hooktest" type="button" class="tab big" data-d="none">Send a test</button></div>
+<div id="hookkeepnote" class="s8" data-d="none">Untick to delete the saved copy.</div><details class="dcsteps"><summary>How to get one</summary><b>In Discord:</b><ol><li>Server settings</li><li>Integrations</li><li>Create webhook</li><li>Copy webhook URL</li></ol><a href="https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks" target="_blank" rel="noopener">Discord's guide →</a></details><div class="dcwarn">Keep it private: anyone with the link can post in your channel.</div>
+<div class="dlab">Post</div>
+<div class="dcseg"><label><input type="radio" name="dcsrc" value="sheet"><span>Clan</span></label><label><input type="radio" name="dcsrc" value="bill"><span>Bills</span></label><label><input type="radio" name="dcsrc" value="files"><span>Pick files</span></label></div>
 <div id="dcfiles" class="s30" data-d="none">
 <input type="file" id="shfile" accept=".xlsx,image/*" multiple data-d="none">
 <div class="s46" data-d="flex"><label for="shfile" class="s47 tab big" data-d="inline-flex">Choose files</label><button id="shclear" type="button" class="tab big" data-d="none">Clear</button></div>
@@ -119,13 +115,14 @@
 <input id="dcrole" inputmode="numeric" autocomplete="off" placeholder="Role ID, like 123456789012345678" class="s57" data-d="none">
 <details id="dcrolehelp" data-d="none"><summary>How do I get this?</summary><ul class="s49 tips"><li>In Discord: Settings, Advanced, turn on Developer Mode.</li><li>Long-press (phone) or right-click the role, tap Copy Role ID.</li></ul></details>
 <details class="hc" id="dccol"><summary>Colours (PC only)</summary><p>Changes the 'No change' names. Phones show them white.</p><div class="dcpv" aria-hidden="true"><div><b>Went up</b><span class="dcg">+ Kiviix: 100 → 120</span><i>always green</i></div><div><b>New</b><span class="c0">Anoldmystery: 0</span><i>always white</i></div><div><b>No change</b><span id="dcpvsame" class="c0">pogger195</span><i>your pick</i></div></div><label class="s44" data-d="flex"><input type="radio" name="dccol" value="" class="s45"> Default (works everywhere)<span class="dcsamp c0">Kiviix · pogger195</span></label><label class="s44" data-d="flex"><input type="radio" name="dccol" value="34" class="s45"> Blue<span class="dcsamp c34">Kiviix · pogger195</span></label><label class="s44" data-d="flex"><input type="radio" name="dccol" value="33" class="s45"> Yellow<span class="dcsamp c33">Kiviix · pogger195</span></label><label class="s44" data-d="flex"><input type="radio" name="dccol" value="35" class="s45"> Pink<span class="dcsamp c35">Kiviix · pogger195</span></label><label class="s44" data-d="flex"><input type="radio" name="dccol" value="36" class="s45"> Cyan<span class="dcsamp c36">Kiviix · pogger195</span></label></details>
-<div class="s37">Sheet link (optional)</div>
+<div class="s37">Sheet link</div>
 <input id="sheetlink" type="url" autocomplete="off" spellcheck="false" placeholder="https://docs.google.com/spreadsheets/..." class="s38"><div id="sheetlinkchk" class="s49">Google Sheets or OneDrive only. Anyone in the channel can open it.</div>
+<div class="gline"><span id="gmsg2" role="status">Not connected.</span><span class="gbtns"><button id="gconnect2" type="button" class="tab">Connect Google</button><button id="gout2" type="button" class="tab">Sign out</button></span></div>
 <label class="s56" data-d="flex"><input type="checkbox" id="sheetlinkkeep" class="s42"> Remember this link</label>
 <label class="s56" data-d="flex"><input type="checkbox" id="sitelink" class="s42"> Add a link to this website</label>
 </details>
-<details id="dcprev" open><summary class="s31">What the post looks like</summary><div id="dcprevbox" class="dcprev"></div></details>
-<button id="dcgo" type="button" class="s50">Post to Discord</button>
+<details id="dcprev"><summary class="s31">Preview</summary><div id="dcprevbox" class="dcprev"></div></details>
+<button id="dcgo" type="button" class="s50" aria-disabled="true">Post</button><div id="dchint" class="dchint"></div>
 <div id="hookmsg" role="status" aria-live="polite" class="s51"></div>
 <button id="shpost" type="button" hidden></button>
 </div>

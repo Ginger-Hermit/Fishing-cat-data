@@ -293,3 +293,21 @@ body details#keydet,body details#adddet,body details#addbill,body details#moreop
 #hometab .hsec{background:none;border:0;border-radius:0;margin:0;padding:12px 0;border-bottom:1px solid color-mix(in srgb,var(--text) 25%,transparent)}#hometab .dir{gap:0;margin:8px 0}#hometab .dcard{background:none;border:0;border-bottom:1px solid color-mix(in srgb,var(--text) 20%,transparent);border-radius:0;padding:9px 2px}#hometab .dcard b{font-size:16px}#hometab .dcard span{font-size:13px}
 #hometab .dcard{position:relative;padding-right:24px}#hometab .dcard:after{content:"\203A";position:absolute;right:4px;top:50%;transform:translateY(-50%);font-size:24px;color:var(--link)}
 #hometab .hs{list-style:decimal;padding-left:22px;margin:12px 0}#hometab .hs li{display:list-item;margin:0 0 10px;padding:0}#hometab .hs li:before{content:none}#hometab .hsec{border:1.5px solid color-mix(in srgb,var(--text) 30%,transparent);border-radius:8px;padding:8px 12px;margin:10px 0}
+
+/* Discord tab: plain look (Nov 2026) */
+#dcard{border:0;border-top:0;background:none;padding:0}
+#dcard .dh1{font-size:22px;font-weight:600;color:var(--text);margin:4px 0 2px}#dcard .dsub{color:var(--muted);font-size:14px;margin:0 0 6px}
+#dcard .dlab{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:22px 0 8px}
+#dcard .dcseg{display:flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--field)}
+#dcard .dcseg label{flex:1;position:relative;margin:0;padding:0;border-left:1px solid var(--line);cursor:pointer}#dcard .dcseg label:first-child{border:0}
+#dcard .dcseg input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
+#dcard .dcseg span{display:block;text-align:center;padding:11px 4px;font-size:15px;color:var(--text)}
+#dcard .dcseg label:has(input:checked) span{background:var(--accent);color:var(--onAccent);font-weight:600}
+#dcard .dcseg label:has(input:focus-visible){outline:2px solid var(--link);outline-offset:-2px}
+#dcard .dcx,#dcard #dcprev{border-top:1px solid var(--soft);margin:22px 0 0;padding:14px 0}#dcard #dcprev{margin:0;border-bottom:1px solid var(--soft)}
+#dcard .dcx[open]{border-bottom:0}
+#dcard .dcwarn{color:var(--muted)}
+#dcard .gline{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0;font-size:14px;color:var(--muted)}
+#dcard .gbtns{display:flex;gap:8px}#dcard .gbtns button{width:auto;margin:0;padding:8px 12px;font-size:14px}
+#dcard .s50{background:var(--accent);border-color:var(--accent)}#dcard .s50[aria-disabled=true]{opacity:.45;cursor:not-allowed}
+#dcard .dchint{font-size:13px;color:var(--muted);text-align:center;margin-top:8px;min-height:1em}
