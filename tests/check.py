@@ -34,5 +34,9 @@ for i, l in enumerate(s.split("\n"), 1):
             if not re.search(r'(dcMd|dcCode|clean|nameOf|tidy)\(\s*$', l[:m.start()]): bad.append(w + "Discord text without dcMd: " + m.group(0))
 for h in sorted(set(re.findall(r'(?:postJson|fetch)\(\s*"https://([^/"]+)', s))):
     if h not in hdr: bad.append("Website not in _headers connect-src: " + h)
+OK_HOSTS = {"api.anthropic.com", "generativelanguage.googleapis.com", "discord.com", "www.googleapis.com", "oauth2.googleapis.com"}  # the only websites the page may talk to; adding one is Ginger's call
+m = re.search(r"connect-src([^;]*)", hdr)
+for h in re.findall(r"https?://([^\s/;]+)", m.group(1) if m else ""):
+    if h not in OK_HOSTS: bad.append("New website allowed in _headers connect-src: " + h + " (data could leave to it)")
 print("\n".join(bad) if bad else "All checks passed")
 sys.exit(1 if bad else 0)
