@@ -218,6 +218,32 @@ def g_xl(pg):
     chk("formula names stay plain text in the bills Excel", not r[1], r[1])
 
 KEY = "FCDKEY-CANARY-123456"  # gitleaks:allow (fake test key)
+def g_chans(pg):
+    U1 = "https://discord.com/api/webhooks/111/aaa"; U2 = "https://discord.com/api/webhooks/222/bbb"
+    def put(v): pg.evaluate("v=>{localStorage.setItem('fcd_hooks',v);}", v); pg.reload(); pg.wait_for_timeout(300)
+    for bad in ["{not json", "null", "{}", "[1,null,\"x\",{\"n\":5,\"u\":\"%s\"},{\"n\":\"a\",\"u\":\"https://evil.com/api/webhooks/1/a\"}]" % U1]:
+        errs0 = pg.evaluate("window.__e=0"); put(bad)
+        n = pg.evaluate("document.getElementById('hookpick').options.length")
+        chk("junk saved channels do not crash: " + bad[:12], n == 1, n)
+    put('[{"n":"<img src=x onerror=window.__x=1>","u":"%s"},{"n":"%s","u":"%s"}]' % (U1, "L" * 500, U2))
+    r = pg.evaluate("[window.__x||0, [...document.getElementById('hookpick').options].map(o=>o.textContent.length)]")
+    chk("channel name stays text", r[0] == 0, r)
+    pg.evaluate("document.getElementById('hookpick').value='1';document.getElementById('hookpick').onchange()")
+    pg.evaluate("document.getElementById('hookname').value='';document.getElementById('hookname').onchange()")
+    r = pg.evaluate("hooksGet().map(h=>h.n.length)")
+    chk("empty rename keeps old name", r and min(r) > 0, r)
+    pg.evaluate("document.getElementById('hookname').value='x'.repeat(999);document.getElementById('hookname').onchange()")
+    chk("long rename is cut to 30", pg.evaluate("hooksGet().filter(h=>h.u===hookGet()).every(h=>h.n.length<=30)"), pg.evaluate("[hookGet(),hooksGet().map(h=>h.n.length)]"))
+    for i in range(2):
+        pg.evaluate("document.getElementById('hookforget').onclick()")
+    r = pg.evaluate("[hooksGet().length, localStorage.getItem('fcd_hooks'), localStorage.getItem('fcd_hook'), document.getElementById('hookpick').options.length]")
+    chk("forget all leaves nothing saved", r[0] == 0 and r[3] == 1, r)
+    pg.evaluate("localStorage.removeItem('fcd_hooks')")
+    pg.evaluate("()=>{for(let i=0;i<40;i++){hookNow='';document.getElementById('hookbox').value='https://discord.com/api/webhooks/'+(1000+i)+'/k'+i;hookUpsert(document.getElementById('hookbox').value)}}")
+    r = pg.evaluate("[hooksGet().length, hooksGet().filter((h,i,a)=>a.findIndex(x=>x.u===h.u)!==i).length]")
+    chk("40 channels, no duplicates, still draws", r[1] == 0, r)
+    pg.evaluate("localStorage.removeItem('fcd_hooks');localStorage.removeItem('fcd_hook')"); pg.reload(); pg.wait_for_timeout(300)
+
 def g_canary(pg):
     # A fake key and link must never show on screen, in the Log, the bug report or anything sent to Discord.
     link = "https://discord.com/api/webhooks/111111111111111111/CANARYLINK"
@@ -232,7 +258,7 @@ def g_canary(pg):
         chk("fake key and link not in " + where, "CANARY" not in txt, txt[txt.find("CANARY") - 60:txt.find("CANARY") + 20] if "CANARY" in txt else "")
     pg.evaluate("()=>{document.getElementById('key').value='';hookNow=''}")
 
-GROUPS = {"ping": g_ping, "post": g_post, "down": g_down, "art": g_art, "box": g_box, "excel": g_excel, "secrets": g_secrets, "names": g_names, "role": g_role, "tamper": g_tamper, "links": g_links, "ai": g_ai, "xl": g_xl, "canary": g_canary}
+GROUPS = {"chans": g_chans, "ping": g_ping, "post": g_post, "down": g_down, "art": g_art, "box": g_box, "excel": g_excel, "secrets": g_secrets, "names": g_names, "role": g_role, "tamper": g_tamper, "links": g_links, "ai": g_ai, "xl": g_xl, "canary": g_canary}
 want = sys.argv[1:] or list(GROUPS)
 bad = [w for w in want if w not in GROUPS]
 if bad: sys.exit("Unknown group: %s. Use: %s" % (", ".join(bad), " ".join(GROUPS)))
