@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.151] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.150...v1.1.151)
+
+### Added
+
+- **Google Sheet made for you** · Connect Google, then Post makes your Google Sheet once and updates it each time; the link goes in the Discord post.
+
 ## [1.1.150] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.149...v1.1.150)
 
 ### Fixed

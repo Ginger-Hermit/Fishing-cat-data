@@ -1,4 +1,4 @@
-// Patch note: Rename box only shows after you tap Rename
+// Patch note: Connect Google, then Post makes your Google Sheet once and updates it each time; the link goes in the Discord post.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -103,7 +103,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.150";
+const BUILD = "1.1.151";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -303,7 +303,7 @@ function renderSaved() {
   if (clan.length) lines.push("Clan: " + clan.join(", "));
   const dc = []; if (has("fcd_hook") || has("fcd_hooks")) dc.push("link"); if (has("fcd_art")) dc.push("header picture");
   if (dc.length) lines.push("Discord: " + dc.join(" and "));
-  const other = []; if (has("fcd_sheetlink")) other.push("Sheet link"); if (has("fcd_gclient")) other.push("Google client ID"); if (keys.some(k => k.startsWith("fcd_model_"))) other.push("AI model name");
+  const other = []; if (has("fcd_sheetlink")) other.push("Sheet link"); if (has("fcd_gsheet_clan") || has("fcd_gsheet_bill")) other.push("Google sheet (which file is yours)"); if (has("fcd_gclient")) other.push("Google client ID"); if (keys.some(k => k.startsWith("fcd_model_"))) other.push("AI model name");
   if (keys.some(k => ["fcd_theme", "fcd_size", "fcd_read", "fcd_btn", "fcd_nosave", "fcd_expire", "fcd_reset", "fcd_autoref", "fcd_provider", "fcd_hookxlsx", "fcd_pingmode", "fcd_pingrole", "fcd_showlog"].includes(k))) other.push("look and settings");
   if (other.length) lines.push(other.join(", ").replace(/^./, c => c.toUpperCase()));
   const box = $("saved"); box.replaceChildren();
@@ -1532,7 +1532,7 @@ function dcPrev() {
 }
 $("sheetlink").value = lsGet("fcd_sheetlink") || ""; $("sheetlinkkeep").checked = !!lsGet("fcd_sheetlink");
 const keepLink = () => { const v = $("sheetlink").value.trim(); try { if ($("sheetlinkkeep").checked && SHEET_RE.test(v)) lsSet("fcd_sheetlink", v); else localStorage.removeItem("fcd_sheetlink"); } catch (e) {} renderSaved(); };
-$("sheetlink").oninput = () => { const v = $("sheetlink").value.trim(); $("sheetlinkchk").textContent = v && !SHEET_RE.test(v) ? "That isn't a Google Sheets or OneDrive link, so it won't be posted." : "Google Sheets or OneDrive only. Anyone in the channel can open it."; keepLink(); dcPrev(); };
+$("sheetlink").oninput = () => { const v = $("sheetlink").value.trim(); $("sheetlinkchk").textContent = v && !SHEET_RE.test(v) ? "That isn't a Google Sheets or OneDrive link, so it won't be posted." : (window.fcdGoogleToken && window.fcdGoogleToken() ? "Leave empty and we make a Google Sheet for you when you post. Anyone with the link can view it." : "Paste a Google Sheets or OneDrive link, or connect Google below and we make one for you."); keepLink(); dcPrev(); };
 $("sheetlinkkeep").onchange = keepLink;
 function dcLabel() { const c = hooksGet().find((h) => h.u === hookGet()); $("dcgo").textContent = c ? "Post to " + c.n : "Post"; }
 const dcShow = () => {
@@ -1588,7 +1588,7 @@ async function pvPost() {
     setMsg("Posting to Discord...");
     await loadExcel();
     let file = null, txt = withLink(hookText(false));
-    if (window.ExcelJS) { const buf = await buildWorkbook(window.ExcelJS, rows, prevMap, Object.assign({}, pv.p, { reset: resetDay() }), todayText()).xlsx.writeBuffer(), fname = nameOf(pv.p) + ".xlsx"; if ($("hookxlsx").checked) file = { blob: new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), name: fname }; await keepMade(buf, fname); try { txt = dcBreakdown(await readSheet(buf), (n) => Math.round(n).toLocaleString("en-US")); } catch (e) { clog("Breakdown skipped: " + why(e)); } }
+    if (window.ExcelJS) { const buf = await buildWorkbook(window.ExcelJS, rows, prevMap, Object.assign({}, pv.p, { reset: resetDay() }), todayText()).xlsx.writeBuffer(), fname = nameOf(pv.p) + ".xlsx"; if ($("hookxlsx").checked) file = { blob: new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), name: fname }; await keepMade(buf, fname); try { const gl = await window.fcdGoogleSync("clan", buf, fname); if (gl) { $("sheetlink").value = gl; $("sheetlink").oninput(); txt = withLink(hookText(false)); } } catch (e) { clog("Google sheet: " + why(e)); } try { txt = dcBreakdown(await readSheet(buf), (n) => Math.round(n).toLocaleString("en-US")); } catch (e) { clog("Breakdown skipped: " + why(e)); } }
     const pic = await clanPic(rows).catch((e) => { clog("Table picture skipped: " + why(e)); return null; });
     const sent = await dcPost(txt, [pic, file].filter(Boolean));
     setMsg(sent ? "Posted to Discord." : "Posted to Discord. The sheet file could not go, so use Download sheet.");
@@ -1923,7 +1923,9 @@ async function bpPost() {
     const text = ("**Bills** \u00b7 " + todayText() + "\n" + bills.map((b) => dcMd(b.supplier) + (b.billDate ? " \u00b7 " + dcMd(b.billDate) : "") + " \u00b7 " + b.lines.length + " charges" + (b.total !== null ? " \u00b7 " + dcMd(b.currency || "") + " " + b.total : "")).join("\n")).slice(0, 1900);
     const name = "Bills - " + (bills.length === 1 ? clean(bills[0].supplier, 40) || "bill" : bills.length + " bills") + ".xlsx";
     const pic = await billPic(bills).catch((e) => { clog("Table picture skipped: " + why(e)); return null; });
-    const sent = await hookPost(text, [pic, $("hookxlsx").checked && { blob: new Blob([await buildBillBook(window.ExcelJS, bills, todayText()).xlsx.writeBuffer()], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), name }].filter(Boolean));
+    const bbuf = await buildBillBook(window.ExcelJS, bills, todayText()).xlsx.writeBuffer();
+    try { const gl = await window.fcdGoogleSync("bill", bbuf, name); if (gl) { $("sheetlink").value = gl; $("sheetlink").oninput(); } } catch (e) { clog("Google sheet: " + why(e)); }
+    const sent = await hookPost(text + linkLine(), [pic, $("hookxlsx").checked && { blob: new Blob([bbuf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), name }].filter(Boolean));
     billSay(sent ? "Posted to Discord." : "Posted to Discord. The sheet file could not go, so use Download sheet.");
   } catch (err) { clog("Stopped: " + why(err)); billSay(plain(err), true); }
 }
@@ -2064,7 +2066,7 @@ function dcPv() { const c = lsGet("fcd_dccol") || "", e = $("dcpvsame"); if (e) 
   }
   const G_CLIENT = "915536157827-4rts8p1ghdn990tfj4rns2biilrfga73.apps.googleusercontent.com", say = (t) => { $("gmsg2").textContent = t; };
   let tok = "", state = "", popup = null;
-  const show = (email) => { $("gconnect2").textContent = tok ? "Reconnect" : "Connect Google"; say(tok ? "Connected" + (email ? " as " + email : "") + "." : "Not connected."); };
+  const show = (email) => { $("gconnect2").textContent = tok ? "Reconnect" : "Connect Google"; say(tok ? "Connected" + (email ? " as " + email : "") + "." : "Not connected."); $("sheetlink").oninput(); };
   $("gconnect2").onclick = () => {
     const id = G_CLIENT;
     const a = new Uint8Array(16); crypto.getRandomValues(a); state = Array.from(a, (x) => x.toString(16).padStart(2, "0")).join("");
@@ -2088,5 +2090,27 @@ function dcPv() { const c = lsGet("fcd_dccol") || "", e = $("dcpvsame"); if (e) 
     const t = tok; tok = ""; show("");
     try { await fetch("https://oauth2.googleapis.com/revoke?token=" + encodeURIComponent(t), { method: "POST", signal: AbortSignal.timeout(15000) }); } catch (e) {}
   };
-  window.fcdGoogleToken = () => tok; // batch 2 uses this
+  window.fcdGoogleToken = () => tok;
+  // Batch 2: make the Google Sheet once, then replace its contents each time. Returns the link, or "" if not connected.
+  window.fcdGoogleSync = async (kind, buf, name) => {
+    const own = ($("sheetlink").value || "").trim(), mine = lsGet("fcd_gsheet_" + kind);
+    if (!tok || (own && !(mine && own.includes(mine)))) return ""; // not signed in, or you pasted your own link
+    const XL = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", key = "fcd_gsheet_" + kind, H = { Authorization: "Bearer " + tok };
+    const send = async (url, method, meta) => {
+      const bd = "fcd" + state.length + Math.random().toString(36).slice(2), enc = new TextEncoder();
+      const body = new Blob([enc.encode("--" + bd + "\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n" + JSON.stringify(meta) + "\r\n--" + bd + "\r\nContent-Type: " + XL + "\r\n\r\n"), buf, enc.encode("\r\n--" + bd + "--")]);
+      return fetch(url, { method, headers: Object.assign({ "Content-Type": "multipart/related; boundary=" + bd }, H), body, signal: AbortSignal.timeout(60000) });
+    };
+    const base = "https://www.googleapis.com/upload/drive/v3/files", id = lsGet(key);
+    let r = null;
+    if (id && /^[\w-]{10,}$/.test(id)) { r = await send(base + "/" + id + "?uploadType=multipart&fields=id", "PATCH", {}); if (r.status === 404) { r = null; try { localStorage.removeItem(key); } catch (e) {} } }
+    if (!r) {
+      r = await send(base + "?uploadType=multipart&fields=id", "POST", { name: String(name).replace(/\.xlsx$/i, ""), mimeType: "application/vnd.google-apps.spreadsheet" });
+      if (r.ok) { const j = await r.json(); lsSet(key, j.id); // anyone with the link can view, so the channel can open it
+        try { await fetch("https://www.googleapis.com/drive/v3/files/" + encodeURIComponent(j.id) + "/permissions", { method: "POST", headers: Object.assign({ "Content-Type": "application/json" }, H), body: JSON.stringify({ role: "reader", type: "anyone" }), signal: AbortSignal.timeout(20000) }); } catch (e) {}
+        return "https://docs.google.com/spreadsheets/d/" + j.id + "/edit"; }
+    }
+    if (!r.ok) throw new Error(r.status === 401 ? "Google sign-in ran out. Tap Reconnect." : r.status === 403 ? "Google said no. Tap Reconnect and allow Drive." : "Google sheet failed (" + r.status + ").");
+    return "https://docs.google.com/spreadsheets/d/" + lsGet(key) + "/edit";
+  };
 })();
