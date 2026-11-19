@@ -1,4 +1,4 @@
-// Patch note: Removed the duplicate Connect Google from Settings; it stays in Discord Extras.
+// Patch note: Players who left stay greyed in Points history for 2 weeks, then drop off.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -101,7 +101,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.140";
+const BUILD = "1.1.141";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -603,7 +603,7 @@ function mergeHist(prev, rows, R = 5, p) {
     const fi = idx.length ? idx[0] : 0, li = idx.length ? idx[idx.length - 1] : 0;
     const first = e.start ? e.start[1] : null, last = e.vals[li];
     return { name: e.name, vals: e.vals, fi, li, first, last, since: e.start ? e.start[0] : dates[fi], gained: first === null ? 0 : last - first, here: e.vals[N - 1] !== null };
-  }).filter((e) => e.first !== null && e.last !== null && e.here); // members who left or were kicked are dropped
+  }).filter((e) => e.first !== null && e.last !== null && (e.here || dates[N - 1] - dates[e.li] <= 14 * 864e5)); // members who left stay greyed for 2 weeks, then drop
   list.sort((a, b) => (b.here - a.here) || (b.last - a.last));
   return { dates, list, season: sea, crank: crk };
 }
@@ -761,7 +761,7 @@ function buildWorkbook(EJ, rows, prev, p, when) {
   [6, 24, 13, 12].forEach((w, i) => { hs.getColumn(i + 1).width = w; });
   hs.mergeCells(`A1:${HW}1`); hs.mergeCells(`A2:${HW}2`);
   hs.getCell("A1").value = p.clan + " – Points history"; hs.getCell("A1").font = { bold: true, size: 16, color: { argb: NAVY } }; hs.getRow(1).height = 30;
-  hs.getCell("A2").value = KEY([["• Sorted by this week. Change = since the last read. Older reads on the right.\n"], ["• "], ["Green = went up", GRN, 1], ["   "], ["Red = went down", RED, 1], ["   "], ["Grey = left the clan", GREY, 1], ["   – = not in that read.\n• The page reads this tab next time, so keep it."]]);
+  hs.getCell("A2").value = KEY([["• Sorted by this week. Change = since the last read. Older reads on the right.\n"], ["• "], ["Green = went up", GRN, 1], ["   "], ["Red = went down", RED, 1], ["   "], ["Grey = left the clan (shown for 2 weeks)", GREY, 1], ["   – = not in that read.\n• The page reads this tab next time, so keep it."]]);
   hs.getCell("A2").alignment = { wrapText: true, vertical: "middle", indent: 1 }; hs.getCell("A2").fill = fill(BLUE); hs.getRow(2).height = 52;
   const navyHead = (c, t) => { c.value = t; c.font = WH; c.fill = fill(NAVY); c.alignment = { horizontal: "center", vertical: "middle" }; c.border = box; };
   ["#", "Player", "This week", "Change"].forEach((t, i) => navyHead(hs.getCell(3, i + 1), t));
@@ -823,7 +823,7 @@ function buildWorkbook(EJ, rows, prev, p, when) {
   const weeks = [];
   H.dates.forEach((d, i) => { const w = weekStart(d, R); let o = weeks[weeks.length - 1]; if (!o || o.w !== w) { o = { w, cols: [] }; weeks.push(o); } o.cols.push(i); });
   const score = (e, o) => { for (let j = o.cols.length - 1; j >= 0; j--) if (e.vals[o.cols[j]] !== null) return e.vals[o.cols[j]]; return null; };
-  const ranked = (get) => H.list.map((e) => [e.name, get(e)]).filter((x) => x[1] !== null).sort((a, b) => b[1] - a[1]);
+  const ranked = (get) => H.list.filter((e) => e.here).map((e) => [e.name, get(e)]).filter((x) => x[1] !== null).sort((a, b) => b[1] - a[1]);
   const monthOf = (m) => ranked((e) => { let s = null; weeks.forEach((o) => { if (mon(o.w) === m) { const v = score(e, o); if (v !== null) s = (s || 0) + v; } }); return s; });
   const curM = mon(weeks[weeks.length - 1].w);
   const mName = (m) => new Date(Date.UTC(Math.floor(m / 12), m % 12, 1)).toLocaleString("en-GB", { month: "long", year: "numeric", timeZone: "UTC" });

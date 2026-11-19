@@ -35,23 +35,24 @@ const prev = new Map([["ann", 80000], ["bob", 50000], ["cy", 25000]]);
   assert.deepStrictEqual(w2.worksheets.map((x) => x.name), ["Clan Members", "Top 10", "Points history", "Help"]);
   const Hs = w2.getWorksheet("Points history"), hv = (r, c) => { const x = Hs.getCell(r, c).value; return x && typeof x === "object" && "result" in x ? x.result : x; };
   assert.strictEqual(hv(3, 2), "Player"); assert.strictEqual(hv(4, 2), "Ann"); assert.strictEqual(hv(4, 3), 100000); assert.strictEqual(hv(4, 4), 20000);
-  assert.strictEqual(hv(4, 5), 80000); assert.strictEqual(hv(4, 6), 100000); assert.strictEqual(hv(7, 4), "new"); assert.strictEqual(hv(8, 2), "Clan total");
-  assert.strictEqual(hv(8, 2), "Clan total"); assert.strictEqual(hv(8, 5), 130000); assert.strictEqual(hv(8, 6), 175000);
+  assert.strictEqual(hv(4, 5), 80000); assert.strictEqual(hv(4, 6), 100000); assert.strictEqual(hv(7, 4), "new"); assert.strictEqual(hv(8, 2), "Old");
+  assert.strictEqual(hv(9, 2), "Clan total"); assert.strictEqual(hv(9, 5), 139000); assert.strictEqual(hv(9, 6), 175000);
   const T = w2.getWorksheet("Top 10"), tv = (a) => T.getCell(a).value;
   assert.strictEqual(tv("F6"), "Ann"); assert.strictEqual(tv("G6"), 100000); assert.strictEqual(tv("G16"), 175000);
   const again = await readPrevious(EJ, fs.readFileSync(path.join(dir, "rc", "h2.xlsx")));
-  assert.strictEqual(again.hist.dates.length, 2); assert.strictEqual(again.hist.players.length, 4); assert.ok(!new Map(again.hist.players).has("old"), "left members dropped");
+  assert.strictEqual(again.hist.dates.length, 2); assert.strictEqual(again.hist.players.length, 5); assert.strictEqual(new Map(again.hist.players).get("old").vals[0], 9000);
   const Hp = w2.getWorksheet("Help"); let seen = false; Hp.eachRow((row) => row.eachCell((c) => { if (String(c.value).includes("Ann")) seen = true; }));
   assert.ok(seen, "Help example uses the top player");
   // Fold: two reads in one earlier week become one column (the week score)
   const t0 = new Date(), m1 = Date.UTC(t0.getFullYear(), t0.getMonth(), t0.getDate()) - 21 * 864e5, fri = m1 - ((new Date(m1).getUTCDay() - 5 + 7) % 7) * 864e5, rv = (c) => { const x = c.value; return x && typeof x === "object" && "result" in x ? x.result : x; };
   const fm = new Map([["ann", 80000]]);
-  fm.hist = { dates: [fri, fri + 864e5], players: [["ann", { name: "Ann", vals: [70000, 80000] }], ["bob", { name: "Bob", vals: [50000, null] }]] };
+  fm.hist = { dates: [fri, fri + 864e5], players: [["ann", { name: "Ann", vals: [70000, 80000] }], ["bob", { name: "Bob", vals: [50000, null] }], ["zed", { name: "Zed", vals: [1000, 1000] }]] };
   await buildWorkbook(EJ, rows, fm, { clan: "T", game: "G" }, "today").xlsx.writeFile(path.join(dir, "h3.xlsx")); recalc("h3.xlsx");
   const w3 = new EJ.Workbook(); await w3.xlsx.readFile(path.join(dir, "rc", "h3.xlsx"));
   const H3 = w3.getWorksheet("Points history");
   assert.ok(rv(H3.getCell(3, 6)) instanceof Date); assert.ok(!(rv(H3.getCell(3, 7)) instanceof Date), "earlier week folded");
   assert.strictEqual(rv(H3.getCell(4, 5)), 80000);
+  { let bob = false; H3.eachRow((row) => { if (rv(row.getCell(2)) === "Zed") bob = true; }); assert.ok(!bob, "member who left 3 weeks ago is dropped"); }
   assert.ok(rv(wb.getWorksheet("Points history").getCell(3, 5)) instanceof Date, "earlier sheet without history becomes the first column");
   // After the weekly reset the earlier sheet counts as 0 (no fake drops)
   const wm = new Map([["ann", 90000]]); wm.hist = { dates: [Date.UTC(t0.getFullYear(), t0.getMonth(), t0.getDate()) - 8 * 864e5], players: [] };
