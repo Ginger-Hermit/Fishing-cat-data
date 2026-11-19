@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Zoomed samples now have tabs, so you can see the next sheet without closing. -->
+<!-- Patch note: Settings is one box with a short line under each heading. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -245,7 +245,7 @@
 </ul></div>
 </div>
 <div id="settingstab" data-d="none">
-<details class="hc"><summary>Look</summary><div class="s70">Theme</div>
+<details class="hc"><summary>Look<small>Theme, text size, button colour</small></summary><div class="s70">Theme</div>
 <div class="tabs" id="themeBtns"></div>
 <div class="s70">Text size</div>
 <div class="s71 tabs" id="sizeBtns"></div>
@@ -254,14 +254,14 @@
 <div class="s70">Button colour</div>
 <div class="s71 tabs" id="btnBtns"></div>
 <div class="s73">Auto = matches your theme.</div></details>
-<details class="hc"><summary>Updates</summary>
+<details class="hc"><summary>Updates<small>Refresh and log settings</small></summary>
 <label class="s72" data-d="flex"><input type="checkbox" id="autoref" class="s27"> Refresh automatically when there is an update</label>
 <div class="s73">Only refreshes when no files are picked. Off: you get a banner instead.</div>
 <label class="s26 rem" data-d="flex"><input type="checkbox" id="showlog" class="s27"> Always show what happened</label></details>
-<details class="hc"><summary>Clan sheet</summary><div class="s70">Points reset day</div>
+<details class="hc"><summary>Clan sheet<small>Points reset day</small></summary><div class="s70">Points reset day</div>
 <select id="resetday" aria-label="Points reset day"><option value="1">Monday</option><option value="2">Tuesday</option><option value="3">Wednesday</option><option value="4">Thursday</option><option value="5">Friday</option><option value="6">Saturday</option><option value="0">Sunday</option></select>
 <div class="s73">The day your clan's weekly points start again.</div></details>
-<details class="hc"><summary>Privacy</summary>
+<details class="hc"><summary>Privacy<small>See what is saved, or delete it</small></summary>
 <div class="s74">Saved on this device only:</div>
 <div id="saved" class="s75"></div>
 <label class="s76" data-d="flex"><input type="checkbox" id="keepprev" class="s27"> Remember my last sheet</label>
@@ -272,12 +272,12 @@
 <div class="s77" data-d="flex"><button id="wipekey" type="button" class="tab">Forget my key</button><button id="wipeall" type="button" class="s78 tab">Delete everything</button></div>
 <div id="wipemsg" role="status" class="s65"></div>
 <div class="s73">Only clears this device. <a href="#" data-go="privacy">Privacy page</a></div></details>
-<details class="hc" id="gdev"><summary>Google sheet</summary>
+<details class="hc" id="gdev"><summary>Google sheet<small>Connect or sign out</small></summary>
 <div id="gmsg" role="status" class="s65">Not connected.</div>
 <div class="s77" data-d="flex"><button id="gconnect" type="button" class="tab">Connect Google</button><button id="gout" type="button" class="tab">Sign out</button></div>
 <div class="s73">Sign in now. Making your sheet comes next. If Google warns it's unverified, tap Advanced, then Continue.</div>
 </details>
-<details class="hc"><summary>AI model (advanced)</summary>
+<details class="hc"><summary>AI model<small>Advanced</small></summary>
 <input id="modelbox" autocomplete="off" spellcheck="false">
 <div class="s79">Leave empty to use the built-in one. Only change it if an error says the model is gone. It is kept for the company chosen on the first tab.</div>
 <div class="s80">Saved on this device only. <a id="modellist" href="https://ai.google.dev/gemini-api/docs/models" target="_blank" rel="noopener">See the model names</a></div>
