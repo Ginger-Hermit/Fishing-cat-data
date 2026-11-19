@@ -1,4 +1,4 @@
-// Patch note: Older months in Points history fold into a [+] group
+// Patch note: Players who left or were kicked no longer appear in the history tabs
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -101,7 +101,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.113";
+const BUILD = "1.1.114";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -603,7 +603,7 @@ function mergeHist(prev, rows, R = 5, p) {
     const fi = idx.length ? idx[0] : 0, li = idx.length ? idx[idx.length - 1] : 0;
     const first = e.start ? e.start[1] : null, last = e.vals[li];
     return { name: e.name, vals: e.vals, fi, li, first, last, since: e.start ? e.start[0] : dates[fi], gained: first === null ? 0 : last - first, here: e.vals[N - 1] !== null };
-  }).filter((e) => e.first !== null && e.last !== null);
+  }).filter((e) => e.first !== null && e.last !== null && e.here); // members who left or were kicked are dropped
   list.sort((a, b) => (b.here - a.here) || (b.last - a.last));
   return { dates, list, season: sea, crank: crk };
 }
