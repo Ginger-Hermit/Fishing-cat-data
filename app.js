@@ -1,4 +1,4 @@
-// Patch note: Connect Google, then Post makes your Google Sheet once and updates it each time; the link goes in the Discord post.
+// Patch note: What changed is now short bullets, with an optional coloured box on PC
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -103,7 +103,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.151";
+const BUILD = "1.1.152";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1282,9 +1282,14 @@ const dcBreakdown = (sh, f) => {
   if (sh.any) {
     const ret = it.filter((x) => x.b !== null), fresh = it.filter((x) => x.b === null), d = ret.reduce((a, x) => a + x.n - x.b, 0), b0 = ret.reduce((a, x) => a + x.b, 0);
     const up = ret.filter((x) => x.n > x.b).sort((x, y) => (y.n - y.b) - (x.n - x.b)), dn = ret.filter((x) => x.n < x.b).sort((x, y) => (x.n - x.b) - (y.n - y.b)), same = ret.length - up.length - dn.length;
-    t += "\n### What changed\n> Whole clan: **" + sg(d) + " points**" + pc(d, b0) + "\n";
-    t += "Up " + up.length + " \u00b7 Down " + dn.length + " \u00b7 Same " + same + (fresh.length ? " \u00b7 New " + fresh.length : "") + "\n";
-    if (fresh.length) t += "\n**New (" + fresh.length + ")**" + "\n```\n" + fresh.slice(0, 30).map((x) => dcCode(x.name + ": " + f(x.n) + " points")).join("\n") + (fresh.length > 30 ? "\nand " + (fresh.length - 30) + " more (see the file)" : "") + "\n```";
+    const col = lsGet("fcd_dccol") || "", box = /^3[3-6]$/.test(col), E = "\u001b[", paint = (x, c) => (box ? E + "0;" + c + "m" + x + E + "0m" : x), bold = (x, c) => (box ? paint(x, c) : "**" + x + "**");
+    const s1 = (n, w) => n + " " + w + (n === 1 ? "" : "s"), L = ["Whole clan: " + bold(sg(d) + " points", 32) + pc(d, b0)];
+    if (up.length) L.push(paint(String(up.length), 32) + " " + (up.length === 1 ? "player gained points" : "players gained points"));
+    L.push(dn.length ? paint(String(dn.length), 31) + " lost points" : "Nobody lost points");
+    if (same) L.push(same + " stayed the same");
+    if (fresh.length) L.push(s1(fresh.length, "new player"));
+    if (up.length) L.push("Biggest jump: " + (box ? paint(dcCode(up[0].name), col) : "**" + dcMd(up[0].name) + "**") + " " + paint(sg(up[0].n - up[0].b), 32));
+    t += "\n### What changed" + (box ? "\n```ansi\n" + L.join("\n") + "\n```" : "\n" + L.map((x) => "- " + x).join("\n"));
   }
   const h = sh.hist;
   if (h && h.dates.length > 1) {

@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.152] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.151...v1.1.152)
+
+### Changed
+
+- **Clearer What changed** · What changed is now short bullets, with an optional coloured box on PC
+
 ## [1.1.151] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.150...v1.1.151)
 
 ### Added

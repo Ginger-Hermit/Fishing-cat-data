@@ -18,7 +18,7 @@ for n in sorted(set(re.findall(r'(?:function|const|let|var)\s+([A-Za-z_$][\w$]*)
     if len(re.findall(r'(?<![\w$.])' + re.escape(n) + r'(?![\w$])', s)) <= 1:
         bad.append("Unused code (delete it): " + n)
 # Risky-pattern scan: known bug shapes. A safe line that trips it goes in SAFE (a unique bit of that line).
-SAFE = ['innerHTML = list.map(x => `<button class="tab', 'localStorage.setItem("fcd_prev"', 'JSON.parse(localStorage.getItem("fcd_prev"))',
+SAFE = ['"Biggest jump: "', 'innerHTML = list.map(x => `<button class="tab', 'localStorage.setItem("fcd_prev"', 'JSON.parse(localStorage.getItem("fcd_prev"))',
         'localStorage.setItem("fcd_art"', 'blk("+", fresh.slice(0, 30).map((x) => x.name', '(b.billDate ? " \\u00b7 " + dcMd(b.billDate)']
 hdr = open("_headers", encoding="utf-8").read()
 for i, l in enumerate(s.split("\n"), 1):
