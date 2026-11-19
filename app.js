@@ -1,4 +1,4 @@
-// Patch note: A short message now says when the page switches to a backup Gemini model.
+// Patch note: Older months in Points history fold into a [+] group
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -101,7 +101,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.112";
+const BUILD = "1.1.113";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -767,6 +767,12 @@ function buildWorkbook(EJ, rows, prev, p, when) {
   ["#", "Player", "This week", "Change"].forEach((t, i) => navyHead(hs.getCell(3, i + 1), t));
   H.dates.forEach((d, i) => { hs.getColumn(5 + i).width = 12; const c = hs.getCell(3, 5 + i); navyHead(c, new Date(d)); c.numFmt = "d\\ mmm"; });
   hs.getRow(3).height = 24;
+  { // Older months fold into a [+] group; the newest month stays open
+    const mk = (d) => { const x = new Date(d); return x.getUTCFullYear() * 12 + x.getUTCMonth(); }, cur = mk(H.dates[N - 1]);
+    let last = -1; H.dates.forEach((d, i) => { if (mk(d) < cur) last = i; });
+    for (let i = 0; i <= last; i++) { const col = hs.getColumn(5 + i); col.outlineLevel = 1; col.hidden = true; }
+    if (last >= 0) hs.getColumn(6 + last).collapsed = true;
+  }
   let rank = 0;
   H.list.forEach((e, i) => {
     const r = 4 + i, a = hs.getCell(r, 1), b = hs.getCell(r, 2), w = hs.getCell(r, 3), ch = hs.getCell(r, 4);
