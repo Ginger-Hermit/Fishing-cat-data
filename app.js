@@ -1,4 +1,4 @@
-// Patch note: Small grey line says what Clan, Bills and Pick files post
+// Patch note: Pick files link now reads Or send your own files
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -103,7 +103,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.147";
+const BUILD = "1.1.148";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1532,7 +1532,7 @@ $("sheetlink").value = lsGet("fcd_sheetlink") || ""; $("sheetlinkkeep").checked 
 const keepLink = () => { const v = $("sheetlink").value.trim(); try { if ($("sheetlinkkeep").checked && SHEET_RE.test(v)) lsSet("fcd_sheetlink", v); else localStorage.removeItem("fcd_sheetlink"); } catch (e) {} renderSaved(); };
 $("sheetlink").oninput = () => { const v = $("sheetlink").value.trim(); $("sheetlinkchk").textContent = v && !SHEET_RE.test(v) ? "That isn't a Google Sheets or OneDrive link, so it won't be posted." : "Google Sheets or OneDrive only. Anyone in the channel can open it."; keepLink(); dcPrev(); };
 $("sheetlinkkeep").onchange = keepLink;
-const DCHOW = { sheet: "The clan sheet you just made.", bill: "The bills sheet you just made.", files: "Excel files or pictures you choose." };
+const DCHOW = { sheet: "Sends the clan sheet you just made.", bill: "Sends the bills sheet you just made.", files: "Choose Excel files or pictures from your device." };
 const dcShow = () => { const v = document.querySelector("input[name=dcsrc]:checked").value; $("dchow").textContent = DCHOW[v] || ""; $("dcfiles").style.display = v === "files" ? "" : "none"; dcPrev(); };
 document.querySelectorAll("input[name=dcsrc]").forEach((r) => { r.onchange = dcShow; }); try { dcShow(); } catch (e) {}
 // Post to Discord buttons open the Discord tab with this sheet picked.
