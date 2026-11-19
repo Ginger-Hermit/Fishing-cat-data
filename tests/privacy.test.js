@@ -15,7 +15,7 @@ const URL = "file://" + path.resolve(__dirname, "..", "index.html");
   await page.reload();
   if ((await get("fcd_key_gemini")) === null) bad.push("a key was forgotten even though Never was chosen");
   await page.evaluate(() => { localStorage.clear(); localStorage.setItem("fcd_theme", "dark"); localStorage.setItem("fcd_key_gemini", "abc"); localStorage.setItem("fcd_hook", "https://discord.com/api/webhooks/1/x"); });
-  await page.reload(); await page.click("#t5"); await page.check("#nosave"); await page.waitForTimeout(200);
+  await page.reload(); await page.click("#t5"); await page.evaluate(() => { document.querySelectorAll("details.hc").forEach((d) => { d.open = true; }); }); await page.check("#nosave"); await page.waitForTimeout(200);
   if ((await get("fcd_key_gemini")) !== null || (await get("fcd_hook")) !== null) bad.push("turning on Don't save anything left a key or link behind");
   if ((await get("fcd_theme")) !== "dark") bad.push("turning on Don't save anything wiped the theme");
   if ((await get("fcd_nosave")) !== "1") bad.push("the Don't save anything switch was not kept");
