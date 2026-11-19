@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Rename a saved channel; long link and Remember row hidden once a channel is saved -->
+<!-- Patch note: Small grey line says what Clan, Bills and Pick files post -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -99,6 +99,7 @@
 <div id="hookkeepnote" class="s8" data-d="none">Untick to delete all saved channels.</div><details class="dcsteps"><summary>Where do I get the link?</summary><ol><li>Open your Discord server.</li><li>Server name → Server Settings.</li><li>Integrations → Webhooks → New Webhook.</li><li>Pick your channel (private ones work too) → Copy Webhook URL.</li><li>Paste it in the box above.</li></ol><a href="https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks" target="_blank" rel="noopener">Discord's guide →</a></details><div class="dcwarn">Keep it private: anyone with the link can post in your channel.</div>
 <div class="dlab">Post</div>
 <div class="dcseg"><label><input type="radio" name="dcsrc" value="sheet"><span>Clan</span></label><label><input type="radio" name="dcsrc" value="bill"><span>Bills</span></label><label><input type="radio" name="dcsrc" value="files"><span>Pick files</span></label></div>
+<div id="dchow" class="s8"></div>
 <div id="dcfiles" class="s30" data-d="none">
 <input type="file" id="shfile" accept=".xlsx,image/*" multiple data-d="none">
 <div class="s46" data-d="flex"><label for="shfile" class="s47 tab big" data-d="inline-flex">Choose files</label><button id="shclear" type="button" class="tab big" data-d="none">Clear</button></div>
