@@ -1,4 +1,4 @@
-// Patch note: The Google Sheet link now goes in the clan Discord post even when the breakdown can't be built.
+// Patch note: If Google isn't connected, the Discord post now says why there is no sheet link.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -103,7 +103,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.156";
+const BUILD = "1.1.157";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1598,7 +1598,7 @@ async function pvPost() {
     if (window.ExcelJS) { const buf = await buildWorkbook(window.ExcelJS, rows, prevMap, Object.assign({}, pv.p, { reset: resetDay() }), todayText()).xlsx.writeBuffer(), fname = nameOf(pv.p) + ".xlsx"; if ($("hookxlsx").checked) file = { blob: new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), name: fname }; await keepMade(buf, fname); try { const gl = await window.fcdGoogleSync("clan", buf, fname); if (gl) { $("sheetlink").value = gl; $("sheetlink").oninput(); } } catch (e) { clog("Google sheet: " + why(e)); } try { txt = dcBreakdown(await readSheet(buf), (n) => Math.round(n).toLocaleString("en-US")); } catch (e) { clog("Breakdown skipped: " + why(e)); } }
     const pic = await clanPic(rows).catch((e) => { clog("Table picture skipped: " + why(e)); return null; });
     txt = withLink(txt); const sent = await dcPost(txt, [pic, file].filter(Boolean));
-    setMsg(sent ? "Posted to Discord." : "Posted to Discord. The sheet file could not go, so use Download sheet.");
+    setMsg(sent ? "Posted to Discord." + (window.fcdGoogleToken() ? "" : " No sheet link: tap Connect Google first.") : "Posted to Discord. The sheet file could not go, so use Download sheet.");
   } catch (err) { clog("Stopped: " + why(err)); setMsg(plain(err), true); }
 }
 async function makeSheet(rows, p) {
@@ -2128,7 +2128,8 @@ dcUI();
   // Batch 2: make the Google Sheet once, then replace its contents each time. Returns the link, or "" if not connected.
   window.fcdGoogleSync = async (kind, buf, name) => {
     const own = ($("sheetlink").value || "").trim(), mine = lsGet("fcd_gsheet_" + kind);
-    if (!tok || (own && !(mine && own.includes(mine)))) return ""; // not signed in, or you pasted your own link
+    if (!tok) { clog("Google sheet skipped: not connected. Tap Connect Google."); return ""; }
+    if ((own && !(mine && own.includes(mine)))) return ""; // not signed in, or you pasted your own link
     const XL = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", key = "fcd_gsheet_" + kind, H = { Authorization: "Bearer " + tok };
     const send = async (url, method, meta) => {
       const bd = "fcd" + state.length + Math.random().toString(36).slice(2), enc = new TextEncoder();
