@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.159] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.158...v1.1.159)
+
+### Fixed
+
+- **Google sheet link when posting your own file** · Posting your own Excel file now also makes the Google Sheet and adds its link.
+
 ## [1.1.158] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.157...v1.1.158)
 
 ### Changed

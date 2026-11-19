@@ -1,4 +1,4 @@
-// Patch note: The Discord preview shows a Full sheet line when Google is connected.
+// Patch note: Posting your own Excel file now also makes the Google Sheet and adds its link.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -103,7 +103,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.158";
+const BUILD = "1.1.159";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1499,6 +1499,7 @@ $("shpost").onclick = async () => {
   try {
     const { text, files } = await fileParts(xf, pf);
     if (xf && $("hookxlsx").checked) files.push({ blob: xf, name: xf.name });
+    if (xf) try { const gl = await window.fcdGoogleSync("clan", await xf.arrayBuffer(), xf.name); if (gl) { $("sheetlink").value = gl; $("sheetlink").oninput(); } } catch (e) { clog("Google sheet: " + why(e)); }
     const sent = await dcPost(withLink(text), files);
     say(files.length && !sent ? "Posted the message, but the files could not go." : "Posted.");
   } catch (err) { clog("Stopped: " + why(err)); say(plain(err)); }
