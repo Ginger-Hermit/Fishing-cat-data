@@ -11,6 +11,7 @@ Web page: reads Roblox clan screenshots or video (any Roblox game) with an AI an
 1. `git pull` first. Find the exact spot with grep (table below), read only those lines. Small find-and-replace edits that each match once, all in one script. Backup outside the repo.
 2. Run `python3 tools/release.py --title ... --tag New|Changed|Fixed|Removed --meaning ... --see ... --change ...` once. It does the version, CHANGELOG, patch note, STATUS and `tests/check.py`. Never by hand.
    The tag and GitHub Release are made automatically (`.github/workflows/release.yml`). CHANGELOG.md uses Keep a Changelog: `--tag New|Changed|Fixed|Removed`, title and meaning become one short line.
+2b. Before every push of `app.js` changes: run `tools/attack.py` (needs `pip install playwright`, `PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers`). All must pass; fix first if not. Ginger's rule, 19 Nov.
 3. Touched `parseRows`, `parsePoints`, `parseBills`, `parseNum` or `kwhFor`? Also run `node tests/rows.test.js && node tests/bills.test.js && node tests/fuzz.js 7 5000`.
 4. Commit, push to `main` without asking (Ginger said so, 13 Nov). GitHub runs every test in three browsers; a red cross comes first. Changes outside `index.html` and `app.js` need no release.
 5. One bug per patch unless the same cause. Say what you couldn't test.
