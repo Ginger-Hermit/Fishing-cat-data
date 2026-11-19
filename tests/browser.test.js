@@ -33,7 +33,7 @@ async function runCase(page, flow, kind) {
     const btn = document.getElementById(flow === "bill" ? "billgo" : flow === "test" ? "testgo" : "go"), box = document.getElementById(flow === "bill" ? "billmsg" : "msg");
     box.textContent = ""; btn.click();
     const locked = document.getElementById("go").disabled && document.getElementById("billgo").disabled && document.getElementById("provider").disabled;
-    for (let k = 0; k < 600; k++) { await new Promise(r => setTimeout(r, 25)); if (box.textContent && !/^Reading|^Test read: looking/.test(box.textContent)) break; }
+    for (let k = 0; k < 600; k++) { await new Promise(r => setTimeout(r, 25)); if (box.textContent && !/^Reading|^Test read: looking|^Gemini is slow|backup model/.test(box.textContent)) break; }
     window.__early = window.__dl;
     const dlb = document.getElementById(flow === "go" ? "pvgo" : flow === "bill" ? "bpgo" : "none");
     if (dlb && !box.className.includes("err")) { dlb.click(); for (let k = 0; k < 400 && !window.__dl; k++) await new Promise(r => setTimeout(r, 25)); }
@@ -122,7 +122,7 @@ async function runCase(page, flow, kind) {
       return { shown, prevGone, askKey, keyGone, once, left, noSecret: !document.getElementById("saved").textContent.includes("SECRET") };
     });
     if (!pr.skip) {
-      check("privacy: lists what is saved, never the key itself", /AI key/.test(pr.shown) && /Last sheet/.test(pr.shown) && pr.noSecret, pr.shown);
+      check("privacy: lists what is saved, never the key itself", /AI key/.test(pr.shown) && /last sheet/i.test(pr.shown) && pr.noSecret, pr.shown);
       check("privacy: switching off remember-sheet deletes it", pr.prevGone);
       check("privacy: delete needs a second tap", pr.askKey === "Tap again to confirm" && pr.once === "Loki", pr.askKey + "/" + pr.once);
       check("privacy: forget key clears it and the box", pr.keyGone);
