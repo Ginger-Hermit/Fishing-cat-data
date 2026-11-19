@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The Connect Google text says the window may flash and close by itself. -->
+<!-- Patch note: The AI key box says Anthropic keys cost money and a paid Google key works. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -50,6 +50,7 @@
 <div id="keybox"><details id="keydet" open><summary class="s24"><span class="stepn">1</span>AI key <span id="keyok" class="keyok"></span></summary>
 <label for="provider">AI company</label>
 <select id="provider"><option value="gemini">Google Gemini</option><option value="anthropic">Anthropic (Claude)</option></select>
+<div class="s28">Anthropic keys cost money (a few cents a read). Google has a free key with a daily limit. A paid Google key works too and has no daily limit.</div>
 <div id="untested" class="warnbox" data-d="none">Heads up: this one has not been tested yet. It might not work. If it fails, tap the big Copy error button under the red message and send it to the author.</div>
 <label for="key" id="keylabel">Your AI key (Google Gemini)</label> <a id="keyhelp" href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" class="s25">Get a free key</a>
 <input id="key" type="password" placeholder="Paste key here" autocomplete="off" spellcheck="false" autocapitalize="off" data-lpignore="true" data-1p-ignore="true">

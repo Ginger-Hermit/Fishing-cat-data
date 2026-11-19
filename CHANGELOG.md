@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.161] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.160...v1.1.161)
+
+### Changed
+
+- **Key cost note** · The AI key box says Anthropic keys cost money and a paid Google key works.
+
 ## [1.1.160] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.159...v1.1.160)
 
 ### Changed
