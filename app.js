@@ -1,4 +1,4 @@
-// Patch note: The Discord tab looks calmer: one list, a Clan/Bills/Pick files bar, and Post stays greyed out until a link is pasted.
+// Patch note: Removed the duplicate Connect Google from Settings; it stays in Discord Extras.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -101,7 +101,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.139";
+const BUILD = "1.1.140";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -2035,10 +2035,10 @@ function dcPv() { const c = lsGet("fcd_dccol") || "", e = $("dcpvsame"); if (e) 
     try { window.opener.postMessage({ fcdGoogle: location.hash.slice(1) }, location.origin); } catch (e) {}
     history.replaceState(null, "", location.pathname); window.close(); return;
   }
-  const G_CLIENT = "915536157827-4rts8p1ghdn990tfj4rns2biilrfga73.apps.googleusercontent.com", say = (t) => { $("gmsg").textContent = t; $("gmsg2").textContent = t; };
+  const G_CLIENT = "915536157827-4rts8p1ghdn990tfj4rns2biilrfga73.apps.googleusercontent.com", say = (t) => { $("gmsg2").textContent = t; };
   let tok = "", state = "", popup = null;
-  const show = (email) => { $("gconnect").textContent = $("gconnect2").textContent = tok ? "Reconnect" : "Connect Google"; say(tok ? "Connected" + (email ? " as " + email : "") + "." : "Not connected."); };
-  $("gconnect").onclick = $("gconnect2").onclick = () => {
+  const show = (email) => { $("gconnect2").textContent = tok ? "Reconnect" : "Connect Google"; say(tok ? "Connected" + (email ? " as " + email : "") + "." : "Not connected."); };
+  $("gconnect2").onclick = () => {
     const id = G_CLIENT;
     const a = new Uint8Array(16); crypto.getRandomValues(a); state = Array.from(a, (x) => x.toString(16).padStart(2, "0")).join("");
     const u = G_AUTH + "?" + new URLSearchParams({ client_id: id, redirect_uri: location.origin + "/", response_type: "token", scope: G_SCOPE, state, prompt: "select_account", include_granted_scopes: "true" });
@@ -2057,7 +2057,7 @@ function dcPv() { const c = lsGet("fcd_dccol") || "", e = $("dcpvsame"); if (e) 
       const j = r.ok ? await r.json() : null; show(j && j.email ? j.email : "");
     } catch (e) { show(""); }
   });
-  $("gout").onclick = $("gout2").onclick = async () => {
+  $("gout2").onclick = async () => {
     const t = tok; tok = ""; show("");
     try { await fetch("https://oauth2.googleapis.com/revoke?token=" + encodeURIComponent(t), { method: "POST", signal: AbortSignal.timeout(15000) }); } catch (e) {}
   };

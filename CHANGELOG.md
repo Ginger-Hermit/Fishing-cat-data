@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.140] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.139...v1.1.140)
+
+### Removed
+
+- **Google only in Discord Extras** · Removed the duplicate Connect Google from Settings; it stays in Discord Extras.
+
 ## [1.1.139] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.138...v1.1.139)
 
 ### Changed
