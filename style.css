@@ -290,3 +290,4 @@ body details#keydet,body details#adddet,body details#addbill,body details#moreop
 #settingstab .hc>summary{flex-wrap:wrap;color:var(--text);font-size:17px}
 #settingstab .hc>summary small{flex-basis:100%;font-weight:400;font-size:14px;color:var(--muted);padding-left:18px;margin-top:2px}
 #settingstab .hc>summary+*{margin-top:12px!important}
+#hometab .hsec{background:none;border:0;border-radius:0;margin:0;padding:12px 0;border-bottom:1px solid color-mix(in srgb,var(--text) 25%,transparent)}#hometab .dcard{background:var(--field);border:1.5px solid var(--cx);border-left-width:1.5px;padding:14px 16px}#hometab .dcard b{font-size:17px}#hometab .dir{gap:10px}
