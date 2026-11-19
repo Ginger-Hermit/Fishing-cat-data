@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.162] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.161...v1.1.162)
+
+### Changed
+
+- **Google sheet overwrite note** · The sheet link box says each post replaces the Google Sheet and typed edits are lost.
+
 ## [1.1.161] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.160...v1.1.161)
 
 ### Changed

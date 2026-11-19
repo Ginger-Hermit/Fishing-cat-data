@@ -1,4 +1,4 @@
-// Patch note: The AI key box says Anthropic keys cost money and a paid Google key works.
+// Patch note: The sheet link box says each post replaces the Google Sheet and typed edits are lost.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -103,7 +103,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.161";
+const BUILD = "1.1.162";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1540,7 +1540,7 @@ function dcPrev() {
 }
 $("sheetlink").value = lsGet("fcd_sheetlink") || ""; $("sheetlinkkeep").checked = !!lsGet("fcd_sheetlink");
 const keepLink = () => { const v = $("sheetlink").value.trim(); try { if ($("sheetlinkkeep").checked && SHEET_RE.test(v)) lsSet("fcd_sheetlink", v); else localStorage.removeItem("fcd_sheetlink"); } catch (e) {} renderSaved(); };
-$("sheetlink").oninput = () => { const v = $("sheetlink").value.trim(); $("sheetlinkchk").textContent = v && !SHEET_RE.test(v) ? "That isn't a Google Sheets or OneDrive link, so it won't be posted." : (window.fcdGoogleToken && window.fcdGoogleToken() ? "Leave empty and we make a Google Sheet for you when you post. Anyone with the link can view it." : "Paste a Google Sheets or OneDrive link, or connect Google below and we make one for you."); keepLink(); dcPrev(); };
+$("sheetlink").oninput = () => { const v = $("sheetlink").value.trim(); $("sheetlinkchk").textContent = v && !SHEET_RE.test(v) ? "That isn't a Google Sheets or OneDrive link, so it won't be posted." : (window.fcdGoogleToken && window.fcdGoogleToken() ? "Leave empty and we make a Google Sheet for you when you post, and replace it with your newest sheet each time you post. Anything you type in it is overwritten. Anyone with the link can view it." : "Paste a Google Sheets or OneDrive link, or connect Google below and we make one for you."); keepLink(); dcPrev(); };
 $("sheetlinkkeep").onchange = keepLink;
 function dcLabel() { const c = hooksGet().find((h) => h.u === hookGet()); $("dcgo").textContent = c ? "Post to " + c.n : "Post"; }
 const dcShow = () => {
