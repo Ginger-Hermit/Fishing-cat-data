@@ -282,3 +282,6 @@ body details#keydet,body details#adddet,body details#addbill,body details#moreop
 .drop{border:1.5px solid var(--line);border-radius:8px;background:color-mix(in srgb,var(--text) 4%,transparent)}
 #go,#billgo{border-radius:6px}
 .xtra{margin-top:10px}.xtra>summary{cursor:pointer;font-weight:600;color:var(--link)}
+.zoomtabs{position:fixed;top:8px;left:8px;right:90px;z-index:1000;display:flex;gap:6px;overflow-x:auto}
+.zoomtabs button{flex:none;padding:9px 14px;border:0;border-radius:8px;background:#fff;color:#1b1b1b;font-size:16px}
+.zoomtabs button.on{background:#1f4fa8;color:#fff}

@@ -1,4 +1,4 @@
-// Patch note: Clan and Bills steps are plain numbered sections with less text.
+// Patch note: Zoomed samples now have tabs, so you can see the next sheet without closing.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -101,7 +101,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.129";
+const BUILD = "1.1.130";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -2019,7 +2019,7 @@ function askOpen(u) {
   b.checked = lsGet("fcd_showlog") === "1"; if (b.checked) l.hidden = false;
   b.onchange = () => { lsSet("fcd_showlog", b.checked ? "1" : "0"); l.hidden = !b.checked; }; })();
 
-document.querySelectorAll(".xlimg").forEach(i => { i.title = "Tap to zoom"; i.onclick = () => { const z = document.createElement("div"); z.className = "zoombox"; const c = document.createElement("button"); c.type = "button"; c.className = "zoomx"; c.textContent = "Close"; const im = document.createElement("img"); im.src = i.src; im.alt = i.alt; z.append(c, im); const shut = () => { z.remove(); document.removeEventListener("keydown", esc); }; const esc = (e) => { if (e.key === "Escape") shut(); }; c.onclick = shut; z.onclick = (e) => { if (e.target === z) shut(); }; document.addEventListener("keydown", esc); document.body.append(z); c.focus(); }; });
+document.querySelectorAll(".xlimg").forEach(i => { i.title = "Tap to zoom"; i.onclick = () => { const z = document.createElement("div"); z.className = "zoombox"; const c = document.createElement("button"); c.type = "button"; c.className = "zoomx"; c.textContent = "Close"; const im = document.createElement("img"); im.src = i.src; im.alt = i.alt; z.append(c, im); const g = i.closest(".xlgal"), bs = g ? [...g.querySelectorAll("button")] : []; if (bs.length > 1) { const tb = document.createElement("div"); tb.className = "zoomtabs"; const mark = () => bs.forEach((x, k) => tb.children[k].classList.toggle("on", x.classList.contains("on"))); bs.forEach(x => { const t = document.createElement("button"); t.type = "button"; t.textContent = x.textContent; t.onclick = () => { x.click(); im.src = i.src; mark(); }; tb.appendChild(t); }); mark(); z.append(tb); } const shut = () => { z.remove(); document.removeEventListener("keydown", esc); }; const esc = (e) => { if (e.key === "Escape") shut(); }; c.onclick = shut; z.onclick = (e) => { if (e.target === z) shut(); }; document.addEventListener("keydown", esc); document.body.append(z); c.focus(); }; });
 document.querySelectorAll(".xlgal button").forEach(b => { b.onclick = () => { const g = b.closest(".xlgal"); g.querySelector("img").src = b.dataset.src; g.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b)); }; });
 
 function dcPv() { const c = lsGet("fcd_dccol") || "", e = $("dcpvsame"); if (e) e.className = /^3[3-6]$/.test(c) ? "c" + c : "c0"; }

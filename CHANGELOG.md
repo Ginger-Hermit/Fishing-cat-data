@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.130] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.129...v1.1.130)
+
+### Added
+
+- **Switch sheets while zoomed** · Zoomed samples now have tabs, so you can see the next sheet without closing.
+
 ## [1.1.129] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.128...v1.1.129)
 
 ### Changed
