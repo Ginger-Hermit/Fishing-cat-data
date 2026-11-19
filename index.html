@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: What to send is a plain list; only sheets you made show; button names the channel -->
+<!-- Patch note: Rename box only shows after you tap Rename -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -95,7 +95,7 @@
 <div class="dlab">Channel</div>
 <select id="hookpick" class="s38" data-d="none" aria-label="Saved channels"></select><input id="hookname" type="text" maxlength="30" autocomplete="off" placeholder="Name it (like Clan chat)" class="s38" data-d="none" aria-label="Channel name"><div class="dlab">Channel link</div>
 <input id="hookbox" type="password" autocomplete="off" spellcheck="false" placeholder="https://discord.com/api/webhooks/..." class="s38"><div id="hookchk" role="status" aria-live="polite" class="s39"></div>
-<div class="s40" data-d="flex"><label class="s41" data-d="flex"><input type="checkbox" id="hookkeep" class="s42"> Remember it</label><button id="hookforget" type="button" class="tab big" data-d="none">Remove channel</button><button id="hooktest" type="button" class="tab big" data-d="none">Send a test</button></div>
+<div class="s40" data-d="flex"><label class="s41" data-d="flex"><input type="checkbox" id="hookkeep" class="s42"> Remember it</label><button id="hookren" type="button" class="tab big" data-d="none">Rename</button><button id="hookforget" type="button" class="tab big" data-d="none">Remove channel</button><button id="hooktest" type="button" class="tab big" data-d="none">Send a test</button></div>
 <div id="hookkeepnote" class="s8" data-d="none">Untick to delete all saved channels.</div><details class="dcsteps"><summary>Where do I get the link?</summary><ol><li>Open your Discord server.</li><li>Server name → Server Settings.</li><li>Integrations → Webhooks → New Webhook.</li><li>Pick your channel (private ones work too) → Copy Webhook URL.</li><li>Paste it in the box above.</li></ol><a href="https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks" target="_blank" rel="noopener">Discord's guide →</a></details><div class="dcwarn">Keep it private: anyone with the link can post in your channel.</div>
 <div class="dlab">What to send</div>
 <div class="dcopts"><label id="dcosheet"><input type="radio" name="dcsrc" value="sheet"><i></i><span><b>Clan sheet</b><small id="dcsubsheet"></small></span></label><label id="dcobill"><input type="radio" name="dcsrc" value="bill"><i></i><span><b>Bills sheet</b><small id="dcsubbill"></small></span></label><label><input type="radio" name="dcsrc" value="files"><i></i><span><b>My own files</b><small>Excel files or pictures from your device</small></span></label></div>

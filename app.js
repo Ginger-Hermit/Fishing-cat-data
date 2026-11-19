@@ -1,4 +1,4 @@
-// Patch note: What to send is a plain list; only sheets you made show; button names the channel
+// Patch note: Rename box only shows after you tap Rename
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -103,7 +103,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.149";
+const BUILD = "1.1.150";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1300,7 +1300,7 @@ const dcBreakdown = (sh, f) => {
   return t;
 };
 const HOOK_RE = /^https:\/\/discord\.com\/api\/webhooks\/\d+\/[\w-]+$/;
-let hookAdd = false;
+let hookAdd = false, hookRen = false;
 const hooksGet = () => { try { const a = JSON.parse(lsGet("fcd_hooks") || "[]"); return Array.isArray(a) ? a.filter((h) => h && typeof h.n === "string" && HOOK_RE.test(h.u)) : []; } catch (e) { return []; } };
 const hooksSave = (a) => { try { if (a.length) lsSet("fcd_hooks", JSON.stringify(a)); else localStorage.removeItem("fcd_hooks"); } catch (e) {} };
 function hookUpsert(u) { const a = hooksGet(); if (!a.some((h) => h.u === u)) { a.push({ n: ($("hookname").value.trim() || "Channel " + (a.length + 1)).slice(0, 30), u }); hooksSave(a); } $("hookname").value = ""; hookAdd = false; hookDraw(); }
@@ -1310,11 +1310,13 @@ function hookDraw() {
   const o = document.createElement("option"); o.value = "add"; o.textContent = "+ Add channel"; p.appendChild(o);
   const idx = a.findIndex((h) => h.u === cur); p.value = (hookAdd || idx < 0) ? "add" : String(idx);
   const picked = a.length > 0 && p.value !== "add";
-  p.style.display = a.length ? "" : "none"; $("hookname").style.display = ""; if (picked) $("hookname").value = a[idx].n;
+  p.style.display = a.length ? "" : "none"; $("hookname").style.display = !picked || hookRen ? "" : "none"; $("hookren").style.display = picked && !hookRen ? "" : "none"; if (picked) $("hookname").value = a[idx].n;
   $("hookforget").style.display = picked ? "" : "none"; $("hookbox").previousElementSibling.style.display = $("hookbox").style.display = $("hookkeep").parentNode.style.display = picked ? "none" : "";
   if (a.length) $("hookkeep").checked = true; $("hookkeepnote").style.display = !picked && $("hookkeep").checked ? "" : "none"; try { dcLabel(); } catch (e) {}
 }
-$("hookname").onchange = () => { const a = hooksGet(), i = a.findIndex((h) => h.u === hookGet()); if (!a.length || $("hookpick").value === "add" || i < 0) return; a[i].n = $("hookname").value.trim().slice(0, 30) || a[i].n; hooksSave(a); hookDraw(); };
+$("hookname").onchange = () => { const a = hooksGet(), i = a.findIndex((h) => h.u === hookGet()); if (!a.length || $("hookpick").value === "add" || i < 0) return; a[i].n = $("hookname").value.trim().slice(0, 30) || a[i].n; hooksSave(a); hookRen = false; hookDraw(); };
+$("hookname").onblur = () => { if (hookRen) { hookRen = false; hookDraw(); } };
+$("hookren").onclick = () => { hookRen = true; hookDraw(); $("hookname").focus(); $("hookname").select(); };
 const setHook = (v) => { hookNow = v; try { if (v && $("hookkeep").checked) { lsSet("fcd_hook", v); hookUpsert(v); } else localStorage.removeItem("fcd_hook"); } catch (e) {} };
 $("hookbox").onchange = () => { const v = $("hookbox").value.trim(); if (v && !HOOK_RE.test(v)) { $("hookchk").textContent = "That doesn't look like a Discord webhook link. Copy it again."; return; } setHook(v); $("hookchk").textContent = v ? "Ready." : "Removed."; renderSaved(); if (pv) pvDraw(); };
 if (lsGet("fcd_pingmode") !== "role") { try { localStorage.removeItem("fcd_pingmode"); } catch (e) {} } $("dcping").value = lsGet("fcd_pingmode") === "role" ? "role" : ""; $("dcrole").value = lsGet("fcd_pingrole") || "";
@@ -1325,7 +1327,7 @@ $("dcrole").onchange = () => { const id = (($("dcrole").value.match(/\d{15,25}/)
 $("hookxlsx").checked = lsGet("fcd_hookxlsx") === "1";
 $("hookxlsx").onchange = () => { lsSet("fcd_hookxlsx", $("hookxlsx").checked ? "1" : "0"); renderSaved(); };
 $("hookkeep").onchange = () => { if (!$("hookkeep").checked) { try { localStorage.removeItem("fcd_hooks"); } catch (e) {} } setHook(HOOK_RE.test(hookGet()) ? hookGet() : ""); hookDraw(); renderSaved(); };
-$("hookpick").onchange = () => { const v = $("hookpick").value, a = hooksGet(); if (v === "add") { hookAdd = true; hookNow = ""; try { localStorage.removeItem("fcd_hook"); } catch (e) {} $("hookbox").value = ""; hookDraw(); $("hookname").focus(); } else { hookAdd = false; setHook(a[+v].u); $("hookbox").value = a[+v].u; hookDraw(); } $("hookchk").textContent = ""; renderSaved(); dcGate(); if (pv) pvDraw(); };
+$("hookpick").onchange = () => { hookRen = false; const v = $("hookpick").value, a = hooksGet(); if (v === "add") { hookAdd = true; hookNow = ""; try { localStorage.removeItem("fcd_hook"); } catch (e) {} $("hookbox").value = ""; hookDraw(); $("hookname").focus(); } else { hookAdd = false; setHook(a[+v].u); $("hookbox").value = a[+v].u; hookDraw(); } $("hookchk").textContent = ""; renderSaved(); dcGate(); if (pv) pvDraw(); };
 $("hookforget").onclick = () => { const u = hookGet(); hooksSave(hooksGet().filter((h) => h.u !== u)); setHook(""); $("hookbox").value = ""; $("hookchk").textContent = "Removed."; const a = hooksGet(); if (a.length) { setHook(a[0].u); $("hookbox").value = a[0].u; } hookDraw(); renderSaved(); dcGate(); if (pv) pvDraw(); };
 let postBusy = false;
 let shareMode = false, shareSaid = "";
