@@ -245,9 +245,6 @@ button.zoomx{width:auto;left:auto;margin:0;box-shadow:0 2px 8px rgba(0,0,0,.4)}
 #hometab .hsec:nth-of-type(5){--t:#D98A00}
 #hometab .hsec .hsafe{background:none;padding-top:0;padding-bottom:0}
 /* Stay safe: one big box, one colour */
-#safetytab .hsec{--t:#2F5FB5;border-left:0;border-radius:0;margin:0;padding:6px 14px;background:color-mix(in srgb,#2F5FB5 10%,transparent);border-bottom:1px solid color-mix(in srgb,var(--text) 15%,transparent)}
-#safetytab .hsec:first-of-type{border-radius:10px 10px 0 0}
-#safetytab .hsec:last-of-type{border-radius:0 0 10px 10px;border-bottom:0}
 #safetytab .s8{font-size:15px;line-height:1.5;color:var(--text)}
 #safetytab .s8 a{color:var(--link)}
 #dcrolehelp .s49,#sheetlinkchk{font-size:15px;line-height:1.5;color:var(--text)}
@@ -256,3 +253,9 @@ button.zoomx{width:auto;left:auto;margin:0;box-shadow:0 2px 8px rgba(0,0,0,.4)}
 #privacytab .facts li:last-child{border-bottom:0}
 #privacytab .facts li:before{left:0;top:11px}
 #privacytab .facts li.warn:before{color:#B36B00;background:color-mix(in srgb,#D98A00 22%,transparent)}
+#safebox{padding:6px 14px}
+#safebox .facts li{padding:11px 0 11px 34px;margin:0;border-bottom:1px solid color-mix(in srgb,var(--text) 15%,transparent)}
+#safebox .facts li:before{left:0;top:11px}
+#safetytab .hsec{background:none;border:0;border-radius:0;margin:0;padding:12px 0;border-bottom:1px solid color-mix(in srgb,var(--text) 15%,transparent)}
+#safetytab .hsec>summary{padding:0}
+#safetytab .s8{border:0;padding:12px 0 6px}#safebox .facts{padding-left:0;margin:0}
