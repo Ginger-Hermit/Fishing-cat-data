@@ -1,4 +1,4 @@
-// Patch note: Replaced Ocean, Forest and Berry with four themes that never change the text colour; theme picker is now a plain list.
+// Patch note: Plainer steps for getting the Discord link, and a Change channel button
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -103,7 +103,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.142";
+const BUILD = "1.1.143";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1310,7 +1310,7 @@ $("dcrole").onchange = () => { const id = (($("dcrole").value.match(/\d{15,25}/)
 $("hookxlsx").checked = lsGet("fcd_hookxlsx") === "1";
 $("hookxlsx").onchange = () => { lsSet("fcd_hookxlsx", $("hookxlsx").checked ? "1" : "0"); renderSaved(); };
 $("hookkeep").onchange = () => { setHook(HOOK_RE.test(hookGet()) ? hookGet() : ""); renderSaved(); };
-$("hookforget").onclick = () => { $("hookkeep").checked = false; setHook(""); $("hookbox").value = ""; $("hookchk").textContent = "Forgotten."; renderSaved(); if (pv) pvDraw(); };
+$("hookforget").onclick = () => { $("hookkeep").checked = false; setHook(""); $("hookbox").value = ""; $("hookchk").textContent = "Paste the new channel link."; $("hookbox").focus(); renderSaved(); if (pv) pvDraw(); };
 let postBusy = false;
 let shareMode = false, shareSaid = "";
 async function shareFiles(files) {

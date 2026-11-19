@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.143] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.142...v1.1.143)
+
+### Changed
+
+- **Clearer Discord link steps** · Plainer steps for getting the Discord link, and a Change channel button
+
 ## [1.1.142] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.141...v1.1.142)
 
 ### Changed
