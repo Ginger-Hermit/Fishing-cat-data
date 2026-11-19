@@ -1,4 +1,4 @@
-// Patch note: The auto-made Google Sheet link now shows in the clan Discord post, and Reconnect remembers your Google account so it is one tap.
+// Patch note: Refreshing the page no longer signs you out of Google (this tab only, until Google's hour is up).
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -103,7 +103,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.154";
+const BUILD = "1.1.155";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -2113,16 +2113,17 @@ dcUI();
     if (!state || p.get("state") !== state) { say("Sign-in was not accepted. Try again."); return; }
     state = "";
     if (p.get("error") || !p.get("access_token")) { say(p.get("error") === "access_denied" ? "You said no in the Google window." : "Google would not sign in. Try again."); return; }
-    tok = p.get("access_token"); show("");
+    tok = p.get("access_token"); try { sessionStorage.setItem("fcd_gtok", JSON.stringify({ t: tok, e: Date.now() + (+p.get("expires_in") || 3000) * 1000 - 60000 })); } catch (e) {} show("");
     try { // show which account is connected (this page only; not logged)
       const r = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", { headers: { Authorization: "Bearer " + tok }, signal: AbortSignal.timeout(15000) });
       const j = r.ok ? await r.json() : null; show(j && j.email ? j.email : ""); if (j && j.email) lsSet("fcd_gemail", j.email);
     } catch (e) { show(""); }
   });
   $("gout2").onclick = async () => {
-    const t = tok; tok = ""; lsSet("fcd_gemail", ""); show("");
+    const t = tok; tok = ""; try { sessionStorage.removeItem("fcd_gtok"); } catch (e) {} lsSet("fcd_gemail", ""); show("");
     try { await fetch("https://oauth2.googleapis.com/revoke?token=" + encodeURIComponent(t), { method: "POST", signal: AbortSignal.timeout(15000) }); } catch (e) {}
   };
+  try { const k = JSON.parse(sessionStorage.getItem("fcd_gtok") || "null"); if (k && k.t && k.e > Date.now()) { tok = k.t; show(lsGet("fcd_gemail") || ""); } } catch (e) {} // kept for this tab only, until it expires
   window.fcdGoogleToken = () => tok;
   // Batch 2: make the Google Sheet once, then replace its contents each time. Returns the link, or "" if not connected.
   window.fcdGoogleSync = async (kind, buf, name) => {
