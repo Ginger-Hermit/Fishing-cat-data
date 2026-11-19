@@ -211,3 +211,5 @@ Free places to start. Pick **one**, not all.
 - Change one small thing in a copy of the page (a button's words in `index.html`) and see what happens. You can't break the live site from your own computer.
 - Stuck for more than 10 minutes? Ask an AI chat: "explain this like I'm new".
 - Keep your first goal tiny: "I can read this one function".
+
+[Look history](changelog/README.md): screenshots from day one to now.
