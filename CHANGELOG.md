@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.153] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.152...v1.1.153)
+
+### Changed
+
+- **Colour picker for Discord box** · Colours menu lets you pick gained, lost and biggest-jump colours
+
 ## [1.1.152] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.151...v1.1.152)
 
 ### Changed

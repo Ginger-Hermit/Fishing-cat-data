@@ -326,3 +326,10 @@ html[data-tint=midnight]{--bg:#000;--field:#111214;--soft:#25282C;--line:#4A4D52
 #dcard .dcopts b{display:block;font-weight:600;font-size:16px}
 #dcard .dcopts small{display:block;color:var(--muted);font-size:13px}
 #dcard .dcopts label:has(input:focus-visible){outline:2px solid var(--link);outline-offset:2px}
+
+.c30{color:#8a8f98}.c32{color:#4fb36f}.c37{color:#f2f2f2}
+.dcprev{background:#2b2d31;color:#dbdee1;border-radius:6px;padding:10px 12px;margin:6px 0;font:13px monospace;line-height:1.7}.dcb{font-weight:bold;color:#f2f3f5}
+.dcst{margin:2px 0 6px;color:var(--muted);font-size:.9em}
+.dcrow{padding:10px 2px;border-bottom:1px solid var(--soft)}.dcchips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.dcchip{width:auto;min-height:0;margin:0;flex:none;background:#2b2d31;border:0;border-radius:4px;padding:6px 10px;font:bold 13px monospace;cursor:pointer}.dcchip.on{outline:2px solid var(--accent);outline-offset:1px}
+.dcreset{background:none;border:0;color:var(--link);padding:12px 2px;font:inherit;text-decoration:underline;cursor:pointer}.dcreset:disabled{opacity:.4;cursor:default}
