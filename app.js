@@ -1,4 +1,4 @@
-// Patch note: Posting your own Excel file now also makes the Google Sheet and adds its link.
+// Patch note: The Connect Google text says the window may flash and close by itself.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -103,7 +103,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.159";
+const BUILD = "1.1.160";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -2106,7 +2106,7 @@ dcUI();
     const a = new Uint8Array(16); crypto.getRandomValues(a); state = Array.from(a, (x) => x.toString(16).padStart(2, "0")).join("");
     const u = new URL(G_AUTH + "?" + new URLSearchParams({ client_id: id, redirect_uri: location.origin + "/", response_type: "token", scope: G_SCOPE, state, include_granted_scopes: "true" })); const he = lsGet("fcd_gemail"); if (he) u.searchParams.set("login_hint", he); else u.searchParams.set("prompt", "select_account");
     popup = window.open(u.href, "fcdgoogle", "width=480,height=640");
-    say(popup ? "Finish in the Google window." : "The Google window was blocked. Allow pop-ups for this page and tap again.");
+    say(popup ? "Connecting... the Google window may flash and close by itself. That's normal." : "The Google window was blocked. Allow pop-ups for this page and tap again.");
   };
   window.addEventListener("message", async (ev) => {
     if (ev.origin !== location.origin || !ev.data || typeof ev.data.fcdGoogle !== "string") return;
