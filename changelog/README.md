@@ -1,8 +1,19 @@
-# 📸 Look history
+<div align="center">
 
-How the page looked, from day one to now. Phone size, sample data, oldest first.
+# Look history
 
-**Tap a day to open it.**
+**How the page looked, from day one to now.**
+
+[![Shots](https://img.shields.io/badge/screenshots-129-2ea44f)](#days) ![Phone size](https://img.shields.io/badge/size-phone-blue) ![Sample data](https://img.shields.io/badge/data-sample-lightgrey)
+
+[**Open the site**](https://fishing-cat-data.pages.dev) · [Update history](../CHANGELOG.md) · [Back to README](../README.md)
+
+</div>
+
+> [!NOTE]
+> Rebuilt from the saved versions, oldest first. Names and numbers are sample data, not a real clan.
+
+## Days
 
 <details><summary><b>2026-11-11</b> · 6 shots</summary>
 
