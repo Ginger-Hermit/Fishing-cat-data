@@ -240,9 +240,6 @@ button.zoomx{width:auto;left:auto;margin:0;box-shadow:0 2px 8px rgba(0,0,0,.4)}
 .hsec:nth-of-type(3){--t:#2E8B57}
 .hsec:nth-of-type(4){--t:#7A4FD0}
 /* Privacy page: each point in a soft box */
-#privacytab .facts li{--t:#2E8B57;background:color-mix(in srgb,var(--t) 12%,transparent);border-left:6px solid var(--t);border-radius:10px;padding:10px 12px 10px 38px;margin:8px 0}
-#privacytab .facts li:before{left:12px;top:10px}
-#privacytab .facts li.warn{--t:#D98A00}
 #hometab .hsec:nth-of-type(2){--t:#7A4FD0}
 #hometab .hsec:nth-of-type(4){--t:#2A8C9A}
 #hometab .hsec:nth-of-type(5){--t:#D98A00}
@@ -254,3 +251,8 @@ button.zoomx{width:auto;left:auto;margin:0;box-shadow:0 2px 8px rgba(0,0,0,.4)}
 #safetytab .s8{font-size:15px;line-height:1.5;color:var(--text)}
 #safetytab .s8 a{color:var(--link)}
 #dcrolehelp .s49,#sheetlinkchk{font-size:15px;line-height:1.5;color:var(--text)}
+
+#privacytab .facts li{padding:11px 0 11px 34px;margin:0;border-bottom:1px solid color-mix(in srgb,var(--text) 15%,transparent)}
+#privacytab .facts li:last-child{border-bottom:0}
+#privacytab .facts li:before{left:0;top:11px}
+#privacytab .facts li.warn:before{color:#B36B00;background:color-mix(in srgb,#D98A00 22%,transparent)}

@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.126] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.125...v1.1.126)
+
+### Changed
+
+- **Simpler Privacy page** · Privacy points are shorter, with bold lead-ins, in one box.
+
 ## [1.1.125] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.124...v1.1.125)
 
 ### Changed
