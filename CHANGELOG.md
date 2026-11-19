@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.169] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.168...v1.1.169)
+
+### Changed
+
+- **Notes before you upload** · Clan and Bills tabs say pictures go to your AI company, hobby site, no guarantees.
+
 ## [1.1.168] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.167...v1.1.168)
 
 ### Changed
