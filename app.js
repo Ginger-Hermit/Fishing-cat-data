@@ -1,4 +1,4 @@
-// Patch note: If Google isn't connected, the Discord post now says why there is no sheet link.
+// Patch note: The Discord preview shows a Full sheet line when Google is connected.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -103,7 +103,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.157";
+const BUILD = "1.1.158";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1514,8 +1514,8 @@ async function billPic(bills) {
 }
 const SHEET_RE = /^https:\/\/(docs\.google\.com\/spreadsheets\/|onedrive\.live\.com\/|1drv\.ms\/|[\w-]+\.sharepoint\.com\/)[\w\-.~/?#=&%+!$,;:]*$/;
 // The sheet link goes in the first part of the message, which is never cut short.
-function withLink(t) { const l = linkLine(), i = t.indexOf("\n### "); return i > 0 ? t.slice(0, i) + l + t.slice(i) : t + l; }
-function linkLine() { const v = ($("sheetlink").value || "").trim(); return (SHEET_RE.test(v) ? "\n\ud83d\udcca [Full sheet](<" + v + ">)" : "") + ($("sitelink").checked ? "\nMade with [Fishing Cat Data](<https://fishing-cat-data.pages.dev>)\n[Code on GitHub](<https://github.com/Ginger-Hermit/Fishing-cat-data>)" : ""); }
+function withLink(t, pv) { const l = linkLine(pv), i = t.indexOf("\n### "); return i > 0 ? t.slice(0, i) + l + t.slice(i) : t + l; }
+function linkLine(pv) { const v = ($("sheetlink").value || "").trim(); return (SHEET_RE.test(v) ? "\n\ud83d\udcca [Full sheet](<" + v + ">)" : pv && !v && window.fcdGoogleToken && window.fcdGoogleToken() ? "\n\ud83d\udcca Full sheet (link made when you post)" : "") + ($("sitelink").checked ? "\nMade with [Fishing Cat Data](<https://fishing-cat-data.pages.dev>)\n[Code on GitHub](<https://github.com/Ginger-Hermit/Fishing-cat-data>)" : ""); }
 try { $("sitelink").checked = lsGet("fcd_sitelink") !== "0"; } catch (e) { $("sitelink").checked = true; }
 $("sitelink").onchange = () => { try { lsSet("fcd_sitelink", $("sitelink").checked ? "1" : "0"); } catch (e) {} dcPrev(); };
 function dcPrev() {
@@ -1526,7 +1526,7 @@ function dcPrev() {
   { const hd = document.createElement("div"), av = document.createElement("span"), nm = document.createElement("b"), tg = document.createElement("span"), tm = document.createElement("span");
     hd.className = "dchead"; av.className = "dcav"; av.textContent = "\ud83d\udc31"; nm.textContent = "Fishing Cat Data"; tg.className = "dctag"; tg.textContent = "APP"; tm.className = "dctime"; tm.textContent = "Today at " + new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
     hd.append(av, nm, tg, tm); box.appendChild(hd); }
-  const src = fp ? withLink(fp.text) : pv ? hookText(false) + linkLine() : "Example (made-up players). Yours shows here after you make a clan sheet.\n**Clan Members**\n4 members, about 21,000 points each\n**What changed**\n**Whole clan: +8,040 points**\nWent up (2)\n```\n+ Ann: 217,210 → 223,800 (+6,590)\n+ Bo: 205,560 → 207,000 (+1,440)\n```\nNew (1)\n```\n+ Dee: 5,700 points\n```";
+  const src = fp ? withLink(fp.text, true) : pv ? hookText(false) + linkLine(true) : "Example (made-up players). Yours shows here after you make a clan sheet.\n**Clan Members**\n4 members, about 21,000 points each\n**What changed**\n**Whole clan: +8,040 points**\nWent up (2)\n```\n+ Ann: 217,210 → 223,800 (+6,590)\n+ Bo: 205,560 → 207,000 (+1,440)\n```\nNew (1)\n```\n+ Dee: 5,700 points\n```";
   let code = null, diff = false;
   for (const ln of src.split("\n")) {
     if (ln.startsWith("```")) { if (code) code = null; else { code = document.createElement("pre"); diff = /diff/.test(ln); box.appendChild(code); } continue; }
