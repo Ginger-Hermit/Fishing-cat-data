@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Plainer steps for getting the Discord link, and a Change channel button -->
+<!-- Patch note: Save more than one Discord channel and pick which one to post to -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -92,10 +92,11 @@
 <div id="discordtab" data-d="none">
 <div class="hc" id="dcard">
 <h1 class="dh1">Post to Discord</h1><p class="dsub">Send your latest sheet to a channel.</p>
-<div class="dlab">Channel link</div>
+<div class="dlab">Channel</div>
+<select id="hookpick" class="s38" data-d="none" aria-label="Saved channels"></select><input id="hookname" type="text" maxlength="30" autocomplete="off" placeholder="Name it (like Clan chat)" class="s38" data-d="none" aria-label="Channel name"><div class="dlab">Channel link</div>
 <input id="hookbox" type="password" autocomplete="off" spellcheck="false" placeholder="https://discord.com/api/webhooks/..." class="s38"><div id="hookchk" role="status" aria-live="polite" class="s39"></div>
-<div class="s40" data-d="flex"><label class="s41" data-d="flex"><input type="checkbox" id="hookkeep" class="s42"> Remember it</label><button id="hookforget" type="button" class="tab big" data-d="none">Change channel</button><button id="hooktest" type="button" class="tab big" data-d="none">Send a test</button></div>
-<div id="hookkeepnote" class="s8" data-d="none">Untick to delete the saved copy.</div><details class="dcsteps"><summary>Where do I get the link?</summary><ol><li>Open your Discord server.</li><li>Server name → Server Settings.</li><li>Integrations → Webhooks → New Webhook.</li><li>Pick your channel → Copy Webhook URL.</li><li>Paste it in the box above.</li></ol><a href="https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks" target="_blank" rel="noopener">Discord's guide →</a></details><div class="dcwarn">Keep it private: anyone with the link can post in your channel.</div>
+<div class="s40" data-d="flex"><label class="s41" data-d="flex"><input type="checkbox" id="hookkeep" class="s42"> Remember it</label><button id="hookforget" type="button" class="tab big" data-d="none">Remove channel</button><button id="hooktest" type="button" class="tab big" data-d="none">Send a test</button></div>
+<div id="hookkeepnote" class="s8" data-d="none">Untick to delete all saved channels.</div><details class="dcsteps"><summary>Where do I get the link?</summary><ol><li>Open your Discord server.</li><li>Server name → Server Settings.</li><li>Integrations → Webhooks → New Webhook.</li><li>Pick your channel → Copy Webhook URL.</li><li>Paste it in the box above.</li></ol><a href="https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks" target="_blank" rel="noopener">Discord's guide →</a></details><div class="dcwarn">Keep it private: anyone with the link can post in your channel.</div>
 <div class="dlab">Post</div>
 <div class="dcseg"><label><input type="radio" name="dcsrc" value="sheet"><span>Clan</span></label><label><input type="radio" name="dcsrc" value="bill"><span>Bills</span></label><label><input type="radio" name="dcsrc" value="files"><span>Pick files</span></label></div>
 <div id="dcfiles" class="s30" data-d="none">

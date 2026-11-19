@@ -1,4 +1,4 @@
-// Patch note: Plainer steps for getting the Discord link, and a Change channel button
+// Patch note: Save more than one Discord channel and pick which one to post to
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -9,7 +9,7 @@ const PROVIDERS = {
 };
 function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
 const LOOK_KEYS = ["fcd_theme", "fcd_size", "fcd_read", "fcd_btn", "fcd_nosave", "fcd_expire", "fcd_reset", "fcd_showlog"];
-const isSecret = (k) => /^fcd_key_/.test(k) || k === "fcd_hook";
+const isSecret = (k) => /^fcd_key_/.test(k) || k === "fcd_hook" || k === "fcd_hooks";
 function lsSet(k, v) {
   if (lsGet("fcd_nosave") === "1" && !LOOK_KEYS.includes(k)) return;
   try { localStorage.setItem(k, v); if (isSecret(k)) localStorage.setItem("fcd_stamp", String(Date.now())); } catch (e) {}
@@ -103,7 +103,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.143";
+const BUILD = "1.1.144";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -301,7 +301,7 @@ function renderSaved() {
   const clan = []; if (has("fcd_prev")) { let n = ""; try { n = JSON.parse(lsGet("fcd_prev")).entries.length + " members, "; } catch (e) {} clan.push("last sheet, " + n + "names, points"); }
   if (has("fcd_clan")) clan.push("clan name"); if (has("fcd_game") || has("fcd_gamex")) clan.push("game");
   if (clan.length) lines.push("Clan: " + clan.join(", "));
-  const dc = []; if (has("fcd_hook")) dc.push("link"); if (has("fcd_art")) dc.push("header picture");
+  const dc = []; if (has("fcd_hook") || has("fcd_hooks")) dc.push("link"); if (has("fcd_art")) dc.push("header picture");
   if (dc.length) lines.push("Discord: " + dc.join(" and "));
   const other = []; if (has("fcd_sheetlink")) other.push("Sheet link"); if (has("fcd_gclient")) other.push("Google client ID"); if (keys.some(k => k.startsWith("fcd_model_"))) other.push("AI model name");
   if (keys.some(k => ["fcd_theme", "fcd_size", "fcd_read", "fcd_btn", "fcd_nosave", "fcd_expire", "fcd_reset", "fcd_autoref", "fcd_provider", "fcd_hookxlsx", "fcd_pingmode", "fcd_pingrole", "fcd_showlog"].includes(k))) other.push("look and settings");
@@ -309,7 +309,7 @@ function renderSaved() {
   const box = $("saved"); box.replaceChildren();
   (lines.length ? lines : ["Nothing saved."]).forEach(t => { const d = document.createElement("div"); d.textContent = (lines.length ? "\u2022 " : "") + t; box.appendChild(d); });
   const ns = lsGet("fcd_nosave") === "1"; $("keepprev").checked = !ns && lsGet("fcd_keepprev") !== "0"; $("keepprev").disabled = ns;
-  $("hookbox").value = hookGet(); if (lsGet("fcd_hook")) $("hookkeep").checked = true; $("hookkeepnote").style.display = $("hookkeep").checked ? "" : "none";
+  $("hookbox").value = hookGet(); if (lsGet("fcd_hook")) $("hookkeep").checked = true; $("hookkeepnote").style.display = $("hookkeep").checked ? "" : "none"; try { hookDraw(); } catch (e) {}
   artShow();
 }
 $("keepprev").onchange = () => { lsSet("fcd_keepprev", $("keepprev").checked ? "1" : "0"); if (!$("keepprev").checked) { try { localStorage.removeItem("fcd_prev"); } catch (e) {} } renderSaved(); };
@@ -1300,7 +1300,19 @@ const dcBreakdown = (sh, f) => {
   return t;
 };
 const HOOK_RE = /^https:\/\/discord\.com\/api\/webhooks\/\d+\/[\w-]+$/;
-const setHook = (v) => { hookNow = v; try { if (v && $("hookkeep").checked) lsSet("fcd_hook", v); else localStorage.removeItem("fcd_hook"); } catch (e) {} };
+let hookAdd = false;
+const hooksGet = () => { try { const a = JSON.parse(lsGet("fcd_hooks") || "[]"); return Array.isArray(a) ? a.filter((h) => h && typeof h.n === "string" && HOOK_RE.test(h.u)) : []; } catch (e) { return []; } };
+const hooksSave = (a) => { try { if (a.length) lsSet("fcd_hooks", JSON.stringify(a)); else localStorage.removeItem("fcd_hooks"); } catch (e) {} };
+function hookUpsert(u) { const a = hooksGet(); if (!a.some((h) => h.u === u)) { a.push({ n: ($("hookname").value.trim() || "Channel " + (a.length + 1)).slice(0, 30), u }); hooksSave(a); } $("hookname").value = ""; hookAdd = false; hookDraw(); }
+function hookDraw() {
+  const a = hooksGet(), p = $("hookpick"), cur = hookGet(); p.textContent = "";
+  a.forEach((h, i) => { const o = document.createElement("option"); o.value = String(i); o.textContent = h.n; p.appendChild(o); });
+  const o = document.createElement("option"); o.value = "add"; o.textContent = "+ Add channel"; p.appendChild(o);
+  const idx = a.findIndex((h) => h.u === cur); p.value = (hookAdd || idx < 0) ? "add" : String(idx);
+  p.style.display = a.length ? "" : "none"; $("hookname").style.display = (!a.length || p.value === "add") ? "" : "none";
+  $("hookforget").style.display = (a.length && p.value !== "add") ? "" : "none"; if (a.length) { $("hookkeep").checked = true; $("hookkeepnote").style.display = ""; }
+}
+const setHook = (v) => { hookNow = v; try { if (v && $("hookkeep").checked) { lsSet("fcd_hook", v); hookUpsert(v); } else localStorage.removeItem("fcd_hook"); } catch (e) {} };
 $("hookbox").onchange = () => { const v = $("hookbox").value.trim(); if (v && !HOOK_RE.test(v)) { $("hookchk").textContent = "That doesn't look like a Discord webhook link. Copy it again."; return; } setHook(v); $("hookchk").textContent = v ? "Ready." : "Removed."; renderSaved(); if (pv) pvDraw(); };
 if (lsGet("fcd_pingmode") !== "role") { try { localStorage.removeItem("fcd_pingmode"); } catch (e) {} } $("dcping").value = lsGet("fcd_pingmode") === "role" ? "role" : ""; $("dcrole").value = lsGet("fcd_pingrole") || "";
 const dcPingShow = () => { const on = $("dcping").value === "role"; $("dcrole").style.display = on ? "" : "none"; $("dcrolehelp").style.display = on ? "" : "none"; $("dcrolelbl").style.display = on ? "" : "none"; };
@@ -1309,8 +1321,9 @@ $("dcping").onchange = () => { dcPingShow(); const v = $("dcping").value; if (v 
 $("dcrole").onchange = () => { const id = (($("dcrole").value.match(/\d{15,25}/) || [])[0]) || ""; $("dcrole").value = id; if (id) lsSet("fcd_pingrole", id); else try { localStorage.removeItem("fcd_pingrole"); } catch (e) {} };
 $("hookxlsx").checked = lsGet("fcd_hookxlsx") === "1";
 $("hookxlsx").onchange = () => { lsSet("fcd_hookxlsx", $("hookxlsx").checked ? "1" : "0"); renderSaved(); };
-$("hookkeep").onchange = () => { setHook(HOOK_RE.test(hookGet()) ? hookGet() : ""); renderSaved(); };
-$("hookforget").onclick = () => { $("hookkeep").checked = false; setHook(""); $("hookbox").value = ""; $("hookchk").textContent = "Paste the new channel link."; $("hookbox").focus(); renderSaved(); if (pv) pvDraw(); };
+$("hookkeep").onchange = () => { if (!$("hookkeep").checked) { try { localStorage.removeItem("fcd_hooks"); } catch (e) {} } setHook(HOOK_RE.test(hookGet()) ? hookGet() : ""); hookDraw(); renderSaved(); };
+$("hookpick").onchange = () => { const v = $("hookpick").value, a = hooksGet(); if (v === "add") { hookAdd = true; hookNow = ""; try { localStorage.removeItem("fcd_hook"); } catch (e) {} $("hookbox").value = ""; hookDraw(); $("hookname").focus(); } else { hookAdd = false; setHook(a[+v].u); $("hookbox").value = a[+v].u; hookDraw(); } $("hookchk").textContent = ""; renderSaved(); dcGate(); if (pv) pvDraw(); };
+$("hookforget").onclick = () => { const u = hookGet(); hooksSave(hooksGet().filter((h) => h.u !== u)); setHook(""); $("hookbox").value = ""; $("hookchk").textContent = "Removed."; const a = hooksGet(); if (a.length) { setHook(a[0].u); $("hookbox").value = a[0].u; } hookDraw(); renderSaved(); dcGate(); if (pv) pvDraw(); };
 let postBusy = false;
 let shareMode = false, shareSaid = "";
 async function shareFiles(files) {
@@ -1522,6 +1535,7 @@ document.querySelectorAll("input[name=dcsrc]").forEach((r) => { r.onchange = dcS
 function goDiscord(src) { const r = document.querySelector("input[name=dcsrc][value=" + src + "]"); if (r) { r.checked = true; r.dispatchEvent(new Event("change", { bubbles: true })); } showTab("discord"); window.scrollTo(0, 0); }
 const dcGate = () => { const ok = HOOK_RE.test($("hookbox").value.trim()) || HOOK_RE.test(hookGet()); $("dcgo").setAttribute("aria-disabled", ok ? "false" : "true"); $("dchint").textContent = ok ? "" : "Paste your channel link first."; };
 ["input", "change"].forEach((e) => $("hookbox").addEventListener(e, dcGate)); $("hookforget").addEventListener("click", dcGate); $("hookkeep").addEventListener("change", dcGate); dcGate();
+{ const o = lsGet("fcd_hook"); if (o && HOOK_RE.test(o) && !hooksGet().length) { $("hookkeep").checked = true; hookUpsert(o); } if (!hookGet() && hooksGet().length) { $("hookkeep").checked = true; setHook(hooksGet()[0].u); $("hookbox").value = hookGet(); } hookDraw(); dcGate(); }
 $("dcgo").onclick = () => {
   if ($("dcgo").getAttribute("aria-disabled") === "true") { $("hookmsg").textContent = "Paste your channel link first."; return; }
   const v = document.querySelector("input[name=dcsrc]:checked").value, say = (t) => { $("hookmsg").textContent = t; };
