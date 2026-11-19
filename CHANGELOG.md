@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.129] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.128...v1.1.129)
+
+### Changed
+
+- **Plainer clan and Bills tabs** · Clan and Bills steps are plain numbered sections with less text.
+
 ## [1.1.128] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.127...v1.1.128)
 
 ### Changed

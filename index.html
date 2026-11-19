@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: The Discord tab is one card with 3 steps and Extras tucked away. -->
+<!-- Patch note: Clan and Bills steps are plain numbered sections with less text. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -87,13 +87,11 @@
 <details id="adddet" open class="s30"><summary><span class="stepn">2</span>Add screenshots</summary>
 <label for="clanbox">Clan name (optional)</label>
 <input id="clanbox" maxlength="40" autocomplete="off" placeholder="e.g. Loki. Used in the file name">
-<label for="gamebox">Name after the clan (optional)</label>
-<input id="gamebox" maxlength="40" autocomplete="off" placeholder="e.g. Gym League. Blank = the game's name">
 <label>Screenshots</label>
 <div class="drop" id="drop">Drop screenshots or a video here, or tap to choose</div>
-<div class="s8">Using a video? Slowly scroll down the whole list. A 50-member clan takes about 10 seconds.</div>
-<div class="s8">Video types:</div>
-<ul class="s8 tips"><li>MP4 or MOV (works everywhere, including iPhone)</li><li>WebM or MKV (OBS; not on iPhone)</li></ul>
+<div class="s8">Using a video? Slowly scroll down the whole list. A 50-member clan takes about 10 seconds. MP4 or MOV works everywhere. WebM or MKV does not work on iPhone.</div>
+<details class="xtra"><summary>Extras (optional)</summary><label for="gamebox">Name after the clan</label>
+<input id="gamebox" maxlength="40" autocomplete="off" placeholder="e.g. Gym League. Blank = the game's name"></details>
 <input id="files" type="file" accept="image/png,image/jpeg,image/webp,video/mp4,video/quicktime,video/webm,video/x-matroska,.mkv" multiple hidden>
 <div id="list"></div>
 </details>
@@ -102,7 +100,7 @@
 <label>Last sheet (optional)</label>
 <div class="drop" id="prevdrop">Drop an earlier sheet (.xlsx) here, or tap to choose</div>
 <input id="prevfile" type="file" accept=".xlsx" hidden>
-<ul class="tips tipbox"><li>Add the last sheet you downloaded for this clan.</li><li>Not an older one.</li><li>Not another clan's.</li></ul>
+<div class="s8">Use the newest sheet for this clan, not an older one or another clan's. It shows who gained points.</div>
 <div id="previnfo"></div>
 <button id="testgo" type="button" class="s32 tab" disabled>Test first (small read, no file)</button>
 </details>
