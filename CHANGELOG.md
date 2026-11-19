@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.132] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.131...v1.1.132)
+
+### Added
+
+- **Connect Google on Discord tab** · You can connect Google right above Post, not only in Settings.
+
 ## [1.1.131] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.130...v1.1.131)
 
 ### Changed
