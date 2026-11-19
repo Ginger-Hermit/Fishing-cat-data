@@ -291,3 +291,4 @@ body details#keydet,body details#adddet,body details#addbill,body details#moreop
 #settingstab .hc>summary small{flex-basis:100%;font-weight:400;font-size:14px;color:var(--muted);padding-left:18px;margin-top:2px}
 #settingstab .hc>summary+*{margin-top:12px!important}
 #hometab .hsec{background:none;border:0;border-radius:0;margin:0;padding:12px 0;border-bottom:1px solid color-mix(in srgb,var(--text) 25%,transparent)}#hometab .dir{gap:0;margin:8px 0}#hometab .dcard{background:none;border:0;border-bottom:1px solid color-mix(in srgb,var(--text) 20%,transparent);border-radius:0;padding:9px 2px}#hometab .dcard b{font-size:16px}#hometab .dcard span{font-size:13px}
+#hometab .dcard{position:relative;padding-right:24px}#hometab .dcard:after{content:"\203A";position:absolute;right:4px;top:50%;transform:translateY(-50%);font-size:24px;color:var(--link)}
