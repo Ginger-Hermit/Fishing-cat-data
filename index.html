@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Players who left or were kicked no longer appear in the history tabs -->
+<!-- Patch note: Settings has a Developer card to sign in to Google (first step of the Google Sheet link) -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -178,6 +178,7 @@
 <ul class="facts">
 <li>Only use the real link: <b>fishing-cat-data.pages.dev</b></li>
 <li>The AI can misread. Check the sheet before you act on it.</li>
+<li>Connect Google (Settings, Developer) opens Google's own sign-in. This page only talks to google.com addresses for that, and never keeps your sign-in.</li>
 </ul>
 <p class="s8">See or delete what is saved: <a href="#" data-go="privacy">Privacy</a>. Code: <a href="https://github.com/Ginger-Hermit/Fishing-cat-data" target="_blank" rel="noopener">GitHub</a>. The Discord guide link opens Discord's own help page; nothing is sent to it.</p>
 <details class="hsec"><summary>Your AI key</summary>
@@ -263,6 +264,14 @@
 <div class="s77" data-d="flex"><button id="wipekey" type="button" class="tab">Forget my key</button><button id="wipeall" type="button" class="s78 tab">Delete everything</button></div>
 <div id="wipemsg" role="status" class="s65"></div>
 <div class="s73">Only clears this device. <a href="#" data-go="privacy">Privacy page</a></div></div>
+<details class="hc" id="gdev"><summary>Developer: Google sheet</summary>
+<div class="s73">Not ready yet: this only signs you in. Making the sheet comes next.</div>
+<div class="s70">Google client ID</div>
+<input id="gclient" autocomplete="off" spellcheck="false" aria-label="Google client ID" placeholder="1234-abc.apps.googleusercontent.com">
+<div class="s77" data-d="flex"><button id="gconnect" type="button" class="tab">Connect Google</button><button id="gout" type="button" class="tab" data-d="none">Disconnect</button></div>
+<div id="gmsg" role="status" class="s65">Not connected.</div>
+<div class="s73">Opens Google's own sign-in. Only files this page makes are reachable. Sign-in lasts about an hour and is never saved.</div>
+</details>
 <details class="hc"><summary>AI model (advanced)</summary>
 <input id="modelbox" autocomplete="off" spellcheck="false">
 <div class="s79">Leave empty to use the built-in one. Only change it if an error says the model is gone. It is kept for the company chosen on the first tab.</div>

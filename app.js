@@ -1,4 +1,4 @@
-// Patch note: Players who left or were kicked no longer appear in the history tabs
+// Patch note: Settings has a Developer card to sign in to Google (first step of the Google Sheet link)
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -101,7 +101,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.114";
+const BUILD = "1.1.115";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -301,7 +301,7 @@ function renderSaved() {
   if (clan.length) lines.push("Clan: " + clan.join(", "));
   const dc = []; if (has("fcd_hook")) dc.push("link"); if (has("fcd_art")) dc.push("header picture");
   if (dc.length) lines.push("Discord: " + dc.join(" and "));
-  const other = []; if (has("fcd_sheetlink")) other.push("Sheet link"); if (keys.some(k => k.startsWith("fcd_model_"))) other.push("AI model name");
+  const other = []; if (has("fcd_sheetlink")) other.push("Sheet link"); if (has("fcd_gclient")) other.push("Google client ID"); if (keys.some(k => k.startsWith("fcd_model_"))) other.push("AI model name");
   if (keys.some(k => ["fcd_theme", "fcd_size", "fcd_read", "fcd_btn", "fcd_nosave", "fcd_expire", "fcd_reset", "fcd_autoref", "fcd_provider", "fcd_hookxlsx", "fcd_pingmode", "fcd_pingrole", "fcd_showlog"].includes(k))) other.push("look and settings");
   if (other.length) lines.push(other.join(", ").replace(/^./, c => c.toUpperCase()));
   const box = $("saved"); box.replaceChildren();
@@ -2024,3 +2024,43 @@ document.querySelectorAll(".xlgal button").forEach(b => { b.onclick = () => { co
 
 function dcPv() { const c = lsGet("fcd_dccol") || "", e = $("dcpvsame"); if (e) e.className = /^3[3-6]$/.test(c) ? "c" + c : "c0"; }
 (function () { const c = lsGet("fcd_dccol") || ""; document.querySelectorAll('input[name="dccol"]').forEach((r) => { r.checked = r.value === c; r.onchange = () => { lsSet("fcd_dccol", r.value); dcPv(); }; }); dcPv(); })();
+
+// ---- Google sign-in (batch 1): popup to Google, token kept in memory only, never saved or logged ----
+(function () {
+  const G_AUTH = "https://accounts.google.com/o/oauth2/v2/auth", G_SCOPE = "https://www.googleapis.com/auth/drive.file email";
+  if (window.opener && /access_token=|error=/.test(location.hash)) { // we are the popup: hand the answer to the page that opened us
+    try { window.opener.postMessage({ fcdGoogle: location.hash.slice(1) }, location.origin); } catch (e) {}
+    history.replaceState(null, "", location.pathname); window.close(); return;
+  }
+  const cb = $("gclient"), say = (t) => { $("gmsg").textContent = t; };
+  let tok = "", state = "", popup = null;
+  const show = (email) => { $("gout").dataset.d = tok ? "inline-flex" : "none"; $("gconnect").textContent = tok ? "Reconnect" : "Connect Google"; say(tok ? "Connected" + (email ? " as " + email : "") + "." : "Not connected."); };
+  cb.value = lsGet("fcd_gclient") || "";
+  cb.onchange = () => { const v = cb.value.trim(); if (v) lsSet("fcd_gclient", v); else { try { localStorage.removeItem("fcd_gclient"); } catch (e) {} } renderSaved(); };
+  $("gconnect").onclick = () => {
+    const id = cb.value.trim();
+    if (!/^[\w.-]+\.apps\.googleusercontent\.com$/.test(id)) { say("Paste your Google client ID first."); return; }
+    lsSet("fcd_gclient", id); renderSaved();
+    const a = new Uint8Array(16); crypto.getRandomValues(a); state = Array.from(a, (x) => x.toString(16).padStart(2, "0")).join("");
+    const u = G_AUTH + "?" + new URLSearchParams({ client_id: id, redirect_uri: location.origin + "/", response_type: "token", scope: G_SCOPE, state, prompt: "select_account", include_granted_scopes: "true" });
+    popup = window.open(u, "fcdgoogle", "width=480,height=640");
+    say(popup ? "Finish in the Google window." : "The Google window was blocked. Allow pop-ups for this page and tap again.");
+  };
+  window.addEventListener("message", async (ev) => {
+    if (ev.origin !== location.origin || !ev.data || typeof ev.data.fcdGoogle !== "string") return;
+    const p = new URLSearchParams(ev.data.fcdGoogle);
+    if (!state || p.get("state") !== state) { say("Sign-in was not accepted. Try again."); return; }
+    state = "";
+    if (p.get("error") || !p.get("access_token")) { say(p.get("error") === "access_denied" ? "You said no in the Google window." : "Google would not sign in. Check the client ID and the web address you set up."); return; }
+    tok = p.get("access_token"); show("");
+    try { // show which account is connected (this page only; not logged)
+      const r = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", { headers: { Authorization: "Bearer " + tok }, signal: AbortSignal.timeout(15000) });
+      const j = r.ok ? await r.json() : null; show(j && j.email ? j.email : "");
+    } catch (e) { show(""); }
+  });
+  $("gout").onclick = async () => {
+    const t = tok; tok = ""; show("");
+    try { await fetch("https://oauth2.googleapis.com/revoke?token=" + encodeURIComponent(t), { method: "POST", signal: AbortSignal.timeout(15000) }); } catch (e) {}
+  };
+  window.fcdGoogleToken = () => tok; // batch 2 uses this
+})();
