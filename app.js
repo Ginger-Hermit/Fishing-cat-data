@@ -1,4 +1,4 @@
-// Patch note: Look, Updates, Clan sheet and Privacy in Settings now open and close like the rest.
+// Patch note: Connect Google now works for everyone: tap, pick your account, Allow.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -101,7 +101,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.116";
+const BUILD = "1.1.117";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -2032,15 +2032,11 @@ function dcPv() { const c = lsGet("fcd_dccol") || "", e = $("dcpvsame"); if (e) 
     try { window.opener.postMessage({ fcdGoogle: location.hash.slice(1) }, location.origin); } catch (e) {}
     history.replaceState(null, "", location.pathname); window.close(); return;
   }
-  const cb = $("gclient"), say = (t) => { $("gmsg").textContent = t; };
+  const G_CLIENT = "915536157827-4rts8p1ghdn990tfj4rns2biilrfga73.apps.googleusercontent.com", say = (t) => { $("gmsg").textContent = t; };
   let tok = "", state = "", popup = null;
   const show = (email) => { $("gout").dataset.d = tok ? "inline-flex" : "none"; $("gconnect").textContent = tok ? "Reconnect" : "Connect Google"; say(tok ? "Connected" + (email ? " as " + email : "") + "." : "Not connected."); };
-  cb.value = lsGet("fcd_gclient") || "";
-  cb.onchange = () => { const v = cb.value.trim(); if (v) lsSet("fcd_gclient", v); else { try { localStorage.removeItem("fcd_gclient"); } catch (e) {} } renderSaved(); };
   $("gconnect").onclick = () => {
-    const id = cb.value.trim();
-    if (!/^[\w.-]+\.apps\.googleusercontent\.com$/.test(id)) { say("Paste your Google client ID first."); return; }
-    lsSet("fcd_gclient", id); renderSaved();
+    const id = G_CLIENT;
     const a = new Uint8Array(16); crypto.getRandomValues(a); state = Array.from(a, (x) => x.toString(16).padStart(2, "0")).join("");
     const u = G_AUTH + "?" + new URLSearchParams({ client_id: id, redirect_uri: location.origin + "/", response_type: "token", scope: G_SCOPE, state, prompt: "select_account", include_granted_scopes: "true" });
     popup = window.open(u, "fcdgoogle", "width=480,height=640");
