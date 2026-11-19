@@ -244,3 +244,6 @@ button.zoomx{width:auto;left:auto;margin:0;box-shadow:0 2px 8px rgba(0,0,0,.4)}
 #privacytab .facts li:before{left:12px;top:10px}
 #privacytab .facts li.warn{--t:#D98A00}
 #hometab .hsec:nth-of-type(2){--t:#7A4FD0}
+#hometab .hsec:nth-of-type(4){--t:#2A8C9A}
+#hometab .hsec:nth-of-type(5){--t:#D98A00}
+#hometab .hsec .hsafe{background:none;padding-top:0;padding-bottom:0}
