@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.154] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.153...v1.1.154)
+
+### Fixed
+
+- **Google sheet link reaches Discord; easier reconnect** · The auto-made Google Sheet link now shows in the clan Discord post, and Reconnect remembers your Google account so it is one tap.
+
 ## [1.1.153] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.152...v1.1.153)
 
 ### Changed
