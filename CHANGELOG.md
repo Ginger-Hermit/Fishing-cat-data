@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.170] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.169...v1.1.170)
+
+### Added
+
+- **Clan position box** · Type your clan's position (like 12) on the Clan sheet tab; it goes in the sheet and Discord post
+
 ## [1.1.169] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.168...v1.1.169)
 
 ### Changed
