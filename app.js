@@ -1,4 +1,4 @@
-// Patch note: Google box now explains the unverified warning.
+// Patch note: Google box always has a Sign out button.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -101,7 +101,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.120";
+const BUILD = "1.1.121";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -2034,7 +2034,7 @@ function dcPv() { const c = lsGet("fcd_dccol") || "", e = $("dcpvsame"); if (e) 
   }
   const G_CLIENT = "915536157827-4rts8p1ghdn990tfj4rns2biilrfga73.apps.googleusercontent.com", say = (t) => { $("gmsg").textContent = t; };
   let tok = "", state = "", popup = null;
-  const show = (email) => { $("gout").dataset.d = tok ? "inline-flex" : "none"; $("gconnect").textContent = tok ? "Reconnect" : "Connect Google"; say(tok ? "Connected" + (email ? " as " + email : "") + "." : "Not connected."); };
+  const show = (email) => { $("gconnect").textContent = tok ? "Reconnect" : "Connect Google"; say(tok ? "Connected" + (email ? " as " + email : "") + "." : "Not connected."); };
   $("gconnect").onclick = () => {
     const id = G_CLIENT;
     const a = new Uint8Array(16); crypto.getRandomValues(a); state = Array.from(a, (x) => x.toString(16).padStart(2, "0")).join("");
