@@ -11,7 +11,7 @@ Web page: reads Roblox clan screenshots or video (any Roblox game) with an AI an
 1. `git pull` first. Find the exact spot with grep (table below), read only those lines. Small find-and-replace edits that each match once, all in one script. Backup outside the repo.
 2. Run `python3 tools/release.py --title ... --tag New|Changed|Fixed|Removed --meaning ... --see ... --change ...` once. It does the version, CHANGELOG, patch note, STATUS and `tests/check.py`. Never by hand.
    The tag and GitHub Release are made automatically (`.github/workflows/release.yml`). CHANGELOG.md uses Keep a Changelog: `--tag New|Changed|Fixed|Removed`, title and meaning become one short line.
-2b. Before every push of `app.js` changes: run `tools/attack.py` (needs `pip install playwright`, `PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers`). All must pass; fix first if not. Ginger's rule, 19 Nov.
+2b. BEFORE the commit/push of `app.js` changes: `pip install -q playwright; PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers python3 tools/attack.py`. All must pass. Never chain commit/push after it with `;`.
 3. Touched `parseRows`, `parsePoints`, `parseBills`, `parseNum` or `kwhFor`? Also run `node tests/rows.test.js && node tests/bills.test.js && node tests/fuzz.js 7 5000`.
 4. Commit, push to `main` without asking (Ginger said so, 13 Nov). GitHub runs every test in three browsers; a red cross comes first. Changes outside `index.html` and `app.js` need no release.
 5. One bug per patch unless the same cause. Say what you couldn't test.
@@ -19,17 +19,12 @@ Web page: reads Roblox clan screenshots or video (any Roblox game) with an AI an
 6. Edit `STATUS.md` Next / Not tested only when they really change. Keep it under 50 lines.
 
 ## Saving tokens
-- One script, one check, one push per request. No re-reading, re-testing or recapping.
-- Never print whole files or long logs. Grep and cut to width.
-- Use existing tools: `release.py`, `tests/*`. No new harness. Web search only if the answer isn't here.
-- Mockup: a few lines or one small inline picture. Full canvas only for a whole new screen.
-- Small wording or colour changes don't need the strongest model. Say so.
-- Long chat? Tell Ginger to start a new one. Nothing is lost.
-- GitHub runs are free; only chat costs tokens. Add free GitHub checks without asking.
-- Do not sleep and wait for GitHub tests after a push: say they are running; Ginger sees a red cross. Check only if Ginger asks.
-- Layout fixes: render once (LibreOffice to one small PNG), look at only the changed tab. No second render unless it looks wrong.
-- Do not read screenshots twice, and do not re-check files already shown in the chat.
-- Bugs: ask for the Copy bug report text first (the Log has timings, sizes, AI token counts, errors). Don't guess.
+- One script, one check, one push per request. No re-reading, re-testing or recapping. Never print whole files or long logs; grep and cut to width.
+- Use existing tools only (`release.py`, `tests/*`). No new harness, no web search unless the answer isn't here.
+- Mockup: a few lines or one small picture. Small wording or colour jobs: say a cheaper model will do. Long chat: tell Ginger to start a new one.
+- GitHub runs are free; add free checks without asking. After a push say tests are running; don't wait or poll.
+- Layout fixes: render once to one small PNG of the changed tab only.
+- Bugs: ask for the Copy bug report text first. Don't guess.
 
 ## Safety (keep)
 - No `eval` / `exec`. No unknown websites: a new one needs `_headers` (CSP `connect-src`) and a line in Stay safe.
