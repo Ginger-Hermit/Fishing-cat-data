@@ -1,4 +1,4 @@
-// Patch note: Connect Google now works for everyone: tap, pick your account, Allow.
+// Patch note: Sign-in error no longer mentions the client ID.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -101,7 +101,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.117";
+const BUILD = "1.1.118";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -2047,7 +2047,7 @@ function dcPv() { const c = lsGet("fcd_dccol") || "", e = $("dcpvsame"); if (e) 
     const p = new URLSearchParams(ev.data.fcdGoogle);
     if (!state || p.get("state") !== state) { say("Sign-in was not accepted. Try again."); return; }
     state = "";
-    if (p.get("error") || !p.get("access_token")) { say(p.get("error") === "access_denied" ? "You said no in the Google window." : "Google would not sign in. Check the client ID and the web address you set up."); return; }
+    if (p.get("error") || !p.get("access_token")) { say(p.get("error") === "access_denied" ? "You said no in the Google window." : "Google would not sign in. Try again."); return; }
     tok = p.get("access_token"); show("");
     try { // show which account is connected (this page only; not logged)
       const r = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", { headers: { Authorization: "Bearer " + tok }, signal: AbortSignal.timeout(15000) });

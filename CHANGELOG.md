@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.118] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.117...v1.1.118)
+
+### Changed
+
+- **Clearer Google sign-in error** · Sign-in error no longer mentions the client ID.
+
 ## [1.1.117] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.116...v1.1.117)
 
 ### Changed
