@@ -232,3 +232,10 @@ button.zoomx{width:auto;left:auto;margin:0;box-shadow:0 2px 8px rgba(0,0,0,.4)}
 .askrow{display:flex;gap:10px;margin-top:18px}
 .askrow button{margin:0;flex:1;padding:13px 8px;font-size:16px}
 .askrow .askno{background:var(--soft);color:var(--text)}
+/* Stay safe boxes: soft tint + stripe, dark text */
+.hsec{--t:#2F5FB5;border-radius:10px;padding:4px 10px;margin:8px 0;background:color-mix(in srgb,var(--t) 12%,transparent);border-left:6px solid var(--t)}
+.hsec>summary{color:var(--text);font-weight:600;border-left:0;padding-left:2px}
+.hsec li b{color:var(--text)}
+.hsec:nth-of-type(2),.hsec:nth-of-type(5){--t:#D13B3B}
+.hsec:nth-of-type(3){--t:#2E8B57}
+.hsec:nth-of-type(4){--t:#7A4FD0}
