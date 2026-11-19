@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Stay safe is one box with fuller wording, like Privacy. -->
+<!-- Patch note: The Discord tab is one card with 3 steps and Extras tucked away. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -117,11 +117,12 @@
 </details>
 </div>
 <div id="discordtab" data-d="none">
-<div class="s37">1. Paste your Discord link</div>
+<div class="hc" id="dcard">
+<div class="s37"><span class="stn">1</span>Paste your Discord link</div>
 <input id="hookbox" type="password" autocomplete="off" spellcheck="false" placeholder="https://discord.com/api/webhooks/..." class="s38"><div id="hookchk" role="status" aria-live="polite" class="s39"></div>
 <div class="s40" data-d="flex"><label class="s41" data-d="flex"><input type="checkbox" id="hookkeep" class="s42"> Save my link on this device</label><button id="hookforget" type="button" class="tab big" data-d="none">Forget link</button><button id="hooktest" type="button" class="tab big" data-d="none">Send a test</button></div>
-<div id="hookkeepnote" class="s8" data-d="none">Untick to delete the saved copy.</div><div class="dcsteps"><b>No link? In Discord:</b><ol><li>Server settings</li><li>Integrations</li><li>Create webhook</li><li>Copy webhook URL</li></ol><a href="https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks" target="_blank" rel="noopener">Discord's guide →</a></div><div class="dcwarn">🔒 Keep it private: anyone with it can post in your channel.</div>
-<div class="s37">2. What do you want to post?</div>
+<div id="hookkeepnote" class="s8" data-d="none">Untick to delete the saved copy.</div><details class="dcsteps"><summary>No link? Show me how</summary><b>In Discord:</b><ol><li>Server settings</li><li>Integrations</li><li>Create webhook</li><li>Copy webhook URL</li></ol><a href="https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks" target="_blank" rel="noopener">Discord's guide →</a></details><div class="dcwarn">🔒 Keep it private: anyone with it can post in your channel.</div>
+<div class="s37"><span class="stn">2</span>What do you want to post?</div>
 <label class="s44" data-d="flex"><input type="radio" name="dcsrc" value="sheet" class="s45"> Latest clan sheet</label>
 <label class="s44" data-d="flex"><input type="radio" name="dcsrc" value="bill" class="s45"> Latest Bills</label>
 <label class="s44" data-d="flex"><input type="radio" name="dcsrc" value="files" class="s45"> My own files (no AI)</label>
@@ -131,6 +132,7 @@
 <div id="shsel" class="s48"></div>
 </div>
 <div id="dcmore">
+<details class="dcx"><summary>Extras (optional)<small>Header picture, ping, sheet link</small></summary>
 <div class="s37">Header picture (optional)</div>
 <input type="file" id="artfile" accept="image/*" data-d="none">
 <div class="s54" data-d="flex"><label for="artfile" class="s47 tab big" data-d="inline-flex">Choose picture</label><button id="artforget" type="button" class="tab big" data-d="none">Remove</button><img id="artthumb" alt="Your saved header picture" class="s55" data-d="none"></div><div id="artmsg" role="status" class="s48"></div><div class="s48">How your posts look:</div><img id="artsample" alt="Example of a Discord post picture" class="artsample"><label class="s56" data-d="flex"><input type="checkbox" id="hookxlsx" class="s42"> Also attach the Excel file</label>
@@ -145,10 +147,12 @@
 <input id="sheetlink" type="url" autocomplete="off" spellcheck="false" placeholder="https://docs.google.com/spreadsheets/..." class="s38"><div id="sheetlinkchk" class="s49">Google Sheets or OneDrive only. Anyone in the channel can open it.</div>
 <label class="s56" data-d="flex"><input type="checkbox" id="sheetlinkkeep" class="s42"> Remember this link</label>
 <label class="s56" data-d="flex"><input type="checkbox" id="sitelink" class="s42"> Add a link to this website</label>
+</details>
 <details id="dcprev" open><summary class="s31">What the post looks like</summary><div id="dcprevbox" class="dcprev"></div></details>
 <button id="dcgo" type="button" class="s50">Post to Discord</button>
 <div id="hookmsg" role="status" aria-live="polite" class="s51"></div>
 <button id="shpost" type="button" hidden></button>
+</div>
 </div>
 </div>
 <div id="billtab" data-d="none">

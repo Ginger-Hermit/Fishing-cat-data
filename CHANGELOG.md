@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.128] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.127...v1.1.128)
+
+### Changed
+
+- **Simpler Discord tab** · The Discord tab is one card with 3 steps and Extras tucked away.
+
 ## [1.1.127] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.126...v1.1.127)
 
 ### Changed
