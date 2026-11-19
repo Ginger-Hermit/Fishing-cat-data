@@ -1,4 +1,4 @@
-// Patch note: Removed the duplicate Connect Google from Settings; it stays in Discord Extras.
+// Patch note: Replaced Ocean, Forest and Berry with four themes that never change the text colour; theme picker is now a plain list.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -66,7 +66,8 @@ document.querySelectorAll("[data-go]").forEach(a => { a.onclick = (e) => { e.pre
 showTab("home");
 
 // Settings: theme and text size, remembered on this device only (never the key).
-const THEMES = [["auto", "Auto"], ["light", "Light"], ["dark", "Dark"], ["ocean", "Ocean"], ["forest", "Forest"], ["berry", "Berry"]];
+const THEMES = [["auto", "Auto"], ["light", "Light"], ["dark", "Dark"], ["paper", "Paper"], ["sage", "Sage"], ["slate", "Slate"], ["midnight", "Midnight"]];
+const TINT_MODE = { paper: "light", sage: "light", slate: "dark", midnight: "dark" };;
 const SIZES = [["normal", "Normal"], ["large", "Large"]];
 const READS = [["normal", "Normal"], ["easy", "Easier"]];
 const BTNS = [["theme", "Auto"], ["blue", "Blue"], ["green", "Green"], ["purple", "Purple"], ["red", "Red"], ["orange", "Orange"]];
@@ -80,12 +81,13 @@ let read = loadSetting("fcd_read", READS, "normal");
 let btn = loadSetting("fcd_btn", BTNS, "theme");
 function applyLook() {
   const dark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-  document.documentElement.dataset.theme = theme === "auto" ? (dark ? "dark" : "light") : theme;
+  document.documentElement.dataset.theme = theme === "auto" ? (dark ? "dark" : "light") : (TINT_MODE[theme] || theme);
+  if (TINT_MODE[theme]) document.documentElement.dataset.tint = theme; else delete document.documentElement.dataset.tint;
   document.documentElement.dataset.size = size;
   document.documentElement.dataset.read = read; document.getElementById("easyread").checked = read === "easy";
   document.documentElement.dataset.btn = btn;
   for (const [box, list, cur] of [["themeBtns", THEMES, theme], ["sizeBtns", SIZES, size], ["btnBtns", BTNS, btn]]) {
-    document.getElementById(box).innerHTML = list.map(x => `<button class="tab${x[0] === cur ? " on" : ""}" data-v="${x[0]}">${x[1]}</button>`).join("");
+    document.getElementById(box).innerHTML = list.map(x => `<button class="tab${x[0] === cur ? " on" : ""}" data-v="${x[0]}">${x[1]}${box === "themeBtns" ? `<span class="tk"><b>${x[0] === cur ? "\u2713" : ""}</b><i class="sw sw-${x[0]}">Aa</i></span>` : ""}</button>`).join("");
   }
 }
 document.getElementById("themeBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { theme = v; lsSet("fcd_theme", v); applyLook(); } };
@@ -101,7 +103,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.140";
+const BUILD = "1.1.141";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };

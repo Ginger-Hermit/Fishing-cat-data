@@ -4,7 +4,7 @@ const path = require("path");
 const pw = require("playwright");
 const AXE = require.resolve("axe-core/axe.min.js");
 const URL = "file://" + path.resolve(__dirname, "..", "index.html");
-const THEMES = ["light", "dark", "ocean", "forest", "berry"];
+const THEMES = ["light", "dark", "paper", "sage", "slate", "midnight"];
 (async () => {
   const browser = await pw.chromium.launch(), seen = new Map();
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
