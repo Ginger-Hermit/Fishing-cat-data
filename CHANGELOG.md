@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.138] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.137...v1.1.138)
+
+### Changed
+
+- **Simpler Home page** · Home is three plain steps, an example you can open, and one Links to all pages tab.
+
 ## [1.1.137] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.136...v1.1.137)
 
 ### Changed
