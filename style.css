@@ -98,7 +98,7 @@ button:disabled{opacity:.85}
 :is(.s28,#_#_#_){font-size:.85em;opacity:.75}
 :is(.s29,#_#_#_){margin-top:10px;font-size:13px}
 :is(.s30,#_#_#_){margin-top:10px}
-:is(.s31,#_#_#_){cursor:pointer;font-size:14px}
+:is(.s31,#_#_#_){cursor:pointer;font-size:17px}
 :is(.s32,#_#_#_){margin-top:8px;width:100%}
 :is(.s33,#_#_#_){margin-top:8px;width:100%;padding:12px;font-size:16px;border-color:var(--err);color:var(--err)}
 :is(.s34,#_#_#_){background:#0d0d0d;color:#e5e7eb;border:1px solid #444;border-radius:6px;padding:10px;font-size:13px;font-family:Consolas,Menlo,monospace;line-height:1.5;white-space:pre-wrap;word-break:break-word;min-height:60px;max-height:360px;overflow:auto;resize:vertical;margin:6px 0 0}
