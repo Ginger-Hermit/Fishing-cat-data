@@ -101,7 +101,7 @@ button:disabled{opacity:.85}
 :is(.s31,#_#_#_){cursor:pointer;font-size:17px}
 :is(.s32,#_#_#_){margin-top:8px;width:100%}
 :is(.s33,#_#_#_){margin-top:8px;width:100%;padding:12px;font-size:16px;border-color:var(--err);color:var(--err)}
-:is(.s34,#_#_#_){background:#0d0d0d;color:#e5e7eb;border:1px solid #444;border-radius:6px;padding:10px;font-size:13px;font-family:Consolas,Menlo,monospace;line-height:1.5;white-space:pre-wrap;word-break:break-word;min-height:60px;max-height:360px;overflow:auto;resize:vertical;margin:6px 0 0}
+:is(.s34,#_#_#_){background:#0d0d0d;color:#e5e7eb;border:1px solid #444;border-radius:6px;padding:10px;font-size:15px;font-family:Consolas,Menlo,monospace;line-height:1.5;white-space:pre-wrap;word-break:break-word;min-height:60px;max-height:360px;overflow:auto;resize:vertical;margin:6px 0 0}
 :is(.s35,#_#_#_){margin-top:10px;gap:10px;flex-wrap:wrap;align-items:center}
 :is(.s36,#_#_#_){font-size:13px;color:var(--muted);margin-top:12px}
 :is(.s37,#_#_#_){font-weight:600;font-size:17px;margin:20px 0 8px}
@@ -186,7 +186,7 @@ html:not([data-theme=dark])[data-btn=orange]{--accent:#A84A00;--link:#A84A00}htm
 .artsample{display:block;width:100%;height:auto;margin-top:6px;border-radius:8px}
 .tabs.main .tab:not(.on){border-color:var(--soft)}
 details#keydet>summary,details#adddet>summary,details#addbill>summary,details#hookblock>summary{border-top:0;border-right:0;border-bottom:0;border-left-width:3px;border-radius:0;background:none}
-details#moreopts>summary,details#logbox>summary{border:0!important;background:none;padding:6px 2px;font-size:14px!important;font-weight:400;color:var(--muted,#667)}
+details#moreopts>summary,details#logbox>summary{border:0!important;background:none;padding:6px 2px;font-size:17px!important;font-weight:400;color:var(--muted,#667)}
 details#keydet>summary,details#adddet>summary,details#addbill>summary,details#hookblock>summary{background:var(--field);border-radius:0 8px 8px 0;font-size:17px!important;margin-top:18px}
 details#moreopts>summary{background:var(--field);border-left:3px solid var(--c-sheet)!important;border-radius:0 8px 8px 0;font-size:17px!important;font-weight:600;color:inherit;padding:12px 14px;margin-top:18px}
 #msg{overflow-wrap:anywhere}
