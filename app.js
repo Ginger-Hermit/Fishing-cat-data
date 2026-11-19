@@ -1,4 +1,4 @@
-// Patch note: Discord steps say private channels work too
+// Patch note: Rename a saved channel; long link and Remember row hidden once a channel is saved
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -103,7 +103,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.145";
+const BUILD = "1.1.146";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1309,9 +1309,12 @@ function hookDraw() {
   a.forEach((h, i) => { const o = document.createElement("option"); o.value = String(i); o.textContent = h.n; p.appendChild(o); });
   const o = document.createElement("option"); o.value = "add"; o.textContent = "+ Add channel"; p.appendChild(o);
   const idx = a.findIndex((h) => h.u === cur); p.value = (hookAdd || idx < 0) ? "add" : String(idx);
-  p.style.display = a.length ? "" : "none"; $("hookname").style.display = (!a.length || p.value === "add") ? "" : "none";
-  $("hookforget").style.display = (a.length && p.value !== "add") ? "" : "none"; if (a.length) { $("hookkeep").checked = true; $("hookkeepnote").style.display = ""; }
+  const picked = a.length > 0 && p.value !== "add";
+  p.style.display = a.length ? "" : "none"; if (picked) $("hookname").value = a[idx].n;
+  $("hookforget").style.display = picked ? "" : "none"; $("hookbox").previousElementSibling.style.display = $("hookbox").style.display = $("hookkeep").parentNode.style.display = picked ? "none" : "";
+  if (a.length) $("hookkeep").checked = true; $("hookkeepnote").style.display = !picked && $("hookkeep").checked ? "" : "none";
 }
+$("hookname").onchange = () => { const a = hooksGet(), i = a.findIndex((h) => h.u === hookGet()); if (!a.length || $("hookpick").value === "add" || i < 0) return; a[i].n = $("hookname").value.trim().slice(0, 30) || a[i].n; hooksSave(a); hookDraw(); };
 const setHook = (v) => { hookNow = v; try { if (v && $("hookkeep").checked) { lsSet("fcd_hook", v); hookUpsert(v); } else localStorage.removeItem("fcd_hook"); } catch (e) {} };
 $("hookbox").onchange = () => { const v = $("hookbox").value.trim(); if (v && !HOOK_RE.test(v)) { $("hookchk").textContent = "That doesn't look like a Discord webhook link. Copy it again."; return; } setHook(v); $("hookchk").textContent = v ? "Ready." : "Removed."; renderSaved(); if (pv) pvDraw(); };
 if (lsGet("fcd_pingmode") !== "role") { try { localStorage.removeItem("fcd_pingmode"); } catch (e) {} } $("dcping").value = lsGet("fcd_pingmode") === "role" ? "role" : ""; $("dcrole").value = lsGet("fcd_pingrole") || "";

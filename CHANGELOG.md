@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.146] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.145...v1.1.146)
+
+### Changed
+
+- **Rename Discord channels, tidier box** · Rename a saved channel; long link and Remember row hidden once a channel is saved
+
 ## [1.1.145] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.144...v1.1.145)
 
 ### Changed
