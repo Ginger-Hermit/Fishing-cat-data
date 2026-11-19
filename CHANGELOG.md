@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.156] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.155...v1.1.156)
+
+### Fixed
+
+- **Sheet link always added to clan post** · The Google Sheet link now goes in the clan Discord post even when the breakdown can't be built.
+
 ## [1.1.155] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.154...v1.1.155)
 
 ### Fixed

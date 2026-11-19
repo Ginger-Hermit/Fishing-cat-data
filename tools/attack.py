@@ -20,7 +20,7 @@ def route(r):
     if r.request.method == "OPTIONS": return r.fulfill(status=204, headers=CORS)
     st["n"] += 1; n, m, code = st["n"], st["mode"], 200
     try: st["bodies"].append(json.loads(r.request.post_data or "{}"))
-    except Exception: pass
+    except Exception: st["bodies"].append({"raw": (r.request.post_data or "")[:3000]})
     if m == "429second" and n == 2: code = 429
     if m == "failsecond" and n >= 2: code = 500
     if m == "all429": code = 429
@@ -232,7 +232,23 @@ def g_canary(pg):
         chk("fake key and link not in " + where, "CANARY" not in txt, txt[txt.find("CANARY") - 60:txt.find("CANARY") + 20] if "CANARY" in txt else "")
     pg.evaluate("()=>{document.getElementById('key').value='';hookNow=''}")
 
-GROUPS = {"ping": g_ping, "post": g_post, "down": g_down, "art": g_art, "box": g_box, "excel": g_excel, "secrets": g_secrets, "names": g_names, "role": g_role, "tamper": g_tamper, "links": g_links, "ai": g_ai, "xl": g_xl, "canary": g_canary}
+def g_gsheet(pg):
+    pg.route("https://www.googleapis.com/**", lambda r: r.fulfill(status=200, headers=CORS, content_type="application/json", body='{"id":"sheetid1234567","email":"a@b.c"}'))
+    pg.evaluate("localStorage.clear()"); pg.evaluate("sessionStorage.setItem('fcd_gtok', JSON.stringify({t:'fake',e:Date.now()+600000}))"); pg.reload(); pg.wait_for_timeout(400)
+    chk("Google sign-in survives a refresh", "Connected" in pg.evaluate("document.getElementById('gmsg2').textContent"))
+    pg.evaluate("sessionStorage.setItem('fcd_gtok', JSON.stringify({t:'old',e:Date.now()-5}))"); pg.reload(); pg.wait_for_timeout(400)
+    chk("an expired sign-in is not restored", "Not connected" in pg.evaluate("document.getElementById('gmsg2').textContent"))
+    pg.evaluate("sessionStorage.setItem('fcd_gtok', JSON.stringify({t:'fake',e:Date.now()+600000}))"); pg.reload(); pg.wait_for_timeout(400)
+    pg.evaluate("u=>{hookNow=u}", URL); fresh(pg)
+    pg.evaluate("()=>{const r=[{name:'Ann',points:'100'},{name:'Bo',points:'50'}];pv={rows:r,orig:r.map(x=>({...x})),p:{clan:'Test',cols:[]},shown:[]}}")
+    try: pg.evaluate("pvPost()")
+    except Exception as e: chk("clan post ran", False, e)
+    pg.wait_for_timeout(4000)
+    sent = json.dumps(st["bodies"])
+    chk("clan post has the Google sheet link", "docs.google.com/spreadsheets/d/sheetid1234567" in sent, sent[:160])
+    chk("Google token not sent to Discord", "fake" not in sent.replace("fakekey", ""))
+
+GROUPS = {"ping": g_ping, "post": g_post, "down": g_down, "art": g_art, "box": g_box, "excel": g_excel, "secrets": g_secrets, "names": g_names, "role": g_role, "tamper": g_tamper, "links": g_links, "ai": g_ai, "xl": g_xl, "canary": g_canary, "gsheet": g_gsheet}
 want = sys.argv[1:] or list(GROUPS)
 bad = [w for w in want if w not in GROUPS]
 if bad: sys.exit("Unknown group: %s. Use: %s" % (", ".join(bad), " ".join(GROUPS)))
