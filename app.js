@@ -1,4 +1,4 @@
-// Patch note: Give the role you ping a name (like Gym Bros); the Ping list shows it
+// Patch note: Clan changes use the time the video was filmed and a points reset time, so reads before the reset count as last week
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -8,7 +8,7 @@ const PROVIDERS = {
   gemini: { name: "Google Gemini", model: "gemini-3.8-flash", tested: true, list: "https://ai.google.dev/gemini-api/docs/models" }
 };
 function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
-const LOOK_KEYS = ["fcd_theme", "fcd_size", "fcd_read", "fcd_btn", "fcd_nosave", "fcd_expire", "fcd_reset", "fcd_showlog"];
+const LOOK_KEYS = ["fcd_theme", "fcd_size", "fcd_read", "fcd_btn", "fcd_nosave", "fcd_expire", "fcd_reset", "fcd_resethr", "fcd_showlog"];
 const isSecret = (k) => /^fcd_key_/.test(k) || k === "fcd_hook" || k === "fcd_hooks";
 function lsSet(k, v) {
   if (lsGet("fcd_nosave") === "1" && !LOOK_KEYS.includes(k)) return;
@@ -96,6 +96,11 @@ document.getElementById("nosave").checked = lsGet("fcd_nosave") === "1";
 document.getElementById("nosave").onchange = () => { lsSet("fcd_nosave", document.getElementById("nosave").checked ? "1" : "0"); if (document.getElementById("nosave").checked) wipe("private"); renderSaved(); };
 document.getElementById("resetday").value = lsGet("fcd_reset") || "5";
 document.getElementById("resetday").onchange = () => { lsSet("fcd_reset", document.getElementById("resetday").value); renderSaved(); };
+document.getElementById("resethr").value = lsGet("fcd_resethr") || "0";
+document.getElementById("resethr").onchange = () => { lsSet("fcd_resethr", document.getElementById("resethr").value); renderSaved(); };
+const resetHour = () => { const v = Number(lsGet("fcd_resethr") || 0); return v >= 0 && v <= 23 ? v : 0; };
+let readStamp = 0; // when the pictures were taken (newest file time); 0 = now
+const readNow = () => new Date(readStamp || Date.now());
 const resetDay = () => { const v = Number(lsGet("fcd_reset") || 5); return v >= 0 && v <= 6 ? v : 5; };
 document.getElementById("expire").value = lsGet("fcd_expire") || "7";
 document.getElementById("expire").onchange = () => { lsSet("fcd_expire", document.getElementById("expire").value); expireCheck(); renderSaved(); };
@@ -103,7 +108,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.172";
+const BUILD = "1.1.173";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -306,7 +311,7 @@ function renderSaved() {
   const dc = []; if (has("fcd_hook") || has("fcd_hooks")) dc.push("link"); if (has("fcd_art")) dc.push("header picture");
   if (dc.length) lines.push("Discord: " + dc.join(" and "));
   const other = []; if (has("fcd_sheetlink")) other.push("Sheet link"); if (has("fcd_gsheet_clan") || has("fcd_gsheet_bill")) other.push("Google sheet (which file is yours)"); if (has("fcd_gclient")) other.push("Google client ID"); if (keys.some(k => k.startsWith("fcd_model_"))) other.push("AI model name");
-  if (keys.some(k => ["fcd_theme", "fcd_size", "fcd_read", "fcd_btn", "fcd_nosave", "fcd_expire", "fcd_reset", "fcd_autoref", "fcd_provider", "fcd_hookxlsx", "fcd_pingmode", "fcd_pingrole", "fcd_showlog"].includes(k))) other.push("look and settings");
+  if (keys.some(k => ["fcd_theme", "fcd_size", "fcd_read", "fcd_btn", "fcd_nosave", "fcd_expire", "fcd_reset", "fcd_resethr", "fcd_autoref", "fcd_provider", "fcd_hookxlsx", "fcd_pingmode", "fcd_pingrole", "fcd_showlog"].includes(k))) other.push("look and settings");
   if (other.length) lines.push(other.join(", ").replace(/^./, c => c.toUpperCase()));
   const box = $("saved"); box.replaceChildren();
   (lines.length ? lines : ["Nothing saved."]).forEach(t => { const d = document.createElement("div"); d.textContent = (lines.length ? "\u2022 " : "") + t; box.appendChild(d); });
@@ -469,13 +474,13 @@ async function readPrevious(EJ, buf) {
 }
 // A sheet made earlier today is not a fair baseline (a re-run would compare with itself): use the last earlier day instead.
 function dayBase(map) {
-  const hh = map.hist, t = new Date(), today = Date.UTC(t.getFullYear(), t.getMonth(), t.getDate());
+  const hh = map.hist, t = readNow(), today = Date.UTC(t.getFullYear(), t.getMonth(), t.getDate(), t.getHours(), t.getMinutes());
   if (false) { // 13 Nov: always compare with the last sheet, even one made earlier today
     const col = hh.dates.length - 2, m2 = new Map();
     hh.players.forEach(([k, e]) => { if (e && typeof e.vals[col] === "number") m2.set(k, e.vals[col]); });
     if (m2.size) { m2.hist = hh; const w = weekBase(m2, hh.dates[col], today); w.full = map; w.from = hh.dates[col]; return w; }
   }
-  return hh && hh.dates.length ? weekBase(map, hh.dates[hh.dates.length - 1], today) : map;
+  const r = hh && hh.dates.length ? weekBase(map, hh.dates[hh.dates.length - 1], today) : map; if (r !== map) r.raw = map; return r; // raw: the sheet as read, so a later read time can pick the baseline again
 }
 // After the points reset, last week's totals are not a fair baseline: everyone starts the week from 0.
 function weekBase(map, base, today) {
@@ -567,13 +572,13 @@ function fixNames(prev, rows) {
 }
 
 // Start of the points week (UTC day number) for a reset day R (0 = Sunday, 5 = Friday), midnight on the device clock.
-function weekStart(d, R) { return d - ((new Date(d).getUTCDay() - R + 7) % 7) * 864e5; }
+function weekStart(d, R) { const s = d - (typeof resetHour === "function" ? resetHour() : 0) * 36e5, day = s - (((s % 864e5) + 864e5) % 864e5); return day - ((new Date(day).getUTCDay() - R + 7) % 7) * 864e5; }
 function colL(n) { let t = ""; while (n > 0) { const m = (n - 1) % 26; t = String.fromCharCode(65 + m) + t; n = Math.floor((n - 1) / 26); } return t; }
 
 // Adds today's run to the earlier history (same day twice = replace that column).
 function mergeHist(prev, rows, R = 5, p) {
   p = p || 0;
-  const n = new Date(), today = Date.UTC(n.getFullYear(), n.getMonth(), n.getDate());
+  const n = readNow(), today = Date.UTC(n.getFullYear(), n.getMonth(), n.getDate()), nowT = today + (n.getHours() * 60 + n.getMinutes()) * 6e4;
   // An earlier sheet with no history (old sheet, or one saved before this update) becomes the first column.
   const h = prev && (prev.hist || { dates: [today], players: [...prev].map(([k, v]) => [k, { name: k, vals: [v] }]) });
   const dates = h ? h.dates.slice() : [];
@@ -595,7 +600,7 @@ function mergeHist(prev, rows, R = 5, p) {
   // Earlier weeks fold into one column: the last read before the reset (the week score).
   const mk = (d) => weekStart(d, R);
   for (let i = dates.length - 2; i >= 0; i--) {
-    if (mk(dates[i]) < mk(today) && mk(dates[i]) === mk(dates[i + 1])) {
+    if (mk(dates[i]) < mk(nowT) && mk(dates[i]) === mk(dates[i + 1])) {
       pl.forEach((e) => { if (e.vals[i + 1] === null) e.vals[i + 1] = e.vals[i]; e.vals.splice(i, 1); });
       [sea, crk].forEach((a) => { if (a[i + 1] === null) a[i + 1] = a[i]; a.splice(i, 1); });
       dates.splice(i, 1);
@@ -971,7 +976,7 @@ $("prevfile").onchange = async (e) => {
     if (!window.ExcelJS) throw new Error("The spreadsheet part did not load. Refresh the page.");
     prevMap = await readPrevious(window.ExcelJS, await f.arrayBuffer());
     prevName = f.name; pendingPrev = null;
-    if (lsGet("fcd_keepprev") !== "0") try { lsSet("fcd_prev", JSON.stringify({ name: prevName, entries: [...(prevMap.full || prevMap)], hist: prevMap.hist })); } catch (e) {}
+    if (lsGet("fcd_keepprev") !== "0") try { lsSet("fcd_prev", JSON.stringify({ name: prevName, entries: [...(prevMap.raw || prevMap.full || prevMap)], hist: prevMap.hist })); } catch (e) {}
     showPrev();
     clog("Last sheet read: " + prevMap.size + " members.");
   } catch (err) {
@@ -1080,7 +1085,7 @@ if (DEV && location.protocol.startsWith("http")) {
 }
 const devReply = (text) => { if (DEV) clog("Developer, raw AI reply:\n" + String(text).slice(0, 20000), true); };
 async function collectPictures(images) {
-  const pics = [];
+  const pics = [], ft = Math.max(0, ...images.map((f) => Number(f.lastModified) || 0)); readStamp = ft > 0 && ft <= Date.now() ? ft : 0; if (prevMap && prevMap.raw) { prevMap = dayBase(prevMap.raw); showPrev(); }
   for (const f of images) {
     if (!picCache.has(f)) picCache.set(f, f.type.startsWith("video/") ? await videoFrames(f) : f.type === "application/pdf" ? [await pdfPart(f)] : [await toPic(f)]);
     pics.push(...picCache.get(f));
@@ -1186,7 +1191,7 @@ Answer with ONLY one JSON object, no other text:
 {"clan_name": "name of the clan if it is clearly visible, otherwise empty", "game_name": "name of the Roblox game, read from the screen or recognised from how the screen looks, otherwise empty", "ranks_shown": true or false (is a rank number like #1 shown beside each member?), "extra_column": "the heading or label of any column besides rank, username, role and points, otherwise empty", "clan_points": "the clan's own season points total copied exactly as shown (e.g. 1.63M), otherwise empty", "clan_rank": "the clan's own rank number copied as shown, otherwise empty"}
 Never guess the clan name or layout; use empty text if unsure.`;
 function checkKey(key) { if (/[^\x21-\x7e]/.test(key)) throw new Error("That key has odd characters or spaces in it. Copy it again and paste it."); }
-const todayText = () => new Date().toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric" }).replace(/,/g, "");
+const todayText = () => readNow().toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric" }).replace(/,/g, "");
 function saveBlob(blob, name) { const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name; a.click(); }
 async function pickProfile(key) {
   checkKey(key);

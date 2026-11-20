@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.173] - 2026-11-20 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.172...v1.1.173)
+
+### Added
+
+- **Reset time and photo time** · Clan changes use the time the video was filmed and a points reset time, so reads before the reset count as last week
+
 ## [1.1.172] - 2026-11-20 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.171...v1.1.172)
 
 ### Added
