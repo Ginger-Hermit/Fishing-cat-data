@@ -1,4 +1,4 @@
-// Patch note: Clan changes use the time the video was filmed and a points reset time, so reads before the reset count as last week
+// Patch note: The Discord post shows the next points reset in each reader's own time zone
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -108,7 +108,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.173";
+const BUILD = "1.1.174";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1279,13 +1279,15 @@ const pvBad = (r) => r.unsure || /\?/.test(String(r.name)) || !String(r.name).tr
 // Player text goes to Discord as plain words: no fake links, no broken code blocks
 const dcMd = (v) => String(v ?? "").replace(/[\r\n]+/g, " ").replace(/`/g, "'").replace(/[\\*_~|>#\[\]()<:@-]/g, "\\$&");
 const dcCode = (v) => String(v ?? "").replace(/[\r\n]+/g, " ").replace(/`/g, "'");
-const dcHead = (clan, game, date, n, tot) => "## " + dcMd(clan) + " \u00b7 " + dcMd(game) + "\n-# " + date + "\n**" + n + "** members \u00b7 **" + tot + "** points";
+// Discord shows <t:...> in each reader's own time zone.
+const resetLine = () => { const d = new Date(), R = resetDay(), H = resetHour(); d.setHours(H, 0, 0, 0); for (let i = 0; i < 8 && (d.getDay() !== R || d.getTime() <= Date.now()); i++) { d.setDate(d.getDate() + 1); d.setHours(H, 0, 0, 0); } const u = Math.floor(d.getTime() / 1000); return "\n-# Points reset <t:" + u + ":F> \u00b7 <t:" + u + ":R>"; };
+const dcHead = (clan, game, date, n, tot) => "## " + dcMd(clan) + " \u00b7 " + dcMd(game) + "\n-# " + date + "\n**" + n + "** members \u00b7 **" + tot + "** points" + resetLine();
 // Colour picks for the Discord box: "gained,lost,jump" as ANSI numbers, or nothing = plain bullets
 const dcCols = () => { const v = (lsGet("fcd_dccols") || "").split(","); return v.length === 3 && v.every((x) => /^3[0-7]$/.test(x)) ? v : null; };
 const dcBreakdown = (sh, f) => {
   const it = sh.items, n = it.length, tot = it.reduce((a, x) => a + x.n, 0), sg = (d) => (d >= 0 ? "+" : "-") + f(Math.abs(d)), pc = (d, b) => (b ? " (" + (d > 0 ? "+" : "") + (d / b * 100).toFixed(1) + "%)" : "");
   const dt = (d) => d.toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
-  let t = "## " + dcMd(sh.clan) + " \u00b7 " + dcMd(sh.game) + "\n-# " + dcMd(sh.date) + " \u00b7 " + n + " members \u00b7 " + f(tot) + " points";
+  let t = "## " + dcMd(sh.clan) + " \u00b7 " + dcMd(sh.game) + "\n-# " + dcMd(sh.date) + " \u00b7 " + n + " members \u00b7 " + f(tot) + " points" + resetLine();
   const roles = {}; it.forEach((x) => { const k = x.role || "No role"; roles[k] = (roles[k] || 0) + 1; });
   t += "\n### Clan Members" + Object.entries(roles).sort((x, y) => x[1] - y[1]).map(([k, c]) => "\n- " + c + " " + dcMd(k) + (c > 1 ? (/(s|x|ch|sh)$/i.test(k) ? "es" : "s") : "")).join("") + "\n- About " + f(tot / Math.max(n, 1)) + " points each";
   if (sh.any) {
