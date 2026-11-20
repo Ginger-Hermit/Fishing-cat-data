@@ -38,3 +38,4 @@ Older bugs: `BREAK_TEST_PLAN.md` (appendix) and `STRESS_TEST_LOG.md`.
 - 15 Nov 2026: Auto-refresh could reload the page during a bills run or while a checked list was on screen, losing it. Cause: the busy check only looked at clan screenshots. Fix: also check running, bill photos and both previews.
 - 17 Nov: very wide header picture (20000x1) saved as empty but said Saved. Cause: height rounded to 0. Fix: height at least 1. Commit: Header picture fix.
 - 20 Nov: Discord table picture cut a wide Change number to "+111,..."; cause: text only got an ellipsis when too wide; fix: right-hand columns shrink font (min 14px) first; v1.1.171.
+- 20 Nov: Check failed (excel test) after reset-time change; cause: test harness lacked new readNow; fix: added it to tests/excel-math.test.js; commit below.
