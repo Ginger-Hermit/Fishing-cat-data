@@ -295,7 +295,7 @@ body details#keydet,body details#adddet,body details#addbill,body details#moreop
 #dcard{border:0;border-top:0;background:none;padding:0}
 #dcard .dh1{font-size:22px;font-weight:600;color:var(--text);margin:4px 0 2px}#dcard .dsub{color:var(--muted);font-size:14px;margin:0 0 6px}
 #dcard .dlab{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:22px 0 8px}
-#dcard .dcx,#dcard #dcprev{border-top:1px solid var(--soft);margin:22px 0 0;padding:14px 0}#dcard #dcprev{margin:0;border-bottom:1px solid var(--soft)}
+#dcard .dcx,#dcard #dcprev{border-top:1px solid var(--soft);margin:22px 0 0;padding:14px 0}#dcard #dcprev{margin:0;padding:14px 12px;border-bottom:1px solid var(--soft)}
 #dcard .dcx[open]{border-bottom:0}
 #dcard .dcwarn{color:var(--muted)}
 #dcard .gline{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0;font-size:14px;color:var(--muted)}

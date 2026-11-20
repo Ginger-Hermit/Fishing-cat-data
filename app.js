@@ -1,4 +1,4 @@
-// Patch note: Long Change numbers in the Discord table picture shrink instead of showing ...
+// Patch note: Give the role you ping a name (like Gym Bros); the Ping list shows it
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -103,7 +103,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.171";
+const BUILD = "1.1.172";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1328,8 +1328,10 @@ $("hookname").onblur = () => { if (hookRen) { hookRen = false; hookDraw(); } };
 $("hookren").onclick = () => { hookRen = true; hookDraw(); $("hookname").focus(); $("hookname").select(); };
 const setHook = (v) => { hookNow = v; try { if (v && $("hookkeep").checked) { lsSet("fcd_hook", v); hookUpsert(v); } else localStorage.removeItem("fcd_hook"); } catch (e) {} };
 $("hookbox").onchange = () => { const v = $("hookbox").value.trim(); if (v && !HOOK_RE.test(v)) { $("hookchk").textContent = "That doesn't look like a Discord webhook link. Copy it again."; return; } setHook(v); $("hookchk").textContent = v ? "Ready." : "Removed."; renderSaved(); if (pv) pvDraw(); };
-if (lsGet("fcd_pingmode") !== "role") { try { localStorage.removeItem("fcd_pingmode"); } catch (e) {} } $("dcping").value = lsGet("fcd_pingmode") === "role" ? "role" : ""; $("dcrole").value = lsGet("fcd_pingrole") || "";
-const dcPingShow = () => { const on = $("dcping").value === "role"; $("dcrole").style.display = on ? "" : "none"; $("dcrolehelp").style.display = on ? "" : "none"; $("dcrolelbl").style.display = on ? "" : "none"; };
+if (lsGet("fcd_pingmode") !== "role") { try { localStorage.removeItem("fcd_pingmode"); } catch (e) {} } $("dcping").value = lsGet("fcd_pingmode") === "role" ? "role" : ""; $("dcrole").value = lsGet("fcd_pingrole") || ""; $("dcrolename").value = lsGet("fcd_pingname") || "";
+const dcPingName = () => { const t = clean($("dcrolename").value, 30); $("dcping").options[1].textContent = t ? "Ping " + t : "Ping a role (you choose which)"; };
+$("dcrolename").oninput = () => { lsSet("fcd_pingname", clean($("dcrolename").value, 30)); dcPingName(); }; dcPingName();
+const dcPingShow = () => { const on = $("dcping").value === "role"; $("dcrole").style.display = on ? "" : "none"; $("dcrolehelp").style.display = on ? "" : "none"; $("dcrolename").style.display = on ? "" : "none"; $("dcrolelbl").style.display = on ? "" : "none"; };
 dcPingShow();
 $("dcping").onchange = () => { dcPingShow(); const v = $("dcping").value; if (v === "role") lsSet("fcd_pingmode", v); else try { localStorage.removeItem("fcd_pingmode"); } catch (e) {} };
 $("dcrole").onchange = () => { const id = (($("dcrole").value.match(/\d{15,25}/) || [])[0]) || ""; $("dcrole").value = id; if (id) lsSet("fcd_pingrole", id); else try { localStorage.removeItem("fcd_pingrole"); } catch (e) {} };

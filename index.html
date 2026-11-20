@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: Long Change numbers in the Discord table picture shrink instead of showing ... -->
+<!-- Patch note: Give the role you ping a name (like Gym Bros); the Ping list shows it -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -118,6 +118,7 @@
 <select id="dcping" aria-label="Who to ping" class="s38"><option value="">Don't ping anyone</option><option value="role">Ping a role (you choose which)</option></select>
 <label for="dcrole" id="dcrolelbl" class="s49" data-d="none">Role to ping (Role ID)</label>
 <input id="dcrole" inputmode="numeric" autocomplete="off" placeholder="Role ID, like 123456789012345678" class="s57" data-d="none">
+<input id="dcrolename" maxlength="30" autocomplete="off" placeholder="Name for it (optional), like Gym Bros" class="s57" data-d="none">
 <details id="dcrolehelp" data-d="none"><summary>How do I get this?</summary><ul class="s49 tips"><li>In Discord: Settings, Advanced, turn on Developer Mode.</li><li>Long-press (phone) or right-click the role, tap Copy Role ID.</li></ul></details>
 <details class="hc" id="dccol"><summary>Colours (PC only)</summary><p>Tap a colour to switch on the coloured box. Phones show it white.</p><div id="dcprev" class="dcprev"></div><p id="dcstate" class="dcst"></p><div id="dcrows"></div><button type="button" id="dcreset" class="dcreset">Back to bullets</button></details>
 <div class="s37">Sheet link</div>
