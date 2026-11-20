@@ -1,4 +1,4 @@
-// Patch note: Type your clan's position (like 12) on the Clan sheet tab; it goes in the sheet and Discord post
+// Patch note: Long Change numbers in the Discord table picture shrink instead of showing ...
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -103,7 +103,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.170";
+const BUILD = "1.1.171";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1422,7 +1422,7 @@ async function tablePic(title, sub, cols, rows) {
   g.fillStyle = mix(0.4); g.fillRect(x0, tableY, w0, HD);
   const xs = []; let x = x0 + 22; cols.forEach((c) => { xs.push(x); x += c.w; });
   g.textAlign = "left";
-  const put = (t, i, yy, col, bold, size) => { const c = cols[i]; g.font = (bold ? "bold " : "") + (size || 24) + "px " + FONT; g.fillStyle = col; t = fit(t, c.w - 12); g.textAlign = c.a === "r" ? "right" : "left"; g.fillText(t, c.a === "r" ? xs[i] + c.w - 12 : xs[i], yy); g.textAlign = "left"; };
+  const put = (t, i, yy, col, bold, size) => { const c = cols[i]; g.font = (bold ? "bold " : "") + (size || 24) + "px " + FONT; g.fillStyle = col; if (c.a === "r") { let z = size || 24; while (z > 14 && g.measureText(t).width > c.w - 12) { z--; g.font = (bold ? "bold " : "") + z + "px " + FONT; } } t = fit(t, c.w - 12); g.textAlign = c.a === "r" ? "right" : "left"; g.fillText(t, c.a === "r" ? xs[i] + c.w - 12 : xs[i], yy); g.textAlign = "left"; };
   cols.forEach((c, i) => put(c.h, i, tableY + HD / 2, lift(0.55), true, 18));
   rows.forEach((r, k) => { const y = tableY + HD + k * RH; g.fillStyle = r.bg || (k % 2 ? mix(0.58) : mix(0.46)); g.fillRect(x0, y, w0, RH);
     r.c.forEach((cell, i) => { const a = Array.isArray(cell) ? cell : [cell, "#ffffff"]; put(a[0], i, y + RH / 2, a[1], a[2] || r.b, 24); }); });

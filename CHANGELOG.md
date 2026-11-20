@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.171] - 2026-11-20 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.170...v1.1.171)
+
+### Fixed
+
+- **Wide numbers shrink to fit** · Long Change numbers in the Discord table picture shrink instead of showing ...
+
 ## [1.1.170] - 2026-11-19 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.169...v1.1.170)
 
 ### Added
