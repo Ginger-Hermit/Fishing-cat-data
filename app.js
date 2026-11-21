@@ -1,4 +1,4 @@
-// Patch note: New week top 3 names are plain white so they are easy to read; only the numbers keep your colour.
+// Patch note: After a points reset, the Change column in Points history shows this week's points instead of a drop from last season.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -108,7 +108,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.177";
+const BUILD = "1.1.178";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -789,7 +789,7 @@ function buildWorkbook(EJ, rows, prev, p, when) {
     b.value = e.name;
     w.value = { formula: `IF(ISNUMBER(${LC}${r}),${LC}${r},"–")`, result: e.here ? e.vals[N - 1] : "–" };
     const pv = N > 1 ? e.vals[N - 2] : null;
-    ch.value = N > 1 ? { formula: `IF(AND(ISNUMBER(${LC}${r}),ISNUMBER(${PC}${r})),${LC}${r}-${PC}${r},IF(ISNUMBER(${LC}${r}),"new","–"))`, result: e.here ? (pv === null ? "new" : e.vals[N - 1] - pv) : "–" } : "–";
+    ch.value = N > 1 && weekStart(H.dates[N - 2], R) < weekStart(H.dates[N - 1], R) ? { formula: `IF(ISNUMBER(${LC}${r}),${LC}${r},"–")`, result: e.here ? e.vals[N - 1] : "–" } : N > 1 ? { formula: `IF(AND(ISNUMBER(${LC}${r}),ISNUMBER(${PC}${r})),${LC}${r}-${PC}${r},IF(ISNUMBER(${LC}${r}),"new","–"))`, result: e.here ? (pv === null ? "new" : e.vals[N - 1] - pv) : "–" } : "–";
     w.numFmt = "#,##0"; ch.numFmt = "\\+#,##0;\\-#,##0;0";
     e.vals.forEach((v, k) => { const c = hs.getCell(r, 5 + k); c.value = v === null ? "–" : v; c.numFmt = "#,##0"; c.font = { color: { argb: v === null ? "FFBFBFBF" : GREY } }; });
     for (let c = 1; c <= 4 + N; c++) { const x = hs.getCell(r, c); x.border = box; x.alignment = { horizontal: c === 2 ? "left" : c === 1 ? "center" : "right", vertical: "middle", indent: c === 2 ? 1 : 0 }; if (i % 2) x.fill = fill(SOFT); }
