@@ -4,6 +4,18 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.181] - 2026-11-21 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.180...v1.1.181)
+
+### Changed
+
+- **One What changed box in Discord post** · What changed is one green and red box with the whole clan line, who went up, who went down and who is new.
+
+## [1.1.180] - 2026-11-21 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.179...v1.1.180)
+
+### Changed
+
+- **Green and red lists in Discord post** · What changed now shows Went up, Went down and New as green or red lists. The Colours setting is gone.
+
 ## [1.1.179] - 2026-11-21 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.178...v1.1.179)
 
 ### Fixed

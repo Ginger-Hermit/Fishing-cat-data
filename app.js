@@ -1,4 +1,4 @@
-// Patch note: A Google sheet link left in the link box no longer stops the sync. When connected, it is replaced by the synced sheet link.
+// Patch note: What changed is one green and red box with the whole clan line, who went up, who went down and who is new.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -108,7 +108,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.179";
+const BUILD = "1.1.181";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1283,7 +1283,6 @@ const dcCode = (v) => String(v ?? "").replace(/[\r\n]+/g, " ").replace(/`/g, "'"
 const resetLine = () => { const d = new Date(), R = resetDay(), H = resetHour(); d.setHours(H, 0, 0, 0); for (let i = 0; i < 8 && (d.getDay() !== R || d.getTime() <= Date.now()); i++) { d.setDate(d.getDate() + 1); d.setHours(H, 0, 0, 0); } const u = Math.floor(d.getTime() / 1000); return "\n-# Points reset <t:" + u + ":F> \u00b7 <t:" + u + ":R>"; };
 const dcHead = (clan, game, date, n, tot) => "## " + dcMd(clan) + " \u00b7 " + dcMd(game) + "\n-# " + date + "\n**" + n + "** members \u00b7 **" + tot + "** points" + resetLine();
 // Colour picks for the Discord box: "gained,lost,jump" as ANSI numbers, or nothing = plain bullets
-const dcCols = () => { const v = (lsGet("fcd_dccols") || "").split(","); return v.length === 3 && v.every((x) => /^3[0-7]$/.test(x)) ? v : null; };
 const dcBreakdown = (sh, f) => {
   const it = sh.items, n = it.length, tot = it.reduce((a, x) => a + x.n, 0), sg = (d) => (d >= 0 ? "+" : "-") + f(Math.abs(d)), pc = (d, b) => (b ? " (" + (d > 0 ? "+" : "") + (d / b * 100).toFixed(1) + "%)" : "");
   const dt = (d) => d.toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
@@ -1293,18 +1292,18 @@ const dcBreakdown = (sh, f) => {
   if (sh.any) {
     const ret = it.filter((x) => x.b !== null), fresh = it.filter((x) => x.b === null), d = ret.reduce((a, x) => a + x.n - x.b, 0), b0 = ret.reduce((a, x) => a + x.b, 0);
     const up = ret.filter((x) => x.n > x.b).sort((x, y) => (y.n - y.b) - (x.n - x.b)), dn = ret.filter((x) => x.n < x.b).sort((x, y) => (x.n - x.b) - (y.n - y.b)), same = ret.length - up.length - dn.length;
-    const cs = dcCols(), box = !!cs, E = "\u001b[", paint = (x, c) => (box ? E + "0;" + c + "m" + x + E + "0m" : x), bold = (x, c) => (box ? paint(x, c) : "**" + x + "**");
-    const s1 = (n, w) => n + " " + w + (n === 1 ? "" : "s"), L = ["Whole clan: " + bold(sg(d) + " points", cs && cs[0]) + pc(d, b0)];
-    if (up.length) L.push(paint(String(up.length), cs && cs[0]) + " " + (up.length === 1 ? "player gained points" : "players gained points"));
-    L.push(dn.length ? paint(String(dn.length), cs && cs[1]) + " lost points" : "Nobody lost points");
-    if (same) L.push(same + " stayed the same");
-    if (fresh.length) L.push(s1(fresh.length, "new player"));
-    if (up.length) L.push("Biggest jump: " + (box ? paint(dcCode(up[0].name), cs && cs[2]) : "**" + dcMd(up[0].name) + "**") + " " + paint(sg(up[0].n - up[0].b), cs && cs[0]));
-    t += "\n### What changed" + (box ? "\n```ansi\n" + L.join("\n") + "\n```" : "\n" + L.map((x) => "- " + x).join("\n"));
+    const L = ["+ Whole clan: " + sg(d) + " points" + pc(d, b0)];
+    up.slice(0, 10).forEach((x) => L.push("+ " + dcCode(x.name) + ": " + f(x.b) + " \u2192 " + f(x.n) + " (" + sg(x.n - x.b) + ")"));
+    if (up.length > 10) L.push("+ and " + (up.length - 10) + " more went up");
+    dn.slice(0, 5).forEach((x) => L.push("- " + dcCode(x.name) + ": " + f(x.b) + " \u2192 " + f(x.n) + " (" + sg(x.n - x.b) + ")"));
+    if (dn.length > 5) L.push("- and " + (dn.length - 5) + " more went down");
+    fresh.slice(0, 10).forEach((x) => L.push("+ " + dcCode(x.name) + ": " + f(x.n) + " points (new)"));
+    if (fresh.length > 10) L.push("+ and " + (fresh.length - 10) + " more new");
+    if (same) L.push("  " + same + " stayed the same");
+    t += "\n### What changed\n```diff\n" + L.join("\n") + "\n```";
   } else if (n) {
-    const cs = dcCols(), E = "\u001b[", paint = (x, c) => (cs ? E + "0;" + c + "m" + x + E + "0m" : x), top = it.slice().sort((a, b) => b.n - a.n).slice(0, 3);
-    const L = ["New week: " + (cs ? paint(f(tot), cs[0]) : "**" + f(tot) + "**") + " points so far", "Top 3"].concat(top.map((x, i) => (i + 1) + ". " + (cs ? dcCode(x.name) : dcMd(x.name)) + " " + paint(f(x.n), cs && cs[0])));
-    t += "\n### What changed" + (cs ? "\n```ansi\n" + L.join("\n") + "\n```" : "\n" + L.map((x, i) => (i < 2 ? "- " : "  ") + x).join("\n"));
+    const top = it.slice().sort((a, b) => b.n - a.n).slice(0, 3);
+    t += "\n### What changed\n**New week: " + f(tot) + " points so far**\n```diff\n" + top.map((x, i) => "+ " + (i + 1) + ". " + dcCode(x.name) + ": " + f(x.n)).join("\n") + "\n```";
   }
   const h = sh.hist;
   if (h && h.dates.length > 1) {
@@ -2077,34 +2076,6 @@ function askOpen(u) {
 document.querySelectorAll(".xlimg").forEach(i => { i.title = "Tap to zoom"; i.onclick = () => { const z = document.createElement("div"); z.className = "zoombox"; const c = document.createElement("button"); c.type = "button"; c.className = "zoomx"; c.textContent = "Close"; const im = document.createElement("img"); im.src = i.src; im.alt = i.alt; z.append(c, im); const g = i.closest(".xlgal"), bs = g ? [...g.querySelectorAll("button")] : []; if (bs.length > 1) { const tb = document.createElement("div"); tb.className = "zoomtabs"; const mark = () => bs.forEach((x, k) => tb.children[k].classList.toggle("on", x.classList.contains("on"))); bs.forEach(x => { const t = document.createElement("button"); t.type = "button"; t.textContent = x.textContent; t.onclick = () => { x.click(); im.src = i.src; mark(); }; tb.appendChild(t); }); mark(); z.append(tb); } const shut = () => { z.remove(); document.removeEventListener("keydown", esc); }; const esc = (e) => { if (e.key === "Escape") shut(); }; c.onclick = shut; z.onclick = (e) => { if (e.target === z) shut(); }; document.addEventListener("keydown", esc); document.body.append(z); c.focus(); }; });
 document.querySelectorAll(".xlgal button").forEach(b => { b.onclick = () => { const g = b.closest(".xlgal"); g.querySelector("img").src = b.dataset.src; g.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b)); }; });
 
-const DC_NAMES = [["30", "Grey"], ["31", "Red"], ["32", "Green"], ["33", "Yellow"], ["34", "Blue"], ["35", "Pink"], ["36", "Cyan"], ["37", "White"]];
-const dcEl = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined) e.textContent = text; return e; };
-function dcUI() {
-  const cs = dcCols(), pv = $("dcprev"), rows = $("dcrows"); if (!pv || !rows) return;
-  const sp = (t, k, bold) => dcEl("span", cs ? "c" + cs[k] : bold ? "dcb" : "", t);
-  const line = (...parts) => { const d = dcEl("div", ""); parts.forEach((p) => d.append(typeof p === "string" ? document.createTextNode(p) : p)); return d; };
-  pv.replaceChildren(
-    line(cs ? "" : "\u2022 ", "Whole clan: ", sp("+120,300 points", 0, true), " (+12.4%)"),
-    line(cs ? "" : "\u2022 ", sp("9", 0), " players gained points"),
-    line(cs ? "" : "\u2022 ", sp("2", 1), " lost points"),
-    line(cs ? "" : "\u2022 ", "Biggest jump: ", sp("speedyfastfeet", 2, true), " ", sp("+68,980", 0)));
-  pv.className = "dcprev" + (cs ? " dcbox" : "");
-  $("dcstate").textContent = cs ? "Showing: coloured box (PC only)" : "Showing: bullets (works everywhere)";
-  $("dcreset").disabled = !cs;
-  rows.replaceChildren();
-  [["Gained", 0, "32"], ["Lost", 1, "31"], ["Biggest jump", 2, "34"]].forEach(([label, k, def]) => {
-    const row = dcEl("div", "dcrow"); row.append(dcEl("div", "", label));
-    const chips = dcEl("div", "dcchips");
-    DC_NAMES.forEach(([code, name]) => {
-      const b = dcEl("button", "dcchip c" + code + ((cs ? cs[k] : "") === code ? " on" : ""), name); b.type = "button"; b.setAttribute("aria-pressed", (cs ? cs[k] : "") === code ? "true" : "false");
-      b.onclick = () => { const cur = cs ? cs.slice() : ["32", "31", "34"]; cur[k] = code; lsSet("fcd_dccols", cur.join(",")); dcUI(); };
-      chips.append(b);
-    });
-    row.append(chips); rows.append(row);
-  });
-}
-if ($("dcreset")) $("dcreset").onclick = () => { lsSet("fcd_dccols", ""); dcUI(); };
-dcUI();
 
 // ---- Google sign-in (batch 1): popup to Google, token kept in memory only, never saved or logged ----
 (function () {
