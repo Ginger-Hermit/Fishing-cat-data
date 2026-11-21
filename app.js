@@ -1,4 +1,4 @@
-// Patch note: Discord message says Average and 'was 0' instead of repeating the same number
+// Patch note: Discord history shows highest total, season, rank, best rank; Clan total Change no longer shows #VALUE!
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -108,7 +108,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.183";
+const BUILD = "1.1.184";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -803,7 +803,7 @@ function buildWorkbook(EJ, rows, prev, p, when) {
   for (let c = 3; c <= 4 + N; c++) {
     const L = colL(c), x = hs.getCell(tr, c);
     if (c !== 4) x.value = { formula: `SUM(${L}4:${L}${tr - 1})` };
-    else x.value = N > 1 ? { formula: `IF(COUNT(${PC}4:${PC}${tr - 1})=0,"–",SUMPRODUCT(ISNUMBER(${PC}4:${PC}${tr - 1})*ISNUMBER(${LC}4:${LC}${tr - 1}),${LC}4:${LC}${tr - 1}-0)-SUMPRODUCT(ISNUMBER(${PC}4:${PC}${tr - 1})*ISNUMBER(${LC}4:${LC}${tr - 1}),${PC}4:${PC}${tr - 1}-0))` } : "–";
+    else x.value = N > 1 ? { formula: `IF(COUNT(${PC}4:${PC}${tr - 1})=0,"–",SUMIFS(${LC}4:${LC}${tr - 1},${PC}4:${PC}${tr - 1},">=0")-SUMIFS(${PC}4:${PC}${tr - 1},${LC}4:${LC}${tr - 1},">=0"))` } : "–";
     x.numFmt = c === 4 ? "\\+#,##0;\\-#,##0;0" : "#,##0"; x.alignment = { horizontal: "right" };
   }
   for (let c = 1; c <= 4 + N; c++) { const x = hs.getCell(tr, c); x.font = { bold: true, color: { argb: NAVY } }; x.fill = fill("FFE8EDF5"); x.border = { left: LINE, right: LINE, bottom: LINE, top: { style: "medium", color: { argb: NAVY } } }; }
@@ -1309,6 +1309,10 @@ const dcBreakdown = (sh, f) => {
   if (h && h.dates.length > 1) {
     const K = h.dates.length, totals = h.dates.map((_, k) => h.list.reduce((a, e) => a + (e.vals[k] || 0), 0));
     t += "\n### Points history\n> " + K + " runs saved, " + dt(h.dates[0]) + " to " + dt(h.dates[K - 1]) + "\n> Clan total: **" + f(totals[0]) + " \u2192 " + f(totals[K - 1]) + "** (" + sg(totals[K - 1] - totals[0]) + ")";
+    const hi = totals.reduce((m, v, k) => (v > totals[m] ? k : m), 0); if (totals[hi] > Math.max(totals[0], totals[K - 1])) t += "\n> Highest total: **" + f(totals[hi]) + "** (" + dt(h.dates[hi]) + ")";
+    const sx = sh.sx || {}; if (sx.season) t += "\n> Season: **" + sx.season + "**" + (sx.crank ? " \u00b7 Rank **#" + sx.crank + "**" : "");
+    const rk = (sx.rkAll || []).map((v, k) => [v, k]).filter((x) => typeof x[0] === "number" && x[0] > 0).sort((a, b) => a[0] - b[0] || b[1] - a[1])[0];
+    if (rk) t += "\n> Best rank: **#" + rk[0] + "** (" + dt(h.dates[rk[1]]) + ")";
     const gain = (e) => { const v = e.vals.filter((x) => x !== null); return v.length > 1 ? v[v.length - 1] - v[0] : null; };
     const best = h.list.map((e) => [e.name, gain(e)]).filter((x) => x[1] > 0).sort((a, b) => b[1] - a[1])[0];
     if (best) t += "\n> Biggest climber: **" + dcMd(best[0]) + "** " + sg(best[1]);
@@ -1474,7 +1478,7 @@ async function readSheet(buf) {
   let hist = null; const sx = {}, hs = wb.getWorksheet("Points history");
   if (hs) { const dates = []; let c0 = 3; while (c0 < 8 && !(val(hs.getCell(3, c0)) instanceof Date)) c0++; for (let c = c0; c <= Math.min(hs.columnCount, 400); c++) { const v = val(hs.getCell(3, c)); if (v instanceof Date) dates.push(v); else break; }
     const nc = typeof val(hs.getCell(4, 1)) === "number" ? 2 : 1, step = nc === 2 ? 1 : 2; // new tab: #, Player, ..., dates; old tab: name rows two apart
-    const list = []; for (let r = 4; r <= Math.min(hs.rowCount, 5000); r += step) { const nm = val(hs.getCell(r, nc)); if (/^(Season points|Clan rank)$/.test(String(nm))) { const lv = dates.map((_, k) => val(hs.getCell(r, c0 + k))).reverse().find((x) => typeof x === "number"); if (lv !== undefined) (/S/.test(nm) ? (sx.season = Math.round(lv).toLocaleString("en-US")) : (sx.crank = String(lv))); continue; } if (!nm || nm === "Clan total") continue; list.push({ name: String(nm), vals: dates.map((_, k) => { const v = val(hs.getCell(r, c0 + k)); return typeof v === "number" ? v : null; }) }); }
+    const list = []; for (let r = 4; r <= Math.min(hs.rowCount, 5000); r += step) { const nm = val(hs.getCell(r, nc)); if (/^(Season points|Clan rank)$/.test(String(nm))) { const raw = dates.map((_, k) => val(hs.getCell(r, c0 + k))), lv = raw.slice().reverse().find((x) => typeof x === "number"); if (/^Clan/.test(String(nm))) sx.rkAll = raw; if (lv !== undefined) (/S/.test(nm) ? (sx.season = Math.round(lv).toLocaleString("en-US")) : (sx.crank = String(lv))); continue; } if (!nm || nm === "Clan total") continue; list.push({ name: String(nm), vals: dates.map((_, k) => { const v = val(hs.getCell(r, c0 + k)); return typeof v === "number" ? v : null; }) }); }
     if (dates.length && list.length) hist = { dates, list }; }
   const t1 = String(val(ws.getCell(1, 1)) || ""), t2 = String(val(ws.getCell(2, 1)) || "");
   return { items, any, hist, sx, clan: t1.split(/\s[\u2013-]\s/)[0] || "Clan", game: clean($("gamebox").value, 40) || t2.split("\u00b7")[0].trim() || "Roblox", date: ((t2.match(/Recorded ([^\u00b7]+)/) || [])[1] || todayText()).trim() };

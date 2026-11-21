@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.184] - 2026-11-21 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.183...v1.1.184)
+
+### Fixed
+
+- **Season and rank in Discord history, Clan total change fix** · Discord history shows highest total, season, rank, best rank; Clan total Change no longer shows #VALUE!
+
 ## [1.1.183] - 2026-11-21 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.182...v1.1.183)
 
 ### Changed

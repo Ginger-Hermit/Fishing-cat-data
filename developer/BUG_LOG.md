@@ -39,3 +39,4 @@ Older bugs: `BREAK_TEST_PLAN.md` (appendix) and `STRESS_TEST_LOG.md`.
 - 17 Nov: very wide header picture (20000x1) saved as empty but said Saved. Cause: height rounded to 0. Fix: height at least 1. Commit: Header picture fix.
 - 20 Nov: Discord table picture cut a wide Change number to "+111,..."; cause: text only got an ellipsis when too wide; fix: right-hand columns shrink font (min 14px) first; v1.1.171.
 - 20 Nov: Check failed (excel test) after reset-time change; cause: test harness lacked new readNow; fix: added it to tests/excel-math.test.js; commit below.
+- 21 Nov: Points history Clan total Change showed #VALUE! in Excel. Cause: SUMPRODUCT subtracted 0 from the dash text. Fix: SUMIFS. v1.1.184
