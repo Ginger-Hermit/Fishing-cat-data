@@ -1,4 +1,4 @@
-// Patch note: Depth Incremental sheets always call the role column Role
+// Patch note: Depth Incremental sheets show points like 1.03K
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -108,7 +108,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.186";
+const BUILD = "1.1.188";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -631,7 +631,9 @@ function sameRunBase(prev, rows) {
   clog("Same points as last sheet, so comparing with " + new Date(hh.dates[col]).toDateString() + ".");
   m2.hist = hh; return m2;
 }
+// Depth Incremental shows 1030 as 1.03K like the game does (cells keep the real number).
 function buildWorkbook(EJ, rows, prev, p, when) {
+  const ptsFmt = () => (p.game === "Depth Incremental" ? '[>=1000]0.00,"K";#,##0' : "#,##0");
   prev = sameRunBase(fixNames(prev, rows), rows);
   const wb = new EJ.Workbook();
   wb.calcProperties.fullCalcOnLoad = true;
@@ -670,11 +672,11 @@ function buildWorkbook(EJ, rows, prev, p, when) {
     const num = parsePoints(r.points);
     const e = ws.getCell(n, 5);
     if (num !== null) e.value = num;
-    e.numFmt = "#,##0"; e.font = { bold: true, color: { argb: INK } };
+    e.numFmt = ptsFmt(); e.font = { bold: true, color: { argb: INK } };
     const f = ws.getCell(n, 6);
     const before = prev && prev.get(String(r.name).trim().toLowerCase());
     if (before !== undefined && before !== false) f.value = before; else if (prev) f.value = "\u2013";
-    f.numFmt = "#,##0"; f.font = { color: { argb: GREY } };
+    f.numFmt = ptsFmt(); f.font = { color: { argb: GREY } };
     ws.getCell(n, 7).value = { formula: `IF(AND(ISNUMBER(F${n}),ISNUMBER(E${n})),E${n}-F${n},"\u2013")` };
     ws.getCell(n, 7).numFmt = "\\+#,##0;\\-#,##0;0";
     ws.getCell(n, 8).value = { formula: `IF(AND(ISNUMBER(F${n}),ISNUMBER(E${n}),F${n}<>0),E${n}/F${n}-1,"\u2013")` };
@@ -810,7 +812,7 @@ function buildWorkbook(EJ, rows, prev, p, when) {
   }
   for (let c = 1; c <= 4 + N; c++) { const x = hs.getCell(tr, c); x.font = { bold: true, color: { argb: NAVY } }; x.fill = fill("FFE8EDF5"); x.border = { left: LINE, right: LINE, bottom: LINE, top: { style: "medium", color: { argb: NAVY } } }; }
   // Clan season points and rank, one value per read (gradient colours; lower rank is better)
-  [["Season points", H.season, "#,##0", ["FFFFF4D6", "FFFFD966", "FF63BE7B"], "FFF6B26B", "FFFFE599"], ["Clan rank", H.crank, "\\#0", ["FF63BE7B", "FFFFEB84", "FFF8696B"], "FF8E7CC3", "FFD9D2E9"]].forEach(([lab, vals, nf, cs, g1, g2], j) => {
+  [["Season points", H.season, ptsFmt(), ["FFFFF4D6", "FFFFD966", "FF63BE7B"], "FFF6B26B", "FFFFE599"], ["Clan rank", H.crank, "\\#0", ["FF63BE7B", "FFFFEB84", "FFF8696B"], "FF8E7CC3", "FFD9D2E9"]].forEach(([lab, vals, nf, cs, g1, g2], j) => {
     if (!vals.some((v) => v !== null)) return;
     const r = tr + 1 + j;
     hs.getCell(r, 2).value = lab;

@@ -1,6 +1,6 @@
 # Status
 
-Last updated: 21 Nov 2026. Page version 1.1.186 Live at fishing-cat-data.pages.dev.
+Last updated: 21 Nov 2026. Page version 1.1.188 Live at fishing-cat-data.pages.dev.
 `tools/release.py` keeps the version and date up to date. Keep this file under 50 lines.
 
 ## What the page does
