@@ -1,4 +1,4 @@
-// Patch note: Discord history shows highest total, season, rank, best rank; Clan total Change no longer shows #VALUE!
+// Patch note: Pick Gym League or Depth Incremental on the Clan tab
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -108,7 +108,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.184";
+const BUILD = "1.1.185";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -297,6 +297,8 @@ $("rankbox").value = lsGet("fcd_rank") || "";
 $("rankbox").oninput = () => lsSet("fcd_rank", $("rankbox").value.replace(/\D/g, "").slice(0, 5));
 $("clanbox").oninput = () => lsSet("fcd_clan", clean($("clanbox").value, 40));
 $("gamebox").value = lsGet("fcd_gamex") || "";
+$("gamesel").value = lsGet("fcd_gamesel") || "";
+$("gamesel").onchange = () => lsSet("fcd_gamesel", $("gamesel").value);
 $("gamebox").oninput = () => lsSet("fcd_gamex", clean($("gamebox").value, 40));
 // Privacy: see and clear what is saved on this device. Values are never shown or sent anywhere.
 function savedKeys() { const out = []; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith("fcd_")) out.push(k); } } catch (e) {} return out; }
@@ -1205,7 +1207,7 @@ async function pickProfile(key) {
   finally { aiWait = wait; QUICK = false; }
   let r = {};
   try { r = JSON.parse(text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1)) || {}; } catch (e) { clog("Layout not read; using the usual layout."); }
-  const p = { clan: clean($("clanbox").value, 40) || clean(r.clan_name, 40) || "Clan", game: clean($("gamebox").value, 40) || clean(r.game_name, 40) || lsGet("fcd_game") || "Game", ranks: r.ranks_shown !== false && r.ranks_shown !== "false", extra: clean(r.extra_column, 30), season: clean(r.clan_points, 20), crank: $("rankbox").value.replace(/\D/g, "").slice(0, 5) || clean(r.clan_rank, 10).replace(/^#/, "") };
+  const p = { clan: clean($("clanbox").value, 40) || clean(r.clan_name, 40) || "Clan", game: clean($("gamesel").value, 40) || clean($("gamebox").value, 40) || clean(r.game_name, 40) || lsGet("fcd_game") || "Game", ranks: r.ranks_shown !== false && r.ranks_shown !== "false", extra: clean(r.extra_column, 30), season: clean(r.clan_points, 20), crank: $("rankbox").value.replace(/\D/g, "").slice(0, 5) || clean(r.clan_rank, 10).replace(/^#/, "") };
   if (clean(r.game_name, 40)) lsSet("fcd_game", p.game);
   clog("Auto layout: " + nameOf(p) + ", ranks " + (p.ranks ? "shown" : "not shown") + ", extra column " + (p.extra || "none") + ".");
   return p;
