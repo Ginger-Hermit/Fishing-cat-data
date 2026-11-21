@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.182] - 2026-11-21 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.181...v1.1.182)
+
+### Changed
+
+- **Google sheet name follows the newest date** · The synced Google sheet is renamed with each update so its title shows the newest read.
+
 ## [1.1.181] - 2026-11-21 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.180...v1.1.181)
 
 ### Changed

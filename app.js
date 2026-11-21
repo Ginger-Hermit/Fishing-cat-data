@@ -1,4 +1,4 @@
-// Patch note: What changed is one green and red box with the whole clan line, who went up, who went down and who is new.
+// Patch note: The synced Google sheet is renamed with each update so its title shows the newest read.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -108,7 +108,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.181";
+const BUILD = "1.1.182";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -2125,7 +2125,7 @@ document.querySelectorAll(".xlgal button").forEach(b => { b.onclick = () => { co
     };
     const base = "https://www.googleapis.com/upload/drive/v3/files", id = lsGet(key);
     let r = null;
-    if (id && /^[\w-]{10,}$/.test(id)) { r = await send(base + "/" + id + "?uploadType=multipart&fields=id", "PATCH", {}); if (r.status === 404) { r = null; try { localStorage.removeItem(key); } catch (e) {} } }
+    if (id && /^[\w-]{10,}$/.test(id)) { r = await send(base + "/" + id + "?uploadType=multipart&fields=id", "PATCH", { name: String(name).replace(/\.xlsx$/i, "") }); if (r.status === 404) { r = null; try { localStorage.removeItem(key); } catch (e) {} } }
     if (!r) {
       r = await send(base + "?uploadType=multipart&fields=id", "POST", { name: String(name).replace(/\.xlsx$/i, ""), mimeType: "application/vnd.google-apps.spreadsheet" });
       if (r.ok) { const j = await r.json(); lsSet(key, j.id); // anyone with the link can view, so the channel can open it
