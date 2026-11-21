@@ -4,6 +4,18 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.176] - 2026-11-21 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.175...v1.1.176)
+
+### Changed
+
+- **New week line in Discord post** · When there is nothing to compare with (new week), the Discord post shows the clan total and a top 3 list, in your colours.
+
+## [1.1.175] - 2026-11-21 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.174...v1.1.175)
+
+### Changed
+
+- **New week line in Discord post** · When there is nothing to compare with (new week), the Discord post shows the clan total and a top 3 list.
+
 ## [1.1.174] - 2026-11-20 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.173...v1.1.174)
 
 ### Added
