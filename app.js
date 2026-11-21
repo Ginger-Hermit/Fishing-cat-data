@@ -1,4 +1,4 @@
-// Patch note: When there is nothing to compare with (new week), the Discord post shows the clan total and a top 3 list, in your colours.
+// Patch note: New week top 3 names are plain white so they are easy to read; only the numbers keep your colour.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -108,7 +108,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.176";
+const BUILD = "1.1.177";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1303,7 +1303,7 @@ const dcBreakdown = (sh, f) => {
     t += "\n### What changed" + (box ? "\n```ansi\n" + L.join("\n") + "\n```" : "\n" + L.map((x) => "- " + x).join("\n"));
   } else if (n) {
     const cs = dcCols(), E = "\u001b[", paint = (x, c) => (cs ? E + "0;" + c + "m" + x + E + "0m" : x), top = it.slice().sort((a, b) => b.n - a.n).slice(0, 3);
-    const L = ["New week: " + (cs ? paint(f(tot), cs[0]) : "**" + f(tot) + "**") + " points so far", "Top 3"].concat(top.map((x, i) => (i + 1) + ". " + (cs ? paint(dcCode(x.name), cs[2]) : dcMd(x.name)) + " " + paint(f(x.n), cs && cs[0])));
+    const L = ["New week: " + (cs ? paint(f(tot), cs[0]) : "**" + f(tot) + "**") + " points so far", "Top 3"].concat(top.map((x, i) => (i + 1) + ". " + (cs ? dcCode(x.name) : dcMd(x.name)) + " " + paint(f(x.n), cs && cs[0])));
     t += "\n### What changed" + (cs ? "\n```ansi\n" + L.join("\n") + "\n```" : "\n" + L.map((x, i) => (i < 2 ? "- " : "  ") + x).join("\n"));
   }
   const h = sh.hist;
