@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.183] - 2026-11-21 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.182...v1.1.183)
+
+### Changed
+
+- **Clearer Discord points text** · Discord message says Average and 'was 0' instead of repeating the same number
+
 ## [1.1.182] - 2026-11-21 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.181...v1.1.182)
 
 ### Changed

@@ -1,4 +1,4 @@
-// Patch note: The synced Google sheet is renamed with each update so its title shows the newest read.
+// Patch note: Discord message says Average and 'was 0' instead of repeating the same number
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -108,7 +108,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.182";
+const BUILD = "1.1.183";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -1288,12 +1288,12 @@ const dcBreakdown = (sh, f) => {
   const dt = (d) => d.toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
   let t = "## " + dcMd(sh.clan) + " \u00b7 " + dcMd(sh.game) + "\n-# " + dcMd(sh.date) + " \u00b7 " + n + " members \u00b7 " + f(tot) + " points" + resetLine();
   const roles = {}; it.forEach((x) => { const k = x.role || "No role"; roles[k] = (roles[k] || 0) + 1; });
-  t += "\n### Clan Members" + Object.entries(roles).sort((x, y) => x[1] - y[1]).map(([k, c]) => "\n- " + c + " " + dcMd(k) + (c > 1 ? (/(s|x|ch|sh)$/i.test(k) ? "es" : "s") : "")).join("") + "\n- About " + f(tot / Math.max(n, 1)) + " points each";
+  t += "\n### Clan Members" + Object.entries(roles).sort((x, y) => x[1] - y[1]).map(([k, c]) => "\n- " + c + " " + dcMd(k) + (c > 1 ? (/(s|x|ch|sh)$/i.test(k) ? "es" : "s") : "")).join("") + "\n- Average: " + f(tot / Math.max(n, 1)) + " points";
   if (sh.any) {
     const ret = it.filter((x) => x.b !== null), fresh = it.filter((x) => x.b === null), d = ret.reduce((a, x) => a + x.n - x.b, 0), b0 = ret.reduce((a, x) => a + x.b, 0);
     const up = ret.filter((x) => x.n > x.b).sort((x, y) => (y.n - y.b) - (x.n - x.b)), dn = ret.filter((x) => x.n < x.b).sort((x, y) => (x.n - x.b) - (y.n - y.b)), same = ret.length - up.length - dn.length;
     const L = ["+ Whole clan: " + sg(d) + " points" + pc(d, b0)];
-    up.slice(0, 10).forEach((x) => L.push("+ " + dcCode(x.name) + ": " + f(x.b) + " \u2192 " + f(x.n) + " (" + sg(x.n - x.b) + ")"));
+    up.slice(0, 10).forEach((x) => L.push("+ " + dcCode(x.name) + ": " + (x.b ? f(x.b) + " \u2192 " + f(x.n) + " (" + sg(x.n - x.b) + ")" : f(x.n) + " (was 0)")));
     if (up.length > 10) L.push("+ and " + (up.length - 10) + " more went up");
     dn.slice(0, 5).forEach((x) => L.push("- " + dcCode(x.name) + ": " + f(x.b) + " \u2192 " + f(x.n) + " (" + sg(x.n - x.b) + ")"));
     if (dn.length > 5) L.push("- and " + (dn.length - 5) + " more went down");
