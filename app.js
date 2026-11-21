@@ -1,4 +1,4 @@
-// Patch note: After a points reset, the Change column in Points history shows this week's points instead of a drop from last season.
+// Patch note: A Google sheet link left in the link box no longer stops the sync. When connected, it is replaced by the synced sheet link.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -108,7 +108,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.178";
+const BUILD = "1.1.179";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -2145,7 +2145,7 @@ dcUI();
   window.fcdGoogleSync = async (kind, buf, name) => {
     const own = ($("sheetlink").value || "").trim(), mine = lsGet("fcd_gsheet_" + kind);
     if (!tok) { clog("Google sheet skipped: not connected. Tap Connect Google."); return ""; }
-    if ((own && !(mine && own.includes(mine)))) return ""; // not signed in, or you pasted your own link
+    if (own && !/^https:\/\/docs\.google\.com\//.test(own)) return ""; // a OneDrive etc. link is yours; an old Google link is replaced by the synced sheet
     const XL = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", key = "fcd_gsheet_" + kind, H = { Authorization: "Bearer " + tok };
     const send = async (url, method, meta) => {
       const bd = "fcd" + state.length + Math.random().toString(36).slice(2), enc = new TextEncoder();

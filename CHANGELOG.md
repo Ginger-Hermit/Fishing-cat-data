@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.179] - 2026-11-21 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.178...v1.1.179)
+
+### Fixed
+
+- **Old Google link no longer blocks the sheet update** · A Google sheet link left in the link box no longer stops the sync. When connected, it is replaced by the synced sheet link.
+
 ## [1.1.178] - 2026-11-21 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.177...v1.1.178)
 
 ### Fixed
