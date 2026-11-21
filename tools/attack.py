@@ -248,7 +248,28 @@ def g_gsheet(pg):
     chk("clan post has the Google sheet link", "docs.google.com/spreadsheets/d/sheetid1234567" in sent, sent[:160])
     chk("Google token not sent to Discord", "fake" not in sent.replace("fakekey", ""))
 
-GROUPS = {"ping": g_ping, "post": g_post, "down": g_down, "art": g_art, "box": g_box, "excel": g_excel, "secrets": g_secrets, "names": g_names, "role": g_role, "tamper": g_tamper, "links": g_links, "ai": g_ai, "xl": g_xl, "canary": g_canary, "gsheet": g_gsheet}
+def g_game(pg):
+    js = """async([sel,reply,gx])=>{const A=ASKERS[provider()],C=collectPictures,I=images;
+      ASKERS[provider()]=async()=>reply;collectPictures=async()=>["x"];images=["x"];
+      document.getElementById("gamesel").value=sel;document.getElementById("gamebox").value=gx;
+      try{const p=await pickProfile("k"+"e".repeat(20));return JSON.stringify([p.game,p.extra,p.clan])}catch(e){return "ERR "+e.message}finally{ASKERS[provider()]=A;collectPictures=C;images=I}}"""
+    R = lambda **k: json.dumps(k)
+    for name, sel, reply, gx, game, extra in [
+        ("DI: role column forced to Role", "Depth Incremental", R(clan_name="C", game_name="Other", extra_column="Last", ranks_shown=True), "", "Depth Incremental", ""),
+        ("DI: junk reply still Depth Incremental", "Depth Incremental", "not json {{", "", "Depth Incremental", ""),
+        ("DI: script in AI column name harmless", "Depth Incremental", R(extra_column="<img onerror=alert(1)>"), "", "Depth Incremental", ""),
+        ("Gym League: AI column name kept", "Gym League", R(game_name="Zzz", extra_column="Level"), "", "Gym League", "Level"),
+        ("Auto: AI game and column kept", "", R(game_name="Zzz", extra_column="Level"), "", "Zzz", "Level"),
+        ("Typed name does not beat dropdown", "Depth Incremental", R(), "Mine", "Depth Incremental", ""),
+        ("Auto: typed name used", "", R(), "Mine", "Mine", "")]:
+        try: r = pg.evaluate(js, [sel, reply, gx])
+        except Exception as e: r = "ERR " + str(e)
+        try: g, x, _ = json.loads(r)
+        except Exception: g, x = None, r
+        chk(name, g == game and x == extra, r)
+    pg.evaluate("document.getElementById('gamesel').value=''")
+
+GROUPS = {"game": g_game, "ping": g_ping, "post": g_post, "down": g_down, "art": g_art, "box": g_box, "excel": g_excel, "secrets": g_secrets, "names": g_names, "role": g_role, "tamper": g_tamper, "links": g_links, "ai": g_ai, "xl": g_xl, "canary": g_canary, "gsheet": g_gsheet}
 want = sys.argv[1:] or list(GROUPS)
 bad = [w for w in want if w not in GROUPS]
 if bad: sys.exit("Unknown group: %s. Use: %s" % (", ".join(bad), " ".join(GROUPS)))
