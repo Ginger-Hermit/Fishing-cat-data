@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.189] - 2026-11-22 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.188...v1.1.189)
+
+### Fixed
+
+- **Role column heading** · The Role column no longer gets named after the points heading (like THIS WEEK).
+
 ## [1.1.188] - 2026-11-21 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.187...v1.1.188)
 
 ### Changed
