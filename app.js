@@ -1,4 +1,4 @@
-// Patch note: The Role column no longer gets named after the points heading (like THIS WEEK).
+// Patch note: Names the AI misreads by several letters now match the earlier sheet.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -108,7 +108,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.189";
+const BUILD = "1.1.190";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -537,7 +537,14 @@ function readHistory(wb, ws, map, names) {
 }
 
 // One letter misread by the AI (healthles / Healthies) = same player. Only for names of 6+ letters, and only when the match is unique.
+function nameFar(a, b) { // long names only: at most 3 letters wrong or missing (Healthles / Hedthlos)
+  if (a.length < 8 || b.length < 8 || Math.abs(a.length - b.length) > 2) return false;
+  let p = Array.from({ length: b.length + 1 }, (_, j) => j);
+  for (let i = 1; i <= a.length; i++) { const q = [i]; for (let j = 1; j <= b.length; j++) q[j] = Math.min(p[j] + 1, q[j - 1] + 1, p[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); p = q; }
+  return p[b.length] <= (a.length >= 14 ? 5 : 3);
+}
 function nameClose(a, b) {
+  if (nameFar(a, b)) return true;
   if (a.length < 6 || b.length < 6 || Math.abs(a.length - b.length) > 1) return false;
   const fold = (t) => t.replace(/q/g, "g").replace(/0/g, "o").replace(/[1i]/g, "l"); // letters the AI mixes up (pogger195 / poqqer195)
   if (a.length === b.length && fold(a) === fold(b)) return true;

@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.190] - 2026-11-24 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.189...v1.1.190)
+
+### Changed
+
+- **Catch badly misread names** · Names the AI misreads by several letters now match the earlier sheet.
+
 ## [1.1.189] - 2026-11-22 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.188...v1.1.189)
 
 ### Fixed
