@@ -10,7 +10,7 @@ jobs:
   live:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Check fishing-cat-data.pages.dev
         run: |
           SITE=https://fishing-cat-data.pages.dev
