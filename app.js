@@ -1,4 +1,4 @@
-// Patch note: Saved keys and links now last 10 days by default.
+// Patch note: Clan total Change no longer goes negative in a new points week.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -108,7 +108,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.191";
+const BUILD = "1.1.192";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -814,6 +814,7 @@ function buildWorkbook(EJ, rows, prev, p, when) {
   for (let c = 3; c <= 4 + N; c++) {
     const L = colL(c), x = hs.getCell(tr, c);
     if (c !== 4) x.value = { formula: `SUM(${L}4:${L}${tr - 1})` };
+    else if (N > 1 && weekStart(H.dates[N - 2], R) < weekStart(H.dates[N - 1], R)) x.value = { formula: `SUM(${LC}4:${LC}${tr - 1})` }; // new points week: points reset, so the total gain is this week's total
     else x.value = N > 1 ? { formula: `IF(COUNT(${PC}4:${PC}${tr - 1})=0,"–",SUMIFS(${LC}4:${LC}${tr - 1},${PC}4:${PC}${tr - 1},">=0")-SUMIFS(${PC}4:${PC}${tr - 1},${LC}4:${LC}${tr - 1},">=0"))` } : "–";
     x.numFmt = c === 4 ? "\\+#,##0;\\-#,##0;0" : "#,##0"; x.alignment = { horizontal: "right" };
   }

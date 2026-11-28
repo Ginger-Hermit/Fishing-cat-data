@@ -4,7 +4,7 @@ let EJ; try { EJ = require("exceljs"); } catch (e) { console.error("Run once: np
 const html = "<script>" + fs.readFileSync(path.join(__dirname, "..", "app.js"), "utf8") + "</script>";
 const js = html.match(/<script>([\s\S]*)<\/script>/)[1];
 const grab = (name) => { const i = js.indexOf(name); let d = 0, j = js.indexOf("{", i); for (; j < js.length; j++) { if (js[j] === "{") d++; if (js[j] === "}" && !--d) break; } return js.slice(i, j + 1); };
-const { parsePoints, buildWorkbook, readPrevious, nameClose, dayBase } = new Function("const readNow = () => new Date();\n" + js.match(/^const okName = .*$/m)[0] + "\n" + ["function parsePoints", "function buildWorkbook", "function readPrevious", "function zipCheck", "function readHistory", "function colL", "function weekStart", "function mergeHist", "function sameRunBase", "function nameClose", "function fixNames", "function dayBase", "function weekBase"].map(grab).join("\n").replace("function readPrevious", "async function readPrevious") + "\nreturn {parsePoints, buildWorkbook, readPrevious, nameClose, dayBase};")();
+const { parsePoints, buildWorkbook, readPrevious, nameClose, dayBase } = new Function("const readNow = () => new Date();\n" + js.match(/^const okName = .*$/m)[0] + "\n" + ["function parsePoints", "function buildWorkbook", "function readPrevious", "function zipCheck", "function readHistory", "function colL", "function weekStart", "function mergeHist", "function sameRunBase", "function nameFar", "function nameClose", "function fixNames", "function dayBase", "function weekBase"].map(grab).join("\n").replace("function readPrevious", "async function readPrevious") + "\nreturn {parsePoints, buildWorkbook, readPrevious, nameClose, dayBase};")();
 
 for (const [t, n] of [["52.51K", 52510], ["1K", 1000], ["507", 507], ["1.2M", 1200000], ["16.6k", 16600]]) assert.strictEqual(parsePoints(t), n, t);
 assert.strictEqual(parsePoints("?"), null);
@@ -58,6 +58,7 @@ const prev = new Map([["ann", 80000], ["bob", 50000], ["cy", 25000]]);
   const wm = new Map([["ann", 90000]]); wm.hist = { dates: [Date.UTC(t0.getFullYear(), t0.getMonth(), t0.getDate()) - 8 * 864e5], players: [] };
   assert.strictEqual(dayBase(wm).get("ann"), 0, "last week counts as 0 after the reset");
   // One misread letter = same player
+  assert.ok(nameClose("healthles", "hedthlos") && !nameClose("speedyfastfeet", "midnyte749"));
   assert.ok(nameClose("healthles", "healthies") && nameClose("xxxluffyxcx", "xxkluffyxcx") && !nameClose("kiviix", "kiviiy2x") && !nameClose("abcde", "abcdf"));
   const nm = new Map([["healthles", 65690]]);
   await buildWorkbook(EJ, [{ rank: 1, name: "Healthies", role: "", points: "83.73K" }], nm, { clan: "T", game: "G" }, "t").xlsx.writeFile(path.join(dir, "n.xlsx"));
