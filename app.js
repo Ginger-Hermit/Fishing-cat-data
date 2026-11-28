@@ -1,4 +1,4 @@
-// Patch note: Names the AI misreads by several letters now match the earlier sheet.
+// Patch note: Saved keys and links now last 10 days by default.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -17,7 +17,7 @@ function lsSet(k, v) {
 // Saved keys and links forget themselves after the time chosen in Settings (7 days unless changed).
 function expireCheck() {
   try {
-    const d = lsGet("fcd_expire") || "7", keys = Object.keys(localStorage).filter(isSecret), st = Number(lsGet("fcd_stamp"));
+    const d = lsGet("fcd_expire") || "10", keys = Object.keys(localStorage).filter(isSecret), st = Number(lsGet("fcd_stamp"));
     if (!keys.length) { localStorage.removeItem("fcd_stamp"); return; }
     if (!st) { try { localStorage.setItem("fcd_stamp", String(Date.now())); } catch (e) {} return; }
     if (d !== "never" && Date.now() - st > Number(d) * 864e5) keys.concat("fcd_stamp").forEach((k) => localStorage.removeItem(k));
@@ -102,13 +102,13 @@ const resetHour = () => { const v = Number(lsGet("fcd_resethr") || 0); return v 
 let readStamp = 0; // when the pictures were taken (newest file time); 0 = now
 const readNow = () => new Date(readStamp || Date.now());
 const resetDay = () => { const v = Number(lsGet("fcd_reset") || 5); return v >= 0 && v <= 6 ? v : 5; };
-document.getElementById("expire").value = lsGet("fcd_expire") || "7";
+document.getElementById("expire").value = lsGet("fcd_expire") || "10";
 document.getElementById("expire").onchange = () => { lsSet("fcd_expire", document.getElementById("expire").value); expireCheck(); renderSaved(); };
 document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset.v; if (v) { btn = v; lsSet("fcd_btn", v); applyLook(); } };
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.190";
+const BUILD = "1.1.191";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
