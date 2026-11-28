@@ -19,7 +19,7 @@ Web page: reads Roblox clan screenshots or video (any Roblox game) with an AI an
 6. Edit `STATUS.md` Next / Not tested only when they really change. Keep it under 50 lines.
 
 ## Saving tokens
-- One script, one check, one push per request. No re-reading, re-testing or recapping. Never print whole files or long logs; grep and cut to width.
+- Scripts: batch many edits or checks into one script run, never one small call per step. One script, one check, one push per request. No re-reading, re-testing or recapping. Never print whole files or long logs; grep and cut to width.
 - Use existing tools only (`release.py`, `tests/*`). No new harness, no web search unless the answer isn't here.
 - Mockup: a few lines or one small picture. Small wording or colour jobs: say a cheaper model will do. Long chat: tell Ginger to start a new one.
 - GitHub runs are free; add free checks without asking. After a push say tests are running; don't wait or poll.
