@@ -66,12 +66,8 @@ button:disabled{opacity:.85}
 
 /* From the old inline styles. :is(...,#_#_#_) keeps them as strong as inline styles were. */
 :is(.s1,#_#_#_){border:2px solid var(--err);color:var(--err);background:var(--field);border-radius:8px;padding:12px 14px;margin-bottom:14px;font-weight:500}
-:is(.s2,#_#_#_){background:var(--field);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:14px}
-:is(.s3,#_#_#_){margin:2px 0 8px;font-size:14px}
-:is(.s4,#_#_#_){margin:6px 0}
-:is(.s5,#_#_#_){font-weight:600;margin-top:10px}
-:is(.s6,#_#_#_){margin:4px 0 0;padding-left:20px;line-height:1.5;font-size:14px}
-:is(.s7,#_#_#_){width:100%;margin-top:8px;padding:12px}
+:is(.s2,#_#_#_){background:var(--field);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:14px}#_#_#_){margin:2px 0 8px;font-size:14px}
+:is(.s4,#_#_#_){margin:6px 0}#_#_#_){font-weight:600;margin-top:10px}#_#_#_){margin:4px 0 0;padding-left:20px;line-height:1.5;font-size:14px}#_#_#_){width:100%;margin-top:8px;padding:12px}
 :is(.s8,#_#_#_){font-size:13px;color:var(--muted);margin-top:6px}
 :is(.s9,#_#_#_){margin-top:12px}
 :is(.s10,#_#_#_){font-weight:600;font-size:1.1em;cursor:pointer}#_#_#_){margin:0;line-height:1.5}#_#_#_){width:100%;height:auto;border:1px solid var(--line,#ccc);border-radius:6px}
@@ -293,7 +289,6 @@ html[data-tint=midnight]{--bg:#000;--field:#111214;--soft:#25282C;--line:#4A4D52
 #dcard .dcopts small{display:block;color:var(--muted);font-size:13px}
 #dcard .dcopts label:has(input:focus-visible){outline:2px solid var(--link);outline-offset:2px}
 .dcprev{background:#2b2d31;color:#dbdee1;border-radius:6px;padding:10px 12px;margin:6px 0;font:13px monospace;line-height:1.7}
-.dcst{margin:2px 0 6px;color:var(--muted);font-size:.9em}
 html[data-theme=dark] .keyok{color:#6FD08C}
 summary{min-height:44px;box-sizing:border-box}
 a:not(.dcard){display:inline-block;padding:12px 0;margin:-12px 0}
