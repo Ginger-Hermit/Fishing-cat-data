@@ -543,7 +543,6 @@ function nameFar(a, b) { // long names only: at most 3 letters wrong or missing 
   for (let i = 1; i <= a.length; i++) { const q = [i]; for (let j = 1; j <= b.length; j++) q[j] = Math.min(p[j] + 1, q[j - 1] + 1, p[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); p = q; }
   return p[b.length] <= (a.length >= 14 ? 5 : 3);
 }
-function nameClose(a, b) { return nameNear(a, b) || nameFar(a, b); }
 function nameNear(a, b) { // one letter off (or l/1/i, 0/o, q/g mix-ups)
   if (a.length < 6 || b.length < 6 || Math.abs(a.length - b.length) > 1) return false;
   const fold = (t) => t.replace(/q/g, "g").replace(/0/g, "o").replace(/[1i]/g, "l"); // letters the AI mixes up (pogger195 / poqqer195)
