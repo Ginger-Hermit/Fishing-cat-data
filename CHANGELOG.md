@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.195] - 2026-11-28 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.194...v1.1.195)
+
+### Fixed
+
+- **Name fix with similar names** · A misread name is fixed even when other members have similar names.
+
 ## [1.1.194] - 2026-11-28 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.193...v1.1.194)
 
 ### Added

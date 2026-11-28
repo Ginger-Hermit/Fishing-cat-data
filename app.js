@@ -1,4 +1,4 @@
-// Patch note: A New season tick under Last sheet starts Change from 0 and keeps history.
+// Patch note: A misread name is fixed even when other members have similar names.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -108,7 +108,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.194";
+const BUILD = "1.1.195";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -543,8 +543,8 @@ function nameFar(a, b) { // long names only: at most 3 letters wrong or missing 
   for (let i = 1; i <= a.length; i++) { const q = [i]; for (let j = 1; j <= b.length; j++) q[j] = Math.min(p[j] + 1, q[j - 1] + 1, p[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); p = q; }
   return p[b.length] <= (a.length >= 14 ? 5 : 3);
 }
-function nameClose(a, b) {
-  if (nameFar(a, b)) return true;
+function nameClose(a, b) { return nameNear(a, b) || nameFar(a, b); }
+function nameNear(a, b) { // one letter off (or l/1/i, 0/o, q/g mix-ups)
   if (a.length < 6 || b.length < 6 || Math.abs(a.length - b.length) > 1) return false;
   const fold = (t) => t.replace(/q/g, "g").replace(/0/g, "o").replace(/[1i]/g, "l"); // letters the AI mixes up (pogger195 / poqqer195)
   if (a.length === b.length && fold(a) === fold(b)) return true;
@@ -574,7 +574,7 @@ function fixNames(prev, rows) {
   rows.forEach((r) => {
     const k = norm(r.name);
     if (old.has(k)) return;
-    const m = free.filter((f) => nameClose(f, k));
+    let m = free.filter((f) => nameNear(f, k)); if (!m.length) m = free.filter((f) => nameFar(f, k)); // the safe one-letter match wins; the looser match only when nothing else fits
     if (m.length !== 1) return;
     // Close to a name from earlier runs = the AI misread it (l for 1 etc.), so keep the earlier spelling.
     const h = prev.hist && prev.hist.players.find(([x]) => x === m[0]);

@@ -4,7 +4,7 @@ let EJ; try { EJ = require("exceljs"); } catch (e) { console.error("Run once: np
 const html = "<script>" + fs.readFileSync(path.join(__dirname, "..", "app.js"), "utf8") + "</script>";
 const js = html.match(/<script>([\s\S]*)<\/script>/)[1];
 const grab = (name) => { const i = js.indexOf(name); let d = 0, j = js.indexOf("{", i); for (; j < js.length; j++) { if (js[j] === "{") d++; if (js[j] === "}" && !--d) break; } return js.slice(i, j + 1); };
-const { parsePoints, buildWorkbook, readPrevious, nameClose, dayBase, seasonFix } = new Function("const readNow = () => new Date(); const clog = () => {};\n" + js.match(/^const okName = .*$/m)[0] + "\n" + ["function parsePoints", "function buildWorkbook", "function readPrevious", "function zipCheck", "function readHistory", "function colL", "function weekStart", "function mergeHist", "function sameRunBase", "function nameFar", "function nameClose", "function fixNames", "function dayBase", "function weekBase", "function seasonFix"].map(grab).join("\n").replace("function readPrevious", "async function readPrevious") + "\nreturn {parsePoints, buildWorkbook, readPrevious, nameClose, dayBase, seasonFix};")();
+const { parsePoints, buildWorkbook, readPrevious, nameClose, dayBase, seasonFix, fixNames } = new Function("const readNow = () => new Date(); const clog = () => {};\n" + js.match(/^const okName = .*$/m)[0] + "\n" + ["function parsePoints", "function buildWorkbook", "function readPrevious", "function zipCheck", "function readHistory", "function colL", "function weekStart", "function mergeHist", "function sameRunBase", "function nameFar", "function nameNear", "function fixNames", "function nameClose", "function fixNames", "function dayBase", "function weekBase", "function seasonFix"].map(grab).join("\n").replace("function readPrevious", "async function readPrevious") + "\nreturn {parsePoints, buildWorkbook, readPrevious, nameClose, dayBase, seasonFix, fixNames};")();
 
 for (const [t, n] of [["52.51K", 52510], ["1K", 1000], ["507", 507], ["1.2M", 1200000], ["16.6k", 16600]]) assert.strictEqual(parsePoints(t), n, t);
 assert.strictEqual(parsePoints("?"), null);
@@ -58,6 +58,8 @@ const prev = new Map([["ann", 80000], ["bob", 50000], ["cy", 25000]]);
   const wm = new Map([["ann", 90000]]); wm.hist = { dates: [Date.UTC(t0.getFullYear(), t0.getMonth(), t0.getDate()) - 8 * 864e5], players: [] };
   assert.strictEqual(dayBase(wm).get("ann"), 0, "last week counts as 0 after the reset");
   // One misread letter = same player
+  { const pm = new Map([["player6_a", 1], ["player7_a", 2], ["player13x", 3]]), rr = [{ name: "P1ayer6_a" }, { name: "Player7_a" }, { name: "Player13x" }];
+  fixNames(pm, rr); assert.strictEqual(rr[0].name.toLowerCase(), "player6_a", "misread fixed even when similar names exist"); }
   { const old = new Map(["a1","b2","c3","d4","e5","f6"].map((k) => [k, 5000])), mk = (v) => ["a1","b2","c3","d4","e5","f6"].map((n, i) => ({ name: n, points: String(v[i]) }));
   assert.ok(seasonFix(old, mk([10, 20, 30, 40, 50, 60])).seasonReset, "most went down = new season");
   assert.ok(!seasonFix(old, mk([6000, 7000, 5000, 5100, 9000, 4000])).seasonReset, "normal week: not a reset");
