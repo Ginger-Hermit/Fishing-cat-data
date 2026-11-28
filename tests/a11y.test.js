@@ -1,4 +1,4 @@
-// Patch note: checks every tab in every colour theme for hard-to-read text, tiny or unlabelled buttons (axe-core, WCAG 2.2 incl. thumb-size), and sideways scroll at 150% text. Runs on GitHub after every push.
+// Patch note: checks every tab (all folds open) in every colour theme for hard-to-read text, tiny or unlabelled buttons (axe-core, WCAG 2.2 incl. thumb-size), and sideways scroll at 150% text. Runs on GitHub after every push.
 // By hand: npm i --no-save playwright axe-core@4.10.2 && node tests/a11y.test.js
 const path = require("path");
 const pw = require("playwright");
@@ -13,9 +13,13 @@ const THEMES = ["light", "dark", "paper", "sage", "slate", "midnight"];
     await page.evaluate((t) => localStorage.setItem("fcd_theme", t), th);
     await page.reload();
     const tabs = await page.$$eval(".tabs.main .tab", (b) => b.map((x) => x.id));
+    await page.addScriptTag({ path: AXE });
     for (const id of tabs) {
-      await page.click("#" + id); await page.waitForTimeout(150);
-      await page.addScriptTag({ path: AXE });
+      await page.click("#" + id); await page.waitForTimeout(100);
+      await page.evaluate(() => document.querySelectorAll("details").forEach((d) => (d.open = true)));
+      const small = await page.evaluate(() => [...document.querySelectorAll("a,button,summary,select")].filter((e) => { const r = e.getBoundingClientRect(); return r.width > 0 && r.height < 24; })
+        .map((e) => (e.id || e.textContent.trim().slice(0, 20)) + " " + Math.round(e.getBoundingClientRect().height) + "px"));
+      for (const t of small) seen.set("tap " + id + t, th + "/" + id + ": too small to tap -> " + t);
       const v = await page.evaluate(async () => (await axe.run(document, { runOnly: ["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"] })).violations
         .filter((x) => x.impact === "serious" || x.impact === "critical")
         .map((x) => [x.id, x.help, x.nodes.slice(0, 3).map((n) => n.target.join(" ")).join(", ")]));
