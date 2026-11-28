@@ -4,6 +4,12 @@ Every change, newest first. Layout: [Keep a Changelog](https://keepachangelog.co
 
 Updates up to 1.1.80 have no version number, so they are grouped by day.
 
+## [1.1.193] - 2026-11-28 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.192...v1.1.193)
+
+### Fixed
+
+- **New season detected** · If most points went down since the last sheet, Change starts from 0 and history is kept.
+
 ## [1.1.192] - 2026-11-28 · [code](https://github.com/Ginger-Hermit/Fishing-cat-data/compare/v1.1.191...v1.1.192)
 
 ### Fixed

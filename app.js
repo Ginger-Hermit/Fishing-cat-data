@@ -1,4 +1,4 @@
-// Patch note: Clan total Change no longer goes negative in a new points week.
+// Patch note: If most points went down since the last sheet, Change starts from 0 and history is kept.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -108,7 +108,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.192";
+const BUILD = "1.1.193";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -554,6 +554,16 @@ function nameClose(a, b) {
   return x.slice(i + 1) === y.slice(i);
 }
 const okName = (n) => /^[A-Za-z0-9]+(_[A-Za-z0-9]+)?$/.test(String(n).trim());
+// Points started over mid-week (new season): most returning members went DOWN, so the old points are not a fair baseline. Everyone starts from 0.
+function seasonFix(prev, rows) {
+  if (!prev || prev.seasonReset) return prev;
+  let pairs = 0, drops = 0;
+  rows.forEach((r) => { const was = prev.get(String(r.name).trim().toLowerCase()), now = parsePoints(r.points); if (typeof was === "number" && was > 0 && typeof now === "number") { pairs++; if (now < was) drops++; } });
+  if (pairs < 5 || drops / pairs < 0.7) return prev;
+  const z = new Map([...prev].map(([k]) => [k, 0])); z.hist = prev.hist; z.seasonReset = true;
+  clog("Most points went down since the last sheet, so this looks like a new season: Change starts from 0.");
+  return z;
+}
 function fixNames(prev, rows) {
   if (!prev) return prev;
   const norm = (n) => String(n).trim().toLowerCase();
@@ -642,6 +652,7 @@ function sameRunBase(prev, rows) {
 function buildWorkbook(EJ, rows, prev, p, when) {
   const ptsFmt = () => (p.game === "Depth Incremental" ? '[>=1000]0.00,"K";#,##0' : "#,##0");
   prev = sameRunBase(fixNames(prev, rows), rows);
+  prev = seasonFix(prev, rows);
   const wb = new EJ.Workbook();
   wb.calcProperties.fullCalcOnLoad = true;
   const NAVY = "FF1F3864", INK = "FF1F2937", GREY = "FF7F7F7F";
@@ -794,13 +805,14 @@ function buildWorkbook(EJ, rows, prev, p, when) {
     if (last >= 0) hs.getColumn(6 + last).collapsed = true;
   }
   let rank = 0;
+  const RS = N > 1 && (weekStart(H.dates[N - 2], R) < weekStart(H.dates[N - 1], R) || !!(prev && prev.seasonReset)); // points started over since the last read
   H.list.forEach((e, i) => {
     const r = 4 + i, a = hs.getCell(r, 1), b = hs.getCell(r, 2), w = hs.getCell(r, 3), ch = hs.getCell(r, 4);
     if (e.here) a.value = ++rank;
     b.value = e.name;
     w.value = { formula: `IF(ISNUMBER(${LC}${r}),${LC}${r},"–")`, result: e.here ? e.vals[N - 1] : "–" };
     const pv = N > 1 ? e.vals[N - 2] : null;
-    ch.value = N > 1 && weekStart(H.dates[N - 2], R) < weekStart(H.dates[N - 1], R) ? { formula: `IF(ISNUMBER(${LC}${r}),${LC}${r},"–")`, result: e.here ? e.vals[N - 1] : "–" } : N > 1 ? { formula: `IF(AND(ISNUMBER(${LC}${r}),ISNUMBER(${PC}${r})),${LC}${r}-${PC}${r},IF(ISNUMBER(${LC}${r}),"new","–"))`, result: e.here ? (pv === null ? "new" : e.vals[N - 1] - pv) : "–" } : "–";
+    ch.value = RS ? { formula: `IF(ISNUMBER(${LC}${r}),${LC}${r},"–")`, result: e.here ? e.vals[N - 1] : "–" } : N > 1 ? { formula: `IF(AND(ISNUMBER(${LC}${r}),ISNUMBER(${PC}${r})),${LC}${r}-${PC}${r},IF(ISNUMBER(${LC}${r}),"new","–"))`, result: e.here ? (pv === null ? "new" : e.vals[N - 1] - pv) : "–" } : "–";
     w.numFmt = "#,##0"; ch.numFmt = "\\+#,##0;\\-#,##0;0";
     e.vals.forEach((v, k) => { const c = hs.getCell(r, 5 + k); c.value = v === null ? "–" : v; c.numFmt = "#,##0"; c.font = { color: { argb: v === null ? "FFBFBFBF" : GREY } }; });
     for (let c = 1; c <= 4 + N; c++) { const x = hs.getCell(r, c); x.border = box; x.alignment = { horizontal: c === 2 ? "left" : c === 1 ? "center" : "right", vertical: "middle", indent: c === 2 ? 1 : 0 }; if (i % 2) x.fill = fill(SOFT); }
@@ -814,7 +826,7 @@ function buildWorkbook(EJ, rows, prev, p, when) {
   for (let c = 3; c <= 4 + N; c++) {
     const L = colL(c), x = hs.getCell(tr, c);
     if (c !== 4) x.value = { formula: `SUM(${L}4:${L}${tr - 1})` };
-    else if (N > 1 && weekStart(H.dates[N - 2], R) < weekStart(H.dates[N - 1], R)) x.value = { formula: `SUM(${LC}4:${LC}${tr - 1})` }; // new points week: points reset, so the total gain is this week's total
+    else if (RS) x.value = { formula: `SUM(${LC}4:${LC}${tr - 1})` }; // new points week: points reset, so the total gain is this week's total
     else x.value = N > 1 ? { formula: `IF(COUNT(${PC}4:${PC}${tr - 1})=0,"–",SUMIFS(${LC}4:${LC}${tr - 1},${PC}4:${PC}${tr - 1},">=0")-SUMIFS(${PC}4:${PC}${tr - 1},${LC}4:${LC}${tr - 1},">=0"))` } : "–";
     x.numFmt = c === 4 ? "\\+#,##0;\\-#,##0;0" : "#,##0"; x.alignment = { horizontal: "right" };
   }
@@ -1468,7 +1480,7 @@ async function rowsPic(items, clan, sub, name) {
   return { blob: await tablePic((clan || "Clan") + " – Member Points", sub, [{ h: "#", w: 70 }, { h: "Username", w: 270 }, { h: "Role", w: 160 }, { h: "Points", w: 130, a: "r" }, { h: "Change", w: 100, a: "r" }], out), name };
 }
 async function clanPic(rows) {
-  const pm = fixNames(prevMap, pv.rows); let tot = 0, d = 0, any = false;
+  const pm = seasonFix(fixNames(prevMap, pv.rows), pv.rows); let tot = 0, d = 0, any = false;
   const items = rows.map((r, i) => { const n = parsePoints(r.points), b = pm ? pm.get(String(r.name).trim().toLowerCase()) : undefined; if (n !== null) tot += n; if (pm && n !== null && typeof b === "number") { d += n - b; any = true; }
     return { rk: Number(String(r.rank).replace(/\D/g, "")) || i + 1, name: String(r.name), role: r.role, points: r.points, ch: pm && n !== null ? chCell(n, b) : ["", "#b9b3c4"] }; });
   return rowsPic(items, pv.p.clan, subLine(todayText(), items.length, tot, d, any) + seasonLine(pv.p), nameOf(pv.p) + ".png");
@@ -1600,7 +1612,7 @@ $("hooktest").onclick = async () => {
   try { await hookPost("Fishing Cat Data test: this link works."); $("hookchk").textContent = "Worked. Check Discord."; } catch (e) { $("hookchk").textContent = plain(e); }
 };
 function hookText(compact) {
-  const pm = fixNames(prevMap, pv.rows), rows = pv.rows.filter((r) => String(r.name).trim()), f = (n) => Math.round(n).toLocaleString("en-US"), sg = (n) => (n > 0 ? "+" : n < 0 ? "-" : "") + f(Math.abs(n));
+  const pm = seasonFix(fixNames(prevMap, pv.rows), pv.rows), rows = pv.rows.filter((r) => String(r.name).trim()), f = (n) => Math.round(n).toLocaleString("en-US"), sg = (n) => (n > 0 ? "+" : n < 0 ? "-" : "") + f(Math.abs(n));
   const tot = rows.reduce((t, r) => t + (parsePoints(r.points) || 0), 0), up = [], dn = [], fresh = [], here = new Set();
   let same = 0, before = 0, change = 0;
   rows.forEach((r) => { const k = String(r.name).trim().toLowerCase(), n = parsePoints(r.points), b = pm ? pm.get(k) : undefined; here.add(k); if (n === null || !pm) return;
@@ -1663,7 +1675,7 @@ function pvDraw() {
   box.style.display = pv ? "" : "none";
   if (!pv) return;
   const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined) e.textContent = text; return e; };
-  const pm = fixNames(prevMap, pv.rows); // same name matching as the sheet, so the preview agrees with it
+  const pm = seasonFix(fixNames(prevMap, pv.rows), pv.rows); // same name matching as the sheet, so the preview agrees with it
   const bad = pv.rows.filter(pvBad).length, off = pv.shown && Number(pv.shown) !== pv.rows.length;
   box.appendChild(el("div", "pvt", "Roblox clan preview"));
   box.appendChild(el("div", "pvd", pv.rows.length + " rows." + (bad ? " " + bad + (bad === 1 ? " needs" : " need") + " a look (orange)." : "") + (off ? " The screen says " + pv.shown + " members." : "") + " Tap a cell to fix it."));
