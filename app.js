@@ -1,4 +1,4 @@
-// Patch note: If most points went down since the last sheet, Change starts from 0 and history is kept.
+// Patch note: A New season tick under Last sheet starts Change from 0 and keeps history.
 // Start-up display of each box (was style="display:..." in index.html): set it as the element's own style so show/hide code works.
 document.querySelectorAll("[data-d]").forEach((e) => { e.style.display = e.dataset.d; e.removeAttribute("data-d"); });
 const MODEL = "claude-haiku-5-5";
@@ -108,7 +108,7 @@ document.getElementById("btnBtns").onclick = (e) => { const v = e.target.dataset
 document.getElementById("easyread").onchange = (e) => { read = e.target.checked ? "easy" : "normal"; lsSet("fcd_read", read); applyLook(); };
 applyLook();
 // Update check: compares this page's BUILD with version.txt on the same site (nothing about you is sent).
-const BUILD = "1.1.193";
+const BUILD = "1.1.194";
 document.getElementById("autoref").checked = lsGet("fcd_autoref") === "1";
 document.getElementById("autoref").onchange = () => lsSet("fcd_autoref", document.getElementById("autoref").checked ? "1" : "0");
 document.getElementById("reloadnow").onclick = (e) => { e.preventDefault(); location.reload(); };
@@ -557,11 +557,12 @@ const okName = (n) => /^[A-Za-z0-9]+(_[A-Za-z0-9]+)?$/.test(String(n).trim());
 // Points started over mid-week (new season): most returning members went DOWN, so the old points are not a fair baseline. Everyone starts from 0.
 function seasonFix(prev, rows) {
   if (!prev || prev.seasonReset) return prev;
+  const forced = typeof document !== "undefined" && document.getElementById("newseason") && document.getElementById("newseason").checked;
   let pairs = 0, drops = 0;
   rows.forEach((r) => { const was = prev.get(String(r.name).trim().toLowerCase()), now = parsePoints(r.points); if (typeof was === "number" && was > 0 && typeof now === "number") { pairs++; if (now < was) drops++; } });
-  if (pairs < 5 || drops / pairs < 0.7) return prev;
+  if (!forced && (pairs < 5 || drops / pairs < 0.7)) return prev;
   const z = new Map([...prev].map(([k]) => [k, 0])); z.hist = prev.hist; z.seasonReset = true;
-  clog("Most points went down since the last sheet, so this looks like a new season: Change starts from 0.");
+  clog(forced ? "New season ticked: Change starts from 0." : "Most points went down since the last sheet, so this looks like a new season: Change starts from 0.");
   return z;
 }
 function fixNames(prev, rows) {
@@ -1365,6 +1366,7 @@ $("hookname").onchange = () => { const a = hooksGet(), i = a.findIndex((h) => h.
 $("hookname").onblur = () => { if (hookRen) { hookRen = false; hookDraw(); } };
 $("hookren").onclick = () => { hookRen = true; hookDraw(); $("hookname").focus(); $("hookname").select(); };
 const setHook = (v) => { hookNow = v; try { if (v && $("hookkeep").checked) { lsSet("fcd_hook", v); hookUpsert(v); } else localStorage.removeItem("fcd_hook"); } catch (e) {} };
+$("newseason").onchange = () => { try { if (typeof pv !== "undefined" && pv && pv.rows) pvDraw(); } catch (e) {} };
 $("hookbox").onchange = () => { const v = $("hookbox").value.trim(); if (v && !HOOK_RE.test(v)) { $("hookchk").textContent = "That doesn't look like a Discord webhook link. Copy it again."; return; } setHook(v); $("hookchk").textContent = v ? "Ready." : "Removed."; renderSaved(); if (pv) pvDraw(); };
 if (lsGet("fcd_pingmode") !== "role") { try { localStorage.removeItem("fcd_pingmode"); } catch (e) {} } $("dcping").value = lsGet("fcd_pingmode") === "role" ? "role" : ""; $("dcrole").value = lsGet("fcd_pingrole") || ""; $("dcrolename").value = lsGet("fcd_pingname") || "";
 const dcPingName = () => { const t = clean($("dcrolename").value, 30); $("dcping").options[1].textContent = t ? "Ping " + t : "Ping a role (you choose which)"; };

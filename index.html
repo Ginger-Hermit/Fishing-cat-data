@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Patch note: If most points went down since the last sheet, Change starts from 0 and history is kept. -->
+<!-- Patch note: A New season tick under Last sheet starts Change from 0 and keeps history. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -82,6 +82,7 @@
 <div class="drop" id="prevdrop">Drop an earlier sheet (.xlsx) here, or tap to choose</div>
 <input id="prevfile" type="file" accept=".xlsx" hidden>
 <div class="s8">Use the newest sheet for this clan, not an older one or another clan's. It shows who gained points.</div>
+<label class="s26 rem" data-d="flex"><input type="checkbox" id="newseason" class="s27"> New season (points started over)</label>
 <div id="previnfo"></div>
 <button id="testgo" type="button" class="s32 tab" disabled>Test first (small read, no file)</button>
 </details>

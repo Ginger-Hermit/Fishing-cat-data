@@ -60,7 +60,10 @@ const prev = new Map([["ann", 80000], ["bob", 50000], ["cy", 25000]]);
   // One misread letter = same player
   { const old = new Map(["a1","b2","c3","d4","e5","f6"].map((k) => [k, 5000])), mk = (v) => ["a1","b2","c3","d4","e5","f6"].map((n, i) => ({ name: n, points: String(v[i]) }));
   assert.ok(seasonFix(old, mk([10, 20, 30, 40, 50, 60])).seasonReset, "most went down = new season");
-  assert.ok(!seasonFix(old, mk([6000, 7000, 5000, 5100, 9000, 4000])).seasonReset, "normal week: not a reset"); }
+  assert.ok(!seasonFix(old, mk([6000, 7000, 5000, 5100, 9000, 4000])).seasonReset, "normal week: not a reset");
+  global.document = { getElementById: () => ({ checked: true }) };
+  assert.ok(seasonFix(old, mk([6000, 7000, 5000, 5100, 9000, 4000])).seasonReset, "ticked = new season");
+  delete global.document; }
   assert.ok(nameClose("healthles", "hedthlos") && !nameClose("speedyfastfeet", "midnyte749"));
   assert.ok(nameClose("healthles", "healthies") && nameClose("xxxluffyxcx", "xxkluffyxcx") && !nameClose("kiviix", "kiviiy2x") && !nameClose("abcde", "abcdf"));
   const nm = new Map([["healthles", 65690]]);
